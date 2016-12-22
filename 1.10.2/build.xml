@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XML>
+<project name="CombatLog" default="jar" basedir=".">
+	<target name="jar" depends="swag">
+		<jar destfile="jar\CombatLog.jar">
+			<fileset dir="bin"></fileset>
+			<fileset file="plugin.yml"></fileset>
+		</jar>
+	</target>
+	<target name="swag">
+		<jar destfile="C:\Users\meowk\Documents\Minecraft Servers\Blobcatraz 1.11\plugins\CombatLog.jar">
+			<fileset dir="bin"></fileset>
+			<fileset file="plugin.yml"></fileset>
+		</jar>
+	</target>
+</project>

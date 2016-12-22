@@ -1,0 +1,13 @@
+name: CombatLog
+version: 0.0.18
+description: Make sure players don't logout during PvP
+author: SirBlobman
+website: http://sirblobman.ddns.net
+main: com.SirBlobman.combat_log.CombatLog
+database: false
+depend: []
+commands:
+  cl:
+    description: Check how much time you have left in combat
+    usage: /cl
+    aliases: [combatlog, combattag, ct]
