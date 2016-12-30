@@ -60,7 +60,7 @@ public class CombatLog extends JavaPlugin implements CommandExecutor
 					p.sendMessage(msg);
 					return true;
 				}
-				p.sendMessage(Config.option("messages.expire"));
+				p.sendMessage(Config.option("messages.not in combat"));
 				return true;
 			}
 			cs.sendMessage("You are not a Player");

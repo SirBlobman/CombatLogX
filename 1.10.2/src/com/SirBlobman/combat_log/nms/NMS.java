@@ -57,6 +57,7 @@ public class NMS
 		case "1.10.1": return "v1_10_R1";
 		case "1.10.2": return "v1_10_R1";
 		case "1.11": return "v1_11_R1";
+		case "1.11.2": return "v1_11_R1";
 		default: return "[failed to get NMS version]";
 		}
 	}

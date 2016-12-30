@@ -7,6 +7,9 @@ import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -28,6 +31,7 @@ public class Combat implements Runnable
 	
 	private static boolean sb = config.getBoolean("scoreboard.enabled");
 	private static boolean a = config.getBoolean("options.action bar");
+	private static boolean boss = config.getBoolean("options.boss bar");
 	private static String prefix = Config.option("messages.prefix");
 	private static String expire = prefix + Config.option("messages.expire");
 	
@@ -60,6 +64,10 @@ public class Combat implements Runnable
 				{
 					String ac = Config.option("messages.action bar", i);
 					CombatLog.action(p, ac);
+				}
+				if(boss)
+				{
+					bossBar(p);
 				}
 			}
 		}
@@ -101,12 +109,33 @@ public class Combat implements Runnable
 		for(Player p : tagged)
 		{
 			if(log.containsKey(p)) log.remove(p);
-			p.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+			if(sb) {p.setScoreboard(MAIN);}
 		}
 	}
 	
 	public static boolean inCombat(Player p)
 	{
 		return log.containsKey(p);
+	}
+	
+	private static Map<Player, BossBar> bosses = Maps.newHashMap();
+	public static void bossBar(Player p)
+	{
+		if(!bosses.containsKey(p))
+		{
+			BossBar bb = Bukkit.createBossBar("", BarColor.RED, BarStyle.SEGMENTED_10);
+			bb.addPlayer(p);
+			bosses.put(p, bb);
+		}
+
+		int time = timeLeft(p);
+		double div = (time / 10.0D);
+		double dou = Math.min(div, 1.0D);
+		String msg = Config.option("messages.boss bar", time);
+		BossBar bb = bosses.get(p);
+		bb.setVisible(true);
+		bb.setTitle(msg);
+		bb.setProgress(dou);
+		if(time <= 0) bb.setVisible(false);
 	}
 }

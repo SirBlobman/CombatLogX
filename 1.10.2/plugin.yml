@@ -1,6 +1,6 @@
 name: CombatLog
-version: 0.0.18
-description: Make sure players don't logout during PvP
+version: 0.0.22
+description: Make sure players don't log out during PvP
 author: SirBlobman
 website: http://sirblobman.ddns.net
 main: com.SirBlobman.combat_log.CombatLog

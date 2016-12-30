@@ -41,6 +41,7 @@ public class Config
 		set("options.timer", 30);
 		set("options.update checker", true);
 		set("options.action bar", true);
+		set("options.boss bar", true);
 		set("options.self combat", true);
 		set("options.remove potions", false);
 		set("options.prevent flight", true);
@@ -53,8 +54,10 @@ public class Config
 		set("messages.expire", "&eYou are no longer in combat!");
 		set("messages.blocked", "&6You can't do &c%s&6 during combat!");
 		set("messages.in combat", "You are still in combat for &b%s seconds");
+		set("messages.not in combat", "You are not in combat");
 		set("messages.quit", "&5%s&r left during combat!");
 		set("messages.action bar", "&3Combat >> &2%s seconds &eleft");
+		set("messages.boss bar", "&3Combat >> &2%s seconds");
 		
 		set("scoreboard.enabled", true);
 		set("scoreboard.title", "Combat Log");
