@@ -6,32 +6,20 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Server;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Score;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
 
 import com.google.common.collect.Maps;
 
 public class Combat implements Runnable
 {
 	private static HashMap<Player, Long> log = Maps.newHashMap();
-	private static YamlConfiguration config = Config.load();
 	
-	private static Server S = Bukkit.getServer();
-	private static ScoreboardManager SM = S.getScoreboardManager();
-	private static Scoreboard MAIN = SM.getMainScoreboard();
-	
-	private static boolean sb = config.getBoolean("scoreboard.enabled");
-	private static boolean a = config.getBoolean("options.action bar");
-	private static boolean boss = config.getBoolean("options.boss bar");
+	private static Map<Player, CustomScoreboard> scores = Maps.newHashMap();
+	private static Map<Player, LivingEntity> enemies = Maps.newHashMap();
 	private static String prefix = Config.option("messages.prefix");
 	private static String expire = prefix + Config.option("messages.expire");
 	
@@ -51,7 +39,11 @@ public class Combat implements Runnable
 			Long time = e.getValue();
 			if((time - System.currentTimeMillis()) <= 0)
 			{
-				if(sb) p.setScoreboard(MAIN);
+				if(Config.SCOREBOARD_ENABLED && scores.containsKey(p))
+				{
+					CustomScoreboard cs = scores.get(p);
+					cs.close();
+				}
 				remove(p);
 				p.sendMessage(expire);
 			}
@@ -59,37 +51,42 @@ public class Combat implements Runnable
 			{
 				long end = time - System.currentTimeMillis();
 				int i = (int) (end / 1000);
-				if(sb) setScore(p, i);
-				if(a)
+				if(Config.SCOREBOARD_ENABLED) refreshScore(p);
+				if(Config.ACTION_BAR)
 				{
 					String ac = Config.option("messages.action bar", i);
 					CombatLog.action(p, ac);
 				}
-				if(boss) bossBar(p);
+				if(Config.BOSS_BAR) bossBar(p);
 			}
 		}
 	}
 	
-	private void setScore(Player p, int time)
+	private void refreshScore(Player p)
 	{
-		Scoreboard sb = SM.getNewScoreboard();
-		Objective o = sb.registerNewObjective(Config.option("scoreboard.title"), "dummy");
-		o.setDisplaySlot(DisplaySlot.SIDEBAR);
-		Score combat = o.getScore(Config.option("scoreboard.time left"));
-		combat.setScore(time);
-		p.setScoreboard(sb);
+		if(scores.containsKey(p))
+		{
+			CustomScoreboard cs = scores.get(p);
+			cs.changeEnemy(enemies.get(p));
+			cs.update();
+			scores.put(p, cs);
+		}
+		else
+		{
+			CustomScoreboard cs = new CustomScoreboard(p, enemies.get(p));
+			cs.update();
+			scores.put(p, cs);
+		}
 	}
 	
-	public static void add(Player... tagged)
+	public static void add(Player p, LivingEntity enemy)
 	{
-		for(Player p : tagged)
-		{
-			long current = System.currentTimeMillis();
-			int s = config.getInt("options.timer");
-			long combat = s * 1000L;
-			long end = current + combat;
-			log.put(p, end);
-		}
+		long current = System.currentTimeMillis();
+		int s = Config.TIMER;
+		long combat = s * 1000L;
+		long end = current + combat;
+		log.put(p, end);
+		enemies.put(p, enemy);
 	}
 	
 	public static int timeLeft(Player p)
@@ -106,13 +103,18 @@ public class Combat implements Runnable
 		for(Player p : tagged)
 		{
 			if(log.containsKey(p)) log.remove(p);
-			if(sb) {p.setScoreboard(MAIN);}
+			if(Config.SCOREBOARD_ENABLED && scores.containsKey(p))
+			{
+				CustomScoreboard cs = scores.get(p);
+				cs.close();
+			}
 		}
 	}
 	
 	public static boolean inCombat(Player p)
 	{
-		return log.containsKey(p);
+		boolean b = log.containsKey(p);
+		return b;
 	}
 	
 	private static Map<Player, BossBar> bosses = Maps.newHashMap();

@@ -8,6 +8,7 @@ import org.bukkit.World;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
@@ -26,16 +27,6 @@ public class Events implements Listener
 {
 	private static YamlConfiguration config = Config.load();
 	private static String prefix = Util.prefix;
-	private static List<String> blockedCommands = config.getStringList("blocked commands");
-	private static List<String> punishCommands  = config.getStringList("punish commands");
-	private static List<String> disabledWorlds  = config.getStringList("disabled worlds");
-	private static List<String> bannedPotions   = config.getStringList("banned potions");
-	
-	private static boolean bPotions  = config.getBoolean("options.remove potions");
-	private static boolean bGameMode = config.getBoolean("options.change gamemode");
-	private static boolean bFlight   = config.getBoolean("options.prevent flight");
-	private static boolean bSelf     = config.getBoolean("options.self combat");
-	private static boolean bMobs     = config.getBoolean("options.mobs combat");
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void cmd(PlayerCommandPreprocessEvent e)
@@ -45,6 +36,7 @@ public class Events implements Listener
 		boolean combat = Combat.inCombat(p);
 		if(combat)
 		{
+			List<String> blockedCommands = Config.BLOCKED_COMMANDS;
 			for(String cmd : blockedCommands)
 			{
 				boolean b1 = c.startsWith(cmd);
@@ -78,6 +70,7 @@ public class Events implements Listener
 			boolean b2 = config.getBoolean("options.punish loggers");
 			if(b2)
 			{
+				List<String> punishCommands = Config.PUNISH_COMMANDS;
 				for(String cmd : punishCommands)
 				{
 					cmd = cmd.replace("{player}", name);
@@ -110,6 +103,7 @@ public class Events implements Listener
 		
 		Entity damaged = e.getEntity();
 		Entity damager = e.getDamager();
+		boolean bSelf = Config.SELF_COMBAT;
 		if(!bSelf)
 		{
 			boolean same = same(damaged, damager);
@@ -118,6 +112,7 @@ public class Events implements Listener
 		
 		World w = damaged.getWorld();
 		String world = w.getName();
+		List<String> disabledWorlds = Config.DISABLED_WORLDS;
 		if(disabledWorlds.contains(world)) return;
 		
 		boolean b1 = (damager instanceof Projectile);
@@ -131,22 +126,26 @@ public class Events implements Listener
 				damager = shooter;
 			}
 		}
-
-		boolean b2 = (damaged instanceof Player);
-		boolean b3 = (damager instanceof Player);
-		if(bMobs) {if(b2 || b3) combat(damaged, damager);}
-		else
+		
+		if(damaged instanceof LivingEntity && damager instanceof LivingEntity)
 		{
-			if(b2 && b3)
+			boolean b2 = (damaged instanceof Player);
+			boolean b3 = (damager instanceof Player);
+			boolean bMobs = Config.MOBS_COMBAT;
+			if(bMobs) {if(b2 || b3) combat((LivingEntity) damaged, (LivingEntity) damager);}
+			else
 			{
-				Player ded = (Player) damaged;
-				Player der = (Player) damager;
-				pCombat(ded, der);
+				if(b2 && b3)
+				{
+					Player ded = (Player) damaged;
+					Player der = (Player) damager;
+					pCombat(ded, der);
+				}
 			}
 		}
 	}
 	
-	private void combat(Entity damaged, Entity damager)
+	private void combat(LivingEntity damaged, LivingEntity damager)
 	{
 		boolean b1 = (damaged instanceof Player);
 		boolean b2 = (damager instanceof Player);
@@ -158,16 +157,18 @@ public class Events implements Listener
 		}
 		else
 		{
-			if(b1) one((Player) damaged);
-			if(b2) one((Player) damager);
+			if(b1) one((Player) damaged, damager);
+			if(b2) one((Player) damager, damaged);
 		}
 	}
 	
-	private void one(Player p)
+	private void one(Player p, LivingEntity enemy)
 	{
-		Combat.add(p);
+		Combat.add(p, enemy);
+		boolean bPotions = Config.REMOVE_POTIONS;
 		if(bPotions)
 		{
+			List<String> bannedPotions = Config.BANNED_POTIONS;
 			for(String pot : bannedPotions)
 			{
 				PotionEffectType pet = PotionEffectType.getByName(pot);
@@ -178,11 +179,13 @@ public class Events implements Listener
 				}
 			}
 		}
+		boolean bGameMode = Config.CHANGE_GAMEMODE;
 		if(bGameMode)
 		{
 			boolean gmc = (p.getGameMode() == GameMode.CREATIVE);
 			if(gmc) p.setGameMode(GameMode.SURVIVAL);
 		}
+		boolean bFlight = Config.PREVENT_FLIGHT;
 		if(bFlight)
 		{
 			p.setAllowFlight(false);
@@ -198,8 +201,8 @@ public class Events implements Listener
 		String attack = prefix + Config.option("messages.attack", ded.getName());
 		if(!pvp1) ded.sendMessage(target);
 		if(!pvp2) der.sendMessage(attack);
-		one(ded);
-		one(der);
+		one(ded, der);
+		one(der, ded);
 	}
 	
 	private boolean same(Entity e1, Entity e2)

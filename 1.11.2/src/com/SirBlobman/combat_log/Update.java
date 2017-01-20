@@ -32,6 +32,7 @@ public class Update
 			InputStreamReader isr = new InputStreamReader(is);
 			BufferedReader br = new BufferedReader(isr);
 			String version = br.readLine();
+			is.close();
 			if(version.length() <= 7) return version;
 			return "";
 		} catch(Exception ex)

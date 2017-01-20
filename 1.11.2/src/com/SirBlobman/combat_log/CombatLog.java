@@ -6,7 +6,6 @@ import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -18,7 +17,6 @@ import com.SirBlobman.combat_log.nms.action.Action;
 public class CombatLog extends JavaPlugin implements CommandExecutor
 {
 	public static CombatLog instance;
-	private static YamlConfiguration config;
 	private static Action action;
 	private static final Server S = Bukkit.getServer();
 	private static final PluginManager PM = S.getPluginManager();
@@ -28,13 +26,13 @@ public class CombatLog extends JavaPlugin implements CommandExecutor
 	public void onEnable()
 	{
 		instance = this;
-		config = Config.load();
-		boolean a = config.getBoolean("options.action bar");
+		Config.load();
+		boolean a = Config.ACTION_BAR;
 		if(a) action = NMS.getAction();
 		PM.registerEvents(new Events(), this);
 		BS.runTaskTimer(this, new Combat(), 0L, 0L);
-		S.broadcastMessage("§2CombatLog Enabled");
-		boolean u = config.getBoolean("options.update checker");
+		S.broadcastMessage("Â§2CombatLog Enabled");
+		boolean u = Config.UPDATE_CHECKER;
 		if(u) Update.print();
 	}
 	
@@ -42,7 +40,7 @@ public class CombatLog extends JavaPlugin implements CommandExecutor
 	public void onDisable()
 	{
 		for(Player p : Bukkit.getOnlinePlayers()) Combat.remove(p);
-		S.broadcastMessage("§4CombatLog Disabled");
+		S.broadcastMessage("ï¿½4CombatLog Disabled");
 	}
 	
 	@Override
@@ -66,12 +64,17 @@ public class CombatLog extends JavaPlugin implements CommandExecutor
 			cs.sendMessage("You are not a Player");
 			return true;
 		}
+		if(cmd.equals("clreload"))
+		{
+			Config.load();
+			cs.sendMessage(Config.option("messages.reload config"));
+		}
 		return false;
 	}
 	
 	public static void action(Player p, String msg)
 	{
-		boolean a = config.getBoolean("options.action bar");
+		boolean a = Config.ACTION_BAR;
 		if(a)
 		{
 			String c = ChatColor.translateAlternateColorCodes('&', msg);

@@ -1,6 +1,6 @@
 name: CombatLog
-version: 0.1.0
-description: Make sure players don't log out during PvP
+version: 0.1.1
+description: Prevent players from logging out during PvP
 author: SirBlobman
 website: http://sirblobman.ddns.net
 main: com.SirBlobman.combat_log.CombatLog
@@ -11,3 +11,9 @@ commands:
     description: Check how much time you have left in combat
     usage: /cl
     aliases: [combatlog, combattag, ct]
+  clreload:
+    description: Reload the config
+    permission: combatlog.reload
+    permission-message: Ask an admin to reload the config instead!
+    usage: /clreload
+    aliases: []
