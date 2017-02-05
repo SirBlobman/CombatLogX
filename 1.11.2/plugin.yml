@@ -1,11 +1,12 @@
 name: CombatLog
-version: 0.1.1
+version: 0.1.2
 description: Prevent players from logging out during PvP
 author: SirBlobman
 website: http://sirblobman.ddns.net
 main: com.SirBlobman.combat_log.CombatLog
 database: false
 depend: []
+softdepend: [TitleManager]
 commands:
   cl:
     description: Check how much time you have left in combat

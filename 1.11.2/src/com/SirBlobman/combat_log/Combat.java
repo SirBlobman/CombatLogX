@@ -12,16 +12,14 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
+import com.SirBlobman.combat_log.compat.TitleManagerScoreboard;
 import com.google.common.collect.Maps;
 
 public class Combat implements Runnable
 {
 	private static HashMap<Player, Long> log = Maps.newHashMap();
-	
 	private static Map<Player, CustomScoreboard> scores = Maps.newHashMap();
 	private static Map<Player, LivingEntity> enemies = Maps.newHashMap();
-	private static String prefix = Config.option("messages.prefix");
-	private static String expire = prefix + Config.option("messages.expire");
 	
 	@Override
 	public void run()
@@ -43,8 +41,13 @@ public class Combat implements Runnable
 				{
 					CustomScoreboard cs = scores.get(p);
 					cs.close();
+					if(Config.TITLE_MANAGER) {
+						TitleManagerScoreboard TMS = CombatLog.TMS;
+						TMS.reset(p);
+					}
 				}
 				remove(p);
+				String expire = Config.option("messages.prefix") + Config.option("messages.expire");
 				p.sendMessage(expire);
 			}
 			else
@@ -64,18 +67,21 @@ public class Combat implements Runnable
 	
 	private void refreshScore(Player p)
 	{
-		if(scores.containsKey(p))
-		{
+		if(scores.containsKey(p)) {
 			CustomScoreboard cs = scores.get(p);
 			cs.changeEnemy(enemies.get(p));
 			cs.update();
 			scores.put(p, cs);
 		}
-		else
-		{
+		else {
 			CustomScoreboard cs = new CustomScoreboard(p, enemies.get(p));
 			cs.update();
 			scores.put(p, cs);
+		}
+		
+		if(Config.TITLE_MANAGER) {
+			TitleManagerScoreboard TMS = CombatLog.TMS;
+			TMS.custom(p);
 		}
 	}
 	
@@ -107,6 +113,14 @@ public class Combat implements Runnable
 			{
 				CustomScoreboard cs = scores.get(p);
 				cs.close();
+				if(Config.TITLE_MANAGER) {
+					TitleManagerScoreboard TMS = CombatLog.TMS;
+					TMS.reset(p);
+				}
+				if(bosses.containsKey(p)) {
+					BossBar bb = bosses.get(p);
+					bb.setVisible(false);
+				}
 			}
 		}
 	}

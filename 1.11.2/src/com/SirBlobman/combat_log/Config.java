@@ -15,6 +15,7 @@ public class Config
 	
 	/*Config Values*/
 	public static int TIMER;
+	public static int ENDER_PEARL_COOLDOWN;
 	public static boolean SCOREBOARD_ENABLED;
 	public static boolean UPDATE_CHECKER;
 	public static boolean ACTION_BAR;
@@ -25,6 +26,7 @@ public class Config
 	public static boolean PREVENT_FLIGHT;
 	public static boolean CHANGE_GAMEMODE;
 	public static boolean PUNISH_LOGGERS;
+	public static boolean TITLE_MANAGER = false;
 	public static List<String> DISABLED_WORLDS;
 	public static List<String> BLOCKED_COMMANDS;
 	public static List<String> PUNISH_COMMANDS;
@@ -67,6 +69,7 @@ public class Config
 		set("options.prevent flight", true);
 		set("options.change gamemode", true);
 		set("options.punish loggers", true);
+		set("options.ender pearl cooldown", -1);
 		
 		
 		set("messages.prefix", "[CombatLog] &f");
@@ -76,6 +79,7 @@ public class Config
 		set("messages.blocked", "&6You can't do &c%s&6 during combat!");
 		set("messages.in combat", "You are still in combat for &b%s seconds");
 		set("messages.not in combat", "You are not in combat");
+		set("messages.enderpearl cooldown", "&cPlease wait &d%s&c seconds before using that again!");
 		set("messages.quit", "&5%s&r left during combat!");
 		set("messages.action bar", "&3Combat >> &2%s seconds &eleft");
 		set("messages.boss bar", "&3Combat >> &2%s seconds");
@@ -96,6 +100,7 @@ public class Config
 		save();
 		
 		TIMER = config.getInt("options.timer");
+		ENDER_PEARL_COOLDOWN = config.getInt("options.ender pearl cooldown");
 		UPDATE_CHECKER = config.getBoolean("options.update checker");
 		ACTION_BAR = config.getBoolean("options.action bar");
 		BOSS_BAR = config.getBoolean("options.boss bar");

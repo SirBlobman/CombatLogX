@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -14,10 +15,13 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.projectiles.ProjectileSource;
 
@@ -27,6 +31,8 @@ public class Events implements Listener
 {
 	private static YamlConfiguration config = Config.load();
 	private static String prefix = Util.prefix;
+	
+	private static List<Player> ePearlCooldown = Util.newList();
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void cmd(PlayerCommandPreprocessEvent e)
@@ -140,6 +146,35 @@ public class Events implements Listener
 					Player ded = (Player) damaged;
 					Player der = (Player) damager;
 					pCombat(ded, der);
+				}
+			}
+		}
+	}
+	
+	@EventHandler(priority=EventPriority.HIGHEST)
+	public void epearl(PlayerInteractEvent e) {
+		Player p = e.getPlayer();
+		Action a = e.getAction();
+		if(a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK) {
+			if(Config.ENDER_PEARL_COOLDOWN > -1) {
+				ItemStack is = e.getItem();
+				if(is == null) return;
+				Material mat = is.getType();
+				if(mat == null) return;
+				if(mat == Material.ENDER_PEARL) {
+					if(ePearlCooldown.contains(p)) {
+						String msg = Config.option("messages.enderpearl cooldown", Config.ENDER_PEARL_COOLDOWN);
+						p.sendMessage(msg);
+						e.setCancelled(true);
+					} else {
+						ePearlCooldown.add(p);
+						int cooldown = Config.ENDER_PEARL_COOLDOWN * 20;
+						Bukkit.getScheduler().runTaskLater(CombatLog.instance, new Runnable() {
+							public void run() {
+								ePearlCooldown.remove(p);
+							}
+						}, cooldown);
+					}
 				}
 			}
 		}

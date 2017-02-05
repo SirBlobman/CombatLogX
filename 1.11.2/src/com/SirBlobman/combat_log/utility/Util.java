@@ -1,6 +1,8 @@
 package com.SirBlobman.combat_log.utility;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.ChatColor;
 
@@ -38,22 +40,24 @@ public class Util
 	 * &o = <i>Italics</i><br/>
 	 * &r = Reset<br/>
 	 */
-	public static String color(String o)
-	{
+	public static String color(String o) {
 		String c = ChatColor.translateAlternateColorCodes('&', o);
 		return c;
 	}
 	
-	public static String uncolor(String c)
-	{
+	public static String uncolor(String c) {
 		String u = ChatColor.stripColor(c);
 		return u;
 	}
 	
-	public static void print(String msg)
-	{
+	public static void print(String msg) {
 		PrintStream ps = System.out;
 		String prt = prefix2 + msg;
 		ps.println(prt);
+	}
+	
+	public static <T> List<T> newList() {
+		ArrayList<T> list = new ArrayList<T>();
+		return list;
 	}
 }

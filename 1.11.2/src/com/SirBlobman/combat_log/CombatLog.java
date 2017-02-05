@@ -7,16 +7,19 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import com.SirBlobman.combat_log.compat.TitleManagerScoreboard;
 import com.SirBlobman.combat_log.nms.NMS;
 import com.SirBlobman.combat_log.nms.action.Action;
 
 public class CombatLog extends JavaPlugin implements CommandExecutor
 {
 	public static CombatLog instance;
+	public static TitleManagerScoreboard TMS;
 	private static Action action;
 	private static final Server S = Bukkit.getServer();
 	private static final PluginManager PM = S.getPluginManager();
@@ -34,13 +37,20 @@ public class CombatLog extends JavaPlugin implements CommandExecutor
 		S.broadcastMessage("§2CombatLog Enabled");
 		boolean u = Config.UPDATE_CHECKER;
 		if(u) Update.print();
+		
+		boolean t = PM.isPluginEnabled("TitleManager");
+		if(t) {
+			Plugin api = PM.getPlugin("TitleManager");
+			Config.TITLE_MANAGER = true;
+			TMS = new TitleManagerScoreboard(api);
+		}
 	}
 	
 	@Override
 	public void onDisable()
 	{
 		for(Player p : Bukkit.getOnlinePlayers()) Combat.remove(p);
-		S.broadcastMessage("�4CombatLog Disabled");
+		S.broadcastMessage("§4CombatLog Disabled");
 	}
 	
 	@Override
@@ -68,6 +78,7 @@ public class CombatLog extends JavaPlugin implements CommandExecutor
 		{
 			Config.load();
 			cs.sendMessage(Config.option("messages.reload config"));
+			return true;
 		}
 		return false;
 	}
