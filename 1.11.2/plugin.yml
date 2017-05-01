@@ -1,20 +1,20 @@
 name: CombatLog
-version: 0.1.2
+version: 1.0.11 Beta
 description: Prevent players from logging out during PvP
 author: SirBlobman
 website: http://sirblobman.ddns.net
-main: com.SirBlobman.combat_log.CombatLog
+main: com.SirBlobman.combatlog.CombatLog
 database: false
 depend: []
-softdepend: [TitleManager]
+softdepend: [TitleManager, WorldGuard]
 commands:
-  cl:
-    description: Check how much time you have left in combat
-    usage: /cl
-    aliases: [combatlog, combattag, ct]
   clreload:
-    description: Reload the config
-    permission: combatlog.reload
-    permission-message: Ask an admin to reload the config instead!
+    description: Reload the Config and Messages for this plugin
     usage: /clreload
-    aliases: []
+    aliases: [ctreload, clr]
+    permission: combatlog.reload
+    permission-message: Ask an admin to reload the config!
+  combattime:
+    description: Check how much combat time you have left!
+    usage: /combattime
+    aliases: [ct, cl]
