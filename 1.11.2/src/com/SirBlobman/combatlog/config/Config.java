@@ -152,6 +152,8 @@ public class Config {
 	public static String MSG_PREFIX;
 	public static String MSG_TARGET;
 	public static String MSG_ATTACK;
+	public static String MSG_TARGET_MOB;
+	public static String MSG_ATTACK_MOB;
 	public static String MSG_EXPIRE;
 	public static String MSG_BLOCKED;
 	public static String MSG_IN_COMBAT;
@@ -169,6 +171,8 @@ public class Config {
 		set(configl, "prefix", "&e[&fCombatLog&e] &f", false);
 		set(configl, "target", "&5%1s&f attacked you! You are now in combat!", false);
 		set(configl, "attack", "You attacked &5%1s&r! You are now in combat!", false);
+		set(configl, "target mob", "You were attacked by a mob named &5%1s&f! You are now in combat!", false);
+		set(configl, "attack mob", "You attacked a mob named &5%1s&f! You are now in combat!", false);
 		set(configl, "expire", "You are no longer in combat!", false);
 		set(configl, "blocked", "&6You can't do &c/%1s&6 during combat!", false);
 		set(configl, "in combat", "You are still in combat for &b%1s&f seconds!", false);
@@ -186,6 +190,8 @@ public class Config {
 		MSG_PREFIX = configl.getString("prefix");
 		MSG_TARGET = configl.getString("target");
 		MSG_ATTACK = configl.getString("attack");
+		MSG_TARGET_MOB = configl.getString("target mob");
+		MSG_ATTACK_MOB = configl.getString("attack mob");
 		MSG_EXPIRE = configl.getString("expire");
 		MSG_BLOCKED = configl.getString("blocked");
 		MSG_IN_COMBAT = configl.getString("in combat");

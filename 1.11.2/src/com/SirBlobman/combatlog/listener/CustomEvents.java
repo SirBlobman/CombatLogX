@@ -88,14 +88,25 @@ public class CustomEvents implements Listener {
 		LivingEntity enemy = e.getEnemy();
 		String ename = LegacyUtil.name(enemy);
 		boolean attack = e.isPlayerAttacker();
+		boolean enepla = (enemy instanceof Player);
 		if(!checkPerm(p)) {
 			if(!Combat.in(p)) {
-				if(attack) {
-					String msg = String.format(Config.MSG_ATTACK, ename);
-					Util.msg(p, msg);
+				if(enepla) {
+					if(attack) {
+						String msg = Util.color(String.format(Config.MSG_PREFIX + Config.MSG_ATTACK, ename));
+						p.sendMessage(msg);
+					} else {
+						String msg = Util.color(String.format(Config.MSG_PREFIX + Config.MSG_TARGET, ename));
+						p.sendMessage(msg);
+					}
 				} else {
-					String msg = String.format(Config.MSG_TARGET, ename);
-					Util.msg(p, msg);
+					if(attack) {
+						String msg = Util.color(String.format(Config.MSG_PREFIX + Config.MSG_ATTACK_MOB, ename));
+						p.sendMessage(msg);
+					} else {
+						String msg = Util.color(String.format(Config.MSG_PREFIX + Config.MSG_TARGET_MOB, ename));
+						p.sendMessage(msg);
+					}
 				}
 			}
 			Combat.add(p, enemy);
