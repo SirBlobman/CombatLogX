@@ -1,8 +1,7 @@
-package com.SirBlobman.combat_log.nms.action;
+package com.SirBlobman.combatlog.nms.action;
 
 import org.bukkit.entity.Player;
 
-public interface Action
-{
+public interface Action {
 	public void action(Player p, String msg);
 }

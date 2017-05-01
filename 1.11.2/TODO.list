@@ -1,3 +1,4 @@
-Better Message system (%attacker% instead of %s)
-Add enderpearl scoreboard display
+Add enderpearl cooldown as another plugin
 Create another plugin that prevents players from doing commands while falling
+Forced commands when a player is combat logged
+Change mob attack to a different message
