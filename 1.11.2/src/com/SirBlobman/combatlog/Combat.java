@@ -13,8 +13,8 @@ import org.bukkit.plugin.PluginManager;
 import com.SirBlobman.combatlog.compat.CustomBoss;
 import com.SirBlobman.combatlog.compat.CustomScore;
 import com.SirBlobman.combatlog.config.Config;
-import com.SirBlobman.combatlog.listener.PlayerUntagEvent;
-import com.SirBlobman.combatlog.listener.PlayerUntagEvent.UntagCause;
+import com.SirBlobman.combatlog.listener.event.PlayerUntagEvent;
+import com.SirBlobman.combatlog.listener.event.PlayerUntagEvent.UntagCause;
 import com.SirBlobman.combatlog.utility.Util;
 import com.google.common.collect.Maps;
 

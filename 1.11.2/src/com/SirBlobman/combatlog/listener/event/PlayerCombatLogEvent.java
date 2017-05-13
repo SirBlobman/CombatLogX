@@ -1,4 +1,4 @@
-package com.SirBlobman.combatlog.listener;
+package com.SirBlobman.combatlog.listener.event;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;

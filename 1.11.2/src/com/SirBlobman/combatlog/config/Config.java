@@ -76,6 +76,7 @@ public class Config {
 	public static boolean SUDO_ON_COMBAT;
 	public static boolean OPEN_INVENTORY;
 	public static boolean KILL_PLAYER;
+	public static boolean QUIT_MESSAGE;
 	public static boolean ENABLE_BYPASS;
 	public static boolean SCOREBOARD;
 	public static boolean TITLE_MANAGER = false;
@@ -103,6 +104,7 @@ public class Config {
 		set(configc, "punish loggers", true, false);
 		set(configc, "prevent inventory", false, false);
 		set(configc, "kill player", true, false);
+		set(configc, "quit message", true, false);
 		set(configc, "enable bypass", true, false);
 		set(configc, "sudo loggers", false, false);
 		set(configc, "sudo on combat", false, false);
@@ -136,6 +138,7 @@ public class Config {
 		PUNISH_LOGGERS = configc.getBoolean("punish loggers");
 		OPEN_INVENTORY = configc.getBoolean("prevent inventory");
 		KILL_PLAYER = configc.getBoolean("kill player");
+		QUIT_MESSAGE = configc.getBoolean("quit message");
 		ENABLE_BYPASS = configc.getBoolean("enable bypass");
 		SUDO_LOGGERS = configc.getBoolean("sudo loggers");
 		SUDO_ON_COMBAT = configc.getBoolean("sudo on combat");
@@ -167,6 +170,9 @@ public class Config {
 	public static String SCOREBOARD_TITLE;
 	public static List<String> SCOREBOARD_LIST;
 	
+	//Special Language
+	public static String MSG_TOWNY_NO_ENTRY;
+	
 	private static void defaultsL() {
 		set(configl, "prefix", "&e[&fCombatLog&e] &f", false);
 		set(configl, "target", "&5%1s&f attacked you! You are now in combat!", false);
@@ -183,6 +189,9 @@ public class Config {
 		set(configl, "boss bar", "&3Combat >> &2%1s seconds", false);
 		set(configl, "reload config", "The config was reloaded", false);
 		set(configl, "open inventory", "You cannot open storage blocks during combat", false);
+		
+		set(configl, "towny.no entry", "You cannot enter this town while you are in combat!", false);
+		
 		set(configl, "scoreboard.title", "&2Combat Log", false);
 		set(configl, "scoreboard.list", Util.newList("Time Left: {time_left}", "Enemy: {enemy_name}", "Enemy Health: {enemy_health}"), false);
 		save(configl, FILEL);
@@ -204,6 +213,8 @@ public class Config {
 		MSG_RELOAD_CONFIG = configl.getString("reload config");
 		SCOREBOARD_TITLE = configl.getString("scoreboard.title");
 		SCOREBOARD_LIST = configl.getStringList("scoreboard.list");
+		
+		MSG_TOWNY_NO_ENTRY = configl.getString("towny.no entry");
 	}
 	
 	private static void set(YamlConfiguration config, String path, Object value, boolean force) {

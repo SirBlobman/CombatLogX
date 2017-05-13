@@ -1,12 +1,12 @@
-name: CombatLog
-version: 1.0.12 Beta
+name: CombatLogX
+version: 1.0.1 Release
 description: Prevent players from logging out during PvP
 author: SirBlobman
 website: http://sirblobman.ddns.net
 main: com.SirBlobman.combatlog.CombatLog
 database: false
 depend: []
-softdepend: [TitleManager, WorldGuard]
+softdepend: [TitleManager, WorldGuard, LegacyFactions, FactionsUUID, Factions, Towny, PlotSquared]
 commands:
   clreload:
     description: Reload the Config and Messages for this plugin

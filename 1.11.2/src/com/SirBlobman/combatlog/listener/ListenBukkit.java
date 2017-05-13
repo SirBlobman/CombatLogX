@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Server;
+import org.bukkit.World;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
@@ -25,19 +27,24 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.projectiles.ProjectileSource;
-import static com.SirBlobman.combatlog.utility.WorldGuardUtil.canPvp;
 
 import com.SirBlobman.combatlog.Combat;
+import com.SirBlobman.combatlog.compat.CompatFactions;
 import com.SirBlobman.combatlog.config.Config;
+import com.SirBlobman.combatlog.listener.event.CombatEvent;
+import com.SirBlobman.combatlog.listener.event.PlayerCombatEvent;
+import com.SirBlobman.combatlog.listener.event.PlayerCombatLogEvent;
 import com.SirBlobman.combatlog.utility.LegacyUtil;
 import com.SirBlobman.combatlog.utility.Util;
+import com.SirBlobman.combatlog.utility.WorldGuardUtil;
 
-public class CustomEvents implements Listener {
+public class ListenBukkit implements Listener {
 	private static final Server SERVER = Bukkit.getServer();
 	private static final PluginManager PM = SERVER.getPluginManager();
 	
 	@EventHandler(priority=EventPriority.HIGHEST) 
 	public void eve(EntityDamageByEntityEvent e){
+		if(e.isCancelled()) return;
 		Entity ed = e.getEntity();
 		Entity er = e.getDamager();
 		double dam = e.getDamage();
@@ -62,7 +69,7 @@ public class CustomEvents implements Listener {
 				if(!both && !Config.MOBS_COMBAT) return;
 				if(ler instanceof Player) {
 					Player p = (Player) ler;
-					if(!canPvp(p)) return;
+					if(!canPVP(p)) return;
 					if(p.equals(led) && !Config.SELF_COMBAT) return;
 					PlayerCombatEvent pce = new PlayerCombatEvent(p, led, dam);
 					PM.callEvent(pce);
@@ -73,7 +80,7 @@ public class CustomEvents implements Listener {
 				
 				if(led instanceof Player) {
 					Player p = (Player) led;
-					if(!canPvp(p)) return;
+					if(!canPVP(p)) return;
 					if(p.equals(ler) && !Config.SELF_COMBAT) return;
 					PlayerCombatEvent pce = new PlayerCombatEvent(ler, p, dam);
 					PM.callEvent(pce);
@@ -114,7 +121,8 @@ public class CustomEvents implements Listener {
 			if(Config.REMOVE_POTIONS) {
 				for(String s : Config.BANNED_POTIONS) {
 					PotionEffectType pet = PotionEffectType.getByName(s);
-					if(p.hasPotionEffect(pet)) p.removePotionEffect(pet);
+					if(pet == null) {continue;}
+					else {if(p.hasPotionEffect(pet)) p.removePotionEffect(pet);}
 				}
 			}
 			
@@ -204,6 +212,10 @@ public class CustomEvents implements Listener {
 				p.performCommand(cmd);
 			}
 		}
+		if(Config.QUIT_MESSAGE) {
+			String msg = Util.format(Config.MSG_PREFIX + Config.MSG_QUIT, p.getName());
+			Bukkit.broadcastMessage(msg);
+		}
 	}
 	
 	private boolean checkPerm(Player p) {
@@ -212,5 +224,20 @@ public class CustomEvents implements Listener {
 			boolean has = p.hasPermission(perm);
 			return has;
 		} else return false;
+	}
+	
+	private boolean canPVP(Player p) {
+		try {
+			Location l = p.getLocation();
+			boolean wg = WorldGuardUtil.canPvp(p);
+			boolean to = ListenTowny.pvp(l);
+			boolean fa = CompatFactions.canPVP(p);
+			boolean pvp = (wg && to && fa);
+			return pvp;
+		} catch(Throwable ex) {
+			World w = p.getWorld();
+			boolean pvp = w.getPVP();
+			return pvp;
+		}
 	}
 }

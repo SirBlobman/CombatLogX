@@ -2,3 +2,11 @@ Add enderpearl cooldown as another plugin
 Create another plugin that prevents players from doing commands while falling
 Forced commands when a player is combat logged
 Change mob attack to a different message
+Entity blacklist
+Integrations:
+ - FactionsUUID
+ - LegacyFactions
+ - Towny
+ - CrackShot
+ - Residence
+ - PlotSquared

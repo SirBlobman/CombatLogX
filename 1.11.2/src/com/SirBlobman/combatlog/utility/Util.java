@@ -20,7 +20,9 @@ import com.SirBlobman.combatlog.CombatLog;
 import com.SirBlobman.combatlog.Update;
 import com.SirBlobman.combatlog.compat.CustomBoss;
 import com.SirBlobman.combatlog.config.Config;
-import com.SirBlobman.combatlog.listener.CustomEvents;
+import com.SirBlobman.combatlog.listener.ListenBukkit;
+import com.SirBlobman.combatlog.listener.ListenCrackShot;
+import com.SirBlobman.combatlog.listener.ListenTowny;
 import com.SirBlobman.combatlog.nms.NMS;
 import com.SirBlobman.combatlog.nms.action.Action;
 
@@ -43,9 +45,17 @@ public class Util {
 		}
 		if(PM.isPluginEnabled("WorldGuard")) {
 			Config.WORLD_GUARD = true;
-			print("&dWorldGuard compatibility is now enabled!");
+			print("&dWorldGuard compatability is now enabled!");
 		}
-		regEvents(new CustomEvents());
+		if(PM.isPluginEnabled("CrackShot")) {
+			regEvents(new ListenCrackShot());
+			print("&dCrackShot compatability is now enabled!");
+		}
+		if(PM.isPluginEnabled("Towny")) {
+			regEvents(new ListenTowny());
+			print("&dTowny compatability is now enabled!");
+		}
+		regEvents(new ListenBukkit());
 		timer(new Combat(), 1);
 	}
 	
