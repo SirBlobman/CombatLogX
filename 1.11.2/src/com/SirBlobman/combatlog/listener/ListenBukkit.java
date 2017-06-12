@@ -89,8 +89,9 @@ public class ListenBukkit implements Listener {
 		}
 	}
 	
-	@EventHandler
+	@EventHandler(priority=EventPriority.HIGHEST)
 	public void pvp(PlayerCombatEvent e) {
+		if(e.isCancelled()) return;
 		Player p = e.getPlayer();
 		LivingEntity enemy = e.getEnemy();
 		String ename = LegacyUtil.name(enemy);

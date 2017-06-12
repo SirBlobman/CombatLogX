@@ -35,12 +35,9 @@ public class CompatFactions {
 		try {
 			Faction f = factionAt(p);
 			Faction c = current(p);
-			if(!pvp(f) && !pvp(c)) return false;
-			if(f.getId().equals(c.getId())) return false;
-			
-			World w = p.getWorld();
-			boolean pvp = w.getPVP();
-			return pvp;
+			if(f.isWilderness()) return true;
+			if(f.equals(c)) return false;
+			return pvp(f);
 		} catch(Throwable ex) {
 			World w = p.getWorld();
 			boolean pvp = w.getPVP();

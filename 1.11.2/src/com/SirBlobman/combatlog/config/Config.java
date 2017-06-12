@@ -163,6 +163,7 @@ public class Config {
 	public static String MSG_NOT_IN_COMBAT;
 	public static String MSG_ENDER_PEARL_COOLDOWN;
 	public static String MSG_QUIT;
+	public static String MSG_FAIL;
 	public static String MSG_ACTION_BAR;
 	public static String MSG_BOSS_BAR;
 	public static String MSG_RELOAD_CONFIG;
@@ -185,6 +186,7 @@ public class Config {
 		set(configl, "not in combat", "You are not in combat", false);
 		set(configl, "enderpearl cooldown", "&cPlease wait &d%1s&c seconds before using that item!", false);
 		set(configl, "quit", "&5%s&r left during combat", false);
+		set(configl, "fail", "&cThat person is in a no PvP area", false);
 		set(configl, "action bar", "&3Combat >> &2%1s seconds &eleft", false);
 		set(configl, "boss bar", "&3Combat >> &2%1s seconds", false);
 		set(configl, "reload config", "The config was reloaded", false);
@@ -207,6 +209,7 @@ public class Config {
 		MSG_NOT_IN_COMBAT = configl.getString("not in combat");
 		MSG_ENDER_PEARL_COOLDOWN = configl.getString("enderpearl cooldown");
 		MSG_QUIT = configl.getString("quit");
+		MSG_FAIL = configl.getString("fail");
 		MSG_ACTION_BAR = configl.getString("action bar");
 		MSG_BOSS_BAR = configl.getString("boss bar");
 		MSG_INVENTORY = configl.getString("open inventory");

@@ -34,6 +34,13 @@ public class Combat implements Runnable {
 		enemies.put(p, enemy);
 	}
 	
+	public static LivingEntity enemy(Player p) {
+		if(enemies.containsKey(p)) {
+			LivingEntity le = enemies.get(p);
+			return le;
+		} else return null;
+	}
+	
 	public static void remove(Player p) {
 		inCombat.remove(p);
 		enemies.remove(p);
