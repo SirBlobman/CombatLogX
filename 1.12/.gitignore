@@ -1,0 +1,5 @@
+/bin/
+*.launch
+*.xml
+*.project
+*.classpath

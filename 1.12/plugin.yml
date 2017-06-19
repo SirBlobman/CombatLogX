@@ -1,0 +1,20 @@
+name: CombatLogX
+version: 1.1.1 Release
+description: Prevent players from logging out during PvP
+author: SirBlobman
+website: http://sirblobman.ddns.net
+main: com.SirBlobman.combatlog.CombatLog
+database: false
+depend: []
+softdepend: [Factions, FactionsUUID, LegacyFactions, PlaceholderAPI, TitleManager, Towny, WorldGuard]
+commands:
+  clreload:
+    description: Reload the Config and Messages for this plugin
+    usage: /clreload
+    aliases: [ctreload, clr]
+    permission: combatlog.reload
+    permission-message: Ask an admin to reload the config!
+  combattime:
+    description: Check how much combat time you have left!
+    usage: /combattime
+    aliases: [ct, cl]
