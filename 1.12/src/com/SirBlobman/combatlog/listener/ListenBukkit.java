@@ -44,6 +44,8 @@ public class ListenBukkit implements Listener {
 		if(e.isCancelled()) return;
 		Entity ed = e.getEntity();
 		Entity er = e.getDamager();
+		if(ed == null) return;
+		if(er == null) return;
 		double dam = e.getDamage();
 		List<String> worlds = Config.DISABLED_WORLDS;
 		String world = ed.getWorld().getName();

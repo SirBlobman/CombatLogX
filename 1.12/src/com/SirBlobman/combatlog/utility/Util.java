@@ -55,6 +55,7 @@ public class Util {
 		} if(PM.isPluginEnabled("PlaceholderAPI")) {
 			CombatPlaceHolders cp = new CombatPlaceHolders();
 			cp.hook();
+			print("&dPlaceholderAPI compatability is now enabled!");
 		}
 		regEvents(new ListenBukkit());
 		timer(new Combat(), 1);

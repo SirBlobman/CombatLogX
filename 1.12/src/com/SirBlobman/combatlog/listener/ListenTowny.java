@@ -77,4 +77,20 @@ public class ListenTowny implements Listener {
 			} else return tw.isPVP();
 		} catch(Exception ex) {return w.getPVP();}
 	}
+	
+	public static boolean pvp(WorldCoord wc) {
+		World w = wc.getBukkitWorld();
+		String name = w.getName();
+		try {
+			TownyDataSource tds = TownyUniverse.getDataSource();
+			TownyWorld tw = tds.getWorld(name);
+			Coord c = wc.getCoord();
+			if(tw.hasTownBlock(c)) {
+				TownBlock tb = tw.getTownBlock(c);
+				Town t = tb.getTown();
+				boolean pvp = t.isPVP();
+				return pvp;
+			} else return tw.isPVP();
+		} catch(Exception ex) {return w.getPVP();}
+	}
 }
