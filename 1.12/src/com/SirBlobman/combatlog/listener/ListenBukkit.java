@@ -31,6 +31,7 @@ import org.bukkit.projectiles.ProjectileSource;
 
 import com.SirBlobman.combatlog.Combat;
 import com.SirBlobman.combatlog.compat.CompatFactions;
+import com.SirBlobman.combatlog.compat.CompatLegacyFactions;
 import com.SirBlobman.combatlog.config.Config;
 import com.SirBlobman.combatlog.listener.event.CombatEvent;
 import com.SirBlobman.combatlog.listener.event.PlayerCombatEvent;
@@ -242,7 +243,8 @@ public class ListenBukkit implements Listener {
 			boolean wg = WorldGuardUtil.canPvp(p);
 			boolean to = ListenTowny.pvp(l);
 			boolean fa = CompatFactions.canPVP(p);
-			boolean pvp = (wg && to && fa);
+			boolean lf = CompatLegacyFactions.canPVP(p);
+			boolean pvp = (wg && to && fa && lf);
 			return pvp;
 		} catch(Throwable ex) {
 			World w = p.getWorld();

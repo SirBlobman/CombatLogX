@@ -1,0 +1,8 @@
+name: NotCombatLogX
+version: 1.1 Release
+description: 'CombatLogX Addon for stuff that isn''t really ''combat'''
+author: SirBlobman
+website: http://sirblobman.ddns.net
+main: com.SirBlobman.combatlog.Not
+database: false
+depend: [CombatLogX]

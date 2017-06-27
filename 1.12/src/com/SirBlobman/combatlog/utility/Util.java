@@ -99,7 +99,7 @@ public class Util {
 	
 	public static void boss(Player p) {
 		String nms = NMS.nms();
-		if(nms.contains("1_10") || nms.contains("1_11")) {
+		if(nms.contains("1_10") || nms.contains("1_11") || nms.contains("1_12")) {
 			CustomBoss.boss(p);
 		}
 	}
