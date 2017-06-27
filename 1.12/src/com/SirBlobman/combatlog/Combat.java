@@ -83,6 +83,7 @@ public class Combat implements Runnable {
 						CustomScore cs = scores.get(p);
 						cs.update();
 						cs.changeEnemy(enemies.get(p));
+						scores.put(p, cs);
 					} else {
 						CustomScore cs = new CustomScore(p, enemies.get(p));
 						cs.update();

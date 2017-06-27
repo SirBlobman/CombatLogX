@@ -1,18 +1,22 @@
 package com.SirBlobman.combatlog.listener;
 
-import java.util.List;
+import com.SirBlobman.combatlog.Combat;
+import com.SirBlobman.combatlog.compat.CompatFactions;
+import com.SirBlobman.combatlog.compat.CompatLegacyFactions;
+import com.SirBlobman.combatlog.config.Config;
+import com.SirBlobman.combatlog.listener.event.CombatEvent;
+import com.SirBlobman.combatlog.listener.event.PlayerCombatEvent;
+import com.SirBlobman.combatlog.listener.event.PlayerCombatLogEvent;
+import com.SirBlobman.combatlog.utility.LegacyUtil;
+import com.SirBlobman.combatlog.utility.Util;
+import com.SirBlobman.combatlog.utility.WorldGuardUtil;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -29,16 +33,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.projectiles.ProjectileSource;
 
-import com.SirBlobman.combatlog.Combat;
-import com.SirBlobman.combatlog.compat.CompatFactions;
-import com.SirBlobman.combatlog.compat.CompatLegacyFactions;
-import com.SirBlobman.combatlog.config.Config;
-import com.SirBlobman.combatlog.listener.event.CombatEvent;
-import com.SirBlobman.combatlog.listener.event.PlayerCombatEvent;
-import com.SirBlobman.combatlog.listener.event.PlayerCombatLogEvent;
-import com.SirBlobman.combatlog.utility.LegacyUtil;
-import com.SirBlobman.combatlog.utility.Util;
-import com.SirBlobman.combatlog.utility.WorldGuardUtil;
+import java.util.List;
 
 public class ListenBukkit implements Listener {
 	private static final Server SERVER = Bukkit.getServer();
@@ -178,11 +173,22 @@ public class ListenBukkit implements Listener {
 			String msg = e.getMessage();
 			String[] command = msg.split(" ");
 			String cm = command[0].toLowerCase();
-			for(String cmd : Config.BLOCKED_COMMANDS) {
-				if(cm.equals("/" + cmd)) {
+			boolean mode = Config.BLOCKED_COMMANDS_MODE;
+			List<String> list = Config.BLOCKED_COMMANDS;
+			if(!mode) {
+				for(String cmd : list) {
+					if(cm.equals("/" + cmd)) {
+						e.setCancelled(true);
+						p.sendMessage(Util.color(Config.MSG_PREFIX + Util.format(Config.MSG_BLOCKED, cm)));
+						break;
+					}
+				}
+			} else {
+				String t = cm.substring(1);
+				if(list.contains(t)) e.setCancelled(false);
+				else {
 					e.setCancelled(true);
 					p.sendMessage(Util.color(Config.MSG_PREFIX + Util.format(Config.MSG_BLOCKED, cm)));
-					break;
 				}
 			}
 		}
@@ -239,9 +245,8 @@ public class ListenBukkit implements Listener {
 	
 	private boolean canPVP(Player p) {
 		try {
-			Location l = p.getLocation();
 			boolean wg = WorldGuardUtil.canPvp(p);
-			boolean to = ListenTowny.pvp(l);
+			boolean to = ListenTowny.pvp(p);
 			boolean fa = CompatFactions.canPVP(p);
 			boolean lf = CompatLegacyFactions.canPVP(p);
 			boolean pvp = (wg && to && fa && lf);

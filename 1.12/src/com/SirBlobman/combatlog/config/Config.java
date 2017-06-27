@@ -82,9 +82,11 @@ public class Config {
 	public static boolean SCOREBOARD;
 	public static boolean TITLE_MANAGER = false;
 	public static boolean WORLD_GUARD = false;
+	public static boolean TOWNY_PREVENT_ENTER = true;
 	
 	public static List<String> DISABLED_WORLDS;
 	public static List<String> BLOCKED_COMMANDS;
+	public static boolean BLOCKED_COMMANDS_MODE;
 	public static List<String> PUNISH_COMMANDS;
 	public static List<String> SUDO_COMMANDS;
 	public static List<String> COMBAT_COMMANDS;
@@ -110,6 +112,7 @@ public class Config {
 		set(configc, "sudo loggers", false, false);
 		set(configc, "sudo on combat", false, false);
 		set(configc, "scoreboard", true, false);
+		set(configc, "towny.prevent entering", true, false);
 		
 		List<String> worlds = Util.newList("Creative", "WoRlD");
 		List<String> commands = Util.newList("home", "tpa", "spawn");
@@ -118,7 +121,8 @@ public class Config {
 		List<String> sudo = Util.newList("say I logged out of combat!");
 		List<String> sudo2 = Util.newList("say I am now in combat");
 		set(configc, "disabled worlds", worlds, false);
-		set(configc, "blocked commands", commands, false);
+		set(configc, "blocked.commands", commands, false);
+		set(configc, "blocked.whitelist", false, false);
 		set(configc, "banned potions", potions, false);
 		set(configc, "punish commands", punish, false);
 		set(configc, "sudo commands", sudo, false);
@@ -144,10 +148,12 @@ public class Config {
 		ENABLE_BYPASS = configc.getBoolean("enable bypass");
 		SUDO_LOGGERS = configc.getBoolean("sudo loggers");
 		SUDO_ON_COMBAT = configc.getBoolean("sudo on combat");
+		TOWNY_PREVENT_ENTER = configc.getBoolean("towny.prevent entering");
 		SCOREBOARD = configc.getBoolean("scoreboard");
 		
 		DISABLED_WORLDS = configc.getStringList("disabled worlds");
-		BLOCKED_COMMANDS = configc.getStringList("blocked commands");
+		BLOCKED_COMMANDS = configc.getStringList("blocked.commands");
+		BLOCKED_COMMANDS_MODE = configc.getBoolean("blocked.whitelist");
 		BANNED_POTIONS = configc.getStringList("banned potions");
 		PUNISH_COMMANDS = configc.getStringList("punish commands");
 		COMBAT_COMMANDS = configc.getStringList("combat commands");
