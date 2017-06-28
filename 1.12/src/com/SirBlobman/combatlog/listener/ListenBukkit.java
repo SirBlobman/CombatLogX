@@ -12,7 +12,6 @@ import com.SirBlobman.combatlog.utility.Util;
 import com.SirBlobman.combatlog.utility.WorldGuardUtil;
 
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.ConsoleCommandSender;
@@ -30,7 +29,6 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.projectiles.ProjectileSource;
 
 import java.util.List;
@@ -117,30 +115,6 @@ public class ListenBukkit implements Listener {
 				}
 			}
 			Combat.add(p, enemy);
-
-			if(Config.REMOVE_POTIONS) {
-				for(String s : Config.BANNED_POTIONS) {
-					PotionEffectType pet = PotionEffectType.getByName(s);
-					if(pet == null) {continue;}
-					else {if(p.hasPotionEffect(pet)) p.removePotionEffect(pet);}
-				}
-			}
-			
-			if(Config.SUDO_ON_COMBAT) {
-				for(String s : Config.COMBAT_COMMANDS) {
-					String cmd = s.replace("{player}", p.getName());
-					p.performCommand(cmd);
-				}
-			}
-
-			if(Config.PREVENT_FLIGHT) {
-				p.setFlying(false);
-				p.setAllowFlight(false);
-			}
-
-			if(Config.CHANGE_GAMEMODE) {
-				p.setGameMode(GameMode.SURVIVAL);
-			}
 		}
 	}
 	

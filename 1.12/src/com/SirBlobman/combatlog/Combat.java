@@ -5,10 +5,12 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Server;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.potion.PotionEffectType;
 
 import com.SirBlobman.combatlog.compat.CustomBoss;
 import com.SirBlobman.combatlog.compat.CustomScore;
@@ -32,6 +34,30 @@ public class Combat implements Runnable {
 		long time3 = time1 + time2;
 		inCombat.put(p, time3);
 		enemies.put(p, enemy);
+
+		if(Config.REMOVE_POTIONS) {
+			for(String s : Config.BANNED_POTIONS) {
+				PotionEffectType pet = PotionEffectType.getByName(s);
+				if(pet == null) {continue;}
+				else {if(p.hasPotionEffect(pet)) p.removePotionEffect(pet);}
+			}
+		}
+		
+		if(Config.SUDO_ON_COMBAT) {
+			for(String s : Config.COMBAT_COMMANDS) {
+				String cmd = s.replace("{player}", p.getName());
+				p.performCommand(cmd);
+			}
+		}
+
+		if(Config.PREVENT_FLIGHT) {
+			p.setFlying(false);
+			p.setAllowFlight(false);
+		}
+
+		if(Config.CHANGE_GAMEMODE) {
+			p.setGameMode(GameMode.SURVIVAL);
+		}
 	}
 	
 	public static LivingEntity enemy(Player p) {
