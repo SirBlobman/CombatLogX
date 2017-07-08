@@ -1,28 +1,31 @@
 package com.SirBlobman.combatlog.listener.event;
 
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
 
 public class PlayerCombatEvent extends CombatEvent {
-	private Player player;
-	private LivingEntity enemy;
-	private boolean starter;
-	
-	public PlayerCombatEvent(Player attack, LivingEntity target, double damage) {
-		super(attack, target, damage);
-		this.player = attack;
-		this.enemy = target;
-		this.starter = true;
+	private final Player player;
+	private final Damageable attacker, target;
+	private final boolean isPlayerAttacker;
+	private final double damage;
+	public PlayerCombatEvent(Player p, Damageable d, double damage, boolean isPlayerAttacker) {
+		super(p, d, damage, isPlayerAttacker);
+		this.player = p;
+		this.damage = damage;
+		this.isPlayerAttacker = isPlayerAttacker;
+		if(isPlayerAttacker) {
+			this.attacker = p;
+			this.target = d;
+		} else {
+			this.attacker = d;
+			this.target = p;
+		}
 	}
 	
-	public PlayerCombatEvent(LivingEntity attack, Player target, double damage) {
-		super(attack, target, damage);
-		this.player = target;
-		this.enemy = attack;
-		this.starter = false;
-	}
-	
+	@Deprecated
 	public Player getPlayer() {return player;}
-	public LivingEntity getEnemy() {return enemy;}
-	public boolean isPlayerAttacker() {return starter;}
+	public Damageable getDamager() {return attacker;}
+	public Damageable getDamaged() {return target;}
+	public double getDamage() {return damage;}
+	public boolean isPlayerAttacker() {return isPlayerAttacker;}
 }

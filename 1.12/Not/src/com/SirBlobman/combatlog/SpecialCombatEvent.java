@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 public class SpecialCombatEvent extends CombatEvent {
 	private Player p;
 	public SpecialCombatEvent(Player p, double damage) {
-		super(null, p, damage);	
+		super(null, p, damage, false);
 		this.p = p;
 	}
 	

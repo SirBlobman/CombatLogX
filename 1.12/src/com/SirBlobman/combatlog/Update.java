@@ -40,7 +40,7 @@ public class Update {
 			is.close();
 			os.close();
 			return version;
-		} catch(Exception ex) {
+		} catch(Throwable ex) {
 			String error = "Failed to check for update:\n" + ex.getCause();
 			Util.print(error);
 			return current();

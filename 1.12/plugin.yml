@@ -1,8 +1,7 @@
 name: CombatLogX
-version: 1.1.6 Release
+version: 2.0.0 Beta
 description: Prevent players from logging out during PvP
 author: SirBlobman
-website: http://sirblobman.ddns.net
 main: com.SirBlobman.combatlog.CombatLog
 database: false
 depend: []
@@ -13,8 +12,8 @@ commands:
     usage: /clreload
     aliases: [ctreload, clr]
     permission: combatlog.reload
-    permission-message: Ask an admin to reload the config!
+    permission-message: Ask an admin to reload the config.
   combattime:
-    description: Check how much combat time you have left!
+    description: Check how much combat time you have left.
     usage: /combattime
     aliases: [ct, cl]

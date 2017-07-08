@@ -1,22 +1,18 @@
 package com.SirBlobman.combatlog.compat;
 
-import java.text.DecimalFormat;
-import java.util.List;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Server;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Score;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
-
 import com.SirBlobman.combatlog.Combat;
 import com.SirBlobman.combatlog.config.Config;
 import com.SirBlobman.combatlog.utility.Util;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Server;
+import org.bukkit.entity.Damageable;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.scoreboard.*;
+
+import java.text.DecimalFormat;
+import java.util.List;
 
 import io.puharesource.mc.titlemanager.api.v2.TitleManagerAPI;
 
@@ -26,10 +22,10 @@ public class CustomScore {
 	private static final ScoreboardManager SM = SERVER.getScoreboardManager();
 	
 	private Player player;
-	private LivingEntity enemy;
+	private Damageable enemy;
 	
 	
-	public CustomScore(Player p, LivingEntity e) {
+	public CustomScore(Player p, Damageable e) {
 		this.player = p;
 		this.enemy = e;
 	}
@@ -71,7 +67,7 @@ public class CustomScore {
 		player.setScoreboard(sb);
 	}
 	
-	public void changeEnemy(LivingEntity newEnemy) {
+	public void changeEnemy(Damageable newEnemy) {
 		if(newEnemy != null) this.enemy = newEnemy;
 	}
 	

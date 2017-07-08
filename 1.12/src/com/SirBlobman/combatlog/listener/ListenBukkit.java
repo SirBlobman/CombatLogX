@@ -1,15 +1,12 @@
 package com.SirBlobman.combatlog.listener;
 
 import com.SirBlobman.combatlog.Combat;
-import com.SirBlobman.combatlog.compat.CompatFactions;
-import com.SirBlobman.combatlog.compat.CompatLegacyFactions;
 import com.SirBlobman.combatlog.config.Config;
-import com.SirBlobman.combatlog.listener.event.CombatEvent;
 import com.SirBlobman.combatlog.listener.event.PlayerCombatEvent;
 import com.SirBlobman.combatlog.listener.event.PlayerCombatLogEvent;
+import com.SirBlobman.combatlog.utility.CombatUtil;
 import com.SirBlobman.combatlog.utility.LegacyUtil;
 import com.SirBlobman.combatlog.utility.Util;
-import com.SirBlobman.combatlog.utility.WorldGuardUtil;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
@@ -38,49 +35,43 @@ public class ListenBukkit implements Listener {
 	private static final PluginManager PM = SERVER.getPluginManager();
 	
 	@EventHandler(priority=EventPriority.HIGHEST) 
-	public void eve(EntityDamageByEntityEvent e){
-		if(e.isCancelled()) return;
-		Entity ed = e.getEntity();
-		Entity er = e.getDamager();
-		if(ed == null) return;
-		if(er == null) return;
-		double dam = e.getDamage();
-		List<String> worlds = Config.DISABLED_WORLDS;
-		String world = ed.getWorld().getName();
-		if(worlds.contains(world)) return;
-		if(dam > 0.0D) {
-			LivingEntity led = null;
-			LivingEntity ler = null;
-			if(ed instanceof LivingEntity) led = (LivingEntity) ed;
-			if(er instanceof LivingEntity) ler = (LivingEntity) er;
-			if(er instanceof Projectile) {
-				if(e.getCause() == DamageCause.FALL) {ler = null;}
-				else {
-					Projectile p = (Projectile) er;
-					ProjectileSource ps = p.getShooter();
-					if(ps instanceof LivingEntity) ler = (LivingEntity) ps;
+	public void eve(EntityDamageByEntityEvent e) {
+		double damage = e.getDamage();
+		if(damage > 0) {
+			Entity damager = e.getDamager();
+			Entity damaged = e.getEntity();
+			
+			List<String> worlds = Config.DISABLED_WORLDS;
+			World w = damaged.getWorld();
+			if(worlds.contains(w)) return;
+			
+			if(damager instanceof Projectile) {
+				if(e.getCause() == DamageCause.FALL) return;
+				Projectile p = (Projectile) damager;
+				ProjectileSource ps = p.getShooter();
+				if(ps instanceof Entity) {
+					Entity en = (Entity) ps;
+					damager = en;
+				} else return;
+			}
+			
+			if(damager instanceof Player) {
+				Player p = (Player) damager;
+				boolean can = CombatUtil.canAttack(p, damaged);
+				if(can) {
+					Damageable d = (Damageable) damaged;
+					PlayerCombatEvent pce = new PlayerCombatEvent(p, d, damage, true);
+					Util.callEvents(pce);
 				}
 			}
-			if(ler != null && led != null) {
-				boolean both = ((led instanceof Player) && (ler instanceof Player));
-				if(!both && !Config.MOBS_COMBAT) return;
-				if(ler instanceof Player) {
-					Player p = (Player) ler;
-					if(!canPVP(p)) return;
-					if(p.equals(led) && !Config.SELF_COMBAT) return;
-					PlayerCombatEvent pce = new PlayerCombatEvent(p, led, dam);
-					PM.callEvent(pce);
-				} else {
-					CombatEvent ce = new CombatEvent(ler, led, dam);
-					PM.callEvent(ce);
-				}
-				
-				if(led instanceof Player) {
-					Player p = (Player) led;
-					if(!canPVP(p)) return;
-					if(p.equals(ler) && !Config.SELF_COMBAT) return;
-					PlayerCombatEvent pce = new PlayerCombatEvent(ler, p, dam);
-					PM.callEvent(pce);
+			
+			if(damaged instanceof Player && damager instanceof Damageable) {
+				Player p = (Player) damaged;
+				Damageable d = (Damageable) damager;
+				boolean can = CombatUtil.canEntityAttackPlayer(d, p);
+				if(can) {
+					PlayerCombatEvent pce = new PlayerCombatEvent(p, d, damage, false);
+					Util.callEvents(pce);
 				}
 			}
 		}
@@ -89,32 +80,37 @@ public class ListenBukkit implements Listener {
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void pvp(PlayerCombatEvent e) {
 		if(e.isCancelled()) return;
-		Player p = e.getPlayer();
-		LivingEntity enemy = e.getEnemy();
-		String ename = LegacyUtil.name(enemy);
-		boolean attack = e.isPlayerAttacker();
-		boolean enepla = (enemy instanceof Player);
-		if(!checkPerm(p)) {
-			if(!Combat.in(p)) {
-				if(enepla) {
-					if(attack) {
-						String msg = Util.color(String.format(Config.MSG_PREFIX + Config.MSG_ATTACK, ename));
-						p.sendMessage(msg);
-					} else {
-						String msg = Util.color(String.format(Config.MSG_PREFIX + Config.MSG_TARGET, ename));
-						p.sendMessage(msg);
-					}
+		Damageable r = e.getDamager();
+		Damageable d = e.getDamaged();
+		boolean attacker = e.isPlayerAttacker();
+		if(attacker) {
+			Player p = (Player) r;
+			if(!CombatUtil.bypass(p)) {
+				Damageable enemy = d;
+				String ename = LegacyUtil.name(enemy);
+				if(enemy instanceof Player) {
+					String msg = Util.format(Config.MSG_PREFIX + Config.MSG_ATTACK, ename);
+					p.sendMessage(msg);
 				} else {
-					if(attack) {
-						String msg = Util.color(String.format(Config.MSG_PREFIX + Config.MSG_ATTACK_MOB, ename));
-						p.sendMessage(msg);
-					} else {
-						String msg = Util.color(String.format(Config.MSG_PREFIX + Config.MSG_TARGET_MOB, ename));
-						p.sendMessage(msg);
-					}
+					String msg = Util.format(Config.MSG_PREFIX + Config.MSG_ATTACK_MOB, ename);
+					p.sendMessage(msg);
 				}
+				Combat.add(p, enemy);
 			}
-			Combat.add(p, enemy);
+		} else {
+			Player p = (Player) d;
+			if(!CombatUtil.bypass(p)) {
+				Damageable enemy = r;
+				String ename = LegacyUtil.name(enemy);
+				if(enemy instanceof Player) {
+					String msg = Util.format(Config.MSG_PREFIX + Config.MSG_TARGET, ename);
+					p.sendMessage(msg);
+				} else {
+					String msg = Util.format(Config.MSG_PREFIX + Config.MSG_TARGET_MOB, ename);
+					p.sendMessage(msg);
+				}
+				Combat.add(p, enemy);
+			}
 		}
 	}
 	
@@ -199,38 +195,17 @@ public class ListenBukkit implements Listener {
 				Bukkit.dispatchCommand(ccs, cmd);
 			}
 		}
+		
 		if(Config.SUDO_LOGGERS) {
 			for(String s : Config.SUDO_COMMANDS) {
 				String cmd = s.replace("{player}", p.getName());
 				p.performCommand(cmd);
 			}
 		}
+		
 		if(Config.QUIT_MESSAGE) {
 			String msg = Util.format(Config.MSG_PREFIX + Config.MSG_QUIT, p.getName());
 			Bukkit.broadcastMessage(msg);
-		}
-	}
-	
-	private boolean checkPerm(Player p) {
-		String perm = "combatlog.bypass";
-		if(Config.ENABLE_BYPASS) {
-			boolean has = p.hasPermission(perm);
-			return has;
-		} else return false;
-	}
-	
-	private boolean canPVP(Player p) {
-		try {
-			boolean wg = WorldGuardUtil.canPvp(p);
-			boolean to = ListenTowny.pvp(p);
-			boolean fa = CompatFactions.canPVP(p);
-			boolean lf = CompatLegacyFactions.canPVP(p);
-			boolean pvp = (wg && to && fa && lf);
-			return pvp;
-		} catch(Throwable ex) {
-			World w = p.getWorld();
-			boolean pvp = w.getPVP();
-			return pvp;
 		}
 	}
 }

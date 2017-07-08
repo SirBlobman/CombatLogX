@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.EntityType;
 
 import com.SirBlobman.combatlog.CombatLog;
 import com.SirBlobman.combatlog.utility.Util;
@@ -79,6 +80,7 @@ public class Config {
 	public static boolean KILL_PLAYER;
 	public static boolean QUIT_MESSAGE;
 	public static boolean ENABLE_BYPASS;
+	public static String BYPASS_PERMISSION;
 	public static boolean SCOREBOARD;
 	public static boolean TITLE_MANAGER = false;
 	public static boolean WORLD_GUARD = false;
@@ -91,6 +93,7 @@ public class Config {
 	public static List<String> SUDO_COMMANDS;
 	public static List<String> COMBAT_COMMANDS;
 	public static List<String> BANNED_POTIONS;
+	public static List<String> MOBS_BLACKLIST;
 	
 	private static void defaultsC() {
 		set(configc, "timer", 30, false);
@@ -99,7 +102,8 @@ public class Config {
 		set(configc, "action bar", true, false);
 		set(configc, "boss bar", true, false);
 		set(configc, "self combat", true, false);
-		set(configc, "mobs combat", true, false);
+		set(configc, "mobs.combat", true, false);
+		set(configc, "mobs.blacklist", Util.newList(EntityType.PIG.name(), EntityType.COW.name()), false);
 		set(configc, "remove potions", true, false);
 		set(configc, "prevent flight", true, false);
 		set(configc, "change gamemode", true, false);
@@ -108,7 +112,8 @@ public class Config {
 		set(configc, "prevent inventory", false, false);
 		set(configc, "kill player", true, false);
 		set(configc, "quit message", true, false);
-		set(configc, "enable bypass", false, false);
+		set(configc, "bypass.enable", false, false);
+		set(configc, "bypass.permission", "combatlogx.bypass", false);
 		set(configc, "sudo loggers", false, false);
 		set(configc, "sudo on combat", false, false);
 		set(configc, "scoreboard", true, false);
@@ -136,7 +141,8 @@ public class Config {
 		ACTION_BAR = configc.getBoolean("action bar");
 		BOSS_BAR = configc.getBoolean("boss bar");
 		SELF_COMBAT = configc.getBoolean("self combat");
-		MOBS_COMBAT = configc.getBoolean("mobs combat");
+		MOBS_COMBAT = configc.getBoolean("mobs.combat");
+		MOBS_BLACKLIST = configc.getStringList("mobs.blacklist");
 		REMOVE_POTIONS = configc.getBoolean("remove potions");
 		PREVENT_FLIGHT = configc.getBoolean("prevent flight");
 		CHANGE_GAMEMODE = configc.getBoolean("change gamemode");
@@ -145,7 +151,8 @@ public class Config {
 		OPEN_INVENTORY = configc.getBoolean("prevent inventory");
 		KILL_PLAYER = configc.getBoolean("kill player");
 		QUIT_MESSAGE = configc.getBoolean("quit message");
-		ENABLE_BYPASS = configc.getBoolean("enable bypass");
+		ENABLE_BYPASS = configc.getBoolean("bypass.enable");
+		BYPASS_PERMISSION = configc.getString("bypass.permission");
 		SUDO_LOGGERS = configc.getBoolean("sudo loggers");
 		SUDO_ON_COMBAT = configc.getBoolean("sudo on combat");
 		TOWNY_PREVENT_ENTER = configc.getBoolean("towny.prevent entering");

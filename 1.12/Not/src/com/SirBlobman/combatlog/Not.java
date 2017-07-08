@@ -72,13 +72,15 @@ public class Not extends JavaPlugin implements Listener {
 			} else if(dc == DamageCause.PROJECTILE && NConfig.PROJECTILE) {
 				EntityDamageByEntityEvent ed = (EntityDamageByEntityEvent) e;
 				Entity enr = ed.getDamager();
-				Projectile pr = (Projectile) enr;
-				ProjectileSource ps = pr.getShooter();
-				if(ps instanceof Entity) return;
-				else {
-					String msg = Util.color(Config.MSG_PREFIX + NConfig.MSG_PROJECTILE);
-					if(!Combat.in(p)) p.sendMessage(msg);
-					call(p, d);
+				if(enr instanceof Projectile) {
+					Projectile pr = (Projectile) enr;
+					ProjectileSource ps = pr.getShooter();
+					if(ps instanceof Entity) return;
+					else {
+						String msg = Util.color(Config.MSG_PREFIX + NConfig.MSG_PROJECTILE);
+						if(!Combat.in(p)) p.sendMessage(msg);
+						call(p, d);
+					}
 				}
 			}
 		}

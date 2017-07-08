@@ -1,68 +1,71 @@
 package com.SirBlobman.combatlog;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Server;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.potion.PotionEffectType;
-
 import com.SirBlobman.combatlog.compat.CustomBoss;
 import com.SirBlobman.combatlog.compat.CustomScore;
 import com.SirBlobman.combatlog.config.Config;
 import com.SirBlobman.combatlog.listener.event.PlayerUntagEvent;
 import com.SirBlobman.combatlog.listener.event.PlayerUntagEvent.UntagCause;
+import com.SirBlobman.combatlog.utility.CombatUtil;
 import com.SirBlobman.combatlog.utility.Util;
 import com.google.common.collect.Maps;
+
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Server;
+import org.bukkit.entity.Damageable;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.potion.PotionEffectType;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class Combat implements Runnable {
 	private static final Server SERVER = Bukkit.getServer();
 	private static final PluginManager PM = SERVER.getPluginManager();
 	
 	private static HashMap<Player, Long> inCombat = Maps.newHashMap();
-	private static Map<Player, LivingEntity> enemies = Util.newMap();
+	private static Map<Player, Damageable> enemies = Util.newMap();
 	private static Map<Player, CustomScore> scores = Util.newMap();
 	
-	public static void add(Player p, LivingEntity enemy) {
-		long time1 = System.currentTimeMillis();
-		long time2 = Config.TIMER * 1000L;
-		long time3 = time1 + time2;
-		inCombat.put(p, time3);
-		enemies.put(p, enemy);
+	public static void add(Player p, Damageable enemy) {
+		if(!CombatUtil.bypass(p)) {
+			long time1 = System.currentTimeMillis();
+			long time2 = Config.TIMER * 1000L;
+			long time3 = time1 + time2;
+			inCombat.put(p, time3);
+			enemies.put(p, enemy);
 
-		if(Config.REMOVE_POTIONS) {
-			for(String s : Config.BANNED_POTIONS) {
-				PotionEffectType pet = PotionEffectType.getByName(s);
-				if(pet == null) {continue;}
-				else {if(p.hasPotionEffect(pet)) p.removePotionEffect(pet);}
+			if(Config.REMOVE_POTIONS) {
+				for(String s : Config.BANNED_POTIONS) {
+					PotionEffectType pet = PotionEffectType.getByName(s);
+					if(pet == null) {continue;}
+					else {if(p.hasPotionEffect(pet)) p.removePotionEffect(pet);}
+				}
 			}
-		}
-		
-		if(Config.SUDO_ON_COMBAT) {
-			for(String s : Config.COMBAT_COMMANDS) {
-				String cmd = s.replace("{player}", p.getName());
-				p.performCommand(cmd);
+			
+			if(Config.SUDO_ON_COMBAT) {
+				for(String s : Config.COMBAT_COMMANDS) {
+					String cmd = s.replace("{player}", p.getName());
+					p.performCommand(cmd);
+				}
 			}
-		}
 
-		if(Config.PREVENT_FLIGHT) {
-			p.setFlying(false);
-			p.setAllowFlight(false);
-		}
+			if(Config.PREVENT_FLIGHT) {
+				p.setFlying(false);
+				p.setAllowFlight(false);
+			}
 
-		if(Config.CHANGE_GAMEMODE) {
-			p.setGameMode(GameMode.SURVIVAL);
+			if(Config.CHANGE_GAMEMODE) {
+				p.setGameMode(GameMode.SURVIVAL);
+			}
 		}
 	}
 	
-	public static LivingEntity enemy(Player p) {
+	public static Damageable enemy(Player p) {
 		if(enemies.containsKey(p)) {
-			LivingEntity le = enemies.get(p);
+			Damageable le = enemies.get(p);
 			return le;
 		} else return null;
 	}
