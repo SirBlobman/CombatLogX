@@ -90,10 +90,10 @@ public class ListenBukkit implements Listener {
 				String ename = LegacyUtil.name(enemy);
 				if(enemy instanceof Player) {
 					String msg = Util.format(Config.MSG_PREFIX + Config.MSG_ATTACK, ename);
-					p.sendMessage(msg);
+					if(!Combat.in(p)) p.sendMessage(msg);
 				} else {
 					String msg = Util.format(Config.MSG_PREFIX + Config.MSG_ATTACK_MOB, ename);
-					p.sendMessage(msg);
+					if(!Combat.in(p)) p.sendMessage(msg);
 				}
 				Combat.add(p, enemy);
 			}
@@ -104,10 +104,10 @@ public class ListenBukkit implements Listener {
 				String ename = LegacyUtil.name(enemy);
 				if(enemy instanceof Player) {
 					String msg = Util.format(Config.MSG_PREFIX + Config.MSG_TARGET, ename);
-					p.sendMessage(msg);
+					if(!Combat.in(p)) p.sendMessage(msg);
 				} else {
 					String msg = Util.format(Config.MSG_PREFIX + Config.MSG_TARGET_MOB, ename);
-					p.sendMessage(msg);
+					if(!Combat.in(p)) p.sendMessage(msg);
 				}
 				Combat.add(p, enemy);
 			}

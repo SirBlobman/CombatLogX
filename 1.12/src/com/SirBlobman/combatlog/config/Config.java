@@ -6,11 +6,11 @@ import java.util.List;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 
-import com.SirBlobman.combatlog.CombatLog;
+import com.SirBlobman.combatlog.CombatLogX;
 import com.SirBlobman.combatlog.utility.Util;
 
 public class Config {
-	private static final File FOLDER = CombatLog.folder;
+	private static final File FOLDER = CombatLogX.folder;
 	private static final File FILEC = new File(FOLDER, "combat.yml");
 	private static final File FILEL = new File(FOLDER, "language.yml");
 	private static YamlConfiguration configc = YamlConfiguration.loadConfiguration(FILEC);
@@ -59,6 +59,13 @@ public class Config {
 			Util.print(error);
 		}
 	}
+
+	public static boolean ENABLED_CRACK_SHOT = false;
+	public static boolean ENABLED_FACTIONS = false;
+	public static boolean ENABLED_LEGACY_FACTIONS = false;
+	public static boolean ENABLED_TITLE_MANAGER = false;
+	public static boolean ENABLED_TOWNY = false;
+	public static boolean ENABLED_WORLD_GUARD = false;
 	
 	/*Start Options*/
 	public static int TIMER;
@@ -82,8 +89,6 @@ public class Config {
 	public static boolean ENABLE_BYPASS;
 	public static String BYPASS_PERMISSION;
 	public static boolean SCOREBOARD;
-	public static boolean TITLE_MANAGER = false;
-	public static boolean WORLD_GUARD = false;
 	public static boolean TOWNY_PREVENT_ENTER = true;
 	
 	public static List<String> DISABLED_WORLDS;

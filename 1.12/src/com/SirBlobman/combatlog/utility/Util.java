@@ -1,22 +1,7 @@
 package com.SirBlobman.combatlog.utility;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Server;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.scheduler.BukkitScheduler;
-
 import com.SirBlobman.combatlog.Combat;
-import com.SirBlobman.combatlog.CombatLog;
+import com.SirBlobman.combatlog.CombatLogX;
 import com.SirBlobman.combatlog.Update;
 import com.SirBlobman.combatlog.compat.CombatPlaceHolders;
 import com.SirBlobman.combatlog.compat.CustomBoss;
@@ -27,12 +12,29 @@ import com.SirBlobman.combatlog.listener.ListenTowny;
 import com.SirBlobman.combatlog.nms.NMS;
 import com.SirBlobman.combatlog.nms.action.Action;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Server;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.scheduler.BukkitScheduler;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class Util {
 	private static final ConsoleCommandSender CCS = Bukkit.getConsoleSender();
 	private static final Server SERVER = Bukkit.getServer();
 	protected static final PluginManager PM = SERVER.getPluginManager();
 	private static final BukkitScheduler BS = SERVER.getScheduler();
-	private static final CombatLog PLUGIN = CombatLog.instance;
+	private static final CombatLogX PLUGIN = CombatLogX.instance;
 	private static Action action = null;
 	
 	public static void enable() {
@@ -40,25 +42,76 @@ public class Util {
 		Config.loadL();
 		if(Config.CHECK_UPDATES) Update.print();
 		if(Config.ACTION_BAR) {action = NMS.action();}
-		if(PM.isPluginEnabled("TitleManager")) {
-			Config.TITLE_MANAGER = true;
-			print("&aTitle Manager compatability is now enabled!");
-		} if(PM.isPluginEnabled("WorldGuard")) {
-			Config.WORLD_GUARD = true;
-			print("&dWorldGuard compatability is now enabled!");
-		} if(PM.isPluginEnabled("CrackShot")) {
+		if(PM.isPluginEnabled("CrackShot")) {
+			Config.ENABLED_CRACK_SHOT = true;
 			regEvents(new ListenCrackShot());
-			print("&dCrackShot compatability is now enabled!");
-		} if(PM.isPluginEnabled("Towny")) {
-			regEvents(new ListenTowny());
-			print("&dTowny compatability is now enabled!");
-		} if(PM.isPluginEnabled("PlaceholderAPI")) {
+			String v = getVersionMessage("CrackShot");
+			print(v);
+		}
+		
+		if(PM.isPluginEnabled("Factions")) {
+			Config.ENABLED_FACTIONS = true;
+			String v = getVersionMessage("Factions");
+			print(v);
+		}
+		
+		if(PM.isPluginEnabled("FactionsUUID")) {
+			Config.ENABLED_FACTIONS = true;
+			String v = getVersionMessage("FactionsUUID");
+			print(v);
+		}
+		
+		if(PM.isPluginEnabled("LegacyFactions")) {
+			Config.ENABLED_LEGACY_FACTIONS = true;
+			String v = getVersionMessage("LegacyFactions");
+			print(v);
+		}
+		
+		if(PM.isPluginEnabled("PlaceholderAPI")) {
 			CombatPlaceHolders cp = new CombatPlaceHolders();
 			cp.hook();
-			print("&dPlaceholderAPI compatability is now enabled!");
+			String v = getVersionMessage("PlaceholderAPI");
+			print(v);
 		}
+		
+		if(PM.isPluginEnabled("TitleManager")) {
+			Config.ENABLED_TITLE_MANAGER = true;
+			String v = getVersionMessage("TitleManager");
+			print(v);
+		}
+		
+		if(PM.isPluginEnabled("Towny")) {
+			Config.ENABLED_TOWNY = true;
+			regEvents(new ListenTowny());
+			String v = getVersionMessage("Towny");
+			print(v);
+		}
+		
+		if(PM.isPluginEnabled("WorldGuard")) {
+			Config.ENABLED_WORLD_GUARD = true;
+			String v = getVersionMessage("WorldGuard");
+			print(v);
+		}
+		
 		regEvents(new ListenBukkit());
 		timer(new Combat(), 1);
+	}
+	
+	public static String getVersion(String pl) {
+		Plugin p = PM.getPlugin(pl);
+		if(p != null) {
+			PluginDescriptionFile pdf = p.getDescription();
+			if(pdf != null) {
+				String version = pdf.getVersion();
+				return version;
+			} else return "";
+		} else return "";
+	}
+	
+	public static String getVersionMessage(String pl) {
+		String version = getVersion(pl);
+		String msg = Util.format("&dSupport for '%1s v%2s' is now enabled!", pl, version);
+		return msg;
 	}
 	
 	public static void print(String msg) {

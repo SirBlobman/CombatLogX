@@ -1,7 +1,7 @@
 package com.SirBlobman.combatlog.compat;
 
 import com.SirBlobman.combatlog.Combat;
-import com.SirBlobman.combatlog.CombatLog;
+import com.SirBlobman.combatlog.CombatLogX;
 import com.SirBlobman.combatlog.utility.LegacyUtil;
 
 import org.bukkit.entity.Damageable;
@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import me.clip.placeholderapi.external.EZPlaceholderHook;
 
 public class CombatPlaceHolders extends EZPlaceholderHook {
-	public CombatPlaceHolders() {super(CombatLog.instance, "combatlogx");}
+	public CombatPlaceHolders() {super(CombatLogX.instance, "combatlogx");}
 	
 	@Override
 	public String onPlaceholderRequest(Player p, String id) {

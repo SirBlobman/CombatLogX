@@ -25,12 +25,12 @@ public class Not extends JavaPlugin implements Listener {
 	public static final PluginManager PM = SERVER.getPluginManager();
 	public static Not INSTANCE;
 	public static File FOLDER;
-	public static CombatLog CL;
+	public static CombatLogX CL;
 	
 	@Override
 	public void onEnable() {
 		if(PM.isPluginEnabled("CombatLogX")) {
-			CombatLog cl = CombatLog.instance;
+			CombatLogX cl = CombatLogX.instance;
 			if(cl != null) {
 				INSTANCE = this;
 				FOLDER = getDataFolder();

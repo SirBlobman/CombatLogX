@@ -48,7 +48,7 @@ public class Update {
 	}
 	
 	private static String current() {
-		CombatLog CL = CombatLog.instance;
+		CombatLogX CL = CombatLogX.instance;
 		PluginDescriptionFile pdf = CL.getDescription();
 		String version = pdf.getVersion();
 		return version;
@@ -74,7 +74,7 @@ public class Update {
 		if(v.equals("updated")) {
 			String[] msg = new String[] {
 				"&6========================================================",
-				"&eCombatLog Updater",
+				"&eCombatLogX Updater",
 				"&aYou are using the latest version",
 				"&6========================================================"
 			};
@@ -86,7 +86,7 @@ public class Update {
 					"&aThere is a new update for this plugin!",
 					"&4&lLatest Version: " + v,
 					"&4&lYour Version: " + current(),
-					"&aGet it here: &4https://www.spigotmc.org/resources/combatlog.31689/",
+					"&aGet it here: &4https://www.spigotmc.org/resources/combatlogx.31689/",
 					"&6======================================================================================"
 			};
 			print(msg);

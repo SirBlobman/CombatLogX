@@ -1,8 +1,8 @@
 name: CombatLogX
-version: 2.0.0 Beta
+version: 2.0.2 Beta
 description: Prevent players from logging out during PvP
 author: SirBlobman
-main: com.SirBlobman.combatlog.CombatLog
+main: com.SirBlobman.combatlog.CombatLogX
 database: false
 depend: []
 softdepend: [Factions, FactionsUUID, LegacyFactions, PlaceholderAPI, TitleManager, Towny, WorldGuard]

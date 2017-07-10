@@ -48,26 +48,29 @@ public class CombatUtil extends Util {
 			Player t = (Player) e;
 			return canAttack(t, p);
 		} else {
-			if(Config.MOBS_COMBAT) {
-				EntityType et = e.getType();
-				String type = et.name();
-				List<String> list = Config.MOBS_BLACKLIST;
-				if(list.contains(type)) return false;
-				else return true;
+			boolean can = canPvP(p);
+			if(can) {
+				if(Config.MOBS_COMBAT) {
+					EntityType et = e.getType();
+					String type = et.name();
+					List<String> list = Config.MOBS_BLACKLIST;
+					if(list.contains(type)) return false;
+					else return true;
+				} else return false;
 			} else return false;
 		}
 	}
 	
 	public static boolean canPvP(Player p) {
+		World w = p.getWorld();
 		try {
-			boolean wg = WorldGuardUtil.canPvp(p);
-			boolean to = ListenTowny.pvp(p);
-			boolean fa = CompatFactions.canPVP(p);
-			boolean lf = CompatLegacyFactions.canPVP(p);
-			boolean pvp = (wg && to && fa && lf);
+			boolean pvp = w.getPVP();
+			if(pvp && Config.ENABLED_WORLD_GUARD) pvp = WorldGuardUtil.pvp(p);
+			if(pvp && Config.ENABLED_TOWNY) pvp = ListenTowny.pvp(p);
+			if(pvp && Config.ENABLED_FACTIONS) pvp = CompatFactions.canPVP(p);
+			if(pvp && Config.ENABLED_LEGACY_FACTIONS) pvp = CompatLegacyFactions.canPVP(p);
 			return pvp;
 		} catch(Throwable ex) {
-			World w = p.getWorld();
 			boolean pvp = w.getPVP();
 			return pvp;
 		}
