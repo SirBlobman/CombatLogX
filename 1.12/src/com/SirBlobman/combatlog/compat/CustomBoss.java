@@ -17,7 +17,7 @@ public class CustomBoss {
 	
 	public static void boss(Player p) {
 		if(!bosses.containsKey(p)) {
-			String TITLE = Util.format(Config.MSG_BOSS_BAR, Config.TIMER);
+			String TITLE = Util.formatMessage(Config.MESSAGE_BOSS_BAR, Util.newList("{time_left}"), Util.newList(Integer.toString(Config.OPTION_TIMER)));
 			BossBar bb = Bukkit.createBossBar(TITLE, BarColor.RED, BarStyle.SOLID);
 			bb.setProgress(1.0D);
 			bb.addPlayer(p);
@@ -25,11 +25,12 @@ public class CustomBoss {
 		} else {
 			int time = Combat.timeLeft(p);
 			double timeLeft = time;
-			double total = Config.TIMER;
+			double total = Config.OPTION_TIMER;
 			double divide = timeLeft / total;
 
 			BossBar bb = bosses.get(p);
-			String msg = Util.format(Config.MSG_BOSS_BAR, time);
+			String time_left = Integer.toString(time);
+			String msg = Util.formatMessage(Config.MESSAGE_BOSS_BAR, Util.newList("{time_left}"), Util.newList(time_left));
 			bb.setTitle(msg);
 			bb.setProgress(divide);
 			bb.setVisible(true);

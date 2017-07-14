@@ -18,6 +18,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,41 +26,50 @@ public class Combat implements Runnable {
 	private static final Server SERVER = Bukkit.getServer();
 	private static final PluginManager PM = SERVER.getPluginManager();
 	
+	private static List<Player> hadFlightBefore = Util.newList();
 	private static HashMap<Player, Long> inCombat = Maps.newHashMap();
 	private static Map<Player, Damageable> enemies = Util.newMap();
 	private static Map<Player, CustomScore> scores = Util.newMap();
 	
 	public static void add(Player p, Damageable enemy) {
 		if(!CombatUtil.bypass(p)) {
-			long time1 = System.currentTimeMillis();
-			long time2 = Config.TIMER * 1000L;
-			long time3 = time1 + time2;
-			inCombat.put(p, time3);
-			enemies.put(p, enemy);
-
-			if(Config.REMOVE_POTIONS) {
-				for(String s : Config.BANNED_POTIONS) {
-					PotionEffectType pet = PotionEffectType.getByName(s);
-					if(pet == null) {continue;}
-					else {if(p.hasPotionEffect(pet)) p.removePotionEffect(pet);}
-				}
+			for(String s : Config.CHEAT_PREVENT_BLOCKED_POTIONS) {
+				PotionEffectType pet = PotionEffectType.getByName(s);
+				if(pet == null) {continue;}
+				else {if(p.hasPotionEffect(pet)) p.removePotionEffect(pet);}
 			}
 			
-			if(Config.SUDO_ON_COMBAT) {
-				for(String s : Config.COMBAT_COMMANDS) {
+			if(Config.OPTION_COMBAT_SUDO_ENABLE && !in(p)) {
+				for(String s : Config.OPTION_COMBAT_SUDO_COMMANDS) {
 					String cmd = s.replace("{player}", p.getName());
 					p.performCommand(cmd);
 				}
 			}
 
-			if(Config.PREVENT_FLIGHT) {
+			if(Config.CHEAT_PREVENT_DISABLE_FLIGHT) {
 				p.setFlying(false);
 				p.setAllowFlight(false);
+				if(Config.CHEAT_PREVENT_ENABLE_FLIGHT) {
+					hadFlightBefore.add(p);
+				}
 			}
 
-			if(Config.CHANGE_GAMEMODE) {
-				p.setGameMode(GameMode.SURVIVAL);
+			if(Config.CHEAT_PREVENT_CHANGE_GAMEMODE) {
+				String mode = Config.CHEAT_PREVENT_CHANGE_GAMEMODE_MODE;
+				try {
+					GameMode gm = GameMode.valueOf(mode);
+					p.setGameMode(gm);
+				} catch(Throwable ex) {
+					String error = "Invalid GameMode in 'combat.yml': " + mode;
+					Util.print(error);
+				}
 			}
+			
+			long time1 = System.currentTimeMillis();
+			long time2 = Config.OPTION_TIMER * 1000L;
+			long time3 = time1 + time2;
+			inCombat.put(p, time3);
+			enemies.put(p, enemy);
 		}
 	}
 	
@@ -73,14 +83,23 @@ public class Combat implements Runnable {
 	public static void remove(Player p) {
 		inCombat.remove(p);
 		enemies.remove(p);
+		
+		if(hadFlightBefore.contains(p)) {
+			hadFlightBefore.remove(p);
+			p.setAllowFlight(true);
+			p.setFlying(true);
+		}
+		
 		if(scores.containsKey(p)) {
 			CustomScore cs = scores.get(p);
 			cs.close();
 		}
-		if(Config.BOSS_BAR) {
+		
+		if(Config.OPTION_BOSS_BAR) {
 			CustomBoss.remove(p);
 		}
-		String expire = Util.format(Config.MSG_PREFIX + Config.MSG_EXPIRE);
+		
+		String expire = Util.format(Config.MESSAGE_PREFIX + Config.MESSAGE_EXPIRE);
 		p.sendMessage(expire);
 	}
 	
@@ -107,7 +126,7 @@ public class Combat implements Runnable {
 				PlayerUntagEvent PUE = new PlayerUntagEvent(p, UntagCause.TIME);
 				PM.callEvent(PUE);
 			} else {
-				if(Config.SCOREBOARD) {
+				if(Config.OPTION_SCORE_BOARD) {
 					if(scores.containsKey(p)) {
 						CustomScore cs = scores.get(p);
 						cs.update();
@@ -118,10 +137,16 @@ public class Combat implements Runnable {
 						cs.update();
 						scores.put(p, cs);
 					}
-				} if(Config.ACTION_BAR) {
-					String action = Util.format(Config.MSG_ACTION_BAR, time);
+				} 
+				
+				if(Config.OPTION_ACTION_BAR) {
+					int left = timeLeft(p);
+					String time_left = Integer.toString(left);
+					String action = Util.formatMessage(Config.MESSAGE_ACTION_BAR, Util.newList("{time_left}"), Util.newList(time_left));
 					Util.action(p, action);
-				} if(Config.BOSS_BAR) {
+				} 
+				
+				if(Config.OPTION_BOSS_BAR) {
 					Util.boss(p);
 				}
 			}

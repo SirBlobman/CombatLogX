@@ -1,249 +1,195 @@
 package com.SirBlobman.combatlog.config;
 
-import java.io.File;
-import java.util.List;
-
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.EntityType;
-
 import com.SirBlobman.combatlog.CombatLogX;
 import com.SirBlobman.combatlog.utility.Util;
+
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import java.io.File;
+import java.util.List;
 
 public class Config {
 	private static final File FOLDER = CombatLogX.folder;
 	private static final File FILEC = new File(FOLDER, "combat.yml");
 	private static final File FILEL = new File(FOLDER, "language.yml");
-	private static YamlConfiguration configc = YamlConfiguration.loadConfiguration(FILEC);
-	private static YamlConfiguration configl = YamlConfiguration.loadConfiguration(FILEL);
 	
-	public static YamlConfiguration loadC() {
+	private static YamlConfiguration load(File file) {
 		try {
-			if(!FILEC.exists()) save(configc, FILEC);
-			configc.load(FILEC);
-			defaultsC();
-			return configc;
+			YamlConfiguration config = new YamlConfiguration();
+			if(!file.exists()) save(config, file);
+			config.load(file);
+			return config;
 		} catch(Throwable ex) {
-			String error = "Failed to load Config:\n" + ex.getMessage();
+			String error = Util.format("Failed to load file '%1s':\n%2s", file, ex.getMessage());
 			Util.print(error);
 			return null;
 		}
+	}
+	
+	public static YamlConfiguration loadC() {
+		YamlConfiguration config = load(FILEC);
+		defaultsC(config);
+		return config;
 	}
 	
 	public static YamlConfiguration loadL() {
-		try {
-			if(!FILEL.exists()) save(configl, FILEL);
-			configl.load(FILEL);
-			defaultsL();
-			return configl;
-		} catch(Throwable ex) {
-			String error = "Failed to load Language File:\n" + ex.getMessage();
-			Util.print(error);
-			return null;
-		}
-	}
-	
-	public static void reload() {
-		loadL();
-		loadC();
+		YamlConfiguration config = load(FILEL);
+		defaultsL(config);
+		return config;
 	}
 	
 	public static void save(YamlConfiguration config, File file) {
 		try {
 			if(!file.exists()) {
-				file.getParentFile().mkdirs();
+				FOLDER.mkdirs();
 				file.createNewFile();
-			}
+			} 
 			config.save(file);
 		} catch(Throwable ex) {
-			String error = "Failed to save " + file + ":\n" + ex.getMessage();
+			String error = Util.format("Failed to save file '%1s':\n%2s", file, ex.getMessage());
 			Util.print(error);
 		}
 	}
-
+	
+	/**
+	 * Gets a config value of the same type as defaultValue {@link T}<br/>
+	 * @param config YamlConfiguration to use
+	 * @param path String path to the option
+	 * @param defaultValue If the value does not exist, it will become this
+	 * @return The value at {@code path}, if it is null or not the same type, {@code defaultValue} will be returned
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> T get(YamlConfiguration config, String path, T defaultValue) {
+		Object o = config.get(path);
+		Class<?> clazz = defaultValue.getClass();
+		if(o != null && clazz.isInstance(o)) {
+			T t = (T) clazz.cast(o);
+			return t;
+		} else {
+			config.set(path, defaultValue);
+			return defaultValue;
+		}
+	}
+	
+	//Start Support
 	public static boolean ENABLED_CRACK_SHOT = false;
-	public static boolean ENABLED_FACTIONS = false;
-	public static boolean ENABLED_LEGACY_FACTIONS = false;
+	public static boolean ENABLED_FACTIONS_NORMAL = false;
+	public static boolean ENABLED_FACTIONS_UUID = false;
+	public static boolean ENABLED_FACTIONS_LEGACY = false;
 	public static boolean ENABLED_TITLE_MANAGER = false;
 	public static boolean ENABLED_TOWNY = false;
 	public static boolean ENABLED_WORLD_GUARD = false;
 	
-	/*Start Options*/
-	public static int TIMER;
-	public static int ENDER_PEARL_COOLDOWN;
+	//Start Config
+	public static int OPTION_TIMER = 30;
+	public static boolean OPTION_CHECK_UPDATES = true;
+	public static boolean OPTION_ACTION_BAR = true;
+	public static boolean OPTION_BOSS_BAR = true;
+	public static boolean OPTION_SCORE_BOARD = true;
+	public static boolean OPTION_SELF_COMBAT = true;
+	public static boolean OPTION_MOBS_COMBAT = true;
+	public static boolean OPTION_BYPASS_ENABLE = false;
+	public static boolean OPTION_COMBAT_SUDO_ENABLE = true;
+	public static String OPTION_BYPASS_PERMISSION = "combatlogx.bypass";
+	public static List<String> OPTION_MOBS_BLACKLIST = Util.newList("PIG", "COW");
+	public static List<String> OPTION_DISABLED_WORLDS = Util.newList("WoRlD", "Lobby", "Creative");
+	public static List<String> OPTION_COMBAT_SUDO_COMMANDS = Util.newList("say I am now in combat");
 	
-	public static boolean CHECK_UPDATES;
-	public static boolean ACTION_BAR;
-	public static boolean BOSS_BAR;
-	public static boolean SELF_COMBAT;
-	public static boolean MOBS_COMBAT;
-	public static boolean REMOVE_POTIONS;
-	public static boolean PREVENT_FLIGHT;
-	public static boolean CHANGE_GAMEMODE;
-	public static boolean PUNISH_LOGGERS;
-	public static boolean PUNISH_KICKED;
-	public static boolean SUDO_LOGGERS;
-	public static boolean SUDO_ON_COMBAT;
-	public static boolean OPEN_INVENTORY;
-	public static boolean KILL_PLAYER;
-	public static boolean QUIT_MESSAGE;
-	public static boolean ENABLE_BYPASS;
-	public static String BYPASS_PERMISSION;
-	public static boolean SCOREBOARD;
-	public static boolean TOWNY_PREVENT_ENTER = true;
+	public static boolean CHEAT_PREVENT_BLOCKED_COMMANDS_MODE = false;
+	public static boolean CHEAT_PREVENT_DISABLE_FLIGHT = true;
+	public static boolean CHEAT_PREVENT_ENABLE_FLIGHT = true;
+	public static boolean CHEAT_PREVENT_NO_ENTRY = true;
+	public static boolean CHEAT_PREVENT_CHANGE_GAMEMODE = true;
+	public static boolean CHEAT_PREVENT_OPEN_INVENTORIES = true;
+	public static String CHEAT_PREVENT_CHANGE_GAMEMODE_MODE = "SURVIVAL";
+	public static List<String> CHEAT_PREVENT_BLOCKED_COMMANDS = Util.newList("fly", "tpa", "tpahere", "spawn", "home");
+	public static List<String> CHEAT_PREVENT_BLOCKED_POTIONS = Util.newList("INVISIBILITY", "INCREASE_DAMAGE");
 	
-	public static List<String> DISABLED_WORLDS;
-	public static List<String> BLOCKED_COMMANDS;
-	public static boolean BLOCKED_COMMANDS_MODE;
-	public static List<String> PUNISH_COMMANDS;
-	public static List<String> SUDO_COMMANDS;
-	public static List<String> COMBAT_COMMANDS;
-	public static List<String> BANNED_POTIONS;
-	public static List<String> MOBS_BLACKLIST;
+	public static boolean PUNISH_ON_KICK = false;
+	public static boolean PUNISH_ON_QUIT = true;
+	public static boolean PUNISH_ON_QUIT_MESSAGE = true;
+	public static boolean PUNISH_SUDO_LOGGERS = false;
+	public static boolean PUNISH_KILL_PLAYER = true;
+	public static boolean PUNISH_CONSOLE = true;
 	
-	private static void defaultsC() {
-		set(configc, "timer", 30, false);
-		
-		set(configc, "update checker", true, false);
-		set(configc, "action bar", true, false);
-		set(configc, "boss bar", true, false);
-		set(configc, "self combat", true, false);
-		set(configc, "mobs.combat", true, false);
-		set(configc, "mobs.blacklist", Util.newList(EntityType.PIG.name(), EntityType.COW.name()), false);
-		set(configc, "remove potions", true, false);
-		set(configc, "prevent flight", true, false);
-		set(configc, "change gamemode", true, false);
-		set(configc, "punish loggers", true, false);
-		set(configc, "punish kicked", false, false);
-		set(configc, "prevent inventory", false, false);
-		set(configc, "kill player", true, false);
-		set(configc, "quit message", true, false);
-		set(configc, "bypass.enable", false, false);
-		set(configc, "bypass.permission", "combatlogx.bypass", false);
-		set(configc, "sudo loggers", false, false);
-		set(configc, "sudo on combat", false, false);
-		set(configc, "scoreboard", true, false);
-		set(configc, "towny.prevent entering", true, false);
-		
-		List<String> worlds = Util.newList("Creative", "WoRlD");
-		List<String> commands = Util.newList("home", "tpa", "spawn");
-		List<String> potions = Util.newList("INVISIBILITY", "UNLUCK");
-		List<String> punish = Util.newList("ban {player} You left during combat");
-		List<String> sudo = Util.newList("say I logged out of combat!");
-		List<String> sudo2 = Util.newList("say I am now in combat");
-		set(configc, "disabled worlds", worlds, false);
-		set(configc, "blocked.commands", commands, false);
-		set(configc, "blocked.whitelist", false, false);
-		set(configc, "banned potions", potions, false);
-		set(configc, "punish commands", punish, false);
-		set(configc, "sudo commands", sudo, false);
-		set(configc, "combat commands", sudo2, false);
-		save(configc, FILEC);
-		
-		TIMER = configc.getInt("timer");
-		ENDER_PEARL_COOLDOWN = configc.getInt("ender pearl cooldown");
-		
-		CHECK_UPDATES = configc.getBoolean("update checker");
-		ACTION_BAR = configc.getBoolean("action bar");
-		BOSS_BAR = configc.getBoolean("boss bar");
-		SELF_COMBAT = configc.getBoolean("self combat");
-		MOBS_COMBAT = configc.getBoolean("mobs.combat");
-		MOBS_BLACKLIST = configc.getStringList("mobs.blacklist");
-		REMOVE_POTIONS = configc.getBoolean("remove potions");
-		PREVENT_FLIGHT = configc.getBoolean("prevent flight");
-		CHANGE_GAMEMODE = configc.getBoolean("change gamemode");
-		PUNISH_LOGGERS = configc.getBoolean("punish loggers");
-		PUNISH_KICKED = configc.getBoolean("punish kicked");
-		OPEN_INVENTORY = configc.getBoolean("prevent inventory");
-		KILL_PLAYER = configc.getBoolean("kill player");
-		QUIT_MESSAGE = configc.getBoolean("quit message");
-		ENABLE_BYPASS = configc.getBoolean("bypass.enable");
-		BYPASS_PERMISSION = configc.getString("bypass.permission");
-		SUDO_LOGGERS = configc.getBoolean("sudo loggers");
-		SUDO_ON_COMBAT = configc.getBoolean("sudo on combat");
-		TOWNY_PREVENT_ENTER = configc.getBoolean("towny.prevent entering");
-		SCOREBOARD = configc.getBoolean("scoreboard");
-		
-		DISABLED_WORLDS = configc.getStringList("disabled worlds");
-		BLOCKED_COMMANDS = configc.getStringList("blocked.commands");
-		BLOCKED_COMMANDS_MODE = configc.getBoolean("blocked.whitelist");
-		BANNED_POTIONS = configc.getStringList("banned potions");
-		PUNISH_COMMANDS = configc.getStringList("punish commands");
-		COMBAT_COMMANDS = configc.getStringList("combat commands");
-		SUDO_COMMANDS = configc.getStringList("sudo commands");
-	}
-	/*Start Language*/
-	public static String MSG_PREFIX;
-	public static String MSG_TARGET;
-	public static String MSG_ATTACK;
-	public static String MSG_TARGET_MOB;
-	public static String MSG_ATTACK_MOB;
-	public static String MSG_EXPIRE;
-	public static String MSG_BLOCKED;
-	public static String MSG_IN_COMBAT;
-	public static String MSG_NOT_IN_COMBAT;
-	public static String MSG_ENDER_PEARL_COOLDOWN;
-	public static String MSG_QUIT;
-	public static String MSG_FAIL;
-	public static String MSG_ACTION_BAR;
-	public static String MSG_BOSS_BAR;
-	public static String MSG_RELOAD_CONFIG;
-	public static String MSG_INVENTORY;
-	public static String SCOREBOARD_TITLE;
-	public static List<String> SCOREBOARD_LIST;
+	public static List<String> PUNISH_COMMANDS_CONSOLE = Util.newList("eco take {player} 100", "mail send {player} You lost $100 due to logging out during combat!");
+	public static List<String> PUNISH_COMMANDS_LOGGERS = Util.newList("say I logged out of combat!");
 	
-	//Special Language
-	public static String MSG_TOWNY_NO_ENTRY;
-	
-	private static void defaultsL() {
-		set(configl, "prefix", "&e[&fCombatLog&e] &f", false);
-		set(configl, "target", "&5%1s&f attacked you! You are now in combat!", false);
-		set(configl, "attack", "You attacked &5%1s&r! You are now in combat!", false);
-		set(configl, "target mob", "You were attacked by a mob named &5%1s&f! You are now in combat!", false);
-		set(configl, "attack mob", "You attacked a mob named &5%1s&f! You are now in combat!", false);
-		set(configl, "expire", "You are no longer in combat!", false);
-		set(configl, "blocked", "&6You can't do &c/%1s&6 during combat!", false);
-		set(configl, "in combat", "You are still in combat for &b%1s&f seconds!", false);
-		set(configl, "not in combat", "You are not in combat", false);
-		set(configl, "enderpearl cooldown", "&cPlease wait &d%1s&c seconds before using that item!", false);
-		set(configl, "quit", "&5%s&r left during combat", false);
-		set(configl, "fail", "&cThat person is in a no PvP area", false);
-		set(configl, "action bar", "&3Combat >> &2%1s seconds &eleft", false);
-		set(configl, "boss bar", "&3Combat >> &2%1s seconds", false);
-		set(configl, "reload config", "The config was reloaded", false);
-		set(configl, "open inventory", "You cannot open storage blocks during combat", false);
-		
-		set(configl, "towny.no entry", "You cannot enter this town while you are in combat!", false);
-		
-		set(configl, "scoreboard.title", "&2Combat Log", false);
-		set(configl, "scoreboard.list", Util.newList("Time Left: {time_left}", "Enemy: {enemy_name}", "Enemy Health: {enemy_health}"), false);
-		save(configl, FILEL);
-		
-		MSG_PREFIX = configl.getString("prefix");
-		MSG_TARGET = configl.getString("target");
-		MSG_ATTACK = configl.getString("attack");
-		MSG_TARGET_MOB = configl.getString("target mob");
-		MSG_ATTACK_MOB = configl.getString("attack mob");
-		MSG_EXPIRE = configl.getString("expire");
-		MSG_BLOCKED = configl.getString("blocked");
-		MSG_IN_COMBAT = configl.getString("in combat");
-		MSG_NOT_IN_COMBAT = configl.getString("not in combat");
-		MSG_ENDER_PEARL_COOLDOWN = configl.getString("enderpearl cooldown");
-		MSG_QUIT = configl.getString("quit");
-		MSG_FAIL = configl.getString("fail");
-		MSG_ACTION_BAR = configl.getString("action bar");
-		MSG_BOSS_BAR = configl.getString("boss bar");
-		MSG_INVENTORY = configl.getString("open inventory");
-		MSG_RELOAD_CONFIG = configl.getString("reload config");
-		SCOREBOARD_TITLE = configl.getString("scoreboard.title");
-		SCOREBOARD_LIST = configl.getStringList("scoreboard.list");
-		
-		MSG_TOWNY_NO_ENTRY = configl.getString("towny.no entry");
+	private static void defaultsC(YamlConfiguration config) {
+		OPTION_CHECK_UPDATES = get(config, "options.check for updates", true);
+		OPTION_DISABLED_WORLDS = get(config, "options.disabled worlds", Util.newList("WoRlD", "Lobby", "Creative"));
+		OPTION_TIMER = get(config, "options.combat timer", 30);
+		OPTION_ACTION_BAR = get(config, "options.action bar", true);
+		OPTION_BOSS_BAR = get(config, "options.boss bar", true);
+		OPTION_SCORE_BOARD = get(config, "options.score board", true);
+		OPTION_SELF_COMBAT = get(config, "options.self combat", true);
+		OPTION_MOBS_COMBAT = get(config, "options.mobs.combat", true);
+		OPTION_MOBS_BLACKLIST = get(config, "options.mobs.blacklist", Util.newList("PIG", "COW"));
+		OPTION_BYPASS_ENABLE = get(config, "options.bypass.enable", false);
+		OPTION_BYPASS_PERMISSION = get(config, "options.bypass.permission", "combatlogx.bypass");
+		OPTION_COMBAT_SUDO_ENABLE = get(config, "options.combat sudo.enable", true);
+		OPTION_COMBAT_SUDO_COMMANDS = get(config, "options.combat sudo.commands", Util.newList("say I am now in combat"));
+
+		CHEAT_PREVENT_OPEN_INVENTORIES = get(config, "cheat prevention.prevent opening inventories", true);
+		CHEAT_PREVENT_NO_ENTRY = get(config, "cheat prevention.no safezone entry", true);
+		CHEAT_PREVENT_DISABLE_FLIGHT = get(config, "cheat prevention.flight.disable", true);
+		CHEAT_PREVENT_ENABLE_FLIGHT = get(config, "cheat prevention.flight.re-enable after combat", false);
+		CHEAT_PREVENT_CHANGE_GAMEMODE = get(config, "cheat prevention.change gamemode.enabled", true);
+		CHEAT_PREVENT_CHANGE_GAMEMODE_MODE = get(config, "cheat prevention.change gamemode.mode", "SURVIVAL");
+		CHEAT_PREVENT_BLOCKED_COMMANDS_MODE = get(config, "cheat prevention.blocked commands.whitelist mode", false);
+		CHEAT_PREVENT_BLOCKED_COMMANDS = get(config, "cheat prevention.blocked commands.commands", Util.newList("fly", "tpa", "tpahere", "spawn", "home"));
+		CHEAT_PREVENT_BLOCKED_POTIONS = get(config, "cheat prevention.blocked potions", Util.newList("INVISIBILITY", "INCREASE_DAMAGE"));
+
+		PUNISH_KILL_PLAYER = get(config, "punishment.kill loggers", true);
+		PUNISH_ON_KICK = get(config, "punishment.kick", false);
+		PUNISH_ON_QUIT = get(config, "punishment.quit.enable", true);
+		PUNISH_ON_QUIT_MESSAGE = get(config, "punishment.quit.message", true);
+		PUNISH_CONSOLE = get(config, "punishment.console.enable", true);
+		PUNISH_COMMANDS_CONSOLE = get(config, "punishment.console.commands",  Util.newList("eco take {player} 100", "mail send {player} You lost $100 due to logging out during combat!"));
+		PUNISH_SUDO_LOGGERS = get(config, "punishment.sudo loggers.enable", false);
+		PUNISH_COMMANDS_LOGGERS = get(config, "punishment.sudo loggers.commands", Util.newList("say I logged out of combat!"));
+		save(config, FILEC);
 	}
 	
-	private static void set(YamlConfiguration config, String path, Object value, boolean force) {
-		Object o = config.get(path);
-		if(o == null || force) {
-			config.set(path, value);
-		}
+	//Start Language
+	public static String MESSAGE_PREFIX = "";
+	public static String MESSAGE_ATTACK = "";
+	public static String MESSAGE_TARGET = "";
+	public static String MESSAGE_ATTACK_MOB = "";
+	public static String MESSAGE_TARGET_MOB = "";
+	public static String MESSAGE_EXPIRE = "";
+	public static String MESSAGE_BLOCKED_COMMAND = "";
+	public static String MESSAGE_STILL_IN_COMBAT = "";
+	public static String MESSAGE_NOT_IN_COMBAT = "";
+	public static String MESSAGE_QUIT = "";
+	public static String MESSAGE_FAIL = "";
+	public static String MESSAGE_ACTION_BAR = "";
+	public static String MESSAGE_BOSS_BAR = "";
+	public static String MESSAGE_RELOAD_CONFIG = "";
+	public static String MESSAGE_OPEN_INVENTORY = "";
+	public static String MESSAGE_NO_ENTRY = "";
+	public static String MESSAGE_SCOREBOARD_TITLE = "";
+	public static List<String> SCOREBOARD_LIST = Util.newList();
+	
+	private static void defaultsL(YamlConfiguration config) {
+		MESSAGE_PREFIX = get(config, "prefix", "&e[&fCombatLog&e] &f");
+		MESSAGE_ACTION_BAR = get(config, "action bar", "&3Combat &7>> &2{time_left} seconds");
+		MESSAGE_BOSS_BAR = get(config, "boss bar", "&3Combat &7>> &c{time_left} seconds");
+		MESSAGE_RELOAD_CONFIG = get(config, "reload config", "Reloaded 'combat.yml' and 'language.yml'");
+		MESSAGE_TARGET = get(config, "combat.target.player", "{attacker} attacked you! You are now in combat.");
+		MESSAGE_TARGET_MOB = get(config, "combat.target.entity", "You were attacked by a mob named {attacker}! You are now in combat.");
+		MESSAGE_ATTACK = get(config, "combat.attack.player", "You attacked {target}! You are now in combat!");
+		MESSAGE_ATTACK_MOB = get(config, "combat.attack.entity", "You attacked a mob named {target}! You are now in combat!");
+		MESSAGE_EXPIRE = get(config, "combat.expire", "You are no longer in combat!");
+		MESSAGE_OPEN_INVENTORY = get(config, "combat.open inventory", "You cannot open storage blocks during combat!");
+		MESSAGE_BLOCKED_COMMAND = get(config, "combat.blocked command", "&eYou cannot do &c/{command}&e during combat!");
+		MESSAGE_NO_ENTRY = get(config, "combat.no entry", "You cannot enter a safe-zone while you are in combat!");
+		MESSAGE_STILL_IN_COMBAT = get(config, "combat.in", "You are still in combat for {time_left} seconds");
+		MESSAGE_NOT_IN_COMBAT = get(config, "combat.out", "You are not in combat!");
+		MESSAGE_FAIL = get(config, "combat.fail", "That person is in a No-PvP area!");
+		MESSAGE_QUIT = get(config, "combat.quit", "{player} left during combat!");
+		MESSAGE_SCOREBOARD_TITLE = get(config, "scoreboard.title", "&2CombatLogX");
+		SCOREBOARD_LIST = get(config, "scoreboard.list", Util.newList("Time Left: {time_left}", "Enemy: {enemy_name}", "Enemy Health: {enemy_health}"));
+		save(config, FILEL);
 	}
 }

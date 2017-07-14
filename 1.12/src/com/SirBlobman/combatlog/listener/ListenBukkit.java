@@ -9,6 +9,7 @@ import com.SirBlobman.combatlog.utility.LegacyUtil;
 import com.SirBlobman.combatlog.utility.Util;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.ConsoleCommandSender;
@@ -23,6 +24,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.PluginManager;
@@ -41,9 +43,10 @@ public class ListenBukkit implements Listener {
 			Entity damager = e.getDamager();
 			Entity damaged = e.getEntity();
 			
-			List<String> worlds = Config.DISABLED_WORLDS;
+			List<String> worlds = Config.OPTION_DISABLED_WORLDS;
 			World w = damaged.getWorld();
-			if(worlds.contains(w)) return;
+			String name = w.getName();
+			if(worlds.contains(name)) return;
 			
 			if(damager instanceof Projectile) {
 				if(e.getCause() == DamageCause.FALL) return;
@@ -85,28 +88,34 @@ public class ListenBukkit implements Listener {
 		boolean attacker = e.isPlayerAttacker();
 		if(attacker) {
 			Player p = (Player) r;
+			String pname = LegacyUtil.name(p);
 			if(!CombatUtil.bypass(p)) {
 				Damageable enemy = d;
 				String ename = LegacyUtil.name(enemy);
+				List<String> list1 = Util.newList("{attacker}", "{target}");
+				List<String> list2 = Util.newList(pname, ename);
 				if(enemy instanceof Player) {
-					String msg = Util.format(Config.MSG_PREFIX + Config.MSG_ATTACK, ename);
+					String msg = Util.formatMessage(Config.MESSAGE_PREFIX + Config.MESSAGE_ATTACK, list1, list2);
 					if(!Combat.in(p)) p.sendMessage(msg);
 				} else {
-					String msg = Util.format(Config.MSG_PREFIX + Config.MSG_ATTACK_MOB, ename);
+					String msg = Util.formatMessage(Config.MESSAGE_PREFIX + Config.MESSAGE_ATTACK_MOB, list1, list2);
 					if(!Combat.in(p)) p.sendMessage(msg);
 				}
 				Combat.add(p, enemy);
 			}
 		} else {
 			Player p = (Player) d;
+			String pname = LegacyUtil.name(p);
 			if(!CombatUtil.bypass(p)) {
 				Damageable enemy = r;
 				String ename = LegacyUtil.name(enemy);
+				List<String> list1 = Util.newList("{attacker}", "{target}");
+				List<String> list2 = Util.newList(ename, pname);
 				if(enemy instanceof Player) {
-					String msg = Util.format(Config.MSG_PREFIX + Config.MSG_TARGET, ename);
+					String msg = Util.formatMessage(Config.MESSAGE_PREFIX + Config.MESSAGE_TARGET, list1, list2);
 					if(!Combat.in(p)) p.sendMessage(msg);
 				} else {
-					String msg = Util.format(Config.MSG_PREFIX + Config.MSG_TARGET_MOB, ename);
+					String msg = Util.formatMessage(Config.MESSAGE_PREFIX + Config.MESSAGE_TARGET_MOB, list1, list2);
 					if(!Combat.in(p)) p.sendMessage(msg);
 				}
 				Combat.add(p, enemy);
@@ -122,7 +131,7 @@ public class ListenBukkit implements Listener {
 	
 	@EventHandler
 	public void inv(InventoryOpenEvent e) {
-		if(Config.OPEN_INVENTORY) {
+		if(Config.CHEAT_PREVENT_OPEN_INVENTORIES) {
 			HumanEntity he = e.getPlayer();
 			if(he instanceof Player) {
 				Player p = (Player) he;
@@ -131,7 +140,7 @@ public class ListenBukkit implements Listener {
 					InventoryType it = i.getType();
 					if(it != InventoryType.PLAYER) {
 						e.setCancelled(true);
-						Util.msg(p, Config.MSG_INVENTORY);
+						Util.msg(p, Config.MESSAGE_OPEN_INVENTORY);
 					}
 				}
 			}
@@ -143,24 +152,31 @@ public class ListenBukkit implements Listener {
 		Player p = e.getPlayer();
 		if(Combat.in(p)) {
 			String msg = e.getMessage();
-			String[] command = msg.split(" ");
-			String cm = command[0].toLowerCase();
-			boolean mode = Config.BLOCKED_COMMANDS_MODE;
-			List<String> list = Config.BLOCKED_COMMANDS;
+			String cm = msg.toLowerCase();
+			boolean mode = Config.CHEAT_PREVENT_BLOCKED_COMMANDS_MODE;
+			List<String> list = Config.CHEAT_PREVENT_BLOCKED_COMMANDS;
 			if(!mode) {
 				for(String cmd : list) {
-					if(cm.equals("/" + cmd)) {
+					cmd = cmd.toLowerCase();
+					if(cm.startsWith("/" + cmd)) {
 						e.setCancelled(true);
-						p.sendMessage(Util.color(Config.MSG_PREFIX + Util.format(Config.MSG_BLOCKED, cm)));
+						List<String> list1 = Util.newList("{command}"), list2 = Util.newList(msg);
+						String msg1 = Util.formatMessage(Config.MESSAGE_PREFIX + Config.MESSAGE_BLOCKED_COMMAND, list1, list2);
+						p.sendMessage(msg1);
 						break;
 					}
 				}
 			} else {
-				String t = cm.substring(1);
-				if(list.contains(t)) e.setCancelled(false);
-				else {
-					e.setCancelled(true);
-					p.sendMessage(Util.color(Config.MSG_PREFIX + Util.format(Config.MSG_BLOCKED, cm)));
+				e.setCancelled(true);
+				for(String cmd : list) {
+					cmd = cmd.toLowerCase();
+					if(cm.startsWith("/" + cmd)) {
+						e.setCancelled(false);
+						List<String> list1 = Util.newList("{command}"), list2 = Util.newList(msg);
+						String msg1 = Util.formatMessage(Config.MESSAGE_PREFIX + Config.MESSAGE_BLOCKED_COMMAND, list1, list2);
+						p.sendMessage(msg1);
+						break;
+					}
 				}
 			}
 		}
@@ -178,33 +194,49 @@ public class ListenBukkit implements Listener {
 		
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void kick(PlayerKickEvent e) {
-		if(!Config.PUNISH_KICKED) {
+		if(!Config.PUNISH_ON_KICK) {
 			Player p = e.getPlayer();
 			Combat.remove(p);
+		}
+	}
+	
+	@EventHandler(priority=EventPriority.HIGHEST)
+	public void move(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if(Combat.in(p)) {
+			if(Config.CHEAT_PREVENT_NO_ENTRY) {
+				Location to = e.getTo();
+				if(CombatUtil.noPvP(to)) {
+					e.setCancelled(true);
+					String msg = Util.format(Config.MESSAGE_PREFIX + Config.MESSAGE_NO_ENTRY);
+					p.sendMessage(msg);
+				}
+			}
 		}
 	}
 	
 	@EventHandler
 	public void quit(PlayerCombatLogEvent e) {
 		Player p = e.getPlayer();
-		if(Config.KILL_PLAYER) p.setHealth(0.0D);		
-		if(Config.PUNISH_LOGGERS) {
-			for(String s : Config.PUNISH_COMMANDS) {
+		if(Config.PUNISH_KILL_PLAYER) p.setHealth(0.0D);		
+		if(Config.PUNISH_CONSOLE) {
+			for(String s : Config.PUNISH_COMMANDS_CONSOLE) {
 				String cmd = s.replace("{player}", p.getName());
 				ConsoleCommandSender ccs = Bukkit.getConsoleSender();
 				Bukkit.dispatchCommand(ccs, cmd);
 			}
 		}
 		
-		if(Config.SUDO_LOGGERS) {
-			for(String s : Config.SUDO_COMMANDS) {
+		if(Config.PUNISH_SUDO_LOGGERS) {
+			for(String s : Config.PUNISH_COMMANDS_LOGGERS) {
 				String cmd = s.replace("{player}", p.getName());
 				p.performCommand(cmd);
 			}
 		}
 		
-		if(Config.QUIT_MESSAGE) {
-			String msg = Util.format(Config.MSG_PREFIX + Config.MSG_QUIT, p.getName());
+		if(Config.PUNISH_ON_QUIT_MESSAGE) {
+			List<String> l1 = Util.newList("{player}"), l2 = Util.newList(p.getName());
+			String msg = Util.formatMessage(Config.MESSAGE_PREFIX + Config.MESSAGE_QUIT, l1, l2);
 			Bukkit.broadcastMessage(msg);
 		}
 	}

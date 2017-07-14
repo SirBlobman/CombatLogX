@@ -1,6 +1,6 @@
 name: CombatLogX
-version: 2.0.2 Beta
-description: Prevent players from logging out during PvP
+version: 2.2.0 Beta
+description: A simple combat-tagging plugin with many features
 author: SirBlobman
 main: com.SirBlobman.combatlog.CombatLogX
 database: false

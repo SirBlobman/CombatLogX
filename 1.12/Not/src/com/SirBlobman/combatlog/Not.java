@@ -1,6 +1,7 @@
 package com.SirBlobman.combatlog;
 
 import com.SirBlobman.combatlog.config.Config;
+import com.SirBlobman.combatlog.utility.CombatUtil;
 import com.SirBlobman.combatlog.utility.Util;
 
 import org.bukkit.Bukkit;
@@ -37,6 +38,7 @@ public class Not extends JavaPlugin implements Listener {
 				CL = cl;
 				NConfig.load();
 				PM.registerEvents(this, this);
+				if(Config.OPTION_CHECK_UPDATES) NotUpdate.print();
 			} else {
 				String error = "This plugin requires CombatLogX! Get it here:";
 				String site = "https://www.spigotmc.org/resources/combatlogx.31689/";
@@ -58,19 +60,19 @@ public class Not extends JavaPlugin implements Listener {
 			double d = e.getDamage();
 			DamageCause dc = e.getCause();
 			if(dc == DamageCause.DROWNING && NConfig.DROWNING) {
-				String msg = Util.color(Config.MSG_PREFIX + NConfig.MSG_DROWNING);
+				String msg = Util.color(Config.MESSAGE_PREFIX + NConfig.MSG_DROWNING);
 				if(!Combat.in(p)) p.sendMessage(msg);
 				call(p, d);
 			} else if(dc == DamageCause.BLOCK_EXPLOSION && NConfig.EXPLOSION) {
-				String msg = Util.color(Config.MSG_PREFIX + NConfig.MSG_EXPLOSION);
+				String msg = Util.color(Config.MESSAGE_PREFIX + NConfig.MSG_EXPLOSION);
 				if(!Combat.in(p)) p.sendMessage(msg);
 				call(p, d);
 			} else if(dc == DamageCause.LAVA && NConfig.LAVA) {
-				String msg = Util.color(Config.MSG_PREFIX + NConfig.MSG_LAVA);
+				String msg = Util.color(Config.MESSAGE_PREFIX + NConfig.MSG_LAVA);
 				if(!Combat.in(p)) p.sendMessage(msg);
 				call(p, d);
 			} else if(dc == DamageCause.FALL && NConfig.FALL) {
-				String msg = Util.color(Config.MSG_PREFIX + NConfig.MSG_FALL);
+				String msg = Util.color(Config.MESSAGE_PREFIX + NConfig.MSG_FALL);
 				if(!Combat.in(p)) p.sendMessage(msg);
 				call(p, d);
 			}
@@ -82,7 +84,7 @@ public class Not extends JavaPlugin implements Listener {
 					ProjectileSource ps = pr.getShooter();
 					if(ps instanceof Entity) return;
 					else {
-						String msg = Util.color(Config.MSG_PREFIX + NConfig.MSG_PROJECTILE);
+						String msg = Util.color(Config.MESSAGE_PREFIX + NConfig.MSG_PROJECTILE);
 						if(!Combat.in(p)) p.sendMessage(msg);
 						call(p, d);
 					}
@@ -95,19 +97,11 @@ public class Not extends JavaPlugin implements Listener {
 	public void s(SpecialCombatEvent e) {
 		if(e.isCancelled()) return;
 		Player p = e.getPlayer();
-		if(!checkPerm(p)) Combat.add(p, null);
+		if(CombatUtil.bypass(p)) Combat.add(p, null);
 	}
 	
 	private void call(Player p, double damage) {
 		SpecialCombatEvent sce = new SpecialCombatEvent(p, damage);
 		PM.callEvent(sce);
-	}
-	
-	private boolean checkPerm(Player p) {
-		String perm = "combatlog.bypass";
-		if(Config.ENABLE_BYPASS) {
-			boolean has = p.hasPermission(perm);
-			return has;
-		} else return false;
 	}
 }

@@ -9,7 +9,7 @@ import java.io.File;
 public class NConfig {
 	private static final File FOLDER = Not.FOLDER;
 	private static final File FILE = new File(FOLDER, "not.yml");
-	private static YamlConfiguration config = YamlConfiguration.loadConfiguration(FILE);
+	private static YamlConfiguration config = new YamlConfiguration();
 	
 	public static YamlConfiguration load() {
 		try {

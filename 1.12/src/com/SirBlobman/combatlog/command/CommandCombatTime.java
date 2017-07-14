@@ -18,10 +18,11 @@ public class CommandCombatTime implements CommandExecutor {
 				Player p = (Player) cs;
 				int time = Combat.timeLeft(p);
 				if(time > 0) {
-					String msg = Util.format(Config.MSG_PREFIX + Config.MSG_IN_COMBAT, time);
+					String time_left = Integer.toString(time);
+					String msg = Util.formatMessage(Config.MESSAGE_PREFIX + Config.MESSAGE_STILL_IN_COMBAT, Util.newList("{time_left}"), Util.newList(time_left));
 					p.sendMessage(msg);
 				} else {
-					String msg = Util.format(Config.MSG_PREFIX + Config.MSG_NOT_IN_COMBAT);
+					String msg = Util.format(Config.MESSAGE_PREFIX + Config.MESSAGE_NOT_IN_COMBAT);
 					p.sendMessage(msg);
 				}
 				return true;

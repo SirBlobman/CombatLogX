@@ -4,11 +4,11 @@ import com.SirBlobman.combatlog.Combat;
 import com.SirBlobman.combatlog.CombatLogX;
 import com.SirBlobman.combatlog.Update;
 import com.SirBlobman.combatlog.compat.CombatPlaceHolders;
+import com.SirBlobman.combatlog.compat.CompatTowny;
 import com.SirBlobman.combatlog.compat.CustomBoss;
 import com.SirBlobman.combatlog.config.Config;
 import com.SirBlobman.combatlog.listener.ListenBukkit;
 import com.SirBlobman.combatlog.listener.ListenCrackShot;
-import com.SirBlobman.combatlog.listener.ListenTowny;
 import com.SirBlobman.combatlog.nms.NMS;
 import com.SirBlobman.combatlog.nms.action.Action;
 
@@ -40,8 +40,15 @@ public class Util {
 	public static void enable() {
 		Config.loadC();
 		Config.loadL();
-		if(Config.CHECK_UPDATES) Update.print();
-		if(Config.ACTION_BAR) {action = NMS.action();}
+		if(Config.OPTION_CHECK_UPDATES) Update.print();
+		if(Config.OPTION_ACTION_BAR) {
+			action = NMS.action();
+			if(action == null) {
+				String error = "ActionBar failed to initialize, check your NMS version";
+				print(error);
+				Config.OPTION_ACTION_BAR = false;
+			}
+		}
 		if(PM.isPluginEnabled("CrackShot")) {
 			Config.ENABLED_CRACK_SHOT = true;
 			regEvents(new ListenCrackShot());
@@ -50,19 +57,20 @@ public class Util {
 		}
 		
 		if(PM.isPluginEnabled("Factions")) {
-			Config.ENABLED_FACTIONS = true;
-			String v = getVersionMessage("Factions");
-			print(v);
-		}
-		
-		if(PM.isPluginEnabled("FactionsUUID")) {
-			Config.ENABLED_FACTIONS = true;
-			String v = getVersionMessage("FactionsUUID");
-			print(v);
+			String version = getVersion("Factions");
+			if(version.startsWith("1")) {
+				Config.ENABLED_FACTIONS_UUID = true;
+				String v = getVersionMessage("FactionsUUID", version);
+				print(v);
+			} else {
+				Config.ENABLED_FACTIONS_NORMAL = true;
+				String v = getVersionMessage("Factions", version);
+				print(v);
+			}
 		}
 		
 		if(PM.isPluginEnabled("LegacyFactions")) {
-			Config.ENABLED_LEGACY_FACTIONS = true;
+			Config.ENABLED_FACTIONS_LEGACY = true;
 			String v = getVersionMessage("LegacyFactions");
 			print(v);
 		}
@@ -82,7 +90,7 @@ public class Util {
 		
 		if(PM.isPluginEnabled("Towny")) {
 			Config.ENABLED_TOWNY = true;
-			regEvents(new ListenTowny());
+			regEvents(new CompatTowny());
 			String v = getVersionMessage("Towny");
 			print(v);
 		}
@@ -110,18 +118,23 @@ public class Util {
 	
 	public static String getVersionMessage(String pl) {
 		String version = getVersion(pl);
-		String msg = Util.format("&dSupport for '%1s v%2s' is now enabled!", pl, version);
+		return getVersionMessage(pl, version);
+	}
+	
+	public static String getVersionMessage(String pl, String vs) {
+		String msg = Util.format("&dSupport for '%1s v%2s' is now enabled!", pl, vs);
 		return msg;
 	}
 	
 	public static void print(String msg) {
-		String prt = color(Config.MSG_PREFIX + msg);
+		String prt = color(Config.MESSAGE_PREFIX + msg);
 		CCS.sendMessage(prt);
 	}
 	
 	public static void broadcast(String msg) {
-		String cast = color(Config.MSG_PREFIX + msg);
-		SERVER.broadcastMessage(cast);
+		print(msg);
+		String cast = color(Config.MESSAGE_PREFIX + msg);
+		for(Player p : Bukkit.getOnlinePlayers()) p.sendMessage(cast);
 	}
 	
 	public static String color(String o) {
@@ -138,6 +151,22 @@ public class Util {
 		String f = String.format(o, os);
 		String c = color(f);
 		return c;
+	}
+	
+	public static String formatMessage(String o, List<String> keys, List<String> values) {
+		if(keys.size() != values.size()) {
+			String error = "Invalid key/value set! They must be the same size!";
+			IllegalArgumentException ex = new IllegalArgumentException(error);
+			throw ex;
+		} else {
+			for(int i = 0; i < keys.size(); i++) {
+				String key = keys.get(i);
+				String val = values.get(i);
+				o = o.replace(key, val);
+			}
+			String c = color(o);
+			return c;
+		}
 	}
 	
 	public static String json(String msg) {
@@ -176,9 +205,9 @@ public class Util {
 	}
 	
 	@SafeVarargs
-	public static <T> List<T> newList(T... ts) {
-		List<T> list = new ArrayList<T>();
-		for(T t : ts) list.add(t);
+	public static <L> List<L> newList(L... ll) {
+		List<L> list = new ArrayList<L>();
+		for(L l : ll) list.add(l);
 		return list;
 	}
 	
@@ -188,7 +217,7 @@ public class Util {
 	}
 	
 	public static void msg(Player p, String msg) {
-		msg = Config.MSG_PREFIX + msg;
+		msg = Config.MESSAGE_PREFIX + msg;
 		msg = color(msg);
 		p.sendMessage(msg);
 	}

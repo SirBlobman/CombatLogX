@@ -1,10 +1,12 @@
 package com.SirBlobman.combatlog.utility;
 
-import com.SirBlobman.combatlog.compat.CompatFactions;
-import com.SirBlobman.combatlog.compat.CompatLegacyFactions;
+import com.SirBlobman.combatlog.compat.CompatTowny;
+import com.SirBlobman.combatlog.compat.factions.CompatFactions;
+import com.SirBlobman.combatlog.compat.factions.CompatFactionsLegacy;
+import com.SirBlobman.combatlog.compat.factions.CompatFactionsUUID;
 import com.SirBlobman.combatlog.config.Config;
-import com.SirBlobman.combatlog.listener.ListenTowny;
 
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
@@ -22,8 +24,11 @@ public class CombatUtil extends Util {
 				if(d instanceof Player) {
 					Player t = (Player) d;
 					boolean pvp2 = canPvP(t);
+					if(pvp2 && Config.ENABLED_FACTIONS_NORMAL) pvp2 = CompatFactions.canAttack(p, t);
+					if(pvp2 && Config.ENABLED_FACTIONS_LEGACY) pvp2 = CompatFactionsLegacy.canAttack(p, t);
+					if(pvp2 && Config.ENABLED_FACTIONS_UUID) pvp2 = CompatFactionsUUID.canAttack(p, t);
 					if(pvp2) {
-						if(!Config.SELF_COMBAT) {
+						if(!Config.OPTION_SELF_COMBAT) {
 							String pname = p.getName();
 							String tname = t.getName();
 							if(pname.equals(tname)) return false;
@@ -31,10 +36,10 @@ public class CombatUtil extends Util {
 						} else return true;
 					} else return false;
 				} else {
-					if(Config.MOBS_COMBAT) {
+					if(Config.OPTION_MOBS_COMBAT) {
 						EntityType et = d.getType();
 						String type = et.name();
-						List<String> list = Config.MOBS_BLACKLIST;
+						List<String> list = Config.OPTION_MOBS_BLACKLIST;
 						if(list.contains(type)) return false;
 						else return true;
 					} else return false;
@@ -50,10 +55,10 @@ public class CombatUtil extends Util {
 		} else {
 			boolean can = canPvP(p);
 			if(can) {
-				if(Config.MOBS_COMBAT) {
+				if(Config.OPTION_MOBS_COMBAT) {
 					EntityType et = e.getType();
 					String type = et.name();
-					List<String> list = Config.MOBS_BLACKLIST;
+					List<String> list = Config.OPTION_MOBS_BLACKLIST;
 					if(list.contains(type)) return false;
 					else return true;
 				} else return false;
@@ -66,9 +71,10 @@ public class CombatUtil extends Util {
 		try {
 			boolean pvp = w.getPVP();
 			if(pvp && Config.ENABLED_WORLD_GUARD) pvp = WorldGuardUtil.pvp(p);
-			if(pvp && Config.ENABLED_TOWNY) pvp = ListenTowny.pvp(p);
-			if(pvp && Config.ENABLED_FACTIONS) pvp = CompatFactions.canPVP(p);
-			if(pvp && Config.ENABLED_LEGACY_FACTIONS) pvp = CompatLegacyFactions.canPVP(p);
+			if(pvp && Config.ENABLED_TOWNY) pvp = CompatTowny.pvp(p);
+			if(pvp && Config.ENABLED_FACTIONS_NORMAL) pvp = CompatFactions.pvp(p);
+			if(pvp && Config.ENABLED_FACTIONS_UUID) pvp = CompatFactionsUUID.pvp(p);
+			if(pvp && Config.ENABLED_FACTIONS_LEGACY) pvp = CompatFactionsLegacy.canPVP(p);
 			return pvp;
 		} catch(Throwable ex) {
 			boolean pvp = w.getPVP();
@@ -76,9 +82,25 @@ public class CombatUtil extends Util {
 		}
 	}
 	
+	public static boolean noPvP(Location l) {
+		World w = l.getWorld();
+		try {
+			boolean pvp = w.getPVP();
+			if(pvp && Config.ENABLED_WORLD_GUARD) pvp = WorldGuardUtil.pvp(l);
+			if(pvp && Config.ENABLED_TOWNY) pvp = CompatTowny.pvp(l);
+			if(pvp && Config.ENABLED_FACTIONS_NORMAL) pvp = CompatFactions.pvp(l);
+			if(pvp && Config.ENABLED_FACTIONS_UUID) pvp = CompatFactionsUUID.pvp(l);
+			if(pvp && Config.ENABLED_FACTIONS_LEGACY) pvp = CompatFactionsLegacy.pvp(l);
+			return !pvp;
+		} catch(Throwable ex) {
+			boolean pvp = w.getPVP();
+			return pvp;
+		}
+	}
+	
 	public static boolean bypass(Player p) {
-		if(Config.ENABLE_BYPASS) {
-			String perm = Config.BYPASS_PERMISSION;
+		if(Config.OPTION_BYPASS_ENABLE) {
+			String perm = Config.OPTION_BYPASS_PERMISSION;
 			boolean b = p.hasPermission(perm);
 			return b;
 		} else return false;
