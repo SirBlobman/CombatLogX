@@ -1,8 +1,8 @@
 name: CombatLogX
-version: 2.2.0 Beta
+version: 3.0.0 Beta
 description: A simple combat-tagging plugin with many features
 author: SirBlobman
-main: com.SirBlobman.combatlog.CombatLogX
+main: com.SirBlobman.combatlogx.CombatLogX
 database: false
 depend: []
 softdepend: [Factions, FactionsUUID, LegacyFactions, PlaceholderAPI, TitleManager, Towny, WorldGuard]
