@@ -2,6 +2,7 @@ package com.SirBlobman.combatlogx.expand;
 
 import com.SirBlobman.combatlogx.CombatLogX;
 import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.combatlogx.utility.WordUtil;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -9,12 +10,13 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class Expansions {
 	public static final File FOLDER = new File(CombatLogX.folder, "expansions");
-	private static int expansionsCount = 0;
+	private static List<CLXExpansion> expansionList = Util.newList();
 	public static void load() {
 		if(!FOLDER.exists()) FOLDER.mkdirs();
 		File[] ff = FOLDER.listFiles();
@@ -43,7 +45,7 @@ public class Expansions {
 											String msg = Util.format("Loading expansion '%1s v%2s'", name, version);
 											Util.print(msg);
 											ce.enable();
-											expansionsCount = expansionsCount + 1;
+											expansionList.add(ce);
 											break;
 										} else continue;
 									}
@@ -68,7 +70,10 @@ public class Expansions {
 				Util.print(error);
 			}
 		}
-		Util.print("Loaded " + expansionsCount + " expansion(s).");
+		
+		int count = expansionsAmount();
+		String msg = WordUtil.withAmount("Loaded %1s expansion", count);
+		Util.print(msg);
 	}
 	
 	private static String fileExtension(File f) {
@@ -120,4 +125,7 @@ public class Expansions {
 			return r3;
 		} else return "";
 	}
+	
+	public static List<CLXExpansion> getExpansions() {return expansionList;}
+	public static int expansionsAmount() {return getExpansions().size();}
 }

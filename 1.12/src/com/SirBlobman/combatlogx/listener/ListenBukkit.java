@@ -35,51 +35,50 @@ import java.util.List;
 public class ListenBukkit implements Listener {
 	private static final Server SERVER = Bukkit.getServer();
 	private static final PluginManager PM = SERVER.getPluginManager();
-	
+
 	@EventHandler(priority=EventPriority.HIGHEST) 
 	public void eve(EntityDamageByEntityEvent e) {
+		if(e.isCancelled()) return;
 		double damage = e.getDamage();
-		if(damage > 0) {
-			Entity damager = e.getDamager();
-			Entity damaged = e.getEntity();
-			
-			List<String> worlds = Config.OPTION_DISABLED_WORLDS;
-			World w = damaged.getWorld();
-			String name = w.getName();
-			if(worlds.contains(name)) return;
-			
-			if(damager instanceof Projectile) {
-				if(e.getCause() == DamageCause.FALL) return;
-				Projectile p = (Projectile) damager;
-				ProjectileSource ps = p.getShooter();
-				if(ps instanceof Entity) {
-					Entity en = (Entity) ps;
-					damager = en;
-				} else return;
+		Entity damager = e.getDamager();
+		Entity damaged = e.getEntity();
+
+		List<String> worlds = Config.OPTION_DISABLED_WORLDS;
+		World w = damaged.getWorld();
+		String name = w.getName();
+		if(worlds.contains(name)) return;
+
+		if(damager instanceof Projectile) {
+			if(e.getCause() == DamageCause.FALL) return;
+			Projectile p = (Projectile) damager;
+			ProjectileSource ps = p.getShooter();
+			if(ps instanceof Entity) {
+				Entity en = (Entity) ps;
+				damager = en;
+			} else return;
+		}
+
+		if(damager instanceof Player) {
+			Player p = (Player) damager;
+			boolean can = CombatUtil.canAttack(p, damaged);
+			if(can) {
+				Damageable d = (Damageable) damaged;
+				PlayerCombatEvent pce = new PlayerCombatEvent(p, d, damage, true);
+				Util.callEvents(pce);
 			}
-			
-			if(damager instanceof Player) {
-				Player p = (Player) damager;
-				boolean can = CombatUtil.canAttack(p, damaged);
-				if(can) {
-					Damageable d = (Damageable) damaged;
-					PlayerCombatEvent pce = new PlayerCombatEvent(p, d, damage, true);
-					Util.callEvents(pce);
-				}
-			}
-			
-			if(damaged instanceof Player && damager instanceof Damageable) {
-				Player p = (Player) damaged;
-				Damageable d = (Damageable) damager;
-				boolean can = CombatUtil.canEntityAttackPlayer(d, p);
-				if(can) {
-					PlayerCombatEvent pce = new PlayerCombatEvent(p, d, damage, false);
-					Util.callEvents(pce);
-				}
+		}
+
+		if(damaged instanceof Player && damager instanceof Damageable) {
+			Player p = (Player) damaged;
+			Damageable d = (Damageable) damager;
+			boolean can = CombatUtil.canEntityAttackPlayer(d, p);
+			if(can) {
+				PlayerCombatEvent pce = new PlayerCombatEvent(p, d, damage, false);
+				Util.callEvents(pce);
 			}
 		}
 	}
-	
+
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void pvp(PlayerCombatEvent e) {
 		if(e.isCancelled()) return;
@@ -89,7 +88,7 @@ public class ListenBukkit implements Listener {
 		if(attacker) {
 			Player p = (Player) r;
 			String pname = LegacyUtil.name(p);
-			if(!CombatUtil.bypass(p)) {
+			if(CombatUtil.canBeTagged(p)) {
 				Damageable enemy = d;
 				String ename = LegacyUtil.name(enemy);
 				List<String> list1 = Util.newList("{attacker}", "{target}");
@@ -106,7 +105,7 @@ public class ListenBukkit implements Listener {
 		} else {
 			Player p = (Player) d;
 			String pname = LegacyUtil.name(p);
-			if(!CombatUtil.bypass(p)) {
+			if(CombatUtil.canBeTagged(p)) {
 				Damageable enemy = r;
 				String ename = LegacyUtil.name(enemy);
 				List<String> list1 = Util.newList("{attacker}", "{target}");
@@ -122,13 +121,13 @@ public class ListenBukkit implements Listener {
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void die(PlayerDeathEvent e) {
 		Player p = e.getEntity();
 		if(Combat.in(p)) Combat.remove(p);
 	}
-	
+
 	@EventHandler
 	public void inv(InventoryOpenEvent e) {
 		if(Config.CHEAT_PREVENT_OPEN_INVENTORIES) {
@@ -146,7 +145,7 @@ public class ListenBukkit implements Listener {
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void cmd(PlayerCommandPreprocessEvent e) {
 		Player p = e.getPlayer();
@@ -181,7 +180,7 @@ public class ListenBukkit implements Listener {
 			}
 		}
 	}
-	
+
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void quit(PlayerQuitEvent e) {
 		Player p = e.getPlayer();
@@ -191,7 +190,7 @@ public class ListenBukkit implements Listener {
 			Combat.remove(p);
 		}
 	}
-		
+
 	@EventHandler(priority=EventPriority.LOWEST)
 	public void kick(PlayerKickEvent e) {
 		if(!Config.PUNISH_ON_KICK) {
@@ -199,7 +198,7 @@ public class ListenBukkit implements Listener {
 			Combat.remove(p);
 		}
 	}
-	
+
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void move(PlayerMoveEvent e) {
 		Player p = e.getPlayer();
@@ -214,7 +213,7 @@ public class ListenBukkit implements Listener {
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void quit(PlayerCombatLogEvent e) {
 		Player p = e.getPlayer();
@@ -226,14 +225,14 @@ public class ListenBukkit implements Listener {
 				Bukkit.dispatchCommand(ccs, cmd);
 			}
 		}
-		
+
 		if(Config.PUNISH_SUDO_LOGGERS) {
 			for(String s : Config.PUNISH_COMMANDS_LOGGERS) {
 				String cmd = s.replace("{player}", p.getName());
 				p.performCommand(cmd);
 			}
 		}
-		
+
 		if(Config.PUNISH_ON_QUIT_MESSAGE) {
 			List<String> l1 = Util.newList("{player}"), l2 = Util.newList(p.getName());
 			String msg = Util.formatMessage(Config.MESSAGE_PREFIX + Config.MESSAGE_QUIT, l1, l2);

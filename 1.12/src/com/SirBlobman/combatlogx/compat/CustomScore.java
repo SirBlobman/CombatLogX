@@ -2,6 +2,7 @@ package com.SirBlobman.combatlogx.compat;
 
 import com.SirBlobman.combatlogx.Combat;
 import com.SirBlobman.combatlogx.config.Config;
+import com.SirBlobman.combatlogx.utility.LegacyUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 
 import org.bukkit.Bukkit;
@@ -49,7 +50,7 @@ public class CustomScore {
 		if(enemy != null) {
 			DecimalFormat DF = new DecimalFormat("#.##");
 			ehealth = DF.format(enemy.getHealth());
-			ename = enemy.getName();
+			ename = LegacyUtil.name(enemy);
 		}
 		int timeLeft = Combat.timeLeft(player);
 		int i = 16;

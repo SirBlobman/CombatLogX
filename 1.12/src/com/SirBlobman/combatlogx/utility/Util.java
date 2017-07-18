@@ -13,9 +13,7 @@ import com.SirBlobman.combatlogx.listener.ListenCrackShot;
 import com.SirBlobman.combatlogx.nms.NMS;
 import com.SirBlobman.combatlogx.nms.action.Action;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Server;
+import org.bukkit.*;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -25,6 +23,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,6 +53,12 @@ public class Util {
 			Config.ENABLED_CRACK_SHOT = true;
 			regEvents(new ListenCrackShot());
 			String v = getVersionMessage("CrackShot");
+			print(v);
+		}
+		
+		if(PM.isPluginEnabled("Essentials")) {
+			Config.ENABLED_ESSENTIALS = true;
+			String v = getVersionMessage("Essentials");
 			print(v);
 		}
 		
@@ -155,7 +160,7 @@ public class Util {
 		return c;
 	}
 	
-	public static String formatMessage(String o, List<String> keys, List<String> values) {
+	public static String formatMessage(String o, List<String> keys, List<? extends Object> values) {
 		if(keys.size() != values.size()) {
 			String error = "Invalid key/value set! They must be the same size!";
 			IllegalArgumentException ex = new IllegalArgumentException(error);
@@ -163,11 +168,59 @@ public class Util {
 		} else {
 			for(int i = 0; i < keys.size(); i++) {
 				String key = keys.get(i);
-				String val = values.get(i);
+				Object ob = values.get(i);
+				String val = str(ob);
 				o = o.replace(key, val);
 			}
 			String c = color(o);
 			return c;
+		}
+	}
+	
+	public static String str(Object o) {
+		if(o == null) return "";
+		if((o instanceof Short) || (o instanceof Integer) || (o instanceof Long)) {
+			Number n = (Number) o;
+			long l = n.longValue();
+			return Long.toString(l);
+		} else if((o instanceof Float) || (o instanceof Double) || (o instanceof Number)) {
+			Number n = (Number) o;
+			double d = n.doubleValue();
+			return Double.toString(d);
+		} else if(o instanceof Boolean) {
+			boolean b = (boolean) o;
+			String s = b ? "yes" : "no";
+			return s;
+		} else if(o instanceof GameMode) {
+			GameMode gm = (GameMode) o;
+			String name = gm.name();
+			return name;
+		} else if(o instanceof Location) {
+			Location l = (Location) o;
+			World w = l.getWorld();
+			String name = w.getName();
+			int x = l.getBlockX();
+			int y = l.getBlockY();
+			int z = l.getBlockZ();
+			float ya = l.getYaw();
+			float pi = l.getPitch();
+			
+			String loc = format("%1s: X: %2s, Y: %3s, Z: %4s, Yaw: %5s, Pitch: %6s", name, x, y, z, ya, pi);
+			return loc;
+		} else if(o instanceof InetSocketAddress){
+			InetSocketAddress isa = (InetSocketAddress) o;
+			String host = isa.getHostString();
+			return host;
+		} else if(o instanceof String) {
+			String s = (String) o;
+			return s;
+		} else if(o instanceof Plugin) {
+			Plugin p = (Plugin) o;
+			String name = p.getName();
+			return name;
+		} else {
+			String s = o.toString();
+			return s;
 		}
 	}
 	

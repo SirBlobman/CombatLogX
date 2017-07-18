@@ -1,9 +1,11 @@
 package com.SirBlobman.combatlogx.utility;
 
+import com.SirBlobman.combatlogx.compat.CompatEssentials;
 import com.SirBlobman.combatlogx.compat.CompatTowny;
 import com.SirBlobman.combatlogx.compat.factions.CompatFactions;
 import com.SirBlobman.combatlogx.compat.factions.CompatFactionsLegacy;
 import com.SirBlobman.combatlogx.compat.factions.CompatFactionsUUID;
+import com.SirBlobman.combatlogx.compat.worldguard.CompatWorldGuard;
 import com.SirBlobman.combatlogx.config.Config;
 
 import org.bukkit.Location;
@@ -70,11 +72,8 @@ public class CombatUtil extends Util {
 		World w = p.getWorld();
 		try {
 			boolean pvp = w.getPVP();
-			if(pvp && Config.ENABLED_WORLD_GUARD) pvp = WorldGuardUtil.pvp(p);
+			if(pvp && Config.ENABLED_WORLD_GUARD) pvp = CompatWorldGuard.pvp(p);
 			if(pvp && Config.ENABLED_TOWNY) pvp = CompatTowny.pvp(p);
-			if(pvp && Config.ENABLED_FACTIONS_NORMAL) pvp = CompatFactions.pvp(p);
-			if(pvp && Config.ENABLED_FACTIONS_UUID) pvp = CompatFactionsUUID.pvp(p);
-			if(pvp && Config.ENABLED_FACTIONS_LEGACY) pvp = CompatFactionsLegacy.canPVP(p);
 			return pvp;
 		} catch(Throwable ex) {
 			boolean pvp = w.getPVP();
@@ -86,7 +85,7 @@ public class CombatUtil extends Util {
 		World w = l.getWorld();
 		try {
 			boolean pvp = w.getPVP();
-			if(pvp && Config.ENABLED_WORLD_GUARD) pvp = WorldGuardUtil.pvp(l);
+			if(pvp && Config.ENABLED_WORLD_GUARD) pvp = CompatWorldGuard.pvp(l);
 			if(pvp && Config.ENABLED_TOWNY) pvp = CompatTowny.pvp(l);
 			if(pvp && Config.ENABLED_FACTIONS_NORMAL) pvp = CompatFactions.pvp(l);
 			if(pvp && Config.ENABLED_FACTIONS_UUID) pvp = CompatFactionsUUID.pvp(l);
@@ -96,6 +95,12 @@ public class CombatUtil extends Util {
 			boolean pvp = w.getPVP();
 			return pvp;
 		}
+	}
+	
+	public static boolean canBeTagged(Player p) {
+		boolean can = !bypass(p);
+		if(can && Config.ENABLED_ESSENTIALS) can = !CompatEssentials.hasGod(p);
+		return can;
 	}
 	
 	public static boolean bypass(Player p) {

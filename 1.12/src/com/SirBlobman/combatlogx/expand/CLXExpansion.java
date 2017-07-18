@@ -1,5 +1,7 @@
 package com.SirBlobman.combatlogx.expand;
 
+import java.io.File;
+
 public interface CLXExpansion {
 	/**
 	 * Put code that you want to happen here
@@ -16,4 +18,6 @@ public interface CLXExpansion {
 	 * @return Version of the expansion (e.g: 1.0.0)
 	 */
 	public String getVersion();
+	
+	public default File getExpansionsFolder() {return Expansions.FOLDER;}
 }

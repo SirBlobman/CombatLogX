@@ -32,7 +32,7 @@ public class Combat implements Runnable {
 	private static Map<Player, CustomScore> scores = Util.newMap();
 	
 	public static void add(Player p, Damageable enemy) {
-		if(!CombatUtil.bypass(p)) {
+		if(!CombatUtil.canBeTagged(p)) {
 			for(String s : Config.CHEAT_PREVENT_BLOCKED_POTIONS) {
 				PotionEffectType pet = PotionEffectType.getByName(s);
 				if(pet == null) {continue;}
@@ -84,7 +84,7 @@ public class Combat implements Runnable {
 		inCombat.remove(p);
 		enemies.remove(p);
 		
-		if(hadFlightBefore.contains(p)) {
+		if(Config.CHEAT_PREVENT_ENABLE_FLIGHT && hadFlightBefore.contains(p)) {
 			hadFlightBefore.remove(p);
 			p.setAllowFlight(true);
 			p.setFlying(true);

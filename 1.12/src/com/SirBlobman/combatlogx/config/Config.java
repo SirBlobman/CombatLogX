@@ -73,6 +73,7 @@ public class Config {
 	
 	//Start Support
 	public static boolean ENABLED_CRACK_SHOT = false;
+	public static boolean ENABLED_ESSENTIALS = false;
 	public static boolean ENABLED_FACTIONS_NORMAL = false;
 	public static boolean ENABLED_FACTIONS_UUID = false;
 	public static boolean ENABLED_FACTIONS_LEGACY = false;

@@ -29,24 +29,11 @@ public class CompatFactions {
 		return f;
 	}
 	
-	public static boolean pvp(Faction f) {
-		MFlag flag = MFlag.getFlagPvp();
-		boolean pvp = f.getFlag(flag);
-		return pvp;
-	}
-	
-	public static boolean pvp(Player p) {
-		Faction f = getFaction(p);
-		Faction s = standingIn(p);
-		if(f.equals(WILDERNESS)) return true;
-		else if(f.equals(s)) return false;
-		else return pvp(s);
-	}
-	
 	public static boolean pvp(Location l) {
 		Faction f = factionAt(l);
-		if(f.equals(WILDERNESS)) return true;
-		else return pvp(f);
+		MFlag mf = MFlag.getFlagPvp();
+		boolean pvp = f.getFlag(mf);
+		return pvp;
 	}
 	
 	public static boolean canAttack(Player p, Player t) {
