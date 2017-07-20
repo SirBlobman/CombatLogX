@@ -205,8 +205,10 @@ public class ListenBukkit implements Listener {
 		if(Combat.in(p)) {
 			if(Config.CHEAT_PREVENT_NO_ENTRY) {
 				Location to = e.getTo();
-				if(CombatUtil.noPvP(to)) {
+				if(!CombatUtil.canPvP(to)) {
 					e.setCancelled(true);
+					Location from = e.getFrom();
+					p.teleport(from);
 					String msg = Util.format(Config.MESSAGE_PREFIX + Config.MESSAGE_NO_ENTRY);
 					p.sendMessage(msg);
 				}

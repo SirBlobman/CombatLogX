@@ -42,7 +42,7 @@ public class Not implements CLXExpansion, Listener {
 	}
 
 	public String getName() {return "NotCombatLogX";}
-	public String getVersion() {return "3.0.1 Release";}
+	public String getVersion() {return "3.0.2 Release";}
 
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void damage(EntityDamageEvent e) {
@@ -54,25 +54,25 @@ public class Not implements CLXExpansion, Listener {
 			if(dc == DamageCause.DROWNING && NConfig.DROWNING) {
 				String msg = Util.color(Config.MESSAGE_PREFIX + NConfig.MSG_DROWNING);
 				if(CombatUtil.canBeTagged(p)) {
-					p.sendMessage(msg);
+					if(!Combat.in(p)) p.sendMessage(msg);
 					call(p, d);
 				}
 			} else if(dc == DamageCause.BLOCK_EXPLOSION && NConfig.EXPLOSION) {
 				String msg = Util.color(Config.MESSAGE_PREFIX + NConfig.MSG_EXPLOSION);
 				if(CombatUtil.canBeTagged(p)) {
-					p.sendMessage(msg);
+					if(!Combat.in(p)) p.sendMessage(msg);
 					call(p, d);
 				}
 			} else if(dc == DamageCause.LAVA && NConfig.LAVA) {
 				String msg = Util.color(Config.MESSAGE_PREFIX + NConfig.MSG_LAVA);
 				if(CombatUtil.canBeTagged(p)) {
-					p.sendMessage(msg);
+					if(!Combat.in(p)) p.sendMessage(msg);
 					call(p, d);
 				}
 			} else if(dc == DamageCause.FALL && NConfig.FALL) {
 				String msg = Util.color(Config.MESSAGE_PREFIX + NConfig.MSG_FALL);
 				if(CombatUtil.canBeTagged(p)) {
-					p.sendMessage(msg);
+					if(!Combat.in(p)) p.sendMessage(msg);
 					call(p, d);
 				}
 			} else if(dc == DamageCause.PROJECTILE && NConfig.PROJECTILE) {
@@ -85,10 +85,16 @@ public class Not implements CLXExpansion, Listener {
 					else {
 						String msg = Util.color(Config.MESSAGE_PREFIX + NConfig.MSG_PROJECTILE);
 						if(CombatUtil.canBeTagged(p)) {
-							p.sendMessage(msg);
+							if(!Combat.in(p)) p.sendMessage(msg);
 							call(p, d);
 						}
 					}
+				}
+			} else if(NConfig.ALL_DAMAGE) {
+				String msg = Util.color(Config.MESSAGE_PREFIX + NConfig.MSG_UNKNOWN);
+				if(CombatUtil.canBeTagged(p)) {
+					if(!Combat.in(p)) p.sendMessage(msg);
+					call(p, d);
 				}
 			}
 		}

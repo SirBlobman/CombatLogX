@@ -81,7 +81,7 @@ public class CombatUtil extends Util {
 		}
 	}
 	
-	public static boolean noPvP(Location l) {
+	public static boolean canPvP(Location l) {
 		World w = l.getWorld();
 		try {
 			boolean pvp = w.getPVP();
@@ -90,7 +90,7 @@ public class CombatUtil extends Util {
 			if(pvp && Config.ENABLED_FACTIONS_NORMAL) pvp = CompatFactions.pvp(l);
 			if(pvp && Config.ENABLED_FACTIONS_UUID) pvp = CompatFactionsUUID.pvp(l);
 			if(pvp && Config.ENABLED_FACTIONS_LEGACY) pvp = CompatFactionsLegacy.pvp(l);
-			return !pvp;
+			return pvp;
 		} catch(Throwable ex) {
 			boolean pvp = w.getPVP();
 			return pvp;

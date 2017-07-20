@@ -43,12 +43,14 @@ public class NConfig extends Config {
 	public static boolean LAVA = true;
 	public static boolean FALL = true;
 	public static boolean PROJECTILE = true;
+	public static boolean ALL_DAMAGE = true;
 	
 	public static String MSG_DROWNING = "";
 	public static String MSG_EXPLOSION = "";
 	public static String MSG_LAVA = "";
 	public static String MSG_FALL = "";
 	public static String MSG_PROJECTILE = "";
+	public static String MSG_UNKNOWN = "";
 	
 	private static void defaults() {
 		set("triggers.drowning", true, false);
@@ -56,12 +58,14 @@ public class NConfig extends Config {
 		set("triggers.lava", true, false);
 		set("triggers.fall", true, false);
 		set("triggers.projectile", true, false);
+		set("triggers.all damage", true, false);
 		
 		set("messages.drowning", "You are drowning! Do not log out.", false);
 		set("messages.block explosion", "You suffered explosion damage! Do not log out.", false);
 		set("messages.lava", "You are melting in lava! Do not log out.", false);
 		set("messages.fall", "You fell down! Do not log out.", false);
 		set("messages.projectile", "You were shot by a projectile! Do not log out.", false);
+		set("messages.unknown", "You took damage! Do not log out.", false);
 		save();
 
 		DROWNING = config.getBoolean("triggers.drowning");
@@ -69,12 +73,14 @@ public class NConfig extends Config {
 		LAVA = config.getBoolean("triggers.lava");
 		FALL = config.getBoolean("triggers.fall");
 		PROJECTILE = config.getBoolean("triggers.projectile");
+		ALL_DAMAGE = config.getBoolean("triggers.all damage", true);
 		
 		MSG_DROWNING = config.getString("messages.drowning");
 		MSG_EXPLOSION = config.getString("messages.block explosion");
 		MSG_LAVA = config.getString("messages.lava");
 		MSG_FALL = config.getString("messages.fall");
 		MSG_PROJECTILE = config.getString("messages.projectile");
+		MSG_UNKNOWN = config.getString("messages.unknown");
 	}
 	
 	private static void set(String path, Object value, boolean force) {

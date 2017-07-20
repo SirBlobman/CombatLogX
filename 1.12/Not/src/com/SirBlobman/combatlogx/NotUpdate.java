@@ -77,7 +77,7 @@ public class NotUpdate {
 		} else {
 			String[] msg = new String[] {
 					"&6======================================================================================",
-					"&eNotCombatLog Updater",
+					"&eNotCombatLogX Updater",
 					"&aThere is a new update for this plugin!",
 					"&4&lLatest Version: " + v,
 					"&4&lYour Version: " + not.getVersion(),

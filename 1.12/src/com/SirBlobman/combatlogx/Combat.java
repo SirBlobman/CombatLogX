@@ -6,6 +6,7 @@ import com.SirBlobman.combatlogx.config.Config;
 import com.SirBlobman.combatlogx.listener.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.listener.event.PlayerUntagEvent.UntagCause;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
+import com.SirBlobman.combatlogx.utility.LegacyUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.google.common.collect.Maps;
 
@@ -32,7 +33,7 @@ public class Combat implements Runnable {
 	private static Map<Player, CustomScore> scores = Util.newMap();
 	
 	public static void add(Player p, Damageable enemy) {
-		if(!CombatUtil.canBeTagged(p)) {
+		if(CombatUtil.canBeTagged(p)) {
 			for(String s : Config.CHEAT_PREVENT_BLOCKED_POTIONS) {
 				PotionEffectType pet = PotionEffectType.getByName(s);
 				if(pet == null) {continue;}
@@ -41,17 +42,25 @@ public class Combat implements Runnable {
 			
 			if(Config.OPTION_COMBAT_SUDO_ENABLE && !in(p)) {
 				for(String s : Config.OPTION_COMBAT_SUDO_COMMANDS) {
-					String cmd = s.replace("{player}", p.getName());
+					String pname = p.getName();
+					String dname = "";
+					String dhealth = "";
+					if(enemy != null) {
+						dname = LegacyUtil.name(enemy);
+						double health = enemy.getHealth();
+						dhealth = Double.toString(health);
+					}
+					List<String> l1 = Util.newList("{player}", "{enemy_name}", "{enemy_health}");
+					List<String> l2 = Util.newList(pname, dname, dhealth);
+					String cmd = Util.formatMessage(s, l1, l2);
 					p.performCommand(cmd);
 				}
 			}
 
 			if(Config.CHEAT_PREVENT_DISABLE_FLIGHT) {
+				if(Config.CHEAT_PREVENT_ENABLE_FLIGHT && p.getAllowFlight()) hadFlightBefore.add(p);
 				p.setFlying(false);
 				p.setAllowFlight(false);
-				if(Config.CHEAT_PREVENT_ENABLE_FLIGHT) {
-					hadFlightBefore.add(p);
-				}
 			}
 
 			if(Config.CHEAT_PREVENT_CHANGE_GAMEMODE) {
@@ -87,7 +96,6 @@ public class Combat implements Runnable {
 		if(Config.CHEAT_PREVENT_ENABLE_FLIGHT && hadFlightBefore.contains(p)) {
 			hadFlightBefore.remove(p);
 			p.setAllowFlight(true);
-			p.setFlying(true);
 		}
 		
 		if(scores.containsKey(p)) {

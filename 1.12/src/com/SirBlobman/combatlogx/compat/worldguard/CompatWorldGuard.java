@@ -57,4 +57,9 @@ public class CompatWorldGuard implements Listener {
 		boolean pvp = allows(null, DefaultFlag.PVP);
 		return pvp;
 	}
+	
+	public static boolean isSafeZone(Location l) {
+		boolean pvp = pvp(l);
+		return !pvp;
+	}
 }
