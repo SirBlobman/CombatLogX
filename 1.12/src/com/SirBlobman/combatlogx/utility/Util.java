@@ -4,7 +4,6 @@ import com.SirBlobman.combatlogx.Combat;
 import com.SirBlobman.combatlogx.CombatLogX;
 import com.SirBlobman.combatlogx.Update;
 import com.SirBlobman.combatlogx.compat.CombatPlaceHolders;
-import com.SirBlobman.combatlogx.compat.CompatTowny;
 import com.SirBlobman.combatlogx.compat.CustomBoss;
 import com.SirBlobman.combatlogx.config.Config;
 import com.SirBlobman.combatlogx.expand.Expansions;
@@ -14,6 +13,7 @@ import com.SirBlobman.combatlogx.nms.NMS;
 import com.SirBlobman.combatlogx.nms.action.Action;
 
 import org.bukkit.*;
+import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -96,7 +96,6 @@ public class Util {
 		
 		if(PM.isPluginEnabled("Towny")) {
 			Config.ENABLED_TOWNY = true;
-			regEvents(new CompatTowny());
 			String v = getVersionMessage("Towny");
 			print(v);
 		}
@@ -139,9 +138,12 @@ public class Util {
 	}
 	
 	public static void broadcast(String msg) {
-		print(msg);
-		String cast = color(Config.MESSAGE_PREFIX + msg);
-		for(Player p : Bukkit.getOnlinePlayers()) p.sendMessage(cast);
+		if(msg == null || msg.isEmpty() || msg.equals("")) return;
+		else {
+			print(msg);
+			String cast = color(Config.MESSAGE_PREFIX + msg);
+			for(Player p : Bukkit.getOnlinePlayers()) p.sendMessage(cast);
+		}
 	}
 	
 	public static String color(String o) {
@@ -158,6 +160,17 @@ public class Util {
 		String f = String.format(o, os);
 		String c = color(f);
 		return c;
+	}
+	
+	public static void sendMessage(CommandSender cs, Object... oo) {
+		for(Object o : oo) {
+			String s = str(o);
+			if(s == null || s.isEmpty() || s.equals("")) continue;
+			else {
+				String c = color(Config.MESSAGE_PREFIX + s);
+				cs.sendMessage(c);
+			}
+		}
 	}
 	
 	public static String formatMessage(String o, List<String> keys, List<? extends Object> values) {
@@ -269,11 +282,5 @@ public class Util {
 	public static <K, V> Map<K, V> newMap() {
 		Map<K, V> map = new HashMap<K, V>();
 		return map;
-	}
-	
-	public static void msg(Player p, String msg) {
-		msg = Config.MESSAGE_PREFIX + msg;
-		msg = color(msg);
-		p.sendMessage(msg);
 	}
 }

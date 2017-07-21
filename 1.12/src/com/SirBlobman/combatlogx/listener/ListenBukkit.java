@@ -94,11 +94,11 @@ public class ListenBukkit implements Listener {
 				List<String> list1 = Util.newList("{attacker}", "{target}");
 				List<String> list2 = Util.newList(pname, ename);
 				if(enemy instanceof Player) {
-					String msg = Util.formatMessage(Config.MESSAGE_PREFIX + Config.MESSAGE_ATTACK, list1, list2);
-					if(!Combat.in(p)) p.sendMessage(msg);
+					String msg = Util.formatMessage(Config.MESSAGE_ATTACK, list1, list2);
+					if(!Combat.in(p)) Util.sendMessage(p, msg);
 				} else {
-					String msg = Util.formatMessage(Config.MESSAGE_PREFIX + Config.MESSAGE_ATTACK_MOB, list1, list2);
-					if(!Combat.in(p)) p.sendMessage(msg);
+					String msg = Util.formatMessage(Config.MESSAGE_ATTACK_MOB, list1, list2);
+					if(!Combat.in(p)) Util.sendMessage(p, msg);
 				}
 				Combat.add(p, enemy);
 			}
@@ -111,11 +111,11 @@ public class ListenBukkit implements Listener {
 				List<String> list1 = Util.newList("{attacker}", "{target}");
 				List<String> list2 = Util.newList(ename, pname);
 				if(enemy instanceof Player) {
-					String msg = Util.formatMessage(Config.MESSAGE_PREFIX + Config.MESSAGE_TARGET, list1, list2);
-					if(!Combat.in(p)) p.sendMessage(msg);
+					String msg = Util.formatMessage(Config.MESSAGE_TARGET, list1, list2);
+					if(!Combat.in(p)) Util.sendMessage(p, msg);
 				} else {
-					String msg = Util.formatMessage(Config.MESSAGE_PREFIX + Config.MESSAGE_TARGET_MOB, list1, list2);
-					if(!Combat.in(p)) p.sendMessage(msg);
+					String msg = Util.formatMessage(Config.MESSAGE_TARGET_MOB, list1, list2);
+					if(!Combat.in(p)) Util.sendMessage(p, msg);
 				}
 				Combat.add(p, enemy);
 			}
@@ -139,7 +139,8 @@ public class ListenBukkit implements Listener {
 					InventoryType it = i.getType();
 					if(it != InventoryType.PLAYER) {
 						e.setCancelled(true);
-						Util.msg(p, Config.MESSAGE_OPEN_INVENTORY);
+						String msg = Config.MESSAGE_OPEN_INVENTORY;
+						Util.sendMessage(p, msg);
 					}
 				}
 			}
@@ -160,8 +161,8 @@ public class ListenBukkit implements Listener {
 					if(cm.startsWith("/" + cmd)) {
 						e.setCancelled(true);
 						List<String> list1 = Util.newList("{command}"), list2 = Util.newList(msg);
-						String msg1 = Util.formatMessage(Config.MESSAGE_PREFIX + Config.MESSAGE_BLOCKED_COMMAND, list1, list2);
-						p.sendMessage(msg1);
+						String msg1 = Util.formatMessage(Config.MESSAGE_BLOCKED_COMMAND, list1, list2);
+						Util.sendMessage(p, msg1);
 						break;
 					}
 				}
@@ -172,8 +173,8 @@ public class ListenBukkit implements Listener {
 					if(cm.startsWith("/" + cmd)) {
 						e.setCancelled(false);
 						List<String> list1 = Util.newList("{command}"), list2 = Util.newList(msg);
-						String msg1 = Util.formatMessage(Config.MESSAGE_PREFIX + Config.MESSAGE_BLOCKED_COMMAND, list1, list2);
-						p.sendMessage(msg1);
+						String msg1 = Util.formatMessage(Config.MESSAGE_BLOCKED_COMMAND, list1, list2);
+						Util.sendMessage(p, msg1);
 						break;
 					}
 				}
@@ -209,8 +210,8 @@ public class ListenBukkit implements Listener {
 					e.setCancelled(true);
 					Location from = e.getFrom();
 					p.teleport(from);
-					String msg = Util.format(Config.MESSAGE_PREFIX + Config.MESSAGE_NO_ENTRY);
-					p.sendMessage(msg);
+					String msg = Util.format(Config.MESSAGE_NO_ENTRY);
+					Util.sendMessage(p, msg);
 				}
 			}
 		}
@@ -237,8 +238,8 @@ public class ListenBukkit implements Listener {
 
 		if(Config.PUNISH_ON_QUIT_MESSAGE) {
 			List<String> l1 = Util.newList("{player}"), l2 = Util.newList(p.getName());
-			String msg = Util.formatMessage(Config.MESSAGE_PREFIX + Config.MESSAGE_QUIT, l1, l2);
-			Bukkit.broadcastMessage(msg);
+			String msg = Util.formatMessage(Config.MESSAGE_QUIT, l1, l2);
+			Util.broadcast(msg);
 		}
 	}
 }

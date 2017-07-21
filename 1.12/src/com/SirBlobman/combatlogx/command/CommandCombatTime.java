@@ -19,16 +19,16 @@ public class CommandCombatTime implements CommandExecutor {
 				int time = Combat.timeLeft(p);
 				if(time > 0) {
 					String time_left = Integer.toString(time);
-					String msg = Util.formatMessage(Config.MESSAGE_PREFIX + Config.MESSAGE_STILL_IN_COMBAT, Util.newList("{time_left}"), Util.newList(time_left));
-					p.sendMessage(msg);
+					String msg = Util.formatMessage(Config.MESSAGE_STILL_IN_COMBAT, Util.newList("{time_left}"), Util.newList(time_left));
+					Util.sendMessage(p, msg);
 				} else {
-					String msg = Util.format(Config.MESSAGE_PREFIX + Config.MESSAGE_NOT_IN_COMBAT);
-					p.sendMessage(msg);
+					String msg = Util.format(Config.MESSAGE_NOT_IN_COMBAT);
+					Util.sendMessage(p, msg);
 				}
 				return true;
 			} else {
 				String error = Util.color("Only players can do this command!");
-				cs.sendMessage(error);
+				Util.sendMessage(cs, error);
 				return true;
 			}
 		}

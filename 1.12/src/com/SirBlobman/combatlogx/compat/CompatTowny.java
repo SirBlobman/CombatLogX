@@ -6,9 +6,8 @@ import com.palmergames.bukkit.towny.object.*;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 
-public class CompatTowny implements Listener {
+public class CompatTowny {
 	public static boolean pvp(Player p) {
 		World w = p.getWorld();
 		String name = w.getName();

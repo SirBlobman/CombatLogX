@@ -14,8 +14,8 @@ public class CommandReload implements CommandExecutor {
 		if(cmd.equals("clreload")) {
 			Config.loadC();
 			Config.loadL();
-			String msg = Util.color(Config.MESSAGE_PREFIX + Config.MESSAGE_RELOAD_CONFIG);
-			cs.sendMessage(msg);
+			String msg = Util.color(Config.MESSAGE_RELOAD_CONFIG);
+			Util.sendMessage(cs, msg);
 			return true;
 		} else return false;
 	}

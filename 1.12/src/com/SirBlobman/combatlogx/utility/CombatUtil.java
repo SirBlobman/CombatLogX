@@ -99,7 +99,6 @@ public class CombatUtil extends Util {
 	
 	public static boolean canBeTagged(Player p) {
 		boolean can = !bypass(p);
-		if(can && Config.ENABLED_ESSENTIALS) can = !CompatEssentials.hasGod(p);
 		return can;
 	}
 	
@@ -107,6 +106,7 @@ public class CombatUtil extends Util {
 		if(Config.OPTION_BYPASS_ENABLE) {
 			String perm = Config.OPTION_BYPASS_PERMISSION;
 			boolean b = p.hasPermission(perm);
+			if(b && Config.ENABLED_ESSENTIALS) b = CompatEssentials.hasGod(p);
 			return b;
 		} else return false;
 	}
