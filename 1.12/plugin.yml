@@ -1,5 +1,5 @@
 name: CombatLogX
-version: 3.2.0 Beta
+version: 4.0.0 Release
 description: A simple combat-tagging plugin with many features
 author: SirBlobman
 main: com.SirBlobman.combatlogx.CombatLogX
@@ -11,7 +11,7 @@ commands:
     description: Reload the Config and Messages for this plugin
     usage: /clreload
     aliases: [ctreload, clr]
-    permission: combatlog.reload
+    permission: combatlogx.reload
     permission-message: Ask an admin to reload the config.
   combattime:
     description: Check how much combat time you have left.
