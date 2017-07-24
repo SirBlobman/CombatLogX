@@ -20,23 +20,47 @@ public class CombatUtil extends Util {
     }
     
     public static boolean canAttack(LivingEntity le1, LivingEntity le2) {
-        String name1 = OldUtil.getName(le1);
-        String name2 = OldUtil.getName(le2);
-        boolean can = true;
-        if(!Config.OPTION_SELF_COMBAT) {
-            boolean self = name1.equals(name2);
-            can = !self;
+        if(le1 instanceof Player) {
+            if(le2 instanceof Player) {
+                if(Config.OPTION_SELF_COMBAT) return true;
+                else {
+                    String name1 = OldUtil.getName(le1);
+                    String name2 = OldUtil.getName(le2);
+                    if(name1.equals(name2)) return false;
+                    else return true;
+                }
+            } else {
+                if(Config.OPTION_MOBS_COMBAT) {
+                    List<String> list = Config.OPTION_MOBS_BLACKLIST;
+                    EntityType et = le2.getType();
+                    String type = et.name();
+                    if(list.contains(type)) return false;
+                    else return true;
+                } else return false;
+            }
         }
         
-        if(!(le2 instanceof Player)) {
-            if(Config.OPTION_MOBS_COMBAT) {
-                List<String> invalid = Config.OPTION_MOBS_BLACKLIST;
-                EntityType et = le2.getType();
-                String type = et.name();
-                if(invalid.contains(type)) can = false;
-            } else can = false;
+        if(le2 instanceof Player) {
+            if(le1 instanceof Player) {
+                if(Config.OPTION_SELF_COMBAT) return true;
+                else {
+                    String name1 = OldUtil.getName(le1);
+                    String name2 = OldUtil.getName(le2);
+                    if(name1.equals(name2)) return false;
+                    else return true;
+                }
+            } else {
+                if(Config.OPTION_MOBS_COMBAT) {
+                    List<String> list = Config.OPTION_MOBS_BLACKLIST;
+                    EntityType et = le1.getType();
+                    String type = et.name();
+                    if(list.contains(type)) return false;
+                    else return true;
+                } else return false;
+            }
         }
         
-        return can;
+        /*IF the entities are not players they can always attack each other*/
+        return true;
     }
 }

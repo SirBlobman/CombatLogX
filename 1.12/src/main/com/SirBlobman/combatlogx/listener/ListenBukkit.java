@@ -45,24 +45,25 @@ public class ListenBukkit implements Listener {
         if(ded instanceof LivingEntity && der instanceof LivingEntity) {
             LivingEntity led = (LivingEntity) ded;
             LivingEntity ler = (LivingEntity) der;
-            if(!CombatUtil.canAttack(ler, led)) return;
-            boolean p1 = (led instanceof Player);
-            boolean p2 = (ler instanceof Player);
-            if(p1) {
-                Player p = (Player) led;
-                PlayerCombatEvent pce = new PlayerCombatEvent(p, ler, false);
-                Util.call(pce);
-            }
-            
-            if(p2) {
-                Player p = (Player) ler;
-                PlayerCombatEvent pce = new PlayerCombatEvent(p, led, true);
-                Util.call(pce);
-            }
-            
-            if(!p1 && !p2) {
-                CombatEvent ce = new CombatEvent(ler, led, true);
-                Util.call(ce);
+            if(CombatUtil.canAttack(ler, led)) {
+                boolean p1 = (led instanceof Player);
+                boolean p2 = (ler instanceof Player);
+                if(p1) {
+                    Player p = (Player) led;
+                    PlayerCombatEvent pce = new PlayerCombatEvent(p, ler, false);
+                    Util.call(pce);
+                }
+                
+                if(p2) {
+                    Player p = (Player) ler;
+                    PlayerCombatEvent pce = new PlayerCombatEvent(p, led, true);
+                    Util.call(pce);
+                }
+                
+                if(!p1 && !p2) {
+                    CombatEvent ce = new CombatEvent(ler, led, true);
+                    Util.call(ce);
+                }
             }
         }
     }

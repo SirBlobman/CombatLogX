@@ -1,10 +1,10 @@
 package com.SirBlobman.notify.nms;
 
-import org.bukkit.craftbukkit.v1_9_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_9_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import net.minecraft.server.v1_9_R1.*;
-import net.minecraft.server.v1_9_R1.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_9_R2.*;
+import net.minecraft.server.v1_9_R2.IChatBaseComponent.ChatSerializer;
 
 public class NMS1_9_R2 extends NMSUtil {
     @Override
