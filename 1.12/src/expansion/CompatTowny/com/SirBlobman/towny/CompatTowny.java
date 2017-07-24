@@ -22,7 +22,7 @@ public class CompatTowny implements CLXExpansion, Listener {
     }
     
     @Override
-    public String getName() {return "CompatTowny";}
+    public String getName() {return "Towny Compatability";}
     
     @Override
     public String getVersion() {return "1.0";}

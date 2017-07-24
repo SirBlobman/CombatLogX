@@ -26,7 +26,7 @@ public class CompatFactions implements CLXExpansion, Listener {
     }
     
     @Override
-    public String getName() {return "CompatFactions";}
+    public String getName() {return "Factions Compatability";}
     
     @Override
     public String getVersion() {return "1.0.0";}

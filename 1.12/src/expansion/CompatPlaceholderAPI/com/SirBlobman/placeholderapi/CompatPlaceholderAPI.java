@@ -16,7 +16,7 @@ public class CompatPlaceholderAPI implements CLXExpansion {
     }
     
     @Override
-    public String getName() {return "CompatPlaceholderAPI";}
+    public String getName() {return "PlaceholderAPI Compatability";}
     
     @Override
     public String getVersion() {return "1.0.0";}
