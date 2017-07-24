@@ -1,19 +1,34 @@
 name: CombatLogX
-version: 4.0.0 Release
+version: 4.0.0 Alpha
 description: A simple combat-tagging plugin with many features
 author: SirBlobman
 main: com.SirBlobman.combatlogx.CombatLogX
 database: false
 depend: []
-softdepend: [Factions, FactionsUUID, LegacyFactions, PlaceholderAPI, TitleManager, Towny, WorldGuard]
+softdepend: []
 commands:
-  clreload:
+  clxconfig:
     description: Reload the Config and Messages for this plugin
-    usage: /clreload
-    aliases: [ctreload, clr]
-    permission: combatlogx.reload
+    usage: /<command>
+    aliases: [clreload, clxreload, ctreload, clr]
+    permission: combatlogx.config
     permission-message: Ask an admin to reload the config.
   combattime:
     description: Check how much combat time you have left.
-    usage: /combattime
+    permission: combatlogx.time
+    permission-message: You don''t have permission to check how much time you have left
+    usage: /<command>
     aliases: [ct, cl]
+permissions:
+  combatlogx.*:
+    description: Gives access to all CombatLogX perms (except bypass)
+    default: op
+    children:
+      combatlogx.config: true
+      combatlogx.time: true
+  combatlogx.config:
+    description: Gives perms to edit and reload the config
+    default: op
+  combatlogx.time:
+    description: Gives permission to check how much time you have left during combat
+    default: true
