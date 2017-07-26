@@ -17,6 +17,7 @@ public class Hook extends EZPlaceholderHook {
         id = id.toLowerCase();
         if(id.equals("time_left")) {
             long time = Combat.timeLeft(p);
+            if(time <= 0) time = 0;
             String t = str(time);
             return t;
         } else if(id.equals("enemy_name")) {
@@ -24,13 +25,13 @@ public class Hook extends EZPlaceholderHook {
             if(le != null) {
                 String name = OldUtil.getName(le);
                 return name;
-            } else return null;
+            } else return "None";
         } else if(id.equals("enemy_health")) {
             LivingEntity le = Combat.getEnemy(p);
             if(le != null) {
                 String health = OldUtil.getHealth(le);
                 return health;
-            } else return null; 
+            } else return "None";
         } else return null;
     }
 }
