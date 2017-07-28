@@ -5,7 +5,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 
 public class PlayerUntagEvent extends PlayerEvent {
-    public enum UntagCause {EXPIRE, QUIT, KICK;}
+    public enum UntagCause {EXPIRE, QUIT, KICK, ENEMY_DEATH;}
     private static HandlerList HL = new HandlerList();
     
     private final UntagCause cause;

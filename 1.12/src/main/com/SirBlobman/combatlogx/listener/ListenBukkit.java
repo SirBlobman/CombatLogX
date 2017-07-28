@@ -79,6 +79,22 @@ public class ListenBukkit implements Listener {
     }
     
     @EventHandler
+    public void death(EntityDeathEvent e) {
+        if(Config.OPTION_REMOVE_COMBAT_ON_ENEMY_DEATH) {
+            LivingEntity le = e.getEntity();
+            List<LivingEntity> list = Combat.enemyList();
+            if(list.contains(le)) {
+                Player p = Combat.getByEnemy(le);
+                if(p != null) {
+                    UntagCause uc = UntagCause.ENEMY_DEATH;
+                    PlayerUntagEvent pue = new PlayerUntagEvent(p, uc);
+                    Util.call(pue);
+                }
+            }
+        }
+    }
+    
+    @EventHandler
     public void kick(PlayerKickEvent e) {
         Player p = e.getPlayer();
         if(Combat.isInCombat(p)) {

@@ -8,6 +8,7 @@ import com.SirBlobman.combatlogx.utility.Util;
 import org.bukkit.entity.*;
 
 import java.util.*;
+import java.util.Map.Entry;
 
 import javax.annotation.Nullable;
 
@@ -53,6 +54,25 @@ public class Combat implements Runnable {
             LivingEntity le = ENEMIES.get(p);
             return le;
         } else return null;
+    }
+    
+    public static Player getByEnemy(LivingEntity le) {
+        List<LivingEntity> list = enemyList();
+        if(list.contains(le)) {
+            for(Entry<Player, LivingEntity> e : ENEMIES.entrySet()) {
+                LivingEntity check = e.getValue();
+                if(le.equals(check)) {
+                    Player p = e.getKey();
+                    return p;
+                }
+            } return null;
+        } else return null;
+    }
+    
+    public static List<LivingEntity> enemyList() {
+        Collection<LivingEntity> lee = ENEMIES.values();
+        List<LivingEntity> list = Util.newList(lee);
+        return list;
     }
     
     /**

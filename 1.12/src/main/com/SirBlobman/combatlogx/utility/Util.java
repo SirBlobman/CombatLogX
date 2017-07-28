@@ -4,15 +4,11 @@ import com.SirBlobman.combatlogx.CombatLogX;
 import com.SirBlobman.combatlogx.config.Config;
 
 import org.bukkit.*;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.command.*;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.scheduler.BukkitScheduler;
-import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.event.*;
+import org.bukkit.plugin.*;
+import org.bukkit.scheduler.*;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -186,6 +182,12 @@ public class Util {
 
     @SafeVarargs
     public static <L> List<L> newList(L... ll) {
+        List<L> list = new ArrayList<L>();
+        for(L l : ll) list.add(l);
+        return list;
+    }
+    
+    public static <L> List<L> newList(Collection<L> ll) {
         List<L> list = new ArrayList<L>();
         for(L l : ll) list.add(l);
         return list;

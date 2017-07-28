@@ -75,10 +75,12 @@ public class Config {
     public static boolean OPTION_CHECK_UPDATES = true;
     public static boolean OPTION_ACTION_BAR = true;
     public static boolean OPTION_BOSS_BAR = true;
+    public static String OPTION_BOSS_BAR_COLOR = "YELLOW";
     public static boolean OPTION_SCORE_BOARD = true;
     public static boolean OPTION_SELF_COMBAT = true;
     public static boolean OPTION_MOBS_COMBAT = true;
     public static boolean OPTION_BYPASS_ENABLE = false;
+    public static boolean OPTION_REMOVE_COMBAT_ON_ENEMY_DEATH = true;
     public static boolean OPTION_COMBAT_SUDO_ENABLE = true;
     public static String OPTION_BYPASS_PERMISSION = "combatlogx.bypass";
     public static List<String> OPTION_MOBS_BLACKLIST = Util.newList("PIG", "COW");
@@ -110,11 +112,13 @@ public class Config {
         OPTION_DISABLED_WORLDS = get(config, "options.disabled worlds", Util.newList("WoRlD", "Lobby", "Creative"));
         OPTION_TIMER = get(config, "options.combat timer", 30);
         OPTION_ACTION_BAR = get(config, "options.action bar", true);
-        OPTION_BOSS_BAR = get(config, "options.boss bar", true);
+        OPTION_BOSS_BAR = get(config, "options.boss bar.enable", true);
+        OPTION_BOSS_BAR_COLOR = get(config, "options.boss bar.color", "YELLOW");
         OPTION_SCORE_BOARD = get(config, "options.score board", true);
         OPTION_SELF_COMBAT = get(config, "options.self combat", true);
         OPTION_MOBS_COMBAT = get(config, "options.mobs.combat", true);
         OPTION_MOBS_BLACKLIST = get(config, "options.mobs.blacklist", Util.newList("PIG", "COW"));
+        OPTION_REMOVE_COMBAT_ON_ENEMY_DEATH = get(config, "options.remove combat on enemy death", true);
         OPTION_BYPASS_ENABLE = get(config, "options.bypass.enable", false);
         OPTION_BYPASS_PERMISSION = get(config, "options.bypass.permission", "combatlogx.bypass");
         OPTION_COMBAT_SUDO_ENABLE = get(config, "options.combat sudo.enable", true);
@@ -148,6 +152,7 @@ public class Config {
     public static String MESSAGE_ATTACK_MOB = "";
     public static String MESSAGE_TARGET_MOB = "";
     public static String MESSAGE_EXPIRE = "";
+    public static String MESSAGE_ENEMY_DEATH = "";
     public static String MESSAGE_BLOCKED_COMMAND = "";
     public static String MESSAGE_STILL_IN_COMBAT = "";
     public static String MESSAGE_NOT_PLAYER = "";
@@ -173,6 +178,7 @@ public class Config {
         MESSAGE_ATTACK = get(config, "combat.attack.player", "You attacked {target}! You are now in combat!");
         MESSAGE_ATTACK_MOB = get(config, "combat.attack.entity", "You attacked a mob named {target}! You are now in combat!");
         MESSAGE_EXPIRE = get(config, "combat.expire", "You are no longer in combat!");
+        MESSAGE_ENEMY_DEATH = get(config, "combat.enemy death", "Your enemy called &a{enemy_name}&r has died! You are no longer in combat.");
         MESSAGE_OPEN_INVENTORY = get(config, "combat.open inventory", "You cannot open storage blocks during combat!");
         MESSAGE_BLOCKED_COMMAND = get(config, "combat.blocked command", "&eYou cannot do &c/{command}&e during combat!");
         MESSAGE_NO_ENTRY = get(config, "combat.no entry", "You cannot enter a safe-zone while you are in combat!");

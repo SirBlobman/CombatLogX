@@ -68,6 +68,13 @@ public class FinalMonitor implements Listener {
             case QUIT: 
                 if(Config.PUNISH_ON_QUIT) punish(p);
                 break;
+            
+            case ENEMY_DEATH:
+                List<String> l1 = Util.newList("{enemy_name}");
+                List<String> l2 = Util.newList(OldUtil.getName(Combat.getEnemy(p)));
+                String msg = Util.formatMessage(Config.MESSAGE_ENEMY_DEATH, l1, l2);
+                Util.sendMessage(p, msg);
+                break;
         }
         Combat.remove(p);
     }
