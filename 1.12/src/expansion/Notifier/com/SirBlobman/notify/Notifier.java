@@ -33,7 +33,7 @@ public class Notifier implements CLXExpansion, Listener {
     public String getName() {return "Notifier";}
 
     @Override
-    public String getVersion() {return "1.0.0";}
+    public String getVersion() {return "1.0.1";}
 
     @EventHandler
     public void pue(PlayerUntagEvent e) {

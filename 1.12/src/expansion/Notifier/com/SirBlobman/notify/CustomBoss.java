@@ -59,9 +59,16 @@ public class CustomBoss {
     public static void remove(Player p) {
         if(Config.OPTION_BOSS_BAR) {
             BossBar bb = getBossBar(p);
-            bb.setVisible(false);
-            bb.removePlayer(p);
-            BOSS.remove(p);
+            bb.setTitle(Config.MESSAGE_EXPIRE);
+            bb.setProgress(0);
+            Util.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    bb.setVisible(false);
+                    bb.removePlayer(p);
+                    BOSS.remove(p);
+                }
+            }, 40L);
         }
     }
 }

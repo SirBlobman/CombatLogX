@@ -9,8 +9,8 @@ import org.bukkit.entity.*;
 
 import me.clip.placeholderapi.external.EZPlaceholderHook;
 
-public class Hook extends EZPlaceholderHook {
-    public Hook() {super(CombatLogX.INSTANCE, "combatlogx");}
+public class HookP extends EZPlaceholderHook {
+    public HookP() {super(CombatLogX.INSTANCE, "combatlogx");}
 
     @Override
     public String onPlaceholderRequest(Player p, String id) {
