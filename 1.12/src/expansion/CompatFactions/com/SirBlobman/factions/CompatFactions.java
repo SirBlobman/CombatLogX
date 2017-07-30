@@ -10,7 +10,8 @@ import com.SirBlobman.factions.compat.FactionsUtil;
 import org.bukkit.Location;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
-import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.*;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 public class CompatFactions implements CLXExpansion, Listener {
     private static FactionsUtil FACTIONS;
@@ -47,6 +48,22 @@ public class CompatFactions implements CLXExpansion, Listener {
     public void move(PlayerMoveEvent e) {
         if(e.isCancelled()) return;
         if(Config.CHEAT_PREVENT_NO_ENTRY) {
+            Player p = e.getPlayer();
+            Location from = e.getFrom();
+            Location to = e.getTo();
+            if(Combat.isInCombat(p) && FACTIONS.isSafeZone(to)) {
+                e.setCancelled(true);
+                String error = Config.MESSAGE_NO_ENTRY;
+                Util.sendMessage(p, error);
+                p.teleport(from);
+            }
+        }
+    }
+    
+    @EventHandler
+    public void tp(PlayerTeleportEvent e) {
+        if(e.isCancelled()) return;
+        if(Config.CHEAT_PREVENT_NO_ENTRY && e.getCause() == TeleportCause.ENDER_PEARL) {
             Player p = e.getPlayer();
             Location from = e.getFrom();
             Location to = e.getTo();

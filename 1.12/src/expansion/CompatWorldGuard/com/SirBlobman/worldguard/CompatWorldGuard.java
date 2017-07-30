@@ -9,7 +9,8 @@ import com.SirBlobman.combatlogx.utility.Util;
 import org.bukkit.Location;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
-import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.*;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 public class CompatWorldGuard implements CLXExpansion, Listener {
     @Override
@@ -21,13 +22,13 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
             Util.print(error);
         }
     }
-    
+
     @Override
     public String getName() {return "WorldGuard Compatability";}
-    
+
     @Override
     public String getVersion() {return "1.0.0";}
-    
+
     @EventHandler
     public void pce(PlayerCombatEvent e) {
         LivingEntity ler = e.getAttacker();
@@ -37,18 +38,34 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
             boolean pvp = WorldGuardUtil.pvp(p);
             if(!pvp) e.setCancelled(true);
         }
-        
+
         if(led instanceof Player) {
             Player p = (Player) led;
             boolean pvp = WorldGuardUtil.pvp(p);
             if(!pvp) e.setCancelled(true);
         }
     }
-    
+
     @EventHandler
     public void move(PlayerMoveEvent e) {
         if(e.isCancelled()) return;
         if(Config.CHEAT_PREVENT_NO_ENTRY) {
+            Player p = e.getPlayer();
+            Location from = e.getFrom();
+            Location to = e.getTo();
+            if(Combat.isInCombat(p) && WorldGuardUtil.isSafeZone(to)) {
+                e.setCancelled(true);
+                String error = Config.MESSAGE_NO_ENTRY;
+                Util.sendMessage(p, error);
+                p.teleport(from);
+            }
+        }
+    }
+
+    @EventHandler
+    public void tp(PlayerTeleportEvent e) {
+        if(e.isCancelled()) return;
+        if(Config.CHEAT_PREVENT_NO_ENTRY && e.getCause() == TeleportCause.ENDER_PEARL) {
             Player p = e.getPlayer();
             Location from = e.getFrom();
             Location to = e.getTo();
