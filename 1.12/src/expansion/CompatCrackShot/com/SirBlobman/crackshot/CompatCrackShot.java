@@ -10,7 +10,7 @@ public class CompatCrackShot implements CLXExpansion {
             Util.regEvents(new ListenCrackShot());
         } else {
             String error = "CrackShot is not installed! This expansion is useless.";
-            Util.print(error);
+            print(error);
         }
     }
     

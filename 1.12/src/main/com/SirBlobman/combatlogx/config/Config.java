@@ -148,6 +148,7 @@ public class Config {
 
     //Start Language
     public static String MESSAGE_PREFIX = "";
+    public static String MESSAGE_PREFIX_EXPANSION = "";
     public static String MESSAGE_ATTACK = "";
     public static String MESSAGE_TARGET = "";
     public static String MESSAGE_ATTACK_MOB = "";
@@ -169,7 +170,8 @@ public class Config {
     public static List<String> SCOREBOARD_LIST = Util.newList();
 
     private static void defaultsL(YamlConfiguration config) {
-        MESSAGE_PREFIX = get(config, "prefix", "&e[&fCombatLog&e] &f");
+        MESSAGE_PREFIX = get(config, "prefix.normal", "&e[&fCombatLogX&e] &f");
+        MESSAGE_PREFIX_EXPANSION = get(config, "prefix.expansion", "&e[&fCombatLogX - &b{expansion}&e] &f");
         MESSAGE_ACTION_BAR = get(config, "action bar", "&3Combat &7>> &2{time_left} seconds");
         MESSAGE_BOSS_BAR = get(config, "boss bar", "&3Combat &7>> &c{time_left} seconds");
         MESSAGE_RELOAD_CONFIG = get(config, "reload config", "Reloaded 'combat.yml' and 'language.yml'");

@@ -21,7 +21,7 @@ public class CompatPlaceholderAPI implements CLXExpansion {
         
         if(!installed) {
             String error = "Could not find PlaceholderAPI or MVdWPlaceholderAPI! This expansion is useless.";
-            Util.print(error);
+            print(error);
         }
     }
     

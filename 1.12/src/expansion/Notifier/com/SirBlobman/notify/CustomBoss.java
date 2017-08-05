@@ -4,10 +4,13 @@ import com.SirBlobman.combatlogx.config.Config;
 import com.SirBlobman.combatlogx.utility.Util;
 
 import org.bukkit.Bukkit;
-import org.bukkit.boss.*;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 public class CustomBoss {
     private static Map<Player, BossBar> BOSS = Util.newMap();
@@ -31,7 +34,7 @@ public class CustomBoss {
             } finally {
                 if(bc == null) {
                     String error = "Invalid Boss Bar Color in config '" + color + "'. Defaulting to YELLOW";
-                    Util.print(error);
+                    Notifier.log(error);
                     bc = BarColor.YELLOW;
                 }
             }

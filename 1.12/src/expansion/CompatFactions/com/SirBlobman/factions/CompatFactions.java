@@ -15,6 +15,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.bukkit.util.Vector;
 
 public class CompatFactions implements CLXExpansion, Listener {
     private static FactionsUtil FACTIONS;
@@ -23,7 +24,7 @@ public class CompatFactions implements CLXExpansion, Listener {
         FACTIONS = FactionsUtil.getFactions();
         if(FACTIONS == null) {
             String error = "A Factions plugin could not be found. This expansion is useless!";
-            Util.print(error);
+            print(error);
         } else {
             Util.regEvents(this);
         }
@@ -55,10 +56,11 @@ public class CompatFactions implements CLXExpansion, Listener {
             Location from = e.getFrom();
             Location to = e.getTo();
             if(Combat.isInCombat(p) && FACTIONS.isSafeZone(to)) {
-                e.setCancelled(true);
+                Vector d = from.getDirection();
+                Vector m = d.multiply(-1);
+                p.setVelocity(m);
                 String error = Config.MESSAGE_NO_ENTRY;
                 Util.sendMessage(p, error);
-                p.teleport(from);
             }
         }
     }

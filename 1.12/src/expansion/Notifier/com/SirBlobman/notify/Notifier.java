@@ -16,16 +16,18 @@ import java.util.List;
 public class Notifier implements CLXExpansion, Listener {
     private static List<String> VALID_BOSS = Util.newList("1.12", "1.11", "1.10");
     private static NMSUtil NMS;
+    private static Notifier INSTANCE;
 
     @Override
     public void enable() {
+        INSTANCE = this;
         NMS = NMSUtil.getNMS();
         if(NMS == null) Config.OPTION_ACTION_BAR = false;
         String base = NMSUtil.baseVersion();
         if(!VALID_BOSS.contains(base)) {
             Config.OPTION_BOSS_BAR = false;
             String error = base + " does not support boss bars";
-            Util.print(error);
+            print(error);
         }
         
         Util.regEvents(this);
@@ -58,4 +60,6 @@ public class Notifier implements CLXExpansion, Listener {
             NMS.action(p, msg);
         }
     }
+    
+    public static void log(Object... oo) {INSTANCE.print(oo);}
 }

@@ -17,8 +17,13 @@ public class CompatCitizens implements CLXExpansion {
             Util.regEvents(new ListenCitizens());
         } else {
             String error = "Citizens is not installed. This expansion is useless!";
-            Util.print(error);
+            print(error);
         }
+    }
+    
+    @Override
+    public void disable() {
+        ListenCitizens.removeAllNPCs();
     }
     
     @Override

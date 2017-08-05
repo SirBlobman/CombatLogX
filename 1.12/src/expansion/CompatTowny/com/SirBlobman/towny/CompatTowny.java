@@ -7,9 +7,12 @@ import com.SirBlobman.combatlogx.utility.Util;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.event.*;
-import org.bukkit.event.player.*;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.bukkit.util.Vector;
 
 public class CompatTowny implements CLXExpansion, Listener {
     @Override
@@ -18,7 +21,7 @@ public class CompatTowny implements CLXExpansion, Listener {
             Util.regEvents(this);
         } else {
             String error = "Towny is not installed. This expansion is useless!";
-            Util.print(error);
+            print(error);
         }
     }
     
@@ -37,10 +40,11 @@ public class CompatTowny implements CLXExpansion, Listener {
             Location to = e.getTo();
             if(Combat.isInCombat(p)) {
                 if(!TownyUtil.pvp(to)) {
-                    e.setCancelled(true);
+                    Vector d = from.getDirection();
+                    Vector m = d.multiply(-1);
+                    p.setVelocity(m);
                     String error = Config.MESSAGE_NO_ENTRY;
                     Util.sendMessage(p, error);
-                    p.teleport(from);
                 }
             }
         }

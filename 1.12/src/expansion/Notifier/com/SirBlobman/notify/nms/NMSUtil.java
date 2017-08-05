@@ -1,6 +1,7 @@
 package com.SirBlobman.notify.nms;
 
 import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.notify.Notifier;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -58,7 +59,7 @@ public abstract class NMSUtil extends Util {
             case "1.8":
                 return new NMS1_8_R1();
             default:
-                Util.print(
+                Notifier.log(
                     "NMS for '" + mc + "' is not supported!",
                     "This means that some scoreboard features and the action bar will not work!"
                 );

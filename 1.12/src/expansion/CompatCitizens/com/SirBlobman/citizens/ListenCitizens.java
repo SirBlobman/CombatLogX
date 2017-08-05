@@ -74,7 +74,7 @@ public class ListenCitizens implements Listener {
         ConfigData.remove(p);
     }
     
-    private double health(NPC npc) {
+    private static double health(NPC npc) {
         if(npc == null) return 0.0D;
         if(npc.isSpawned()) {
             Entity e = npc.getEntity();
@@ -84,5 +84,17 @@ public class ListenCitizens implements Listener {
                 return health;
             } else return 0.0D;
         } else return 0.0D;
+    }
+    
+    @SuppressWarnings("deprecation")
+    public static void removeAllNPCs() {
+        for(NPC npc : NPCS) {
+            String name = npc.getName();
+            double health = health(npc);
+            OfflinePlayer op = Bukkit.getOfflinePlayer(name);
+            ConfigData.force(op, "health", health);
+            NPCS.remove(npc);
+            npc.destroy();
+        }
     }
 }

@@ -11,6 +11,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Enumeration;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -48,6 +49,13 @@ public class Expansions {
             ex.printStackTrace();
             return false;
         }
+    }
+    
+    public static void onDisable() {
+        for(Entry<String, CLXExpansion> e : EXPANSIONS.entrySet()) {
+            CLXExpansion ex = e.getValue();
+            ex.disable();
+        } EXPANSIONS.clear();
     }
 
     public static void loadExpansions() {

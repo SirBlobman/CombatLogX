@@ -14,6 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.bukkit.util.Vector;
 
 public class CompatWorldGuard implements CLXExpansion, Listener {
     @Override
@@ -22,7 +23,7 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
             Util.regEvents(this);
         } else {
             String error = "WorldGuard is not installed. This expansion is useless!";
-            Util.print(error);
+            print(error);
         }
     }
 
@@ -57,10 +58,11 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
             Location from = e.getFrom();
             Location to = e.getTo();
             if(Combat.isInCombat(p) && WorldGuardUtil.isSafeZone(to)) {
-                e.setCancelled(true);
+                Vector d = from.getDirection();
+                Vector m = d.multiply(-1);
+                p.setVelocity(m);
                 String error = Config.MESSAGE_NO_ENTRY;
                 Util.sendMessage(p, error);
-                p.teleport(from);
             }
         }
     }
