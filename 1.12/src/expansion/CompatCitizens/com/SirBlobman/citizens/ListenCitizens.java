@@ -39,6 +39,8 @@ public class ListenCitizens implements Listener {
             NPC npc = reg.createNPC(EntityType.PLAYER, pname);
             npc.setProtected(false);
             npc.spawn(l);
+            LivingEntity le = (LivingEntity) npc.getEntity();
+            le.setHealth(p.getHealth());
             NPCS.add(npc);
             Util.runLater(new Runnable() {
                 @Override
@@ -68,7 +70,17 @@ public class ListenCitizens implements Listener {
     @EventHandler
     public void join(PlayerJoinEvent e) {
         Player p = e.getPlayer();
+        String pname = p.getName();
         double health = ConfigData.get(p, "health", p.getHealth());
+        for(NPC npc : NPCS) {
+            String name = npc.getName();
+            if(name.equals(pname)) {
+                health = health(npc);
+                NPCS.remove(npc);
+                npc.destroy();
+                break;
+            }
+        }
         if(health == 0.0D) Combat.punish(p);
         else p.setHealth(health);
         ConfigData.remove(p);

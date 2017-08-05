@@ -96,6 +96,9 @@ public class CombatLogX extends JavaPlugin {
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
             String version = br.readLine();
+            
+            os.close();
+            br.close(); isr.close(); is.close();
             return version;
         } catch(Throwable ex) {
             String error = "Failed to check for updates:";
@@ -112,28 +115,33 @@ public class CombatLogX extends JavaPlugin {
     }
     
     private static void checkUpdate() {
-        String spigot = spigotVersion();
-        String plugin = pluginVersion();
-        if(spigot.equals(plugin)) {
-            String[] msg = Util.color(
-                "&6========================================================",
-                "&eCombatLogX Update Checker",
-                "&aYou are using the latest version!",
-                "&6========================================================"
-            );
-            print(msg);
-        } else {
-            String[] msg = Util.color(
-                "&6========================================================",
-                "&eCombatLogX Update Checker",
-                "&aThere is a new update available!",
-                "&e&lLatest Version: &a" + spigot,
-                "&e&lYour Version: &c" + plugin,
-                "&eGet it here: &b&nhttps://www.spigotmc.org/resources/combatlogx.31689/",
-                "&6========================================================"
-            );
-            print(msg);
-        }
+        Util.BS.runTaskAsynchronously(INSTANCE, new Runnable() {
+           @Override
+           public void run() {
+               String spigot = spigotVersion();
+               String plugin = pluginVersion();
+               if(spigot.equals(plugin)) {
+                   String[] msg = Util.color(
+                       "&6========================================================",
+                       "&eCombatLogX Update Checker",
+                       "&aYou are using the latest version!",
+                       "&6========================================================"
+                   );
+                   print(msg);
+               } else {
+                   String[] msg = Util.color(
+                       "&6========================================================",
+                       "&eCombatLogX Update Checker",
+                       "&aThere is a new update available!",
+                       "&e&lLatest Version: &a" + spigot,
+                       "&e&lYour Version: &c" + plugin,
+                       "&eGet it here: &b&nhttps://www.spigotmc.org/resources/combatlogx.31689/",
+                       "&6========================================================"
+                   );
+                   print(msg);
+               }
+           }
+        });
     }
     
     private static void print(String... ss) {
