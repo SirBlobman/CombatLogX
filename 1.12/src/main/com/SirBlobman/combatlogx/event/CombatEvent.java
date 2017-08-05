@@ -1,4 +1,4 @@
-package com.SirBlobman.combatlogx.listener.event;
+package com.SirBlobman.combatlogx.event;
 
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Cancellable;

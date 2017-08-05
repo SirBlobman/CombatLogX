@@ -2,13 +2,18 @@ package com.SirBlobman.combatlogx.listener;
 
 import com.SirBlobman.combatlogx.Combat;
 import com.SirBlobman.combatlogx.config.Config;
-import com.SirBlobman.combatlogx.listener.event.*;
-import com.SirBlobman.combatlogx.listener.event.PlayerUntagEvent.UntagCause;
-import com.SirBlobman.combatlogx.utility.*;
+import com.SirBlobman.combatlogx.event.PlayerCombatEvent;
+import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
+import com.SirBlobman.combatlogx.event.PlayerUntagEvent.UntagCause;
+import com.SirBlobman.combatlogx.utility.CombatUtil;
+import com.SirBlobman.combatlogx.utility.OldUtil;
+import com.SirBlobman.combatlogx.utility.Util;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.*;
-import org.bukkit.event.*;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 
 import java.util.List;
 
@@ -54,6 +59,7 @@ public class FinalMonitor implements Listener {
 
     @EventHandler(priority=EventPriority.MONITOR)
     public void pue(PlayerUntagEvent e) {
+        if(e.isCancelled()) return;
         Player p = e.getPlayer();
         UntagCause uc = e.getCause();
         switch(uc) {
@@ -62,11 +68,11 @@ public class FinalMonitor implements Listener {
                 break;
 
             case KICK: 
-                if(Config.PUNISH_ON_KICK) punish(p);
+                if(Config.PUNISH_ON_KICK) Combat.punish(p);
                 break;
                 
             case QUIT: 
-                if(Config.PUNISH_ON_QUIT) punish(p);
+                if(Config.PUNISH_ON_QUIT) Combat.punish(p);
                 break;
             
             case ENEMY_DEATH:
@@ -77,26 +83,5 @@ public class FinalMonitor implements Listener {
                 break;
         }
         Combat.remove(p);
-    }
-
-    private void punish(Player p) {
-        if(Config.PUNISH_KILL_PLAYER) p.setHealth(0.0D);
-
-        if(Config.PUNISH_ON_QUIT_MESSAGE) {
-            List<String> l1 = Util.newList("{player}");
-            List<String> l2 = Util.newList(p.getName());
-            String msg = Util.formatMessage(Config.MESSAGE_QUIT, l1, l2);
-            Util.broadcast(msg);
-        }
-
-        if(Config.PUNISH_SUDO_LOGGERS) {
-            List<String> list = Config.PUNISH_COMMANDS_LOGGERS;
-            for(String cmd : list) p.performCommand(cmd); 
-        }
-
-        if(Config.PUNISH_CONSOLE) {
-            List<String> list = Config.PUNISH_COMMANDS_CONSOLE;
-            for(String cmd : list) Bukkit.dispatchCommand(Util.CONSOLE, cmd);
-        }
     }
 }

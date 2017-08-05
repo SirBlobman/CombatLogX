@@ -1,13 +1,15 @@
 package com.SirBlobman.notify;
 
 import com.SirBlobman.combatlogx.config.Config;
+import com.SirBlobman.combatlogx.event.CombatTimerChangeEvent;
+import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
-import com.SirBlobman.combatlogx.listener.event.*;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.notify.nms.NMSUtil;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.*;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
 import java.util.List;
 
@@ -33,7 +35,7 @@ public class Notifier implements CLXExpansion, Listener {
     public String getName() {return "Notifier";}
 
     @Override
-    public String getVersion() {return "1.0.1";}
+    public String getVersion() {return "1.0.3";}
 
     @EventHandler
     public void pue(PlayerUntagEvent e) {

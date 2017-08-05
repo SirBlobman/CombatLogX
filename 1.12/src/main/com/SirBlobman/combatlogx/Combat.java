@@ -1,11 +1,14 @@
 package com.SirBlobman.combatlogx;
 
 import com.SirBlobman.combatlogx.config.Config;
-import com.SirBlobman.combatlogx.listener.event.*;
-import com.SirBlobman.combatlogx.listener.event.PlayerUntagEvent.UntagCause;
+import com.SirBlobman.combatlogx.event.CombatTimerChangeEvent;
+import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
+import com.SirBlobman.combatlogx.event.PlayerUntagEvent.UntagCause;
 import com.SirBlobman.combatlogx.utility.Util;
 
-import org.bukkit.entity.*;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -100,5 +103,40 @@ public class Combat implements Runnable {
     public static void remove(Player p) {
         COMBAT.remove(p);
         ENEMIES.remove(p);
+    }
+
+    public static void punish(Player p) {
+        if(Config.PUNISH_KILL_PLAYER) p.setHealth(0.0D);
+
+        if(Config.PUNISH_ON_QUIT_MESSAGE) {
+            List<String> l1 = Util.newList("{player}");
+            List<String> l2 = Util.newList(p.getName());
+            String msg = Util.formatMessage(Config.MESSAGE_QUIT, l1, l2);
+            Util.broadcast(msg);
+        }
+
+        if(Config.PUNISH_SUDO_LOGGERS) {
+            List<String> list = Config.PUNISH_COMMANDS_LOGGERS;
+            for(String cmd : list) {
+                cmd = format(p, cmd);
+                p.performCommand(cmd);
+            }
+        }
+
+        if(Config.PUNISH_CONSOLE) {
+            List<String> list = Config.PUNISH_COMMANDS_CONSOLE;
+            for(String cmd : list) {
+                cmd = format(p, cmd);
+                Bukkit.dispatchCommand(Util.CONSOLE, cmd);
+            }
+        }
+    }
+    
+    private static String format(Player p, String cmd) {
+        String name = p.getName();
+        List<String> l1 = Util.newList("{player}");
+        List<?> l2 = Util.newList(name);
+        String f = Util.formatMessage(cmd, l1, l2);
+        return f;
     }
 }

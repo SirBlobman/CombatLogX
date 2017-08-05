@@ -1,6 +1,6 @@
 package com.SirBlobman.not;
 
-import com.SirBlobman.combatlogx.listener.event.CombatEvent;
+import com.SirBlobman.combatlogx.event.CombatEvent;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;

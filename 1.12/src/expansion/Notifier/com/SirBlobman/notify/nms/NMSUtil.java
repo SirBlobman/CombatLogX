@@ -5,7 +5,8 @@ import com.SirBlobman.combatlogx.utility.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public abstract class NMSUtil extends Util {
     public static String minecraftVersion() {
@@ -26,6 +27,7 @@ public abstract class NMSUtil extends Util {
     public static NMSUtil getNMS() {
         String mc = minecraftVersion();
         switch(mc) {
+            case "1.12.1":
             case "1.12":
                 return new NMS1_12_R1();
             case "1.11.2":
@@ -57,7 +59,7 @@ public abstract class NMSUtil extends Util {
                 return new NMS1_8_R1();
             default:
                 Util.print(
-                    "NMS Version '" + mc + "' is not supported!",
+                    "NMS for '" + mc + "' is not supported!",
                     "This means that some scoreboard features and the action bar will not work!"
                 );
                 return null;

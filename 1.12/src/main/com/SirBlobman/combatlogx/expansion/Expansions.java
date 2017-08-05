@@ -55,6 +55,7 @@ public class Expansions {
             if(!EXPAND.exists()) EXPAND.mkdirs();
             File[] files = EXPAND.listFiles();
             for(File file : files) {
+                if(file.isDirectory()) continue;
                 if(isJar(file)) {
                     JarFile jar = null;
                     try {
@@ -130,8 +131,7 @@ public class Expansions {
     @SuppressWarnings("resource")
     private static synchronized JarFile loadJar(File file) throws Throwable {
         JarFile jar = new JarFile(file);
-        Class<?> clazz = CombatLogX.class;
-        ClassLoader cl = clazz.getClassLoader();
+        ClassLoader cl = CombatLogX.CLASS_LOADER;
         URLClassLoader ucl = (URLClassLoader) cl;
         URI uri = file.toURI();
         URL url = uri.toURL();

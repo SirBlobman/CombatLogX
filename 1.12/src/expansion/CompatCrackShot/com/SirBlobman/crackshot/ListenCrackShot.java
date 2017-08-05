@@ -1,11 +1,16 @@
 package com.SirBlobman.crackshot;
 
-import com.SirBlobman.combatlogx.listener.event.PlayerCombatEvent;
-import com.SirBlobman.combatlogx.utility.*;
+import com.SirBlobman.combatlogx.event.PlayerCombatEvent;
+import com.SirBlobman.combatlogx.utility.CombatUtil;
+import com.SirBlobman.combatlogx.utility.Util;
 import com.shampaggon.crackshot.events.WeaponDamageEntityEvent;
 
-import org.bukkit.entity.*;
-import org.bukkit.event.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 
 public class ListenCrackShot implements Listener {
     @EventHandler(priority=EventPriority.HIGHEST)

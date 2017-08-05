@@ -3,6 +3,7 @@ package com.SirBlobman.notify;
 import com.SirBlobman.combatlogx.Combat;
 import com.SirBlobman.combatlogx.config.Config;
 import com.SirBlobman.combatlogx.utility.*;
+import com.SirBlobman.notify.nms.NMSUtil;
 
 import org.bukkit.entity.*;
 import org.bukkit.plugin.Plugin;
@@ -50,6 +51,7 @@ public class CustomScore {
             int i = list.size();
             for(String line : list) {
                 String format = Util.formatMessage(line, l1, l2);
+                format = (format.length() > getCharacterLimit()) ? format.substring(0, getCharacterLimit()) : format;
                 Score s = o.getScore(format);
                 s.setScore(i);
                 i--;
@@ -77,5 +79,11 @@ public class CustomScore {
                 tm.giveScoreboard(p);
             }
         }
+    }
+    
+    public static int getCharacterLimit() {
+        String mc = NMSUtil.baseVersion();
+        if(mc.equals("1.7")) return 15;
+        else return 39;
     }
 }

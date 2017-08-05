@@ -41,7 +41,8 @@ public class Config {
     public static void save(YamlConfiguration config, File file) {
         try {
             if(!file.exists()) {
-                FOLDER.mkdirs();
+                File folder = file.getParentFile();
+                folder.mkdirs();
                 file.createNewFile();
             } 
             config.save(file);
@@ -180,7 +181,7 @@ public class Config {
         MESSAGE_EXPIRE = get(config, "combat.expire", "You are no longer in combat!");
         MESSAGE_ENEMY_DEATH = get(config, "combat.enemy death", "Your enemy called &a{enemy_name}&r has died! You are no longer in combat.");
         MESSAGE_OPEN_INVENTORY = get(config, "combat.open inventory", "You cannot open storage blocks during combat!");
-        MESSAGE_BLOCKED_COMMAND = get(config, "combat.blocked command", "&eYou cannot do &c/{command}&e during combat!");
+        MESSAGE_BLOCKED_COMMAND = get(config, "combat.blocked command", "&eYou cannot do &c{command}&e during combat!");
         MESSAGE_NO_ENTRY = get(config, "combat.no entry", "You cannot enter a safe-zone while you are in combat!");
         MESSAGE_STILL_IN_COMBAT = get(config, "combat.in", "You are still in combat for {time_left} seconds");
         MESSAGE_NOT_IN_COMBAT = get(config, "combat.out", "You are not in combat!");

@@ -1,23 +1,22 @@
-package com.SirBlobman.not;
+package com.SirBlobman.not.config;
 
 import com.SirBlobman.combatlogx.config.Config;
+import com.SirBlobman.not.NotCombatLogX;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 
 public class NConfig extends Config {
+    private static final File FOLDER = NotCombatLogX.FOLDER;
     private static final File FILE = new File(FOLDER, "not.yml");
     private static YamlConfiguration config = new YamlConfiguration();
     
+    public static void save() {save(config, FILE);}
     public static YamlConfiguration load() {
         config = load(FILE);
         defaults();
         return config;
-    }
-    
-    public static void save() {
-        save(config, FILE);
     }
     
     public static boolean TRIGGER_DROWNING = true;

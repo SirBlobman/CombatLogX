@@ -2,15 +2,24 @@ package com.SirBlobman.combatlogx.listener;
 
 import com.SirBlobman.combatlogx.Combat;
 import com.SirBlobman.combatlogx.config.Config;
-import com.SirBlobman.combatlogx.listener.event.*;
-import com.SirBlobman.combatlogx.listener.event.PlayerUntagEvent.UntagCause;
-import com.SirBlobman.combatlogx.utility.*;
+import com.SirBlobman.combatlogx.event.CombatEvent;
+import com.SirBlobman.combatlogx.event.PlayerCombatEvent;
+import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
+import com.SirBlobman.combatlogx.event.PlayerUntagEvent.UntagCause;
+import com.SirBlobman.combatlogx.utility.CombatUtil;
+import com.SirBlobman.combatlogx.utility.Util;
 
 import org.bukkit.World;
 import org.bukkit.entity.*;
-import org.bukkit.event.*;
-import org.bukkit.event.entity.*;
-import org.bukkit.event.player.*;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
 import java.util.List;

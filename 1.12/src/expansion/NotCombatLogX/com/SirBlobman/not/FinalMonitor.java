@@ -4,7 +4,9 @@ import com.SirBlobman.combatlogx.Combat;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.*;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 
 public class FinalMonitor implements Listener {
     @EventHandler(priority=EventPriority.MONITOR)

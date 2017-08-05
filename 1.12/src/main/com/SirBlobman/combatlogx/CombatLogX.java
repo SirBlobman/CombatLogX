@@ -1,25 +1,18 @@
 package com.SirBlobman.combatlogx;
 
-import com.SirBlobman.combatlogx.command.CommandCombatTime;
-import com.SirBlobman.combatlogx.command.CommandConfig;
+import com.SirBlobman.combatlogx.command.*;
 import com.SirBlobman.combatlogx.config.Config;
 import com.SirBlobman.combatlogx.expansion.Expansions;
-import com.SirBlobman.combatlogx.listener.FinalMonitor;
-import com.SirBlobman.combatlogx.listener.ListenBukkit;
+import com.SirBlobman.combatlogx.listener.*;
 import com.SirBlobman.combatlogx.utility.Util;
 
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.command.PluginCommand;
-import org.bukkit.command.TabCompleter;
+import org.bukkit.command.*;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.*;
 
 public class CombatLogX extends JavaPlugin {
     private static final String SPIGOT_KEY = "98BE0FE67F88AB82B4C197FAF1DC3B69206EFDCC4D3B80FC83A00037510B99B4";
@@ -27,11 +20,13 @@ public class CombatLogX extends JavaPlugin {
 
     public static CombatLogX INSTANCE;
     public static File FOLDER;
+    public static ClassLoader CLASS_LOADER;
 
     @Override
     public void onEnable() {
         INSTANCE = this;
         FOLDER = getDataFolder();
+        CLASS_LOADER = getClassLoader();
         Util.runLater(new Runnable() {
             @Override
             public void run() {

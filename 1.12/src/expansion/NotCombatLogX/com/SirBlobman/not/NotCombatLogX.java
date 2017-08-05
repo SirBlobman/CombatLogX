@@ -2,17 +2,30 @@ package com.SirBlobman.not;
 
 import com.SirBlobman.combatlogx.Combat;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
-import com.SirBlobman.combatlogx.utility.*;
+import com.SirBlobman.combatlogx.utility.CombatUtil;
+import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.not.config.NConfig;
 
-import org.bukkit.entity.*;
-import org.bukkit.event.*;
-import org.bukkit.event.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.projectiles.ProjectileSource;
 
+import java.io.File;
+
 public class NotCombatLogX implements CLXExpansion, Listener {
+    public static File FOLDER;
+    
     @Override
     public void enable() {
+        FOLDER = getDataFolder();
+        
         NConfig.load();
         Util.regEvents(this, new FinalMonitor());
     }
@@ -21,7 +34,7 @@ public class NotCombatLogX implements CLXExpansion, Listener {
     public String getName() {return "NotCombatLogX";}
     
     @Override
-    public String getVersion() {return "4.0.0 Alpha";}
+    public String getVersion() {return "5.0.0 Release";}
     
     @EventHandler(priority=EventPriority.HIGHEST)
     public void ede(EntityDamageEvent e) {
@@ -58,7 +71,7 @@ public class NotCombatLogX implements CLXExpansion, Listener {
                     String msg = NConfig.MESSAGE_FALL;
                     if(!Combat.isInCombat(p)) Util.sendMessage(p, msg);
                     call(p);
-                } else if(NConfig.TRIGGER_ALL_DAMAGE) {
+                } else if(NConfig.TRIGGER_ALL_DAMAGE && !(e instanceof EntityDamageByEntityEvent)) {
                     String msg = NConfig.MESSAGE_UNKNOWN;
                     if(!Combat.isInCombat(p)) Util.sendMessage(p, msg);
                     call(p);

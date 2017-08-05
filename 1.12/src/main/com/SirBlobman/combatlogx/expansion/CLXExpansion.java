@@ -26,5 +26,27 @@ public interface CLXExpansion {
 	 */
 	public String getVersion();
 	
-	public default File getExpansionsFolder() {return Expansions.EXPAND;}
+	/**
+	 * <i>/plugins/CombatLogX/expansions/</i>
+	 * @return The folder where all the expansion jars are stored
+	 */
+	public default File getExpansionsFolder() {
+	    File dot = new File(".");
+	    File main = dot.getAbsoluteFile().getParentFile();
+	    File plugins = new File(main, "plugins");
+	    File clx = new File(plugins, "CombatLogX");
+	    File exp = new File(clx, "expansions");
+	    return exp;
+	}
+	
+	/**
+	 * <i>/plugins/CombatLogX/expansions/{@link #getName()}</i>
+	 * @return The folder where data for this expansion can be stored
+	 */
+	public default File getDataFolder() {
+	    File folder = getExpansionsFolder();
+	    File file = new File(folder, getName());
+	    file.mkdirs();
+	    return file;
+	}
 }
