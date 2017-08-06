@@ -94,6 +94,7 @@ public class Config {
     public static boolean CHEAT_PREVENT_NO_ENTRY = true;
     public static boolean CHEAT_PREVENT_CHANGE_GAMEMODE = true;
     public static boolean CHEAT_PREVENT_OPEN_INVENTORIES = true;
+    public static boolean CHEAT_PREVENT_TELEPORT = true;
     public static String CHEAT_PREVENT_CHANGE_GAMEMODE_MODE = "SURVIVAL";
     public static List<String> CHEAT_PREVENT_BLOCKED_COMMANDS = Util.newList("fly", "tpa", "tpahere", "spawn", "home");
     public static List<String> CHEAT_PREVENT_BLOCKED_POTIONS = Util.newList("INVISIBILITY", "INCREASE_DAMAGE");
@@ -126,6 +127,7 @@ public class Config {
         OPTION_COMBAT_SUDO_COMMANDS = get(config, "options.combat sudo.commands", Util.newList("say I am now in combat"));
 
         CHEAT_PREVENT_OPEN_INVENTORIES = get(config, "cheat prevention.prevent opening inventories", true);
+        CHEAT_PREVENT_TELEPORT = get(config, "cheat prevention.prevent teleportation", true);
         CHEAT_PREVENT_NO_ENTRY = get(config, "cheat prevention.no safezone entry", true);
         CHEAT_PREVENT_DISABLE_FLIGHT = get(config, "cheat prevention.flight.disable", true);
         CHEAT_PREVENT_ENABLE_FLIGHT = get(config, "cheat prevention.flight.re-enable after combat", false);
@@ -166,6 +168,7 @@ public class Config {
     public static String MESSAGE_RELOAD_CONFIG = "";
     public static String MESSAGE_OPEN_INVENTORY = "";
     public static String MESSAGE_NO_ENTRY = "";
+    public static String MESSAGE_NO_TELEPORT = "";
     public static String MESSAGE_SCOREBOARD_TITLE = "";
     public static List<String> SCOREBOARD_LIST = Util.newList();
 
@@ -185,6 +188,7 @@ public class Config {
         MESSAGE_OPEN_INVENTORY = get(config, "combat.open inventory", "You cannot open storage blocks during combat!");
         MESSAGE_BLOCKED_COMMAND = get(config, "combat.blocked command", "&eYou cannot do &c{command}&e during combat!");
         MESSAGE_NO_ENTRY = get(config, "combat.no entry", "You cannot enter a safe-zone while you are in combat!");
+        MESSAGE_NO_TELEPORT = get(config, "combat.no teleport", "You cannot teleport during combat.");
         MESSAGE_STILL_IN_COMBAT = get(config, "combat.in", "You are still in combat for {time_left} seconds");
         MESSAGE_NOT_IN_COMBAT = get(config, "combat.out", "You are not in combat!");
         MESSAGE_FAIL = get(config, "combat.fail", "That person is in a No-PvP area!");

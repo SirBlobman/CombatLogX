@@ -15,6 +15,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.potion.PotionEffectType;
 
@@ -32,7 +33,7 @@ public class CheatPrevention implements CLXExpansion, Listener {
     public String getName() {return "Cheat Prevention";}
 
     @Override
-    public String getVersion() {return "1.0.0";}
+    public String getVersion() {return "1.0.1";}
     
     @EventHandler
     public void ctce(CombatTimerChangeEvent e) {
@@ -87,6 +88,16 @@ public class CheatPrevention implements CLXExpansion, Listener {
                     }
                 }
             }
+        }
+    }
+    
+    @EventHandler
+    public void tp(PlayerTeleportEvent e) {
+        if(Config.CHEAT_PREVENT_TELEPORT) {
+            Player p = e.getPlayer();
+            e.setCancelled(true);
+            String msg = Config.MESSAGE_NO_TELEPORT;
+            Util.sendMessage(p, msg);
         }
     }
     
