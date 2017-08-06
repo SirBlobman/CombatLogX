@@ -1,5 +1,5 @@
 name: CombatLogX
-version: 5.0.3 Release
+version: 5.0.4 Release
 description: A simple combat-tagging plugin with many features
 author: SirBlobman
 main: com.SirBlobman.combatlogx.CombatLogX
@@ -31,4 +31,4 @@ permissions:
     default: op
   combatlogx.time:
     description: Gives permission to check how much time you have left during combat
-    default: true
+    default: everyone

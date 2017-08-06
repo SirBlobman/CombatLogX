@@ -62,7 +62,8 @@ public class CustomBoss {
     public static void remove(Player p) {
         if(Config.OPTION_BOSS_BAR) {
             BossBar bb = getBossBar(p);
-            bb.setTitle(Config.MESSAGE_EXPIRE);
+            String title = Util.color(Config.MESSAGE_EXPIRE);
+            bb.setTitle(title);
             bb.setProgress(0);
             Util.runLater(new Runnable() {
                 @Override
