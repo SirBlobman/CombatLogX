@@ -10,7 +10,7 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Enumeration;
-import java.util.Map;
+import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -18,7 +18,7 @@ import java.util.jar.JarFile;
 public class Expansions {
     private static final File FOLDER = CombatLogX.FOLDER;
     public static final File EXPAND = new File(FOLDER, "expansions");
-    private static Map<String, CLXExpansion> EXPANSIONS = Util.newMap();
+    private static HashMap<String, CLXExpansion> EXPANSIONS = Util.newMap();
 
     /**
      * Register your expansion
@@ -51,11 +51,14 @@ public class Expansions {
         }
     }
     
+    @SuppressWarnings("unchecked")
     public static void onDisable() {
-        for(Entry<String, CLXExpansion> e : EXPANSIONS.entrySet()) {
+        HashMap<String, CLXExpansion> clone = (HashMap<String, CLXExpansion>) EXPANSIONS.clone();
+        EXPANSIONS.clear();
+        for(Entry<String, CLXExpansion> e : clone.entrySet()) {
             CLXExpansion ex = e.getValue();
             ex.disable();
-        } EXPANSIONS.clear();
+        }
     }
 
     public static void loadExpansions() {

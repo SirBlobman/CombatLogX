@@ -1,11 +1,15 @@
 package com.SirBlobman.factions.compat;
 
 import com.massivecraft.factions.Rel;
-import com.massivecraft.factions.entity.*;
+import com.massivecraft.factions.entity.BoardColl;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.MFlag;
+import com.massivecraft.factions.entity.MPlayer;
 import com.massivecraft.massivecore.ps.PS;
 
 import org.bukkit.Location;
-import org.bukkit.entity.*;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 
 public class FactionsNormal extends FactionsUtil {
     private static final BoardColl BC = BoardColl.get();

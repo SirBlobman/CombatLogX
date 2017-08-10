@@ -4,7 +4,8 @@ import com.massivecraft.factions.*;
 import com.massivecraft.factions.struct.Relation;
 
 import org.bukkit.Location;
-import org.bukkit.entity.*;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 
 public class FactionsUUID extends FactionsUtil {
     private static final FPlayers FP = FPlayers.getInstance();
@@ -39,10 +40,11 @@ public class FactionsUUID extends FactionsUtil {
             Faction fp = getCurrentFaction(p);
             Faction ft = getCurrentFaction(t);
             if(fp.isWilderness() || ft.isWilderness()) return true;
+            if(fp.isWarZone() || ft.isWarZone()) return true;
             if(fp.equals(ft)) return false;
             else {
                 Relation rel = fp.getRelationTo(ft);
-                boolean can = rel.isEnemy();
+                boolean can = rel.isEnemy() || rel.isNeutral();
                 return can;
             }
         } else return super.canAttack(p, le);

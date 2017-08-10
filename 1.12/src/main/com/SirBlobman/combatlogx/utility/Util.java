@@ -4,14 +4,21 @@ import com.SirBlobman.combatlogx.CombatLogX;
 import com.SirBlobman.combatlogx.config.Config;
 
 import org.bukkit.*;
-import org.bukkit.command.*;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.*;
-import org.bukkit.plugin.*;
-import org.bukkit.scheduler.*;
+import org.bukkit.event.Event;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.scheduler.BukkitScheduler;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 
 public class Util {
     public static final Plugin PLUGIN = CombatLogX.INSTANCE;
@@ -193,8 +200,8 @@ public class Util {
         return list;
     }
 
-    public static <K, V> Map<K, V> newMap() {
-        Map<K, V> map = new HashMap<K, V>();
+    public static <K, V> HashMap<K, V> newMap() {
+        HashMap<K, V> map = new HashMap<K, V>();
         return map;
     }
 }

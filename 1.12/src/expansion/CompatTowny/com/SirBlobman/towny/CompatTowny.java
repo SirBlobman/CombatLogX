@@ -2,6 +2,7 @@ package com.SirBlobman.towny;
 
 import com.SirBlobman.combatlogx.Combat;
 import com.SirBlobman.combatlogx.config.Config;
+import com.SirBlobman.combatlogx.config.Config.NoEntryMode;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.utility.Util;
 
@@ -40,9 +41,21 @@ public class CompatTowny implements CLXExpansion, Listener {
             Location to = e.getTo();
             if(Combat.isInCombat(p)) {
                 if(!TownyUtil.pvp(to)) {
-                    Vector d = from.getDirection();
-                    Vector m = d.multiply(-1);
-                    p.setVelocity(m);
+                    String mode = Config.CHEAT_PREVENT_NO_ENTRY_MODE;
+                    NoEntryMode nem = NoEntryMode.valueOf(mode);
+                    if(nem == null) nem = NoEntryMode.CANCEL;
+                    
+                    if(nem == NoEntryMode.CANCEL) {
+                        e.setCancelled(true);
+                    } else if(nem == NoEntryMode.KNOCKBACK) {
+                        Vector vto = to.toVector(); Vector vfrom = from.toVector();
+                        Vector vector = vto.subtract(vfrom);
+                        vector = vector.multiply(5);
+                        Vector nv = vector.multiply(-1);
+                        p.setVelocity(nv);
+                    } else if(nem == NoEntryMode.KILL) {
+                        p.setHealth(0.0D);
+                    }
                     String error = Config.MESSAGE_NO_ENTRY;
                     Util.sendMessage(p, error);
                 }

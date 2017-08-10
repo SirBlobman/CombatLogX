@@ -1,11 +1,11 @@
 name: CombatLogX
-version: 5.0.6 Release
+version: 5.1.0 Release
 description: A simple combat-tagging plugin with many features
 author: SirBlobman
 main: com.SirBlobman.combatlogx.CombatLogX
 database: false
 depend: []
-softdepend: []
+softdepend: [Citizens]
 commands:
   clxconfig:
     description: Reload the Config and Messages for this plugin

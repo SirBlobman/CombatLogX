@@ -28,6 +28,7 @@ public class ListenCitizens implements Listener {
     private static List<NPC> NPCS = Util.newList();
     
     @EventHandler
+    @SuppressWarnings("deprecation")
     public void pue(PlayerUntagEvent e) {
         Player p = e.getPlayer();
         Location l = p.getLocation();
@@ -40,6 +41,7 @@ public class ListenCitizens implements Listener {
             npc.setProtected(false);
             npc.spawn(l);
             LivingEntity le = (LivingEntity) npc.getEntity();
+            le.setMaxHealth(p.getMaxHealth());
             le.setHealth(p.getHealth());
             NPCS.add(npc);
             Util.runLater(new Runnable() {
@@ -100,12 +102,13 @@ public class ListenCitizens implements Listener {
     
     @SuppressWarnings("deprecation")
     public static void removeAllNPCs() {
-        for(NPC npc : NPCS) {
+        List<NPC> copy = Util.newList(NPCS);
+        NPCS.clear();
+        for(NPC npc : copy) {
             String name = npc.getName();
             double health = health(npc);
             OfflinePlayer op = Bukkit.getOfflinePlayer(name);
             ConfigData.force(op, "health", health);
-            NPCS.remove(npc);
             npc.destroy();
         }
     }

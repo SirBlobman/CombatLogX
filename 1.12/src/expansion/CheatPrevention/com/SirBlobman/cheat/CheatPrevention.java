@@ -33,7 +33,7 @@ public class CheatPrevention implements CLXExpansion, Listener {
     public String getName() {return "Cheat Prevention";}
 
     @Override
-    public String getVersion() {return "1.0.1";}
+    public String getVersion() {return "1.0.2";}
     
     @EventHandler
     public void ctce(CombatTimerChangeEvent e) {
@@ -95,9 +95,11 @@ public class CheatPrevention implements CLXExpansion, Listener {
     public void tp(PlayerTeleportEvent e) {
         if(Config.CHEAT_PREVENT_TELEPORT) {
             Player p = e.getPlayer();
-            e.setCancelled(true);
-            String msg = Config.MESSAGE_NO_TELEPORT;
-            Util.sendMessage(p, msg);
+            if(Combat.isInCombat(p)) {
+                e.setCancelled(true);
+                String msg = Config.MESSAGE_NO_TELEPORT;
+                Util.sendMessage(p, msg);
+            }
         }
     }
     

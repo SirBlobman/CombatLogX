@@ -9,6 +9,7 @@ import java.io.File;
 import java.util.List;
 
 public class Config {
+    public enum NoEntryMode {CANCEL, KNOCKBACK, KILL}
     protected static final File FOLDER = CombatLogX.FOLDER;
     private static final File FILEC = new File(FOLDER, "combat.yml");
     private static final File FILEL = new File(FOLDER, "language.yml");
@@ -96,6 +97,7 @@ public class Config {
     public static boolean CHEAT_PREVENT_OPEN_INVENTORIES = true;
     public static boolean CHEAT_PREVENT_TELEPORT = true;
     public static String CHEAT_PREVENT_CHANGE_GAMEMODE_MODE = "SURVIVAL";
+    public static String CHEAT_PREVENT_NO_ENTRY_MODE = "CANCEL";
     public static List<String> CHEAT_PREVENT_BLOCKED_COMMANDS = Util.newList("fly", "tpa", "tpahere", "spawn", "home");
     public static List<String> CHEAT_PREVENT_BLOCKED_POTIONS = Util.newList("INVISIBILITY", "INCREASE_DAMAGE");
 
@@ -128,7 +130,8 @@ public class Config {
 
         CHEAT_PREVENT_OPEN_INVENTORIES = get(config, "cheat prevention.prevent opening inventories", true);
         CHEAT_PREVENT_TELEPORT = get(config, "cheat prevention.prevent teleportation", true);
-        CHEAT_PREVENT_NO_ENTRY = get(config, "cheat prevention.no safezone entry", true);
+        CHEAT_PREVENT_NO_ENTRY = get(config, "cheat prevention.safezone.no entry", true);
+        CHEAT_PREVENT_NO_ENTRY_MODE = get(config, "cheat prevention.safezone.mode", "KNOCKBACK").toUpperCase();
         CHEAT_PREVENT_DISABLE_FLIGHT = get(config, "cheat prevention.flight.disable", true);
         CHEAT_PREVENT_ENABLE_FLIGHT = get(config, "cheat prevention.flight.re-enable after combat", false);
         CHEAT_PREVENT_CHANGE_GAMEMODE = get(config, "cheat prevention.change gamemode.enabled", true);

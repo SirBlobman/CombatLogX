@@ -1,10 +1,14 @@
 package com.SirBlobman.factions.compat;
 
 import org.bukkit.Location;
-import org.bukkit.entity.*;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 
-import net.redstoneore.legacyfactions.*;
-import net.redstoneore.legacyfactions.entity.*;
+import net.redstoneore.legacyfactions.FLocation;
+import net.redstoneore.legacyfactions.Relation;
+import net.redstoneore.legacyfactions.entity.Board;
+import net.redstoneore.legacyfactions.entity.Faction;
+import net.redstoneore.legacyfactions.entity.FactionColl;
 
 public class FactionsLegacy extends FactionsUtil {
     private static final Board BOARD = Board.get();
@@ -37,10 +41,11 @@ public class FactionsLegacy extends FactionsUtil {
             Faction fp = getCurrentFaction(p);
             Faction ft = getCurrentFaction(t);
             if(fp.isWilderness() || ft.isWilderness()) return true;
+            if(fp.isWarZone() || ft.isWarZone()) return true;
             if(fp.equals(ft)) return false;
             else {
                 Relation rel = fp.getRelationTo(ft);
-                boolean can = rel.isEnemy();
+                boolean can = rel.isEnemy() || rel.isNeutral();
                 return can;
             }
         } else return super.canAttack(p, le);
