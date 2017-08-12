@@ -16,14 +16,16 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
 public class CombatLogX extends JavaPlugin {
-    private static final String SPIGOT_KEY = "98BE0FE67F88AB82B4C197FAF1DC3B69206EFDCC4D3B80FC83A00037510B99B4";
-    private static final String SPIGOT_ID = "31689";
+    private static final String SPIGOT_URL = "https://api.spigotmc.org/legacy/update.php?resource=31689";
 
     public static CombatLogX INSTANCE;
     public static File FOLDER;
@@ -80,32 +82,18 @@ public class CombatLogX extends JavaPlugin {
 
     private static String spigotVersion() {
         try {
-            String site = "http://www.spigotmc.org/api/general.php";
-            URL url = new URL(site);
+            URL url = new URL(SPIGOT_URL);
             URLConnection urlc = url.openConnection();
             HttpURLConnection http = (HttpURLConnection) urlc;
-            http.setDoOutput(true);
-            http.setRequestMethod("POST");
-
-            OutputStream os = http.getOutputStream();
-            String req = "key=" + SPIGOT_KEY + "&resource=" + SPIGOT_ID;
-            byte[] write = req.getBytes("UTF-8");
-            os.write(write);
-
+            http.setRequestMethod("GET");
+            
             InputStream is = http.getInputStream();
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
             String version = br.readLine();
-            
-            os.close();
             br.close(); isr.close(); is.close();
             return version;
-        } catch(Throwable ex) {
-            String error = "Failed to check for updates:";
-            Util.print(error);
-            ex.printStackTrace();
-            return pluginVersion();
-        }
+        } catch(Throwable ex) {return pluginVersion();}
     }
     
     private static String pluginVersion() {
@@ -120,7 +108,15 @@ public class CombatLogX extends JavaPlugin {
            public void run() {
                String spigot = spigotVersion();
                String plugin = pluginVersion();
-               if(spigot.equals(plugin)) {
+               if(spigot == null || plugin == null) {
+                   String[] error = Util.color(
+                       "&6========================================================",
+                       "&eCombatLogX Update Checker",
+                       "&cCould not connect to Spigot's API",
+                       "&6========================================================"
+                   );
+                   print(error);
+               } else if(plugin.equals(spigot)) {
                    String[] msg = Util.color(
                        "&6========================================================",
                        "&eCombatLogX Update Checker",
