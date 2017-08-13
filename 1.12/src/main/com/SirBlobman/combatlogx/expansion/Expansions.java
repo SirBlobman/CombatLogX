@@ -92,7 +92,7 @@ public class Expansions {
                         Util.print(error);
                         ex.printStackTrace();
                     } finally {
-                        try {jar.close();}
+                        try {if(jar != null) jar.close();}
                         catch(Throwable ex) {}
                     }
                 } else {
