@@ -1,7 +1,7 @@
-/bin
-*/lib
-/.settings
-/.externalToolBuilders
-.project
-.classpath
-build.xml
+/bin/
+/lib/
+.settings/
+.externalToolBuilders/
+*.project
+*.classpath
+*.xml
