@@ -1,7 +1,0 @@
-/bin/
-*.launch
-*.xml
-*.project
-*.classpath
-*org.eclipse.jdt.ui.prefs
-/out/
