@@ -178,7 +178,7 @@ public class Config {
     private static void defaultsL(YamlConfiguration config) {
         MESSAGE_PREFIX = get(config, "prefix.normal", "&e[&fCombatLogX&e] &f");
         MESSAGE_PREFIX_EXPANSION = get(config, "prefix.expansion", "&e[&fCombatLogX - &b{expansion}&e] &f");
-        MESSAGE_ACTION_BAR = get(config, "action bar", "&3Combat &7>> &2{time_left} seconds");
+        MESSAGE_ACTION_BAR = get(config, "action bar", "&3Combat &7>> {bars_left}{bars_right} &2{time_left} seconds");
         MESSAGE_BOSS_BAR = get(config, "boss bar", "&3Combat &7>> &c{time_left} seconds");
         MESSAGE_RELOAD_CONFIG = get(config, "reload config", "Reloaded 'combat.yml' and 'language.yml'");
         MESSAGE_NOT_PLAYER = get(config, "command.not player", "You are not a Player!");

@@ -5,6 +5,7 @@ import com.SirBlobman.combatlogx.event.CombatTimerChangeEvent;
 import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.combatlogx.utility.WordUtil;
 import com.SirBlobman.notify.nms.NMSUtil;
 
 import org.bukkit.entity.Player;
@@ -50,12 +51,14 @@ public class Notifier implements CLXExpansion, Listener {
     @EventHandler
     public void ctce(CombatTimerChangeEvent e) {
         Player p = e.getPlayer();
-        long time = e.secondsLeft();
+        int time = (int) e.secondsLeft();
         if(Config.OPTION_BOSS_BAR) CustomBoss.changeTime(p, time);
         if(Config.OPTION_SCORE_BOARD) CustomScore.update(p);
         if(Config.OPTION_ACTION_BAR) {
-            List<String> l1 = Util.newList("{time_left}");
-            List<Object> l2 = Util.newList(time);
+            int bars_right = (Config.OPTION_TIMER - time);
+            int bars_left = (Config.OPTION_TIMER - bars_right);
+            List<String> l1 = Util.newList("{time_left}", "{bars_left}", "{bars_right}");
+            List<Object> l2 = Util.newList(time, WordUtil.getTimeBars(bars_left), WordUtil.getPassedBars(bars_right));
             String msg = Util.formatMessage(Config.MESSAGE_ACTION_BAR, l1, l2);
             NMS.action(p, msg);
         }
