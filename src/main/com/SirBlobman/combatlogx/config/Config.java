@@ -98,6 +98,7 @@ public class Config {
     public static boolean CHEAT_PREVENT_TELEPORT = true;
     public static String CHEAT_PREVENT_CHANGE_GAMEMODE_MODE = "SURVIVAL";
     public static String CHEAT_PREVENT_NO_ENTRY_MODE = "CANCEL";
+    public static int CHEAT_PREVENT_NO_ENTRY_STRENGTH = 0;
     public static List<String> CHEAT_PREVENT_BLOCKED_COMMANDS = Util.newList("fly", "tpa", "tpahere", "spawn", "home");
     public static List<String> CHEAT_PREVENT_BLOCKED_POTIONS = Util.newList("INVISIBILITY", "INCREASE_DAMAGE");
 
@@ -132,6 +133,7 @@ public class Config {
         CHEAT_PREVENT_TELEPORT = get(config, "cheat prevention.prevent teleportation", true);
         CHEAT_PREVENT_NO_ENTRY = get(config, "cheat prevention.safezone.no entry", true);
         CHEAT_PREVENT_NO_ENTRY_MODE = get(config, "cheat prevention.safezone.mode", "KNOCKBACK").toUpperCase();
+        CHEAT_PREVENT_NO_ENTRY_STRENGTH = get(config, "cheat prevention.safezone.knockback strength", 5);
         CHEAT_PREVENT_DISABLE_FLIGHT = get(config, "cheat prevention.flight.disable", true);
         CHEAT_PREVENT_ENABLE_FLIGHT = get(config, "cheat prevention.flight.re-enable after combat", false);
         CHEAT_PREVENT_CHANGE_GAMEMODE = get(config, "cheat prevention.change gamemode.enabled", true);

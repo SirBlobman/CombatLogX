@@ -98,6 +98,8 @@ public class Combat implements Runnable {
                 for(String cmd : list) p.performCommand(cmd);
             }
         }
+        CombatTimerChangeEvent ctce = new CombatTimerChangeEvent(p, Config.OPTION_TIMER);
+        Util.call(ctce);
     }
     
     public static void remove(Player p) {
