@@ -31,9 +31,12 @@ public class FactionsNormal extends FactionsUtil {
 
     @Override
     public Faction getCurrentFaction(Player p) {
+        if(p == null) return null;
         MPlayer mp = MPlayer.get(p);
-        Faction f = mp.getFaction();
-        return f;
+        if(mp != null && mp.hasFaction()) {
+            Faction f = mp.getFaction();
+            return f;
+        } else return null;
     }
     
     @Override
@@ -42,6 +45,7 @@ public class FactionsNormal extends FactionsUtil {
             Player t = (Player) le;
             Faction fp = getCurrentFaction(p);
             Faction ft = getCurrentFaction(t);
+            if(fp == null || ft == null) return true;
             if(fp.isNone() || ft.isNone()) return true;
             if(fp.equals(ft)) {
                 String pvp = MFlag.ID_FRIENDLYFIRE;

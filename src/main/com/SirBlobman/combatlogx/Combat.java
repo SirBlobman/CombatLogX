@@ -7,6 +7,7 @@ import com.SirBlobman.combatlogx.event.PlayerUntagEvent.UntagCause;
 import com.SirBlobman.combatlogx.utility.Util;
 
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -86,20 +87,24 @@ public class Combat implements Runnable {
      * @see {@link com.SirBlobman.combatlogx.utility.CombatUtil#canBeTagged(Player)}
      */
     public static void tag(Player p, @Nullable LivingEntity enemy) {
-        long current = System.currentTimeMillis();
-        long timer = (Config.OPTION_TIMER * 1000L);
-        long time = (current + timer);
-        COMBAT.put(p, time);
-        ENEMIES.put(p, enemy);
-        
-        if(!isInCombat(p)) {
-            if(Config.OPTION_COMBAT_SUDO_ENABLE) {
-                List<String> list = Config.OPTION_COMBAT_SUDO_COMMANDS;
-                for(String cmd : list) p.performCommand(cmd);
+        World w = p.getWorld();
+        String world = w.getName();
+        if(!Config.OPTION_DISABLED_WORLDS.contains(world)) {
+            long current = System.currentTimeMillis();
+            long timer = (Config.OPTION_TIMER * 1000L);
+            long time = (current + timer);
+            COMBAT.put(p, time);
+            ENEMIES.put(p, enemy);
+            
+            if(!isInCombat(p)) {
+                if(Config.OPTION_COMBAT_SUDO_ENABLE) {
+                    List<String> list = Config.OPTION_COMBAT_SUDO_COMMANDS;
+                    for(String cmd : list) p.performCommand(cmd);
+                }
             }
+            CombatTimerChangeEvent ctce = new CombatTimerChangeEvent(p, Config.OPTION_TIMER);
+            Util.call(ctce);
         }
-        CombatTimerChangeEvent ctce = new CombatTimerChangeEvent(p, Config.OPTION_TIMER);
-        Util.call(ctce);
     }
     
     public static void remove(Player p) {
