@@ -10,32 +10,33 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 
 public class PartyUtil extends Util {
+    /*
+     * Updated for Parties 2.0.X
+     */
     public static PartiesAPI getAPI() {
-        PartiesAPI papi = new PartiesAPI();
+        PartiesAPI papi = Parties.getApi();
         return papi;
     }
     
     public static String getParty(Player p) {
-        PartiesAPI api = getAPI();
-        UUID uuid = p.getUniqueId();
-        boolean has = api.haveParty(uuid);
-        if(has) {
-            String party = api.getPartyName(uuid);
-            return party;
-        } else return null;
+        PartiesAPI api = getAPI;
+        String partyName = api.getPartyName(p.getUniqueId());
+        if (!partyName.isEmpty()) {
+            return partyName;
+        }
+        return null;
     }
-    
     public static boolean canAttack(Player p, LivingEntity le) {
-        if(le instanceof Player) {
+        if (le instanceof Player) {
             Player t = (Player) le;
             String party1 = getParty(p);
-            if(party1 != null) {
+            if (party1 != null) {
                 String party2 = getParty(t);
-                if(party2 != null) {
-                    if(party1.equals(party2)) return false;
-                    else return CombatUtil.canAttack(p, le);
+                if (party2 != null && party1.equals(party2)) {
+                    return false;
                 }
             }
-        } return CombatUtil.canAttack(p, le);
+        }
+        return CombatUtil.canAttack(p, le);
     }
 }
