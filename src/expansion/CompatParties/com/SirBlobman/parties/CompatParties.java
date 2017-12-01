@@ -23,7 +23,7 @@ public class CompatParties implements CLXExpansion, Listener {
     public String getName() {return "Parties Compatability";}
 
     @Override
-    public String getVersion() {return "0.0.1";}
+    public String getVersion() {return "0.0.2";}
     
     @EventHandler
     public void pce(PlayerCombatEvent e) {
