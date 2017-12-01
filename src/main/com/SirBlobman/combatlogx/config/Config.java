@@ -75,6 +75,7 @@ public class Config {
     //Start Config
     public static int OPTION_TIMER = 30;
     public static boolean OPTION_CHECK_UPDATES = true;
+    public static boolean OPTION_BROADCAST_STARTUP = true;
     public static boolean OPTION_ACTION_BAR = true;
     public static boolean OPTION_BOSS_BAR = true;
     public static String OPTION_BOSS_BAR_COLOR = "YELLOW";
@@ -113,6 +114,7 @@ public class Config {
     public static List<String> PUNISH_COMMANDS_LOGGERS = Util.newList("say I logged out of combat!");
 
     private static void defaultsC(YamlConfiguration config) {
+        OPTION_BROADCAST_STARTUP = get(config, "options.broadcast enable message", true);
         OPTION_CHECK_UPDATES = get(config, "options.check for updates", true);
         OPTION_DISABLED_WORLDS = get(config, "options.disabled worlds", Util.newList("WoRlD", "Lobby", "Creative"));
         OPTION_TIMER = get(config, "options.combat timer", 30);

@@ -28,6 +28,7 @@ public abstract class NMSUtil extends Util {
     public static NMSUtil getNMS() {
         String mc = minecraftVersion();
         switch(mc) {
+            case "1.12.2":
             case "1.12.1":
             case "1.12":
                 return new NMS1_12_R1();
