@@ -69,7 +69,7 @@ public class CustomBoss {
                 @Override
                 public void run() {
                     bb.setVisible(false);
-                    bb.removePlayer(p);
+                    bb.removeAll();
                     BOSS.remove(p);
                 }
             }, 40L);
