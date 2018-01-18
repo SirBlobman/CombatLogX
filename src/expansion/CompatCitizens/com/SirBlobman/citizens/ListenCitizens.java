@@ -44,15 +44,7 @@ public class ListenCitizens implements Listener {
             le.setMaxHealth(p.getMaxHealth());
             le.setHealth(p.getHealth());
             NPCS.add(npc);
-            Util.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    double health = health(npc);
-                    ConfigData.force(p, "health", health);
-                    NPCS.remove(npc);
-                    npc.destroy();
-                }
-            }, (60 * 20L));
+            Util.runLater(new CheckNPC(p, npc), 60 * 20L);
         }
     }
     
@@ -64,8 +56,9 @@ public class ListenCitizens implements Listener {
             String name = npc.getName();
             OfflinePlayer op = Bukkit.getOfflinePlayer(name);
             ConfigData.force(op, "health", 0.0D);
-            NPCS.remove(npc);
+            npc.despawn();
             npc.destroy();
+            NPCS.remove(npc);
         }
     }
     
@@ -74,12 +67,14 @@ public class ListenCitizens implements Listener {
         Player p = e.getPlayer();
         String pname = p.getName();
         double health = ConfigData.get(p, "health", p.getHealth());
-        for(NPC npc : NPCS) {
+        List<NPC> copy = Util.newList(NPCS);
+        for(NPC npc : copy) {
             String name = npc.getName();
             if(name.equals(pname)) {
                 health = health(npc);
-                NPCS.remove(npc);
+                npc.despawn();
                 npc.destroy();
+                NPCS.remove(npc);
                 break;
             }
         }
@@ -103,13 +98,43 @@ public class ListenCitizens implements Listener {
     @SuppressWarnings("deprecation")
     public static void removeAllNPCs() {
         List<NPC> copy = Util.newList(NPCS);
-        NPCS.clear();
         for(NPC npc : copy) {
             String name = npc.getName();
             double health = health(npc);
             OfflinePlayer op = Bukkit.getOfflinePlayer(name);
             ConfigData.force(op, "health", health);
+            npc.despawn();
             npc.destroy();
+        }
+        NPCS.clear();
+    }
+    
+    private static class CheckNPC implements Runnable {
+        private final OfflinePlayer op;
+        private final NPC npc;
+        public CheckNPC(OfflinePlayer op, NPC npc) {
+            this.op = op;
+            this.npc = npc;
+        }
+        
+        @Override
+        public void run() {
+            if(npc != null) {
+                if(npc.isSpawned()) {
+                    ConfigData.force(op, "health", health(npc));
+                    npc.despawn();
+                    npc.destroy();
+                    NPCS.remove(npc);
+                } else {
+                    ConfigData.force(op, "health", 0.0D);
+                    npc.despawn();
+                    npc.destroy();
+                    NPCS.remove(npc);
+                }
+            } else {
+                String error = "Why would you try to check a null NPC?";
+                throw new NullPointerException(error);
+            }
         }
     }
 }
