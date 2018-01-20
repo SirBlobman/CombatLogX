@@ -1,0 +1,7 @@
+1) Add seperate teleportation config for ender pearls
+2) Add another NPC option (Zombie Pigmen)
+3) Separate enemy death message
+4) Improve safe zone detection
+5) Improve the knockback and cancel methods for safezones
+6) Attempt to support the RandomStuff plugin and prevent flying from jet packs (https://www.spigotmc.org/resources/random-stuff.12132/)
+7) Add a config option to actually "log" combat tags into a file

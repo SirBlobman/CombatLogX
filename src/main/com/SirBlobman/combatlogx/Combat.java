@@ -93,8 +93,6 @@ public class Combat implements Runnable {
             long current = System.currentTimeMillis();
             long timer = (Config.OPTION_TIMER * 1000L);
             long time = (current + timer);
-            COMBAT.put(p, time);
-            ENEMIES.put(p, enemy);
             
             if(!isInCombat(p)) {
                 if(Config.OPTION_COMBAT_SUDO_ENABLE) {
@@ -102,6 +100,9 @@ public class Combat implements Runnable {
                     for(String cmd : list) p.performCommand(cmd);
                 }
             }
+            
+            COMBAT.put(p, time);
+            ENEMIES.put(p, enemy);
             CombatTimerChangeEvent ctce = new CombatTimerChangeEvent(p, Config.OPTION_TIMER);
             Util.call(ctce);
         }
