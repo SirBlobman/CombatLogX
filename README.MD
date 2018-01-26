@@ -1,3 +1,6 @@
-Do not use without asking SirBlobman
+# CombatLogX
+CombatLogX is a simple combat tagging plugin
+You can also abbreviate it as CLX
+For planned features, you can check the 'To Do.list' file
 
-Always give credit to SirBlobman
+# Expansion Information
