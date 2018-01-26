@@ -33,5 +33,5 @@ The following damage can cause a player to be tagged
 </ul><br/><br/>
 
 This guide is constantly being updated, if you have any suggestions you can contact SirBlobman here:<br/>
-Discord: SirBlobman#7235
-SpigotMC: https://www.spigotmc.org/members/sirblobman.73161/
+Discord: SirBlobman#7235<br/>
+SpigotMC: <a href=https://www.spigotmc.org/members/sirblobman.73161/>SirBlobman's Profile</a><br/>
