@@ -7,7 +7,7 @@ For planned features, you can check the 'To Do.list' file<br/>
 Expansions are similar to plugins, but instead of going in <i>/plugins/</i> they go in <i>/plugins/CombatLogX/expansions/</i><br/>
 They can be used to add new features to CombatLogX or add compatability with other plugins<br/>
 
-<h2>Cheat Prevention</h2>
+<h2>1) Cheat Prevention</h2>
 The cheat prevention expansion can be found inside the 'CombatLogX.zip' file as <i>CheatPrevention.jar</i><br/>
 CheatPrevention can be used for the followings while a player is tagged:<br/>
 <ol type="1">
@@ -19,7 +19,7 @@ CheatPrevention can be used for the followings while a player is tagged:<br/>
   <li>Removing potions or effects</li>
 </ol><br/><br/>
 
-<h2>NotCombatLogX</h2>
+<h2>2) NotCombatLogX</h2>
 The NotCombatLogX expansion can be found inside the 'CombatLogX.zip' file as <i>NotCombatLogX.jar</i><br/>
 NotCombatLogX tags players for non-combat related damage.<br/>
 The following damage can cause a player to be tagged:<br/>
@@ -33,5 +33,5 @@ The following damage can cause a player to be tagged:<br/>
 </ul><br/><br/>
 
 This guide is constantly being updated, if you have any suggestions you can contact SirBlobman here:<br/>
-Discord: SirBlobman#7235<br/>
-SpigotMC: <a href=https://www.spigotmc.org/members/sirblobman.73161/>SirBlobman's Profile</a><br/>
+<b>Discord:</b> SirBlobman#7235<br/>
+<b>SpigotMC:</b> <a href=https://www.spigotmc.org/members/sirblobman.73161/>SirBlobman's Profile</a><br/>
