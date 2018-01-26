@@ -46,6 +46,7 @@ There are also also three scoreboard variables that can be used:<br/>
 <b>{enemy_name}:</b> Displays the name of the entity that caused the player to be tagged, or "None"<br/>
 <b>{enemy_health}:</b> Displays the health of the entity that caused the player to be tagged, or "None"<br/><br/>
 
+<hr/>
 This guide is constantly being updated, if you have any suggestions you can contact SirBlobman here:<br/>
 <b>Discord:</b> SirBlobman#7235<br/>
 <b>SpigotMC:</b> <a href=https://www.spigotmc.org/members/sirblobman.73161/>SirBlobman's Profile</a><br/>
