@@ -3,4 +3,35 @@ CombatLogX is a simple combat tagging plugin<br/>
 You can also abbreviate it as CLX<br/>
 For planned features, you can check the 'To Do.list' file<br/>
 
-# Expansion Information
+<h1>Expansion Information</h1>
+Expansions are similar to plugins, but instead of going in <u>/plugins/</u> they go in <u>/plugins/CombatLogX/expansions/</u><br/>
+They can be used to add new features to CombatLogX or add compatability with other plugins<br/>
+
+<h2>Cheat Prevention</h2>
+The cheat prevention expansion can be found inside the 'CombatLogX.zip' file as <u>CheatPrevention.jar</u><br/>
+CheatPrevention can be used for the followings while a player is tagged:<br/>
+<ol type="1">
+  <li>Blocking Commands</li>
+  <li>Preventing teleportation</li>
+  <li>Preventing gamemode changing (creative)</li>
+  <li>Preventing flight</li>
+  <li>Preventing inventory opening</li>
+  <li>Removing potions or effects</li>
+</ol><br/><br/>
+
+<h2>NotCombatLogX</h2>
+The NotCombatLogX expansion can be found inside the 'CombatLogX.zip' file as <u>NotCombatLogX.jar</u>
+NotCombatLogX tags players for non-combat related damage. 
+The following damage can cause a player to be tagged
+<ul>
+  <li>All Damage (if enabled in config)</li>
+  <li>Fall</li>
+  <li>Projectile</li>
+  <li>Block Explosion</li>
+  <li>Drowning</li>
+  <li>Lava</li>
+</ul><br/><br/>
+
+This guide is constantly being updated, if you have any suggestions you can contact SirBlobman here:<br/>
+Discord: SirBlobman#7235
+SpigotMC: https://www.spigotmc.org/members/sirblobman.73161/
