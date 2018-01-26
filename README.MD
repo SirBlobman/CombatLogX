@@ -32,6 +32,20 @@ The following damage can cause a player to be tagged:<br/>
   <li>Lava</li>
 </ul><br/><br/>
 
+<h2>3) Notifier</h2>
+The Notifier expansion can be found inside the 'CombatLogX.zip' file as <i>Notifier.jar</i><br/>
+Notifier displays information related to CombatLogX for the player to see.<br/>
+This expansion has the following features:<br/>
+<ol type="1">
+  <li>Scoreboard (1.7+)</li>
+  <li>Boss Bar (1.10+)</li>
+  <li>Action Bar (1.8+)</li>
+</ol><br/>
+There are also also three scoreboard variables that can be used:<br/>
+<b>{time_left}:</b> Displays the amount of time the tagged player has in combat before being untagged
+<b>{enemy_name}:</b> Displays the name of the entity that caused the player to be tagged, or "None"
+<b>{enemy_health}:</b> Displays the health of the entity that caused the player to be tagged, or "None"<br/><br/>
+
 This guide is constantly being updated, if you have any suggestions you can contact SirBlobman here:<br/>
 <b>Discord:</b> SirBlobman#7235<br/>
 <b>SpigotMC:</b> <a href=https://www.spigotmc.org/members/sirblobman.73161/>SirBlobman's Profile</a><br/>
