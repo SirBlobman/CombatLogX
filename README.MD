@@ -4,11 +4,11 @@ You can also abbreviate it as CLX<br/>
 For planned features, you can check the 'To Do.list' file<br/>
 
 <h1>Expansion Information</h1>
-Expansions are similar to plugins, but instead of going in <u>/plugins/</u> they go in <u>/plugins/CombatLogX/expansions/</u><br/>
+Expansions are similar to plugins, but instead of going in <i>/plugins/</i> they go in <i>/plugins/CombatLogX/expansions/</i><br/>
 They can be used to add new features to CombatLogX or add compatability with other plugins<br/>
 
 <h2>Cheat Prevention</h2>
-The cheat prevention expansion can be found inside the 'CombatLogX.zip' file as <u>CheatPrevention.jar</u><br/>
+The cheat prevention expansion can be found inside the 'CombatLogX.zip' file as <i>CheatPrevention.jar</i><br/>
 CheatPrevention can be used for the followings while a player is tagged:<br/>
 <ol type="1">
   <li>Blocking Commands</li>
@@ -20,7 +20,7 @@ CheatPrevention can be used for the followings while a player is tagged:<br/>
 </ol><br/><br/>
 
 <h2>NotCombatLogX</h2>
-The NotCombatLogX expansion can be found inside the 'CombatLogX.zip' file as <u>NotCombatLogX.jar</u>
+The NotCombatLogX expansion can be found inside the 'CombatLogX.zip' file as <i>NotCombatLogX.jar</i>
 NotCombatLogX tags players for non-combat related damage. 
 The following damage can cause a player to be tagged
 <ul>
