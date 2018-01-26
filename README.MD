@@ -42,8 +42,8 @@ This expansion has the following features:<br/>
   <li>Action Bar (1.8+)</li>
 </ol><br/>
 There are also also three scoreboard variables that can be used:<br/>
-<b>{time_left}:</b> Displays the amount of time the tagged player has in combat before being untagged
-<b>{enemy_name}:</b> Displays the name of the entity that caused the player to be tagged, or "None"
+<b>{time_left}:</b> Displays the amount of time the tagged player has in combat before being untagged<br/>
+<b>{enemy_name}:</b> Displays the name of the entity that caused the player to be tagged, or "None"<br/>
 <b>{enemy_health}:</b> Displays the health of the entity that caused the player to be tagged, or "None"<br/><br/>
 
 This guide is constantly being updated, if you have any suggestions you can contact SirBlobman here:<br/>
