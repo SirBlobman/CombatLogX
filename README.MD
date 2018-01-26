@@ -20,9 +20,9 @@ CheatPrevention can be used for the followings while a player is tagged:<br/>
 </ol><br/><br/>
 
 <h2>NotCombatLogX</h2>
-The NotCombatLogX expansion can be found inside the 'CombatLogX.zip' file as <i>NotCombatLogX.jar</i>
-NotCombatLogX tags players for non-combat related damage. 
-The following damage can cause a player to be tagged
+The NotCombatLogX expansion can be found inside the 'CombatLogX.zip' file as <i>NotCombatLogX.jar</i><br/>
+NotCombatLogX tags players for non-combat related damage.<br/>
+The following damage can cause a player to be tagged:<br/>
 <ul>
   <li>All Damage (if enabled in config)</li>
   <li>Fall</li>
