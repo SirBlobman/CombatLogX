@@ -15,10 +15,7 @@ import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Util {
     public static final Plugin PLUGIN = CombatLogX.INSTANCE;
@@ -186,6 +183,13 @@ public class Util {
     public static BukkitTask runTimer(Runnable r, long timer, long delay) {
         BukkitTask bt = BS.runTaskTimer(PLUGIN, r, delay, timer);
         return bt;
+    }
+    
+    @SafeVarargs
+    public static <S> Set<S> newSet(S... ss) {
+        Set<S> set = new HashSet<S>();
+        for(S s : ss) set.add(s);
+        return set;
     }
 
     @SafeVarargs
