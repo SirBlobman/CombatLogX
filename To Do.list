@@ -1,6 +1,3 @@
-2) Add another NPC option (Zombie Pigmen)
-4) Improve safe zone detection
-5) Improve the knockback and cancel methods for safezones
-6) Attempt to support the RandomStuff plugin and prevent flying from jet packs (https://www.spigotmc.org/resources/random-stuff.12132/)
-8) NPCs drop items that the logger had (clear from player that had them)
-9) Players will be teleported to the NPCs last location when they relog
+1) Improve safe zone detection
+2) Improve the knockback and cancel methods for safezones
+3) Attempt to support the RandomStuff plugin and prevent flying from jet packs (https://www.spigotmc.org/resources/random-stuff.12132/)
