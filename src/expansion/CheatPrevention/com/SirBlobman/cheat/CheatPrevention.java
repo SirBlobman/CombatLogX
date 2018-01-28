@@ -17,6 +17,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.potion.PotionEffectType;
 
@@ -93,11 +94,15 @@ public class CheatPrevention implements CLXExpansion, Listener {
     @EventHandler
     public void tp(PlayerTeleportEvent e) {
         if(ConfigOptions.CHEAT_PREVENT_TELEPORT) {
-            Player p = e.getPlayer();
-            if(Combat.isInCombat(p)) {
-                e.setCancelled(true);
-                String msg = ConfigLang.MESSAGE_NO_TELEPORT;
-                Util.sendMessage(p, msg);
+            TeleportCause tc = e.getCause();
+            if(tc == TeleportCause.ENDER_PEARL && ConfigOptions.CHEAT_PREVENT_TELEPORT_ALLOW_ENDERPEARLS) return;
+            else {
+                Player p = e.getPlayer();
+                if(Combat.isInCombat(p)) {
+                    e.setCancelled(true);
+                    String msg = ConfigLang.MESSAGE_NO_TELEPORT;
+                    Util.sendMessage(p, msg);
+                }
             }
         }
     }

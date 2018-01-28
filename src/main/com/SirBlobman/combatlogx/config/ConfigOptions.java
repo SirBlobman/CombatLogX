@@ -59,6 +59,7 @@ public class ConfigOptions extends Config {
     public static boolean CHEAT_PREVENT_CHANGE_GAMEMODE = true;
     public static boolean CHEAT_PREVENT_OPEN_INVENTORIES = true;
     public static boolean CHEAT_PREVENT_TELEPORT = true;
+    public static boolean CHEAT_PREVENT_TELEPORT_ALLOW_ENDERPEARLS = true;
     public static String CHEAT_PREVENT_CHANGE_GAMEMODE_MODE = "SURVIVAL";
     public static String CHEAT_PREVENT_NO_ENTRY_MODE = "CANCEL";
     public static int CHEAT_PREVENT_NO_ENTRY_STRENGTH = 0;
@@ -95,7 +96,8 @@ public class ConfigOptions extends Config {
         OPTION_COMBAT_SUDO_COMMANDS = get("options.combat sudo.commands", Util.newList("say I am now in combat"));
 
         CHEAT_PREVENT_OPEN_INVENTORIES = get("cheat prevention.prevent opening inventories", true);
-        CHEAT_PREVENT_TELEPORT = get("cheat prevention.prevent teleportation", true);
+        CHEAT_PREVENT_TELEPORT = get("cheat prevention.teleportation.prevent", true);
+        CHEAT_PREVENT_TELEPORT_ALLOW_ENDERPEARLS = get("cheat prevention.teleportation.allow ender pearls", false);
         CHEAT_PREVENT_NO_ENTRY = get("cheat prevention.safezone.no entry", true);
         CHEAT_PREVENT_NO_ENTRY_MODE = get("cheat prevention.safezone.mode", "KNOCKBACK").toUpperCase();
         CHEAT_PREVENT_NO_ENTRY_STRENGTH = get("cheat prevention.safezone.knockback strength", 5);
