@@ -1,6 +1,6 @@
 package com.SirBlobman.combatlogx.expansion;
 
-import com.SirBlobman.combatlogx.config.Config;
+import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.utility.Util;
 
 import java.io.File;
@@ -60,7 +60,7 @@ public interface CLXExpansion {
 
     public default void print(Object... oo) {
         for(Object o : oo) {
-            String prefix = Util.formatMessage(Config.MESSAGE_PREFIX_EXPANSION, Util.newList("{expansion}"), Util.newList(getName()));
+            String prefix = Util.formatMessage(ConfigLang.MESSAGE_PREFIX_EXPANSION, Util.newList("{expansion}"), Util.newList(getName()));
             String s = Util.str(o);
             String c = Util.color(prefix + s);
             Util.CONSOLE.sendMessage(c);

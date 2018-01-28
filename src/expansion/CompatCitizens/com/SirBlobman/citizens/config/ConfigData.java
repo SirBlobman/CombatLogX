@@ -2,6 +2,7 @@ package com.SirBlobman.citizens.config;
 
 import com.SirBlobman.citizens.CompatCitizens;
 import com.SirBlobman.combatlogx.config.Config;
+import com.SirBlobman.combatlogx.utility.Util;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -15,10 +16,25 @@ public class ConfigData extends Config {
     private static final File FILE = new File(FOLDER, "data.yml");
     private static YamlConfiguration config = new YamlConfiguration();
     
-    public static void save() {save(config, FILE);}
     public static YamlConfiguration load() {
-        config = load(FILE);
+        try {
+            config = Config.load(FILE);
+        } catch(Throwable ex) {
+            String error = "Failed to load '" + FILE + "': ";
+            Util.print(error);
+            ex.printStackTrace();
+        }
         return config;
+    }
+    
+    public static void save() {
+        try {
+            Config.save(config, FILE);
+        } catch(Throwable ex) {
+            String error = "Failed to save '" + FILE + "': ";
+            Util.print(error);
+            ex.printStackTrace();
+        }
     }
     
     public static <T> T get(Player p, String path, T defaultValue) {

@@ -1,7 +1,7 @@
 package com.SirBlobman.combatlogx.command;
 
 import com.SirBlobman.combatlogx.Combat;
-import com.SirBlobman.combatlogx.config.Config;
+import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.utility.Util;
 
 import org.bukkit.command.Command;
@@ -23,17 +23,17 @@ public class CommandCombatTime implements CommandExecutor {
                     long time = Combat.timeLeft(p);
                     List<String> l1 = Util.newList("{time_left}");
                     List<Object> l2 = Util.newList(time);
-                    String msg = Util.formatMessage(Config.MESSAGE_STILL_IN_COMBAT, l1, l2);
+                    String msg = Util.formatMessage(ConfigLang.MESSAGE_STILL_IN_COMBAT, l1, l2);
                     Util.sendMessage(p, msg);
                     return true;
                 } else {
-                    String error = Config.MESSAGE_NOT_IN_COMBAT;
+                    String error = ConfigLang.MESSAGE_NOT_IN_COMBAT;
                     Util.sendMessage(p, error);
                     return true;
                 }
             } else return false;
         } else {
-            String error = Config.MESSAGE_NOT_PLAYER;
+            String error = ConfigLang.MESSAGE_NOT_PLAYER;
             Util.sendMessage(cs, error);
             return true;
         }

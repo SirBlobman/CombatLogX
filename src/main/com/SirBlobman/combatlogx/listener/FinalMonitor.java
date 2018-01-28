@@ -1,7 +1,8 @@
 package com.SirBlobman.combatlogx.listener;
 
 import com.SirBlobman.combatlogx.Combat;
-import com.SirBlobman.combatlogx.config.Config;
+import com.SirBlobman.combatlogx.config.ConfigLang;
+import com.SirBlobman.combatlogx.config.ConfigOptions;
 import com.SirBlobman.combatlogx.event.PlayerCombatEvent;
 import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.event.PlayerUntagEvent.UntagCause;
@@ -23,6 +24,11 @@ public class FinalMonitor implements Listener {
         if(e.isCancelled()) return;
         LivingEntity ler = e.getAttacker();
         LivingEntity led = e.getTarget();
+        
+        if(ConfigOptions.OPTION_LOG_TO_FILE) {
+            String msg = Combat.log(ler, led);
+            Util.print(msg);
+        }
 
         if(ler instanceof Player) {
             Player p = (Player) ler;
@@ -34,7 +40,7 @@ public class FinalMonitor implements Listener {
                     List<String> l1 = Util.newList("{attacker}", "{target}");
                     List<Object> l2 = Util.newList(pname, ename);
                     boolean p2 = (led instanceof Player);
-                    String msg = p2 ? Util.formatMessage(Config.MESSAGE_ATTACK, l1, l2) : Util.formatMessage(Config.MESSAGE_ATTACK_MOB, l1, l2);
+                    String msg = p2 ? Util.formatMessage(ConfigLang.MESSAGE_ATTACK, l1, l2) : Util.formatMessage(ConfigLang.MESSAGE_ATTACK_MOB, l1, l2);
                     Util.sendMessage(p, msg);
                 } Combat.tag(p, led);
             }
@@ -50,7 +56,7 @@ public class FinalMonitor implements Listener {
                     List<String> l1 = Util.newList("{attacker}", "{target}");
                     List<Object> l2 = Util.newList(ename, pname);
                     boolean p2 = (ler instanceof Player);
-                    String msg = p2 ? Util.formatMessage(Config.MESSAGE_TARGET, l1, l2) : Util.formatMessage(Config.MESSAGE_TARGET_MOB, l1, l2);
+                    String msg = p2 ? Util.formatMessage(ConfigLang.MESSAGE_TARGET, l1, l2) : Util.formatMessage(ConfigLang.MESSAGE_TARGET_MOB, l1, l2);
                     Util.sendMessage(p, msg);
                 } Combat.tag(p, ler);
             }
@@ -64,21 +70,22 @@ public class FinalMonitor implements Listener {
         UntagCause uc = e.getCause();
         switch(uc) {
             case EXPIRE: 
-                Util.sendMessage(p, Config.MESSAGE_EXPIRE);
+                Util.sendMessage(p, ConfigLang.MESSAGE_EXPIRE);
                 break;
 
             case KICK: 
-                if(Config.PUNISH_ON_KICK) Combat.punish(p);
+                if(ConfigOptions.PUNISH_ON_KICK) Combat.punish(p);
                 break;
                 
             case QUIT: 
-                if(Config.PUNISH_ON_QUIT) Combat.punish(p);
+                if(ConfigOptions.PUNISH_ON_QUIT) Combat.punish(p);
                 break;
             
             case ENEMY_DEATH:
                 List<String> l1 = Util.newList("{enemy_name}");
+                LivingEntity enemy = Combat.getEnemy(p);
                 List<String> l2 = Util.newList(OldUtil.getName(Combat.getEnemy(p)));
-                String msg = Util.formatMessage(Config.MESSAGE_ENEMY_DEATH, l1, l2);
+                String msg = Util.formatMessage((enemy instanceof Player) ? ConfigLang.MESSAGE_ENEMY_DEATH_PLAYER : ConfigLang.MESSAGE_ENEMY_DEATH_MOB, l1, l2);
                 Util.sendMessage(p, msg);
                 break;
         }

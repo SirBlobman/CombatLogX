@@ -1,6 +1,7 @@
 package com.SirBlobman.notify;
 
-import com.SirBlobman.combatlogx.config.Config;
+import com.SirBlobman.combatlogx.config.ConfigLang;
+import com.SirBlobman.combatlogx.config.ConfigOptions;
 import com.SirBlobman.combatlogx.utility.Util;
 
 import org.bukkit.Bukkit;
@@ -20,13 +21,13 @@ public class CustomBoss {
             BossBar bb = BOSS.get(p);
             return bb;
         } else {
-            int def = Config.OPTION_TIMER;
+            int def = ConfigOptions.OPTION_TIMER;
             List<String> l1 = Util.newList("{time_left}");
             List<Object> l2 = Util.newList(def);
-            String title = Util.formatMessage(Config.MESSAGE_BOSS_BAR, l1, l2);
+            String title = Util.formatMessage(ConfigLang.MESSAGE_BOSS_BAR, l1, l2);
             BarStyle bs = BarStyle.SOLID;
             BarColor bc = null;
-            String color = Config.OPTION_BOSS_BAR_COLOR;
+            String color = ConfigOptions.OPTION_BOSS_BAR_COLOR;
             try {
                 bc = BarColor.valueOf(color);
             } catch(Throwable ex) {
@@ -46,13 +47,13 @@ public class CustomBoss {
     }
     
     public static void changeTime(Player p, long time) {
-        if(Config.OPTION_BOSS_BAR) {
+        if(ConfigOptions.OPTION_BOSS_BAR) {
             List<String> l1 = Util.newList("{time_left}");
             List<Object> l2 = Util.newList(time);
-            String title = Util.formatMessage(Config.MESSAGE_BOSS_BAR, l1, l2);
+            String title = Util.formatMessage(ConfigLang.MESSAGE_BOSS_BAR, l1, l2);
             BossBar bb = getBossBar(p);
             double top = time;
-            double bot = Config.OPTION_TIMER;
+            double bot = ConfigOptions.OPTION_TIMER;
             double div = (top / bot);
             bb.setProgress(div);
             bb.setTitle(title);
@@ -60,9 +61,9 @@ public class CustomBoss {
     }
     
     public static void remove(Player p) {
-        if(Config.OPTION_BOSS_BAR) {
+        if(ConfigOptions.OPTION_BOSS_BAR) {
             BossBar bb = getBossBar(p);
-            String title = Util.color(Config.MESSAGE_EXPIRE);
+            String title = Util.color(ConfigLang.MESSAGE_EXPIRE);
             bb.setTitle(title);
             bb.setProgress(0);
             Util.runLater(new Runnable() {
