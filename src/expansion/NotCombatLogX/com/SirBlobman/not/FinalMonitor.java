@@ -25,7 +25,7 @@ public class FinalMonitor implements Listener {
             LivingEntity attacker = e.getAttacker();
             LivingEntity target = e.getTarget();
             String msg = Combat.log(attacker, target);
-            Util.print(msg);
+            if(ConfigOptions.OPTION_LOG_TO_CONSOLE) Util.print(msg);
         }
     }
 }

@@ -27,7 +27,7 @@ public class FinalMonitor implements Listener {
         
         if(ConfigOptions.OPTION_LOG_TO_FILE) {
             String msg = Combat.log(ler, led);
-            Util.print(msg);
+            if(ConfigOptions.OPTION_LOG_TO_CONSOLE) Util.print(msg);
         }
 
         if(ler instanceof Player) {

@@ -37,6 +37,7 @@ public class ConfigOptions extends Config {
     public static int OPTION_TIMER = 30;
     public static boolean OPTION_CHECK_UPDATES = true;
     public static boolean OPTION_LOG_TO_FILE = true;
+    public static boolean OPTION_LOG_TO_CONSOLE = true;
     public static boolean OPTION_BROADCAST_STARTUP = true;
     public static boolean OPTION_ACTION_BAR = true;
     public static boolean OPTION_BOSS_BAR = true;
@@ -79,6 +80,7 @@ public class ConfigOptions extends Config {
     private static void defaults() {
         OPTION_BROADCAST_STARTUP = get("options.broadcast enable message", true);
         OPTION_LOG_TO_FILE = get("options.log to file", true);
+        OPTION_LOG_TO_CONSOLE = get("options.log to console", false);
         OPTION_CHECK_UPDATES = get("options.check for updates", true);
         OPTION_DISABLED_WORLDS = get("options.disabled worlds", Util.newList("WoRlD", "Lobby", "Creative"));
         OPTION_TIMER = get("options.combat timer", 30);
