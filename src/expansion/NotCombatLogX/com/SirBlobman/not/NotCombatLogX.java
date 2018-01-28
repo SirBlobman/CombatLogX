@@ -30,10 +30,8 @@ public class NotCombatLogX implements CLXExpansion, Listener {
         Util.regEvents(this, new FinalMonitor());
     }
 
-    @Override
+    public String getUnlocalizedName() {return getName();}
     public String getName() {return "NotCombatLogX";}
-    
-    @Override
     public String getVersion() {return "5.0.1";}
     
     @EventHandler(priority=EventPriority.HIGHEST)

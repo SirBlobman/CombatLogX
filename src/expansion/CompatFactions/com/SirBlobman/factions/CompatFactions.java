@@ -32,10 +32,8 @@ public class CompatFactions implements CLXExpansion, Listener {
         }
     }
     
-    @Override
+    public String getUnlocalizedName() {return "CompatFactions";}
     public String getName() {return "Factions Compatability";}
-    
-    @Override
     public String getVersion() {return "1.0.0";}
     
     @EventHandler

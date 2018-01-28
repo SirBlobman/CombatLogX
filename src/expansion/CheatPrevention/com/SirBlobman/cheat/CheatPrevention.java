@@ -30,10 +30,8 @@ public class CheatPrevention implements CLXExpansion, Listener {
         Util.regEvents(this);
     }
 
-    @Override
+    public String getUnlocalizedName() {return "CheatPrevention";}
     public String getName() {return "Cheat Prevention";}
-
-    @Override
     public String getVersion() {return "1.0.2";}
     
     @EventHandler

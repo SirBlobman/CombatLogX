@@ -29,10 +29,8 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
         }
     }
 
-    @Override
+    public String getUnlocalizedName() {return "CompatWorldGuard";}
     public String getName() {return "WorldGuard Compatability";}
-
-    @Override
     public String getVersion() {return "1.0.0";}
 
     @EventHandler

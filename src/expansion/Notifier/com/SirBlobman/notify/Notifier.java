@@ -35,10 +35,8 @@ public class Notifier implements CLXExpansion, Listener {
         Util.regEvents(this);
     }
 
-    @Override
+    public String getUnlocalizedName() {return getName();}
     public String getName() {return "Notifier";}
-
-    @Override
     public String getVersion() {return "1.0.3";}
 
     @EventHandler

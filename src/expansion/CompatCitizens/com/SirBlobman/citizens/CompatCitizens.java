@@ -29,9 +29,7 @@ public class CompatCitizens implements CLXExpansion {
         }
     }
     
-    @Override
+    public String getUnlocalizedName() {return "CompatCitizens";}
     public String getName() {return "Citizens Compatibility";}
-    
-    @Override
     public String getVersion() {return "1.0.2";}
 }

@@ -27,10 +27,8 @@ public class CompatTowny implements CLXExpansion, Listener {
         }
     }
     
-    @Override
+    public String getUnlocalizedName() {return "CompatTowny";}
     public String getName() {return "Towny Compatability";}
-    
-    @Override
     public String getVersion() {return "1.0";}
     
     @EventHandler
