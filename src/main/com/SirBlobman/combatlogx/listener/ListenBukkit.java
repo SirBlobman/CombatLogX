@@ -1,7 +1,7 @@
 package com.SirBlobman.combatlogx.listener;
 
 import com.SirBlobman.combatlogx.Combat;
-import com.SirBlobman.combatlogx.config.Config;
+import com.SirBlobman.combatlogx.config.ConfigOptions;
 import com.SirBlobman.combatlogx.event.CombatEvent;
 import com.SirBlobman.combatlogx.event.PlayerCombatEvent;
 import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
@@ -31,7 +31,7 @@ public class ListenBukkit implements Listener {
         Entity ded = e.getEntity();
         Entity der = e.getDamager();
         
-        List<String> worlds = Config.OPTION_DISABLED_WORLDS;
+        List<String> worlds = ConfigOptions.OPTION_DISABLED_WORLDS;
         World w = ded.getWorld();
         String wn = w.getName();
         if(worlds.contains(wn)) return;
@@ -99,7 +99,7 @@ public class ListenBukkit implements Listener {
     
     @EventHandler
     public void death(EntityDeathEvent e) {
-        if(Config.OPTION_REMOVE_COMBAT_ON_ENEMY_DEATH) {
+        if(ConfigOptions.OPTION_REMOVE_COMBAT_ON_ENEMY_DEATH) {
             LivingEntity le = e.getEntity();
             List<LivingEntity> list = Combat.enemyList();
             if(list.contains(le)) {

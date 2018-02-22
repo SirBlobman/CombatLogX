@@ -1,7 +1,7 @@
 package com.SirBlobman.combatlogx.utility;
 
 import com.SirBlobman.combatlogx.CombatLogX;
-import com.SirBlobman.combatlogx.config.Config;
+import com.SirBlobman.combatlogx.config.ConfigLang;
 
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
@@ -15,10 +15,7 @@ import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Util {
     public static final Plugin PLUGIN = CombatLogX.INSTANCE;
@@ -135,7 +132,8 @@ public class Util {
     public static void print(Object... oo) {
         for(Object o : oo) {
             String s = str(o);
-            String c = color(Config.MESSAGE_PREFIX + s);
+            String c = color(ConfigLang.MESSAGE_PREFIX + s);
+            if(s.equals("\n")) c = color("&l");
             CONSOLE.sendMessage(c);
         }
     }
@@ -146,7 +144,7 @@ public class Util {
         for(Player p : cp) {
             for(Object o : oo) {
                 String s = str(o);
-                String c = color(Config.MESSAGE_PREFIX + s);
+                String c = color(ConfigLang.MESSAGE_PREFIX + s);
                 p.sendMessage(c);
             }
         }
@@ -157,7 +155,7 @@ public class Util {
             String s = str(o);
             if(s.isEmpty() || s.equals("")) continue;
             else {
-                String c = color(Config.MESSAGE_PREFIX + s);
+                String c = color(ConfigLang.MESSAGE_PREFIX + s);
                 cs.sendMessage(c);
             }
         }
@@ -185,6 +183,13 @@ public class Util {
     public static BukkitTask runTimer(Runnable r, long timer, long delay) {
         BukkitTask bt = BS.runTaskTimer(PLUGIN, r, delay, timer);
         return bt;
+    }
+    
+    @SafeVarargs
+    public static <S> Set<S> newSet(S... ss) {
+        Set<S> set = new HashSet<S>();
+        for(S s : ss) set.add(s);
+        return set;
     }
 
     @SafeVarargs

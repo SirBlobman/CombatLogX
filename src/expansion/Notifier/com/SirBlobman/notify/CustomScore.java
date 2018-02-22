@@ -1,15 +1,19 @@
 package com.SirBlobman.notify;
 
 import com.SirBlobman.combatlogx.Combat;
-import com.SirBlobman.combatlogx.config.Config;
-import com.SirBlobman.combatlogx.utility.*;
+import com.SirBlobman.combatlogx.config.ConfigLang;
+import com.SirBlobman.combatlogx.config.ConfigOptions;
+import com.SirBlobman.combatlogx.utility.OldUtil;
+import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.notify.nms.NMSUtil;
 
-import org.bukkit.entity.*;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scoreboard.*;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 import io.puharesource.mc.titlemanager.api.v2.TitleManagerAPI;
 
@@ -24,19 +28,19 @@ public class CustomScore {
         } else {
             Scoreboard sb = SM.getNewScoreboard();
             Objective o = sb.registerNewObjective("CombatLogX", "dummy");
-            o.setDisplayName(Config.MESSAGE_SCOREBOARD_TITLE);
+            o.setDisplayName(ConfigLang.MESSAGE_SCOREBOARD_TITLE);
             o.setDisplaySlot(DisplaySlot.SIDEBAR);
             SCORE.put(p, sb); return getScoreBoard(p);
         }
     }
     
     public static void update(Player p) {
-        if(Config.OPTION_SCORE_BOARD) {
+        if(ConfigOptions.OPTION_SCORE_BOARD) {
             Scoreboard sb = getScoreBoard(p);
             Objective o = sb.getObjective("CombatLogX");
             o.unregister();
             o = sb.registerNewObjective("CombatLogX", "dummy");
-            String title = Util.color(Config.MESSAGE_SCOREBOARD_TITLE);
+            String title = Util.color(ConfigLang.MESSAGE_SCOREBOARD_TITLE);
             o.setDisplayName(title);
             o.setDisplaySlot(DisplaySlot.SIDEBAR);
             
@@ -47,7 +51,7 @@ public class CustomScore {
             List<String> l1 = Util.newList("{time_left}", "{enemy_name}", "{enemy_health}");
             List<Object> l2 = Util.newList(time, ename, ehealth);
             
-            List<String> list = Config.SCOREBOARD_LIST;
+            List<String> list = ConfigLang.SCOREBOARD_LIST;
             int i = list.size();
             for(String line : list) {
                 String format = Util.formatMessage(line, l1, l2);
@@ -69,7 +73,7 @@ public class CustomScore {
     }
     
     public static void remove(Player p) {
-        if(Config.OPTION_SCORE_BOARD) {
+        if(ConfigOptions.OPTION_SCORE_BOARD) {
             Scoreboard main = SM.getMainScoreboard();
             p.setScoreboard(main);
             SCORE.remove(p);

@@ -4,21 +4,20 @@ import com.SirBlobman.citizens.CompatCitizens;
 import com.SirBlobman.combatlogx.config.Config;
 import com.SirBlobman.combatlogx.utility.Util;
 
-import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.EntityType;
 
 import java.io.File;
-import java.util.UUID;
 
-public class ConfigData extends Config {
+public class ConfigCitizens extends Config {
     private static final File FOLDER = CompatCitizens.FOLDER;
-    private static final File FILE = new File(FOLDER, "data.yml");
+    private static final File FILE = new File(FOLDER, "config.yml");
     private static YamlConfiguration config = new YamlConfiguration();
     
     public static YamlConfiguration load() {
         try {
             config = Config.load(FILE);
+            defaults();
         } catch(Throwable ex) {
             String error = "Failed to load '" + FILE + "': ";
             Util.print(error);
@@ -37,27 +36,12 @@ public class ConfigData extends Config {
         }
     }
     
-    public static <T> T get(Player p, String path, T defaultValue) {
-        UUID uuid = p.getUniqueId();
-        String id = uuid.toString();
-        String npath = id + "." + path;
-        T t = get(config, npath, defaultValue);
-        save();
-        return t;
-    }
+    public static String OPTION_NPC_ENTITY_TYPE = EntityType.PLAYER.name();
+    public static int OPTION_NPC_SURVIVAL_TIME = 0;
     
-    public static void force(OfflinePlayer op, String path, Object value) {
-        UUID uuid = op.getUniqueId();
-        String id = uuid.toString();
-        String npath = id + "." + path;
-        config.set(npath, value);
-        save();
-    }
-    
-    public static void remove(OfflinePlayer op) {
-        UUID uuid = op.getUniqueId();
-        String id = uuid.toString();
-        config.set(id, null);
+    private static void defaults() {
+        OPTION_NPC_ENTITY_TYPE = get(config, "options.npc.entity type", EntityType.PLAYER.name());
+        OPTION_NPC_SURVIVAL_TIME = get(config, "options.npc.survival time", 300);
         save();
     }
 }

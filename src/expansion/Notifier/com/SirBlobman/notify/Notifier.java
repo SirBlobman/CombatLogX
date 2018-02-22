@@ -1,6 +1,7 @@
 package com.SirBlobman.notify;
 
-import com.SirBlobman.combatlogx.config.Config;
+import com.SirBlobman.combatlogx.config.ConfigLang;
+import com.SirBlobman.combatlogx.config.ConfigOptions;
 import com.SirBlobman.combatlogx.event.CombatTimerChangeEvent;
 import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
@@ -23,10 +24,10 @@ public class Notifier implements CLXExpansion, Listener {
     public void enable() {
         INSTANCE = this;
         NMS = NMSUtil.getNMS();
-        if(NMS == null) Config.OPTION_ACTION_BAR = false;
+        if(NMS == null) ConfigOptions.OPTION_ACTION_BAR = false;
         String base = NMSUtil.baseVersion();
         if(!VALID_BOSS.contains(base)) {
-            Config.OPTION_BOSS_BAR = false;
+            ConfigOptions.OPTION_BOSS_BAR = false;
             String error = base + " does not support boss bars";
             print(error);
         }
@@ -34,32 +35,30 @@ public class Notifier implements CLXExpansion, Listener {
         Util.regEvents(this);
     }
 
-    @Override
+    public String getUnlocalizedName() {return getName();}
     public String getName() {return "Notifier";}
-
-    @Override
     public String getVersion() {return "1.0.3";}
 
     @EventHandler
     public void pue(PlayerUntagEvent e) {
         Player p = e.getPlayer();
-        if(Config.OPTION_BOSS_BAR) CustomBoss.remove(p);
-        if(Config.OPTION_SCORE_BOARD) CustomScore.remove(p);
-        if(Config.OPTION_ACTION_BAR) NMS.action(p, "");
+        if(ConfigOptions.OPTION_BOSS_BAR) CustomBoss.remove(p);
+        if(ConfigOptions.OPTION_SCORE_BOARD) CustomScore.remove(p);
+        if(ConfigOptions.OPTION_ACTION_BAR) NMS.action(p, "");
     }
 
     @EventHandler
     public void ctce(CombatTimerChangeEvent e) {
         Player p = e.getPlayer();
         int time = (int) e.secondsLeft();
-        if(Config.OPTION_BOSS_BAR) CustomBoss.changeTime(p, time);
-        if(Config.OPTION_SCORE_BOARD) CustomScore.update(p);
-        if(Config.OPTION_ACTION_BAR) {
-            int bars_right = (Config.OPTION_TIMER - time);
-            int bars_left = (Config.OPTION_TIMER - bars_right);
+        if(ConfigOptions.OPTION_BOSS_BAR) CustomBoss.changeTime(p, time);
+        if(ConfigOptions.OPTION_SCORE_BOARD) CustomScore.update(p);
+        if(ConfigOptions.OPTION_ACTION_BAR) {
+            int bars_right = (ConfigOptions.OPTION_TIMER - time);
+            int bars_left = (ConfigOptions.OPTION_TIMER - bars_right);
             List<String> l1 = Util.newList("{time_left}", "{bars_left}", "{bars_right}");
             List<Object> l2 = Util.newList(time, WordUtil.getTimeBars(bars_left), WordUtil.getPassedBars(bars_right));
-            String msg = Util.formatMessage(Config.MESSAGE_ACTION_BAR, l1, l2);
+            String msg = Util.formatMessage(ConfigLang.MESSAGE_ACTION_BAR, l1, l2);
             NMS.action(p, msg);
         }
     }

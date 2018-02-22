@@ -19,10 +19,8 @@ public class CompatParties implements CLXExpansion, Listener {
         }
     }
 
-    @Override
+    public String getUnlocalizedName() {return "CompatParties";}
     public String getName() {return "Parties Compatability";}
-
-    @Override
     public String getVersion() {return "0.0.2";}
     
     @EventHandler

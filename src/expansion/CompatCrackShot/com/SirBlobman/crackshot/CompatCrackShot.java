@@ -14,9 +14,7 @@ public class CompatCrackShot implements CLXExpansion {
         }
     }
     
-    @Override
+    public String getUnlocalizedName() {return "CompatCrackShot";}
     public String getName() {return "CrackShot Compatability";}
-    
-    @Override
     public String getVersion() {return "1.0.0";}
 }

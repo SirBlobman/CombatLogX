@@ -1,7 +1,8 @@
 package com.SirBlobman.cheat;
 
 import com.SirBlobman.combatlogx.Combat;
-import com.SirBlobman.combatlogx.config.Config;
+import com.SirBlobman.combatlogx.config.ConfigLang;
+import com.SirBlobman.combatlogx.config.ConfigOptions;
 import com.SirBlobman.combatlogx.event.CombatTimerChangeEvent;
 import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
@@ -16,6 +17,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.potion.PotionEffectType;
 
@@ -29,24 +31,22 @@ public class CheatPrevention implements CLXExpansion, Listener {
         Util.regEvents(this);
     }
 
-    @Override
+    public String getUnlocalizedName() {return "CheatPrevention";}
     public String getName() {return "Cheat Prevention";}
-
-    @Override
     public String getVersion() {return "1.0.2";}
     
     @EventHandler
     public void ctce(CombatTimerChangeEvent e) {
         Player p = e.getPlayer();
         
-        if(Config.CHEAT_PREVENT_CHANGE_GAMEMODE) {
-            String m = Config.CHEAT_PREVENT_CHANGE_GAMEMODE_MODE;
+        if(ConfigOptions.CHEAT_PREVENT_CHANGE_GAMEMODE) {
+            String m = ConfigOptions.CHEAT_PREVENT_CHANGE_GAMEMODE_MODE;
             GameMode gm = GameMode.valueOf(m);
             p.setGameMode(gm);
         }
         
-        if(Config.CHEAT_PREVENT_DISABLE_FLIGHT) {
-            if(Config.CHEAT_PREVENT_ENABLE_FLIGHT) {
+        if(ConfigOptions.CHEAT_PREVENT_DISABLE_FLIGHT) {
+            if(ConfigOptions.CHEAT_PREVENT_ENABLE_FLIGHT) {
                 if(p.getAllowFlight()) RE_ENABLE_FLIGHT.add(p);
             }
             
@@ -54,7 +54,7 @@ public class CheatPrevention implements CLXExpansion, Listener {
             p.setFlying(false);
         }
         
-        for(String s : Config.CHEAT_PREVENT_BLOCKED_POTIONS) {
+        for(String s : ConfigOptions.CHEAT_PREVENT_BLOCKED_POTIONS) {
             PotionEffectType pet = PotionEffectType.getByName(s);
             if(pet != null && p.hasPotionEffect(pet)) p.removePotionEffect(pet);
         }
@@ -63,7 +63,7 @@ public class CheatPrevention implements CLXExpansion, Listener {
     @EventHandler
     public void pue(PlayerUntagEvent e) {
         Player p = e.getPlayer();
-        if(Config.CHEAT_PREVENT_ENABLE_FLIGHT) {
+        if(ConfigOptions.CHEAT_PREVENT_ENABLE_FLIGHT) {
             if(RE_ENABLE_FLIGHT.contains(p)) {
                 p.setAllowFlight(true);
                 p.setFlying(true);
@@ -74,7 +74,7 @@ public class CheatPrevention implements CLXExpansion, Listener {
     
     @EventHandler
     public void ioe(InventoryOpenEvent e) {
-        if(Config.CHEAT_PREVENT_OPEN_INVENTORIES) {
+        if(ConfigOptions.CHEAT_PREVENT_OPEN_INVENTORIES) {
             HumanEntity he = e.getPlayer();
             if(he instanceof Player) {
                 Player p = (Player) he;
@@ -83,7 +83,7 @@ public class CheatPrevention implements CLXExpansion, Listener {
                     InventoryType it = i.getType();
                     if(it != InventoryType.PLAYER) {
                         e.setCancelled(true);
-                        String msg = Config.MESSAGE_OPEN_INVENTORY;
+                        String msg = ConfigLang.MESSAGE_OPEN_INVENTORY;
                         Util.sendMessage(p, msg);
                     }
                 }
@@ -93,12 +93,16 @@ public class CheatPrevention implements CLXExpansion, Listener {
     
     @EventHandler
     public void tp(PlayerTeleportEvent e) {
-        if(Config.CHEAT_PREVENT_TELEPORT) {
-            Player p = e.getPlayer();
-            if(Combat.isInCombat(p)) {
-                e.setCancelled(true);
-                String msg = Config.MESSAGE_NO_TELEPORT;
-                Util.sendMessage(p, msg);
+        if(ConfigOptions.CHEAT_PREVENT_TELEPORT) {
+            TeleportCause tc = e.getCause();
+            if(tc == TeleportCause.ENDER_PEARL && ConfigOptions.CHEAT_PREVENT_TELEPORT_ALLOW_ENDERPEARLS) return;
+            else {
+                Player p = e.getPlayer();
+                if(Combat.isInCombat(p)) {
+                    e.setCancelled(true);
+                    String msg = ConfigLang.MESSAGE_NO_TELEPORT;
+                    Util.sendMessage(p, msg);
+                }
             }
         }
     }
@@ -110,8 +114,8 @@ public class CheatPrevention implements CLXExpansion, Listener {
         if(Combat.isInCombat(p)) {
             String msg = e.getMessage();
             String cmd = msg.toLowerCase();
-            boolean whitelist = Config.CHEAT_PREVENT_BLOCKED_COMMANDS_MODE;
-            List<String> list = Config.CHEAT_PREVENT_BLOCKED_COMMANDS;
+            boolean whitelist = ConfigOptions.CHEAT_PREVENT_BLOCKED_COMMANDS_MODE;
+            List<String> list = ConfigOptions.CHEAT_PREVENT_BLOCKED_COMMANDS;
             if(!whitelist) {
                 for(String blocked : list) {
                     blocked = "/" + blocked.toLowerCase();
@@ -134,7 +138,7 @@ public class CheatPrevention implements CLXExpansion, Listener {
             if(e.isCancelled()) {
                 List<String> l1 = Util.newList("{command}");
                 List<String> l2 = Util.newList(msg);
-                String msg1 = Util.formatMessage(Config.MESSAGE_BLOCKED_COMMAND, l1, l2);
+                String msg1 = Util.formatMessage(ConfigLang.MESSAGE_BLOCKED_COMMAND, l1, l2);
                 Util.sendMessage(p, msg1);
             }
         }

@@ -1,8 +1,9 @@
 package com.SirBlobman.worldguard;
 
 import com.SirBlobman.combatlogx.Combat;
-import com.SirBlobman.combatlogx.config.Config;
-import com.SirBlobman.combatlogx.config.Config.NoEntryMode;
+import com.SirBlobman.combatlogx.config.ConfigLang;
+import com.SirBlobman.combatlogx.config.ConfigOptions;
+import com.SirBlobman.combatlogx.config.NoEntryMode;
 import com.SirBlobman.combatlogx.event.PlayerCombatEvent;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.utility.Util;
@@ -28,10 +29,8 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
         }
     }
 
-    @Override
+    public String getUnlocalizedName() {return "CompatWorldGuard";}
     public String getName() {return "WorldGuard Compatability";}
-
-    @Override
     public String getVersion() {return "1.0.0";}
 
     @EventHandler
@@ -54,12 +53,12 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
     @EventHandler
     public void move(PlayerMoveEvent e) {
         if(e.isCancelled()) return;
-        if(Config.CHEAT_PREVENT_NO_ENTRY) {
+        if(ConfigOptions.CHEAT_PREVENT_NO_ENTRY) {
             Player p = e.getPlayer();
             Location from = e.getFrom();
             Location to = e.getTo();
             if(Combat.isInCombat(p) && WorldGuardUtil.isSafeZone(to)) {
-                String mode = Config.CHEAT_PREVENT_NO_ENTRY_MODE;
+                String mode = ConfigOptions.CHEAT_PREVENT_NO_ENTRY_MODE;
                 NoEntryMode nem = NoEntryMode.valueOf(mode);
                 if(nem == null) nem = NoEntryMode.CANCEL;
                 
@@ -68,12 +67,12 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
                 } else if(nem == NoEntryMode.KNOCKBACK) {
                     Vector vto = to.toVector(); Vector vfrom = from.toVector();
                     Vector vector = vto.subtract(vfrom);
-                    vector = vector.multiply(-1 * Config.CHEAT_PREVENT_NO_ENTRY_STRENGTH);
+                    vector = vector.multiply(-1 * ConfigOptions.CHEAT_PREVENT_NO_ENTRY_STRENGTH);
                     p.setVelocity(vector);
                 } else if(nem == NoEntryMode.KILL) {
                     p.setHealth(0.0D);
                 }
-                String error = Config.MESSAGE_NO_ENTRY;
+                String error = ConfigLang.MESSAGE_NO_ENTRY;
                 Util.sendMessage(p, error);
             }
         }
@@ -82,13 +81,13 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
     @EventHandler
     public void tp(PlayerTeleportEvent e) {
         if(e.isCancelled()) return;
-        if(Config.CHEAT_PREVENT_NO_ENTRY && e.getCause() == TeleportCause.ENDER_PEARL) {
+        if(ConfigOptions.CHEAT_PREVENT_NO_ENTRY && e.getCause() == TeleportCause.ENDER_PEARL) {
             Player p = e.getPlayer();
             Location from = e.getFrom();
             Location to = e.getTo();
             if(Combat.isInCombat(p) && WorldGuardUtil.isSafeZone(to)) {
                 e.setCancelled(true);
-                String error = Config.MESSAGE_NO_ENTRY;
+                String error = ConfigLang.MESSAGE_NO_ENTRY;
                 Util.sendMessage(p, error);
                 p.teleport(from);
             }

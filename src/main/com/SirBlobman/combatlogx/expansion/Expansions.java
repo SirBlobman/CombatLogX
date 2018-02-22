@@ -36,6 +36,7 @@ public class Expansions {
                     String msg = Util.format("Loading expansion '%1s v%2s'", n, v);
                     Util.print(msg);
                     clxe.enable();
+                    Util.print("\n");
                     EXPANSIONS.put(n, clxe);
                     reg = true;
                     break;

@@ -1,7 +1,9 @@
 package com.SirBlobman.citizens;
 
 import com.SirBlobman.citizens.config.ConfigData;
+import com.SirBlobman.citizens.utility.NPCUtil;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
+import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 
 import java.io.File;
@@ -11,7 +13,7 @@ public class CompatCitizens implements CLXExpansion {
     
     @Override
     public void enable() {
-        if(Util.PM.isPluginEnabled("Citizens")) {
+        if(PluginUtil.isPluginEnabled("Citizens")) {
             FOLDER = getDataFolder();
             ConfigData.load();
             Util.regEvents(new ListenCitizens());
@@ -23,12 +25,13 @@ public class CompatCitizens implements CLXExpansion {
     
     @Override
     public void disable() {
-        ListenCitizens.removeAllNPCs();
+        if(PluginUtil.isPluginEnabled("Citizens")) {
+            NPCUtil.removeAllNPCs();
+            Util.print("Removed all Combat NPCs");
+        }
     }
     
-    @Override
+    public String getUnlocalizedName() {return "CompatCitizens";}
     public String getName() {return "Citizens Compatibility";}
-    
-    @Override
-    public String getVersion() {return "1.0.1";}
+    public String getVersion() {return "2.0.0";}
 }

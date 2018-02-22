@@ -1,6 +1,6 @@
 package com.SirBlobman.combatlogx.expansion;
 
-import com.SirBlobman.combatlogx.config.Config;
+import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.utility.Util;
 
 import java.io.File;
@@ -23,10 +23,16 @@ public interface CLXExpansion {
     public default void disable() {}
 
     /**
-     * <b>Example:</b> {@code "NotCombatLogX"}
-     * @return The name of your expansion
+     * <b>Example:</b> {@code "Citizens Compatability"}
+     * @return The name of your expansion that will be shown to people
      */
     public String getName();
+    
+    /**
+     * <b>Example</b> {@code "CompatCitizens"}
+     * @return The name of your expansion that will be used for files/folders
+     */
+    public String getUnlocalizedName();
 
     /**
      * <b>Example:</b> {@code "1.0.0"}
@@ -48,19 +54,19 @@ public interface CLXExpansion {
     }
 
     /**
-     * <i>/plugins/CombatLogX/expansions/{@link #getName()}</i>
+     * <i>/plugins/CombatLogX/expansions/{@link #getUnlocalizedName()}/</i>
      * @return The folder where data for this expansion can be stored
      */
     public default File getDataFolder() {
         File folder = getExpansionsFolder();
-        File file = new File(folder, getName());
+        File file = new File(folder, getUnlocalizedName());
         file.mkdirs();
         return file;
     }
 
     public default void print(Object... oo) {
         for(Object o : oo) {
-            String prefix = Util.formatMessage(Config.MESSAGE_PREFIX_EXPANSION, Util.newList("{expansion}"), Util.newList(getName()));
+            String prefix = Util.formatMessage(ConfigLang.MESSAGE_PREFIX_EXPANSION, Util.newList("{expansion}"), Util.newList(getName()));
             String s = Util.str(o);
             String c = Util.color(prefix + s);
             Util.CONSOLE.sendMessage(c);

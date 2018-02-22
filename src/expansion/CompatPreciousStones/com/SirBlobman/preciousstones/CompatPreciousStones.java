@@ -1,4 +1,4 @@
-package com.SirBlobman.factions;
+package com.SirBlobman.preciousstones;
 
 import com.SirBlobman.combatlogx.Combat;
 import com.SirBlobman.combatlogx.config.ConfigLang;
@@ -6,8 +6,8 @@ import com.SirBlobman.combatlogx.config.ConfigOptions;
 import com.SirBlobman.combatlogx.config.NoEntryMode;
 import com.SirBlobman.combatlogx.event.PlayerCombatEvent;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
+import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.combatlogx.utility.Util;
-import com.SirBlobman.factions.compat.FactionsUtil;
 
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
@@ -19,35 +19,38 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.util.Vector;
 
-public class CompatFactions implements CLXExpansion, Listener {
-    private static FactionsUtil FACTIONS;
+public class CompatPreciousStones implements CLXExpansion, Listener {
     @Override
     public void enable() {
-        FACTIONS = FactionsUtil.getFactions();
-        if(FACTIONS == null) {
-            String error = "A Factions plugin could not be found. This expansion is useless!";
-            print(error);
-        } else {
+        if(PluginUtil.isPluginEnabled("PreciousStones", "Phaed")) {
             Util.regEvents(this);
+        } else {
+            String error = "PreciousStones is not installed. This expansion is useless!";
+            print(error);
         }
     }
     
-    public String getUnlocalizedName() {return "CompatFactions";}
-    public String getName() {return "Factions Compatability";}
+    public String getUnlocalizedName() {return "CompatPreciousStones";}
+    public String getName() {return "PreciousStones Compatability";}
     public String getVersion() {return "1.0.0";}
     
     @EventHandler
     public void pce(PlayerCombatEvent e) {
         LivingEntity ler = e.getAttacker();
         LivingEntity led = e.getTarget();
-        
-        if(ler instanceof Player) {
+        if(ler instanceof Player) { 
             Player p = (Player) ler;
-            boolean can = FACTIONS.canAttack(p, led);
-            if(!can) e.setCancelled(true);
+            boolean pvp = StonesUtil.canPvP(p);
+            if(!pvp) e.setCancelled(true);
+        }
+
+        if(led instanceof Player) {
+            Player p = (Player) led;
+            boolean pvp = StonesUtil.canPvP(p);
+            if(!pvp) e.setCancelled(true);
         }
     }
-    
+
     @EventHandler
     public void move(PlayerMoveEvent e) {
         if(e.isCancelled()) return;
@@ -55,7 +58,7 @@ public class CompatFactions implements CLXExpansion, Listener {
             Player p = e.getPlayer();
             Location from = e.getFrom();
             Location to = e.getTo();
-            if(Combat.isInCombat(p) && FACTIONS.isSafeZone(to)) {
+            if(Combat.isInCombat(p) && !StonesUtil.canPvP(to)) {
                 String mode = ConfigOptions.CHEAT_PREVENT_NO_ENTRY_MODE;
                 NoEntryMode nem = NoEntryMode.valueOf(mode);
                 if(nem == null) nem = NoEntryMode.CANCEL;
@@ -75,7 +78,7 @@ public class CompatFactions implements CLXExpansion, Listener {
             }
         }
     }
-    
+
     @EventHandler
     public void tp(PlayerTeleportEvent e) {
         if(e.isCancelled()) return;
@@ -83,7 +86,7 @@ public class CompatFactions implements CLXExpansion, Listener {
             Player p = e.getPlayer();
             Location from = e.getFrom();
             Location to = e.getTo();
-            if(Combat.isInCombat(p) && FACTIONS.isSafeZone(to)) {
+            if(Combat.isInCombat(p) && !StonesUtil.canPvP(to)) {
                 e.setCancelled(true);
                 String error = ConfigLang.MESSAGE_NO_ENTRY;
                 Util.sendMessage(p, error);
