@@ -20,8 +20,8 @@ public class CompatParties implements CLXExpansion, Listener {
     }
 
     public String getUnlocalizedName() {return "CompatParties";}
-    public String getName() {return "Parties Compatability";}
-    public String getVersion() {return "0.0.2";}
+    public String getName() {return "Parties Compatibility";}
+    public String getVersion() {return "0.0.3";}
     
     @EventHandler
     public void pce(PlayerCombatEvent e) {
