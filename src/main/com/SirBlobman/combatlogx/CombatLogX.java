@@ -112,29 +112,29 @@ public class CombatLogX extends JavaPlugin {
                String plugin = pluginVersion();
                if(spigot == null || plugin == null) {
                    String[] error = Util.color(
-                       "&6========================================================",
+                       "&6==================================================================",
                        "&eCombatLogX Update Checker",
                        "&cCould not connect to Spigot's API",
-                       "&6========================================================"
+                       "&6=================================================================="
                    );
                    print(error);
                } else if(plugin.equals(spigot)) {
                    String[] msg = Util.color(
-                       "&6========================================================",
+                       "&6==================================================================",
                        "&eCombatLogX Update Checker",
                        "&aYou are using the latest version!",
-                       "&6========================================================"
+                       "&6=================================================================="
                    );
                    print(msg);
                } else {
                    String[] msg = Util.color(
-                       "&6========================================================",
+                       "&6==================================================================",
                        "&eCombatLogX Update Checker",
                        "&aThere is a new update available!",
                        "&e&lLatest Version: &a" + spigot,
                        "&e&lYour Version: &c" + plugin,
-                       "&eGet it here: &b&nhttps://www.spigotmc.org/resources/combatlogx.31689/",
-                       "&6========================================================"
+                       "&eGet it here: &bhttps://www.spigotmc.org/resources/combatlogx.31689/",
+                       "&6=================================================================="
                    );
                    print(msg);
                }

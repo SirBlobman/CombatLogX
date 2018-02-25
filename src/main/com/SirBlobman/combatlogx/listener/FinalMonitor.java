@@ -84,7 +84,7 @@ public class FinalMonitor implements Listener {
             case ENEMY_DEATH:
                 List<String> l1 = Util.newList("{enemy_name}");
                 LivingEntity enemy = Combat.getEnemy(p);
-                List<String> l2 = Util.newList(OldUtil.getName(Combat.getEnemy(p)));
+                List<String> l2 = Util.newList(OldUtil.getName(enemy));
                 String msg = Util.formatMessage((enemy instanceof Player) ? ConfigLang.MESSAGE_ENEMY_DEATH_PLAYER : ConfigLang.MESSAGE_ENEMY_DEATH_MOB, l1, l2);
                 Util.sendMessage(p, msg);
                 break;
