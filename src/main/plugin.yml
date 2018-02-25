@@ -7,12 +7,10 @@ database: false
 depend: []
 softdepend: [Citizens]
 commands:
-  clxconfig:
+  combatlogx:
     description: Reload the Config and Messages for this plugin
-    usage: /<command>
-    aliases: [clreload, clxreload, ctreload, clr]
-    permission: combatlogx.config
-    permission-message: Ask an admin to reload the config.
+    usage: /<command> <reload / tag / untag>
+    aliases: [clx]
   combattime:
     description: Check how much combat time you have left.
     permission: combatlogx.time
@@ -26,8 +24,14 @@ permissions:
     children:
       combatlogx.config: true
       combatlogx.time: true
-  combatlogx.config:
-    description: Gives perms to edit and reload the config
+  combatlogx.reload:
+    description: Allows you to reload the config
+    default: op
+  combatlogx.tag:
+    description: Allows you to force someone into combat
+    default: op
+  combatlogx.untag:
+    description: Allows you to force someone out of combat
     default: op
   combatlogx.time:
     description: Gives permission to check how much time you have left during combat

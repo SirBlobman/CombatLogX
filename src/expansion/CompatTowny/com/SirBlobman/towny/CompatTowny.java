@@ -47,7 +47,7 @@ public class CompatTowny implements CLXExpansion, Listener {
                     else if(nem == NoEntryMode.KILL) p.setHealth(0.0D);
                     else if(nem == NoEntryMode.KNOCKBACK) {
                         Vector vto = to.toVector(); Vector vfrom = from.toVector();
-                        Vector vector = vto.subtract(vfrom);
+                        Vector vector = vfrom.subtract(vto);
                         vector.multiply(ConfigOptions.CHEAT_PREVENT_NO_ENTRY_STRENGTH);
                         vector.setY(0);
                         p.setVelocity(vector);

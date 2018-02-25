@@ -1,7 +1,7 @@
 package com.SirBlobman.combatlogx;
 
 import com.SirBlobman.combatlogx.command.CommandCombatTime;
-import com.SirBlobman.combatlogx.command.CommandConfig;
+import com.SirBlobman.combatlogx.command.CommandCombatLogX;
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.config.ConfigOptions;
 import com.SirBlobman.combatlogx.expansion.Expansions;
@@ -43,8 +43,8 @@ public class CombatLogX extends JavaPlugin {
                 ConfigOptions.load();
                 ConfigLang.load();
                 if(ConfigOptions.OPTION_CHECK_UPDATES) checkUpdate();
+                command("combatlogx", new CommandCombatLogX());
                 command("combattime", new CommandCombatTime());
-                command("clxconfig", new CommandConfig());
                 Util.regEvents(new ListenBukkit(), new FinalMonitor());
                 Util.runTimer(new Combat(), 20, 0);
                 Expansions.loadExpansions();

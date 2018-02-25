@@ -45,6 +45,8 @@ public class ConfigLang extends Config {
     public static String MESSAGE_BLOCKED_COMMAND = "";
     public static String MESSAGE_STILL_IN_COMBAT = "";
     public static String MESSAGE_NOT_PLAYER = "";
+    public static String MESSAGE_NO_PERMISSION = "";
+    public static String MESSAGE_INVALID_TARGET = "";
     public static String MESSAGE_NOT_IN_COMBAT = "";
     public static String MESSAGE_QUIT = "";
     public static String MESSAGE_FAIL = "";
@@ -58,6 +60,8 @@ public class ConfigLang extends Config {
     public static String MESSAGE_LOG_TARGET_ONLY = "";
     public static String MESSAGE_LOG_ATTACKER_ONLY = "";
     public static String MESSAGE_LOG_COMBAT = "";
+    public static String MESSAGE_FORCE_UNTAG = "";
+    public static String MESSAGE_FORCE_TAG = "";
     
     public static List<String> SCOREBOARD_LIST = Util.newList();
     
@@ -68,6 +72,10 @@ public class ConfigLang extends Config {
         MESSAGE_BOSS_BAR = get("boss bar", "&3Combat &7>> &c{time_left} seconds");
         MESSAGE_RELOAD_CONFIG = get("reload config", "Reloaded 'combat.yml' and 'language.yml'");
         MESSAGE_NOT_PLAYER = get("command.not player", "You are not a Player!");
+        MESSAGE_NO_PERMISSION = get("command.no permission", "You don't have permission to do that command!");
+        MESSAGE_INVALID_TARGET = get("command.invalid target", "{target} is not a Player or is offline.");
+        MESSAGE_FORCE_UNTAG = get("command.combatlogx.force untag", "You removed {target} from combat.");
+        MESSAGE_FORCE_TAG = get("command.combatlogx.force tag", "You put {target} into combat. This may cause bugs!");
         MESSAGE_TARGET = get("combat.target.player", "{attacker} attacked you! You are now in combat.");
         MESSAGE_TARGET_MOB = get("combat.target.entity", "You were attacked by a mob named {attacker}! You are now in combat.");
         MESSAGE_ATTACK = get("combat.attack.player", "You attacked {target}! You are now in combat!");

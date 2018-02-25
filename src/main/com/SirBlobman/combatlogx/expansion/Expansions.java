@@ -121,6 +121,11 @@ public class Expansions {
         } else return null;
     }
     
+    public static boolean isEnabled(String name) {
+        boolean en = EXPANSIONS.containsKey(name);
+        return en;
+    }
+    
     public static String fileExtension(File file) {
         String name = file.getName();
         int i = name.lastIndexOf('.');

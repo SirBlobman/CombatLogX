@@ -87,7 +87,7 @@ public class NotCombatLogX implements CLXExpansion, Listener {
         }
     }
     
-    private void call(Player p) {
+    public static void call(Player p) {
         SpecialCombatEvent sce = new SpecialCombatEvent(p);
         Util.call(sce);
     }
