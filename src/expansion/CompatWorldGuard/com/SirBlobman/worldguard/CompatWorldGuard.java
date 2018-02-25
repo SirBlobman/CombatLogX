@@ -18,10 +18,15 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.util.Vector;
 
+import java.io.File;
+
 public class CompatWorldGuard implements CLXExpansion, Listener {
+    public static File FOLDER;
+    
     @Override
     public void enable() {
         if(Util.PM.isPluginEnabled("WorldGuard")) {
+            FOLDER = getDataFolder();
             Util.regEvents(this);
         } else {
             String error = "WorldGuard is not installed. This expansion is useless!";
@@ -31,7 +36,7 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
 
     public String getUnlocalizedName() {return "CompatWorldGuard";}
     public String getName() {return "WorldGuard Compatability";}
-    public String getVersion() {return "1.0.0";}
+    public String getVersion() {return "2.0.0";}
 
     @EventHandler
     public void pce(PlayerCombatEvent e) {
@@ -39,14 +44,14 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
         LivingEntity led = e.getTarget();
         if(ler instanceof Player) { 
             Player p = (Player) ler;
-            boolean pvp = WorldGuardUtil.pvp(p);
-            if(!pvp) e.setCancelled(true);
+            boolean safe = WorldGuardUtil.isSafeZone(p.getLocation());
+            if(safe) e.setCancelled(true);
         }
 
         if(led instanceof Player) {
             Player p = (Player) led;
-            boolean pvp = WorldGuardUtil.pvp(p);
-            if(!pvp) e.setCancelled(true);
+            boolean safe = WorldGuardUtil.isSafeZone(p.getLocation());
+            if(safe) e.setCancelled(true);
         }
     }
 
@@ -61,17 +66,13 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
                 String mode = ConfigOptions.CHEAT_PREVENT_NO_ENTRY_MODE;
                 NoEntryMode nem = NoEntryMode.valueOf(mode);
                 if(nem == null) nem = NoEntryMode.CANCEL;
-                
-                if(nem == NoEntryMode.CANCEL) {
-                    e.setCancelled(true);
-                } else if(nem == NoEntryMode.KNOCKBACK) {
-                    Vector vto = to.toVector(); Vector vfrom = from.toVector();
-                    Vector vector = vto.subtract(vfrom);
-                    vector = vector.multiply(-1 * ConfigOptions.CHEAT_PREVENT_NO_ENTRY_STRENGTH);
+                if(nem == NoEntryMode.CANCEL) e.setCancelled(true);
+                else if(nem == NoEntryMode.KILL) p.setHealth(0.0D);
+                else if(nem == NoEntryMode.KNOCKBACK) {
+                    Vector vector = WorldGuardUtil.getKnockbackVector(from);
                     p.setVelocity(vector);
-                } else if(nem == NoEntryMode.KILL) {
-                    p.setHealth(0.0D);
                 }
+                
                 String error = ConfigLang.MESSAGE_NO_ENTRY;
                 Util.sendMessage(p, error);
             }
