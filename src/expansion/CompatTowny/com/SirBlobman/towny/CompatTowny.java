@@ -43,17 +43,16 @@ public class CompatTowny implements CLXExpansion, Listener {
                     String mode = ConfigOptions.CHEAT_PREVENT_NO_ENTRY_MODE;
                     NoEntryMode nem = NoEntryMode.valueOf(mode);
                     if(nem == null) nem = NoEntryMode.CANCEL;
-                    
-                    if(nem == NoEntryMode.CANCEL) {
-                        e.setCancelled(true);
-                    } else if(nem == NoEntryMode.KNOCKBACK) {
+                    if(nem == NoEntryMode.CANCEL) e.setCancelled(true);
+                    else if(nem == NoEntryMode.KILL) p.setHealth(0.0D);
+                    else if(nem == NoEntryMode.KNOCKBACK) {
                         Vector vto = to.toVector(); Vector vfrom = from.toVector();
                         Vector vector = vto.subtract(vfrom);
-                        vector = vector.multiply(-1 * ConfigOptions.CHEAT_PREVENT_NO_ENTRY_STRENGTH);
+                        vector.multiply(ConfigOptions.CHEAT_PREVENT_NO_ENTRY_STRENGTH);
+                        vector.setY(0);
                         p.setVelocity(vector);
-                    } else if(nem == NoEntryMode.KILL) {
-                        p.setHealth(0.0D);
                     }
+                    
                     String error = ConfigLang.MESSAGE_NO_ENTRY;
                     Util.sendMessage(p, error);
                 }
