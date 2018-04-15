@@ -1,10 +1,11 @@
-package com.SirBlobman.citizens;
+package com.SirBlobman.npc;
 
-import com.SirBlobman.citizens.config.ConfigData;
-import com.SirBlobman.citizens.utility.NPCUtil;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.npc.config.ConfigCitizens;
+import com.SirBlobman.npc.config.ConfigData;
+import com.SirBlobman.npc.utility.NPCUtil;
 
 import java.io.File;
 
@@ -15,8 +16,10 @@ public class CompatCitizens implements CLXExpansion {
     public void enable() {
         if(PluginUtil.isPluginEnabled("Citizens")) {
             FOLDER = getDataFolder();
+            ConfigCitizens.load();
             ConfigData.load();
             Util.regEvents(new ListenCitizens());
+            NPCUtil.onStartup();
         } else {
             String error = "Citizens is not installed. This expansion is useless!";
             print(error);

@@ -63,7 +63,7 @@ public class ConfigOptions extends Config {
     public static boolean CHEAT_PREVENT_TELEPORT_ALLOW_ENDERPEARLS = true;
     public static String CHEAT_PREVENT_CHANGE_GAMEMODE_MODE = "SURVIVAL";
     public static String CHEAT_PREVENT_NO_ENTRY_MODE = "CANCEL";
-    public static int CHEAT_PREVENT_NO_ENTRY_STRENGTH = 0;
+    public static double CHEAT_PREVENT_NO_ENTRY_STRENGTH = 0;
     public static List<String> CHEAT_PREVENT_BLOCKED_COMMANDS = Util.newList("fly", "tpa", "tpahere", "spawn", "home");
     public static List<String> CHEAT_PREVENT_BLOCKED_POTIONS = Util.newList("INVISIBILITY", "INCREASE_DAMAGE");
 
@@ -102,7 +102,7 @@ public class ConfigOptions extends Config {
         CHEAT_PREVENT_TELEPORT_ALLOW_ENDERPEARLS = get("cheat prevention.teleportation.allow ender pearls", false);
         CHEAT_PREVENT_NO_ENTRY = get("cheat prevention.safezone.no entry", true);
         CHEAT_PREVENT_NO_ENTRY_MODE = get("cheat prevention.safezone.mode", "KNOCKBACK").toUpperCase();
-        CHEAT_PREVENT_NO_ENTRY_STRENGTH = get("cheat prevention.safezone.knockback strength", 5);
+        CHEAT_PREVENT_NO_ENTRY_STRENGTH = get("cheat prevention.safezone.knockback strength", 0.00001D);
         CHEAT_PREVENT_DISABLE_FLIGHT = get("cheat prevention.flight.disable", true);
         CHEAT_PREVENT_ENABLE_FLIGHT = get("cheat prevention.flight.re-enable after combat", false);
         CHEAT_PREVENT_CHANGE_GAMEMODE = get("cheat prevention.change gamemode.enabled", true);
@@ -122,5 +122,5 @@ public class ConfigOptions extends Config {
         save();
     }
     
-    private static <T> T get(String path, T defaultValue) {return Config.get(CONFIG, path, defaultValue);}
+    private static <T> T get(String path, T defaultValue) {return get(CONFIG, path, defaultValue);}
 }

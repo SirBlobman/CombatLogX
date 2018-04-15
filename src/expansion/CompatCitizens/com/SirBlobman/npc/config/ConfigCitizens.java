@@ -1,8 +1,8 @@
-package com.SirBlobman.citizens.config;
+package com.SirBlobman.npc.config;
 
-import com.SirBlobman.citizens.CompatCitizens;
 import com.SirBlobman.combatlogx.config.Config;
 import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.npc.CompatCitizens;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
@@ -38,10 +38,13 @@ public class ConfigCitizens extends Config {
     
     public static String OPTION_NPC_ENTITY_TYPE = EntityType.PLAYER.name();
     public static int OPTION_NPC_SURVIVAL_TIME = 0;
+    public static boolean OPTION_MODIFY_INVENTORIES = false;
     
     private static void defaults() {
         OPTION_NPC_ENTITY_TYPE = get(config, "options.npc.entity type", EntityType.PLAYER.name());
         OPTION_NPC_SURVIVAL_TIME = get(config, "options.npc.survival time", 300);
+        
+        OPTION_MODIFY_INVENTORIES = get(config, "options.modify inventories", false);
         save();
     }
 }

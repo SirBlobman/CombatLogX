@@ -1,8 +1,8 @@
-package com.SirBlobman.citizens.config;
+package com.SirBlobman.npc.config;
 
-import com.SirBlobman.citizens.CompatCitizens;
 import com.SirBlobman.combatlogx.config.Config;
 import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.npc.CompatCitizens;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -59,5 +59,12 @@ public class ConfigData extends Config {
         String id = uuid.toString();
         config.set(id, null);
         save();
+    }
+    
+    public static boolean exists(OfflinePlayer op) {
+        UUID uuid = op.getUniqueId();
+        String id = uuid.toString();
+        load();
+        return config.contains(id);
     }
 }
