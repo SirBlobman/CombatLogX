@@ -4,13 +4,13 @@ You can also abbreviate it as CLX<br/>
 For planned features, you can check the 'To Do.list' file<br/>
 
 <h1>Version Information</h1>
-The format is as follows:
+The format is as follows:<br/>
 <i>major</i>.<i>minor</i>.<i>patch</i>.<i>expansion</i><br/>
 <br/>
 <i>expansion</i> will change when an expansion is changed or updated<br/>
-<i>patch</i> will change when I make small changes that don't affect anything major
-<i>minor</i> will change when I add a new expansion or create more effective changes
-<i>major</i> will change when I modify the API or make a lot of changes that affect the plugin
+<i>patch</i> will change when I make small changes that don't affect anything major<br/>
+<i>minor</i> will change when I add a new expansion or create more effective changes<br/>
+<i>major</i> will change when I modify the API or make a lot of changes that affect the plugin<br/>
 
 <h1>Expansion Information</h1>
 Expansions are similar to plugins, but instead of going in <i>/plugins/</i> they go in <i>/plugins/CombatLogX/expansions/</i><br/>
