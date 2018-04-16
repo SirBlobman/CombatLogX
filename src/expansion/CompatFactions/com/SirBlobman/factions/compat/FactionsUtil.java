@@ -32,8 +32,20 @@ public abstract class FactionsUtil extends Util {
         return l;
     }
     
-    public Vector getKnockbackVector(Location original, Location ploc) {
+    public Vector getSafeZoneKnockbackVector(Location original, Location ploc) {
         if(isSafeZone(ploc)) {
+            Location center = getChunkCenter(ploc);
+            Vector from = center.toVector();
+            Vector to = original.toVector();
+            Vector vector = to.subtract(from);
+            vector.multiply(ConfigOptions.CHEAT_PREVENT_NO_ENTRY_STRENGTH);
+            vector.setY(0);
+            return vector;
+        } else return new Vector(0, 0, 0);
+    }
+    
+    public Vector getMobsZoneKnockbackVector(Location original, Location ploc) {
+        if(isSafeFromMobs(ploc)) {
             Location center = getChunkCenter(ploc);
             Vector from = center.toVector();
             Vector to = original.toVector();
@@ -48,5 +60,6 @@ public abstract class FactionsUtil extends Util {
     public abstract Object getFactionAt(Location l);
     public abstract Object getCurrentFaction(Player p);
     public abstract boolean isSafeZone(Location l);
+    public abstract boolean isSafeFromMobs(Location l);
     public boolean canAttack(Player p, LivingEntity le) {return CombatUtil.canAttack(p, le);}
 }

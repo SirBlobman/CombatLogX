@@ -10,6 +10,7 @@ import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.factions.compat.FactionsUtil;
 
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -55,19 +56,38 @@ public class CompatFactions implements CLXExpansion, Listener {
             Player p = e.getPlayer();
             Location from = e.getFrom();
             Location to = e.getTo();
-            if(Combat.isInCombat(p) && FACTIONS.isSafeZone(to)) {
-                String mode = ConfigOptions.CHEAT_PREVENT_NO_ENTRY_MODE;
-                NoEntryMode nem = NoEntryMode.valueOf(mode);
-                if(nem == null) nem = NoEntryMode.CANCEL;
-                if(nem == NoEntryMode.CANCEL) e.setCancelled(true);
-                else if(nem == NoEntryMode.KILL) p.setHealth(0.0D);
-                else if(nem == NoEntryMode.KNOCKBACK) {
-                    Vector vector = FACTIONS.getKnockbackVector(from, to);
-                    p.setVelocity(vector);
+
+            if(Combat.isInCombat(p)) {
+                Entity enemy = Combat.getEnemy(p);
+                if(enemy != null) {
+                    if(enemy instanceof Player && FACTIONS.isSafeFromMobs(to)) {
+                        String mode = ConfigOptions.CHEAT_PREVENT_NO_ENTRY_MODE;
+                        NoEntryMode nem = NoEntryMode.valueOf(mode);
+                        if(nem == null) nem = NoEntryMode.CANCEL;
+                        if(nem == NoEntryMode.CANCEL) e.setCancelled(true);
+                        else if(nem == NoEntryMode.KILL) p.setHealth(0.0D);
+                        else if(nem == NoEntryMode.KNOCKBACK) {
+                            Vector vector = FACTIONS.getSafeZoneKnockbackVector(from, to);
+                            p.setVelocity(vector);
+                        }
+                        
+                        String error = ConfigLang.MESSAGE_NO_ENTRY;
+                        Util.sendMessage(p, error);
+                    } else if(FACTIONS.isSafeFromMobs(to)) {
+                        String mode = ConfigOptions.CHEAT_PREVENT_NO_ENTRY_MODE;
+                        NoEntryMode nem = NoEntryMode.valueOf(mode);
+                        if(nem == null) nem = NoEntryMode.CANCEL;
+                        if(nem == NoEntryMode.CANCEL) e.setCancelled(true);
+                        else if(nem == NoEntryMode.KILL) p.setHealth(0.0D);
+                        else if(nem == NoEntryMode.KNOCKBACK) {
+                            Vector vector = FACTIONS.getMobsZoneKnockbackVector(from, to);
+                            p.setVelocity(vector);
+                        }
+                        
+                        String error = ConfigLang.MESSAGE_NO_ENTRY;
+                        Util.sendMessage(p, error);
+                    }
                 }
-                
-                String error = ConfigLang.MESSAGE_NO_ENTRY;
-                Util.sendMessage(p, error);
             }
         }
     }

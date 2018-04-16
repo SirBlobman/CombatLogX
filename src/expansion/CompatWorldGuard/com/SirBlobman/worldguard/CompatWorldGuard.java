@@ -63,26 +63,37 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
             Player p = e.getPlayer();
             Location from = e.getFrom();
             Location to = e.getTo();
-            if(Combat.isInCombat(p) && WorldGuardUtil.isSafeZone(to)) {
-                String mode = ConfigOptions.CHEAT_PREVENT_NO_ENTRY_MODE;
-                NoEntryMode nem = NoEntryMode.valueOf(mode);
-                if(nem == null) nem = NoEntryMode.CANCEL;
-                if(nem == NoEntryMode.CANCEL) e.setCancelled(true);
-                else if(nem == NoEntryMode.KILL) p.setHealth(0.0D);
-                else if(nem == NoEntryMode.KNOCKBACK) {
-                    Entity enemy = Combat.getEnemy(p);
-                    Vector vector = new Vector(0, 0, 0);
-                    
-                    boolean player = (enemy instanceof Player);
-                    if(player) vector = WorldGuardUtil.getSafeZoneKnockbackVector(from);
-                    else if(enemy != null) vector = WorldGuardUtil.getMobsZoneKnockbackVector(from);
-                    else vector = new Vector(0, 0, 0);
-                    
-                    p.setVelocity(vector);
+            if(Combat.isInCombat(p)) {
+                Entity enemy = Combat.getEnemy(p);
+                if(enemy != null) {
+                    if(enemy instanceof Player && WorldGuardUtil.isSafeZone(to)) {
+                        String mode = ConfigOptions.CHEAT_PREVENT_NO_ENTRY_MODE;
+                        NoEntryMode nem = NoEntryMode.valueOf(mode);
+                        if(nem == null) nem = NoEntryMode.CANCEL;
+                        if(nem == NoEntryMode.CANCEL) e.setCancelled(true);
+                        else if(nem == NoEntryMode.KILL) p.setHealth(0.0D);
+                        else if(nem == NoEntryMode.KNOCKBACK) {
+                            Vector vector = WorldGuardUtil.getSafeZoneKnockbackVector(from);
+                            p.setVelocity(vector);
+                        }
+                        
+                        String error = ConfigLang.MESSAGE_NO_ENTRY;
+                        Util.sendMessage(p, error);
+                    } else if(WorldGuardUtil.isSafeFromMobs(to)) {
+                        String mode = ConfigOptions.CHEAT_PREVENT_NO_ENTRY_MODE;
+                        NoEntryMode nem = NoEntryMode.valueOf(mode);
+                        if(nem == null) nem = NoEntryMode.CANCEL;
+                        if(nem == NoEntryMode.CANCEL) e.setCancelled(true);
+                        else if(nem == NoEntryMode.KILL) p.setHealth(0.0D);
+                        else if(nem == NoEntryMode.KNOCKBACK) {
+                            Vector vector = WorldGuardUtil.getMobsZoneKnockbackVector(from);
+                            p.setVelocity(vector);
+                        }
+                        
+                        String error = ConfigLang.MESSAGE_NO_ENTRY;
+                        Util.sendMessage(p, error);
+                    }
                 }
-                
-                String error = ConfigLang.MESSAGE_NO_ENTRY;
-                Util.sendMessage(p, error);
             }
         }
     }

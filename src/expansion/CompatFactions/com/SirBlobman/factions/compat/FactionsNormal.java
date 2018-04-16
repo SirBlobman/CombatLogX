@@ -62,8 +62,16 @@ public class FactionsNormal extends FactionsUtil {
     @Override
     public boolean isSafeZone(Location l) {
         Faction f = getFactionAt(l);
-        String flag = MFlag.ID_PVP;
+        MFlag flag = MFlag.getFlagPvp();
         boolean pvp = f.getFlag(flag);
         return !pvp;
+    }
+
+    @Override
+    public boolean isSafeFromMobs(Location l) {
+        Faction f = getFactionAt(l);
+        MFlag flag = MFlag.getFlagMonsters();
+        boolean safe = f.getFlag(flag);
+        return !safe;
     }
 }

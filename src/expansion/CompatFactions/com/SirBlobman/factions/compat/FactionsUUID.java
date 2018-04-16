@@ -55,4 +55,10 @@ public class FactionsUUID extends FactionsUtil {
         Faction f = getFactionAt(l);
         return f.isSafeZone();
     }
+    
+    @Override
+    public boolean isSafeFromMobs(Location l) {
+        Faction f = getFactionAt(l);
+        return f.noMonstersInTerritory();
+    }
 }
