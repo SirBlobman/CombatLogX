@@ -54,6 +54,10 @@ public class CheatPrevention implements CLXExpansion, Listener {
             p.setFlying(false);
         }
         
+        if(ConfigOptions.CHEAT_PREVENT_AUTO_CLOSE_GUIS) {
+            p.closeInventory();
+        }
+        
         for(String s : ConfigOptions.CHEAT_PREVENT_BLOCKED_POTIONS) {
             PotionEffectType pet = PotionEffectType.getByName(s);
             if(pet != null && p.hasPotionEffect(pet)) p.removePotionEffect(pet);

@@ -9,6 +9,7 @@ import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.utility.Util;
 
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -69,7 +70,14 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
                 if(nem == NoEntryMode.CANCEL) e.setCancelled(true);
                 else if(nem == NoEntryMode.KILL) p.setHealth(0.0D);
                 else if(nem == NoEntryMode.KNOCKBACK) {
-                    Vector vector = WorldGuardUtil.getKnockbackVector(from);
+                    Entity enemy = Combat.getEnemy(p);
+                    Vector vector = new Vector(0, 0, 0);
+                    
+                    boolean player = (enemy instanceof Player);
+                    if(player) vector = WorldGuardUtil.getSafeZoneKnockbackVector(from);
+                    else if(enemy != null) vector = WorldGuardUtil.getMobsZoneKnockbackVector(from);
+                    else vector = new Vector(0, 0, 0);
+                    
                     p.setVelocity(vector);
                 }
                 

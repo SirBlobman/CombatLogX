@@ -47,10 +47,15 @@ public class WorldGuardUtil extends Util {
     
     public static boolean isSafeZone(Location to) {
         List<ProtectedRegion> list = getRegions(to);
+        int priority = 0;
+        boolean safeZone = false;
         for(ProtectedRegion pr : list) {
-            if(isSafeZone(pr)) return true;
-            else continue;
-        } return false;
+            int npri = pr.getPriority();
+            if(npri > priority) {
+                boolean safe = isSafeZone(pr);
+                safeZone = safe;
+            } else continue;
+        } return safeZone;
     }
     
     public static boolean isSafeZone(ProtectedRegion pr) {
@@ -58,6 +63,28 @@ public class WorldGuardUtil extends Util {
         Set<Flag<?>> flags = map.keySet();
         if(flags.contains(DefaultFlag.PVP)) {
             State state = pr.getFlag(DefaultFlag.PVP);
+            return (state == State.DENY);
+        } else return false;
+    }
+    
+    public static boolean isSafeFromMobs(Location to) {
+        List<ProtectedRegion> list = getRegions(to);
+        int priority = 0;
+        boolean safezone = false;
+        for(ProtectedRegion pr : list) {
+            int npri = pr.getPriority();
+            if(npri > priority) {
+                boolean safe = isSafeFromMobs(pr);
+                safezone = safe;
+            } else continue;
+        } return safezone;
+    }
+    
+    public static boolean isSafeFromMobs(ProtectedRegion pr) {
+        Map<Flag<?>, Object> map = pr.getFlags();
+        Set<Flag<?>> flags = map.keySet();
+        if(flags.contains(DefaultFlag.MOB_SPAWNING)) {
+            State state = pr.getFlag(DefaultFlag.MOB_SPAWNING);
             return (state == State.DENY);
         } else return false;
     }
@@ -75,7 +102,38 @@ public class WorldGuardUtil extends Util {
         return loc;
     }
     
-    public static org.bukkit.util.Vector getKnockbackVector(Location ploc) {
+    public static org.bukkit.util.Vector getMobsZoneKnockbackVector(Location ploc) {
+        List<ProtectedRegion> list = getRegions(ploc);
+        ProtectedRegion safeZone = null;
+        for(ProtectedRegion pr : list) {
+            if(isSafeFromMobs(pr)) {
+                safeZone = pr;
+                break;
+            } else continue;
+        }
+        
+        if(safeZone != null) {
+            World world = ploc.getWorld();
+            Location center = getCenter(world, safeZone);
+            org.bukkit.util.Vector from = center.toVector();
+            org.bukkit.util.Vector to = ploc.toVector();
+            org.bukkit.util.Vector vector = to.subtract(from);
+            vector.multiply(ConfigOptions.CHEAT_PREVENT_NO_ENTRY_STRENGTH);
+            
+            double x = vector.getX();
+            double z = vector.getZ();
+            
+            double nx = 0;
+            double nz = 0;
+            if(x != 0 && x > 0) nx = 1; else nx = -1;
+            if(z != 0 && z > 0) nz = 1; else nz = -1;
+            
+            org.bukkit.util.Vector unit = new org.bukkit.util.Vector(nx, 0, nz);
+            return unit;
+        } else return new org.bukkit.util.Vector(0, 0, 0);
+    }
+    
+    public static org.bukkit.util.Vector getSafeZoneKnockbackVector(Location ploc) {
         List<ProtectedRegion> list = getRegions(ploc);
         ProtectedRegion safeZone = null;
         for(ProtectedRegion pr : list) {
@@ -92,8 +150,17 @@ public class WorldGuardUtil extends Util {
             org.bukkit.util.Vector to = ploc.toVector();
             org.bukkit.util.Vector vector = to.subtract(from);
             vector.multiply(ConfigOptions.CHEAT_PREVENT_NO_ENTRY_STRENGTH);
-            vector.setY(0);
-            return vector;
+            
+            double x = vector.getX();
+            double z = vector.getZ();
+            
+            double nx = 0;
+            double nz = 0;
+            if(x != 0 && x > 0) nx = 1; else nx = -1;
+            if(z != 0 && z > 0) nz = 1; else nz = -1;
+            
+            org.bukkit.util.Vector unit = new org.bukkit.util.Vector(nx, 0, nz);
+            return unit;
         } else return new org.bukkit.util.Vector(0, 0, 0);
     }
 }

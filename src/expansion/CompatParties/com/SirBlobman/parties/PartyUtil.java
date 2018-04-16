@@ -28,7 +28,8 @@ public class PartyUtil extends Util {
             else {
                 String aparty = attacker.getPartyName();
                 String vparty = victim.getPartyName();
-                if(aparty.equals(vparty)) return false;
+                if(aparty.isEmpty() || vparty.isEmpty()) return true;
+                else if(aparty.equals(vparty)) return false;
                 else return true;
             }
         } else return true;
