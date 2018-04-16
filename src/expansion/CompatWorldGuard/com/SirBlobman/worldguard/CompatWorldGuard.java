@@ -75,6 +75,9 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
                         else if(nem == NoEntryMode.KNOCKBACK) {
                             Vector vector = WorldGuardUtil.getSafeZoneKnockbackVector(from);
                             p.setVelocity(vector);
+                        } else if(nem == NoEntryMode.TELEPORT) {
+                            Location l = enemy.getLocation();
+                            p.teleport(l);
                         }
                         
                         String error = ConfigLang.MESSAGE_NO_ENTRY;
@@ -88,6 +91,9 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
                         else if(nem == NoEntryMode.KNOCKBACK) {
                             Vector vector = WorldGuardUtil.getMobsZoneKnockbackVector(from);
                             p.setVelocity(vector);
+                        } else if(nem == NoEntryMode.TELEPORT) {
+                            Location l = enemy.getLocation();
+                            p.teleport(l);
                         }
                         
                         String error = ConfigLang.MESSAGE_NO_ENTRY;

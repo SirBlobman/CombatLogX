@@ -12,13 +12,17 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.util.Vector;
 
+import java.util.List;
+
 public abstract class FactionsUtil extends Util {
     public static FactionsUtil getFactions() {
         if(PM.isPluginEnabled("Factions")) {
             Plugin pl = PM.getPlugin("Factions");
             PluginDescriptionFile pdf = pl.getDescription();
             String version = pdf.getVersion();
-            if(version.startsWith("1")) return new FactionsUUID();
+            List<String> authors = pdf.getAuthors();
+            if(authors.contains("ProSavage")) return new FactionsSavage();
+            else if(version.startsWith("1")) return new FactionsUUID();
             else return new FactionsNormal();
         } else if(PM.isPluginEnabled("LegacyFactions")) return new FactionsLegacy();
         else return null;

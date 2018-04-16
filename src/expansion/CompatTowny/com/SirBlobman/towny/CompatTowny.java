@@ -8,6 +8,7 @@ import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.utility.Util;
 
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -51,6 +52,12 @@ public class CompatTowny implements CLXExpansion, Listener {
                         vector.multiply(ConfigOptions.CHEAT_PREVENT_NO_ENTRY_STRENGTH);
                         vector.setY(0);
                         p.setVelocity(vector);
+                    } else if(nem == NoEntryMode.TELEPORT) {
+                        Entity enemy = Combat.getEnemy(p);
+                        if(enemy != null) {
+                            Location l = enemy.getLocation();
+                            p.teleport(l);
+                        }
                     }
                     
                     String error = ConfigLang.MESSAGE_NO_ENTRY;

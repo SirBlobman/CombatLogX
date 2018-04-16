@@ -10,6 +10,7 @@ import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -72,6 +73,12 @@ public class CompatPreciousStones implements CLXExpansion, Listener {
                     p.setVelocity(vector);
                 } else if(nem == NoEntryMode.KILL) {
                     p.setHealth(0.0D);
+                } else if(nem == NoEntryMode.TELEPORT) {
+                    Entity enemy = Combat.getEnemy(p);
+                    if(enemy != null) {
+                        Location l = enemy.getLocation();
+                        p.teleport(l);
+                    }
                 }
                 String error = ConfigLang.MESSAGE_NO_ENTRY;
                 Util.sendMessage(p, error);

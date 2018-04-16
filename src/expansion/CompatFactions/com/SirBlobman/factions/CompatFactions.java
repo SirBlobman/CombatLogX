@@ -69,6 +69,9 @@ public class CompatFactions implements CLXExpansion, Listener {
                         else if(nem == NoEntryMode.KNOCKBACK) {
                             Vector vector = FACTIONS.getSafeZoneKnockbackVector(from, to);
                             p.setVelocity(vector);
+                        } else if(nem == NoEntryMode.TELEPORT) {
+                            Location l = enemy.getLocation();
+                            p.teleport(l);
                         }
                         
                         String error = ConfigLang.MESSAGE_NO_ENTRY;
@@ -82,6 +85,9 @@ public class CompatFactions implements CLXExpansion, Listener {
                         else if(nem == NoEntryMode.KNOCKBACK) {
                             Vector vector = FACTIONS.getMobsZoneKnockbackVector(from, to);
                             p.setVelocity(vector);
+                        } else if(nem == NoEntryMode.TELEPORT) {
+                            Location l = enemy.getLocation();
+                            p.teleport(l);
                         }
                         
                         String error = ConfigLang.MESSAGE_NO_ENTRY;
