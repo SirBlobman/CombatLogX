@@ -6,7 +6,9 @@ import com.SirBlobman.combatlogx.config.ConfigOptions;
 import com.SirBlobman.combatlogx.config.NoEntryMode;
 import com.SirBlobman.combatlogx.event.PlayerCombatEvent;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
+import com.SirBlobman.combatlogx.expansion.Expansions;
 import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.not.config.NConfig;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -58,7 +60,6 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
 
     @EventHandler
     public void move(PlayerMoveEvent e) {
-        if(e.isCancelled()) return;
         if(ConfigOptions.CHEAT_PREVENT_NO_ENTRY) {
             Player p = e.getPlayer();
             Location from = e.getFrom();
@@ -74,6 +75,7 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
                         else if(nem == NoEntryMode.KILL) p.setHealth(0.0D);
                         else if(nem == NoEntryMode.KNOCKBACK) {
                             Vector vector = WorldGuardUtil.getSafeZoneKnockbackVector(from);
+                            vector = vector.multiply(ConfigOptions.CHEAT_PREVENT_NO_ENTRY_STRENGTH);
                             p.setVelocity(vector);
                         } else if(nem == NoEntryMode.TELEPORT) {
                             Location l = enemy.getLocation();
@@ -90,6 +92,7 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
                         else if(nem == NoEntryMode.KILL) p.setHealth(0.0D);
                         else if(nem == NoEntryMode.KNOCKBACK) {
                             Vector vector = WorldGuardUtil.getMobsZoneKnockbackVector(from);
+                            vector = vector.multiply(ConfigOptions.CHEAT_PREVENT_NO_ENTRY_STRENGTH);
                             p.setVelocity(vector);
                         } else if(nem == NoEntryMode.TELEPORT) {
                             Location l = enemy.getLocation();
@@ -98,6 +101,24 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
                         
                         String error = ConfigLang.MESSAGE_NO_ENTRY;
                         Util.sendMessage(p, error);
+                    }
+                } else {
+                    if(Expansions.isEnabled("NotCombatLogX")) {
+                        if(NConfig.OPTION_NO_SAFEZONE_ENTRY && WorldGuardUtil.isSafeZone(to)) {
+                            String mode = ConfigOptions.CHEAT_PREVENT_NO_ENTRY_MODE;
+                            NoEntryMode nem = NoEntryMode.valueOf(mode);
+                            if(nem == null) nem = NoEntryMode.CANCEL;
+                            if(nem == NoEntryMode.CANCEL) e.setCancelled(true);
+                            else if(nem == NoEntryMode.KILL) p.setHealth(0.0D);
+                            else if(nem == NoEntryMode.KNOCKBACK) {
+                                Vector vector = WorldGuardUtil.getSafeZoneKnockbackVector(from);
+                                vector = vector.multiply(ConfigOptions.CHEAT_PREVENT_NO_ENTRY_STRENGTH);
+                                p.setVelocity(vector);
+                            } else e.setCancelled(true);
+                            
+                            String error = ConfigLang.MESSAGE_NO_ENTRY;
+                            Util.sendMessage(p, error);
+                        }
                     }
                 }
             }

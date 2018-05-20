@@ -96,8 +96,9 @@ public class Combat implements Runnable {
      */
     public static void tag(Player p, @Nullable LivingEntity enemy) {
         World w = p.getWorld();
-        String world = w.getName();
-        if(!ConfigOptions.OPTION_DISABLED_WORLDS.contains(world)) {
+        String world = w.getName().toLowerCase();
+        List<String> disabled = Util.toLowerCaseList(ConfigOptions.OPTION_DISABLED_WORLDS);
+        if(!disabled.contains(world)) {
             long current = System.currentTimeMillis();
             long timer = (ConfigOptions.OPTION_TIMER * 1000L);
             long time = (current + timer);
@@ -113,7 +114,7 @@ public class Combat implements Runnable {
             ENEMIES.put(p, enemy);
             CombatTimerChangeEvent ctce = new CombatTimerChangeEvent(p, ConfigOptions.OPTION_TIMER);
             Util.call(ctce);
-        }
+        } else remove(p);
     }
     
     public static void remove(Player p) {
@@ -122,28 +123,33 @@ public class Combat implements Runnable {
     }
 
     public static void punish(Player p) {
-        if(ConfigOptions.PUNISH_KILL_PLAYER) p.setHealth(0.0D);
+        World w = p.getWorld();
+        String world = w.getName().toLowerCase();
+        List<String> disabled = Util.toLowerCaseList(ConfigOptions.OPTION_DISABLED_WORLDS);
+        if(!disabled.contains(world)) {
+            if(ConfigOptions.PUNISH_KILL_PLAYER) p.setHealth(0.0D);
 
-        if(ConfigOptions.PUNISH_ON_QUIT_MESSAGE) {
-            List<String> l1 = Util.newList("{player}");
-            List<String> l2 = Util.newList(p.getName());
-            String msg = Util.formatMessage(ConfigLang.MESSAGE_QUIT, l1, l2);
-            Util.broadcast(msg);
-        }
-
-        if(ConfigOptions.PUNISH_SUDO_LOGGERS) {
-            List<String> list = ConfigOptions.PUNISH_COMMANDS_LOGGERS;
-            for(String cmd : list) {
-                cmd = format(p, cmd);
-                p.performCommand(cmd);
+            if(ConfigOptions.PUNISH_ON_QUIT_MESSAGE) {
+                List<String> l1 = Util.newList("{player}");
+                List<String> l2 = Util.newList(p.getName());
+                String msg = Util.formatMessage(ConfigLang.MESSAGE_QUIT, l1, l2);
+                Util.broadcast(msg);
             }
-        }
 
-        if(ConfigOptions.PUNISH_CONSOLE) {
-            List<String> list = ConfigOptions.PUNISH_COMMANDS_CONSOLE;
-            for(String cmd : list) {
-                cmd = format(p, cmd);
-                Bukkit.dispatchCommand(Util.CONSOLE, cmd);
+            if(ConfigOptions.PUNISH_SUDO_LOGGERS) {
+                List<String> list = ConfigOptions.PUNISH_COMMANDS_LOGGERS;
+                for(String cmd : list) {
+                    cmd = format(p, cmd);
+                    p.performCommand(cmd);
+                }
+            }
+
+            if(ConfigOptions.PUNISH_CONSOLE) {
+                List<String> list = ConfigOptions.PUNISH_COMMANDS_CONSOLE;
+                for(String cmd : list) {
+                    cmd = format(p, cmd);
+                    Bukkit.dispatchCommand(Util.CONSOLE, cmd);
+                }
             }
         }
     }

@@ -1,5 +1,5 @@
 name: CombatLogX
-version: 6.0.2.0
+version: 6.1.0.0
 description: A simple combat-tagging plugin with many features
 author: SirBlobman
 main: com.SirBlobman.combatlogx.CombatLogX
@@ -22,8 +22,10 @@ permissions:
     description: Gives access to all CombatLogX perms (except bypass)
     default: op
     children:
-      combatlogx.config: true
+      combatlogx.reload: true
       combatlogx.time: true
+      combatlogx.untag: true
+      combatlogx.tag: true
   combatlogx.reload:
     description: Allows you to reload the config
     default: op

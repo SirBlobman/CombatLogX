@@ -60,7 +60,7 @@ public class CompatFactions implements CLXExpansion, Listener {
             if(Combat.isInCombat(p)) {
                 Entity enemy = Combat.getEnemy(p);
                 if(enemy != null) {
-                    if(enemy instanceof Player && FACTIONS.isSafeFromMobs(to)) {
+                    if(enemy instanceof Player && FACTIONS.isSafeZone(to)) {
                         String mode = ConfigOptions.CHEAT_PREVENT_NO_ENTRY_MODE;
                         NoEntryMode nem = NoEntryMode.valueOf(mode);
                         if(nem == null) nem = NoEntryMode.CANCEL;

@@ -19,6 +19,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
@@ -55,12 +56,20 @@ public class CheatPrevention implements CLXExpansion, Listener {
         }
         
         if(ConfigOptions.CHEAT_PREVENT_AUTO_CLOSE_GUIS) {
-            p.closeInventory();
+            InventoryView iv = p.getOpenInventory();
+            if(iv.getTopInventory() != null && iv.getBottomInventory() != null) {
+                p.closeInventory();
+            }
         }
         
         for(String s : ConfigOptions.CHEAT_PREVENT_BLOCKED_POTIONS) {
-            PotionEffectType pet = PotionEffectType.getByName(s);
-            if(pet != null && p.hasPotionEffect(pet)) p.removePotionEffect(pet);
+            try {
+                PotionEffectType pet = PotionEffectType.getByName(s);
+                if(p.hasPotionEffect(pet)) p.removePotionEffect(pet);
+            } catch(Throwable ex) {
+                String error = "Invalid potion effect '" + s + "' in combat.yml";
+                Util.print(error);
+            }
         }
     }
     
@@ -100,7 +109,7 @@ public class CheatPrevention implements CLXExpansion, Listener {
         if(ConfigOptions.CHEAT_PREVENT_TELEPORT) {
             TeleportCause tc = e.getCause();
             if(tc == TeleportCause.ENDER_PEARL && ConfigOptions.CHEAT_PREVENT_TELEPORT_ALLOW_ENDERPEARLS) return;
-            else {
+            else if(tc == TeleportCause.COMMAND) {
                 Player p = e.getPlayer();
                 if(Combat.isInCombat(p)) {
                     e.setCancelled(true);

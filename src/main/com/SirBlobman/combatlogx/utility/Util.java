@@ -137,6 +137,15 @@ public class Util {
             CONSOLE.sendMessage(c);
         }
     }
+    
+    public static void printNoPrefix(Object... oo) {
+        for(Object o : oo) {
+            String s = str(o);
+            String c = color(s);
+            if(s.equals("\n")) c = color("&l");
+            CONSOLE.sendMessage(c);
+        }
+    }
 
     public static void broadcast(Object... oo) {
         print(oo);
@@ -203,6 +212,14 @@ public class Util {
         List<L> list = new ArrayList<L>();
         for(L l : ll) list.add(l);
         return list;
+    }
+    
+    public static List<String> toLowerCaseList(List<String> originalList) {
+        List<String> lower = newList();
+        for(String caps : originalList) {
+            String l = caps.toLowerCase();
+            lower.add(l);
+        } return lower;
     }
 
     public static <K, V> HashMap<K, V> newMap() {

@@ -35,6 +35,7 @@ public class NConfig extends Config {
         }
     }
     
+    public static boolean OPTION_NO_SAFEZONE_ENTRY = true;
     public static boolean TRIGGER_DROWNING = true;
     public static boolean TRIGGER_EXPLOSION = true;
     public static boolean TRIGGER_LAVA = true;
@@ -50,6 +51,7 @@ public class NConfig extends Config {
     public static String MESSAGE_UNKNOWN = "";
     
     private static void defaults() {
+        OPTION_NO_SAFEZONE_ENTRY = get(config, "options.no safezone entry", true);
         TRIGGER_DROWNING = get(config, "triggers.drowning", true);
         TRIGGER_EXPLOSION = get(config, "triggers.block explosion", true);
         TRIGGER_LAVA = get(config, "triggers.lava", true);

@@ -31,10 +31,17 @@ import net.citizensnpcs.trait.Toggleable;
 
 public class NPCUtil extends Util {
     public static Map<UUID, NPC> NPC_REGISTRY = newMap();
+    public static TraitInfo COMBAT_NPC;
     
     public static void onStartup() {
         TraitInfo ti = TraitInfo.create(CombatNPC.class);
+        COMBAT_NPC = ti;
         CitizensAPI.getTraitFactory().registerTrait(ti);
+    }
+    
+    public static void onShutdown() {
+        removeAllNPCs();
+        CitizensAPI.getTraitFactory().deregisterTrait(COMBAT_NPC);
     }
     
     @SuppressWarnings("deprecation")

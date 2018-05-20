@@ -29,7 +29,7 @@ public class CompatCitizens implements CLXExpansion {
     @Override
     public void disable() {
         if(PluginUtil.isPluginEnabled("Citizens")) {
-            NPCUtil.removeAllNPCs();
+            NPCUtil.onShutdown();
             Util.print("Removed all Combat NPCs");
         }
     }

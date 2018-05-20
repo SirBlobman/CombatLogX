@@ -11,6 +11,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -54,7 +55,7 @@ public class Expansions {
     
     @SuppressWarnings("unchecked")
     public static void onDisable() {
-        HashMap<String, CLXExpansion> clone = (HashMap<String, CLXExpansion>) EXPANSIONS.clone();
+        Map<String, CLXExpansion> clone = (HashMap<String, CLXExpansion>) EXPANSIONS.clone();
         EXPANSIONS.clear();
         for(Entry<String, CLXExpansion> e : clone.entrySet()) {
             CLXExpansion ex = e.getValue();
