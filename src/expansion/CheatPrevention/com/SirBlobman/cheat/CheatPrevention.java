@@ -19,13 +19,13 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryView;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
 public class CheatPrevention implements CLXExpansion, Listener {
     private static List<Player> RE_ENABLE_FLIGHT = Util.newList();
+    private static List<Player> DO_ONCE = Util.newList();
     
     @Override
     public void enable() {
@@ -55,10 +55,10 @@ public class CheatPrevention implements CLXExpansion, Listener {
             p.setFlying(false);
         }
         
-        if(ConfigOptions.CHEAT_PREVENT_AUTO_CLOSE_GUIS) {
-            InventoryView iv = p.getOpenInventory();
-            if(iv.getTopInventory() != null && iv.getBottomInventory() != null) {
+        if(!DO_ONCE.contains(p)) {
+            if(ConfigOptions.CHEAT_PREVENT_AUTO_CLOSE_GUIS) {
                 p.closeInventory();
+                DO_ONCE.add(p);
             }
         }
         
@@ -83,6 +83,7 @@ public class CheatPrevention implements CLXExpansion, Listener {
                 RE_ENABLE_FLIGHT.remove(p);
             }
         }
+        DO_ONCE.remove(p);
     }
     
     @EventHandler

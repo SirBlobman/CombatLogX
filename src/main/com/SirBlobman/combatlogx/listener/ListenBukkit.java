@@ -45,7 +45,7 @@ public class ListenBukkit implements Listener {
             }
         }
         
-        if(der instanceof Tameable) {
+        if(der instanceof Tameable && ConfigOptions.OPTION_LINK_PETS) {
             Tameable t = (Tameable) der;
             AnimalTamer at = t.getOwner();
             if(at != null && at instanceof Entity) der = (Entity) at;

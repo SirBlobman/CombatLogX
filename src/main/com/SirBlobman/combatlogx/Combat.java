@@ -127,7 +127,13 @@ public class Combat implements Runnable {
         String world = w.getName().toLowerCase();
         List<String> disabled = Util.toLowerCaseList(ConfigOptions.OPTION_DISABLED_WORLDS);
         if(!disabled.contains(world)) {
-            if(ConfigOptions.PUNISH_KILL_PLAYER) p.setHealth(0.0D);
+            if(ConfigOptions.PUNISH_KILL_PLAYER) {
+                LivingEntity enemy = Combat.getEnemy(p);
+                if(enemy instanceof Player) {
+                    Player killer = (Player) enemy;
+                    p.damage(Double.POSITIVE_INFINITY, killer);
+                } else p.setHealth(0.0D);
+            }
 
             if(ConfigOptions.PUNISH_ON_QUIT_MESSAGE) {
                 List<String> l1 = Util.newList("{player}");

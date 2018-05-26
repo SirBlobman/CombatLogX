@@ -45,6 +45,7 @@ public class ConfigOptions extends Config {
     public static boolean OPTION_SCORE_BOARD = true;
     public static boolean OPTION_SELF_COMBAT = true;
     public static boolean OPTION_MOBS_COMBAT = true;
+    public static boolean OPTION_LINK_PETS = true;
     public static boolean OPTION_BYPASS_ENABLE = false;
     public static boolean OPTION_REMOVE_COMBAT_ON_ENEMY_DEATH = true;
     public static boolean OPTION_COMBAT_SUDO_ENABLE = true;
@@ -91,6 +92,7 @@ public class ConfigOptions extends Config {
         OPTION_SCORE_BOARD = get("options.score board", true);
         OPTION_SELF_COMBAT = get("options.self combat", true);
         OPTION_MOBS_COMBAT = get("options.mobs.combat", true);
+        OPTION_LINK_PETS = get("options.mobs.link pets", true);
         OPTION_MOBS_BLACKLIST = get("options.mobs.blacklist", Util.newList("PIG", "COW"));
         OPTION_REMOVE_COMBAT_ON_ENEMY_DEATH = get("options.remove combat on enemy death", true);
         OPTION_BYPASS_ENABLE = get("options.bypass.enable", false);
