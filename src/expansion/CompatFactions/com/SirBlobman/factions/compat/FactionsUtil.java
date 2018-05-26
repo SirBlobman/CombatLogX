@@ -1,8 +1,8 @@
 package com.SirBlobman.factions.compat;
 
-import com.SirBlobman.combatlogx.config.ConfigOptions;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.preciousstones.config.ConfigPreciousStones;
 
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -42,7 +42,7 @@ public abstract class FactionsUtil extends Util {
             Vector from = center.toVector();
             Vector to = original.toVector();
             Vector vector = to.subtract(from);
-            vector.multiply(ConfigOptions.CHEAT_PREVENT_NO_ENTRY_STRENGTH);
+            vector.multiply(ConfigPreciousStones.OPTION_NO_SAFEZONE_ENTRY_STRENGTH);
             vector.setY(0);
             return vector;
         } else return new Vector(0, 0, 0);
@@ -54,7 +54,7 @@ public abstract class FactionsUtil extends Util {
             Vector from = center.toVector();
             Vector to = original.toVector();
             Vector vector = to.subtract(from);
-            vector.multiply(ConfigOptions.CHEAT_PREVENT_NO_ENTRY_STRENGTH);
+            vector.multiply(ConfigPreciousStones.OPTION_NO_SAFEZONE_ENTRY_STRENGTH);
             vector.setY(0);
             return vector;
         } else return new Vector(0, 0, 0);

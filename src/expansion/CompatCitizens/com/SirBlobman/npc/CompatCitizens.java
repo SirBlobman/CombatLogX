@@ -36,5 +36,5 @@ public class CompatCitizens implements CLXExpansion {
     
     public String getUnlocalizedName() {return "CompatCitizens";}
     public String getName() {return "Citizens Compatibility";}
-    public String getVersion() {return "2.0.0";}
+    public String getVersion() {return "3";}
 }

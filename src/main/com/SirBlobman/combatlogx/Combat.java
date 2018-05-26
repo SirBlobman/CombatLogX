@@ -105,8 +105,8 @@ public class Combat implements Runnable {
             
             if(!isInCombat(p)) {
                 if(ConfigOptions.OPTION_COMBAT_SUDO_ENABLE) {
-                    List<String> list = ConfigOptions.OPTION_COMBAT_SUDO_COMMANDS;
-                    for(String cmd : list) p.performCommand(cmd);
+                    for(String cmd : ConfigOptions.OPTION_COMBAT_SUDO_COMMANDS) p.performCommand(cmd);
+                    for(String cmd : ConfigOptions.OPTION_COMBAT_CONSOLE_COMMANDS) Bukkit.dispatchCommand(Util.CONSOLE, Util.formatMessage(cmd, Util.newList("{player}"), Util.newList(p.getName())));
                 }
             }
             

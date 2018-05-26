@@ -1,16 +1,16 @@
-package com.SirBlobman.worldguard.config;
+package com.SirBlobman.towny.config;
 
 import com.SirBlobman.combatlogx.config.Config;
 import com.SirBlobman.combatlogx.utility.Util;
-import com.SirBlobman.worldguard.CompatWorldGuard;
+import com.SirBlobman.towny.CompatTowny;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 
-public class WGConfig extends Config {
-    private static final File FOLDER = CompatWorldGuard.FOLDER;
-    private static final File FILE = new File(FOLDER, "world guard.yml");
+public class ConfigTowny extends Config {
+    private static final File FOLDER = CompatTowny.FOLDER;
+    private static final File FILE = new File(FOLDER, "towny.yml");
     private static YamlConfiguration config = new YamlConfiguration();
     
     public static YamlConfiguration load() {
@@ -34,8 +34,18 @@ public class WGConfig extends Config {
             ex.printStackTrace();
         }
     }
+
+    public static boolean OPTION_NO_SAFEZONE_ENTRY = true;
+    public static String OPTION_NO_SAFEZONE_ENTRY_MODE = "";
+    public static double OPTION_NO_SAFEZONE_ENTRY_STRENGTH = 0.0D;
     
     private static void defaults() {
+        OPTION_NO_SAFEZONE_ENTRY = get("options.safezones.no entry", true);
+        OPTION_NO_SAFEZONE_ENTRY_MODE = get("options.safezones.mode", "KNOCKBACK").toUpperCase();
+        OPTION_NO_SAFEZONE_ENTRY_STRENGTH = get("options.safezones.knockback strength", 5.0D);
+        
         save();
     }
+    
+    private static <T> T get(String path, T defaultValue) {return get(config, path, defaultValue);}
 }

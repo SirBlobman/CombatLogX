@@ -8,7 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 
-public class NConfig extends Config {
+public class ConfigNot extends Config {
     private static final File FOLDER = NotCombatLogX.FOLDER;
     private static final File FILE = new File(FOLDER, "not.yml");
     private static YamlConfiguration config = new YamlConfiguration();

@@ -2,12 +2,12 @@ package com.SirBlobman.factions;
 
 import com.SirBlobman.combatlogx.Combat;
 import com.SirBlobman.combatlogx.config.ConfigLang;
-import com.SirBlobman.combatlogx.config.ConfigOptions;
 import com.SirBlobman.combatlogx.config.NoEntryMode;
 import com.SirBlobman.combatlogx.event.PlayerCombatEvent;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.factions.compat.FactionsUtil;
+import com.SirBlobman.preciousstones.config.ConfigPreciousStones;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -20,7 +20,10 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.util.Vector;
 
+import java.io.File;
+
 public class CompatFactions implements CLXExpansion, Listener {
+    public static File FOLDER;
     private static FactionsUtil FACTIONS;
     @Override
     public void enable() {
@@ -29,13 +32,15 @@ public class CompatFactions implements CLXExpansion, Listener {
             String error = "A Factions plugin could not be found. This expansion is useless!";
             print(error);
         } else {
+            FOLDER = getDataFolder();
+            ConfigPreciousStones.load();
             Util.regEvents(this);
         }
     }
     
     public String getUnlocalizedName() {return "CompatFactions";}
     public String getName() {return "Factions Compatability";}
-    public String getVersion() {return "1.0.0";}
+    public String getVersion() {return "2";}
     
     @EventHandler
     public void pce(PlayerCombatEvent e) {
@@ -52,7 +57,7 @@ public class CompatFactions implements CLXExpansion, Listener {
     @EventHandler
     public void move(PlayerMoveEvent e) {
         if(e.isCancelled()) return;
-        if(ConfigOptions.CHEAT_PREVENT_NO_ENTRY) {
+        if(ConfigPreciousStones.OPTION_NO_SAFEZONE_ENTRY) {
             Player p = e.getPlayer();
             Location from = e.getFrom();
             Location to = e.getTo();
@@ -61,7 +66,7 @@ public class CompatFactions implements CLXExpansion, Listener {
                 Entity enemy = Combat.getEnemy(p);
                 if(enemy != null) {
                     if(enemy instanceof Player && FACTIONS.isSafeZone(to)) {
-                        String mode = ConfigOptions.CHEAT_PREVENT_NO_ENTRY_MODE;
+                        String mode = ConfigPreciousStones.OPTION_NO_SAFEZONE_ENTRY_MODE;
                         NoEntryMode nem = NoEntryMode.valueOf(mode);
                         if(nem == null) nem = NoEntryMode.CANCEL;
                         if(nem == NoEntryMode.CANCEL) e.setCancelled(true);
@@ -77,7 +82,7 @@ public class CompatFactions implements CLXExpansion, Listener {
                         String error = ConfigLang.MESSAGE_NO_ENTRY;
                         Util.sendMessage(p, error);
                     } else if(FACTIONS.isSafeFromMobs(to)) {
-                        String mode = ConfigOptions.CHEAT_PREVENT_NO_ENTRY_MODE;
+                        String mode = ConfigPreciousStones.OPTION_NO_SAFEZONE_ENTRY_MODE;
                         NoEntryMode nem = NoEntryMode.valueOf(mode);
                         if(nem == null) nem = NoEntryMode.CANCEL;
                         if(nem == NoEntryMode.CANCEL) e.setCancelled(true);
@@ -101,7 +106,7 @@ public class CompatFactions implements CLXExpansion, Listener {
     @EventHandler
     public void tp(PlayerTeleportEvent e) {
         if(e.isCancelled()) return;
-        if(ConfigOptions.CHEAT_PREVENT_NO_ENTRY && e.getCause() == TeleportCause.ENDER_PEARL) {
+        if(ConfigPreciousStones.OPTION_NO_SAFEZONE_ENTRY && e.getCause() == TeleportCause.ENDER_PEARL) {
             Player p = e.getPlayer();
             Location from = e.getFrom();
             Location to = e.getTo();
