@@ -34,7 +34,7 @@ public class Expansions {
                     CLXExpansion clxe = (CLXExpansion) clazz.newInstance();
                     String n = clxe.getName();
                     String v = clxe.getVersion();
-                    String msg = Util.format("Loading expansion '%1s v%2s'", n, v);
+                    String msg = Util.format("Loading expansion '%s v%s'", n, v);
                     Util.print(msg);
                     clxe.enable();
                     Util.print("\n");

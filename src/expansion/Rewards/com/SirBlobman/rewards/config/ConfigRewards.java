@@ -1,7 +1,8 @@
-package com.SirBlobman.rewards;
+package com.SirBlobman.rewards.config;
 
 import com.SirBlobman.combatlogx.config.Config;
 import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.rewards.Rewards;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 

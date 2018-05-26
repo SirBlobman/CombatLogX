@@ -7,7 +7,7 @@ import com.SirBlobman.combatlogx.event.PlayerCombatEvent;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.factions.compat.FactionsUtil;
-import com.SirBlobman.preciousstones.config.ConfigPreciousStones;
+import com.SirBlobman.factions.config.ConfigFactions;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -33,14 +33,14 @@ public class CompatFactions implements CLXExpansion, Listener {
             print(error);
         } else {
             FOLDER = getDataFolder();
-            ConfigPreciousStones.load();
+            ConfigFactions.load();
             Util.regEvents(this);
         }
     }
     
     public String getUnlocalizedName() {return "CompatFactions";}
     public String getName() {return "Factions Compatability";}
-    public String getVersion() {return "2";}
+    public String getVersion() {return "3";}
     
     @EventHandler
     public void pce(PlayerCombatEvent e) {
@@ -57,7 +57,7 @@ public class CompatFactions implements CLXExpansion, Listener {
     @EventHandler
     public void move(PlayerMoveEvent e) {
         if(e.isCancelled()) return;
-        if(ConfigPreciousStones.OPTION_NO_SAFEZONE_ENTRY) {
+        if(ConfigFactions.OPTION_NO_SAFEZONE_ENTRY) {
             Player p = e.getPlayer();
             Location from = e.getFrom();
             Location to = e.getTo();
@@ -66,7 +66,7 @@ public class CompatFactions implements CLXExpansion, Listener {
                 Entity enemy = Combat.getEnemy(p);
                 if(enemy != null) {
                     if(enemy instanceof Player && FACTIONS.isSafeZone(to)) {
-                        String mode = ConfigPreciousStones.OPTION_NO_SAFEZONE_ENTRY_MODE;
+                        String mode = ConfigFactions.OPTION_NO_SAFEZONE_ENTRY_MODE;
                         NoEntryMode nem = NoEntryMode.valueOf(mode);
                         if(nem == null) nem = NoEntryMode.CANCEL;
                         if(nem == NoEntryMode.CANCEL) e.setCancelled(true);
@@ -82,7 +82,7 @@ public class CompatFactions implements CLXExpansion, Listener {
                         String error = ConfigLang.MESSAGE_NO_ENTRY;
                         Util.sendMessage(p, error);
                     } else if(FACTIONS.isSafeFromMobs(to)) {
-                        String mode = ConfigPreciousStones.OPTION_NO_SAFEZONE_ENTRY_MODE;
+                        String mode = ConfigFactions.OPTION_NO_SAFEZONE_ENTRY_MODE;
                         NoEntryMode nem = NoEntryMode.valueOf(mode);
                         if(nem == null) nem = NoEntryMode.CANCEL;
                         if(nem == NoEntryMode.CANCEL) e.setCancelled(true);
@@ -106,7 +106,7 @@ public class CompatFactions implements CLXExpansion, Listener {
     @EventHandler
     public void tp(PlayerTeleportEvent e) {
         if(e.isCancelled()) return;
-        if(ConfigPreciousStones.OPTION_NO_SAFEZONE_ENTRY && e.getCause() == TeleportCause.ENDER_PEARL) {
+        if(ConfigFactions.OPTION_NO_SAFEZONE_ENTRY && e.getCause() == TeleportCause.ENDER_PEARL) {
             Player p = e.getPlayer();
             Location from = e.getFrom();
             Location to = e.getTo();

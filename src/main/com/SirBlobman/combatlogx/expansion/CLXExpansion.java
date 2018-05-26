@@ -50,6 +50,7 @@ public interface CLXExpansion {
         File plugins = new File(main, "plugins");
         File clx = new File(plugins, "CombatLogX");
         File exp = new File(clx, "expansions");
+        exp.mkdirs();
         return exp;
     }
 

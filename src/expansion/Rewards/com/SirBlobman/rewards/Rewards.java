@@ -2,6 +2,7 @@ package com.SirBlobman.rewards;
 
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.rewards.config.ConfigRewards;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
