@@ -131,7 +131,7 @@ public class Combat implements Runnable {
                 LivingEntity enemy = Combat.getEnemy(p);
                 if(enemy instanceof Player) {
                     Player killer = (Player) enemy;
-                    p.damage(Double.POSITIVE_INFINITY, killer);
+                    p.damage(Float.MAX_VALUE, killer);
                 } else p.setHealth(0.0D);
             }
 

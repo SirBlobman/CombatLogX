@@ -44,6 +44,7 @@ public class ConfigCheatPrevention extends Config {
     public static boolean CHEAT_PREVENT_AUTO_CLOSE_GUIS = true;
     public static boolean CHEAT_PREVENT_TELEPORT = true;
     public static boolean CHEAT_PREVENT_TELEPORT_ALLOW_ENDERPEARLS = true;
+    public static boolean CHEAT_PREVENT_TELEPORT_ENDERPEARLS_RESTART = true;
     public static String CHEAT_PREVENT_CHANGE_GAMEMODE_MODE = "SURVIVAL";
     public static List<String> CHEAT_PREVENT_BLOCKED_COMMANDS = Util.newList("fly", "tpa", "tpahere", "spawn", "home");
     public static List<String> CHEAT_PREVENT_BLOCKED_POTIONS = Util.newList("INVISIBILITY", "INCREASE_DAMAGE");
@@ -53,6 +54,7 @@ public class ConfigCheatPrevention extends Config {
         CHEAT_PREVENT_AUTO_CLOSE_GUIS = get("cheat prevention.inventories.automatically close", true);
         CHEAT_PREVENT_TELEPORT = get("cheat prevention.teleportation.prevent", true);
         CHEAT_PREVENT_TELEPORT_ALLOW_ENDERPEARLS = get("cheat prevention.teleportation.allow ender pearls", false);
+        CHEAT_PREVENT_TELEPORT_ENDERPEARLS_RESTART = get("cheat prevention.teleportation.enderpearls restart timer", true);
         CHEAT_PREVENT_NO_ENTRY = get("cheat prevention.safezone.no entry", true);
         CHEAT_PREVENT_DISABLE_FLIGHT = get("cheat prevention.flight.disable", true);
         CHEAT_PREVENT_ENABLE_FLIGHT = get("cheat prevention.flight.re-enable after combat", false);

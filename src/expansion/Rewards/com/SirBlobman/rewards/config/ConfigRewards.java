@@ -39,7 +39,7 @@ public class ConfigRewards extends Config {
     public static List<String> OPTION_KILL_COMMANDS = Util.newList();
     
     private static void defaults() {
-        OPTION_KILL_COMMANDS = get(config, "options.kill commands", Util.newList("msg {killer} nice kill!", "msg {player} noob!", "eco give {killer} 20"));
+        OPTION_KILL_COMMANDS = get(config, "options.kill commands", Util.newList("msg {killer} Nice kill!", "msg {player} Maybe next time!", "eco give {killer} 20"));
         
         save();
     }

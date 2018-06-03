@@ -17,6 +17,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -94,6 +95,15 @@ public class ListenBukkit implements Listener {
             UntagCause uc = UntagCause.EXPIRE;
             PlayerUntagEvent pue = new PlayerUntagEvent(p, uc);
             Util.call(pue);
+        }
+    }
+    
+    @EventHandler
+    public void join(PlayerJoinEvent e) {
+        Player p = e.getPlayer();
+        double health = p.getHealth();
+        if(health == Double.NaN || health < 0) {
+            p.setHealth(0.0D);
         }
     }
     

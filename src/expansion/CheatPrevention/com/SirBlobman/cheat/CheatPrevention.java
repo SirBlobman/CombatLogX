@@ -111,10 +111,16 @@ public class CheatPrevention implements CLXExpansion, Listener {
     @EventHandler
     public void tp(PlayerTeleportEvent e) {
         if(ConfigCheatPrevention.CHEAT_PREVENT_TELEPORT) {
+            Player p = e.getPlayer();
             TeleportCause tc = e.getCause();
-            if(tc == TeleportCause.ENDER_PEARL && ConfigCheatPrevention.CHEAT_PREVENT_TELEPORT_ALLOW_ENDERPEARLS) return;
-            else if(tc == TeleportCause.COMMAND) {
-                Player p = e.getPlayer();
+            if(tc == TeleportCause.ENDER_PEARL) {
+                if(ConfigCheatPrevention.CHEAT_PREVENT_TELEPORT_ALLOW_ENDERPEARLS) {
+                    if(ConfigCheatPrevention.CHEAT_PREVENT_TELEPORT_ENDERPEARLS_RESTART) {
+                        Combat.tag(p, Combat.getEnemy(p));
+                    }
+                    return;
+                }
+            } else if(tc == TeleportCause.COMMAND || tc == TeleportCause.ENDER_PEARL) {
                 if(Combat.isInCombat(p)) {
                     e.setCancelled(true);
                     String msg = ConfigLang.MESSAGE_NO_TELEPORT;
