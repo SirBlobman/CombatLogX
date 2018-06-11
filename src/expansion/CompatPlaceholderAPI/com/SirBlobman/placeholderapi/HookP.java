@@ -2,16 +2,20 @@ package com.SirBlobman.placeholderapi;
 
 import static com.SirBlobman.combatlogx.utility.Util.str;
 
-import com.SirBlobman.combatlogx.*;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+
+import com.SirBlobman.combatlogx.Combat;
 import com.SirBlobman.combatlogx.utility.OldUtil;
 
-import org.bukkit.entity.*;
+import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 
-import me.clip.placeholderapi.external.EZPlaceholderHook;
-
-public class HookP extends EZPlaceholderHook {
-    public HookP() {super(CombatLogX.INSTANCE, "combatlogx");}
-
+public class HookP extends PlaceholderExpansion {
+	public String getAuthor() {return "SirBlobman";}
+	public String getIdentifier() {return "combatlogx";}
+	public String getPlugin() {return null;}
+	public String getVersion() {return "2";}
+	
     @Override
     public String onPlaceholderRequest(Player p, String id) {
         id = id.toLowerCase();

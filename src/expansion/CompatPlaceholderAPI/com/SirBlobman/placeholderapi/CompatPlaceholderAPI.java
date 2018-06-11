@@ -9,7 +9,7 @@ public class CompatPlaceholderAPI implements CLXExpansion {
         boolean installed = false;
         if(Util.PM.isPluginEnabled("PlaceholderAPI")) {
             HookP h = new HookP();
-            h.hook();
+            h.register();
             installed = true;
         } 
         

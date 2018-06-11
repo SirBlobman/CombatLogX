@@ -1,27 +1,29 @@
 package com.SirBlobman.cheat;
 
-import com.SirBlobman.combatlogx.Combat;
-import com.SirBlobman.combatlogx.config.ConfigLang;
-import com.SirBlobman.combatlogx.event.CombatTimerChangeEvent;
-import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
-import com.SirBlobman.combatlogx.expansion.CLXExpansion;
-import com.SirBlobman.combatlogx.utility.Util;
+import java.io.File;
+import java.util.List;
 
 import org.bukkit.GameMode;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.potion.PotionEffectType;
 
-import java.io.File;
-import java.util.List;
+import com.SirBlobman.combatlogx.Combat;
+import com.SirBlobman.combatlogx.config.ConfigLang;
+import com.SirBlobman.combatlogx.event.CombatTimerChangeEvent;
+import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
+import com.SirBlobman.combatlogx.expansion.CLXExpansion;
+import com.SirBlobman.combatlogx.utility.Util;
 
 public class CheatPrevention implements CLXExpansion, Listener {
     public static File FOLDER;
@@ -50,12 +52,10 @@ public class CheatPrevention implements CLXExpansion, Listener {
         }
         
         if(ConfigCheatPrevention.CHEAT_PREVENT_DISABLE_FLIGHT) {
-            if(ConfigCheatPrevention.CHEAT_PREVENT_ENABLE_FLIGHT) {
-                if(p.getAllowFlight()) RE_ENABLE_FLIGHT.add(p);
+            if(p.getAllowFlight()) {
+            	p.setFlying(false);
+            	p.setAllowFlight(false);
             }
-            
-            p.setAllowFlight(false);
-            p.setFlying(false);
         }
         
         if(!DO_ONCE.contains(p)) {
@@ -106,6 +106,27 @@ public class CheatPrevention implements CLXExpansion, Listener {
                 }
             }
         }
+    }
+    
+    @EventHandler(priority=EventPriority.HIGHEST)
+    public void toggleFlight(PlayerToggleFlightEvent e) {
+    	if(e.isCancelled()) return;
+    	else {
+    		Player p = e.getPlayer();
+    		if(ConfigCheatPrevention.CHEAT_PREVENT_DISABLE_FLIGHT) {
+    			if(Combat.isInCombat(p)) {
+    				if(p.getAllowFlight()) RE_ENABLE_FLIGHT.add(p);
+    				p.setAllowFlight(false);
+    				p.setFlying(false);
+    				e.setCancelled(true);
+    			} else {
+    				if(ConfigCheatPrevention.CHEAT_PREVENT_ENABLE_FLIGHT && RE_ENABLE_FLIGHT.contains(p)) {
+    					RE_ENABLE_FLIGHT.remove(p);
+    					p.setAllowFlight(true);
+    				}
+    			}
+    		}
+    	}
     }
     
     @EventHandler
