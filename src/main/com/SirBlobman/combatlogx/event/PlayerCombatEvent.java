@@ -12,7 +12,6 @@ public class PlayerCombatEvent extends CombatEvent {
         this.player = player;
     }
     
-    @Deprecated
     public Player getPlayer() {return player;}
     
     @Override

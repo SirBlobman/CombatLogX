@@ -1,5 +1,18 @@
 package com.SirBlobman.worldguard;
 
+import java.io.File;
+
+import org.bukkit.Location;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.util.Vector;
+
 import com.SirBlobman.combatlogx.Combat;
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.config.NoEntryMode;
@@ -9,19 +22,6 @@ import com.SirBlobman.combatlogx.expansion.Expansions;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.not.config.ConfigNot;
 import com.SirBlobman.worldguard.config.ConfigWorldGuard;
-
-import org.bukkit.Location;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
-import org.bukkit.util.Vector;
-
-import java.io.File;
 
 public class CompatWorldGuard implements CLXExpansion, Listener {
     public static File FOLDER;
@@ -61,14 +61,29 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
 
     @EventHandler
     public void move(PlayerMoveEvent e) {
+        Player p = e.getPlayer();
+        Location from = e.getFrom();
+        Location to = e.getTo();
+        checkMoveEvent(p, e, from, to);
+    }
+
+    @EventHandler
+    public void tp(PlayerTeleportEvent e) {
+        Player p = e.getPlayer();
+        Location from = e.getFrom();
+        Location to = e.getTo();
+        String cause = e.getCause().name();
+        if(cause.equals("CHROUS_FRUIT") || cause.equals("ENDER_PEARL") || cause.equals("PLUGIN")) checkMoveEvent(p, e, from, to);
+    }
+    
+    public static void checkMoveEvent(Player p, Cancellable e, Location from, Location to) {
         if(ConfigWorldGuard.OPTION_NO_SAFEZONE_ENTRY) {
-            Player p = e.getPlayer();
-            Location from = e.getFrom();
-            Location to = e.getTo();
+        	if(e.isCancelled()) return;
             if(Combat.isInCombat(p)) {
                 Entity enemy = Combat.getEnemy(p);
                 if(enemy != null) {
                     if(enemy instanceof Player && WorldGuardUtil.isSafeZone(to)) {
+                    	if(p.isInsideVehicle()) p.leaveVehicle();
                         String mode = ConfigWorldGuard.OPTION_NO_SAFEZONE_ENTRY_MODE;
                         NoEntryMode nem = NoEntryMode.valueOf(mode);
                         if(nem == null) nem = NoEntryMode.CANCEL;
@@ -86,6 +101,7 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
                         String error = ConfigLang.MESSAGE_NO_ENTRY;
                         Util.sendMessage(p, error);
                     } else if(WorldGuardUtil.isSafeFromMobs(to)) {
+                    	if(p.isInsideVehicle()) p.leaveVehicle();
                         String mode = ConfigWorldGuard.OPTION_NO_SAFEZONE_ENTRY_MODE;
                         NoEntryMode nem = NoEntryMode.valueOf(mode);
                         if(nem == null) nem = NoEntryMode.CANCEL;
@@ -106,6 +122,7 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
                 } else {
                     if(Expansions.isEnabled("NotCombatLogX")) {
                         if(ConfigNot.OPTION_NO_SAFEZONE_ENTRY && WorldGuardUtil.isSafeZone(to)) {
+                        	if(p.isInsideVehicle()) p.leaveVehicle();
                             String mode = ConfigWorldGuard.OPTION_NO_SAFEZONE_ENTRY_MODE;
                             NoEntryMode nem = NoEntryMode.valueOf(mode);
                             if(nem == null) nem = NoEntryMode.CANCEL;
@@ -122,22 +139,6 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
                         }
                     }
                 }
-            }
-        }
-    }
-
-    @EventHandler
-    public void tp(PlayerTeleportEvent e) {
-        if(e.isCancelled()) return;
-        if(ConfigWorldGuard.OPTION_NO_SAFEZONE_ENTRY && e.getCause() == TeleportCause.ENDER_PEARL) {
-            Player p = e.getPlayer();
-            Location from = e.getFrom();
-            Location to = e.getTo();
-            if(Combat.isInCombat(p) && WorldGuardUtil.isSafeZone(to)) {
-                e.setCancelled(true);
-                String error = ConfigLang.MESSAGE_NO_ENTRY;
-                Util.sendMessage(p, error);
-                p.teleport(from);
             }
         }
     }

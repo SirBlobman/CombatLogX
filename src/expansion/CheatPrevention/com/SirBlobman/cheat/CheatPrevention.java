@@ -21,6 +21,7 @@ import org.bukkit.potion.PotionEffectType;
 import com.SirBlobman.combatlogx.Combat;
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.event.CombatTimerChangeEvent;
+import com.SirBlobman.combatlogx.event.PlayerCombatEvent;
 import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.utility.Util;
@@ -28,7 +29,6 @@ import com.SirBlobman.combatlogx.utility.Util;
 public class CheatPrevention implements CLXExpansion, Listener {
     public static File FOLDER;
     private static List<Player> RE_ENABLE_FLIGHT = Util.newList();
-    private static List<Player> DO_ONCE = Util.newList();
     
     @Override
     public void enable() {
@@ -42,6 +42,20 @@ public class CheatPrevention implements CLXExpansion, Listener {
     public String getVersion() {return "2";}
     
     @EventHandler
+    public void pce(PlayerCombatEvent e) {
+    	Player p = e.getPlayer();
+    	if(ConfigCheatPrevention.CHEAT_PREVENT_DISABLE_FLIGHT) {
+            if(p.getAllowFlight()) {
+            	p.setFlying(false);
+            	p.setAllowFlight(false);
+            	if(ConfigCheatPrevention.CHEAT_PREVENT_ENABLE_FLIGHT) RE_ENABLE_FLIGHT.add(p);
+            }
+    	}
+    	
+    	if(ConfigCheatPrevention.CHEAT_PREVENT_AUTO_CLOSE_GUIS) p.closeInventory();
+    }
+    
+    @EventHandler
     public void ctce(CombatTimerChangeEvent e) {
         Player p = e.getPlayer();
         
@@ -49,20 +63,6 @@ public class CheatPrevention implements CLXExpansion, Listener {
             String m = ConfigCheatPrevention.CHEAT_PREVENT_CHANGE_GAMEMODE_MODE;
             GameMode gm = GameMode.valueOf(m);
             p.setGameMode(gm);
-        }
-        
-        if(ConfigCheatPrevention.CHEAT_PREVENT_DISABLE_FLIGHT) {
-            if(p.getAllowFlight()) {
-            	p.setFlying(false);
-            	p.setAllowFlight(false);
-            }
-        }
-        
-        if(!DO_ONCE.contains(p)) {
-            if(ConfigCheatPrevention.CHEAT_PREVENT_AUTO_CLOSE_GUIS) {
-                p.closeInventory();
-                DO_ONCE.add(p);
-            }
         }
         
         for(String s : ConfigCheatPrevention.CHEAT_PREVENT_BLOCKED_POTIONS) {
@@ -86,7 +86,6 @@ public class CheatPrevention implements CLXExpansion, Listener {
                 RE_ENABLE_FLIGHT.remove(p);
             }
         }
-        DO_ONCE.remove(p);
     }
     
     @EventHandler
@@ -119,11 +118,6 @@ public class CheatPrevention implements CLXExpansion, Listener {
     				p.setAllowFlight(false);
     				p.setFlying(false);
     				e.setCancelled(true);
-    			} else {
-    				if(ConfigCheatPrevention.CHEAT_PREVENT_ENABLE_FLIGHT && RE_ENABLE_FLIGHT.contains(p)) {
-    					RE_ENABLE_FLIGHT.remove(p);
-    					p.setAllowFlight(true);
-    				}
     			}
     		}
     	}

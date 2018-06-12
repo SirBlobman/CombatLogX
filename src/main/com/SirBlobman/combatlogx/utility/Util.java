@@ -2,10 +2,12 @@ package com.SirBlobman.combatlogx.utility;
 
 import com.SirBlobman.combatlogx.CombatLogX;
 import com.SirBlobman.combatlogx.config.ConfigLang;
+import com.SirBlobman.combatlogx.config.ConfigOptions;
 
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
@@ -160,6 +162,14 @@ public class Util {
     }
     
     public static void sendMessage(CommandSender cs, Object... oo) {
+    	if(cs instanceof Entity) {
+    		Entity en = (Entity) cs;
+    		World world = en.getWorld();
+    		String name = world.getName().toLowerCase();
+    		List<String> disabled = toLowerCaseList(ConfigOptions.OPTION_DISABLED_WORLDS);
+    		if(disabled.contains(name)) return;
+    	}
+    	
         for(Object o : oo) {
             String s = str(o);
             if(s.isEmpty() || s.equals("")) continue;
