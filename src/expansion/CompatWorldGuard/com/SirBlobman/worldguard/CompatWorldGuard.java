@@ -22,6 +22,7 @@ import com.SirBlobman.combatlogx.expansion.Expansions;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.not.config.ConfigNot;
 import com.SirBlobman.worldguard.config.ConfigWorldGuard;
+import com.SirBlobman.worldguard.olivolja3.ForceField;
 
 public class CompatWorldGuard implements CLXExpansion, Listener {
     public static File FOLDER;
@@ -32,6 +33,7 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
             FOLDER = getDataFolder();
             ConfigWorldGuard.load();
             Util.regEvents(this);
+            Util.regEvents(new ForceField());
         } else {
             String error = "WorldGuard is not installed. This expansion is useless!";
             print(error);
