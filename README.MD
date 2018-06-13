@@ -55,6 +55,16 @@ There are also also three scoreboard variables that can be used:<br/>
 <b>{enemy_name}:</b> Displays the name of the entity that caused the player to be tagged, or "None"<br/>
 <b>{enemy_health}:</b> Displays the health of the entity that caused the player to be tagged, or "None"<br/><br/>
 
+<h2>4) Rewards</h2>
+<h2>5) CompatCitizens</h2>
+<h2>6) CompatCrackShot</h2>
+<h2>7) CompatFactions</h2>
+<h2>8) CompatParties</h2>
+<h2>9) CompatPlaceholderAPI</h2>
+<h2>10) CompatPreciousStones</h2>
+<h2>11) CompatTowny</h2>
+<h2>12) CompatWorldGuard</h2>
+
 <hr/>
 This guide is constantly being updated, if you have any suggestions you can contact SirBlobman here:<br/>
 <b>Discord:</b> SirBlobman#7235<br/>
