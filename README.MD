@@ -14,7 +14,7 @@ The format is as follows:<br/>
 
 <h1>Expansion Information</h1>
 Expansions are similar to plugins, but instead of going in <i>/plugins/</i> they go in <i>/plugins/CombatLogX/expansions/</i><br/>
-They can be used to add new features to CombatLogX or add compatability with other plugins<br/>
+They can be used to add new features to CombatLogX or add Compatibility with other plugins<br/>
 
 <h2>1) Cheat Prevention</h2>
 The cheat prevention expansion can be found inside the 'CombatLogX.zip' file as <i>CheatPrevention.jar</i><br/>
@@ -57,16 +57,64 @@ There are also also three scoreboard variables that can be used:<br/>
 
 <h2>4) Rewards</h2>
 The Rewards expansion can be found inside the 'CombatLogX.zip' file as <i>Rewards.jar</i><br/>
-Rewards will all
+Rewards will allow you to give items and money to players for killing other players.<br/>
+There is a config file for different commands if you need to change the default<br/><br/>
 
-<h2>5) CompatCitizens</h2>
-<h2>6) CompatCrackShot</h2>
-<h2>7) CompatFactions</h2>
-<h2>8) CompatParties</h2>
-<h2>9) CompatPlaceholderAPI</h2>
-<h2>10) CompatPreciousStones</h2>
-<h2>11) CompatTowny</h2>
-<h2>12) CompatWorldGuard</h2>
+<h2>5) Citizens Compatibility</h2>
+The Citizens Compatibility expansion can be found inside the 'CombatLogX.zip' file as <i>CompatCitizens.jar</i><br/>
+This expansion creates NPCs of the players that logged out so that there are no easy kills<br/>
+Citizens can be found here: https://www.spigotmc.org/resources/citizens.13811/<br/><br/>
+
+<h2>6) CrackShot Compatibility</h2>
+The CrackShot Compatibility expansion can be found inside the 'CombatLogX.zip' file as <i>CompatCrackShot.jar</i><br/>
+This expansion allows player's to be tagged by player's and mobs that have weapons and projectiles used in CrackShot<br/>
+CrackShot can be found here: https://www.spigotmc.org/resources/crackshot-guns.48301/<br/><br/>
+
+<h2>7) Factions Compatibility</h2>
+The Factions Compatibility expansion can be found inside the 'CombatLogX.zip' file as <i>CompatFactions.jar</i><br/>
+This expansion allows for the use of safezones in Factions, FactionsUUID, SavageFactions, and LegacyFactions.<br/>
+The expansion also prevents faction members from tagging each other<br/>
+The links for different faction plugins can be found here:<br/>
+Factions: https://www.spigotmc.org/resources/factions.1900/<br/>
+UUID: https://www.spigotmc.org/resources/factionsuuid.1035/<br/>
+Legacy: https://www.spigotmc.org/resources/legacyfactions.40122/<br/>
+Savage: https://www.spigotmc.org/resources/savagefactions-factionsuuid-reimagined-1-7-1-12.52891/<br/><br/>
+
+<h2>8) Parties Compatibility</h2>
+The Parties Compatibility expansion can be found inside the 'CombatLogX.zip' file as <i>CompatParties.jar</i><br/>
+This expansion prevents people in the same party from tagging each other<br/>
+Parties can be found here: https://www.spigotmc.org/resources/parties.3709/<br/><br/>
+
+<h2>9) PlaceholderAPI Compatibility</h2>
+The PlaceholderAPI Compatibility expansion can be found inside the 'CombatLogX.zip' file as <i>CompatPlaceholderAPI.jar</i><br/>
+Since this is compatible with MVdWPlaceholderAPI, you can use these placeholders with Featherboard<br/>
+This expansion puts the following placeholders into MVdWPlaceholderAPI and PlaceholderAPI. You may need to replace { and } with %
+<ul>
+<li>{combatlogx_time_left} - See how much time is left</li>
+<li>{combatlogx_enemy_name} - Name of your enemy (entity type if not named)</li>
+<li>{combatlogx_enemy_health} - How much health your enemy has</li>
+</ul><br/>
+The placeholder APIs can be found here:
+PlaceholderAPI: https://www.spigotmc.org/resources/placeholderapi.6245/<br/>
+MVdWPlaceholderAPI: https://www.spigotmc.org/resources/mvdwplaceholderapi.11182/<br/><br/>
+
+<h2>10) PreciousStones Compatibility</h2>
+The PreciousStones Compatibility expansion can be found inside the 'CombatLogX.zip' file as <i>CompatPreciousStones.jar</i><br/>
+This expansion allows for the use of no-pvp areas in PreciousStones<br/>
+PreciousStones can be found here: https://www.spigotmc.org/resources/preciousstones.5270/<br/><br/>
+
+<h2>11) Towny Compatibility</h2>
+The Towny Compatibility expansion can be found inside the 'CombatLogX.zip' file as <i>CompatTowny.jar</i><br/>
+This expansion allows for the use of no-pvp towns in Towny<br/>
+Towny can be found here: http://towny.palmergames.com/<br/><br/>
+
+<h2>12) WorldGuard Compatibility</h2>
+The WorldGuard Compatibility expansion can be found inside the 'CombatLogX.zip' file as <i>CompatWorldGuard.jar</i><br/>
+This expansion allows for the use of no-pvp and no-mob zones in WorldGuard<br/>
+To set a no pvp zone, use "/rg flag <region> pvp deny"<br/>
+To set a no mob zone, use "/rg flag <region> mob-spawning deny"<br/>
+WorldGuard can be found here: https://dev.bukkit.org/projects/worldguard<br/><br/>
+
 
 <hr/>
 This guide is constantly being updated, if you have any suggestions you can contact SirBlobman here:<br/>
