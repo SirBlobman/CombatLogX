@@ -35,15 +35,20 @@ public class ConfigWorldGuard extends Config {
         }
     }
 
+    public static String OPTION_FORCEFIELD_MATERIAL = "";
+    public static int OPTION_FORCEFIELD_SIZE = 5;
+    public static boolean OPTION_FORCEFIELD_ENABLED = true;
     public static boolean OPTION_NO_SAFEZONE_ENTRY = true;
     public static String OPTION_NO_SAFEZONE_ENTRY_MODE = "";
     public static double OPTION_NO_SAFEZONE_ENTRY_STRENGTH = 0.0D;
     
     private static void defaults() {
+    	OPTION_FORCEFIELD_MATERIAL = get("options.forcefield.material", "STAINED_GLASS:14");
+    	OPTION_FORCEFIELD_SIZE = get("options.forcefield.size", 5);
+    	OPTION_FORCEFIELD_ENABLED = get("options.forcefield.enabled", true);
         OPTION_NO_SAFEZONE_ENTRY = get("options.safezones.no entry", true);
-        OPTION_NO_SAFEZONE_ENTRY_MODE = get("options.safezones.mode", "KNOCKBACK").toUpperCase();
+        OPTION_NO_SAFEZONE_ENTRY_MODE = get("options.safezones.mode", "KNOCKBACK");
         OPTION_NO_SAFEZONE_ENTRY_STRENGTH = get("options.safezones.knockback strength", 5.0D);
-        
         save();
     }
     
