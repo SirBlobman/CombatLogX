@@ -47,7 +47,7 @@ public class ConfigWorldGuard extends Config {
     	OPTION_FORCEFIELD_SIZE = get("options.forcefield.size", 5);
     	OPTION_FORCEFIELD_ENABLED = get("options.forcefield.enabled", true);
         OPTION_NO_SAFEZONE_ENTRY = get("options.safezones.no entry", true);
-        OPTION_NO_SAFEZONE_ENTRY_MODE = get("options.safezones.mode", "KNOCKBACK");
+        OPTION_NO_SAFEZONE_ENTRY_MODE = get("options.safezones.mode", "KNOCKBACK").toUpperCase();
         OPTION_NO_SAFEZONE_ENTRY_STRENGTH = get("options.safezones.knockback strength", 5.0D);
         save();
     }
