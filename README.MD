@@ -88,7 +88,8 @@ Parties can be found here: https://www.spigotmc.org/resources/parties.3709/<br/>
 <h2>9) PlaceholderAPI Compatibility</h2>
 The PlaceholderAPI Compatibility expansion can be found inside the 'CombatLogX.zip' file as <i>CompatPlaceholderAPI.jar</i><br/>
 Since this is compatible with MVdWPlaceholderAPI, you can use these placeholders with Featherboard<br/>
-This expansion puts the following placeholders into MVdWPlaceholderAPI and PlaceholderAPI. You may need to replace { and } with %
+This expansion puts the following placeholders into MVdWPlaceholderAPI and PlaceholderAPI.<br/>
+(You may need to replace { and } with %)
 <ul>
 <li>{combatlogx_time_left} - See how much time is left</li>
 <li>{combatlogx_enemy_name} - Name of your enemy (entity type if not named)</li>
