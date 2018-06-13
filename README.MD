@@ -94,7 +94,7 @@ This expansion puts the following placeholders into MVdWPlaceholderAPI and Place
 <li>{combatlogx_enemy_name} - Name of your enemy (entity type if not named)</li>
 <li>{combatlogx_enemy_health} - How much health your enemy has</li>
 </ul><br/>
-The placeholder APIs can be found here:
+The placeholder APIs can be found here:<br/>
 PlaceholderAPI: https://www.spigotmc.org/resources/placeholderapi.6245/<br/>
 MVdWPlaceholderAPI: https://www.spigotmc.org/resources/mvdwplaceholderapi.11182/<br/><br/>
 
