@@ -1,5 +1,28 @@
 package com.SirBlobman.combatlogx;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import javax.annotation.Nullable;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Statistic;
+import org.bukkit.World;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.config.ConfigOptions;
 import com.SirBlobman.combatlogx.event.CombatTimerChangeEvent;
@@ -7,22 +30,6 @@ import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.event.PlayerUntagEvent.UntagCause;
 import com.SirBlobman.combatlogx.utility.OldUtil;
 import com.SirBlobman.combatlogx.utility.Util;
-
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.Map.Entry;
-
-import javax.annotation.Nullable;
 
 public class Combat implements Runnable {
     private static Map<Player, Long> COMBAT = Util.newMap();
@@ -131,7 +138,8 @@ public class Combat implements Runnable {
                 LivingEntity enemy = Combat.getEnemy(p);
                 if(enemy instanceof Player) {
                     Player killer = (Player) enemy;
-                    p.damage(Float.MAX_VALUE, killer);
+                    p.setHealth(0);
+                    killer.incrementStatistic(Statistic.PLAYER_KILLS);
                 } else p.setHealth(0.0D);
             }
 

@@ -56,6 +56,9 @@ There are also also three scoreboard variables that can be used:<br/>
 <b>{enemy_health}:</b> Displays the health of the entity that caused the player to be tagged, or "None"<br/><br/>
 
 <h2>4) Rewards</h2>
+The Rewards expansion can be found inside the 'CombatLogX.zip' file as <i>Rewards.jar</i><br/>
+Rewards will all
+
 <h2>5) CompatCitizens</h2>
 <h2>6) CompatCrackShot</h2>
 <h2>7) CompatFactions</h2>
