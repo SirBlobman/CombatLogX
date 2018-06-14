@@ -18,10 +18,12 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Statistic;
 import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.config.ConfigOptions;
@@ -135,19 +137,18 @@ public class Combat implements Runnable {
         List<String> disabled = Util.toLowerCaseList(ConfigOptions.OPTION_DISABLED_WORLDS);
         if(!disabled.contains(world)) {
             if(ConfigOptions.PUNISH_KILL_PLAYER) {
-                LivingEntity enemy = Combat.getEnemy(p);
-                if(enemy instanceof Player) {
-                    Player killer = (Player) enemy;
-                    p.setHealth(0);
-                    killer.incrementStatistic(Statistic.PLAYER_KILLS);
-                } else p.setHealth(0.0D);
-            }
+                PlayerInventory pi = p.getInventory();
+                List<ItemStack> items = Util.newList(pi.getContents());
+                String deathMessage = "";
+                if(ConfigOptions.PUNISH_ON_QUIT_MESSAGE) {
+                    List<String> l1 = Util.newList("{player}");
+                    List<String> l2 = Util.newList(p.getName());
+                    deathMessage = Util.formatMessage(ConfigLang.MESSAGE_QUIT, l1, l2);
+                }
 
-            if(ConfigOptions.PUNISH_ON_QUIT_MESSAGE) {
-                List<String> l1 = Util.newList("{player}");
-                List<String> l2 = Util.newList(p.getName());
-                String msg = Util.formatMessage(ConfigLang.MESSAGE_QUIT, l1, l2);
-                Util.broadcast(msg);
+                p.setHealth(0);
+            	PlayerDeathEvent pde = new PlayerDeathEvent(p, items, 1, deathMessage);
+            	Util.call(pde);
             }
 
             if(ConfigOptions.PUNISH_SUDO_LOGGERS) {

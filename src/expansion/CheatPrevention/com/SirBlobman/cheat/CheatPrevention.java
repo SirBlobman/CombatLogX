@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,6 +17,8 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
 
 import com.SirBlobman.combatlogx.Combat;
@@ -24,6 +27,7 @@ import com.SirBlobman.combatlogx.event.CombatTimerChangeEvent;
 import com.SirBlobman.combatlogx.event.PlayerCombatEvent;
 import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
+import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 
 public class CheatPrevention implements CLXExpansion, Listener {
@@ -81,6 +85,15 @@ public class CheatPrevention implements CLXExpansion, Listener {
         Player p = e.getPlayer();
         if(ConfigCheatPrevention.CHEAT_PREVENT_ENABLE_FLIGHT) {
             if(RE_ENABLE_FLIGHT.contains(p)) {
+            	if(PluginUtil.isPluginEnabled("RandomStuff")) {
+            		PlayerInventory pi = p.getInventory();
+            		ItemStack chest = pi.getChestplate();
+            		if(chest != null && chest.getType() == Material.FIREWORK) {
+                        RE_ENABLE_FLIGHT.remove(p);
+            			return;
+            		}
+            	}
+            	
                 p.setAllowFlight(true);
                 p.setFlying(true);
                 RE_ENABLE_FLIGHT.remove(p);
