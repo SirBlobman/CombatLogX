@@ -11,39 +11,29 @@ import java.net.URLConnection;
 
 public class UpdateUtil extends Util {
     private static final String SPIGOT_URL = "https://api.spigotmc.org/legacy/update.php?resource=31689";
-    
+
     public static void checkForUpdates() {
         BS.runTaskAsynchronously(PLUGIN, new Runnable() {
-           @Override
-           public void run() {
-               String spigot = getSpigotVersion();
-               String plugin = getPluginVersion();
-               if(spigot == null || plugin == null) {
-                   printNoPrefix(
-                           "&6==================================================================",
-                           "&eCombatLogX Update Checker",
-                           "&cCould not connect to the Spigot Update API",
-                           "&6=================================================================="
-                   );
-               } else if(plugin.equals(spigot)) {
-                   printNoPrefix(
-                       "&6==================================================================",
-                       "&eCombatLogX Update Checker",
-                       "&aYou are using the latest version!",
-                       "&6=================================================================="
-                   );
-               } else {
-                   printNoPrefix(
-                       "&6==================================================================",
-                       "&eCombatLogX Update Checker",
-                       "&aThere may be an update available!",
-                       "&e&lLatest Version: &a" + spigot,
-                       "&e&lYour Version: &c" + plugin,
-                       "&eGet it here: &bhttps://www.spigotmc.org/resources/combatlogx.31689/",
-                       "&6=================================================================="
-                   );
-               }
-           }
+            @Override
+            public void run() {
+                String spigot = getSpigotVersion();
+                String plugin = getPluginVersion();
+                if (spigot == null || plugin == null) {
+                    printNoPrefix("&6==================================================================",
+                            "&eCombatLogX Update Checker", "&cCould not connect to the Spigot Update API",
+                            "&6==================================================================");
+                } else if (plugin.equals(spigot)) {
+                    printNoPrefix("&6==================================================================",
+                            "&eCombatLogX Update Checker", "&aYou are using the latest version!",
+                            "&6==================================================================");
+                } else {
+                    printNoPrefix("&6==================================================================",
+                            "&eCombatLogX Update Checker", "&aThere may be an update available!",
+                            "&e&lLatest Version: &a" + spigot, "&e&lYour Version: &c" + plugin,
+                            "&eGet it here: &bhttps://www.spigotmc.org/resources/combatlogx.31689/",
+                            "&6==================================================================");
+                }
+            }
         });
     }
 
@@ -53,16 +43,20 @@ public class UpdateUtil extends Util {
             URLConnection urlc = url.openConnection();
             HttpURLConnection http = (HttpURLConnection) urlc;
             http.setRequestMethod("GET");
-            
+
             InputStream is = http.getInputStream();
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
             String version = br.readLine();
-            br.close(); isr.close(); is.close();
+            br.close();
+            isr.close();
+            is.close();
             return version;
-        } catch(Throwable ex) {return null;}
+        } catch (Throwable ex) {
+            return null;
+        }
     }
-    
+
     public static String getPluginVersion() {
         PluginDescriptionFile pdf = PLUGIN.getDescription();
         String version = pdf.getVersion();

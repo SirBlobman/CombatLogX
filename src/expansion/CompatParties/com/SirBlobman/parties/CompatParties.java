@@ -11,7 +11,7 @@ import org.bukkit.event.Listener;
 
 public class CompatParties implements CLXExpansion, Listener {
     public void enable() {
-        if(Util.PM.isPluginEnabled("Parties")) {
+        if (Util.PM.isPluginEnabled("Parties")) {
             Util.regEvents(this);
         } else {
             String error = "Parties is not installed. This expansion is useless!";
@@ -19,18 +19,27 @@ public class CompatParties implements CLXExpansion, Listener {
         }
     }
 
-    public String getUnlocalizedName() {return "CompatParties";}
-    public String getName() {return "Parties Compatibility";}
-    public String getVersion() {return "1";}
-    
+    public String getUnlocalizedName() {
+        return "CompatParties";
+    }
+
+    public String getName() {
+        return "Parties Compatibility";
+    }
+
+    public String getVersion() {
+        return "1";
+    }
+
     @EventHandler
     public void pce(PlayerCombatEvent e) {
         LivingEntity ler = e.getAttacker();
         LivingEntity led = e.getTarget();
-        if(ler instanceof Player) {
+        if (ler instanceof Player) {
             Player p = (Player) ler;
             boolean can = PartyUtil.canAttack(p, led);
-            if(!can) e.setCancelled(true);
+            if (!can)
+                e.setCancelled(true);
         }
     }
 }

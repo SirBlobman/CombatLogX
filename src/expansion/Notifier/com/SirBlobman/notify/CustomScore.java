@@ -20,9 +20,9 @@ import io.puharesource.mc.titlemanager.api.v2.TitleManagerAPI;
 public class CustomScore {
     private static final ScoreboardManager SM = Util.SERVER.getScoreboardManager();
     private static Map<Player, Scoreboard> SCORE = Util.newMap();
-    
+
     public static Scoreboard getScoreBoard(Player p) {
-        if(SCORE.containsKey(p)) {
+        if (SCORE.containsKey(p)) {
             Scoreboard sb = SCORE.get(p);
             return sb;
         } else {
@@ -30,12 +30,13 @@ public class CustomScore {
             Objective o = sb.registerNewObjective("CombatLogX", "dummy");
             o.setDisplayName(ConfigLang.MESSAGE_SCOREBOARD_TITLE);
             o.setDisplaySlot(DisplaySlot.SIDEBAR);
-            SCORE.put(p, sb); return getScoreBoard(p);
+            SCORE.put(p, sb);
+            return getScoreBoard(p);
         }
     }
-    
+
     public static void update(Player p) {
-        if(ConfigOptions.OPTION_SCORE_BOARD) {
+        if (ConfigOptions.OPTION_SCORE_BOARD) {
             Scoreboard sb = getScoreBoard(p);
             Objective o = sb.getObjective("CombatLogX");
             o.unregister();
@@ -43,51 +44,53 @@ public class CustomScore {
             String title = Util.color(ConfigLang.MESSAGE_SCOREBOARD_TITLE);
             o.setDisplayName(title);
             o.setDisplaySlot(DisplaySlot.SIDEBAR);
-            
+
             LivingEntity enemy = Combat.getEnemy(p);
             long time = Combat.timeLeft(p);
             String ename = OldUtil.getName(enemy);
             String ehealth = OldUtil.getHealth(enemy);
             List<String> l1 = Util.newList("{time_left}", "{enemy_name}", "{enemy_health}");
             List<Object> l2 = Util.newList(time, ename, ehealth);
-            
+
             List<String> list = ConfigLang.SCOREBOARD_LIST;
             int i = list.size();
-            for(String line : list) {
+            for (String line : list) {
                 String format = Util.formatMessage(line, l1, l2);
                 format = (format.length() > getCharacterLimit()) ? format.substring(0, getCharacterLimit()) : format;
                 Score s = o.getScore(format);
                 s.setScore(i);
                 i--;
             }
-            
-            if(Util.PM.isPluginEnabled("TitleManager")) {
+
+            if (Util.PM.isPluginEnabled("TitleManager")) {
                 Plugin pl = Util.PM.getPlugin("TitleManager");
                 TitleManagerAPI tm = (TitleManagerAPI) pl;
                 tm.removeScoreboard(p);
             }
-            
+
             SCORE.put(p, sb);
             p.setScoreboard(sb);
         }
     }
-    
+
     public static void remove(Player p) {
-        if(ConfigOptions.OPTION_SCORE_BOARD) {
+        if (ConfigOptions.OPTION_SCORE_BOARD) {
             Scoreboard main = SM.getMainScoreboard();
             p.setScoreboard(main);
             SCORE.remove(p);
-            if(Util.PM.isPluginEnabled("TitleManager")) {
+            if (Util.PM.isPluginEnabled("TitleManager")) {
                 Plugin pl = Util.PM.getPlugin("TitleManager");
                 TitleManagerAPI tm = (TitleManagerAPI) pl;
                 tm.giveScoreboard(p);
             }
         }
     }
-    
+
     public static int getCharacterLimit() {
         String mc = NMSUtil.baseVersion();
-        if(mc.equals("1.7")) return 15;
-        else return 39;
+        if (mc.equals("1.7"))
+            return 15;
+        else
+            return 39;
     }
 }

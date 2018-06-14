@@ -30,7 +30,7 @@ public class ListenCitizens implements Listener {
         Player p = e.getPlayer();
         Location l = p.getLocation();
         UntagCause uc = e.getCause();
-        if(uc == UntagCause.KICK || uc == UntagCause.QUIT) {
+        if (uc == UntagCause.KICK || uc == UntagCause.QUIT) {
             e.setCancelled(true);
             NPCUtil.createNPC(p, l);
         }
@@ -39,8 +39,10 @@ public class ListenCitizens implements Listener {
     @EventHandler
     public void die(NPCDeathEvent e) {
         NPC npc = e.getNPC();
-        if(npc.hasTrait(CombatNPC.class)) NPCUtil.removeNPC(npc);
-        else return;
+        if (npc.hasTrait(CombatNPC.class))
+            NPCUtil.removeNPC(npc);
+        else
+            return;
     }
 
     @EventHandler
@@ -48,25 +50,27 @@ public class ListenCitizens implements Listener {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
         NPCUtil.removeNPC(uuid);
-        
-        if(ConfigData.exists(p)) {
+
+        if (ConfigData.exists(p)) {
             double health = ConfigData.get(p, "health", p.getHealth());
             Location l = ConfigData.get(p, "last location", p.getLocation());
-            if(health == 0.0D) {
+            if (health == 0.0D) {
                 p.setHealth(0.0D);
                 Combat.punish(p);
             } else {
                 p.setHealth(health);
                 p.teleport(l);
                 World world = p.getWorld();
-                
-                if(ConfigCitizens.OPTION_MODIFY_INVENTORIES) {
+
+                if (ConfigCitizens.OPTION_MODIFY_INVENTORIES) {
                     List<ItemStack> list = ConfigData.get(p, "inventory", Util.newList());
                     PlayerInventory pi = p.getInventory();
-                    for(ItemStack is : list) {
+                    for (ItemStack is : list) {
                         int first = pi.firstEmpty();
-                        if(first >= 0) pi.addItem(is);
-                        else world.dropItem(l, is);
+                        if (first >= 0)
+                            pi.addItem(is);
+                        else
+                            world.dropItem(l, is);
                     }
                 }
             }

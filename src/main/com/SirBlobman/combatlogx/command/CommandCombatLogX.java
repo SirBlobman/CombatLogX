@@ -21,12 +21,12 @@ public class CommandCombatLogX implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender cs, Command c, String label, String[] args) {
         String cmd = c.getName().toLowerCase();
-        if(cmd.equals("combatlogx")) {
-            if(args.length > 0) {
+        if (cmd.equals("combatlogx")) {
+            if (args.length > 0) {
                 String sub = args[0].toLowerCase();
-                if(sub.equals("reload")) {
+                if (sub.equals("reload")) {
                     String perm = "combatlogx.reload";
-                    if(cs.hasPermission(perm)) {
+                    if (cs.hasPermission(perm)) {
                         ConfigOptions.load();
                         ConfigLang.load();
                         String msg = ConfigLang.MESSAGE_RELOAD_CONFIG;
@@ -37,31 +37,33 @@ public class CommandCombatLogX implements CommandExecutor {
                         Util.sendMessage(cs, error);
                         return true;
                     }
-                } else if(sub.equals("tag")) {
-                    if(args.length > 1) {
+                } else if (sub.equals("tag")) {
+                    if (args.length > 1) {
                         String perm = "combatlogx.tag";
-                        if(cs.hasPermission(perm)) {
+                        if (cs.hasPermission(perm)) {
                             String target = args[1];
                             Player t = Bukkit.getPlayer(target);
-                            if(t != null) {
+                            if (t != null) {
                                 Combat.tag(t, null);
-                                if(Expansions.isEnabled("NotCombatLogX")) {
+                                if (Expansions.isEnabled("NotCombatLogX")) {
                                     try {
                                         Class<?> clazz = Class.forName("com.SirBlobman.not.NotCombatLogX");
                                         CLXExpansion ex = Expansions.getByName("NotCombatLogX");
                                         Method m = clazz.getMethod("call", Player.class);
                                         m.invoke(ex, t);
-                                    } catch(Throwable ex) {
+                                    } catch (Throwable ex) {
                                         String error = "There was an error trying to tag '" + t.getName() + "'";
                                         Util.print(error);
                                         ex.printStackTrace();
                                     }
                                 }
-                                String msg = Util.formatMessage(ConfigLang.MESSAGE_FORCE_TAG, Util.newList("{target}"), Util.newList(t.getName()));
+                                String msg = Util.formatMessage(ConfigLang.MESSAGE_FORCE_TAG, Util.newList("{target}"),
+                                        Util.newList(t.getName()));
                                 cs.sendMessage(msg);
                                 return true;
                             } else {
-                                String error = Util.formatMessage(ConfigLang.MESSAGE_INVALID_TARGET, Util.newList("{target}"), Util.newList(target));
+                                String error = Util.formatMessage(ConfigLang.MESSAGE_INVALID_TARGET,
+                                        Util.newList("{target}"), Util.newList(target));
                                 Util.sendMessage(cs, error);
                                 return true;
                             }
@@ -70,22 +72,25 @@ public class CommandCombatLogX implements CommandExecutor {
                             Util.sendMessage(cs, error);
                             return true;
                         }
-                    } else return false;
-                } else if(sub.equals("untag")) {
-                    if(args.length > 1) {
+                    } else
+                        return false;
+                } else if (sub.equals("untag")) {
+                    if (args.length > 1) {
                         String perm = "combatlogx.untag";
-                        if(cs.hasPermission(perm)) {
+                        if (cs.hasPermission(perm)) {
                             String target = args[1];
                             Player t = Bukkit.getPlayer(target);
-                            if(t != null) {
+                            if (t != null) {
                                 Combat.remove(t);
                                 PlayerUntagEvent pue = new PlayerUntagEvent(t, UntagCause.EXPIRE);
                                 Util.call(pue);
-                                String msg = Util.formatMessage(ConfigLang.MESSAGE_FORCE_UNTAG, Util.newList("{target}"), Util.newList(t.getName()));
+                                String msg = Util.formatMessage(ConfigLang.MESSAGE_FORCE_UNTAG,
+                                        Util.newList("{target}"), Util.newList(t.getName()));
                                 cs.sendMessage(msg);
                                 return true;
                             } else {
-                                String error = Util.formatMessage(ConfigLang.MESSAGE_INVALID_TARGET, Util.newList("{target}"), Util.newList(target));
+                                String error = Util.formatMessage(ConfigLang.MESSAGE_INVALID_TARGET,
+                                        Util.newList("{target}"), Util.newList(target));
                                 Util.sendMessage(cs, error);
                                 return true;
                             }
@@ -94,9 +99,13 @@ public class CommandCombatLogX implements CommandExecutor {
                             Util.sendMessage(cs, error);
                             return true;
                         }
-                    } else return false;
-                } else return false;
-            } else return false;
-        } else return false;
+                    } else
+                        return false;
+                } else
+                    return false;
+            } else
+                return false;
+        } else
+            return false;
     }
 }

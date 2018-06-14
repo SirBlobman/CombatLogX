@@ -11,10 +11,10 @@ import java.io.File;
 
 public class CompatCitizens implements CLXExpansion {
     public static File FOLDER;
-    
+
     @Override
     public void enable() {
-        if(PluginUtil.isPluginEnabled("Citizens")) {
+        if (PluginUtil.isPluginEnabled("Citizens")) {
             FOLDER = getDataFolder();
             ConfigCitizens.load();
             ConfigData.load();
@@ -25,16 +25,24 @@ public class CompatCitizens implements CLXExpansion {
             print(error);
         }
     }
-    
+
     @Override
     public void disable() {
-        if(PluginUtil.isPluginEnabled("Citizens")) {
+        if (PluginUtil.isPluginEnabled("Citizens")) {
             NPCUtil.onShutdown();
             Util.print("Removed all Combat NPCs");
         }
     }
-    
-    public String getUnlocalizedName() {return "CompatCitizens";}
-    public String getName() {return "Citizens Compatibility";}
-    public String getVersion() {return "3";}
+
+    public String getUnlocalizedName() {
+        return "CompatCitizens";
+    }
+
+    public String getName() {
+        return "Citizens Compatibility";
+    }
+
+    public String getVersion() {
+        return "3";
+    }
 }

@@ -33,7 +33,7 @@ import com.SirBlobman.combatlogx.utility.Util;
 public class CheatPrevention implements CLXExpansion, Listener {
     public static File FOLDER;
     private static List<Player> RE_ENABLE_FLIGHT = Util.newList();
-    
+
     @Override
     public void enable() {
         FOLDER = getDataFolder();
@@ -41,76 +41,87 @@ public class CheatPrevention implements CLXExpansion, Listener {
         Util.regEvents(this);
     }
 
-    public String getUnlocalizedName() {return "CheatPrevention";}
-    public String getName() {return "Cheat Prevention";}
-    public String getVersion() {return "2";}
-    
+    public String getUnlocalizedName() {
+        return "CheatPrevention";
+    }
+
+    public String getName() {
+        return "Cheat Prevention";
+    }
+
+    public String getVersion() {
+        return "2";
+    }
+
     @EventHandler
     public void pce(PlayerCombatEvent e) {
-    	Player p = e.getPlayer();
-    	if(ConfigCheatPrevention.CHEAT_PREVENT_DISABLE_FLIGHT) {
-            if(p.getAllowFlight()) {
-            	p.setFlying(false);
-            	p.setAllowFlight(false);
-            	if(ConfigCheatPrevention.CHEAT_PREVENT_ENABLE_FLIGHT) RE_ENABLE_FLIGHT.add(p);
+        Player p = e.getPlayer();
+        if (ConfigCheatPrevention.CHEAT_PREVENT_DISABLE_FLIGHT) {
+            if (ConfigCheatPrevention.CHEAT_PREVENT_ENABLE_FLIGHT) {
+                if (p.getAllowFlight() || p.isFlying())
+                    RE_ENABLE_FLIGHT.add(p);
             }
-    	}
-    	
-    	if(ConfigCheatPrevention.CHEAT_PREVENT_AUTO_CLOSE_GUIS) p.closeInventory();
+            p.setFlying(false);
+            p.setAllowFlight(false);
+        }
+
+        if (ConfigCheatPrevention.CHEAT_PREVENT_AUTO_CLOSE_GUIS)
+            p.closeInventory();
     }
-    
+
     @EventHandler
     public void ctce(CombatTimerChangeEvent e) {
         Player p = e.getPlayer();
-        
-        if(ConfigCheatPrevention.CHEAT_PREVENT_CHANGE_GAMEMODE) {
+
+        if (ConfigCheatPrevention.CHEAT_PREVENT_CHANGE_GAMEMODE) {
             String m = ConfigCheatPrevention.CHEAT_PREVENT_CHANGE_GAMEMODE_MODE;
             GameMode gm = GameMode.valueOf(m);
             p.setGameMode(gm);
         }
-        
-        for(String s : ConfigCheatPrevention.CHEAT_PREVENT_BLOCKED_POTIONS) {
+
+        for (String s : ConfigCheatPrevention.CHEAT_PREVENT_BLOCKED_POTIONS) {
             try {
                 PotionEffectType pet = PotionEffectType.getByName(s);
-                if(p.hasPotionEffect(pet)) p.removePotionEffect(pet);
-            } catch(Throwable ex) {
+                if (p.hasPotionEffect(pet))
+                    p.removePotionEffect(pet);
+            } catch (Throwable ex) {
                 String error = "Invalid potion effect '" + s + "' in combat.yml";
                 Util.print(error);
             }
         }
     }
-    
+
     @EventHandler
     public void pue(PlayerUntagEvent e) {
         Player p = e.getPlayer();
-        if(ConfigCheatPrevention.CHEAT_PREVENT_ENABLE_FLIGHT) {
-            if(RE_ENABLE_FLIGHT.contains(p)) {
-            	if(PluginUtil.isPluginEnabled("RandomStuff")) {
-            		PlayerInventory pi = p.getInventory();
-            		ItemStack chest = pi.getChestplate();
-            		if(chest != null && chest.getType() == Material.FIREWORK) {
+        if (ConfigCheatPrevention.CHEAT_PREVENT_ENABLE_FLIGHT) {
+            if (RE_ENABLE_FLIGHT.contains(p)) {
+                if (PluginUtil.isPluginEnabled("RandomStuff")) {
+                    PlayerInventory pi = p.getInventory();
+                    ItemStack chest = pi.getChestplate();
+                    if (chest != null && chest.getType() == Material.FIREWORK) {
                         RE_ENABLE_FLIGHT.remove(p);
-            			return;
-            		}
-            	}
-            	
+                        return;
+                    }
+                }
+
                 p.setAllowFlight(true);
                 p.setFlying(true);
                 RE_ENABLE_FLIGHT.remove(p);
             }
         }
     }
-    
+
     @EventHandler
     public void ioe(InventoryOpenEvent e) {
-        if(ConfigCheatPrevention.CHEAT_PREVENT_OPEN_INVENTORIES) {
+        if (ConfigCheatPrevention.CHEAT_PREVENT_OPEN_INVENTORIES) {
             HumanEntity he = e.getPlayer();
-            if(he instanceof Player) {
+            if (he instanceof Player) {
                 Player p = (Player) he;
-                if(Combat.isInCombat(p)) {
+                if (Combat.isInCombat(p)) {
                     Inventory i = e.getInventory();
                     InventoryType it = i.getType();
-                    if(it != InventoryType.PLAYER) {
+                    if (it != InventoryType.PLAYER) {
                         e.setCancelled(true);
                         String msg = ConfigLang.MESSAGE_OPEN_INVENTORY;
                         Util.sendMessage(p, msg);
@@ -119,37 +130,39 @@ public class CheatPrevention implements CLXExpansion, Listener {
             }
         }
     }
-    
-    @EventHandler(priority=EventPriority.HIGHEST)
+
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void toggleFlight(PlayerToggleFlightEvent e) {
-    	if(e.isCancelled()) return;
-    	else {
-    		Player p = e.getPlayer();
-    		if(ConfigCheatPrevention.CHEAT_PREVENT_DISABLE_FLIGHT) {
-    			if(Combat.isInCombat(p)) {
-    				if(p.getAllowFlight()) RE_ENABLE_FLIGHT.add(p);
-    				p.setAllowFlight(false);
-    				p.setFlying(false);
-    				e.setCancelled(true);
-    			}
-    		}
-    	}
+        if (e.isCancelled())
+            return;
+        else {
+            Player p = e.getPlayer();
+            if (ConfigCheatPrevention.CHEAT_PREVENT_DISABLE_FLIGHT) {
+                if (Combat.isInCombat(p)) {
+                    if (p.getAllowFlight())
+                        RE_ENABLE_FLIGHT.add(p);
+                    p.setAllowFlight(false);
+                    p.setFlying(false);
+                    e.setCancelled(true);
+                }
+            }
+        }
     }
-    
+
     @EventHandler
     public void tp(PlayerTeleportEvent e) {
-        if(ConfigCheatPrevention.CHEAT_PREVENT_TELEPORT) {
+        if (ConfigCheatPrevention.CHEAT_PREVENT_TELEPORT) {
             Player p = e.getPlayer();
             TeleportCause tc = e.getCause();
-            if(tc == TeleportCause.ENDER_PEARL) {
-                if(ConfigCheatPrevention.CHEAT_PREVENT_TELEPORT_ALLOW_ENDERPEARLS) {
-                    if(ConfigCheatPrevention.CHEAT_PREVENT_TELEPORT_ENDERPEARLS_RESTART) {
+            if (tc == TeleportCause.ENDER_PEARL) {
+                if (ConfigCheatPrevention.CHEAT_PREVENT_TELEPORT_ALLOW_ENDERPEARLS) {
+                    if (ConfigCheatPrevention.CHEAT_PREVENT_TELEPORT_ENDERPEARLS_RESTART) {
                         Combat.tag(p, Combat.getEnemy(p));
                     }
                     return;
                 }
-            } else if(tc == TeleportCause.COMMAND || tc == TeleportCause.ENDER_PEARL) {
-                if(Combat.isInCombat(p)) {
+            } else if (tc == TeleportCause.COMMAND || tc == TeleportCause.ENDER_PEARL) {
+                if (Combat.isInCombat(p)) {
                     e.setCancelled(true);
                     String msg = ConfigLang.MESSAGE_NO_TELEPORT;
                     Util.sendMessage(p, msg);
@@ -157,36 +170,37 @@ public class CheatPrevention implements CLXExpansion, Listener {
             }
         }
     }
-    
+
     @EventHandler
     public void pcpe(PlayerCommandPreprocessEvent e) {
-        if(e.isCancelled()) return;
+        if (e.isCancelled())
+            return;
         Player p = e.getPlayer();
-        if(Combat.isInCombat(p)) {
+        if (Combat.isInCombat(p)) {
             String msg = e.getMessage();
             String cmd = msg.toLowerCase();
             boolean whitelist = ConfigCheatPrevention.CHEAT_PREVENT_BLOCKED_COMMANDS_MODE;
             List<String> list = ConfigCheatPrevention.CHEAT_PREVENT_BLOCKED_COMMANDS;
-            if(!whitelist) {
-                for(String blocked : list) {
+            if (!whitelist) {
+                for (String blocked : list) {
                     blocked = "/" + blocked.toLowerCase();
-                    if(cmd.startsWith(blocked)) {
+                    if (cmd.startsWith(blocked)) {
                         e.setCancelled(true);
                         break;
                     }
                 }
             } else {
                 e.setCancelled(true);
-                for(String allowed : list) {
+                for (String allowed : list) {
                     allowed = "/" + allowed.toLowerCase();
-                    if(cmd.startsWith(allowed)) {
+                    if (cmd.startsWith(allowed)) {
                         e.setCancelled(false);
                         break;
                     }
                 }
             }
-            
-            if(e.isCancelled()) {
+
+            if (e.isCancelled()) {
                 List<String> l1 = Util.newList("{command}");
                 List<String> l2 = Util.newList(msg);
                 String msg1 = Util.formatMessage(ConfigLang.MESSAGE_BLOCKED_COMMAND, l1, l2);

@@ -17,30 +17,35 @@ public class HookM implements PlaceholderReplacer {
         PlaceholderAPI.registerPlaceholder(pl, "combatlogx_enemy_name", this);
         PlaceholderAPI.registerPlaceholder(pl, "combatlogx_enemy_health", this);
     }
-    
+
     @Override
     public String onPlaceholderReplace(PlaceholderReplaceEvent e) {
         Player p = e.getPlayer();
-        if(p != null) {
+        if (p != null) {
             String id = e.getPlaceholder();
-            if(id.equals("combatlogx_time_left")) {
+            if (id.equals("combatlogx_time_left")) {
                 long time = Combat.timeLeft(p);
-                if(time <= 0) time = 0;
+                if (time <= 0)
+                    time = 0;
                 String t = str(time);
                 return t;
-            } else if(id.equals("combatlogx_enemy_name")) {
+            } else if (id.equals("combatlogx_enemy_name")) {
                 LivingEntity le = Combat.getEnemy(p);
-                if(le != null) {
+                if (le != null) {
                     String name = OldUtil.getName(le);
                     return name;
-                } else return "None";
-            } else if(id.equals("combatlogx_enemy_health")) {
+                } else
+                    return "None";
+            } else if (id.equals("combatlogx_enemy_health")) {
                 LivingEntity le = Combat.getEnemy(p);
-                if(le != null) {
+                if (le != null) {
                     String health = OldUtil.getHealth(le);
                     return health;
-                } else return "None";
-            } else return null;
-        } else return null;
+                } else
+                    return "None";
+            } else
+                return null;
+        } else
+            return null;
     }
 }

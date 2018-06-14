@@ -33,17 +33,19 @@ public class CombatLogX extends JavaPlugin {
             public void run() {
                 ConfigOptions.load();
                 ConfigLang.load();
-                if(ConfigOptions.OPTION_CHECK_UPDATES) UpdateUtil.checkForUpdates();
+                if (ConfigOptions.OPTION_CHECK_UPDATES)
+                    UpdateUtil.checkForUpdates();
                 command("combatlogx", new CommandCombatLogX());
                 command("combattime", new CommandCombatTime());
                 Util.regEvents(new ListenBukkit(), new FinalMonitor());
                 Util.runTimer(new Combat(), 20, 0);
                 Expansions.loadExpansions();
-                if(ConfigOptions.OPTION_BROADCAST_STARTUP) Util.broadcast("&2Enabled");
+                if (ConfigOptions.OPTION_BROADCAST_STARTUP)
+                    Util.broadcast("&2Enabled");
             }
         }, 0);
     }
-    
+
     @Override
     public void onDisable() {
         Expansions.onDisable();
@@ -51,15 +53,15 @@ public class CombatLogX extends JavaPlugin {
 
     public void command(String cmd, CommandExecutor ce) {
         PluginCommand pc = getCommand(cmd);
-        if(pc != null) {
-            if(ce != null) {
+        if (pc != null) {
+            if (ce != null) {
                 pc.setExecutor(ce);
-                if(ce instanceof TabCompleter) {
+                if (ce instanceof TabCompleter) {
                     TabCompleter tc = (TabCompleter) ce;
                     pc.setTabCompleter(tc);
                 }
 
-                if(ce instanceof Listener) {
+                if (ce instanceof Listener) {
                     Listener l = (Listener) ce;
                     Util.regEvents(l);
                 }

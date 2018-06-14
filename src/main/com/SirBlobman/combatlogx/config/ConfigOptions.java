@@ -10,29 +10,28 @@ import java.util.List;
 public class ConfigOptions extends Config {
     private static final File FILE = new File(FOLDER, "combat.yml");
     private static YamlConfiguration CONFIG = new YamlConfiguration();
-    
+
     public static YamlConfiguration load() {
         try {
             CONFIG = Config.load(FILE);
             defaults();
-        } catch(Throwable ex) {
+        } catch (Throwable ex) {
             String error = "Failed to load '" + FILE + "': ";
             Util.print(error);
             ex.printStackTrace();
         }
         return CONFIG;
     }
-    
+
     public static void save() {
         try {
             Config.save(CONFIG, FILE);
-        } catch(Throwable ex) {
+        } catch (Throwable ex) {
             String error = "Failed to save '" + FILE + "': ";
             Util.print(error);
             ex.printStackTrace();
         }
     }
-    
 
     public static int OPTION_TIMER = 0;
     public static boolean OPTION_CHECK_UPDATES = true;
@@ -64,7 +63,7 @@ public class ConfigOptions extends Config {
 
     public static List<String> PUNISH_COMMANDS_CONSOLE = Util.newList();
     public static List<String> PUNISH_COMMANDS_LOGGERS = Util.newList();
-    
+
     private static void defaults() {
         OPTION_BROADCAST_STARTUP = get("options.broadcast enable message", true);
         OPTION_LOG_TO_FILE = get("options.log to file", true);
@@ -85,18 +84,22 @@ public class ConfigOptions extends Config {
         OPTION_BYPASS_PERMISSION = get("options.bypass.permission", "combatlogx.bypass");
         OPTION_COMBAT_SUDO_ENABLE = get("options.combat sudo.enable", true);
         OPTION_COMBAT_SUDO_COMMANDS = get("options.combat sudo.commands", Util.newList("say I am now in combat"));
-        OPTION_COMBAT_CONSOLE_COMMANDS = get("options.combat sudo.console", Util.newList("msg {player} You are now in combat!"));
+        OPTION_COMBAT_CONSOLE_COMMANDS = get("options.combat sudo.console",
+                Util.newList("msg {player} You are now in combat!"));
 
         PUNISH_KILL_PLAYER = get("punishment.kill loggers", true);
         PUNISH_ON_KICK = get("punishment.kick", false);
         PUNISH_ON_QUIT = get("punishment.quit.enable", true);
         PUNISH_ON_QUIT_MESSAGE = get("punishment.quit.message", true);
         PUNISH_CONSOLE = get("punishment.console.enable", true);
-        PUNISH_COMMANDS_CONSOLE = get("punishment.console.commands",  Util.newList("eco take {player} 100", "mail send {player} You lost $100 due to logging out during combat!"));
+        PUNISH_COMMANDS_CONSOLE = get("punishment.console.commands", Util.newList("eco take {player} 100",
+                "mail send {player} You lost $100 due to logging out during combat!"));
         PUNISH_SUDO_LOGGERS = get("punishment.sudo loggers.enable", false);
         PUNISH_COMMANDS_LOGGERS = get("punishment.sudo loggers.commands", Util.newList("say I logged out of combat!"));
         save();
     }
-    
-    private static <T> T get(String path, T defaultValue) {return get(CONFIG, path, defaultValue);}
+
+    private static <T> T get(String path, T defaultValue) {
+        return get(CONFIG, path, defaultValue);
+    }
 }

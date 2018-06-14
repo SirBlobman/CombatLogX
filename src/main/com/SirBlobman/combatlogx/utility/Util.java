@@ -26,38 +26,46 @@ public class Util {
     public static final PluginManager PM = SERVER.getPluginManager();
     public static final BukkitScheduler BS = SERVER.getScheduler();
 
-    public static String color(String o) {return ChatColor.translateAlternateColorCodes('&', o);}
-    public static String strip(String c) {return ChatColor.stripColor(c);}
+    public static String color(String o) {
+        return ChatColor.translateAlternateColorCodes('&', o);
+    }
+
+    public static String strip(String c) {
+        return ChatColor.stripColor(c);
+    }
 
     public static String[] color(String... ss) {
-        for(int i = 0; i < ss.length; i++) {
+        for (int i = 0; i < ss.length; i++) {
             String s = ss[i];
             String c = color(s);
             ss[i] = c;
-        } return ss;
+        }
+        return ss;
     }
 
     public static String[] strip(String... cc) {
-        for(int i = 0; i < cc.length; i++) {
+        for (int i = 0; i < cc.length; i++) {
             String c = cc[i];
             String s = strip(c);
             cc[i] = s;
-        } return cc;
+        }
+        return cc;
     }
 
     public static String str(Object o) {
-        if(o == null) return "";
-        else if((o instanceof Short) || (o instanceof Integer) || (o instanceof Long)) {
+        if (o == null)
+            return "";
+        else if ((o instanceof Short) || (o instanceof Integer) || (o instanceof Long)) {
             Number n = (Number) o;
             long l = n.longValue();
             String s = Long.toString(l);
             return s;
-        } else if((o instanceof Float) || (o instanceof Double) || (o instanceof Number)) {
+        } else if ((o instanceof Float) || (o instanceof Double) || (o instanceof Number)) {
             Number n = (Number) o;
             double d = n.doubleValue();
             String s = Double.toString(d);
             return s;
-        } else if(o instanceof Location) {
+        } else if (o instanceof Location) {
             Location l = (Location) o;
             World w = l.getWorld();
             String sw = str(w);
@@ -67,11 +75,11 @@ public class Util {
             String s = "%1s: X: %2s, Y: %3s, Z: %4s";
             String f = format(s, sw, x, y, z);
             return f;
-        } else if(o instanceof Plugin) {
+        } else if (o instanceof Plugin) {
             Plugin pl = (Plugin) o;
             String name = pl.getName();
             return name;
-        } else if(o instanceof String) {
+        } else if (o instanceof String) {
             String s = (String) o;
             return s;
         } else {
@@ -80,13 +88,13 @@ public class Util {
                 Method m = clazz.getDeclaredMethod("getName");
                 String s = (String) m.invoke(o);
                 return s;
-            } catch(Throwable ex1) {
+            } catch (Throwable ex1) {
                 try {
                     Class<?> clazz = o.getClass();
                     Method m = clazz.getDeclaredMethod("name");
                     String s = (String) m.invoke(o);
                     return s;
-                } catch(Throwable ex2) {
+                } catch (Throwable ex2) {
                     String s = o.toString();
                     return s;
                 }
@@ -96,11 +104,12 @@ public class Util {
 
     public static String[] str(Object... oo) {
         String[] ss = new String[oo.length];
-        for(int i = 0; i < oo.length; i++) {
+        for (int i = 0; i < oo.length; i++) {
             Object o = oo[i];
             String s = str(o);
             ss[i] = s;
-        } return ss;
+        }
+        return ss;
     }
 
     public static String format(Object o, Object... oo) {
@@ -114,8 +123,8 @@ public class Util {
     public static String formatMessage(Object o, List<String> keys, List<? extends Object> vals, Object... extra) {
         String s = str(o);
         int klen = keys.size(), vlen = vals.size();
-        if(klen == vlen) {
-            for(int i = 0; i < klen; i++) {
+        if (klen == vlen) {
+            for (int i = 0; i < klen; i++) {
                 String sk = keys.get(i);
                 Object ov = vals.get(i);
                 String sv = str(ov);
@@ -132,19 +141,21 @@ public class Util {
     }
 
     public static void print(Object... oo) {
-        for(Object o : oo) {
+        for (Object o : oo) {
             String s = str(o);
             String c = color(ConfigLang.MESSAGE_PREFIX + s);
-            if(s.equals("\n")) c = color("&l");
+            if (s.equals("\n"))
+                c = color("&l");
             CONSOLE.sendMessage(c);
         }
     }
-    
+
     public static void printNoPrefix(Object... oo) {
-        for(Object o : oo) {
+        for (Object o : oo) {
             String s = str(o);
             String c = color(s);
-            if(s.equals("\n")) c = color("&l");
+            if (s.equals("\n"))
+                c = color("&l");
             CONSOLE.sendMessage(c);
         }
     }
@@ -152,27 +163,29 @@ public class Util {
     public static void broadcast(Object... oo) {
         print(oo);
         Collection<? extends Player> cp = SERVER.getOnlinePlayers();
-        for(Player p : cp) {
-            for(Object o : oo) {
+        for (Player p : cp) {
+            for (Object o : oo) {
                 String s = str(o);
                 String c = color(ConfigLang.MESSAGE_PREFIX + s);
                 p.sendMessage(c);
             }
         }
     }
-    
+
     public static void sendMessage(CommandSender cs, Object... oo) {
-    	if(cs instanceof Entity) {
-    		Entity en = (Entity) cs;
-    		World world = en.getWorld();
-    		String name = world.getName().toLowerCase();
-    		List<String> disabled = toLowerCaseList(ConfigOptions.OPTION_DISABLED_WORLDS);
-    		if(disabled.contains(name)) return;
-    	}
-    	
-        for(Object o : oo) {
+        if (cs instanceof Entity) {
+            Entity en = (Entity) cs;
+            World world = en.getWorld();
+            String name = world.getName().toLowerCase();
+            List<String> disabled = toLowerCaseList(ConfigOptions.OPTION_DISABLED_WORLDS);
+            if (disabled.contains(name))
+                return;
+        }
+
+        for (Object o : oo) {
             String s = str(o);
-            if(s.isEmpty() || s.equals("")) continue;
+            if (s.isEmpty() || s.equals(""))
+                continue;
             else {
                 String c = color(ConfigLang.MESSAGE_PREFIX + s);
                 cs.sendMessage(c);
@@ -180,56 +193,64 @@ public class Util {
         }
     }
 
+    public static void regEvents(Listener... ll) {
+        regEvents(PLUGIN, ll);
+    }
 
-    public static void regEvents(Listener... ll) {regEvents(PLUGIN, ll);}
     public static void regEvents(Plugin p, Listener... ll) {
-        for(Listener l : ll) {
-            if(l != null) PM.registerEvents(l, p);
+        for (Listener l : ll) {
+            if (l != null)
+                PM.registerEvents(l, p);
         }
     }
-    
+
     public static void call(Event... ee) {
-        for(Event e : ee) {
-            if(e != null) PM.callEvent(e);
+        for (Event e : ee) {
+            if (e != null)
+                PM.callEvent(e);
         }
     }
-    
+
     public static BukkitTask runLater(Runnable r, long delay) {
         BukkitTask bt = BS.runTaskLater(PLUGIN, r, delay);
         return bt;
     }
-    
+
     public static BukkitTask runTimer(Runnable r, long timer, long delay) {
         BukkitTask bt = BS.runTaskTimer(PLUGIN, r, delay, timer);
         return bt;
     }
-    
+
     @SafeVarargs
     public static <S> Set<S> newSet(S... ss) {
         Set<S> set = new HashSet<S>();
-        for(S s : ss) set.add(s);
+        for (S s : ss)
+            set.add(s);
         return set;
     }
 
     @SafeVarargs
     public static <L> List<L> newList(L... ll) {
         List<L> list = new ArrayList<L>();
-        for(L l : ll) list.add(l);
+        for (L l : ll)
+            list.add(l);
         return list;
     }
-    
+
     public static <L> List<L> newList(Collection<L> ll) {
         List<L> list = new ArrayList<L>();
-        for(L l : ll) list.add(l);
+        for (L l : ll)
+            list.add(l);
         return list;
     }
-    
+
     public static List<String> toLowerCaseList(List<String> originalList) {
         List<String> lower = newList();
-        for(String caps : originalList) {
+        for (String caps : originalList) {
             String l = caps.toLowerCase();
             lower.add(l);
-        } return lower;
+        }
+        return lower;
     }
 
     public static <K, V> HashMap<K, V> newMap() {

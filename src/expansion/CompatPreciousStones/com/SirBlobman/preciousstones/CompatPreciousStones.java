@@ -24,10 +24,10 @@ import java.io.File;
 
 public class CompatPreciousStones implements CLXExpansion, Listener {
     public static File FOLDER;
-    
+
     @Override
     public void enable() {
-        if(PluginUtil.isPluginEnabled("PreciousStones", "Phaed")) {
+        if (PluginUtil.isPluginEnabled("PreciousStones", "Phaed")) {
             FOLDER = getDataFolder();
             ConfigPreciousStones.load();
             Util.regEvents(this);
@@ -36,53 +36,66 @@ public class CompatPreciousStones implements CLXExpansion, Listener {
             print(error);
         }
     }
-    
-    public String getUnlocalizedName() {return "CompatPreciousStones";}
-    public String getName() {return "PreciousStones Compatability";}
-    public String getVersion() {return "2";}
-    
+
+    public String getUnlocalizedName() {
+        return "CompatPreciousStones";
+    }
+
+    public String getName() {
+        return "PreciousStones Compatability";
+    }
+
+    public String getVersion() {
+        return "2";
+    }
+
     @EventHandler
     public void pce(PlayerCombatEvent e) {
         LivingEntity ler = e.getAttacker();
         LivingEntity led = e.getTarget();
-        if(ler instanceof Player) { 
+        if (ler instanceof Player) {
             Player p = (Player) ler;
             boolean pvp = StonesUtil.canPvP(p);
-            if(!pvp) e.setCancelled(true);
+            if (!pvp)
+                e.setCancelled(true);
         }
 
-        if(led instanceof Player) {
+        if (led instanceof Player) {
             Player p = (Player) led;
             boolean pvp = StonesUtil.canPvP(p);
-            if(!pvp) e.setCancelled(true);
+            if (!pvp)
+                e.setCancelled(true);
         }
     }
 
     @EventHandler
     public void move(PlayerMoveEvent e) {
-        if(e.isCancelled()) return;
-        if(ConfigPreciousStones.OPTION_NO_SAFEZONE_ENTRY) {
+        if (e.isCancelled())
+            return;
+        if (ConfigPreciousStones.OPTION_NO_SAFEZONE_ENTRY) {
             Player p = e.getPlayer();
             Location from = e.getFrom();
             Location to = e.getTo();
-            if(Combat.isInCombat(p) && !StonesUtil.canPvP(to)) {
+            if (Combat.isInCombat(p) && !StonesUtil.canPvP(to)) {
                 String mode = ConfigPreciousStones.OPTION_NO_SAFEZONE_ENTRY_MODE;
                 NoEntryMode nem = NoEntryMode.valueOf(mode);
-                if(nem == null) nem = NoEntryMode.CANCEL;
-                
-                if(nem == NoEntryMode.CANCEL) {
+                if (nem == null)
+                    nem = NoEntryMode.CANCEL;
+
+                if (nem == NoEntryMode.CANCEL) {
                     e.setCancelled(true);
-                } else if(nem == NoEntryMode.KNOCKBACK) {
-                    Vector vto = to.toVector(); Vector vfrom = from.toVector();
+                } else if (nem == NoEntryMode.KNOCKBACK) {
+                    Vector vto = to.toVector();
+                    Vector vfrom = from.toVector();
                     Vector vector = vto.subtract(vfrom);
                     vector = vector.normalize();
                     vector = vector.multiply(ConfigPreciousStones.OPTION_NO_SAFEZONE_ENTRY_STRENGTH);
                     p.setVelocity(vector);
-                } else if(nem == NoEntryMode.KILL) {
+                } else if (nem == NoEntryMode.KILL) {
                     p.setHealth(0.0D);
-                } else if(nem == NoEntryMode.TELEPORT) {
+                } else if (nem == NoEntryMode.TELEPORT) {
                     Entity enemy = Combat.getEnemy(p);
-                    if(enemy != null) {
+                    if (enemy != null) {
                         Location l = enemy.getLocation();
                         p.teleport(l);
                     }
@@ -95,12 +108,13 @@ public class CompatPreciousStones implements CLXExpansion, Listener {
 
     @EventHandler
     public void tp(PlayerTeleportEvent e) {
-        if(e.isCancelled()) return;
-        if(ConfigPreciousStones.OPTION_NO_SAFEZONE_ENTRY && e.getCause() == TeleportCause.ENDER_PEARL) {
+        if (e.isCancelled())
+            return;
+        if (ConfigPreciousStones.OPTION_NO_SAFEZONE_ENTRY && e.getCause() == TeleportCause.ENDER_PEARL) {
             Player p = e.getPlayer();
             Location from = e.getFrom();
             Location to = e.getTo();
-            if(Combat.isInCombat(p) && !StonesUtil.canPvP(to)) {
+            if (Combat.isInCombat(p) && !StonesUtil.canPvP(to)) {
                 e.setCancelled(true);
                 String error = ConfigLang.MESSAGE_NO_ENTRY;
                 Util.sendMessage(p, error);

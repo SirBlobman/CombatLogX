@@ -7,8 +7,11 @@ import org.bukkit.entity.Player;
 
 public class FactionsSavage extends FactionsUtil {
     private static final Board BOARD = Board.getInstance();
-    public FactionsSavage() {print("Adding support for SavageFactions...");}
-    
+
+    public FactionsSavage() {
+        print("Adding support for SavageFactions...");
+    }
+
     @Override
     public Faction getFactionAt(Player p) {
         Location l = p.getLocation();
