@@ -24,7 +24,7 @@ import org.bukkit.potion.PotionEffectType;
 import com.SirBlobman.combatlogx.Combat;
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.event.CombatTimerChangeEvent;
-import com.SirBlobman.combatlogx.event.PlayerCombatEvent;
+import com.SirBlobman.combatlogx.event.PlayerTagEvent;
 import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
@@ -54,19 +54,21 @@ public class CheatPrevention implements CLXExpansion, Listener {
     }
 
     @EventHandler
-    public void pce(PlayerCombatEvent e) {
-        Player p = e.getPlayer();
-        if (ConfigCheatPrevention.CHEAT_PREVENT_DISABLE_FLIGHT) {
-            if (ConfigCheatPrevention.CHEAT_PREVENT_ENABLE_FLIGHT) {
-                if (p.getAllowFlight() || p.isFlying())
-                    RE_ENABLE_FLIGHT.add(p);
+    public void pce(PlayerTagEvent e) {
+        if(!e.isCancelled()) {
+            Player p = e.getPlayer();
+            if (ConfigCheatPrevention.CHEAT_PREVENT_DISABLE_FLIGHT) {
+                if (ConfigCheatPrevention.CHEAT_PREVENT_ENABLE_FLIGHT) {
+                    if (p.getAllowFlight() || p.isFlying())
+                        RE_ENABLE_FLIGHT.add(p);
+                }
+                p.setFlying(false);
+                p.setAllowFlight(false);
             }
-            p.setFlying(false);
-            p.setAllowFlight(false);
-        }
 
-        if (ConfigCheatPrevention.CHEAT_PREVENT_AUTO_CLOSE_GUIS)
-            p.closeInventory();
+            if (ConfigCheatPrevention.CHEAT_PREVENT_AUTO_CLOSE_GUIS)
+                p.closeInventory();
+        }
     }
 
     @EventHandler

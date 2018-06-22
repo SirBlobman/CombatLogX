@@ -28,6 +28,7 @@ import org.bukkit.inventory.PlayerInventory;
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.config.ConfigOptions;
 import com.SirBlobman.combatlogx.event.CombatTimerChangeEvent;
+import com.SirBlobman.combatlogx.event.PlayerTagEvent;
 import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.event.PlayerUntagEvent.UntagCause;
 import com.SirBlobman.combatlogx.utility.OldUtil;
@@ -131,10 +132,14 @@ public class Combat implements Runnable {
                 }
             }
 
-            COMBAT.put(p, time);
-            ENEMIES.put(p, enemy);
-            CombatTimerChangeEvent ctce = new CombatTimerChangeEvent(p, ConfigOptions.OPTION_TIMER);
-            Util.call(ctce);
+            PlayerTagEvent pte = new PlayerTagEvent(p, enemy);
+            Util.call(pte);
+            if(!pte.isCancelled()) {
+                COMBAT.put(p, time);
+                ENEMIES.put(p, enemy);
+                CombatTimerChangeEvent ctce = new CombatTimerChangeEvent(p, ConfigOptions.OPTION_TIMER);
+                Util.call(ctce);
+            }
         } else
             remove(p);
     }
