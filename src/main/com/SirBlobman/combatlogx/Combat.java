@@ -104,7 +104,7 @@ public class Combat implements Runnable {
     }
 
     /**
-     * Add a player into the combat timer be sure to check if they have bypass
+     * Add a player into the combat timer. If they have bypass they will be ignored
      * 
      * @param p
      *            Player to add
@@ -118,30 +118,29 @@ public class Combat implements Runnable {
         String world = w.getName().toLowerCase();
         List<String> disabled = Util.toLowerCaseList(ConfigOptions.OPTION_DISABLED_WORLDS);
         if (!disabled.contains(world)) {
-            long current = System.currentTimeMillis();
-            long timer = (ConfigOptions.OPTION_TIMER * 1000L);
-            long time = (current + timer);
+            boolean bypass = (ConfigOptions.OPTION_BYPASS_ENABLE && p.hasPermission(ConfigOptions.OPTION_BYPASS_PERMISSION));
+            if(!bypass) {
+                long current = System.currentTimeMillis();
+                long timer = (ConfigOptions.OPTION_TIMER * 1000L);
+                long time = (current + timer);
 
-            if (!isInCombat(p)) {
-                if (ConfigOptions.OPTION_COMBAT_SUDO_ENABLE) {
-                    for (String cmd : ConfigOptions.OPTION_COMBAT_SUDO_COMMANDS)
-                        p.performCommand(cmd);
-                    for (String cmd : ConfigOptions.OPTION_COMBAT_CONSOLE_COMMANDS)
-                        Bukkit.dispatchCommand(Util.CONSOLE,
-                                Util.formatMessage(cmd, Util.newList("{player}"), Util.newList(p.getName())));
+                if (!isInCombat(p)) {
+                    if (ConfigOptions.OPTION_COMBAT_SUDO_ENABLE) {
+                        for(String cmd : ConfigOptions.OPTION_COMBAT_SUDO_COMMANDS) p.performCommand(cmd);
+                        for(String cmd : ConfigOptions.OPTION_COMBAT_CONSOLE_COMMANDS) Bukkit.dispatchCommand(Util.CONSOLE, Util.formatMessage(cmd, Util.newList("{player}"), Util.newList(p.getName())));
+                    }
                 }
-            }
 
-            PlayerTagEvent pte = new PlayerTagEvent(p, enemy);
-            Util.call(pte);
-            if(!pte.isCancelled()) {
-                COMBAT.put(p, time);
-                ENEMIES.put(p, enemy);
-                CombatTimerChangeEvent ctce = new CombatTimerChangeEvent(p, ConfigOptions.OPTION_TIMER);
-                Util.call(ctce);
-            }
-        } else
-            remove(p);
+                PlayerTagEvent pte = new PlayerTagEvent(p, enemy);
+                Util.call(pte);
+                if(!pte.isCancelled()) {
+                    COMBAT.put(p, time);
+                    ENEMIES.put(p, enemy);
+                    CombatTimerChangeEvent ctce = new CombatTimerChangeEvent(p, ConfigOptions.OPTION_TIMER);
+                    Util.call(ctce);
+                }
+            } else remove(p);
+        } else remove(p);
     }
 
     public static void remove(Player p) {
