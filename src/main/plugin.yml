@@ -16,7 +16,11 @@ softdepend: [Citizens]
 commands:
   combatlogx:
     description: Reload the Config and Messages for this plugin
-    usage: /<command> <reload / tag / untag>
+    usage: |-
+      Valid Usage:
+        /<command> reload
+        /<command> tag/untag <player>
+        /<command> version
     aliases: [clx]
   combattime:
     description: Check how much combat time you have left.
