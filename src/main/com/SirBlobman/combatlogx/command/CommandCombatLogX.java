@@ -1,6 +1,16 @@
 package com.SirBlobman.combatlogx.command;
 
+import java.lang.reflect.Method;
+
+import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginDescriptionFile;
+
 import com.SirBlobman.combatlogx.Combat;
+import com.SirBlobman.combatlogx.CombatLogX;
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.config.ConfigOptions;
 import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
@@ -8,14 +18,6 @@ import com.SirBlobman.combatlogx.event.PlayerUntagEvent.UntagCause;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.expansion.Expansions;
 import com.SirBlobman.combatlogx.utility.Util;
-
-import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
-import java.lang.reflect.Method;
 
 public class CommandCombatLogX implements CommandExecutor {
     @Override
@@ -99,13 +101,23 @@ public class CommandCombatLogX implements CommandExecutor {
                             Util.sendMessage(cs, error);
                             return true;
                         }
-                    } else
-                        return false;
-                } else
-                    return false;
-            } else
-                return false;
-        } else
-            return false;
+                    } else return false;
+                } else if(sub.equals("version")) {
+                    PluginDescriptionFile pdf = CombatLogX.INSTANCE.getDescription();
+                    String clxVersion = pdf.getVersion();
+                    Util.sendInfoMessage(cs, "&fCombatLogX &7v" + clxVersion);
+                    Util.sendInfoMessage(cs, "&l");
+                    Util.sendInfoMessage(cs, "&f&lExpansions:");
+                    
+                    for(CLXExpansion exp : Expansions.getExpansions()) {
+                        String name = exp.getName();
+                        String version = exp.getVersion();
+                        String app = "&7 - &f" + name + " &7v" + version;
+                        Util.sendInfoMessage(cs, app);
+                    }
+                    return true;
+                } else return false;
+            } else return false;
+        } else return false;
     }
 }

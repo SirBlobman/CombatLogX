@@ -43,6 +43,6 @@ public class CompatCitizens implements CLXExpansion {
     }
 
     public String getVersion() {
-        return "3";
+        return "4";
     }
 }

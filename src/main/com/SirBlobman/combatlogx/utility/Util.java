@@ -192,6 +192,17 @@ public class Util {
             }
         }
     }
+    
+    public static void sendInfoMessage(CommandSender cs, Object... oo) {
+        for(Object o : oo) {
+            String s = str(o);
+            if(s == null || s.isEmpty() || s.equals("")) continue;
+            else {
+                String c = color(s);
+                cs.sendMessage(c);
+            }
+        }
+    }
 
     public static void regEvents(Listener... ll) {
         regEvents(PLUGIN, ll);

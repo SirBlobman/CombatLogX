@@ -1,8 +1,8 @@
 package com.SirBlobman.npc.utility;
 
-import com.SirBlobman.combatlogx.utility.Util;
-import com.SirBlobman.npc.config.ConfigCitizens;
-import com.SirBlobman.npc.config.ConfigData;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -13,10 +13,12 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.mcmonkey.sentinel.SentinelTrait;
 
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import com.SirBlobman.combatlogx.Combat;
+import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.npc.config.ConfigCitizens;
+import com.SirBlobman.npc.config.ConfigData;
 
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
@@ -61,6 +63,19 @@ public class NPCUtil extends Util {
         npc.addTrait(LookClose.class);
         npc.addTrait(CombatNPC.class);
         npc.getTrait(CombatNPC.class).setCombatNPC(true);
+        
+        if(ConfigCitizens.OPTION_NPC_USE_SENTINEL) {
+            LivingEntity enemy = Combat.getEnemy(p);
+            if(enemy != null && enemy instanceof Player) {
+                Player penemy = (Player) enemy;
+                npc.addTrait(SentinelTrait.class);
+                
+                SentinelTrait st = npc.getTrait(SentinelTrait.class);
+                st.setInvincible(false);
+                st.setHealth(health);
+                st.addTarget(penemy.getUniqueId());
+            }
+        }
 
         npc.data().set(NPC.DEFAULT_PROTECTED_METADATA, false);
         npc.data().set(NPC.DAMAGE_OTHERS_METADATA, true);

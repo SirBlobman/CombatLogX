@@ -63,7 +63,10 @@ There is a config file for different commands if you need to change the default<
 <h2>5) Citizens Compatibility</h2>
 The Citizens Compatibility expansion can be found inside the 'CombatLogX.zip' file as <i>CompatCitizens.jar</i><br/>
 This expansion creates NPCs of the players that logged out so that there are no easy kills<br/>
-Citizens can be found here: https://www.spigotmc.org/resources/citizens.13811/<br/><br/>
+If you have the "Sentinel" plugin installed, you can enable "use sentinel" in the config.<br/>
+This will allow CombatLogX to set the player's enemy as the target for the NPC<br/>
+Citizens can be found here: https://www.spigotmc.org/resources/citizens.13811/<br/>
+Sentinel can be found here: https://www.spigotmc.org/resources/sentinel.22017/<br/><br/>
 
 <h2>6) CrackShot Compatibility</h2>
 The CrackShot Compatibility expansion can be found inside the 'CombatLogX.zip' file as <i>CompatCrackShot.jar</i><br/>

@@ -1,9 +1,5 @@
 package com.SirBlobman.combatlogx.expansion;
 
-import com.SirBlobman.combatlogx.CombatLogX;
-import com.SirBlobman.combatlogx.utility.Util;
-import com.SirBlobman.combatlogx.utility.WordUtil;
-
 import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URI;
@@ -11,10 +7,15 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+
+import com.SirBlobman.combatlogx.CombatLogX;
+import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.combatlogx.utility.WordUtil;
 
 public class Expansions {
     private static final File FOLDER = CombatLogX.FOLDER;
@@ -54,6 +55,11 @@ public class Expansions {
             ex.printStackTrace();
             return false;
         }
+    }
+    
+    public static List<CLXExpansion> getExpansions() {
+        List<CLXExpansion> list = Util.newList(EXPANSIONS.values());
+        return list;
     }
 
     @SuppressWarnings("unchecked")

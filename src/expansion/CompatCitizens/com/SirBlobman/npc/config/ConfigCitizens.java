@@ -1,6 +1,7 @@
 package com.SirBlobman.npc.config;
 
 import com.SirBlobman.combatlogx.config.Config;
+import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.npc.CompatCitizens;
 
@@ -39,10 +40,12 @@ public class ConfigCitizens extends Config {
     public static String OPTION_NPC_ENTITY_TYPE = EntityType.PLAYER.name();
     public static int OPTION_NPC_SURVIVAL_TIME = 0;
     public static boolean OPTION_MODIFY_INVENTORIES = false;
+    public static boolean OPTION_NPC_USE_SENTINEL = false;
 
     private static void defaults() {
         OPTION_NPC_ENTITY_TYPE = get(config, "options.npc.entity type", EntityType.PLAYER.name());
         OPTION_NPC_SURVIVAL_TIME = get(config, "options.npc.survival time", 300);
+        OPTION_NPC_USE_SENTINEL = get(config, "options.npc.use sentinel", PluginUtil.isPluginEnabled("Sentinel", "mcmonkey"));
 
         OPTION_MODIFY_INVENTORIES = get(config, "options.modify inventories", false);
         save();
