@@ -1,8 +1,6 @@
 package com.SirBlobman.factions.compat;
 
-import com.SirBlobman.combatlogx.utility.CombatUtil;
-import com.SirBlobman.combatlogx.utility.Util;
-import com.SirBlobman.preciousstones.config.ConfigPreciousStones;
+import java.util.List;
 
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -12,7 +10,9 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.util.Vector;
 
-import java.util.List;
+import com.SirBlobman.combatlogx.utility.CombatUtil;
+import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.factions.config.ConfigFactions;
 
 public abstract class FactionsUtil extends Util {
     public static FactionsUtil getFactions() {
@@ -47,7 +47,7 @@ public abstract class FactionsUtil extends Util {
             Vector from = center.toVector();
             Vector to = original.toVector();
             Vector vector = to.subtract(from);
-            vector.multiply(ConfigPreciousStones.OPTION_NO_SAFEZONE_ENTRY_STRENGTH);
+            vector.multiply(ConfigFactions.OPTION_NO_SAFEZONE_ENTRY_STRENGTH);
             vector.setY(0);
             return vector;
         } else
@@ -60,7 +60,7 @@ public abstract class FactionsUtil extends Util {
             Vector from = center.toVector();
             Vector to = original.toVector();
             Vector vector = to.subtract(from);
-            vector.multiply(ConfigPreciousStones.OPTION_NO_SAFEZONE_ENTRY_STRENGTH);
+            vector.multiply(ConfigFactions.OPTION_NO_SAFEZONE_ENTRY_STRENGTH);
             vector.setY(0);
             return vector;
         } else

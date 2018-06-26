@@ -49,7 +49,7 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
     }
 
     public String getVersion() {
-        return "3";
+        return "4";
     }
 
     @EventHandler

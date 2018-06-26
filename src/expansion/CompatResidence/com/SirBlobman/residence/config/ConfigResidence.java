@@ -1,4 +1,4 @@
-package com.SirBlobman.preciousstones.config;
+package com.SirBlobman.residence.config;
 
 import java.io.File;
 
@@ -6,11 +6,10 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.SirBlobman.combatlogx.config.Config;
 import com.SirBlobman.combatlogx.utility.Util;
-import com.SirBlobman.preciousstones.CompatPreciousStones;
 
-public class ConfigPreciousStones extends Config {
-    private static final File FOLDER = CompatPreciousStones.FOLDER;
-    private static final File FILE = new File(FOLDER, "precious stones.yml");
+public class ConfigResidence extends Config {
+    private static final File FOLDER = CompatResidence.FOLDER;
+    private static final File FILE = new File(FOLDER, "residence.yml");
     private static YamlConfiguration config = new YamlConfiguration();
 
     public static YamlConfiguration load() {
@@ -34,16 +33,10 @@ public class ConfigPreciousStones extends Config {
             ex.printStackTrace();
         }
     }
-
-    public static boolean OPTION_NO_SAFEZONE_ENTRY = true;
-    public static String OPTION_NO_SAFEZONE_ENTRY_MODE = "";
-    public static double OPTION_NO_SAFEZONE_ENTRY_STRENGTH = 0.0D;
+    
+    
 
     private static void defaults() {
-        OPTION_NO_SAFEZONE_ENTRY = get("options.safezones.no entry", true);
-        OPTION_NO_SAFEZONE_ENTRY_MODE = get("options.safezones.mode", "KNOCKBACK").toUpperCase();
-        OPTION_NO_SAFEZONE_ENTRY_STRENGTH = get("options.safezones.knockback strength", 5.0D);
-
         save();
     }
 

@@ -1,13 +1,6 @@
 package com.SirBlobman.preciousstones;
 
-import com.SirBlobman.combatlogx.Combat;
-import com.SirBlobman.combatlogx.config.ConfigLang;
-import com.SirBlobman.combatlogx.config.NoEntryMode;
-import com.SirBlobman.combatlogx.event.PlayerCombatEvent;
-import com.SirBlobman.combatlogx.expansion.CLXExpansion;
-import com.SirBlobman.combatlogx.utility.PluginUtil;
-import com.SirBlobman.combatlogx.utility.Util;
-import com.SirBlobman.preciousstones.config.ConfigPreciousStones;
+import java.io.File;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -20,7 +13,14 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.util.Vector;
 
-import java.io.File;
+import com.SirBlobman.combatlogx.Combat;
+import com.SirBlobman.combatlogx.config.ConfigLang;
+import com.SirBlobman.combatlogx.config.NoEntryMode;
+import com.SirBlobman.combatlogx.event.PlayerCombatEvent;
+import com.SirBlobman.combatlogx.expansion.CLXExpansion;
+import com.SirBlobman.combatlogx.utility.PluginUtil;
+import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.preciousstones.config.ConfigPreciousStones;
 
 public class CompatPreciousStones implements CLXExpansion, Listener {
     public static File FOLDER;

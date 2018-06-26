@@ -52,10 +52,10 @@ public class WorldGuardUtil extends Util {
         for (ProtectedRegion pr : list) {
             int npri = pr.getPriority();
             if (npri > priority) {
+                priority = npri;
                 boolean safe = isSafeZone(pr);
                 safeZone = safe;
-            } else
-                continue;
+            } else continue;
         }
         return safeZone;
     }
@@ -65,12 +65,9 @@ public class WorldGuardUtil extends Util {
         Set<Flag<?>> flags = map.keySet();
         if (flags.contains(DefaultFlag.PVP)) {
             State state = pr.getFlag(DefaultFlag.PVP);
-            if (state == null || state == State.ALLOW)
-                return false;
-            else
-                return true;
-        } else
-            return false;
+            if (state == null || state == State.ALLOW) return false;
+            else return true;
+        } else return false;
     }
 
     public static boolean isSafeFromMobs(Location to) {
@@ -80,10 +77,10 @@ public class WorldGuardUtil extends Util {
         for (ProtectedRegion pr : list) {
             int npri = pr.getPriority();
             if (npri > priority) {
+                priority = npri;
                 boolean safe = isSafeFromMobs(pr);
                 safezone = safe;
-            } else
-                continue;
+            } else continue;
         }
         return safezone;
     }
