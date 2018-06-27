@@ -41,17 +41,9 @@ public class CheatPrevention implements CLXExpansion, Listener {
         Util.regEvents(this);
     }
 
-    public String getUnlocalizedName() {
-        return "CheatPrevention";
-    }
-
-    public String getName() {
-        return "Cheat Prevention";
-    }
-
-    public String getVersion() {
-        return "2";
-    }
+    public String getUnlocalizedName() {return "CheatPrevention";}
+    public String getName() {return "Cheat Prevention";}
+    public String getVersion() {return "3";}
 
     @EventHandler
     public void pce(PlayerTagEvent e) {
@@ -157,13 +149,19 @@ public class CheatPrevention implements CLXExpansion, Listener {
             Player p = e.getPlayer();
             TeleportCause tc = e.getCause();
             if (tc == TeleportCause.ENDER_PEARL) {
-                if (ConfigCheatPrevention.CHEAT_PREVENT_TELEPORT_ALLOW_ENDERPEARLS) {
-                    if (ConfigCheatPrevention.CHEAT_PREVENT_TELEPORT_ENDERPEARLS_RESTART) {
-                        Combat.tag(p, Combat.getEnemy(p));
+                if(ConfigCheatPrevention.CHEAT_PREVENT_TELEPORT_ENDERPEARLS_RESTART) Combat.tag(p, Combat.getEnemy(p));
+                
+                if(ConfigCheatPrevention.CHEAT_PREVENT_TELEPORT_ALLOW_ENDERPEARLS) return;
+                else {
+                    if (Combat.isInCombat(p)) {
+                        e.setCancelled(true);
+                        String msg = ConfigLang.MESSAGE_NO_TELEPORT;
+                        Util.sendMessage(p, msg);
                     }
-                    return;
                 }
-            } else if (tc == TeleportCause.COMMAND || tc == TeleportCause.ENDER_PEARL) {
+            } 
+            
+            if(tc == TeleportCause.COMMAND) {
                 if (Combat.isInCombat(p)) {
                     e.setCancelled(true);
                     String msg = ConfigLang.MESSAGE_NO_TELEPORT;

@@ -3,6 +3,7 @@ package com.SirBlobman.worldguard;
 import java.io.File;
 
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -40,17 +41,10 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
         }
     }
 
-    public String getUnlocalizedName() {
-        return "CompatWorldGuard";
-    }
+    public String getUnlocalizedName() {return "CompatWorldGuard";}
+    public String getName() {return "WorldGuard Compatability";}
 
-    public String getName() {
-        return "WorldGuard Compatability";
-    }
-
-    public String getVersion() {
-        return "4";
-    }
+    public String getVersion() {return "5";}
 
     @EventHandler
     public void pce(PlayerCombatEvent e) {
@@ -76,7 +70,9 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
         Player p = e.getPlayer();
         Location from = e.getFrom();
         Location to = e.getTo();
-        checkMoveEvent(p, e, from, to);
+        World world = to.getWorld();
+        String wname = world.getName().toLowerCase();
+        if(!ConfigWorldGuard.OPTION_DISABLED_WORLDS.contains(wname)) checkMoveEvent(p, e, from, to);
     }
 
     @EventHandler
@@ -84,9 +80,13 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
         Player p = e.getPlayer();
         Location from = e.getFrom();
         Location to = e.getTo();
-        String cause = e.getCause().name();
-        if (cause.equals("CHROUS_FRUIT") || cause.equals("ENDER_PEARL") || cause.equals("PLUGIN"))
+        World world = to.getWorld();
+        String wname = world.getName().toLowerCase();
+        if(!ConfigWorldGuard.OPTION_DISABLED_WORLDS.contains(wname)) {
+            String cause = e.getCause().name();
+            if (cause.equals("CHROUS_FRUIT") || cause.equals("ENDER_PEARL") || cause.equals("PLUGIN"))
             checkMoveEvent(p, e, from, to);
+        }
     }
 
     public static void checkMoveEvent(Player p, Cancellable e, Location from, Location to) {
