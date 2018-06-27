@@ -90,12 +90,9 @@ public class WorldGuardUtil extends Util {
         Set<Flag<?>> flags = map.keySet();
         if (flags.contains(DefaultFlag.MOB_SPAWNING)) {
             State state = pr.getFlag(DefaultFlag.MOB_SPAWNING);
-            if (state == null || state == State.ALLOW)
-                return false;
-            else
-                return true;
-        } else
-            return false;
+            if (state == null || state == State.ALLOW)  return false;
+            else return true;
+        } else return false;
     }
 
     public static Location getCenter(World world, ProtectedRegion pr) {
@@ -118,8 +115,7 @@ public class WorldGuardUtil extends Util {
             if (isSafeFromMobs(pr)) {
                 safeZone = pr;
                 break;
-            } else
-                continue;
+            } else continue;
         }
 
         if (safeZone != null) {
@@ -145,8 +141,7 @@ public class WorldGuardUtil extends Util {
 
             org.bukkit.util.Vector unit = new org.bukkit.util.Vector(nx, 0, nz);
             return unit;
-        } else
-            return new org.bukkit.util.Vector(0, 0, 0);
+        } else  return new org.bukkit.util.Vector(0, 0, 0);
     }
 
     public static org.bukkit.util.Vector getSafeZoneKnockbackVector(Location ploc) {
@@ -167,24 +162,9 @@ public class WorldGuardUtil extends Util {
             org.bukkit.util.Vector to = ploc.toVector();
             org.bukkit.util.Vector vector = to.subtract(from);
 
-            double x = vector.getX();
-            double z = vector.getZ();
-
-            double nx = 0;
-            double nz = 0;
-            if (x != 0 && x > 0)
-                nx = 1;
-            else
-                nx = -1;
-            if (z != 0 && z > 0)
-                nz = 1;
-            else
-                nz = -1;
-
-            org.bukkit.util.Vector unit = new org.bukkit.util.Vector(nx, 0, nz);
+            org.bukkit.util.Vector unit = vector.normalize();
             return unit;
-        } else
-            return new org.bukkit.util.Vector(0, 0, 0);
+        } else return new org.bukkit.util.Vector(0, 0, 0);
     }
 
     /*
@@ -195,9 +175,7 @@ public class WorldGuardUtil extends Util {
         if (material.contains(":")) {
             m = material.split(":");
             return m[0];
-        } else {
-            return material;
-        }
+        } else return material;
     }
 
     public static byte getData(String material) {
@@ -205,9 +183,7 @@ public class WorldGuardUtil extends Util {
         if (material.contains(":")) {
             m = material.split(":");
             return (byte) Integer.parseInt(m[1]);
-        } else {
-            return 0;
-        }
+        } else return 0;
     }
 
 }
