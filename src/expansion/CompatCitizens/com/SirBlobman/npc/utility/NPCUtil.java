@@ -189,8 +189,8 @@ public class NPCUtil extends Util {
         @Override
         public void run() {
             if (npc.isSpawned() && isCombatNPC()) {
-                LivingEntity en = (LivingEntity) npc.getEntity();
-                en.setAI(true);
+                //LivingEntity en = (LivingEntity) npc.getEntity();
+                //en.setAI(true);
             }
         }
 

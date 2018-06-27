@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.SirBlobman.combatlogx.config.Config;
 import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.residence.CompatResidence;
 
 public class ConfigResidence extends Config {
     private static final File FOLDER = CompatResidence.FOLDER;
@@ -38,9 +39,5 @@ public class ConfigResidence extends Config {
 
     private static void defaults() {
         save();
-    }
-
-    private static <T> T get(String path, T defaultValue) {
-        return get(config, path, defaultValue);
     }
 }

@@ -17,11 +17,8 @@ public class PluginUtil extends Util {
             Plugin pl = PM.getPlugin(name);
             PluginDescriptionFile pdf = pl.getDescription();
             List<String> authors = pdf.getAuthors();
-            if (authors.contains(author))
-                return true;
-            else
-                return false;
-        } else
-            return false;
+            if (authors.contains(author)) return true;
+            else return false;
+        } else return false;
     }
 }
