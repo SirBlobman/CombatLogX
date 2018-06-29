@@ -41,8 +41,7 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
 
     public String getUnlocalizedName() {return "CompatWorldGuard";}
     public String getName() {return "WorldGuard Compatability";}
-
-    public String getVersion() {return "5";}
+    public String getVersion() {return "6";}
 
     @EventHandler
     public void pce(PlayerCombatEvent e) {
@@ -83,7 +82,7 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
         if(!ConfigWorldGuard.OPTION_DISABLED_WORLDS.contains(wname)) {
             String cause = e.getCause().name();
             if (cause.equals("CHROUS_FRUIT") || cause.equals("ENDER_PEARL") || cause.equals("PLUGIN"))
-            checkMoveEvent(p, e, from, to);
+                checkMoveEvent(p, e, from, to);
         }
     }
 
@@ -92,30 +91,32 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
             if (Combat.isInCombat(p)) {
                 Entity enemy = Combat.getEnemy(p);
                 if (enemy != null) {
-                    if (enemy instanceof Player && WorldGuardUtil.isSafeZone(to)) {
-                        if (p.isInsideVehicle())
-                            p.leaveVehicle();
-                        String mode = ConfigWorldGuard.OPTION_NO_SAFEZONE_ENTRY_MODE;
-                        NoEntryMode nem = NoEntryMode.valueOf(mode);
-                        if (nem == null)
-                            nem = NoEntryMode.CANCEL;
-                        if (nem == NoEntryMode.CANCEL)
-                            e.setCancelled(true);
-                        else if (nem == NoEntryMode.KILL)
-                            p.setHealth(0.0D);
-                        else if (nem == NoEntryMode.KNOCKBACK) {
-                            Vector vector = from.toVector().subtract(to.toVector());
-                            vector = vector.normalize();
-                            vector = vector.setY(0.0D);
-                            vector = vector.multiply(ConfigWorldGuard.OPTION_NO_SAFEZONE_ENTRY_STRENGTH);
-                            p.setVelocity(vector);
-                        } else if (nem == NoEntryMode.TELEPORT) {
-                            Location l = enemy.getLocation();
-                            p.teleport(l);
-                        }
+                    if (enemy instanceof Player) {
+                        if(WorldGuardUtil.isSafeZone(to)) {
+                            if (p.isInsideVehicle())
+                                p.leaveVehicle();
+                            String mode = ConfigWorldGuard.OPTION_NO_SAFEZONE_ENTRY_MODE;
+                            NoEntryMode nem = NoEntryMode.valueOf(mode);
+                            if (nem == null)
+                                nem = NoEntryMode.CANCEL;
+                            if (nem == NoEntryMode.CANCEL)
+                                e.setCancelled(true);
+                            else if (nem == NoEntryMode.KILL)
+                                p.setHealth(0.0D);
+                            else if (nem == NoEntryMode.KNOCKBACK) {
+                                Vector vector = from.toVector().subtract(to.toVector());
+                                vector = vector.normalize();
+                                vector = vector.setY(0.0D);
+                                vector = vector.multiply(ConfigWorldGuard.OPTION_NO_SAFEZONE_ENTRY_STRENGTH);
+                                p.setVelocity(vector);
+                            } else if (nem == NoEntryMode.TELEPORT) {
+                                Location l = enemy.getLocation();
+                                p.teleport(l);
+                            }
 
-                        String error = ConfigLang.MESSAGE_NO_ENTRY;
-                        Util.sendMessage(p, error);
+                            String error = ConfigLang.MESSAGE_NO_ENTRY;
+                            Util.sendMessage(p, error);
+                        }
                     } else if (WorldGuardUtil.isSafeFromMobs(to)) {
                         if (p.isInsideVehicle())
                             p.leaveVehicle();
