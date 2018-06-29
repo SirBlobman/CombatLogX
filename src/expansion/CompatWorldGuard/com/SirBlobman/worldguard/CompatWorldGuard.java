@@ -19,9 +19,7 @@ import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.config.NoEntryMode;
 import com.SirBlobman.combatlogx.event.PlayerCombatEvent;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
-import com.SirBlobman.combatlogx.expansion.Expansions;
 import com.SirBlobman.combatlogx.utility.Util;
-import com.SirBlobman.not.config.ConfigNot;
 import com.SirBlobman.worldguard.config.ConfigWorldGuard;
 import com.SirBlobman.worldguard.olivolja3.ForceField;
 
@@ -34,7 +32,7 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
             FOLDER = getDataFolder();
             ConfigWorldGuard.load();
             Util.regEvents(this);
-            Util.regEvents(new ForceField());
+            if(ConfigWorldGuard.OPTION_FORCEFIELD_ENABLED) Util.regEvents(new ForceField());
         } else {
             String error = "WorldGuard is not installed. This expansion is useless!";
             print(error);
@@ -91,8 +89,6 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
 
     public static void checkMoveEvent(Player p, Cancellable e, Location from, Location to) {
         if (ConfigWorldGuard.OPTION_NO_SAFEZONE_ENTRY) {
-            if (e.isCancelled())
-                return;
             if (Combat.isInCombat(p)) {
                 Entity enemy = Combat.getEnemy(p);
                 if (enemy != null) {
@@ -108,7 +104,9 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
                         else if (nem == NoEntryMode.KILL)
                             p.setHealth(0.0D);
                         else if (nem == NoEntryMode.KNOCKBACK) {
-                            Vector vector = WorldGuardUtil.getSafeZoneKnockbackVector(from);
+                            Vector vector = from.toVector().subtract(to.toVector());
+                            vector = vector.normalize();
+                            vector = vector.setY(0.0D);
                             vector = vector.multiply(ConfigWorldGuard.OPTION_NO_SAFEZONE_ENTRY_STRENGTH);
                             p.setVelocity(vector);
                         } else if (nem == NoEntryMode.TELEPORT) {
@@ -130,7 +128,9 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
                         else if (nem == NoEntryMode.KILL)
                             p.setHealth(0.0D);
                         else if (nem == NoEntryMode.KNOCKBACK) {
-                            Vector vector = WorldGuardUtil.getMobsZoneKnockbackVector(from);
+                            Vector vector = from.toVector().subtract(to.toVector());
+                            vector = vector.normalize();
+                            vector = vector.setY(0.0D);
                             vector = vector.multiply(ConfigWorldGuard.OPTION_NO_SAFEZONE_ENTRY_STRENGTH);
                             p.setVelocity(vector);
                         } else if (nem == NoEntryMode.TELEPORT) {
@@ -140,30 +140,6 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
 
                         String error = ConfigLang.MESSAGE_NO_ENTRY;
                         Util.sendMessage(p, error);
-                    }
-                } else {
-                    if (Expansions.isEnabled("NotCombatLogX")) {
-                        if (ConfigNot.OPTION_NO_SAFEZONE_ENTRY && WorldGuardUtil.isSafeZone(to)) {
-                            if (p.isInsideVehicle())
-                                p.leaveVehicle();
-                            String mode = ConfigWorldGuard.OPTION_NO_SAFEZONE_ENTRY_MODE;
-                            NoEntryMode nem = NoEntryMode.valueOf(mode);
-                            if (nem == null)
-                                nem = NoEntryMode.CANCEL;
-                            if (nem == NoEntryMode.CANCEL)
-                                e.setCancelled(true);
-                            else if (nem == NoEntryMode.KILL)
-                                p.setHealth(0.0D);
-                            else if (nem == NoEntryMode.KNOCKBACK) {
-                                Vector vector = WorldGuardUtil.getSafeZoneKnockbackVector(from);
-                                vector = vector.multiply(ConfigWorldGuard.OPTION_NO_SAFEZONE_ENTRY_STRENGTH);
-                                p.setVelocity(vector);
-                            } else
-                                e.setCancelled(true);
-
-                            String error = ConfigLang.MESSAGE_NO_ENTRY;
-                            Util.sendMessage(p, error);
-                        }
                     }
                 }
             }

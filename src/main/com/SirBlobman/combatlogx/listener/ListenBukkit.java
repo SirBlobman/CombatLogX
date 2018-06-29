@@ -65,17 +65,20 @@ public class ListenBukkit implements Listener {
                     Player p = (Player) led;
                     PlayerCombatEvent pce = new PlayerCombatEvent(p, ler, false);
                     Util.call(pce);
+                    e.setCancelled(pce.isCancelled());
                 }
 
                 if (p2) {
                     Player p = (Player) ler;
                     PlayerCombatEvent pce = new PlayerCombatEvent(p, led, true);
                     Util.call(pce);
+                    e.setCancelled(pce.isCancelled());
                 }
 
                 if (!p1 && !p2) {
                     CombatEvent ce = new CombatEvent(ler, led, true);
                     Util.call(ce);
+                    e.setCancelled(ce.isCancelled());
                 }
             }
         }

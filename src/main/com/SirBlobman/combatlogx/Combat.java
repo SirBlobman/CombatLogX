@@ -135,7 +135,9 @@ public class Combat implements Runnable {
                 Util.call(pte);
                 if(!pte.isCancelled()) {
                     COMBAT.put(p, time);
-                    ENEMIES.put(p, enemy);
+                    if(enemy == null) {
+                        if(!ENEMIES.containsKey(p)) ENEMIES.put(p, null);
+                    } else ENEMIES.put(p, enemy);
                     CombatTimerChangeEvent ctce = new CombatTimerChangeEvent(p, ConfigOptions.OPTION_TIMER);
                     Util.call(ctce);
                 }

@@ -24,17 +24,9 @@ public class Rewards implements CLXExpansion, Listener {
         Util.regEvents(this);
     }
 
-    public String getUnlocalizedName() {
-        return getName();
-    }
-
-    public String getName() {
-        return "Rewards";
-    }
-
-    public String getVersion() {
-        return "1";
-    }
+    public String getUnlocalizedName() {return "Rewards";}
+    public String getName() {return "Rewards";}
+    public String getVersion() {return "2";}
 
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
@@ -43,7 +35,7 @@ public class Rewards implements CLXExpansion, Listener {
         if (killer != null) {
             for (String s : ConfigRewards.OPTION_KILL_COMMANDS) {
                 try {
-                    List<String> l1 = Util.newList("{killer}", "{player}");
+                    List<String> l1 = Util.newList("{player}", "{killer}");
                     List<String> l2 = Util.newList(player.getName(), killer.getName());
                     String cmd = Util.formatMessage(s, l1, l2);
                     if (cmd.startsWith("[PLAYER]")) {
