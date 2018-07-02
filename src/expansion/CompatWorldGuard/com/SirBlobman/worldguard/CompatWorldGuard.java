@@ -69,7 +69,7 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
         Location to = e.getTo();
         World world = to.getWorld();
         String wname = world.getName().toLowerCase();
-        if(!ConfigWorldGuard.OPTION_DISABLED_WORLDS.contains(wname)) checkMoveEvent(p, e, from, to);
+        if(!ConfigWorldGuard.OPTION_DISABLED_WORLDS.contains(wname)) checkEvent(p, e, from, to);
     }
 
     @EventHandler
@@ -81,18 +81,41 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
         String wname = world.getName().toLowerCase();
         if(!ConfigWorldGuard.OPTION_DISABLED_WORLDS.contains(wname)) {
             String cause = e.getCause().name();
-            if (cause.equals("CHROUS_FRUIT") || cause.equals("ENDER_PEARL") || cause.equals("PLUGIN"))
-                checkMoveEvent(p, e, from, to);
+            if (cause.equals("CHROUS_FRUIT") || cause.equals("ENDER_PEARL") || cause.equals("PLUGIN")) checkEvent(p, e, from, to);
         }
     }
 
-    public static void checkMoveEvent(Player p, Cancellable e, Location from, Location to) {
+    public static void checkEvent(Player p, Cancellable e, Location from, Location to) {
         if (ConfigWorldGuard.OPTION_NO_SAFEZONE_ENTRY) {
             if (Combat.isInCombat(p)) {
                 Entity enemy = Combat.getEnemy(p);
                 if (enemy != null) {
-                    if (enemy instanceof Player) {
-                        if(WorldGuardUtil.isSafeZone(to)) {
+                    if(e instanceof PlayerTeleportEvent) e.setCancelled(true);
+                    else {
+                        if (enemy instanceof Player) {
+                            if(WorldGuardUtil.isSafeZone(to)) {
+                                if (p.isInsideVehicle()) p.leaveVehicle();
+                                String mode = ConfigWorldGuard.OPTION_NO_SAFEZONE_ENTRY_MODE;
+                                NoEntryMode nem = NoEntryMode.valueOf(mode);
+                                if (nem == null)  nem = NoEntryMode.CANCEL;
+                                
+                                if (nem == NoEntryMode.CANCEL) e.setCancelled(true);
+                                else if (nem == NoEntryMode.KILL) p.setHealth(0.0D);
+                                else if (nem == NoEntryMode.KNOCKBACK) {
+                                    Vector vector = from.toVector().subtract(to.toVector());
+                                    vector = vector.normalize();
+                                    vector = vector.setY(0.0D);
+                                    vector = vector.multiply(ConfigWorldGuard.OPTION_NO_SAFEZONE_ENTRY_STRENGTH);
+                                    p.setVelocity(vector);
+                                } else if (nem == NoEntryMode.TELEPORT) {
+                                    Location l = enemy.getLocation();
+                                    p.teleport(l);
+                                }
+
+                                String error = ConfigLang.MESSAGE_NO_ENTRY;
+                                Util.sendMessage(p, error);
+                            }
+                        } else if (WorldGuardUtil.isSafeFromMobs(to)) {
                             if (p.isInsideVehicle())
                                 p.leaveVehicle();
                             String mode = ConfigWorldGuard.OPTION_NO_SAFEZONE_ENTRY_MODE;
@@ -117,30 +140,6 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
                             String error = ConfigLang.MESSAGE_NO_ENTRY;
                             Util.sendMessage(p, error);
                         }
-                    } else if (WorldGuardUtil.isSafeFromMobs(to)) {
-                        if (p.isInsideVehicle())
-                            p.leaveVehicle();
-                        String mode = ConfigWorldGuard.OPTION_NO_SAFEZONE_ENTRY_MODE;
-                        NoEntryMode nem = NoEntryMode.valueOf(mode);
-                        if (nem == null)
-                            nem = NoEntryMode.CANCEL;
-                        if (nem == NoEntryMode.CANCEL)
-                            e.setCancelled(true);
-                        else if (nem == NoEntryMode.KILL)
-                            p.setHealth(0.0D);
-                        else if (nem == NoEntryMode.KNOCKBACK) {
-                            Vector vector = from.toVector().subtract(to.toVector());
-                            vector = vector.normalize();
-                            vector = vector.setY(0.0D);
-                            vector = vector.multiply(ConfigWorldGuard.OPTION_NO_SAFEZONE_ENTRY_STRENGTH);
-                            p.setVelocity(vector);
-                        } else if (nem == NoEntryMode.TELEPORT) {
-                            Location l = enemy.getLocation();
-                            p.teleport(l);
-                        }
-
-                        String error = ConfigLang.MESSAGE_NO_ENTRY;
-                        Util.sendMessage(p, error);
                     }
                 }
             }

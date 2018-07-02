@@ -1,23 +1,23 @@
 package com.SirBlobman.towny;
 
+import java.io.File;
+
+import org.bukkit.Location;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.util.Vector;
+
 import com.SirBlobman.combatlogx.Combat;
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.config.NoEntryMode;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.towny.config.ConfigTowny;
-
-import org.bukkit.Location;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
-import org.bukkit.util.Vector;
-
-import java.io.File;
 
 public class CompatTowny implements CLXExpansion, Listener {
     public static File FOLDER;
@@ -34,75 +34,64 @@ public class CompatTowny implements CLXExpansion, Listener {
         }
     }
 
-    public String getUnlocalizedName() {
-        return "CompatTowny";
-    }
-
-    public String getName() {
-        return "Towny Compatability";
-    }
-
-    public String getVersion() {
-        return "2";
-    }
+    public String getUnlocalizedName() {return "CompatTowny";}
+    public String getName() {return "Towny Compatibility";}
+    public String getVersion() {return "3";}
 
     @EventHandler
     public void move(PlayerMoveEvent e) {
-        if (e.isCancelled())
-            return;
-        if (ConfigTowny.OPTION_NO_SAFEZONE_ENTRY) {
-            Player p = e.getPlayer();
-            Location from = e.getFrom();
-            Location to = e.getTo();
-            if (Combat.isInCombat(p)) {
-                if (!TownyUtil.pvp(to)) {
-                    String mode = ConfigTowny.OPTION_NO_SAFEZONE_ENTRY_MODE;
-                    NoEntryMode nem = NoEntryMode.valueOf(mode);
-                    if (nem == null)
-                        nem = NoEntryMode.CANCEL;
-                    if (nem == NoEntryMode.CANCEL)
-                        e.setCancelled(true);
-                    else if (nem == NoEntryMode.KILL)
-                        p.setHealth(0.0D);
-                    else if (nem == NoEntryMode.KNOCKBACK) {
-                        Vector vto = to.toVector();
-                        Vector vfrom = from.toVector();
-                        Vector vector = vfrom.subtract(vto);
-                        vector = vector.normalize();
-                        vector = vector.multiply(ConfigTowny.OPTION_NO_SAFEZONE_ENTRY_STRENGTH);
-                        vector = vector.setY(0);
-                        p.setVelocity(vector);
-                    } else if (nem == NoEntryMode.TELEPORT) {
-                        Entity enemy = Combat.getEnemy(p);
-                        if (enemy != null) {
-                            Location l = enemy.getLocation();
-                            p.teleport(l);
-                        }
-                    }
-
-                    String error = ConfigLang.MESSAGE_NO_ENTRY;
-                    Util.sendMessage(p, error);
-                }
-            }
-        }
+        Player p = e.getPlayer();
+        Location from = e.getFrom();
+        Location to = e.getTo();
+        checkEvent(p, e, from, to);
     }
 
     @EventHandler
     public void tp(PlayerTeleportEvent e) {
-        if (e.isCancelled())
-            return;
-        if (ConfigTowny.OPTION_NO_SAFEZONE_ENTRY && e.getCause() == TeleportCause.ENDER_PEARL) {
-            Player p = e.getPlayer();
-            Location from = e.getFrom();
-            Location to = e.getTo();
-            if (Combat.isInCombat(p)) {
-                if (!TownyUtil.pvp(to)) {
-                    e.setCancelled(true);
-                    String error = ConfigLang.MESSAGE_NO_ENTRY;
-                    Util.sendMessage(p, error);
-                    p.teleport(from);
+        Player p = e.getPlayer();
+        Location from = e.getFrom();
+        Location to = e.getTo();
+        checkEvent(p, e, from, to);
+    }
+
+    private void checkEvent(Player p, Cancellable e, Location from, Location to) {
+        if(e.isCancelled()) return;
+        else {
+            if(ConfigTowny.OPTION_NO_SAFEZONE_ENTRY && Combat.isInCombat(p)) {
+                boolean pvp = TownyUtil.pvp(to);
+                if(!pvp) {
+                    if(e instanceof PlayerTeleportEvent) e.setCancelled(true);
+                    else {
+                        if(p.isInsideVehicle()) p.leaveVehicle();
+                        String mode = ConfigTowny.OPTION_NO_SAFEZONE_ENTRY_MODE;
+                        NoEntryMode nem = NoEntryMode.valueOf(mode);
+                        if(nem == null) nem = NoEntryMode.CANCEL;
+
+                        if(nem == NoEntryMode.CANCEL) {
+                            e.setCancelled(true);
+                        } else if(nem == NoEntryMode.TELEPORT) {
+                            LivingEntity enemy = Combat.getEnemy(p);
+                            if(enemy != null && !enemy.equals(p)) {
+                                Location loc = enemy.getLocation();
+                                p.teleport(loc);
+                            } else p.teleport(from);
+                        } else if(nem == NoEntryMode.KILL) {
+                            p.setHealth(0.0D);
+                        } else if(nem == NoEntryMode.KNOCKBACK) {
+                            Vector vf = from.toVector();
+                            Vector vt = to.toVector();
+                            Vector v = vf.subtract(vt);
+                            v = v.normalize();
+                            v = v.setY(0);
+                            v = v.multiply(ConfigTowny.OPTION_NO_SAFEZONE_ENTRY_STRENGTH);
+                            p.setVelocity(v);
+                        }
+
+                        String error = ConfigLang.MESSAGE_NO_ENTRY;
+                        Util.sendMessage(p, error);
+                    }
                 }
-            }
+            } else return;
         }
     }
 }

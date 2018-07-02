@@ -56,7 +56,6 @@ public class TownyUtil {
         if (town != null) {
             boolean pvp = town.isPVP();
             return pvp;
-        } else
-            return true;
+        } else return true;
     }
 }
