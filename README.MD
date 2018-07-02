@@ -107,12 +107,17 @@ The PreciousStones Compatibility expansion can be found inside the 'CombatLogX.z
 This expansion allows for the use of no-pvp areas in PreciousStones<br/>
 PreciousStones can be found here: https://www.spigotmc.org/resources/preciousstones.5270/<br/><br/>
 
-<h2>11) Towny Compatibility</h2>
+<h2>11) Residence Compatibility</h2>
+The Residence Compatibility expansion can be found inside the 'CombatLogX.zip' file as <i>CompatResidence.jar</i><br/>
+This expansion allows friendly-fire areas not to tag players<br/>
+Residence can be found here: https://www.spigotmc.org/resources/residence-1-7-10-up-to-1-12.11480/<br/><br/>
+
+<h2>12) Towny Compatibility</h2>
 The Towny Compatibility expansion can be found inside the 'CombatLogX.zip' file as <i>CompatTowny.jar</i><br/>
 This expansion allows for the use of no-pvp towns in Towny<br/>
 Towny can be found here: http://towny.palmergames.com/<br/><br/>
 
-<h2>12) WorldGuard Compatibility</h2>
+<h2>13) WorldGuard Compatibility</h2>
 The WorldGuard Compatibility expansion can be found inside the 'CombatLogX.zip' file as <i>CompatWorldGuard.jar</i><br/>
 This expansion allows for the use of no-pvp and no-mob zones in WorldGuard<br/>
 To set a no pvp zone, use "/rg flag <region> pvp deny"<br/>
