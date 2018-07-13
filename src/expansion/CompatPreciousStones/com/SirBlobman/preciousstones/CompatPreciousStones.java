@@ -37,16 +37,13 @@ public class CompatPreciousStones implements CLXExpansion, Listener {
         }
     }
 
-    public String getUnlocalizedName() {
-        return "CompatPreciousStones";
-    }
-
-    public String getName() {
-        return "PreciousStones Compatability";
-    }
-
-    public String getVersion() {
-        return "2";
+    public String getUnlocalizedName() {return "CompatPreciousStones";}
+    public String getName() {return "PreciousStones Compatability";}
+    public String getVersion() {return "3";}
+    
+    @Override
+    public void onConfigReload() {
+        ConfigPreciousStones.load();
     }
 
     @EventHandler

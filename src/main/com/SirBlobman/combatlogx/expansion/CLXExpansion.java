@@ -44,6 +44,12 @@ public interface CLXExpansion {
      * @return The version of your expansion
      */
     public String getVersion();
+    
+    /**
+     * Put some code here that will be executed when 
+     * someone runs the command "/clx reload"
+     */
+    public void onConfigReload();
 
     /**
      * <i>/plugins/CombatLogX/expansions/</i>

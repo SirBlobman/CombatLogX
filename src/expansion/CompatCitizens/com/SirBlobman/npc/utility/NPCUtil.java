@@ -63,13 +63,13 @@ public class NPCUtil extends Util {
         npc.addTrait(LookClose.class);
         npc.addTrait(CombatNPC.class);
         npc.getTrait(CombatNPC.class).setCombatNPC(true);
-        
+
         if(ConfigCitizens.OPTION_NPC_USE_SENTINEL) {
             LivingEntity enemy = Combat.getEnemy(p);
             if(enemy != null && enemy instanceof Player) {
                 Player penemy = (Player) enemy;
                 npc.addTrait(SentinelTrait.class);
-                
+
                 SentinelTrait st = npc.getTrait(SentinelTrait.class);
                 st.setInvincible(false);
                 st.setHealth(health);
@@ -120,8 +120,8 @@ public class NPCUtil extends Util {
     }
 
     public static void removeNPC(UUID uuid) {
-        NPC npc = NPC_REGISTRY.get(uuid);
-        if (npc != null) {
+        if (NPC_REGISTRY.containsKey(uuid)) {
+            NPC npc = NPC_REGISTRY.get(uuid);
             OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
             Location l = npc.getStoredLocation();
             Inventory i = npc.hasTrait(Inventory.class) ? npc.getTrait(Inventory.class) : null;
@@ -136,9 +136,9 @@ public class NPCUtil extends Util {
 
             npc.despawn();
             npc.destroy();
+            CitizensAPI.getNPCRegistry().deregister(npc);
             NPC_REGISTRY.remove(uuid);
-        } else
-            return;
+        }
     }
 
     @SuppressWarnings("deprecation")

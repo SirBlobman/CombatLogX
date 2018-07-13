@@ -30,7 +30,12 @@ public class CompatResidence implements CLXExpansion, Listener {
 
     public String getUnlocalizedName() {return "CompatResidence";}
     public String getName() {return "Residence Compatibility";}
-    public String getVersion() {return "1";}
+    public String getVersion() {return "2";}
+    
+    @Override
+    public void onConfigReload() {
+        ConfigResidence.load();
+    }
     
     @EventHandler
     public void onTag(PlayerTagEvent e) {

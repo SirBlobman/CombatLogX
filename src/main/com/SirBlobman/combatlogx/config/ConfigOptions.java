@@ -38,10 +38,6 @@ public class ConfigOptions extends Config {
     public static boolean OPTION_LOG_TO_FILE = true;
     public static boolean OPTION_LOG_TO_CONSOLE = true;
     public static boolean OPTION_BROADCAST_STARTUP = true;
-    public static boolean OPTION_ACTION_BAR = true;
-    public static boolean OPTION_BOSS_BAR = true;
-    public static String OPTION_BOSS_BAR_COLOR = "";
-    public static boolean OPTION_SCORE_BOARD = true;
     public static boolean OPTION_SELF_COMBAT = true;
     public static boolean OPTION_MOBS_COMBAT = true;
     public static boolean OPTION_LINK_PETS = true;
@@ -71,10 +67,6 @@ public class ConfigOptions extends Config {
         OPTION_CHECK_UPDATES = get("options.check for updates", true);
         OPTION_DISABLED_WORLDS = get("options.disabled worlds", Util.newList("WoRlD", "Lobby", "Creative"));
         OPTION_TIMER = get("options.combat timer", 30);
-        OPTION_ACTION_BAR = get("options.action bar", true);
-        OPTION_BOSS_BAR = get("options.boss bar.enable", true);
-        OPTION_BOSS_BAR_COLOR = get("options.boss bar.color", "YELLOW");
-        OPTION_SCORE_BOARD = get("options.score board", true);
         OPTION_SELF_COMBAT = get("options.self combat", true);
         OPTION_MOBS_COMBAT = get("options.mobs.combat", true);
         OPTION_LINK_PETS = get("options.mobs.link pets", true);

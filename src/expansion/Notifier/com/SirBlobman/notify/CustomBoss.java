@@ -3,6 +3,7 @@ package com.SirBlobman.notify;
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.config.ConfigOptions;
 import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.notify.config.ConfigNotifier;
 
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
@@ -27,7 +28,7 @@ public class CustomBoss {
             String title = Util.formatMessage(ConfigLang.MESSAGE_BOSS_BAR, l1, l2);
             BarStyle bs = BarStyle.SOLID;
             BarColor bc = null;
-            String color = ConfigOptions.OPTION_BOSS_BAR_COLOR;
+            String color = ConfigNotifier.BOSS_BAR_COLOR;
             try {
                 bc = BarColor.valueOf(color);
             } catch (Throwable ex) {
@@ -48,7 +49,7 @@ public class CustomBoss {
     }
 
     public static void changeTime(Player p, long time) {
-        if (ConfigOptions.OPTION_BOSS_BAR) {
+        if (ConfigNotifier.USE_BOSS_BAR) {
             List<String> l1 = Util.newList("{time_left}");
             List<Object> l2 = Util.newList(time);
             String title = Util.formatMessage(ConfigLang.MESSAGE_BOSS_BAR, l1, l2);
@@ -62,7 +63,7 @@ public class CustomBoss {
     }
 
     public static void remove(Player p) {
-        if (ConfigOptions.OPTION_BOSS_BAR) {
+        if (ConfigNotifier.USE_BOSS_BAR) {
             BossBar bb = getBossBar(p);
             String title = Util.color(ConfigLang.MESSAGE_EXPIRE);
             bb.setTitle(title);

@@ -30,16 +30,13 @@ public class NotCombatLogX implements CLXExpansion, Listener {
         Util.regEvents(this, new FinalMonitor());
     }
 
-    public String getUnlocalizedName() {
-        return getName();
-    }
-
-    public String getName() {
-        return "NotCombatLogX";
-    }
-
-    public String getVersion() {
-        return "6";
+    public String getUnlocalizedName() {return "NotCombatLogX";}
+    public String getName() {return getUnlocalizedName();}
+    public String getVersion() {return "7";}
+    
+    @Override
+    public void onConfigReload() {
+        ConfigNot.load();
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

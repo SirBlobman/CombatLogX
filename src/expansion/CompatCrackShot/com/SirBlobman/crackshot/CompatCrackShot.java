@@ -14,15 +14,12 @@ public class CompatCrackShot implements CLXExpansion {
         }
     }
 
-    public String getUnlocalizedName() {
-        return "CompatCrackShot";
-    }
-
-    public String getName() {
-        return "CrackShot Compatability";
-    }
-
-    public String getVersion() {
-        return "2";
+    public String getUnlocalizedName() {return "CompatCrackShot";}
+    public String getName() {return "CrackShot Compatibility";}
+    public String getVersion() {return "3";}
+    
+    @Override
+    public void onConfigReload() {
+        
     }
 }

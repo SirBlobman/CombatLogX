@@ -25,15 +25,12 @@ public class CompatPlaceholderAPI implements CLXExpansion {
         }
     }
 
-    public String getUnlocalizedName() {
-        return "CompatPlaceholderAPI";
-    }
-
-    public String getName() {
-        return "PlaceholderAPI Compatability";
-    }
-
-    public String getVersion() {
-        return "2";
+    public String getUnlocalizedName() {return "CompatPlaceholderAPI";}
+    public String getName() {return "PlaceholderAPI Compatibility";}
+    public String getVersion() {return "3";}
+    
+    @Override
+    public void onConfigReload() {
+        
     }
 }

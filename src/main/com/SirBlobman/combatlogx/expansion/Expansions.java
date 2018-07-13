@@ -128,6 +128,12 @@ public class Expansions {
             ex.printStackTrace();
         }
     }
+    
+    public static void reloadConfigs() {
+        for(CLXExpansion ex : EXPANSIONS.values()) {
+            ex.onConfigReload();
+        }
+    }
 
     public static int expansionsAmount() {
         return EXPANSIONS.size();

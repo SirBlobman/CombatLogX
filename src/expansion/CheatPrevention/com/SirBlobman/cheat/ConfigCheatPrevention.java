@@ -15,7 +15,7 @@ public class ConfigCheatPrevention extends Config {
 
     public static YamlConfiguration load() {
         try {
-            CONFIG = Config.load(FILE);
+            CONFIG = load(FILE);
             defaults();
         } catch (Throwable ex) {
             String error = "Failed to load '" + FILE + "': ";

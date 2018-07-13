@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 public class CompatParties implements CLXExpansion, Listener {
+    @Override
     public void enable() {
         if (Util.PM.isPluginEnabled("Parties")) {
             Util.regEvents(this);
@@ -19,18 +20,15 @@ public class CompatParties implements CLXExpansion, Listener {
         }
     }
 
-    public String getUnlocalizedName() {
-        return "CompatParties";
+    public String getUnlocalizedName() {return "CompatParties";}
+    public String getName() {return "Parties Compatibility";}
+    public String getVersion() {return "3";}
+    
+    @Override
+    public void onConfigReload() {
+        
     }
-
-    public String getName() {
-        return "Parties Compatibility";
-    }
-
-    public String getVersion() {
-        return "1";
-    }
-
+    
     @EventHandler
     public void pce(PlayerCombatEvent e) {
         LivingEntity ler = e.getAttacker();

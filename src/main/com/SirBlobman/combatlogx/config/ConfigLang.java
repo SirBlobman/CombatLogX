@@ -1,11 +1,10 @@
 package com.SirBlobman.combatlogx.config;
 
-import com.SirBlobman.combatlogx.utility.Util;
+import java.io.File;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.File;
-import java.util.List;
+import com.SirBlobman.combatlogx.utility.Util;
 
 public class ConfigLang extends Config {
     private static final File FILE = new File(FOLDER, "language.yml");
@@ -56,14 +55,11 @@ public class ConfigLang extends Config {
     public static String MESSAGE_OPEN_INVENTORY = "";
     public static String MESSAGE_NO_ENTRY = "";
     public static String MESSAGE_NO_TELEPORT = "";
-    public static String MESSAGE_SCOREBOARD_TITLE = "";
     public static String MESSAGE_LOG_TARGET_ONLY = "";
     public static String MESSAGE_LOG_ATTACKER_ONLY = "";
     public static String MESSAGE_LOG_COMBAT = "";
     public static String MESSAGE_FORCE_UNTAG = "";
     public static String MESSAGE_FORCE_TAG = "";
-
-    public static List<String> SCOREBOARD_LIST = Util.newList();
 
     private static void defaults() {
         MESSAGE_PREFIX = get("prefix.normal", "&e[&fCombatLogX&e] &f");
@@ -77,15 +73,12 @@ public class ConfigLang extends Config {
         MESSAGE_FORCE_UNTAG = get("command.combatlogx.force untag", "You removed {target} from combat.");
         MESSAGE_FORCE_TAG = get("command.combatlogx.force tag", "You put {target} into combat. This may cause bugs!");
         MESSAGE_TARGET = get("combat.target.player", "{attacker} attacked you! You are now in combat.");
-        MESSAGE_TARGET_MOB = get("combat.target.entity",
-                "You were attacked by a mob named {attacker}! You are now in combat.");
+        MESSAGE_TARGET_MOB = get("combat.target.entity", "You were attacked by a mob named {attacker}! You are now in combat.");
         MESSAGE_ATTACK = get("combat.attack.player", "You attacked {target}! You are now in combat!");
         MESSAGE_ATTACK_MOB = get("combat.attack.entity", "You attacked a mob named {target}! You are now in combat!");
         MESSAGE_EXPIRE = get("combat.expire", "You are no longer in combat!");
-        MESSAGE_ENEMY_DEATH_PLAYER = get("combat.enemy death.player",
-                "Your enemy called &a{enemy_name}&r has died! You are no longer in combat.");
-        MESSAGE_ENEMY_DEATH_MOB = get("combat.enemy death.mob",
-                "Your enemy called &a{enemy_name}&r has died! You are no longer in combat.");
+        MESSAGE_ENEMY_DEATH_PLAYER = get("combat.enemy death.player", "Your enemy called &a{enemy_name}&r has died! You are no longer in combat.");
+        MESSAGE_ENEMY_DEATH_MOB = get("combat.enemy death.mob", "Your enemy called &a{enemy_name}&r has died! You are no longer in combat.");
         MESSAGE_OPEN_INVENTORY = get("combat.open inventory", "You cannot open storage blocks during combat!");
         MESSAGE_BLOCKED_COMMAND = get("combat.blocked command", "&eYou cannot do &c{command}&e during combat!");
         MESSAGE_NO_ENTRY = get("combat.no entry", "You cannot enter a safe-zone while you are in combat!");
@@ -94,15 +87,9 @@ public class ConfigLang extends Config {
         MESSAGE_NOT_IN_COMBAT = get("combat.out", "You are not in combat!");
         MESSAGE_FAIL = get("combat.fail", "That person is in a No-PvP area!");
         MESSAGE_QUIT = get("combat.quit", "{player} left during combat!");
-        MESSAGE_SCOREBOARD_TITLE = get("scoreboard.title", "&2CombatLogX");
-        MESSAGE_LOG_ATTACKER_ONLY = get("logger.attacker only",
-                "{attacker} was placed into combat by an unknown source (expansion?)");
-        MESSAGE_LOG_TARGET_ONLY = get("logger.target only",
-                "{target} was placed into combat by an unknown source (expansion?)");
+        MESSAGE_LOG_ATTACKER_ONLY = get("logger.attacker only", "{attacker} was placed into combat by an unknown source (expansion?)");
+        MESSAGE_LOG_TARGET_ONLY = get("logger.target only", "{target} was placed into combat by an unknown source (expansion?)");
         MESSAGE_LOG_COMBAT = get("logger.combat", "{target} was attacked by {attacker}");
-
-        SCOREBOARD_LIST = get("scoreboard.list",
-                Util.newList("Time Left: {time_left}", "Enemy: {enemy_name}", "Enemy Health: {enemy_health}"));
         save();
     }
 

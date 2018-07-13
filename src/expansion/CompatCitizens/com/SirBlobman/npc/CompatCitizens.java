@@ -33,16 +33,14 @@ public class CompatCitizens implements CLXExpansion {
             Util.print("Removed all Combat NPCs");
         }
     }
-
-    public String getUnlocalizedName() {
-        return "CompatCitizens";
+    
+    @Override
+    public void onConfigReload() {
+        ConfigCitizens.load();
+        ConfigData.load();
     }
 
-    public String getName() {
-        return "Citizens Compatibility";
-    }
-
-    public String getVersion() {
-        return "4";
-    }
+    public String getUnlocalizedName() {return "CompatCitizens";}
+    public String getName() {return "Citizens Compatibility";}
+    public String getVersion() {return "5";}
 }

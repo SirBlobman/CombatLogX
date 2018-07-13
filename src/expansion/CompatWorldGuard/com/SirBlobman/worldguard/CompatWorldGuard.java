@@ -41,7 +41,12 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
 
     public String getUnlocalizedName() {return "CompatWorldGuard";}
     public String getName() {return "WorldGuard Compatability";}
-    public String getVersion() {return "6";}
+    public String getVersion() {return "7";}
+    
+    @Override
+    public void onConfigReload() {
+        ConfigWorldGuard.load();
+    }
 
     @EventHandler
     public void pce(PlayerCombatEvent e) {

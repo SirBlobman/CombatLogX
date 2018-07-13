@@ -38,18 +38,15 @@ public class CompatFactions implements CLXExpansion, Listener {
             Util.regEvents(this);
         }
     }
-
-    public String getUnlocalizedName() {
-        return "CompatFactions";
+    
+    @Override
+    public void onConfigReload() {
+        ConfigFactions.load();
     }
 
-    public String getName() {
-        return "Factions Compatability";
-    }
-
-    public String getVersion() {
-        return "4";
-    }
+    public String getUnlocalizedName() {return "CompatFactions";}
+    public String getName() {return "Factions Compatibility";}
+    public String getVersion() {return "4";}
 
     @EventHandler
     public void pce(PlayerCombatEvent e) {

@@ -8,12 +8,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.util.Vector;
 
 import com.SirBlobman.combatlogx.Combat;
-import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.config.NoEntryMode;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.utility.Util;
@@ -36,7 +36,12 @@ public class CompatTowny implements CLXExpansion, Listener {
 
     public String getUnlocalizedName() {return "CompatTowny";}
     public String getName() {return "Towny Compatibility";}
-    public String getVersion() {return "3";}
+    public String getVersion() {return "4";}
+    
+    @Override
+    public void onConfigReload() {
+        ConfigTowny.load();
+    }
 
     @EventHandler
     public void move(PlayerMoveEvent e) {
@@ -56,42 +61,49 @@ public class CompatTowny implements CLXExpansion, Listener {
 
     private void checkEvent(Player p, Cancellable e, Location from, Location to) {
         if(e.isCancelled()) return;
-        else {
-            if(ConfigTowny.OPTION_NO_SAFEZONE_ENTRY && Combat.isInCombat(p)) {
-                boolean pvp = TownyUtil.pvp(to);
-                if(!pvp) {
-                    if(e instanceof PlayerTeleportEvent) e.setCancelled(true);
-                    else {
-                        if(p.isInsideVehicle()) p.leaveVehicle();
-                        String mode = ConfigTowny.OPTION_NO_SAFEZONE_ENTRY_MODE;
-                        NoEntryMode nem = NoEntryMode.valueOf(mode);
-                        if(nem == null) nem = NoEntryMode.CANCEL;
 
-                        if(nem == NoEntryMode.CANCEL) {
-                            e.setCancelled(true);
-                        } else if(nem == NoEntryMode.TELEPORT) {
-                            LivingEntity enemy = Combat.getEnemy(p);
-                            if(enemy != null && !enemy.equals(p)) {
-                                Location loc = enemy.getLocation();
-                                p.teleport(loc);
-                            } else p.teleport(from);
-                        } else if(nem == NoEntryMode.KILL) {
-                            p.setHealth(0.0D);
-                        } else if(nem == NoEntryMode.KNOCKBACK) {
-                            Vector vf = from.toVector();
-                            Vector vt = to.toVector();
-                            Vector v = vf.subtract(vt);
-                            v = v.normalize();
-                            v = v.setY(0);
-                            v = v.multiply(ConfigTowny.OPTION_NO_SAFEZONE_ENTRY_STRENGTH);
-                            p.setVelocity(v);
-                        }
+        if (ConfigTowny.OPTION_NO_SAFEZONE_ENTRY && Combat.isInCombat(p)) {
+            boolean pvp = TownyUtil.pvp(to);
 
-                        String error = ConfigLang.MESSAGE_NO_ENTRY;
-                        Util.sendMessage(p, error);
+            if (!pvp) {
+                if(e instanceof PlayerTeleportEvent) e.setCancelled(true);
+                else if(e instanceof EntityDamageEvent) e.setCancelled(true);
+                else {
+                    if (p.isInsideVehicle()) p.leaveVehicle();
+
+                    NoEntryMode nem = NoEntryMode.valueOf(ConfigTowny.OPTION_NO_SAFEZONE_ENTRY_MODE);
+
+                    if (nem == null) nem = NoEntryMode.CANCEL;
+
+                    if (nem == NoEntryMode.CANCEL) e.setCancelled(true);
+                    else if (nem == NoEntryMode.KILL) p.setHealth(0.0D);
+                    else if (nem == NoEntryMode.TELEPORT) {
+                        LivingEntity enemy = Combat.getEnemy(p);
+
+                        if (enemy != null && !enemy.equals(p)) {
+                            Location enemyLoc = enemy.getEyeLocation();
+
+                            p.teleport(enemyLoc);
+                        } else p.teleport(from);
+                    } else if (nem == NoEntryMode.KNOCKBACK) {
+                        Vector fromVector = from.toVector(),
+                                toVector = to.toVector(),
+                                subtracted = fromVector.subtract(toVector);
+
+                        subtracted.normalize();
+                        subtracted.setY(0);
+                        subtracted = subtracted.multiply(ConfigTowny.OPTION_NO_SAFEZONE_ENTRY_STRENGTH);
+
+                        p.setVelocity(subtracted);
                     }
                 }
-            } else return;
+            } else {
+                //Lets check if they're within a town and entered combat
+                if (TownyUtil.getTown(p.getLocation()) != null) {
+                    //They are in a town and attempting combat. Let's cancel it.
+                    e.setCancelled(true);
+                }
+            }
         }
     }
 }

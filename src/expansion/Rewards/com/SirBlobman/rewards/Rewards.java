@@ -26,7 +26,12 @@ public class Rewards implements CLXExpansion, Listener {
 
     public String getUnlocalizedName() {return "Rewards";}
     public String getName() {return "Rewards";}
-    public String getVersion() {return "2";}
+    public String getVersion() {return "3";}
+    
+    @Override
+    public void onConfigReload() {
+        ConfigRewards.load();
+    }
 
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {

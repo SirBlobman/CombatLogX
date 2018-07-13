@@ -40,10 +40,15 @@ public class CheatPrevention implements CLXExpansion, Listener {
         ConfigCheatPrevention.load();
         Util.regEvents(this);
     }
+    
+    @Override
+    public void onConfigReload() {
+        ConfigCheatPrevention.load();
+    }
 
     public String getUnlocalizedName() {return "CheatPrevention";}
     public String getName() {return "Cheat Prevention";}
-    public String getVersion() {return "3";}
+    public String getVersion() {return "4";}
 
     @EventHandler
     public void pce(PlayerTagEvent e) {
@@ -149,7 +154,7 @@ public class CheatPrevention implements CLXExpansion, Listener {
             Player p = e.getPlayer();
             TeleportCause tc = e.getCause();
             if (tc == TeleportCause.ENDER_PEARL) {
-                if(ConfigCheatPrevention.CHEAT_PREVENT_TELEPORT_ENDERPEARLS_RESTART) Combat.tag(p, Combat.getEnemy(p));
+                if(ConfigCheatPrevention.CHEAT_PREVENT_TELEPORT_ENDERPEARLS_RESTART && Combat.isInCombat(p)) Combat.tag(p, Combat.getEnemy(p));
                 
                 if(ConfigCheatPrevention.CHEAT_PREVENT_TELEPORT_ALLOW_ENDERPEARLS) return;
                 else {
@@ -181,20 +186,22 @@ public class CheatPrevention implements CLXExpansion, Listener {
             String cmd = msg.toLowerCase();
             boolean whitelist = ConfigCheatPrevention.CHEAT_PREVENT_BLOCKED_COMMANDS_MODE;
             List<String> list = ConfigCheatPrevention.CHEAT_PREVENT_BLOCKED_COMMANDS;
-            if (!whitelist) {
-                for (String blocked : list) {
-                    blocked = "/" + blocked.toLowerCase();
-                    if (cmd.startsWith(blocked)) {
-                        e.setCancelled(true);
+            if(whitelist) {
+                e.setCancelled(true);
+                String[] split1 = cmd.split(" ");
+                for(String s : list) {
+                    String[] split2 = s.split(" ");
+                    if(split1[0].equals(split2[0])) {
+                        e.setCancelled(false);
                         break;
                     }
                 }
             } else {
-                e.setCancelled(true);
-                for (String allowed : list) {
-                    allowed = "/" + allowed.toLowerCase();
-                    if (cmd.startsWith(allowed)) {
-                        e.setCancelled(false);
+                String[] split1 = cmd.split(" ");
+                for(String s : list) {
+                    String[] split2 = s.split(" ");
+                    if(split1[0].equals(split2[0])) {
+                        e.setCancelled(true);
                         break;
                     }
                 }
