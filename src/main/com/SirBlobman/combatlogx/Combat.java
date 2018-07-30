@@ -47,7 +47,7 @@ public class Combat implements Runnable {
         Set<Player> set = clone.keySet();
 
         set.forEach(player -> {
-            if (timeLeft(player) <= 10) {
+            if (timeLeft(player) <= 0) {
                 PlayerUntagEvent playerUntagEvent = new PlayerUntagEvent(player, UntagCause.EXPIRE);
 
                 Util.call(playerUntagEvent);
