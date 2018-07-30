@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project 
+    xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    
+	<modelVersion>4.0.0</modelVersion>
+	<packaging>pom</packaging>
+    
+    <parent>
+        <groupId>com.SirBlobman</groupId>
+        <artifactId>CombatLogX-parent</artifactId>
+        <version>9.0.0.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+	<artifactId>combatlogx-legacy-parent</artifactId>
+	<name>CombatLogX Legacy</name>
+	<description>This is the CombatLogX pom packaging for 1.8.8-1.12.2</description>
+
+	<modules>
+		<!-- CombatLogX -->
+		<module>main</module>
+
+		<!-- Normal Expansions -->
+
+		<!-- Plugin Support Expansions -->
+	</modules>
+
+	<repositories>
+		<repository>
+			<id>spigot-repo</id>
+			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot-api</artifactId>
+			<version>1.8.8-R0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot</artifactId>
+			<version>1.8.8-R0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.7.0</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<delete file="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\legacy\target\CombatLogX.zip"/>
+								<delete file="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\legacy\target\Expansions.zip"/>
+								<zip destfile="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\legacy\target\Expansions.zip">
+									<fileset file="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Testing Servers\CombatLogX\plugins\CombatLogX\expansions\*.jar"></fileset>
+								</zip>
+								<zip destfile="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\legacy\target\CombatLogX.zip">
+									<fileset file="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Testing Servers\CombatLogX\plugins\CombatLogX.jar"/>
+									<zipfileset src="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\legacy\target\Expansions.zip" prefix="CombatLogX/expansions" includes="*.jar"></zipfileset>
+								</zip>
+								<delete file="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\legacy\target\Expansions.zip"/>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

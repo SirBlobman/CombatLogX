@@ -1,9 +1,14 @@
-/bin/
-/out/
-/lib/
-/1.13/
+# Eclipse
 .settings/
 .externalToolBuilders/
 *.project
 *.classpath
 *.xml
+
+# Java
+*.class
+
+#Maven
+
+# Don't Ignore
+!*pom.xml

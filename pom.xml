@@ -1,0 +1,19 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.SirBlobman</groupId>
+    <artifactId>CombatLogX-parent</artifactId>
+    <version>9.0.0.0</version>
+    <packaging>pom</packaging>
+    
+    <modules>
+        <module>legacy</module>
+        <module>1.13+</module>
+    </modules>
+    
+    <repositories>
+		<repository>
+			<id>spigot-repo</id>
+			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+		</repository>
+    </repositories>
+</project>
