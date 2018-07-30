@@ -28,21 +28,17 @@ public class CombatLogX extends JavaPlugin {
         INSTANCE = this;
         FOLDER = getDataFolder();
         CLASS_LOADER = getClassLoader();
-        Util.runLater(new Runnable() {
-            @Override
-            public void run() {
-                ConfigOptions.load();
-                ConfigLang.load();
-                if (ConfigOptions.OPTION_CHECK_UPDATES)
-                    UpdateUtil.checkForUpdates();
-                command("combatlogx", new CommandCombatLogX());
-                command("combattime", new CommandCombatTime());
-                Util.regEvents(new ListenBukkit(), new FinalMonitor());
-                Util.runTimer(new Combat(), 20, 0);
-                Expansions.loadExpansions();
-                if (ConfigOptions.OPTION_BROADCAST_STARTUP)
-                    Util.broadcast("&2Enabled");
-            }
+        Util.runLater(() -> {
+            ConfigOptions.load();
+            ConfigLang.load();
+            if (ConfigOptions.OPTION_CHECK_UPDATES)
+                UpdateUtil.checkForUpdates();
+            command("combatlogx", new CommandCombatLogX());
+            command("combattime", new CommandCombatTime());
+            Util.regEvents(new ListenBukkit(), new FinalMonitor());
+            Util.runTimer(new Combat(), 20, 0);
+            Expansions.loadExpansions();
+            if (ConfigOptions.OPTION_BROADCAST_STARTUP) Util.broadcast("&2Enabled");
         }, 0);
     }
 
@@ -51,7 +47,7 @@ public class CombatLogX extends JavaPlugin {
         Expansions.onDisable();
     }
 
-    public void command(String cmd, CommandExecutor ce) {
+    private void command(String cmd, CommandExecutor ce) {
         PluginCommand pc = getCommand(cmd);
         if (pc != null) {
             if (ce != null) {

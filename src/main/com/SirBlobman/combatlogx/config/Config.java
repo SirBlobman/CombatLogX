@@ -33,8 +33,7 @@ public class Config {
         Object o = config.get(path);
         Class<?> clazz = defaultValue.getClass();
         if (o != null && clazz.isInstance(o)) {
-            T t = (T) clazz.cast(o);
-            return t;
+            return (T) clazz.cast(o);
         } else {
             config.set(path, defaultValue);
             return defaultValue;

@@ -15,77 +15,73 @@ public class UpdateUtil extends Util {
     private static String pluginVersion = null;
 
     public static void checkForUpdates() {
-        BS.runTaskAsynchronously(PLUGIN, new Runnable() {
-            @Override
-            public void run() {
-                String spigotVersion = getSpigotVersion();
-                String pluginVersion = getPluginVersion();
-                int pluginMajor = getPluginVersionMajor();
-                int spigotMajor = getSpigotVersionMajor();
-                
-                if(pluginMajor == -1 || spigotMajor == -1) {
-                    String[] error = getErrorMessage();
-                    printNoPrefix(error);
-                } else if(pluginMajor == spigotMajor) {
-                    int pluginMinor = getPluginVersionMinor();
-                    int spigotMinor = getSpigotVersionMinor();
-                    
-                    if(pluginMinor == spigotMinor) {
-                        int pluginPatch = getPluginVersionPatch();
-                        int spigotPatch = getSpigotVersionPatch();
-                        
-                        if(pluginPatch == spigotPatch) {
-                            int pluginExpan = getPluginVersionExpansion();
-                            int spigotExpan = getSpigotVersionExpansion();
-                            
-                            if(pluginExpan == spigotExpan) {
-                                String[] msg = getUpdatedMessage();
-                                printNoPrefix(msg);
-                            } else if(pluginExpan > spigotExpan) {
-                                String[] msg = getBetaMessage();
-                                printNoPrefix(msg);
-                            } else if(pluginExpan < spigotExpan) {
-                                String[] msg = getUpdateMessage(pluginVersion, spigotVersion);
-                                printNoPrefix(msg);
-                            }
-                        } else if(pluginPatch > spigotPatch) {
+        BS.runTaskAsynchronously(PLUGIN, () -> {
+            String spigotVersion = getSpigotVersion();
+            String pluginVersion = getPluginVersion();
+            int pluginMajor = getPluginVersionMajor();
+            int spigotMajor = getSpigotVersionMajor();
+
+            if(pluginMajor == -1 || spigotMajor == -1) {
+                String[] error = getErrorMessage();
+                printNoPrefix(error);
+            } else if(pluginMajor == spigotMajor) {
+                int pluginMinor = getPluginVersionMinor();
+                int spigotMinor = getSpigotVersionMinor();
+
+                if(pluginMinor == spigotMinor) {
+                    int pluginPatch = getPluginVersionPatch();
+                    int spigotPatch = getSpigotVersionPatch();
+
+                    if(pluginPatch == spigotPatch) {
+                        int pluginExpan = getPluginVersionExpansion();
+                        int spigotExpan = getSpigotVersionExpansion();
+
+                        if(pluginExpan == spigotExpan) {
+                            String[] msg = getUpdatedMessage();
+                            printNoPrefix(msg);
+                        } else if(pluginExpan > spigotExpan) {
                             String[] msg = getBetaMessage();
                             printNoPrefix(msg);
-                        } else if(pluginPatch < spigotPatch) {
+                        } else if(pluginExpan < spigotExpan) {
                             String[] msg = getUpdateMessage(pluginVersion, spigotVersion);
                             printNoPrefix(msg);
                         }
-                    } else if(pluginMinor > spigotMinor) {
+                    } else if(pluginPatch > spigotPatch) {
                         String[] msg = getBetaMessage();
                         printNoPrefix(msg);
-                    } else if(pluginMinor < spigotMinor) {
+                    } else if(pluginPatch < spigotPatch) {
                         String[] msg = getUpdateMessage(pluginVersion, spigotVersion);
                         printNoPrefix(msg);
                     }
-                } else if(pluginMajor > spigotMajor) {
+                } else if(pluginMinor > spigotMinor) {
                     String[] msg = getBetaMessage();
                     printNoPrefix(msg);
-                } else if(pluginMajor < spigotMajor) {
+                } else if(pluginMinor < spigotMinor) {
                     String[] msg = getUpdateMessage(pluginVersion, spigotVersion);
                     printNoPrefix(msg);
                 }
+            } else if(pluginMajor > spigotMajor) {
+                String[] msg = getBetaMessage();
+                printNoPrefix(msg);
+            } else if(pluginMajor < spigotMajor) {
+                String[] msg = getUpdateMessage(pluginVersion, spigotVersion);
+                printNoPrefix(msg);
             }
         });
     }
     
     public static String[] getErrorMessage() {
-        String[] error = Util.color(
+        return Util.color(
             "&8==============================================",
             "&eCombatLogX Update Checker",
             " ",
             "&cThere was an error checking for updates",
             "&8=============================================="
         );
-        return error;
     }
     
     public static String[] getBetaMessage() {
-        String[] msg = Util.color(
+        return Util.color(
             "&8==============================================",
             "&eCombatLogX Update Checker",
             " ",
@@ -93,22 +89,20 @@ public class UpdateUtil extends Util {
             "&cThanks for testing CombatLogX!",
             "&8=============================================="
         );
-        return msg;
     }
     
     public static String[] getUpdatedMessage() {
-        String[] msg = Util.color(
+        return Util.color(
             "&8==============================================",
             "&eCombatLogX Update Checker",
             " ",
             "&aYou are using the latest version!",
             "&8=============================================="
         );
-        return msg;
     }
     
     public static String[] getUpdateMessage(String pluginVersion, String spigotVersion) {
-        String[] msg = Util.color(
+        return Util.color(
             "&8==============================================",
             "&eCombatLogX Update Checker",
             " ",
@@ -118,7 +112,6 @@ public class UpdateUtil extends Util {
             "&eGet it here: &bhttps://www.spigotmc.org/resources/combatlogx.31689/",
             "&8=============================================="
         );
-        return msg;
     }
 
     public static String getSpigotVersion() {
@@ -177,57 +170,49 @@ public class UpdateUtil extends Util {
     public static int getPluginVersionMajor() {
         String version = getPluginVersion();
         int[] all = getVersionAll(version);
-        int major = all[0];
-        return major;
+        return all[0];
     }
     
     public static int getPluginVersionMinor() {
         String version = getPluginVersion();
         int[] all = getVersionAll(version);
-        int minor = all[1];
-        return minor;
+        return all[1];
     }
     
     public static int getPluginVersionPatch() {
         String version = getPluginVersion();
         int[] all = getVersionAll(version);
-        int patch = all[2];
-        return patch;
+        return all[2];
     }
     
     public static int getPluginVersionExpansion() {
         String version = getPluginVersion();
         int[] all = getVersionAll(version);
-        int expansion = all[3];
-        return expansion;
+        return all[3];
     }
     
     // Spigot Version Parts
     public static int getSpigotVersionMajor() {
         String version = getSpigotVersion();
         int[] all = getVersionAll(version);
-        int major = all[0];
-        return major;
+        return all[0];
     }
     
     public static int getSpigotVersionMinor() {
         String version = getSpigotVersion();
         int[] all = getVersionAll(version);
-        int minor = all[1];
-        return minor;
+        return all[1];
     }
     
     public static int getSpigotVersionPatch() {
         String version = getSpigotVersion();
         int[] all = getVersionAll(version);
-        int patch = all[2];
-        return patch;
+        return all[2];
     }
     
     public static int getSpigotVersionExpansion() {
         String version = getSpigotVersion();
         int[] all = getVersionAll(version);
-        int expansion = all[3];
-        return expansion;
+        return all[3];
     }
 }

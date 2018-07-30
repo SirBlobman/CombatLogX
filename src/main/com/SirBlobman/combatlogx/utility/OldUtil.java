@@ -11,16 +11,15 @@ public class OldUtil extends Util {
         try {
             if (le instanceof Player) {
                 Player p = (Player) le;
-                String name = p.getName();
-                return name;
+
+                return p.getName();
             } else {
-                String name = le.getName();
-                return name;
+                return le.getName();
             }
         } catch (Throwable ex) {
             EntityType et = le.getType();
-            String name = et.name();
-            return name;
+
+            return et.name();
         }
     }
 
@@ -29,9 +28,8 @@ public class OldUtil extends Util {
             return "None";
         try {
             double health = e.getHealth();
-            DecimalFormat df = new DecimalFormat("#.##");
-            String f = df.format(health);
-            return f;
+            DecimalFormat df = new DecimalFormat("0.00");
+            return df.format(health);
         } catch (Throwable ex) {
             return "";
         }

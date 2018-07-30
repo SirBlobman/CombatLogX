@@ -1,5 +1,7 @@
 package com.SirBlobman.combatlogx.utility;
 
+import java.util.stream.IntStream;
+
 public class WordUtil extends Util {
     public static String withAmount(String o, int i) {
         if (i == 1)
@@ -18,9 +20,8 @@ public class WordUtil extends Util {
     }
 
     public static String getPassedBars(int amount) {
-        String s = color("&c");
-        for (int i = 0; i < amount; i++)
-            s = s + '|';
-        return s;
+        StringBuilder s = new StringBuilder(color("&c"));
+        IntStream.range(0, amount).map(i -> '|').forEach(s::append);
+        return s.toString();
     }
 }

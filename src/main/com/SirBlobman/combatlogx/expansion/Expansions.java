@@ -1,14 +1,12 @@
 package com.SirBlobman.combatlogx.expansion;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -77,46 +75,37 @@ public class Expansions {
             if (!EXPAND.exists())
                 EXPAND.mkdirs();
             File[] files = EXPAND.listFiles();
-            for (File file : files) {
-                if (file.isDirectory())
-                    continue;
+            Arrays.stream(files != null ? files : new File[0]).filter(file -> !file.isDirectory()).forEach(file -> {
                 if (isJar(file)) {
-                    JarFile jar = null;
-                    try {
-                        jar = loadJar(file);
+                    try (JarFile jar = loadJar(file)) {
                         Enumeration<JarEntry> entries = jar.entries();
+
                         while (entries.hasMoreElements()) {
-                            JarEntry je = entries.nextElement();
-                            if (!je.isDirectory()) {
-                                String jname = className(je);
+                            JarEntry jarEntry = entries.nextElement();
+
+                            if (!jarEntry.isDirectory()) {
                                 try {
-                                    if (isClass(je)) {
-                                        Class<?> clazz = Class.forName(jname);
-                                        if (loadExpansion(clazz))
-                                            break;
+                                    if (isClass(jarEntry)) {
+                                        Class<?> clazz = Class.forName(className(jarEntry));
+                                        if (loadExpansion(clazz)) break;
+
                                     }
                                 } catch (Throwable ex) {
-                                    String error = "Failed to load class '" + jname + "'";
+                                    String error = "Failed to load class '" + className(jarEntry) + "'";
                                     Util.print(error);
                                 }
                             }
                         }
-                    } catch (Throwable ex) {
+                    } catch (Throwable throwable) {
                         String error = "Failed to install expansion from JAR '" + file + "'";
                         Util.print(error);
-                        ex.printStackTrace();
-                    } finally {
-                        try {
-                            if (jar != null)
-                                jar.close();
-                        } catch (Throwable ex) {
-                        }
+                        throwable.printStackTrace();
                     }
                 } else {
                     String error = "Found non-jar file at '" + file + "'. Please remove it!";
                     Util.print(error);
                 }
-            }
+            });
 
             int count = expansionsAmount();
             String msg = WordUtil.withAmount("Loaded %1s expansion", count);
@@ -140,16 +129,11 @@ public class Expansions {
     }
 
     public static CLXExpansion getByName(String name) {
-        if (EXPANSIONS.containsKey(name)) {
-            CLXExpansion clxe = EXPANSIONS.get(name);
-            return clxe;
-        } else
-            return null;
+        return EXPANSIONS.getOrDefault(name, null);
     }
 
     public static boolean isEnabled(String name) {
-        boolean en = EXPANSIONS.containsKey(name);
-        return en;
+        return EXPANSIONS.containsKey(name);
     }
 
     public static String fileExtension(File file) {
@@ -160,18 +144,14 @@ public class Expansions {
         if (i > s) {
             int j = (i + 1);
             String ex = name.substring(j);
-            String l = ex.toLowerCase();
-            return l;
+            return ex.toLowerCase();
         } else
             return "";
     }
 
     private static boolean isJar(File file) {
         String ext = fileExtension(file);
-        if (ext.equals("jar"))
-            return true;
-        else
-            return false;
+        return ext.equals("jar");
     }
 
     @SuppressWarnings("resource")
@@ -196,8 +176,7 @@ public class Expansions {
 
     private static boolean isClass(JarEntry je) {
         String name = je.getName();
-        boolean is = name.endsWith(".class");
-        return is;
+        return name.endsWith(".class");
     }
 
     private static String className(JarEntry je) {
@@ -205,8 +184,7 @@ public class Expansions {
             String name = je.getName();
             String r1 = name.replace(".class", "");
             String r2 = r1.replace("/", ".");
-            String r3 = r2.replace(File.separator, ".");
-            return r3;
+            return r2.replace(File.separator, ".");
         } else
             return "";
     }

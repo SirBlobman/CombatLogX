@@ -42,10 +42,7 @@ public class ListenBukkit implements Listener {
         if (der instanceof Projectile) {
             Projectile p = (Projectile) der;
             ProjectileSource ps = p.getShooter();
-            if (ps instanceof Entity) {
-                Entity en = (Entity) ps;
-                der = en;
-            }
+            if (ps instanceof Entity) der = (Entity) ps;
         }
 
         if (der instanceof Tameable && ConfigOptions.OPTION_LINK_PETS) {

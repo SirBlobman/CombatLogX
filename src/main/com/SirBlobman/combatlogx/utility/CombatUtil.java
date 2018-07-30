@@ -29,20 +29,14 @@ public class CombatUtil extends Util {
                 else {
                     String name1 = OldUtil.getName(le1);
                     String name2 = OldUtil.getName(le2);
-                    if (name1.equals(name2))
-                        return false;
-                    else
-                        return true;
+                    return !name1.equals(name2);
                 }
             } else {
                 if (ConfigOptions.OPTION_MOBS_COMBAT) {
                     List<String> list = ConfigOptions.OPTION_MOBS_BLACKLIST;
                     EntityType et = le2.getType();
                     String type = et.name();
-                    if (list.contains(type))
-                        return false;
-                    else
-                        return true;
+                    return !list.contains(type);
                 } else
                     return false;
             }
@@ -55,20 +49,14 @@ public class CombatUtil extends Util {
                 else {
                     String name1 = OldUtil.getName(le1);
                     String name2 = OldUtil.getName(le2);
-                    if (name1.equals(name2))
-                        return false;
-                    else
-                        return true;
+                    return !name1.equals(name2);
                 }
             } else {
                 if (ConfigOptions.OPTION_MOBS_COMBAT) {
                     List<String> list = ConfigOptions.OPTION_MOBS_BLACKLIST;
                     EntityType et = le1.getType();
                     String type = et.name();
-                    if (list.contains(type))
-                        return false;
-                    else
-                        return true;
+                    return !list.contains(type);
                 } else
                     return false;
             }

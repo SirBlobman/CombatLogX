@@ -43,43 +43,33 @@ public class Combat implements Runnable {
     public void run() {
         HashMap<Player, Long> combat = (HashMap<Player, Long>) COMBAT;
         HashMap<Player, Long> clone = (HashMap<Player, Long>) combat.clone();
+
         Set<Player> set = clone.keySet();
-        for (Player p : set) {
-            long seconds = timeLeft(p);
-            if (seconds <= 0) {
-                PlayerUntagEvent pue = new PlayerUntagEvent(p, UntagCause.EXPIRE);
-                Util.call(pue);
+
+        set.forEach(player -> {
+            if (timeLeft(player) <= 0) {
+                PlayerUntagEvent playerUntagEvent = new PlayerUntagEvent(player, UntagCause.EXPIRE);
+                Util.call(playerUntagEvent);
             } else {
-                CombatTimerChangeEvent ctce = new CombatTimerChangeEvent(p, seconds);
-                Util.call(ctce);
+                CombatTimerChangeEvent combatTimerChangeEvent = new CombatTimerChangeEvent(player, timeLeft(player));
+
+                Util.call(combatTimerChangeEvent);
             }
-        }
+        });
     }
 
     public static boolean isInCombat(Player p) {
-        if (COMBAT.containsKey(p))
-            return true;
-        else
-            return false;
+        return COMBAT.containsKey(p);
     }
 
     public static long timeLeft(Player p) {
-        if (isInCombat(p)) {
-            long millis = COMBAT.get(p);
-            long system = System.currentTimeMillis();
-            long mileft = (millis - system);
-            long seconds = (mileft / 1000);
-            return seconds;
-        } else
-            return -1;
+        long millisecondsRemaining = (COMBAT.get(p) - System.currentTimeMillis());
+
+        return isInCombat(p) ? (millisecondsRemaining / 1000) : -1;
     }
 
     public static LivingEntity getEnemy(Player p) {
-        if (isInCombat(p)) {
-            LivingEntity le = ENEMIES.get(p);
-            return le;
-        } else
-            return null;
+        return isInCombat(p) ? ENEMIES.get(p) : null;
     }
 
     public static Player getByEnemy(LivingEntity le) {
@@ -99,8 +89,8 @@ public class Combat implements Runnable {
 
     public static List<LivingEntity> enemyList() {
         Collection<LivingEntity> lee = ENEMIES.values();
-        List<LivingEntity> list = Util.newList(lee);
-        return list;
+
+        return Util.newList(lee);
     }
 
     /**
@@ -119,11 +109,9 @@ public class Combat implements Runnable {
         List<String> disabled = Util.toLowerCaseList(ConfigOptions.OPTION_DISABLED_WORLDS);
         if (!disabled.contains(world)) {
             boolean bypass = (ConfigOptions.OPTION_BYPASS_ENABLE && p.hasPermission(ConfigOptions.OPTION_BYPASS_PERMISSION));
-            if(!bypass) {
-                long current = System.currentTimeMillis();
-                long timer = (ConfigOptions.OPTION_TIMER * 1000L);
-                long time = (current + timer);
 
+            if(!bypass) {
+                long time = (System.currentTimeMillis() + ConfigOptions.OPTION_TIMER * 1000L);
                 if (!isInCombat(p)) {
                     if (ConfigOptions.OPTION_COMBAT_SUDO_ENABLE) {
                         for(String cmd : ConfigOptions.OPTION_COMBAT_SUDO_COMMANDS) p.performCommand(cmd);
@@ -133,6 +121,7 @@ public class Combat implements Runnable {
 
                 PlayerTagEvent pte = new PlayerTagEvent(p, enemy);
                 Util.call(pte);
+
                 if(!pte.isCancelled()) {
                     COMBAT.put(p, time);
                     if(enemy == null) {
@@ -172,18 +161,13 @@ public class Combat implements Runnable {
 
             if (ConfigOptions.PUNISH_SUDO_LOGGERS) {
                 List<String> list = ConfigOptions.PUNISH_COMMANDS_LOGGERS;
-                for (String cmd : list) {
-                    cmd = format(p, cmd);
-                    p.performCommand(cmd);
-                }
+
+                list.forEach(command -> p.performCommand(format(p, command)));
             }
 
             if (ConfigOptions.PUNISH_CONSOLE) {
                 List<String> list = ConfigOptions.PUNISH_COMMANDS_CONSOLE;
-                for (String cmd : list) {
-                    cmd = format(p, cmd);
-                    Bukkit.dispatchCommand(Util.CONSOLE, cmd);
-                }
+                list.forEach(command -> Bukkit.dispatchCommand(Util.CONSOLE, format(p, command)));
             }
         }
     }
@@ -192,8 +176,8 @@ public class Combat implements Runnable {
         String name = p.getName();
         List<String> l1 = Util.newList("{player}");
         List<?> l2 = Util.newList(name);
-        String f = Util.formatMessage(cmd, l1, l2);
-        return f;
+
+        return Util.formatMessage(cmd, l1, l2);
     }
 
     public static String log(LivingEntity attacker, LivingEntity target) {
