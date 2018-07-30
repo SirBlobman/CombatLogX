@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <parent>
+		<groupId>com.SirBlobman</groupId>
+		<artifactId>combatlogx-1.13-parent</artifactId>
+		<version>9.0.0.0</version>
+		<relativePath>../../pom.xml</relativePath>
+    </parent>
+    
+    <artifactId>exp-NotCombatLogX</artifactId>
+    <name>NotCombatLogX</name>
+    <description>Expansion for CombatLogX that tags people for non-combat related damage</description>
+    
+    <dependencies>
+        <dependency>
+            <groupId>com.SirBlobman</groupId>
+            <artifactId>CombatLogX-1.13</artifactId>
+            <version>9.0.0.0</version>
+        </dependency>
+    </dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<copy file="./target/${project.artifactId}-${project.version}.jar" tofile="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Testing Servers\CombatLogX 1.13\plugins\CombatLogX\expansions\${project.name}.jar"></copy>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -1,0 +1,63 @@
+# Cheat Prevention Configuration File
+
+teleportation:
+  # Set this to true if players should be allowed to teleport during combat
+  # Default: false
+  allow during combat: false
+  
+  # If the above option is false, set this to true if players should be allowed to teleport using enderpealrs
+  # Default: false
+  allow ender pearls: false
+  
+  # If the above option is true, set this to true to make enderpearls tag the player again
+  # Default: false
+  ender pearls restart timer: false
+  
+flight:
+  # Set this to true if players should be allowed to fly during combat
+  # Default: false
+  allow during combat: false
+  
+  # Set this to true if players should be allowed to use elytras
+  # Default: false
+  allow elytras: false
+  
+  # Set this to '' if you don't want to enable flight for anyone
+  # Set this to a permission if you want players to have flight enabled after combat
+  # Default: 'combatlogx.flight.enable'
+  enable permission: 'combatlogx.flight.enable'
+  
+gamemode:
+  # Set this to true if a player's gamemode should be changed when they are tagged
+  # Default: true
+  change: true
+  
+  # If the above option is true, what gamemode should the player be changed to?
+  # Valid Options: SURVIVAL, ADVENTURE, CREATIVE, SPECTATOR
+  # Default: SURVIVAL
+  gamemode: SURVIVAL
+  
+commands:
+  # Set this to true if the command list is not a blacklist
+  # Default: false
+  whitelist: false
+  
+  # This is a list of commands that will be blocked
+  # You must type the / or the command will not be blocked
+  # If a plugin does not register commands properly, they may not be blocked
+  # Make sure you also put command aliases here (such as /etp)
+  commands:
+  - /tp
+  - /tpa
+  - /tpaccept
+  - /tpo
+  - /fly
+  - /gamemode
+  
+potions:
+  # A list of potions that will be removed when a player is tagged
+  # Valid Options can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
+  # Invalid effects will be ignored and may cause errors
+  blocked potions:
+  - "INVISIBILITY"
+  - "INCREASE_DAMAGE"

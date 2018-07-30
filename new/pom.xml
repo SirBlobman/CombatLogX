@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.SirBlobman</groupId>
+        <artifactId>CombatLogX-parent</artifactId>
+        <version>9.0.0.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    
+    <modelVersion>4.0.0</modelVersion>
+        
+	<artifactId>combatlogx-1.13-parent</artifactId>
+	<name>CombatLogX 1.13+</name>
+	<packaging>pom</packaging>
+	<description>This is the CombatLogX pom packaging for 1.13 and higher versions</description>
+
+	<modules>
+		<!-- CombatLogX -->
+		<module>main</module>
+
+		<!-- Normal Expansions -->
+		<module>expansion/CheatPrevention</module>
+		<module>expansion/NotCombatLogX</module>
+		<module>expansion/Notifier</module>
+
+		<!-- Plugin Support Expansions -->
+		<module>expansion/CompatCitizens</module>
+        <module>expansion/CompatParties</module>
+	</modules>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot-api</artifactId>
+			<version>1.13-R0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot</artifactId>
+			<version>1.13-R0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.7.0</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<delete file="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\1.13\target\CombatLogX.zip"/>
+								<delete file="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\1.13\target\Expansions.zip"/>
+								<zip destfile="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\1.13\target\Expansions.zip">
+									<fileset file="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Testing Servers\CombatLogX 1.13\plugins\CombatLogX\expansions\*.jar"></fileset>
+								</zip>
+								<zip destfile="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\1.13\target\CombatLogX.zip">
+									<fileset file="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Testing Servers\CombatLogX 1.13\plugins\CombatLogX.jar"/>
+									<zipfileset src="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\1.13\target\Expansions.zip" prefix="CombatLogX/expansions" includes="*.jar"></zipfileset>
+								</zip>
+								<delete file="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\1.13\target\Expansions.zip"/>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

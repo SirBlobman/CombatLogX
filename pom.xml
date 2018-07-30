@@ -7,7 +7,7 @@
     
     <modules>
         <module>legacy</module>
-        <module>1.13+</module>
+        <module>new</module>
     </modules>
     
     <repositories>
