@@ -14,28 +14,36 @@ public class TownyUtil {
         try {
             TownyWorld tw = tds.getWorld(name);
             return tw;
-        } catch(Throwable ex) {return null;}
+        } catch (Throwable ex) {
+            return null;
+        }
     }
 
     public static TownBlock getTownBlock(Location l) {
         TownyWorld tw = getTownWorld(l);
         Coord coord = Coord.parseCoord(l);
-        if(tw != null && tw.hasTownBlock(coord)) {
+        if (tw != null && tw.hasTownBlock(coord)) {
             try {
                 TownBlock tb = tw.getTownBlock(coord);
                 return tb;
-            } catch(Throwable ex) {return null;}
-        } else return null;
+            } catch (Throwable ex) {
+                return null;
+            }
+        } else
+            return null;
     }
 
     public static Town getTown(Location l) {
         TownBlock tb = getTownBlock(l);
-        if(tb != null && tb.hasTown()) {
+        if (tb != null && tb.hasTown()) {
             try {
                 Town town = tb.getTown();
                 return town;
-            } catch(Throwable ex) {return null;}
-        } else return null;
+            } catch (Throwable ex) {
+                return null;
+            }
+        } else
+            return null;
     }
 
     public static boolean pvp(Player p) {
@@ -45,7 +53,7 @@ public class TownyUtil {
 
     public static boolean pvp(Location l) {
         Town town = getTown(l);
-        if(town != null) {
+        if (town != null) {
             boolean pvp = town.isPVP();
             return pvp;
         } else return true;

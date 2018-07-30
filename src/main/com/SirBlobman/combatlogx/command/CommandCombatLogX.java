@@ -28,7 +28,7 @@ public class CommandCombatLogX implements CommandExecutor {
                 String sub = args[0].toLowerCase();
                 switch (sub) {
                     case "reload":
-                        if (cs.hasPermission("combatlogx.reload\"")) {
+                        if (cs.hasPermission("combatlogx.reload")) {
                             ConfigOptions.load();
                             ConfigLang.load();
                             String msg = ConfigLang.MESSAGE_RELOAD_CONFIG;
@@ -109,7 +109,6 @@ public class CommandCombatLogX implements CommandExecutor {
 
                         Expansions.getExpansions().forEach(expansion -> {
                             String app = "&7 - &f" + expansion.getName() + " &7v" + expansion.getVersion();
-
                             Util.sendInfoMessage(cs, app);
                         });
                         return true;

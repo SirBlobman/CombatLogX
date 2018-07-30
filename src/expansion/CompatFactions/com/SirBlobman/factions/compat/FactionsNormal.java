@@ -13,7 +13,10 @@ import org.bukkit.entity.Player;
 
 public class FactionsNormal extends FactionsUtil {
     private static final BoardColl BC = BoardColl.get();
-    public FactionsNormal() {print("Adding support for Factions...");}
+
+    public FactionsNormal() {
+        print("Adding support for Factions...");
+    }
 
     @Override
     public Faction getFactionAt(Player p) {
@@ -31,23 +34,27 @@ public class FactionsNormal extends FactionsUtil {
 
     @Override
     public Faction getCurrentFaction(Player p) {
-        if(p == null) return null;
+        if (p == null)
+            return null;
         MPlayer mp = MPlayer.get(p);
-        if(mp != null && mp.hasFaction()) {
+        if (mp != null && mp.hasFaction()) {
             Faction f = mp.getFaction();
             return f;
-        } else return null;
+        } else
+            return null;
     }
-    
+
     @Override
     public boolean canAttack(Player p, LivingEntity le) {
-        if(le instanceof Player) {
+        if (le instanceof Player) {
             Player t = (Player) le;
             Faction fp = getCurrentFaction(p);
             Faction ft = getCurrentFaction(t);
-            if(fp == null || ft == null) return true;
-            if(fp.isNone() || ft.isNone()) return true;
-            if(fp.equals(ft)) {
+            if (fp == null || ft == null)
+                return true;
+            if (fp.isNone() || ft.isNone())
+                return true;
+            if (fp.equals(ft)) {
                 String pvp = MFlag.ID_FRIENDLYFIRE;
                 boolean can = fp.getFlag(pvp);
                 return can;
@@ -56,14 +63,23 @@ public class FactionsNormal extends FactionsUtil {
                 boolean can = !rel.isFriend();
                 return can;
             }
-        } else return super.canAttack(p, le);
+        } else
+            return super.canAttack(p, le);
     }
-    
+
     @Override
     public boolean isSafeZone(Location l) {
         Faction f = getFactionAt(l);
-        String flag = MFlag.ID_PVP;
+        MFlag flag = MFlag.getFlagPvp();
         boolean pvp = f.getFlag(flag);
         return !pvp;
+    }
+
+    @Override
+    public boolean isSafeFromMobs(Location l) {
+        Faction f = getFactionAt(l);
+        MFlag flag = MFlag.getFlagMonsters();
+        boolean safe = f.getFlag(flag);
+        return !safe;
     }
 }

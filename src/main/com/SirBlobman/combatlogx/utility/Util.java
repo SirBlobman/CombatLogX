@@ -97,7 +97,6 @@ public class Util {
 
     public static String[] str(Object... oo) {
         String[] ss = new String[oo.length];
-
         IntStream.range(0, oo.length).forEach(i -> {
             Object o = oo[i];
             String s = str(o);
@@ -145,7 +144,6 @@ public class Util {
 
     public static void broadcast(Object... oo) {
         print(oo);
-
         Bukkit.getOnlinePlayers().forEach(player -> Arrays.stream(oo).forEach(object -> {
             String color = color(ConfigLang.MESSAGE_PREFIX + str(object));
 
@@ -159,9 +157,7 @@ public class Util {
             World world = en.getWorld();
             String name = world.getName().toLowerCase();
             List<String> disabled = toLowerCaseList(ConfigOptions.OPTION_DISABLED_WORLDS);
-
-            if (disabled.contains(name))
-                return;
+            if (disabled.contains(name)) return;
         }
 
         Arrays.stream(oo).filter(object -> !str(object).isEmpty() && !str(object).equals("")).map(object -> color(ConfigLang.MESSAGE_PREFIX + str(object))).forEach(cs::sendMessage);
@@ -169,6 +165,17 @@ public class Util {
     
     public static void sendInfoMessage(CommandSender cs, Object... oo) {
         Arrays.stream(oo).filter(object -> str(object) != null && !str(object).isEmpty() && !str(object).equals("")).map(object -> color(str(object))).forEach(cs::sendMessage);
+    }
+    
+    public static void sendInfoMessage(CommandSender cs, Object... oo) {
+        for(Object o : oo) {
+            String s = str(o);
+            if(s == null || s.isEmpty() || s.equals("")) continue;
+            else {
+                String c = color(s);
+                cs.sendMessage(c);
+            }
+        }
     }
 
     public static void regEvents(Listener... ll) {
@@ -210,6 +217,15 @@ public class Util {
 
         originalList.forEach(caps -> lower.add(caps.toLowerCase()));
 
+        return lower;
+    }
+
+    public static List<String> toLowerCaseList(List<String> originalList) {
+        List<String> lower = newList();
+        for (String caps : originalList) {
+            String l = caps.toLowerCase();
+            lower.add(l);
+        }
         return lower;
     }
 

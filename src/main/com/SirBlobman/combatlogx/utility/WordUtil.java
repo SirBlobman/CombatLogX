@@ -22,7 +22,6 @@ public class WordUtil extends Util {
     public static String getPassedBars(int amount) {
         StringBuilder s = new StringBuilder(color("&c"));
         IntStream.range(0, amount).map(i -> '|').forEach(s::append);
-
         return s.toString();
     }
 }

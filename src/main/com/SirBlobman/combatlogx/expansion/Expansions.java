@@ -75,7 +75,6 @@ public class Expansions {
             if (!EXPAND.exists())
                 EXPAND.mkdirs();
             File[] files = EXPAND.listFiles();
-
             Arrays.stream(files != null ? files : new File[0]).filter(file -> !file.isDirectory()).forEach(file -> {
                 if (isJar(file)) {
                     try (JarFile jar = loadJar(file)) {
@@ -162,7 +161,6 @@ public class Expansions {
         URLClassLoader ucl = (URLClassLoader) cl;
         URI uri = file.toURI();
         URL url = uri.toURL();
-
         for (URL it : ucl.getURLs()) {
             if (it.equals(url)) {
                 return jar;

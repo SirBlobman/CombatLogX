@@ -28,8 +28,7 @@ public class OldUtil extends Util {
             return "None";
         try {
             double health = e.getHealth();
-            DecimalFormat df = new DecimalFormat("#.##");
-
+            DecimalFormat df = new DecimalFormat("0.00");
             return df.format(health);
         } catch (Throwable ex) {
             return "";

@@ -49,7 +49,6 @@ public class Combat implements Runnable {
         set.forEach(player -> {
             if (timeLeft(player) <= 0) {
                 PlayerUntagEvent playerUntagEvent = new PlayerUntagEvent(player, UntagCause.EXPIRE);
-
                 Util.call(playerUntagEvent);
             } else {
                 CombatTimerChangeEvent combatTimerChangeEvent = new CombatTimerChangeEvent(player, timeLeft(player));
@@ -113,7 +112,6 @@ public class Combat implements Runnable {
 
             if(!bypass) {
                 long time = (System.currentTimeMillis() + ConfigOptions.OPTION_TIMER * 1000L);
-
                 if (!isInCombat(p)) {
                     if (ConfigOptions.OPTION_COMBAT_SUDO_ENABLE) {
                         for(String cmd : ConfigOptions.OPTION_COMBAT_SUDO_COMMANDS) p.performCommand(cmd);
@@ -169,8 +167,7 @@ public class Combat implements Runnable {
 
             if (ConfigOptions.PUNISH_CONSOLE) {
                 List<String> list = ConfigOptions.PUNISH_COMMANDS_CONSOLE;
-
-                list.forEach(command -> Bukkit.dispatchCommand(Util.CONSOLE, command));
+                list.forEach(command -> Bukkit.dispatchCommand(Util.CONSOLE, format(p, command)));
             }
         }
     }

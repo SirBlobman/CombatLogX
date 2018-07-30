@@ -38,8 +38,7 @@ public class CombatLogX extends JavaPlugin {
             Util.regEvents(new ListenBukkit(), new FinalMonitor());
             Util.runTimer(new Combat(), 20, 0);
             Expansions.loadExpansions();
-            if (ConfigOptions.OPTION_BROADCAST_STARTUP)
-                Util.broadcast("&2Enabled");
+            if (ConfigOptions.OPTION_BROADCAST_STARTUP) Util.broadcast("&2Enabled");
         }, 0);
     }
 

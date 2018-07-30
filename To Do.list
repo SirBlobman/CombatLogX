@@ -1,5 +1,1 @@
-1) Improve safe zone detection
-2) Improve the knockback and cancel methods for safezones
-3) Attempt to support the RandomStuff plugin and prevent flying from jet packs (https://www.spigotmc.org/resources/random-stuff.12132/)
-4) Kill Rewards
-5) Death Losses
+1) Add support for residence. Make sure FriendlyFire doesn't tag people. https://www.spigotmc.org/resources/11480/

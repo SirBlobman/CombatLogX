@@ -13,7 +13,7 @@ public class NMS1_10_R1 extends NMSUtil {
         IChatBaseComponent icbc = ChatSerializer.a(json);
         byte ACTION = 2;
         PacketPlayOutChat pp = new PacketPlayOutChat(icbc, ACTION);
-        
+
         CraftPlayer cp = (CraftPlayer) p;
         EntityPlayer ep = cp.getHandle();
         PlayerConnection pc = ep.playerConnection;

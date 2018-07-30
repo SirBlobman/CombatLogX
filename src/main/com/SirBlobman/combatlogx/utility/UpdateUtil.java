@@ -131,7 +131,6 @@ public class UpdateUtil extends Util {
                 br.close();
                 isr.close();
                 is.close();
-
                 spigotVersion = version;
                 return version;
             } catch (Throwable ex) {return null;}
