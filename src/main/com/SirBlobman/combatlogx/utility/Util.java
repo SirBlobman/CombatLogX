@@ -1,14 +1,24 @@
 package com.SirBlobman.combatlogx.utility;
 
-import com.SirBlobman.combatlogx.CombatLogX;
-import com.SirBlobman.combatlogx.config.ConfigLang;
-import com.SirBlobman.combatlogx.config.ConfigOptions;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.IntStream;
 
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Server;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
@@ -16,9 +26,9 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.lang.reflect.Method;
-import java.util.*;
-import java.util.stream.IntStream;
+import com.SirBlobman.combatlogx.CombatLogX;
+import com.SirBlobman.combatlogx.config.ConfigLang;
+import com.SirBlobman.combatlogx.config.ConfigOptions;
 
 public class Util {
     public static final Plugin PLUGIN = CombatLogX.INSTANCE;
@@ -166,17 +176,6 @@ public class Util {
     public static void sendInfoMessage(CommandSender cs, Object... oo) {
         Arrays.stream(oo).filter(object -> str(object) != null && !str(object).isEmpty() && !str(object).equals("")).map(object -> color(str(object))).forEach(cs::sendMessage);
     }
-    
-    public static void sendInfoMessage(CommandSender cs, Object... oo) {
-        for(Object o : oo) {
-            String s = str(o);
-            if(s == null || s.isEmpty() || s.equals("")) continue;
-            else {
-                String c = color(s);
-                cs.sendMessage(c);
-            }
-        }
-    }
 
     public static void regEvents(Listener... ll) {
         regEvents(PLUGIN, ll);
@@ -214,18 +213,7 @@ public class Util {
 
     public static List<String> toLowerCaseList(List<String> originalList) {
         List<String> lower = newList();
-
         originalList.forEach(caps -> lower.add(caps.toLowerCase()));
-
-        return lower;
-    }
-
-    public static List<String> toLowerCaseList(List<String> originalList) {
-        List<String> lower = newList();
-        for (String caps : originalList) {
-            String l = caps.toLowerCase();
-            lower.add(l);
-        }
         return lower;
     }
 
@@ -234,8 +222,7 @@ public class Util {
     }
 
     private static void accept(String color) {
-        if (color.equals("\n"))
-            color = color("&l");
+        if (color.equals("\n")) color = color("&l");
         CONSOLE.sendMessage(color);
     }
 }
