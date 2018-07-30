@@ -6,25 +6,40 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 
 public class PlayerUntagEvent extends PlayerEvent implements Cancellable {
-    public enum UntagCause {EXPIRE, QUIT, KICK, ENEMY_DEATH;}
+    public enum UntagCause {
+        EXPIRE, QUIT, KICK, ENEMY_DEATH;
+    }
+
     private static HandlerList HL = new HandlerList();
-    
+
     private boolean cancelled = false;
     private final UntagCause cause;
+
     public PlayerUntagEvent(Player p, UntagCause cause) {
         super(p);
         this.cause = cause;
     }
-    
-    public UntagCause getCause() {return cause;}
-    
-    @Override
-    public HandlerList getHandlers() {return getHandlerList();}
-    public static HandlerList getHandlerList() {return HL;}
+
+    public UntagCause getCause() {
+        return cause;
+    }
 
     @Override
-    public boolean isCancelled() {return cancelled;}
+    public HandlerList getHandlers() {
+        return getHandlerList();
+    }
+
+    public static HandlerList getHandlerList() {
+        return HL;
+    }
 
     @Override
-    public void setCancelled(boolean b) {this.cancelled = b;}
+    public boolean isCancelled() {
+        return cancelled;
+    }
+
+    @Override
+    public void setCancelled(boolean b) {
+        this.cancelled = b;
+    }
 }

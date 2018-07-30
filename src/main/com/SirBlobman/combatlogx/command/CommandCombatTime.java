@@ -14,12 +14,12 @@ import java.util.List;
 public class CommandCombatTime implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender cs, Command c, String label, String[] args) {
-        if(cs instanceof Player) {
+        if (cs instanceof Player) {
             Player p = (Player) cs;
             String cmd = c.getName().toLowerCase();
-            if(cmd.equals("combattime")) {
+            if (cmd.equals("combattime")) {
                 boolean in = Combat.isInCombat(p);
-                if(in) {
+                if (in) {
                     long time = Combat.timeLeft(p);
                     List<String> l1 = Util.newList("{time_left}");
                     List<Object> l2 = Util.newList(time);
@@ -31,7 +31,8 @@ public class CommandCombatTime implements CommandExecutor {
                     Util.sendMessage(p, error);
                     return true;
                 }
-            } else return false;
+            } else
+                return false;
         } else {
             String error = ConfigLang.MESSAGE_NOT_PLAYER;
             Util.sendMessage(cs, error);

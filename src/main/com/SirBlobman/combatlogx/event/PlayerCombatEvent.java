@@ -7,15 +7,22 @@ import org.bukkit.event.HandlerList;
 public class PlayerCombatEvent extends CombatEvent {
     private static HandlerList HL = new HandlerList();
     private final Player player;
+
     public PlayerCombatEvent(Player player, LivingEntity le2, boolean isPlayerAttacker) {
         super(player, le2, isPlayerAttacker);
         this.player = player;
     }
-    
-    @Deprecated
-    public Player getPlayer() {return player;}
-    
+
+    public Player getPlayer() {
+        return player;
+    }
+
     @Override
-    public HandlerList getHandlers() {return getHandlerList();}
-    public static HandlerList getHandlerList() {return HL;}
+    public HandlerList getHandlers() {
+        return getHandlerList();
+    }
+
+    public static HandlerList getHandlerList() {
+        return HL;
+    }
 }
