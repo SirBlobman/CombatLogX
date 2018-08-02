@@ -16,7 +16,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.ItemStack;
 import org.mcmonkey.sentinel.SentinelTrait;
 
@@ -59,9 +58,8 @@ public class NPCManager implements Listener {
 		NPC npc = reg.createNPC(type, p.getName());
 
 		if(cloneInventory) {
-			Inventory inv = new Inventory();
+			Inventory inv = npc.getTrait(Inventory.class);
 			inv.setContents(p.getInventory().getContents());
-			npc.addTrait(inv);
 		}
 
 		if(sentinel) {
@@ -77,7 +75,6 @@ public class NPCManager implements Listener {
 
 		Location loc = p.getLocation();
 		npc.spawn(loc);
-		npc.teleport(loc, TeleportCause.PLUGIN);
 
 		if(type.isAlive()) {
 			LivingEntity le = (LivingEntity) npc.getEntity();
@@ -126,14 +123,14 @@ public class NPCManager implements Listener {
 	}
 
 	@EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
-	public void onUntag(PlayerPunishEvent e) {
+	public void onPunish(PlayerPunishEvent e) {
 		Player p = e.getPlayer();
 		PunishReason reason = e.getReason();
 		if(reason != PunishReason.UNKNOWN) {
 			if(ConfigCitizens.CANCEL_OTHER_PUNISHMENTS) e.setCancelled(true);
 
 			createNPC(p);		
-			SchedulerUtil.runLater(ConfigCitizens.SURVIVAL_TIME, () -> removeNPC(p));
+			if(ConfigCitizens.SURVIVAL_TIME > 0) SchedulerUtil.runLater(ConfigCitizens.SURVIVAL_TIME * 20L, () -> removeNPC(p));
 		}
 	}
 

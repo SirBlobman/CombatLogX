@@ -22,8 +22,9 @@ public class CompatCitizens implements CLXExpansion {
 	@Override
 	public void enable() {
 		if(PluginUtil.isEnabled("Citizens")) {
-			PluginUtil.regEvents(new NPCManager());
+			FOLDER = getDataFolder();
 			ConfigCitizens.load();
+			PluginUtil.regEvents(new NPCManager());
 		} else {
 			String error = "Citizens is not installed, removing expansion....";
 			print(error);

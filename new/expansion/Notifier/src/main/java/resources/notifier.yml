@@ -34,14 +34,13 @@ boss bar:
   
 score board:
   # Set this to true to enable the score board
-  # Make sure to set this to false if you are using any other custom scoreboard plugins
   # Default: true
   enabled: true
   
   # Set this to true if you have FeatherBoard installed and you want to use the event-hook CombatLogX
   # Otherwise a custom scoreboard will be used
-  # If you set this to true ignore any options below
-  # FeatherBoard can be found here
+  # If you set this to true ignore any options below and make sure the above option is also true
+  # FeatherBoard can be found here: https://www.spigotmc.org/resources/featherboard-1-13-compatible.2691/updates
   # Default: false
   use featherboard: false
   

@@ -38,12 +38,20 @@ public class CombatUtil implements Runnable {
 
 	private static Map<UUID, Long> COMBAT = Util.newMap();
 	private static Map<UUID, LivingEntity> ENEMIES = Util.newMap();
-
+	
+	/**
+	 * @param p The player to check
+	 * @return {@code true} if the player is in combat, false if they are not
+	 */
 	public static boolean isInCombat(Player p) {
 		UUID uuid = p.getUniqueId();
 		return COMBAT.containsKey(uuid);
 	}
 
+	/**
+	 * @param p The player to check
+	 * @return {@code true} if the player has a non-null enemy, false otherwise
+	 */
 	public static boolean hasEnemy(Player p) {
 		UUID uuid = p.getUniqueId();
 		if(ENEMIES.containsKey(uuid)) {
@@ -51,7 +59,13 @@ public class CombatUtil implements Runnable {
 			return (enemy != null);
 		} else return false;
 	}
-
+	
+	/**
+	 * @param p The player to check
+	 * @return The enemy of {@code p} as a LivingEntity<br/>
+	 * {@code null} if the player does not have an enemy
+	 * @see #hasEnemy(Player)
+	 */
 	public static LivingEntity getEnemy(Player p) {
 		UUID uuid = p.getUniqueId();
 		if(ENEMIES.containsKey(uuid)) {
@@ -60,6 +74,9 @@ public class CombatUtil implements Runnable {
 		} else return null;
 	}
 
+	/**
+	 * @return A list of all the players in combat
+	 */
 	public static List<Player> getPlayersInCombat() {
 		List<Player> list = Util.newList();
 		Map<UUID, Long> copy = Util.newMap(COMBAT);
@@ -70,6 +87,9 @@ public class CombatUtil implements Runnable {
 		} return list;
 	}
 
+	/**
+	 * @return A list of entities linked to a player in combat
+	 */
 	public static List<LivingEntity> getLinkedEnemies() {
 		List<LivingEntity> list = Util.newList();
 		Map<UUID, LivingEntity> copy = Util.newMap(ENEMIES);
@@ -83,7 +103,13 @@ public class CombatUtil implements Runnable {
 			} else ENEMIES.remove(uuid);
 		} return list;
 	}
-
+	
+	/**
+	 * Get the {@link OfflinePlayer} of that is linked to this enemy
+	 * @param enemy The entity to check
+	 * @return {@link OfflinePlayer} from the linked UUID<br/>
+	 * {@code null} if this entity is not linked
+	 */
 	public static OfflinePlayer getByEnemy(LivingEntity enemy) {
 		List<LivingEntity> list = getLinkedEnemies();
 		if(list.contains(enemy)) {
@@ -205,6 +231,7 @@ public class CombatUtil implements Runnable {
 		if(reason == PunishReason.UNKNOWN && !ConfigOptions.PUNISH_ON_EXPIRE) return;
 		
 		PlayerPunishEvent event = new PlayerPunishEvent(p, reason);
+		PluginUtil.call(event);
 		if(!event.isCancelled()) {	
 			if(ConfigOptions.PUNISH_KILL) p.setHealth(0.0D);
 			if(ConfigOptions.PUNISH_SUDO) {

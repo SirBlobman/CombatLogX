@@ -12,7 +12,7 @@
     <modelVersion>4.0.0</modelVersion>
         
 	<artifactId>combatlogx-1.13-parent</artifactId>
-	<name>CombatLogX 1.13+</name>
+	<name>CombatLogX 1.13+ Parent</name>
 	<packaging>pom</packaging>
 	<description>This is the CombatLogX pom packaging for 1.13 and higher versions</description>
 
@@ -28,6 +28,8 @@
 		<!-- Plugin Support Expansions -->
 		<module>expansion/CompatCitizens</module>
         <module>expansion/CompatParties</module>
+        <module>expansion/CompatPlaceholders</module>
+        <module>expansion/CompatWorldGuard</module>
 	</modules>
 
 	<dependencies>
@@ -67,16 +69,16 @@
 						</goals>
 						<configuration>
 							<target>
-								<delete file="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\1.13\target\CombatLogX.zip"/>
-								<delete file="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\1.13\target\Expansions.zip"/>
-								<zip destfile="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\1.13\target\Expansions.zip">
+								<delete file="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\new\target\CombatLogX.zip"/>
+								<delete file="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\new\target\Expansions.zip"/>
+								<zip destfile="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\new\target\Expansions.zip">
 									<fileset file="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Testing Servers\CombatLogX 1.13\plugins\CombatLogX\expansions\*.jar"></fileset>
 								</zip>
-								<zip destfile="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\1.13\target\CombatLogX.zip">
+								<zip destfile="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\new\target\CombatLogX.zip">
 									<fileset file="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Testing Servers\CombatLogX 1.13\plugins\CombatLogX.jar"/>
-									<zipfileset src="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\1.13\target\Expansions.zip" prefix="CombatLogX/expansions" includes="*.jar"></zipfileset>
+									<zipfileset src="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\new\target\Expansions.zip" prefix="CombatLogX/expansions" includes="*.jar"></zipfileset>
 								</zip>
-								<delete file="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\1.13\target\Expansions.zip"/>
+								<delete file="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\new\target\Expansions.zip"/>
 							</target>
 						</configuration>
 					</execution>

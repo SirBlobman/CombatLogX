@@ -1,37 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    
-    <parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
 		<groupId>com.SirBlobman</groupId>
 		<artifactId>combatlogx-1.13-parent</artifactId>
 		<version>9.0.0.0</version>
 		<relativePath>../../pom.xml</relativePath>
-    </parent>
-    
-    <artifactId>exp-CompatParties</artifactId>
-    <name>Parties Compatibility</name>
-    <description>Expansion for CombatLogX that prevents people in the same party from tagging each other</description>
-    
-    <repositories>
+	</parent>
+
+	<artifactId>exp-CompatPlaceholders</artifactId>
+	<name>Placeholder Compatibility</name>
+	<description>Adds placeholders to MVdWPlaceholderAPI and PlaceholderAPI</description>
+
+	<repositories>
+		<repository>
+			<id>mvdw-software</id>
+			<name>MVdW Public Repositories</name>
+			<url>http://repo.mvdw-software.be/content/groups/public/</url>
+		</repository>
         <repository>
-            <id>repo-alessiodp-com</id>
-            <url>https://repo.alessiodp.com</url>
+            <id>repo-extendedclip-com</id>
+            <name>PlaceholderAPI</name>
+            <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
-    </repositories>
-    
-    <dependencies>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.SirBlobman</groupId>
+			<artifactId>CombatLogX-1.13</artifactId>
+			<version>9.0.0.0</version>
+		</dependency>
         <dependency>
-            <groupId>com.SirBlobman</groupId>
-            <artifactId>CombatLogX-1.13</artifactId>
-            <version>9.0.0.0</version>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.9.1</version>
+            <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.alessiodp.parties</groupId>
-            <artifactId>parties-api</artifactId>
-            <version>2.3.1</version>
-        </dependency>
-    </dependencies>
+		<dependency>
+			<groupId>be.maximvdw</groupId>
+			<artifactId>MVdWPlaceholderAPI</artifactId>
+			<version>2.5.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+	
 
 	<build>
 		<plugins>

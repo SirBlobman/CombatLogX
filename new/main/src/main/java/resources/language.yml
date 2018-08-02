@@ -70,3 +70,8 @@ messages:
         hot floor: "&c&oThe floor is lava! Do not log out!"
         cramming: "&c&oYou are being squished. Do not log out!"
         
+    worldguard compatibility:
+      no entry:
+        pvp: "You cannot enter a no-pvp area during combat"
+        mob: "You cannot enter a non-mob area while tagged with a mob"
+        

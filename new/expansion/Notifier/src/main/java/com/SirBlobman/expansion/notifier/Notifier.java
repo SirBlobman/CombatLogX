@@ -13,6 +13,8 @@ import com.SirBlobman.combatlogx.event.PlayerCombatTimerChangeEvent;
 import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
+import com.SirBlobman.combatlogx.utility.SchedulerUtil;
+import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.notifier.config.ConfigNotifier;
 import com.SirBlobman.expansion.notifier.utility.ActionBarUtil;
 import com.SirBlobman.expansion.notifier.utility.BossBarUtil;
@@ -64,12 +66,17 @@ public class Notifier implements CLXExpansion, Listener {
 						folder4.mkdirs();
 						Class<Config> clazz = Config.class;
 						Method method = clazz.getDeclaredMethod("copyFromJar", String.class, File.class);
-						method.invoke(null, "FeatherBoard/combatlogx.yml", folder4);
+						method.setAccessible(true);
+						method.invoke(null, "FeatherBoard/scoreboards/combatlogx.yml", folder2);
+						method.setAccessible(false);
+						Bukkit.dispatchCommand(Util.CONSOLE, "fb reload");
 					}
 				} catch(Throwable ex) {
-					String error = "Could not create default FeatherBoard scoreboard. You will have to create your own.";
+					String error = "Failed to create default FeatherBoard scoreboard. You will have to create your own.";
 					print(error);
+					ex.printStackTrace();
 				}
+				
 				FeatherBoardAPI.showScoreboard(p, "combatlogx");
 			} else ScoreboardUtil.updateScoreBoard(p);
 		}
@@ -83,7 +90,10 @@ public class Notifier implements CLXExpansion, Listener {
 		if(ConfigNotifier.ACTION_BAR_ENABLED) ActionBarUtil.removeActionBar(p);
 		if(ConfigNotifier.SCORE_BOARD_ENABLED) {
 			if(ConfigNotifier.SCORE_BOARD_USE_FEATHERBOARD) {
-				FeatherBoardAPI.removeScoreboardOverride(p, "combatlogx");
+				SchedulerUtil.runLater(20L, () -> {
+					FeatherBoardAPI.removeScoreboardOverride(p, "combatlogx"); 
+					FeatherBoardAPI.resetDefaultScoreboard(p);
+				});
 			} else ScoreboardUtil.removeScoreBoard(p);
 		}
 	}
