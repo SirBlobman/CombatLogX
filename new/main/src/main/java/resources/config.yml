@@ -97,6 +97,7 @@ combat:
     # List of mobs that do not cause combat
     blacklist:
     - WITHER
+    - ARMOR_STAND
   
   sudo:
     # Set this to true if players/console should run commands when a player is tagged
