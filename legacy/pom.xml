@@ -15,7 +15,7 @@
     </parent>
 
 	<artifactId>combatlogx-legacy-parent</artifactId>
-	<name>CombatLogX Legacy</name>
+	<name>CombatLogX Legacy Parent</name>
 	<description>This is the CombatLogX pom packaging for 1.8.8-1.12.2</description>
 
 	<modules>

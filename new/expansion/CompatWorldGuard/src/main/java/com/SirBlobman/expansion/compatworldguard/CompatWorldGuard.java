@@ -23,6 +23,7 @@ import com.SirBlobman.combatlogx.utility.SchedulerUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.compatworldguard.config.ConfigWG;
 import com.SirBlobman.expansion.compatworldguard.config.ConfigWG.NoEntryMode;
+import com.SirBlobman.expansion.compatworldguard.olivolja3.ForceField;
 import com.SirBlobman.expansion.compatworldguard.utility.WGUtil;
 
 public class CompatWorldGuard implements CLXExpansion, Listener {
@@ -38,7 +39,9 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
 			FOLDER = getDataFolder();
 			ConfigWG.load();
 			WGUtil.onLoad();
+			PluginUtil.regEvents(new ForceField());
 			PluginUtil.regEvents(this);
+			if(PluginUtil.isEnabled("ProtocolLib")) ForceField.registerProtocol();
 		} else {
 			String error = "WorldGuard is not installed, automatically disabling...";
 			print(error);

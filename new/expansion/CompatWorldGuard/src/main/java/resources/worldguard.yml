@@ -1,6 +1,7 @@
-# WorldGuard Compatibility Configuration File
+# CompatWorldGuard Configuration File
 
 world guard:
+  # No entry options for Compat WorldGuard.
   no entry:
     # What should be used to prevent players from entering safe zones?
     # If you want to allow players to enter safe zones, remove this expansion
@@ -22,3 +23,21 @@ world guard:
     # How often (in seconds) should a message be sent if a player keeps trying to enter the safezone?
     # Default: 5
     message cooldown: 5
+
+  # Forcefield options for Compat WorldGuard.
+  # Note: forcefield requires ProtocolLib to work.
+  # ProtocolLib: https://www.spigotmc.org/resources/protocollib.1997/
+  forcefield:
+    # Should the forcefield be enabled?
+    # Default: true
+    enabled: false
+    
+    # Size of forcefield recommended between 2-6.
+    # Default: 4
+    size: 4
+  
+    # Material name of the block that the forcefield should be made out of.
+    # Default: RED_STAINED_GLASS
+    # Valid Materials can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+    # Please do not use materials that start with "LEGACY"
+    material: "RED_STAINED_GLASS"
