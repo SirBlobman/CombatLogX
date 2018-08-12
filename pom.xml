@@ -2,6 +2,8 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.SirBlobman</groupId>
     <artifactId>CombatLogX-parent</artifactId>
+    <name>CombatLogX Super Parent</name>
+    <description>CombatLogX POM packaging for new and legacy</description>
     <version>9.0.0.0</version>
     <packaging>pom</packaging>
     

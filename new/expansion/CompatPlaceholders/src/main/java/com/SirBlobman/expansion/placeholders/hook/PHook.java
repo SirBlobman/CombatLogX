@@ -29,7 +29,12 @@ public class PHook extends PlaceholderExpansion {
 			LivingEntity enemy = CombatUtil.getEnemy(p);
 			String enemyName = (enemy != null) ? ((enemy.getCustomName() != null) ? enemy.getCustomName() : enemy.getName()) : "Unknown";
 			return enemyName;
-		} else return null;
+		} else if(id.equals("in_combat")) {
+			String yesNo = CombatUtil.isInCombat(p) ? "Yes" : "No";
+			return yesNo;
+		}
+		
+		else return null;
 	}
 	
 	private static String formatDouble(double d) {

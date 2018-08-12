@@ -60,8 +60,8 @@ public class ScoreboardUtil extends Util {
 			List<String> scoreboardList = ConfigNotifier.SCORE_BOARD_LINES;
 			int i = scoreboardList.size();
 			for(String line : scoreboardList) {
-				List<String> keys = Util.newList("{time_left}", "{enemy_name}", "{enemy_health}");
-				List<?> vals = Util.newList(timeLeft, enemyName, enemyHealth);
+				List<String> keys = Util.newList("{time_left}", "{enemy_name}", "{enemy_health}", "{in_combat}");
+				List<?> vals = Util.newList(timeLeft, enemyName, enemyHealth, CombatUtil.isInCombat(p) ? "Yes" : "No");
 				String msg = Util.formatMessage(line, keys, vals);
 				
 				Score score = obj.getScore(msg);

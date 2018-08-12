@@ -30,6 +30,9 @@
         <module>expansion/CompatParties</module>
         <module>expansion/CompatPlaceholders</module>
         <module>expansion/CompatWorldGuard</module>
+        
+        <!-- Builder -->
+        <module>builder</module>
 	</modules>
 
 	<dependencies>
@@ -56,33 +59,6 @@
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.8</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<target>
-								<delete file="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\new\target\CombatLogX.zip"/>
-								<delete file="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\new\target\Expansions.zip"/>
-								<zip destfile="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\new\target\Expansions.zip">
-									<fileset file="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Testing Servers\CombatLogX 1.13\plugins\CombatLogX\expansions\*.jar"></fileset>
-								</zip>
-								<zip destfile="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\new\target\CombatLogX.zip">
-									<fileset file="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Testing Servers\CombatLogX 1.13\plugins\CombatLogX.jar"/>
-									<zipfileset src="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\new\target\Expansions.zip" prefix="CombatLogX/expansions" includes="*.jar"></zipfileset>
-								</zip>
-								<delete file="C:\Users\SirBlobman\Documents\Java Workspace\Minecraft\Spigot\CombatLogX\new\target\Expansions.zip"/>
-							</target>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>

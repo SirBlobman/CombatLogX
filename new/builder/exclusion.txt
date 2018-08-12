@@ -1,0 +1,4 @@
+*.zip
+*.xml
+**/target/**
+*.txt

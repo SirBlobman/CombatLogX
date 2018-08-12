@@ -30,7 +30,7 @@ world guard:
   forcefield:
     # Should the forcefield be enabled?
     # Default: true
-    enabled: false
+    enabled: true
     
     # Size of forcefield recommended between 2-6.
     # Default: 4

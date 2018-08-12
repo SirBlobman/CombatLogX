@@ -17,6 +17,7 @@ public class MHook implements PlaceholderReplacer {
 		PlaceholderAPI.registerPlaceholder(CombatLogX.INSTANCE, "combatlogx_time_left", this);
 		PlaceholderAPI.registerPlaceholder(CombatLogX.INSTANCE, "combatlogx_enemy_name", this);
 		PlaceholderAPI.registerPlaceholder(CombatLogX.INSTANCE, "combatlogx_enemy_health", this);
+		PlaceholderAPI.registerPlaceholder(CombatLogX.INSTANCE, "combatlogx_in_combat", this);
 	}
 	
 	@Override
@@ -36,7 +37,12 @@ public class MHook implements PlaceholderReplacer {
 				LivingEntity enemy = CombatUtil.getEnemy(p);
 				String enemyName = (enemy != null) ? ((enemy.getCustomName() != null) ? enemy.getCustomName() : enemy.getName()) : "Unknown";
 				return enemyName;
-			} else return null;
+			} else if(id.equals("combatlogx_in_combat")) {
+				String yesNo = CombatUtil.isInCombat(p) ? "Yes" : "No";
+				return yesNo;
+			}
+			
+			else return null;
 		} else return null;
 	}
 	
