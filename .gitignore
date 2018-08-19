@@ -7,8 +7,11 @@
 
 # Java
 *.class
+*.jar
+*.zip
 
 #Maven
 
 # Don't Ignore
 !*pom.xml
+!**/builder/CombatLogX.zip

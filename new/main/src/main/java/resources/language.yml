@@ -1,3 +1,8 @@
+# Default messages for CombatLogX
+# DO NOT set a message to `false` or null
+# DO NOT delete any messages
+# 
+# To remove a message, set it to "" or ''
 messages:
   plugin prefix: "&6&l[&fCombatLogX&6&l]&r"
   expansion prefix: "&6&l[&fCombatLogX &7- &b{expansion}&6&l]&r"
