@@ -31,7 +31,7 @@ options:
     projectiles: true
     
     # Set this to true to link wolves, ocelots, parrots, and other pets to the entity that owns them
-    # This will only link the owner if they are their pet is the attacker
+    # This will only link the owner if their pet is the attacker
     # Default: true
     pets: true
 
