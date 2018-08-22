@@ -13,7 +13,7 @@
 	</parent>
     
     <properties>
-        <test.version>2</test.version>
+        <test.version>3</test.version>
     </properties>
 
 	<artifactId>CombatLogX-Builder</artifactId>

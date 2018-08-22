@@ -25,8 +25,8 @@ public class Expansions {
 	 * Register your expansion with CombatLogX
 	 * @param clazz The main expansion class (should implement {@link CLXExpansion})
 	 * @return 
-	 * 	{@code true} if the expansion loaded successfully
-	 *  {@code false} if the expansion failed to load or there was an error
+	 * {@code true} if the expansion loaded successfully
+	 * {@code false} if the expansion failed to load or there was an error
 	 */
 	public static boolean loadExpansion(Class<?> clazz) {
 		try {
