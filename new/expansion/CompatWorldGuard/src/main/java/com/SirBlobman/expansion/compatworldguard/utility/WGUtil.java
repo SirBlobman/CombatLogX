@@ -15,7 +15,7 @@ import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.StateFlag.State;
-import com.sk89q.worldguard.protection.flags.registry.SimpleFlagRegistry;
+import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 
@@ -30,31 +30,38 @@ public class WGUtil extends Util {
 	public static StateFlag MOB_COMBAT = new StateFlag("mob-combat", false);
 	public static void onLoad() {
 		WorldGuard api = getAPI();
-		SimpleFlagRegistry fr = (SimpleFlagRegistry) api.getFlagRegistry();
-		try {
-			Flag<?> flag = fr.get("mob-combat");
-			if(flag == null) {
-				Class<?> clazz = fr.getClass();
-				Method[] methods = clazz.getDeclaredMethods();
-				for(Method method : methods) {
-					String name = method.getName();
-					if(name.equals("forceRegister")) {
-						method.setAccessible(true);
-						MOB_COMBAT = (StateFlag) method.invoke(fr, MOB_COMBAT);
-						method.setAccessible(false);
-						break;
-					}
-				}
-			} else if(flag instanceof StateFlag) {
-				MOB_COMBAT = (StateFlag) flag;
-			} else {
-				String error = "Failed to create mob-combat WorldGuard flag";
-				Util.print(error);
-			}
-		} catch(Throwable ex) {
-			String error = "Failed to create mob-combat WorldGuard flag";
-			Util.print(error);
-			ex.printStackTrace();
+		FlagRegistry fr = api.getFlagRegistry();
+		Flag<?> flag = fr.get("mob-combat");
+		if(flag != null) {
+		    if(flag instanceof StateFlag) {
+		        MOB_COMBAT = (StateFlag) flag;
+		    } else {
+		        String error = "The flag mob-combat was registered by another plugin and it is not a StateFlag! This may cause issues!";
+		        print(error);
+		    }
+		} else {
+		    try {
+		        fr.register(MOB_COMBAT);
+		    } catch(Throwable ex1) {
+		        try {
+		            String error = "Failed to register the flag mob-combat normally. Attempting to force-register...";
+		            print(error);
+		            
+		            Class<?> clazz = fr.getClass();
+		            Method[] methods = clazz.getMethods();
+		            for(Method method : methods) {
+		                String name = method.getName();
+		                if(name.equals("forceRegister")) {
+		                    MOB_COMBAT = (StateFlag) method.invoke(fr, new StateFlag("mob-combat", true));
+		                    break;
+		                }
+		            }
+		        } catch(Throwable ex2) {
+		            String error = "Failed to force-register the flag mob-combat. This may cause issues!";
+		            print(error);
+		            ex2.printStackTrace();
+		        }
+		    }
 		}
 	}
 	
