@@ -39,9 +39,11 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
 			FOLDER = getDataFolder();
 			ConfigWG.load();
 			WGUtil.onLoad();
-			PluginUtil.regEvents(new ForceField());
 			PluginUtil.regEvents(this);
-			if(PluginUtil.isEnabled("ProtocolLib")) ForceField.registerProtocol();
+			if(PluginUtil.isEnabled("ProtocolLib")) {
+				PluginUtil.regEvents(new ForceField());
+				ForceField.registerProtocol();
+			}
 		} else {
 			String error = "WorldGuard is not installed, automatically disabling...";
 			print(error);

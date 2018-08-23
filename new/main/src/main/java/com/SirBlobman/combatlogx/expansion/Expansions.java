@@ -114,10 +114,7 @@ public class Expansions {
 											Class<?> clazz = Class.forName(entryName);
 											if(loadExpansion(clazz)) break;
 										}
-									} catch(Throwable ex4) {
-										String error = "Failed to load class '" + entryName + "'";
-										Util.log(error);
-									}
+									} catch(Throwable ex4) {}
 								}
 							}
 						} catch(Throwable ex2) {

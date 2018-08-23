@@ -9,12 +9,15 @@ import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.expansion.compatcitizens.CompatCitizens;
 
 public class ConfigCitizens extends Config {
-	private static final File FOLDER = CompatCitizens.FOLDER;
-	private static final File FILE = new File(FOLDER, "citizens.yml");
+	private static File FOLDER = CompatCitizens.FOLDER;
+	private static File FILE = new File(FOLDER, "citizens.yml");
 	private static YamlConfiguration config = new YamlConfiguration();
 	
 	public static void save() {save(config, FILE);}
 	public static YamlConfiguration load() {
+		if(FOLDER == null) FOLDER = CompatCitizens.FOLDER;
+		if(FILE == null) FILE = new File(FOLDER, "citizens.yml");
+		
 		if(!FILE.exists()) copyFromJar("citizens.yml", FOLDER);
 		config = load(FILE);
 		defaults();
