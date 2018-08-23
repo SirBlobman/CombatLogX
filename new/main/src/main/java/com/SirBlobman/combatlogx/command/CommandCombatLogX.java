@@ -133,6 +133,8 @@ public class CommandCombatLogX implements TabExecutor {
 				String sversion = UpdateUtil.getSpigotVersion();
 				
 				String[] msg = Util.color(
+				    "&f&lCombatLogX by SirBlobman",
+				    " ",
 					"&f&lYour Version: &7v" + pversion,
 					"&f&lSpigot Version: &7v" + sversion,
 					"&7&oGetting expansion versions...",

@@ -16,6 +16,7 @@ import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.StateFlag.State;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
+import com.sk89q.worldguard.protection.flags.registry.SimpleFlagRegistry;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 
@@ -47,14 +48,29 @@ public class WGUtil extends Util {
 		            String error = "Failed to register the flag mob-combat normally. Attempting to force-register...";
 		            print(error);
 		            
-		            Class<?> clazz = fr.getClass();
-		            Method[] methods = clazz.getMethods();
+		            SimpleFlagRegistry sfr = (SimpleFlagRegistry) fr;
+		            Class<?> clazz = sfr.getClass();
+		            Method[] methods = clazz.getDeclaredMethods();
+		            boolean success = false;
 		            for(Method method : methods) {
 		                String name = method.getName();
 		                if(name.equals("forceRegister")) {
-		                    MOB_COMBAT = (StateFlag) method.invoke(fr, new StateFlag("mob-combat", true));
-		                    break;
+		                    method.setAccessible(true);
+		                    Object obj = method.invoke(sfr, new StateFlag("mob-combat", true));
+		                    if(obj instanceof StateFlag) {
+	                            MOB_COMBAT = (StateFlag) obj;
+	                            success = true;
+	                            break;
+		                    }
 		                }
+		            }
+		            
+		            if(success) {
+		                String msg = "Successfully registered flag mob-combat";
+		                Util.print(msg);
+		            } else {
+	                    String error1 = "Failed to force-register the flag mob-combat. This may cause issues!";
+	                    print(error1);
 		            }
 		        } catch(Throwable ex2) {
 		            String error = "Failed to force-register the flag mob-combat. This may cause issues!";
