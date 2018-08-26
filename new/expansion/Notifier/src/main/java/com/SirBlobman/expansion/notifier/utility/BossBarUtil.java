@@ -90,7 +90,7 @@ public class BossBarUtil extends Util {
 		
 		int timeLeft = CombatUtil.getTimeLeft(p);
 		if(timeLeft <= 0) {
-			removeBossBar(p);
+			removeBossBar(p, false);
 		} else {
 			List<String> keys = newList("{time_left}");
 			List<?> vals = newList(timeLeft);
@@ -111,17 +111,21 @@ public class BossBarUtil extends Util {
 		}
 	}
 	
-	public static void removeBossBar(Player p) {
+	public static void removeBossBar(Player p, boolean shuttingDown) {
 		BossBar bb = getBossBar(p);
 		
-		String title =color(ConfigNotifier.BOSS_BAR_NO_LONGER_IN_COMBAT);
+		String title = color(ConfigNotifier.BOSS_BAR_NO_LONGER_IN_COMBAT);
 		bb.setTitle(title);
 		
-		SchedulerUtil.runLater(20L, () -> {			
-			bb.removeAll();
-			
-			UUID uuid = p.getUniqueId();
-			BOSS_BARS.put(uuid, bb);
-		});
+		if(shuttingDown) {
+		    bb.removeAll();
+		} else {
+	        SchedulerUtil.runLater(20L, () -> {         
+	            bb.removeAll();
+	            
+	            UUID uuid = p.getUniqueId();
+	            BOSS_BARS.put(uuid, bb);
+	        });
+		}
 	}
 }

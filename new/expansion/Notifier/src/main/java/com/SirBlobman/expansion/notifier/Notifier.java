@@ -38,7 +38,7 @@ public class Notifier implements CLXExpansion, Listener {
 	@Override
 	public void disable() {
 		Bukkit.getOnlinePlayers().forEach(p -> {
-			BossBarUtil.removeBossBar(p); 
+			BossBarUtil.removeBossBar(p, true); 
 			ActionBarUtil.removeActionBar(p);
 		});
 	}
@@ -86,7 +86,7 @@ public class Notifier implements CLXExpansion, Listener {
 	public void onUntag(PlayerUntagEvent e) {
 		Player p = e.getPlayer();
 		
-		if(ConfigNotifier.BOSS_BAR_ENABLED) BossBarUtil.removeBossBar(p);
+		if(ConfigNotifier.BOSS_BAR_ENABLED) BossBarUtil.removeBossBar(p, false);
 		if(ConfigNotifier.ACTION_BAR_ENABLED) ActionBarUtil.removeActionBar(p);
 		if(ConfigNotifier.SCORE_BOARD_ENABLED) {
 			if(ConfigNotifier.SCORE_BOARD_USE_FEATHERBOARD) {
