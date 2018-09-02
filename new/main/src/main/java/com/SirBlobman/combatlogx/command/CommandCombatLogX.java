@@ -73,55 +73,75 @@ public class CommandCombatLogX implements TabExecutor {
 	}
 	
 	private boolean tag(CommandSender cs, String[] args) {
-		if(args.length > 1) {
-			String target = args[1];
-			Player t = Bukkit.getPlayer(target);
-			if(t != null) {
-				CombatUtil.tag(t, null, TagType.UNKNOWN, TagReason.UNKNOWN);
-				List<String> keys = Util.newList("{target}");
-				List<?> vals = Util.newList(t.getName());
-				String format = ConfigLang.getWithPrefix("messages.commands.combatlogx.tag");
-				String msg = Util.formatMessage(format, keys, vals);
-				Util.sendMessage(cs, msg);
-				return true;
-			} else {
-				List<String> keys = Util.newList("{target}");
-				List<?> vals = Util.newList(target);
-				String format = ConfigLang.getWithPrefix("messages.commands.invalid target");
-				String error = Util.formatMessage(format, keys, vals);
-				Util.sendMessage(cs, error);
-				return true;
-			}
-		} else return false;
-	}
-	
-	private boolean untag(CommandSender cs, String[] args) {
-		if(args.length > 1) {
-			String target = args[1];
-			Player t = Bukkit.getPlayer(target);
-			if(t != null) {
-				if(CombatUtil.isInCombat(t)) {
-					CombatUtil.untag(t, UntagReason.EXPIRE);
+		String perm = "combatlogx.tag";
+		if(cs.hasPermission(perm)) {
+			if(args.length > 1) {
+				String target = args[1];
+				Player t = Bukkit.getPlayer(target);
+				if(t != null) {
+					CombatUtil.tag(t, null, TagType.UNKNOWN, TagReason.UNKNOWN);
 					List<String> keys = Util.newList("{target}");
 					List<?> vals = Util.newList(t.getName());
-					String format = ConfigLang.getWithPrefix("messages.commands.combatlogx.untag");
+					String format = ConfigLang.getWithPrefix("messages.commands.combatlogx.tag");
 					String msg = Util.formatMessage(format, keys, vals);
 					Util.sendMessage(cs, msg);
 					return true;
 				} else {
-					String error = ConfigLang.getWithPrefix("messages.commands.combatlogx.not in combat");
+					List<String> keys = Util.newList("{target}");
+					List<?> vals = Util.newList(target);
+					String format = ConfigLang.getWithPrefix("messages.commands.invalid target");
+					String error = Util.formatMessage(format, keys, vals);
 					Util.sendMessage(cs, error);
 					return true;
 				}
-			} else {
-				List<String> keys = Util.newList("{target}");
-				List<?> vals = Util.newList(target);
-				String format = ConfigLang.getWithPrefix("messages.commands.invalid target");
-				String error = Util.formatMessage(format, keys, vals);
-				Util.sendMessage(cs, error);
-				return true;
-			}
-		} else return false;
+			} else return false;
+		} else {
+			List<String> keys = Util.newList("{permission}");
+			List<String> vals = Util.newList(perm);
+			String format = ConfigLang.getWithPrefix("messages.commands.no permission");
+			String error = Util.formatMessage(format, keys, vals);
+			Util.sendMessage(cs, error);
+			return true;
+		}
+	}
+	
+	private boolean untag(CommandSender cs, String[] args) {
+		String perm = "combatlogx.untag";
+		if(cs.hasPermission(perm)) {
+			if(args.length > 1) {
+				String target = args[1];
+				Player t = Bukkit.getPlayer(target);
+				if(t != null) {
+					if(CombatUtil.isInCombat(t)) {
+						CombatUtil.untag(t, UntagReason.EXPIRE);
+						List<String> keys = Util.newList("{target}");
+						List<?> vals = Util.newList(t.getName());
+						String format = ConfigLang.getWithPrefix("messages.commands.combatlogx.untag");
+						String msg = Util.formatMessage(format, keys, vals);
+						Util.sendMessage(cs, msg);
+						return true;
+					} else {
+						String error = ConfigLang.getWithPrefix("messages.commands.combatlogx.not in combat");
+						Util.sendMessage(cs, error);
+						return true;
+					}
+				} else {
+					List<String> keys = Util.newList("{target}");
+					List<?> vals = Util.newList(target);
+					String format = ConfigLang.getWithPrefix("messages.commands.invalid target");
+					String error = Util.formatMessage(format, keys, vals);
+					Util.sendMessage(cs, error);
+					return true;
+				}
+			} else return false;
+		} else {
+			List<String> keys = Util.newList("{permission}");
+			List<String> vals = Util.newList(perm);
+			String format = ConfigLang.getWithPrefix("messages.commands.no permission");
+			String error = Util.formatMessage(format, keys, vals);
+			Util.sendMessage(cs, error);
+			return true;
+		}
 	}
 	
 	private boolean version(CommandSender cs) {

@@ -22,6 +22,7 @@ public class ConfigCheatPrevention extends Config {
 		if(!FILE.exists()) copyFromJar("cheat prevention.yml", FOLDER);
 		config = load(FILE);
 		defaults();
+		CheatPrevention.detectAliases();
 		return config;
 	}
 	

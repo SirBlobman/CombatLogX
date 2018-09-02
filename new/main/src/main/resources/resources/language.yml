@@ -52,6 +52,11 @@ messages:
         not allowed: "&c&oYou cannot use elytra during combat."
       command:
         not allowed: "&c&oYou cannot execute &a{command} &c&oduring combat."
+      teleport:
+        enderpearl:
+          not allowed: "&c&oYou cannot use enderpearls during combat"
+        other:
+          not allowed: "&c&oYou cannot teleport during combat."
         
     notcombatlogx:
       all damage: "&c&oYou took damage. Do not log out!"
