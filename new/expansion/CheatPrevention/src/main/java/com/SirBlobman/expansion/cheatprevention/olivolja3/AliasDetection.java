@@ -11,24 +11,26 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.SirBlobman.combatlogx.CombatLogX;
 
+
+/**
+ * -------------------------------------------------<br/>
+ * 
+ * This class was created for CombatLogXs expansion<br/>
+ * CheatPrevention<br/><br/>
+ * 
+ * This class may be copied and modified to suit your<br/>
+ * needs but you need to credit me (Olivo) for creating<br/>
+ * this simple class.<br/><br/>
+ * 
+ * Minecraft: olivolja3<br/>
+ * Discord: Olivo#3313<br/>
+ * Youtube: OlivoCMD<br/>
+ * 
+ * -------------------------------------------------
+ * 
+ * @author olivolja3
+ */
 public class AliasDetection {
-	
-	/*
-	 * -------------------------------------------------
-	 * 
-	 * This class was created for CombatLogXs expansion
-	 * CheatPrevention
-	 * 
-	 * This class may be copied and modified to suit your
-	 * needs but you need to credit me (Olivo) for creating
-	 * this simple class.
-	 * 
-	 * Minecraft: olivolja3
-	 * Discord: Olivo#3313
-	 * Youtube: OlivoCMD
-	 * 
-	 * -------------------------------------------------
-	 */
 	
 	private static List<String> aliases = new ArrayList<>();
 	private static List<String> commands = new ArrayList<>();
