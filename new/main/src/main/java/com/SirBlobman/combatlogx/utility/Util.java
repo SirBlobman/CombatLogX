@@ -153,13 +153,13 @@ public class Util {
 	
 	@SafeVarargs
 	public static <L> List<L> newList(L... ll) {
-		List<L> list = new ArrayList<L>();
+		List<L> list = new ArrayList<>();
 		for(L l : ll) list.add(l);
 		return list;
 	}
 	
 	public static <L> List<L> newList(Collection<L> ll) {
-		List<L> list = new ArrayList<L>();
+		List<L> list = new ArrayList<>();
 		ll.forEach(l -> list.add(l));
 		return list;
 	}
@@ -171,12 +171,12 @@ public class Util {
 	}
 	
 	public static <K,V> Map<K, V> newMap() {
-		Map<K, V> map = new HashMap<K, V>();
+		Map<K, V> map = new HashMap<>();
 		return map;
 	}
 	
 	public static <K,V> Map<K, V> newMap(Map<K, V> kv) {
-		Map<K, V> map = new HashMap<K, V>();
+		Map<K, V> map = newMap();
 		for(Entry<K, V> e : kv.entrySet()) {
 			K key = e.getKey();
 			V val = e.getValue();

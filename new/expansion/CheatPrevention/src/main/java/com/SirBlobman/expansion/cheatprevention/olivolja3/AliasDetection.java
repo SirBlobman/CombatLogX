@@ -1,15 +1,13 @@
 package com.SirBlobman.expansion.cheatprevention.olivolja3;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.PluginCommandYamlParser;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import com.SirBlobman.combatlogx.CombatLogX;
+import com.SirBlobman.combatlogx.utility.Util;
 
 
 /**
@@ -30,47 +28,27 @@ import com.SirBlobman.combatlogx.CombatLogX;
  * 
  * @author olivolja3
  */
-public class AliasDetection {
-	
-	private static List<String> aliases = new ArrayList<>();
-	private static List<String> commands = new ArrayList<>();
-	private static HashMap<String, String> aTC = new HashMap<>();
-	private static Plugin plugin = JavaPlugin.getPlugin(CombatLogX.class);
-	
-	
-	public static void cmdDetect() {
-        for(Plugin plugin : plugin.getServer().getPluginManager().getPlugins()){
-                List<Command> cmdList = PluginCommandYamlParser.parse(plugin);
-                for(int i=0; i < cmdList.size(); i++){
-                	Command cmd = cmdList.get(i);
-					commands.add(cmd.getName());
-					for(String alias : cmd.getAliases()) {
-						aTC.put(alias, cmd.getName());
-						aliases.add(alias);
-					}
-                }
-        }
-	}
-	
-	public static String aliasToCMD(String alias) {
-		if(aTC.containsKey(alias)) {
-			return aTC.get(alias);
-		} else {
-			return null;
-		}
-	}
-	
-	public static Boolean isAlias(String cmd) {
-		if(!commands.contains(cmd)) return true;
-		else return false;
-	}
-	
-	public static List<String> getCommands() {
-		return commands;
-	}
-	
-	public static List<String> getAliases() {
-		return aliases;
-	}
-
+public class AliasDetection {   
+    private static List<String> aliases = Util.newList();
+    private static List<String> commands = Util.newList();
+    private static Map<String, String> aliasToCommand = Util.newMap();
+    
+    public static void cmdDetect() {
+        Arrays.stream(Util.PM.getPlugins()).forEach(plugin -> {
+            List<Command> cmdList = PluginCommandYamlParser.parse(plugin);
+            cmdList.forEach(cmd -> {
+                String name = cmd.getName();
+                commands.add(name);
+                cmd.getAliases().forEach(alias -> {
+                    aliasToCommand.put(alias, name);
+                    aliases.add(alias);
+                });
+            });
+        });
+    }
+    
+    public static String aliasToCommand(String alias) {return aliasToCommand.getOrDefault(alias, null);}
+    public static boolean isAlias(String cmd) {return aliases.contains(cmd);}
+    public static List<String> getCommands() {return commands;}
+    public static List<String> getAliases() {return aliases;}
 }
