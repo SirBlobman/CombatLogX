@@ -1,11 +1,6 @@
 package com.SirBlobman.combatlogx.listener;
 
-import org.bukkit.entity.AnimalTamer;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
-import org.bukkit.entity.Tameable;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -25,8 +20,10 @@ public class AttackListener implements Listener {
 		
 		if((damager instanceof Projectile) && ConfigOptions.OPTION_LINK_PROJECTILES) {
 			Projectile p = (Projectile) damager;
-			ProjectileSource ps = p.getShooter();
-			if(ps instanceof Entity) {damager = (Entity) ps;}
+			if(!p.getType().equals(EntityType.ENDER_PEARL)) {
+				ProjectileSource ps = p.getShooter();
+				if(ps instanceof Entity) {damager = (Entity) ps;}
+			}
 		}
 		
 		if((damager instanceof Tameable) && ConfigOptions.OPTION_LINK_PETS) {

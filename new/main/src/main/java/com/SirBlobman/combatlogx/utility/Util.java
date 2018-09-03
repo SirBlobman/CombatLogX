@@ -1,11 +1,7 @@
 package com.SirBlobman.combatlogx.utility;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
@@ -103,6 +99,7 @@ public class Util {
 	}
 	
 	public static void log(Object... oo) {
+		if(oo[0].equals("")) return;
 		for(Object o : oo) {
 			String prefix = ConfigLang.get("messages.plugin prefix");
 			String log = strip(prefix) + " " + strip(o);
@@ -111,6 +108,7 @@ public class Util {
 	}
 	
 	public static void print(Object... oo) {
+		if(oo[0].equals("")) return;
 		String[] msgs = color(oo);
 		for(String msg : msgs) {
 			String prefix = ConfigLang.get("messages.plugin prefix");
@@ -120,11 +118,13 @@ public class Util {
 	}
 	
 	public static void printNoPrefix(Object... oo) {
+		if(oo[0].equals("")) return;
 		String[] msgs = color(oo);
 		for(String msg : msgs) {CONSOLE.sendMessage(msg);}
 	}
 	
 	public static void broadcast(boolean prefix, Object... oo) {
+		if(oo[0].equals("")) return;
 		for(Object o : oo) {
 			String str = str(o);
 			if(!str.isEmpty()) {
@@ -135,14 +135,20 @@ public class Util {
 		}
 	}
 	
+	/**
+	 * Send a list of messages to a {@link CommandSender}<br/>
+	 * If the message is empty or null it won't be sent
+	 * @param cs The {@link CommandSender} that will receive the message
+	 * @param oo A list of objects which will be converted to strings using {@link Util#str(Object)}
+	 */
 	public static void sendMessage(CommandSender cs, Object... oo) {
-		for(Object o : oo) {
-			String str = str(o);
-			if(!str.isEmpty()) {
-				String msg = color(str);
-				cs.sendMessage(msg);
-			}
-		}
+	    Arrays.stream(oo).forEach(obj -> {
+	        String str = str(obj);
+            if(str != null && !str.isEmpty() && !str.equals(" ")) {
+                String msg = color(str);
+                cs.sendMessage(msg);
+            }
+	    });
 	}
 	
 	@SafeVarargs
