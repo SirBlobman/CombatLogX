@@ -2,7 +2,6 @@ package com.SirBlobman.expansion.compatfactions.config;
 
 import java.io.File;
 
-import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.SirBlobman.combatlogx.config.Config;
