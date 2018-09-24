@@ -1,0 +1,47 @@
+name: CombatLogX
+main: com.SirBlobman.combatlogx.CombatLogX
+author: SirBlobman
+description: An expandable combat-tagging plugin with actual logging options
+
+# Versioning System: major.minor.patch.expansion
+# expansion will change when an expansion is changed or updated
+# patch will change when I make small changes that don't affect anything major
+# minor will change when I add a new expansion or create more effective changes
+# major will change when I modify the API or make a lot of changes that affect the plugin
+version: 8.0.0.1
+
+database: false
+depend: []
+softdepend: [Citizens]
+commands:
+  combatlogx:
+    description: Reload the Config and Messages for this plugin
+    usage: |-
+      Valid Usage:
+        /<command> reload
+        /<command> tag/untag <player>
+        /<command> version
+    aliases: [clx]
+  combattime:
+    description: Check how much combat time you have left.
+    permission: combatlogx.time
+    permission-message: 'Ask the admins for this permission: combatlogx.time'
+    usage: /<command>
+    aliases: [ct, cl]
+permissions:
+  combatlogx.*:
+    description: Gives access to all CombatLogX perms (except bypass)
+    default: op
+    children:
+      combatlogx.reload:
+        description: Allows you to reload the config
+        default: op
+      combatlogx.time:
+        description: Gives permission to check how much time you have left during combat
+        default: true
+      combatlogx.untag: 
+        description: Allows you to force someone out of combat
+        default: op
+      combatlogx.tag:
+        description: Allows you to force someone into combat
+        default: op
