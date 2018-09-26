@@ -32,17 +32,13 @@
         </dependency>
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
-            <artifactId>WorldEdit</artifactId>
-            <scope>system</scope>
-			<systemPath>${project.basedir}/lib/WorldEdit-7.0.0-SNAPSHOT.jar</systemPath>
-            <version>7.0.0-SNAPSHOT</version>
+            <artifactId>worldedit-bukkit</artifactId>
+            <version>7.0.0-beta-01</version>
         </dependency>
         <dependency>
             <groupId>com.sk89q.worldguard</groupId>
-            <artifactId>WorldGuard</artifactId>
-            <scope>system</scope>
-			<systemPath>${project.basedir}/lib/WorldGuard-7.0.0-SNAPSHOT.jar</systemPath>
-            <version>7.0.0-SNAPSHOT</version>
+            <artifactId>worldguard-legacy</artifactId>
+            <version>7.0.0-beta-01</version>
         </dependency>
         <dependency>
         	<groupId>com.comphenix.protocol</groupId>

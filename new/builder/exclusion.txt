@@ -1,7 +1,0 @@
-*.zip
-*.xml
-**/target/**
-*.txt
-**/.settings/**
-**.project
-**.classpath

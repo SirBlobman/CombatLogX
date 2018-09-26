@@ -14,4 +14,4 @@
 
 # Don't Ignore
 !*pom.xml
-!**/builder/CombatLogX-*.zip
+!**/builder/target/CombatLogX*.zip
