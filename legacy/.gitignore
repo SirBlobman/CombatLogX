@@ -1,9 +1,13 @@
-/bin/
-/out/
-/lib/
-.settings/
-.externalToolBuilders/
-*.project
+# Eclipse
 *.classpath
-*.xml
-/target/
+*.project
+/bin/*
+
+# Java
+*.class
+
+# Maven
+**/target/**
+
+# Don't Ignore
+!**/build/**
