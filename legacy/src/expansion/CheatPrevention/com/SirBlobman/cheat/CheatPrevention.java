@@ -27,8 +27,10 @@ import com.SirBlobman.combatlogx.event.CombatTimerChangeEvent;
 import com.SirBlobman.combatlogx.event.PlayerTagEvent;
 import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
+import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.expansion.cheatprevention.config.ConfigCheatPrevention;
 
 public class CheatPrevention implements CLXExpansion, Listener {
     public static File FOLDER;
@@ -176,42 +178,36 @@ public class CheatPrevention implements CLXExpansion, Listener {
         }
     }
 
-    @EventHandler
-    public void pcpe(PlayerCommandPreprocessEvent e) {
-        if (e.isCancelled())
-            return;
+    @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=false)
+    public void onCommand(PlayerCommandPreprocessEvent e) {
         Player p = e.getPlayer();
-        if (Combat.isInCombat(p)) {
-            String msg = e.getMessage();
-            String cmd = msg.toLowerCase();
-            boolean whitelist = ConfigCheatPrevention.CHEAT_PREVENT_BLOCKED_COMMANDS_MODE;
-            List<String> list = ConfigCheatPrevention.CHEAT_PREVENT_BLOCKED_COMMANDS;
-            if(whitelist) {
-                e.setCancelled(true);
-                String[] split1 = cmd.split(" ");
-                for(String s : list) {
-                    String[] split2 = s.split(" ");
-                    if(split1[0].equals(split2[0])) {
-                        e.setCancelled(false);
-                        break;
-                    }
-                }
-            } else {
-                String[] split1 = cmd.split(" ");
-                for(String s : list) {
-                    String[] split2 = s.split(" ");
-                    if(split1[0].equals(split2[0])) {
-                        e.setCancelled(true);
-                        break;
-                    }
+        String message = e.getMessage();
+        String[] split = message.split(" ");
+        String cmd = split[0].toLowerCase();
+        if(Combat.isInCombat(p)) {
+            if(cmd.startsWith("/cmi") && split.length > 1) {
+                cmd = "/" + split[1].toLowerCase();
+                if(cmd.contains(":")) {
+                    String[] split1 = cmd.split(":");
+                    cmd = split1[0].toLowerCase();
                 }
             }
-
-            if (e.isCancelled()) {
-                List<String> l1 = Util.newList("{command}");
-                List<String> l2 = Util.newList(msg);
-                String msg1 = Util.formatMessage(ConfigLang.MESSAGE_BLOCKED_COMMAND, l1, l2);
-                Util.sendMessage(p, msg1);
+            
+            List<String> commandList = Util.toLowercaseList(ConfigCheatPrevention.CHEAT_PREVENT_BLOCKED_COMMANDS);
+            boolean deny = false;
+            if(ConfigCheatPrevention.CHEAT_PREVENT_BLOCKED_COMMANDS_MODE) {
+                if(!commandList.contains(cmd)) deny = true;
+            } else {
+                if(commandList.contains(cmd)) deny = true;
+            }
+            
+            if(deny) {
+                e.setCancelled(true);
+                List<String> keys = Util.newList("{command}");
+                List<?> vals = Util.newList(cmd);
+                String format = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.command.not allowed");
+                String error = Util.formatMessage(format, keys, vals);
+                Util.sendMessage(p, error);
             }
         }
     }

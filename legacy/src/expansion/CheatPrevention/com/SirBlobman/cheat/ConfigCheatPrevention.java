@@ -46,7 +46,7 @@ public class ConfigCheatPrevention extends Config {
     public static boolean CHEAT_PREVENT_TELEPORT_ALLOW_ENDERPEARLS = true;
     public static boolean CHEAT_PREVENT_TELEPORT_ENDERPEARLS_RESTART = true;
     public static String CHEAT_PREVENT_CHANGE_GAMEMODE_MODE = "SURVIVAL";
-    public static List<String> CHEAT_PREVENT_BLOCKED_COMMANDS = Util.newList("fly", "tpa", "tpahere", "spawn", "home");
+    public static List<String> CHEAT_PREVENT_BLOCKED_COMMANDS = Util.newList("/fly", "/tpa", "/tpahere", "/spawn", "/home");
     public static List<String> CHEAT_PREVENT_BLOCKED_POTIONS = Util.newList("INVISIBILITY", "INCREASE_DAMAGE");
 
     private static void defaults() {
@@ -63,7 +63,7 @@ public class ConfigCheatPrevention extends Config {
         CHEAT_PREVENT_CHANGE_GAMEMODE_MODE = get("cheat prevention.change gamemode.mode", "SURVIVAL");
         CHEAT_PREVENT_BLOCKED_COMMANDS_MODE = get("cheat prevention.blocked commands.whitelist mode", false);
         CHEAT_PREVENT_BLOCKED_COMMANDS = get("cheat prevention.blocked commands.commands",
-                Util.newList("fly", "tpa", "tpahere", "spawn", "home"));
+                Util.newList("/fly", "/tpa", "/tpahere", "/spawn", "/home"));
         CHEAT_PREVENT_BLOCKED_POTIONS = get("cheat prevention.blocked potions",
                 Util.newList("INVISIBILITY", "INCREASE_DAMAGE"));
 
