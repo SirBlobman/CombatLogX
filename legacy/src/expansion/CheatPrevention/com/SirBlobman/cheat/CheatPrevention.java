@@ -48,7 +48,7 @@ public class CheatPrevention implements CLXExpansion, Listener {
     
     public String getUnlocalizedName() {return "CheatPrevention";}
     public String getName() {return "Cheat Prevention";}
-    public String getVersion() {return "4";}
+    public String getVersion() {return "6";}
     
     @EventHandler
     public void pce(PlayerTagEvent e) {
@@ -180,23 +180,27 @@ public class CheatPrevention implements CLXExpansion, Listener {
     public void onCommand(PlayerCommandPreprocessEvent e) {
         Player p = e.getPlayer();
         String message = e.getMessage();
-        String[] split = message.split(" ");
-        String cmd = split[0].toLowerCase();
+        String cmd = message.toLowerCase();
         if(Combat.isInCombat(p)) {
-            if(cmd.startsWith("/cmi") && split.length > 1) {
-                cmd = "/" + split[1].toLowerCase();
-                if(cmd.contains(":")) {
-                    String[] split1 = cmd.split(":");
-                    cmd = split1[0].toLowerCase();
-                }
-            }
-            
             List<String> commandList = Util.toLowerCaseList(ConfigCheatPrevention.CHEAT_PREVENT_BLOCKED_COMMANDS);
             boolean deny = false;
             if(ConfigCheatPrevention.CHEAT_PREVENT_BLOCKED_COMMANDS_MODE) {
-                if(!commandList.contains(cmd)) deny = true;
+                boolean shouldBlock = true;
+                for(String unblocked : commandList) {
+                    if(cmd.startsWith(unblocked)) {
+                        shouldBlock = false;
+                        break;
+                    }
+                }
+                
+                deny = shouldBlock;
             } else {
-                if(commandList.contains(cmd)) deny = true;
+                for(String blocked : commandList) {
+                    if(cmd.startsWith(blocked)) {
+                        deny = true;
+                        break;
+                    }
+                }
             }
             
             if(deny) {
