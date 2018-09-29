@@ -27,15 +27,13 @@ import com.SirBlobman.combatlogx.event.CombatTimerChangeEvent;
 import com.SirBlobman.combatlogx.event.PlayerTagEvent;
 import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
-import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.combatlogx.utility.Util;
-import com.SirBlobman.expansion.cheatprevention.config.ConfigCheatPrevention;
 
 public class CheatPrevention implements CLXExpansion, Listener {
     public static File FOLDER;
     private static List<Player> RE_ENABLE_FLIGHT = Util.newList();
-
+    
     @Override
     public void enable() {
         FOLDER = getDataFolder();
@@ -47,11 +45,11 @@ public class CheatPrevention implements CLXExpansion, Listener {
     public void onConfigReload() {
         ConfigCheatPrevention.load();
     }
-
+    
     public String getUnlocalizedName() {return "CheatPrevention";}
     public String getName() {return "Cheat Prevention";}
     public String getVersion() {return "4";}
-
+    
     @EventHandler
     public void pce(PlayerTagEvent e) {
         if(!e.isCancelled()) {
@@ -64,22 +62,22 @@ public class CheatPrevention implements CLXExpansion, Listener {
                 p.setFlying(false);
                 p.setAllowFlight(false);
             }
-
+            
             if (ConfigCheatPrevention.CHEAT_PREVENT_AUTO_CLOSE_GUIS)
                 p.closeInventory();
         }
     }
-
+    
     @EventHandler
     public void ctce(CombatTimerChangeEvent e) {
         Player p = e.getPlayer();
-
+        
         if (ConfigCheatPrevention.CHEAT_PREVENT_CHANGE_GAMEMODE) {
             String m = ConfigCheatPrevention.CHEAT_PREVENT_CHANGE_GAMEMODE_MODE;
             GameMode gm = GameMode.valueOf(m);
             p.setGameMode(gm);
         }
-
+        
         for (String s : ConfigCheatPrevention.CHEAT_PREVENT_BLOCKED_POTIONS) {
             try {
                 PotionEffectType pet = PotionEffectType.getByName(s);
@@ -91,7 +89,7 @@ public class CheatPrevention implements CLXExpansion, Listener {
             }
         }
     }
-
+    
     @EventHandler
     public void pue(PlayerUntagEvent e) {
         Player p = e.getPlayer();
@@ -105,14 +103,14 @@ public class CheatPrevention implements CLXExpansion, Listener {
                         return;
                     }
                 }
-
+                
                 p.setAllowFlight(true);
                 p.setFlying(true);
                 RE_ENABLE_FLIGHT.remove(p);
             }
         }
     }
-
+    
     @EventHandler
     public void ioe(InventoryOpenEvent e) {
         if (ConfigCheatPrevention.CHEAT_PREVENT_OPEN_INVENTORIES) {
@@ -131,7 +129,7 @@ public class CheatPrevention implements CLXExpansion, Listener {
             }
         }
     }
-
+    
     @EventHandler(priority = EventPriority.HIGHEST)
     public void toggleFlight(PlayerToggleFlightEvent e) {
         if (e.isCancelled())
@@ -149,7 +147,7 @@ public class CheatPrevention implements CLXExpansion, Listener {
             }
         }
     }
-
+    
     @EventHandler
     public void tp(PlayerTeleportEvent e) {
         if (ConfigCheatPrevention.CHEAT_PREVENT_TELEPORT) {
@@ -177,7 +175,7 @@ public class CheatPrevention implements CLXExpansion, Listener {
             }
         }
     }
-
+    
     @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=false)
     public void onCommand(PlayerCommandPreprocessEvent e) {
         Player p = e.getPlayer();
@@ -193,7 +191,7 @@ public class CheatPrevention implements CLXExpansion, Listener {
                 }
             }
             
-            List<String> commandList = Util.toLowercaseList(ConfigCheatPrevention.CHEAT_PREVENT_BLOCKED_COMMANDS);
+            List<String> commandList = Util.toLowerCaseList(ConfigCheatPrevention.CHEAT_PREVENT_BLOCKED_COMMANDS);
             boolean deny = false;
             if(ConfigCheatPrevention.CHEAT_PREVENT_BLOCKED_COMMANDS_MODE) {
                 if(!commandList.contains(cmd)) deny = true;
@@ -202,12 +200,11 @@ public class CheatPrevention implements CLXExpansion, Listener {
             }
             
             if(deny) {
-                e.setCancelled(true);
-                List<String> keys = Util.newList("{command}");
-                List<?> vals = Util.newList(cmd);
-                String format = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.command.not allowed");
-                String error = Util.formatMessage(format, keys, vals);
-                Util.sendMessage(p, error);
+                e.setCancelled(true);                
+                List<String> l1 = Util.newList("{command}");
+                List<String> l2 = Util.newList(message);
+                String msg1 = Util.formatMessage(ConfigLang.MESSAGE_BLOCKED_COMMAND, l1, l2);
+                Util.sendMessage(p, msg1);
             }
         }
     }
