@@ -11,7 +11,7 @@
 	</parent>
 	
 	<properties>
-		<beta.version>9</beta.version>
+		<beta.version>10</beta.version>
 	</properties>
 
 	<artifactId>combatlogx-1.13-builder</artifactId>
@@ -31,15 +31,18 @@
 								<!-- Copy CombatLogX jar -->
 								<copy file="${project.basedir}/../main/target/CombatLogX-1.13-${project.version}.jar" tofile="${project.basedir}/target/CombatLogX.jar"></copy>
 								
-								<!-- Copy Expansion jars -->
-								<copy file="${project.basedir}/../expansion/CheatPrevention/target/exp-CheatPrevention-${project.version}.jar" tofile="${project.basedir}/target/CombatLogX/expansions/Cheat Prevention.jar"></copy>
+								<!-- Copy Compatibility jars -->
 								<copy file="${project.basedir}/../expansion/CompatCitizens/target/exp-CompatCitizens-${project.version}.jar" tofile="${project.basedir}/target/CombatLogX/expansions/Citizens Compatibility.jar"></copy>
 								<copy file="${project.basedir}/../expansion/CompatFactions/target/exp-CompatFactions-${project.version}.jar" tofile="${project.basedir}/target/CombatLogX/expansions/Factions Compatibility.jar"></copy>
 								<copy file="${project.basedir}/../expansion/CompatParties/target/exp-CompatParties-${project.version}.jar" tofile="${project.basedir}/target/CombatLogX/expansions/Parties Compatbility.jar"></copy>
 								<copy file="${project.basedir}/../expansion/CompatPlaceholders/target/exp-CompatPlaceholders-${project.version}.jar" tofile="${project.basedir}/target/CombatLogX/expansions/Placeholder Compatibility.jar"></copy>
 								<copy file="${project.basedir}/../expansion/CompatWorldGuard/target/exp-CompatWorldGuard-${project.version}.jar" tofile="${project.basedir}/target/CombatLogX/expansions/WorldGuard Compatibility.jar"></copy>
+								
+								<!-- Copy Expansion jars -->
+								<copy file="${project.basedir}/../expansion/CheatPrevention/target/exp-CheatPrevention-${project.version}.jar" tofile="${project.basedir}/target/CombatLogX/expansions/Cheat Prevention.jar"></copy>
 								<copy file="${project.basedir}/../expansion/NotCombatLogX/target/exp-NotCombatLogX-${project.version}.jar" tofile="${project.basedir}/target/CombatLogX/expansions/NotCombatLogX.jar"></copy>
 								<copy file="${project.basedir}/../expansion/Notifier/target/exp-Notifier-${project.version}.jar" tofile="${project.basedir}/target/CombatLogX/expansions/Notifier.jar"></copy>
+								<copy file="${project.basedir}/../expansion/Rewards/target/exp-Rewards-${project.version}.jar" tofile="${project.basedir}/target/CombatLogX/expansions/Rewards.jar"></copy>
 								
 								<!-- Create Final ZIP -->
 								<zip basedir="${project.basedir}/target" encoding="UTF-8" includes="**.jar, **/**.jar" destfile="${project.basedir}/target/CombatLogX (Beta ${beta.version}).zip"></zip>

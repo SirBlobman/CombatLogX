@@ -29,6 +29,7 @@
 		<module>expansion/CheatPrevention</module>
 		<module>expansion/NotCombatLogX</module>
 		<module>expansion/Notifier</module>
+		<module>expansion/Rewards</module>
 
 		<!-- Plugin Support Expansions -->
 		<module>expansion/CompatCitizens</module>

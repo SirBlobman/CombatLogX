@@ -183,22 +183,18 @@ public class CheatPrevention implements CLXExpansion, Listener {
         }
     }
     
-    @EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=false)
+    @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=false)
     public void onCommand(PlayerCommandPreprocessEvent e) {
         Player p = e.getPlayer();
         String message = e.getMessage();
         String[] split = message.split(" ");
         String cmd = split[0].toLowerCase();
-        Util.log("Detected command '" + message + "', shortening it to '" + cmd + "'");
         if(CombatUtil.isInCombat(p)) {
-            Util.log("Player is tagged, checking if command needs to be blocked...");
             if(cmd.startsWith("/cmi") && split.length > 1) {
                 cmd = "/" + split[1].toLowerCase();
-                Util.print("Detected CMI Command '" + cmd + "'");
                 if(cmd.contains(":")) {
                     String[] split1 = cmd.split(":");
                     cmd = split1[0].toLowerCase();
-                    Util.log("Detected special CMI command '" + cmd + "'");
                 }
             }
             
