@@ -1,8 +1,0 @@
-/bin/
-/out/
-/lib/
-.settings/
-.externalToolBuilders/
-*.project
-*.classpath
-*.xml
