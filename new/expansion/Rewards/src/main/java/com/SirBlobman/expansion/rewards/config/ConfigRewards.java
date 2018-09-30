@@ -2,7 +2,6 @@ package com.SirBlobman.expansion.rewards.config;
 
 import java.io.File;
 import java.util.List;
-import java.util.Set;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -18,8 +17,10 @@ public class ConfigRewards extends Config {
     
     public static void save() {save(config, FILE);}
     public static YamlConfiguration load() {
-        if(FOLDER == null) FOLDER = Rewards.FOLDER;
-        if(FILE == null) FILE = new File(FOLDER, "notifier.yml");
+        if(FOLDER == null || FILE == null) {
+            FOLDER = Rewards.FOLDER;
+            FILE = new File(FOLDER, "rewards.yml");
+        }
         
         if(!FILE.exists()) copyFromJar("rewards.yml", FOLDER);
         config = load(FILE);
@@ -30,15 +31,19 @@ public class ConfigRewards extends Config {
     public static List<Reward> getRewards(boolean reload) {
         if(REWARD_CACHE.isEmpty() || reload) {
             load();
-            ConfigurationSection cs = config.getConfigurationSection("rewards");
-            Set<String> keys = cs.getKeys(false);
-            keys.forEach(key -> {
-                ConfigurationSection reward = cs.getConfigurationSection(key);
-                List<String> validWorlds = reward.getStringList("worlds");
-                List<String> commands = reward.getStringList("commands");
-                Reward r = new Reward(validWorlds, commands);
-                REWARD_CACHE.add(r);
-            });
+            if(config.isConfigurationSection("rewards")) {
+                ConfigurationSection cs = config.getConfigurationSection("rewards");
+                cs.getKeys(false).forEach(key -> {
+                    ConfigurationSection reward = cs.getConfigurationSection(key);
+                    List<String> validWorlds = reward.getStringList("worlds");
+                    List<String> commands = reward.getStringList("commands");
+                    Reward r = new Reward(validWorlds, commands);
+                    REWARD_CACHE.add(r);
+                });
+            } else {
+                String error = "Invalid Rewards Config! Please reset it!";
+                Util.print(error);
+            }
         }
         
         return REWARD_CACHE;

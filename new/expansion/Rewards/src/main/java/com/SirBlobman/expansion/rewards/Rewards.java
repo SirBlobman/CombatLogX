@@ -12,11 +12,12 @@ import org.bukkit.event.entity.EntityDeathEvent;
 
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
+import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.expansion.rewards.config.ConfigRewards;
 
 public class Rewards implements CLXExpansion, Listener {
     public String getUnlocalizedName() {return "Rewards";}
-    public String getVersion() {return "13.1";}
+    public String getVersion() {return "13.2";}
     
     public static File FOLDER;
     
@@ -24,6 +25,7 @@ public class Rewards implements CLXExpansion, Listener {
     public void enable() {
         FOLDER = getDataFolder();
         ConfigRewards.load();
+        PluginUtil.regEvents(this);
     }
     
     @Override
