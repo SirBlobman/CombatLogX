@@ -1,14 +1,13 @@
 # Eclipse
 *.classpath
 *.project
-/bin/*
+/bin/
 
 # Java
 *.class
 
 # Maven
-**/target/**
+/target/
 
 # Don't Ignore
 !**/build/**
-/bin/
