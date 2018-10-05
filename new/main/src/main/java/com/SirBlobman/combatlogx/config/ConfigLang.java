@@ -27,7 +27,7 @@ public class ConfigLang extends Config {
     public static String getWithPrefix(String path) {
         String msg = get(path);
         String prefix = get("messages.plugin prefix");
-        String with = prefix.isEmpty() ? "" : (get("messages.plugin prefix") + " ") + msg;
+        String with = prefix.isEmpty() ? msg : (get("messages.plugin prefix") + " ") + msg;
         return Util.color(with);
     }
 }

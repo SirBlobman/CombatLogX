@@ -11,7 +11,7 @@
 	</parent>
 
 	<properties>
-		<beta.version>11</beta.version>
+		<beta.version>12</beta.version>
 	</properties>
 
 	<artifactId>combatlogx-1.13-builder</artifactId>

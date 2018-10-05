@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import com.SirBlobman.combatlogx.utility.CombatUtil;
+import com.SirBlobman.combatlogx.utility.SchedulerUtil;
 
 public class Reward {
     private final List<String> validWorlds;
@@ -25,10 +25,7 @@ public class Reward {
         if(player != null && killed != null) {
             World world = player.getWorld();
             String worldName = world.getName();
-            if(validWorlds.contains(worldName)) {
-                LivingEntity enemy = CombatUtil.getEnemy(player);
-                return killed.equals(enemy);
-            } else return false;
+            return (validWorlds.contains(worldName) || validWorlds.contains("*"));
         } else return false;
     }
     
@@ -40,13 +37,10 @@ public class Reward {
         String worldName = world.getName();
         Validate.isTrue(validWorlds.contains(worldName), "Invalid world for player!");
         
-        LivingEntity enemy = CombatUtil.getEnemy(player);
-        Validate.isTrue(enemy.equals(killed), "Invalid killed entity for player!");
-        
         commands.forEach(command -> {
             String cmd = command.replace("{player}", player.getName()).replace("{killed}", killed.getName());
             CommandSender cs = Bukkit.getConsoleSender();
-            Bukkit.dispatchCommand(cs, cmd);
+            SchedulerUtil.runSync(() -> Bukkit.dispatchCommand(cs, cmd));
         });
     }
 }

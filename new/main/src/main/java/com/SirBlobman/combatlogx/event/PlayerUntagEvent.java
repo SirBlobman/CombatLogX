@@ -9,7 +9,7 @@ import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagType;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 
 public class PlayerUntagEvent extends PlayerEvent {
-	public static enum UntagReason {EXPIRE, QUIT, KICK;}
+	public static enum UntagReason {EXPIRE, EXPIRE_ENEMY_DEATH, QUIT, KICK;}
 	
 	private final UntagReason reason;
 	public PlayerUntagEvent(Player p, UntagReason reason) {

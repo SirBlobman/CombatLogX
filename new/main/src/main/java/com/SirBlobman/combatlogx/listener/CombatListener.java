@@ -13,7 +13,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 
-import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.config.ConfigOptions;
 import com.SirBlobman.combatlogx.event.PlayerPreTagEvent;
 import com.SirBlobman.combatlogx.event.PlayerTagEvent;
@@ -95,9 +94,7 @@ public class CombatListener implements Listener {
 		if(op != null && op.isOnline()) {
 			Player p = op.getPlayer();
 			if(CombatUtil.isInCombat(p) && ConfigOptions.COMBAT_UNTAG_ON_ENEMY_DEATH) {
-				String msg = ConfigLang.getWithPrefix("messages.combat.enemy death");
-				Util.sendMessage(p, msg);
-				CombatUtil.untag(p, UntagReason.EXPIRE);
+				CombatUtil.untag(p, UntagReason.EXPIRE_ENEMY_DEATH);
 			}
 		}
 		

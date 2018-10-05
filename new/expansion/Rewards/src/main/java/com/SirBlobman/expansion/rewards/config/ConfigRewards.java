@@ -27,10 +27,11 @@ public class ConfigRewards extends Config {
         return config;
     }
     
-    public static List<Reward> REWARD_CACHE = Util.newList();
+    private static List<Reward> REWARD_CACHE = Util.newList();
     public static List<Reward> getRewards(boolean reload) {
         if(REWARD_CACHE.isEmpty() || reload) {
             load();
+            REWARD_CACHE.clear();
             if(config.isConfigurationSection("rewards")) {
                 ConfigurationSection cs = config.getConfigurationSection("rewards");
                 cs.getKeys(false).forEach(key -> {

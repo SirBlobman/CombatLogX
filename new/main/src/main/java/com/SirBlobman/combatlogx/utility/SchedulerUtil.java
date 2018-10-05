@@ -17,4 +17,9 @@ public class SchedulerUtil extends Util {
 		BukkitTask bt = BS.runTaskAsynchronously(PLUGIN, run);
 		return bt;
 	}
+	
+	public static int runSync(Runnable run) {
+	    int task = BS.scheduleSyncDelayedTask(PLUGIN, run);
+	    return task;
+	}
 }
