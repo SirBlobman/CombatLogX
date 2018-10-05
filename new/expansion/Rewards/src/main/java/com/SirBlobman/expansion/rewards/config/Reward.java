@@ -35,7 +35,7 @@ public class Reward {
         
         World world = player.getWorld();
         String worldName = world.getName();
-        Validate.isTrue(validWorlds.contains(worldName), "Invalid world for player!");
+        Validate.isTrue(validWorlds.contains(worldName) || validWorlds.contains("*"), "Invalid world for player!");
         
         commands.forEach(command -> {
             String cmd = command.replace("{player}", player.getName()).replace("{killed}", killed.getName());

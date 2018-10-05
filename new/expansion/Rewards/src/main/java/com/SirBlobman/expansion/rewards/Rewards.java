@@ -46,7 +46,7 @@ public class Rewards implements CLXExpansion, Listener {
         final Player killer = le.getKiller();
         if(killer != null) {
             LivingEntity enemyOfKiller = CombatUtil.getEnemy(killer);
-            if(enemyOfKiller.equals(le)) SchedulerUtil.runNowAsync(() -> {
+            if(le.equals(enemyOfKiller)) SchedulerUtil.runNowAsync(() -> {
                 List<Reward> rewards = ConfigRewards.getRewards(false);
                 rewards.forEach(reward -> {
                     if(reward.canTriggerReward(killer, le)) reward.triggerReward(killer, le);
