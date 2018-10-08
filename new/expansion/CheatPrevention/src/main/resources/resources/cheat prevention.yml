@@ -58,6 +58,23 @@ potions:
   # A list of potions that will be removed when a player is tagged
   # Valid Options can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
   # Invalid effects will be ignored and may cause errors
+  # Set this to [] to disable potion blocking
+  # Example: "blocked potions: []"
   blocked potions:
   - "INVISIBILITY"
   - "INCREASE_DAMAGE"
+  
+inventories:
+  # Set this to true to close the inventory that the player has open when they are tagged
+  # For some reason the chat is counted as an inventory so that will also be closed
+  # Default: true
+  close on tag: true
+  
+  # Set this to true to prevent players from opening an inventory during combat
+  # Default: true
+  prevent opening: true
+  
+chat:
+  # Set this to true if players should be allowed to chat during combat
+  # Default: false
+  allow during combat: false

@@ -39,6 +39,11 @@ public class ConfigCheatPrevention extends Config {
 	public static boolean BLOCKED_COMMANDS_IS_WHITELIST;
 	public static List<String> BLOCKED_COMMANDS_LIST;
 	
+	public static boolean INVENTORY_CLOSE_ON_COMBAT;
+	public static boolean INVENTORY_PREVENT_OPENING;
+	
+	public static boolean CHAT_ALLOW_DURING_COMBAT;
+	
 	private static void defaults() {
 		TELEPORTATION_ALLOW_DURING_COMBAT = get(config, "teleportation.allow during combat", false);
 		TELEPORTATION_ALLOW_ENDER_PEARLS = get(config, "teleportation.allow ender pearls", false);
@@ -53,5 +58,10 @@ public class ConfigCheatPrevention extends Config {
 		
 		BLOCKED_COMMANDS_IS_WHITELIST = get(config, "commands.whitelist", false);
 		BLOCKED_COMMANDS_LIST = get(config, "commands.commands", Util.newList("tp", "fly", "gamemode"));
+		
+		INVENTORY_CLOSE_ON_COMBAT = get(config, "inventories.close on tag", true);
+		INVENTORY_PREVENT_OPENING = get(config, "inventories.prevent opening", true);
+		
+		CHAT_ALLOW_DURING_COMBAT = get(config, "chat.allow during combat", true);
 	}
 }

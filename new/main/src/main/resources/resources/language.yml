@@ -44,19 +44,31 @@ messages:
       gamemode: 
         change: "&c&oYour gamemode was changed to &f{gamemode}&c&o because you were tagged."
         not allowed: "&c&oYou cannot switch gamemodes during combat."
+        
       flight: 
         disabled: "&c&oYour flight was disabled because you were tagged."
         not allowed: "&c&oYou cannot enable flight during combat."
+        
       elytra: 
         disabled: "&c&oYour elytra was disabled because you were tagged."
         not allowed: "&c&oYou cannot use elytra during combat."
+        
       command:
         not allowed: "&c&oYou cannot execute &a{command} &c&oduring combat."
+        
       teleport:
         enderpearl:
           not allowed: "&c&oYou cannot use enderpearls during combat"
         other:
           not allowed: "&c&oYou cannot teleport during combat."
+          
+      inventory:
+        closed: "&c&oYour inventory was closed because you were tagged."
+        not allowed: "&c&oYou cannot open inventories during combat."
+        
+      chat:
+        not allowed: "&c&oYou cannot send chat messages during combat."  
+      
         
     notcombatlogx:
       all damage: "&c&oYou took damage. Do not log out!"
