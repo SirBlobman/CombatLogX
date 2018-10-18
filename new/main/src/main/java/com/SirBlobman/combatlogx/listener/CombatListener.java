@@ -50,7 +50,7 @@ public class CombatListener implements Listener {
 		
 		if(type == TagType.PLAYER) {
 			LivingEntity lenemy = e.getEnemy();
-			if(lenemy != null && (lenemy instanceof Player)) {
+			if(lenemy instanceof Player) {
 				Player enemy = (Player) lenemy;
 				if(enemy.equals(p) && !ConfigOptions.COMBAT_SELF) e.setCancelled(true);
 			}

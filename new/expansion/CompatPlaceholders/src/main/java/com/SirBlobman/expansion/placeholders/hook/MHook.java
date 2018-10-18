@@ -25,24 +25,23 @@ public class MHook implements PlaceholderReplacer {
 		Player p = e.getPlayer();
 		if(p != null) {
 			String id = e.getPlaceholder();
-			if(id.equals("combatlogx_time_left")) {
-				int timeLeft = CombatUtil.getTimeLeft(p);
-				if(timeLeft < 0) return "Not in combat";
-				else return Integer.toString(timeLeft);
-			} else if(id.equals("combatlogx_enemy_health")) {
-				LivingEntity enemy = CombatUtil.getEnemy(p);
-				String enemyHealth = (enemy != null) ? formatDouble(enemy.getHealth()) : "Unknown";
-				return enemyHealth;
-			} else if(id.equals("combatlogx_enemy_name")) {
-				LivingEntity enemy = CombatUtil.getEnemy(p);
-				String enemyName = (enemy != null) ? ((enemy.getCustomName() != null) ? enemy.getCustomName() : enemy.getName()) : "Unknown";
-				return enemyName;
-			} else if(id.equals("combatlogx_in_combat")) {
-				String yesNo = CombatUtil.isInCombat(p) ? "Yes" : "No";
-				return yesNo;
+			switch (id) {
+				case "combatlogx_time_left":
+					int timeLeft = CombatUtil.getTimeLeft(p);
+					return timeLeft < 0 ? "Not in combat" : Integer.toString(timeLeft);
+				case "combatlogx_enemy_health": {
+					LivingEntity enemy = CombatUtil.getEnemy(p);
+					return (enemy != null) ? formatDouble(enemy.getHealth()) : "Unknown";
+				}
+				case "combatlogx_enemy_name": {
+					LivingEntity enemy = CombatUtil.getEnemy(p);
+					return (enemy != null) ? ((enemy.getCustomName() != null) ? enemy.getCustomName() : enemy.getName()) : "Unknown";
+				}
+				case "combatlogx_in_combat":
+					return CombatUtil.isInCombat(p) ? "Yes" : "No";
+				default:
+					return null;
 			}
-			
-			else return null;
 		} else return null;
 	}
 	

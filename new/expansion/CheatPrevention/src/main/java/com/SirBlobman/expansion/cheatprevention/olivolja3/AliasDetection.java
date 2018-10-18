@@ -46,9 +46,4 @@ public class AliasDetection {
             });
         });
     }
-    
-    public static String aliasToCommand(String alias) {return aliasToCommand.getOrDefault(alias, null);}
-    public static boolean isAlias(String cmd) {return aliases.contains(cmd);}
-    public static List<String> getCommands() {return commands;}
-    public static List<String> getAliases() {return aliases;}
 }

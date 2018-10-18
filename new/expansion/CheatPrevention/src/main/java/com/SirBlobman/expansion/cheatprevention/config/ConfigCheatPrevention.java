@@ -13,16 +13,14 @@ public class ConfigCheatPrevention extends Config {
 	private static File FOLDER = CheatPrevention.FOLDER;
 	private static File FILE = new File(FOLDER, "cheat prevention.yml");
 	private static YamlConfiguration config = new YamlConfiguration();
-	
-	public static void save() {save(config, FILE);}
-	public static YamlConfiguration load() {
+
+	public static void load() {
 		if(FOLDER == null) FOLDER = CheatPrevention.FOLDER;
 		if(FILE == null) FILE = new File(FOLDER, "cheat prevention.yml");
 		
 		if(!FILE.exists()) copyFromJar("cheat prevention.yml", FOLDER);
 		config = load(FILE);
 		defaults();
-		return config;
 	}
 	
 	public static boolean TELEPORTATION_ALLOW_DURING_COMBAT;

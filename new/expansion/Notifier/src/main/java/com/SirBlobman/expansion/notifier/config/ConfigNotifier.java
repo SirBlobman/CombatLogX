@@ -12,19 +12,15 @@ import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.notifier.Notifier;
 
 public class ConfigNotifier extends Config {
-	private static File FOLDER = Notifier.FOLDER;
-	private static File FILE = new File(FOLDER, "notifier.yml");
 	private static YamlConfiguration config = new YamlConfiguration();
-	
-	public static void save() {save(config, FILE);}
-	public static YamlConfiguration load() {
-		FOLDER = Notifier.FOLDER;
-		FILE = new File(FOLDER, "notifier.yml");
+
+	public static void load() {
+		File folder = Notifier.FOLDER;
+		File file = new File(folder, "notifier.yml");
 		
-		if(!FILE.exists()) copyFromJar("notifier.yml", FOLDER);
-		config = load(FILE);
+		if(!file.exists()) copyFromJar("notifier.yml", folder);
+		config = load(file);
 		defaults();
-		return config;
 	}
 
 	public static boolean ACTION_BAR_ENABLED;

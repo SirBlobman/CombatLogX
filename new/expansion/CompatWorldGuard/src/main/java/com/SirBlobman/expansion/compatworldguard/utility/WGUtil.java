@@ -1,8 +1,5 @@
 package com.SirBlobman.expansion.compatworldguard.utility;
 
-import java.lang.reflect.Method;
-
-import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
@@ -20,15 +17,12 @@ import com.sk89q.worldguard.protection.flags.registry.SimpleFlagRegistry;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 
+import java.lang.reflect.Method;
+
 public class WGUtil extends Util {
-	public static WorldGuard getAPI() {
-		if(PluginUtil.isEnabled("WorldGuard")) {
-			WorldGuard wg = WorldGuard.getInstance();
-			return wg;
-		} else return null;
-	}
+	private static WorldGuard getAPI() {return WorldGuard.getInstance();}
 	
-	public static StateFlag MOB_COMBAT = new StateFlag("mob-combat", false);
+	private static StateFlag MOB_COMBAT = new StateFlag("mob-combat", false);
 	public static void onLoad() {
 		WorldGuard api = getAPI();
 		FlagRegistry fr = api.getFlagRegistry();
@@ -81,18 +75,16 @@ public class WGUtil extends Util {
 		}
 	}
 	
-	public static World getWorld(org.bukkit.World world) {
-		World adapt = BukkitAdapter.adapt(world);
-		return adapt;
+	private static World getWorld(org.bukkit.World world) {
+		return BukkitAdapter.adapt(world);
 	}
 	
-	public static Vector getLocation(org.bukkit.Location loc) {
+	private static Vector getLocation(org.bukkit.Location loc) {
 		Location loc2 = BukkitAdapter.adapt(loc);
-		Vector v = loc2.toVector();
-		return v;
+		return loc2.toVector();
 	}
 	
-	public static ApplicableRegionSet getRegions(org.bukkit.Location loc) {
+	private static ApplicableRegionSet getRegions(org.bukkit.Location loc) {
 		WorldGuard api = getAPI();
 		WorldGuardPlatform wgp = api.getPlatform();
 		RegionContainer rc = wgp.getRegionContainer();
@@ -101,8 +93,7 @@ public class WGUtil extends Util {
 		RegionManager rm = rc.get(world);
 		
 		Vector vector = getLocation(loc);
-		ApplicableRegionSet set = rm.getApplicableRegions(vector);
-		return set;
+		return rm.getApplicableRegions(vector);
 	}
 	
 	public static boolean allowsPvP(org.bukkit.Location loc) {

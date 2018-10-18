@@ -5,6 +5,9 @@
 *.classpath
 *.xml
 
+# IntelliJ IDEA
+.idea/
+
 # Java
 *.class
 *.jar

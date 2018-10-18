@@ -68,10 +68,7 @@ public class CombatUtil implements Runnable {
 	 */
 	public static LivingEntity getEnemy(Player p) {
 		UUID uuid = p.getUniqueId();
-		if(ENEMIES.containsKey(uuid)) {
-			LivingEntity enemy = ENEMIES.get(uuid);
-			return enemy;
-		} else return null;
+		return ENEMIES.getOrDefault(uuid, null);
 	}
 
 	/**
@@ -90,7 +87,7 @@ public class CombatUtil implements Runnable {
 	/**
 	 * @return A list of entities linked to a player in combat
 	 */
-	public static List<LivingEntity> getLinkedEnemies() {
+	private static List<LivingEntity> getLinkedEnemies() {
 		List<LivingEntity> list = Util.newList();
 		Map<UUID, LivingEntity> copy = Util.newMap(ENEMIES);
 		for(Entry<UUID, LivingEntity> e : copy.entrySet()) {
@@ -118,8 +115,7 @@ public class CombatUtil implements Runnable {
 				LivingEntity check = e.getValue();
 				if(enemy.equals(check)) {
 					UUID uuid = e.getKey();
-					OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-					return op;
+					return Bukkit.getOfflinePlayer(uuid);
 				}
 			} return null;
 		} else return null;
@@ -147,7 +143,7 @@ public class CombatUtil implements Runnable {
 			PluginUtil.call(event);
 			
 			if(!isInCombat(p)) {
-				String msg = "";
+				String msg;
 				String enemyName = (enemy == null) ? "unknown entity" : ((enemy.getCustomName() == null) ? enemy.getName() : enemy.getCustomName());
 				String enemyType = (enemy == null) ? EntityType.UNKNOWN.name() : enemy.getType().name();
 				
@@ -213,8 +209,7 @@ public class CombatUtil implements Runnable {
 			long system = System.currentTimeMillis();
 			long combatEnds = COMBAT.get(uuid);
 			long millisLeft = (combatEnds - system);
-			int secondsLeft = (int) (millisLeft / 1000L);
-			return secondsLeft;
+			return (int) (millisLeft / 1000L);
 		} else return -1;
 	}
 

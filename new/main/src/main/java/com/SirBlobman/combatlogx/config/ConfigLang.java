@@ -10,7 +10,6 @@ public class ConfigLang extends Config {
     private static final File FILE = new File(FOLDER, "language.yml");
     private static YamlConfiguration config = new YamlConfiguration();
     
-    public static void save() {save(config, FILE);}
     public static YamlConfiguration load() {
         if(!FILE.exists()) copyFromJar("language.yml", FOLDER);
         config = load(FILE);

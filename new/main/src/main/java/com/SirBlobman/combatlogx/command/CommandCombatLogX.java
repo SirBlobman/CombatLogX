@@ -27,11 +27,18 @@ public class CommandCombatLogX implements TabExecutor {
 		if(cmd.equals("combatlogx")) {
 			if(args.length > 0) {
 				String sub = args[0].toLowerCase();
-				if(sub.equals("reload")) return reload(cs);
-				else if(sub.equals("tag")) return tag(cs, args);
-				else if(sub.equals("untag"))  return untag(cs, args);
-				else if(sub.equals("version"))  return version(cs);
-				else return false;
+				switch (sub) {
+					case "reload":
+						return reload(cs);
+					case "tag":
+						return tag(cs, args);
+					case "untag":
+						return untag(cs, args);
+					case "version":
+						return version(cs);
+					default:
+						return false;
+				}
 			} else return false;
 		} else return false;
 	}

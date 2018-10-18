@@ -53,8 +53,7 @@ public final class ForceField implements Listener {
 	private static Map<UUID, Set<Location>> previousUpdates = new HashMap<>();
 
 	private boolean isSafeZone(Location loc) {
-		if(!(WGUtil.allowsPvP(loc) && WGUtil.allowsMobCombat(loc))) return false;
-		else return true;
+		return WGUtil.allowsPvP(loc) && WGUtil.allowsMobCombat(loc);
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

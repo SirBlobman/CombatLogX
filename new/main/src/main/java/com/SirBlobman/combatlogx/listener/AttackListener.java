@@ -35,16 +35,16 @@ public class AttackListener implements Listener {
 		if(damaged instanceof LivingEntity && damager instanceof LivingEntity) {
 			if(damaged instanceof Player) {
 				Player p = (Player) damaged;
-				LivingEntity enemy = (damager instanceof LivingEntity) ? (LivingEntity) damager : null;
-				TagType type = (damager instanceof Player) ? TagType.PLAYER : ((damager instanceof LivingEntity) ? TagType.MOB : TagType.UNKNOWN);
+				LivingEntity enemy = (LivingEntity) damager;
+				TagType type = (damager instanceof Player) ? TagType.PLAYER : TagType.MOB;
 				TagReason reason = TagReason.ATTACKED;
 				CombatUtil.tag(p, enemy, type, reason);
 			}
 			
 			if(damager instanceof Player) {
 				Player p = (Player) damager;
-				LivingEntity enemy = (damaged instanceof LivingEntity) ? (LivingEntity) damaged : null;
-				TagType type = (damaged instanceof Player) ? TagType.PLAYER : ((damaged instanceof LivingEntity) ? TagType.MOB : TagType.UNKNOWN);
+				LivingEntity enemy = (LivingEntity) damaged;
+				TagType type = damaged instanceof Player ? TagType.PLAYER : TagType.MOB;
 				TagReason reason = TagReason.ATTACKER;
 				CombatUtil.tag(p, enemy, type, reason);
 			}

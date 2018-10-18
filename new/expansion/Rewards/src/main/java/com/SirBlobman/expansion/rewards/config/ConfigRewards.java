@@ -14,9 +14,8 @@ public class ConfigRewards extends Config {
     private static File FOLDER = Rewards.FOLDER;
     private static File FILE = new File(FOLDER, "rewards.yml");
     private static YamlConfiguration config = new YamlConfiguration();
-    
-    public static void save() {save(config, FILE);}
-    public static YamlConfiguration load() {
+
+    public static void load() {
         if(FOLDER == null || FILE == null) {
             FOLDER = Rewards.FOLDER;
             FILE = new File(FOLDER, "rewards.yml");
@@ -24,7 +23,6 @@ public class ConfigRewards extends Config {
         
         if(!FILE.exists()) copyFromJar("rewards.yml", FOLDER);
         config = load(FILE);
-        return config;
     }
     
     private static List<Reward> REWARD_CACHE = Util.newList();

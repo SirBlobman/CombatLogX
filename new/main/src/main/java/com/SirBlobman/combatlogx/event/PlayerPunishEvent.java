@@ -6,7 +6,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 
 public class PlayerPunishEvent extends PlayerEvent implements Cancellable {
-	public static enum PunishReason {DISCONNECTED, KICKED, UNKNOWN}
+	public enum PunishReason {DISCONNECTED, KICKED, UNKNOWN}
 	
 	private final PunishReason punishReason;
 	public PlayerPunishEvent(Player p, PunishReason reason) {

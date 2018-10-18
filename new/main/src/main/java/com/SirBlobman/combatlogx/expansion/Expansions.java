@@ -1,5 +1,9 @@
 package com.SirBlobman.combatlogx.expansion;
 
+import com.SirBlobman.combatlogx.CombatLogX;
+import com.SirBlobman.combatlogx.config.ConfigLang;
+import com.SirBlobman.combatlogx.utility.Util;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -11,10 +15,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-
-import com.SirBlobman.combatlogx.CombatLogX;
-import com.SirBlobman.combatlogx.config.ConfigLang;
-import com.SirBlobman.combatlogx.utility.Util;
 
 public class Expansions {
 	private static final File FOLDER = CombatLogX.FOLDER;
@@ -28,7 +28,7 @@ public class Expansions {
 	 * {@code true} if the expansion loaded successfully
 	 * {@code false} if the expansion failed to load or there was an error
 	 */
-	public static boolean loadExpansion(Class<?> clazz) {
+	private static boolean loadExpansion(Class<?> clazz) {
 		try {
 			Class<?>[] interfaceClasses = clazz.getInterfaces();
 			boolean loaded = false;
@@ -63,69 +63,47 @@ public class Expansions {
 	}
 	
 	public static List<CLXExpansion> getExpansions() {
-		List<CLXExpansion> copy = Util.newList(EXPANSIONS);
-		return copy;
+		return Util.newList(EXPANSIONS);
 	}
 	
 	public static void reloadConfigs() {
 		List<CLXExpansion> list = getExpansions();
-		list.forEach(clxe -> clxe.onConfigReload());
+		list.forEach(CLXExpansion::onConfigReload);
 	}
-	
-	public static CLXExpansion getExpansion(String name) {
-		List<CLXExpansion> list = getExpansions();
-		for(CLXExpansion clxe : list) {
-			String cname = clxe.getName();
-			if(cname.equals(name)) return clxe;
-			
-			String uname = clxe.getUnlocalizedName();
-			if(uname.equals(name)) return clxe;
-		}
-		return null;
-	}
-	
-	public static boolean isEnabled(String name) {
-		return (getExpansion(name) != null);
-	}
-	
-	public static void onDisable() {
+
+    public static void onDisable() {
 		List<CLXExpansion> list = getExpansions();
 		EXPANSIONS.clear();
-		list.forEach(clxe -> clxe.disable());
+		list.forEach(CLXExpansion::disable);
 	}
 	
 	public static void loadExpansions() {
 		try {
 			if(!EFOLDER.exists()) EFOLDER.mkdirs();
 			File[] files = EFOLDER.listFiles();
-			for(File file : files) {
+			for(File file : files != null ? files : new File[0]) {
 				if(!file.isDirectory()) {
 					if(isJar(file)) {
-						JarFile jarFile = null;
-						try {
-							jarFile = loadJar(file);
-							Enumeration<JarEntry> entries = jarFile.entries();
-							while(entries.hasMoreElements()) {
-								JarEntry je = entries.nextElement();
-								if(!je.isDirectory()) {
-									String entryName = getClassName(je);
-									try {
-										if(isClass(je)) {
-											Class<?> clazz = Class.forName(entryName);
-											if(loadExpansion(clazz)) break;
-										}
-									} catch(Throwable ex4) {}
-								}
-							}
-						} catch(Throwable ex2) {
-							String error = "Failed to install expansion from JAR '" + file + "':";
-							Util.log(error);
-							ex2.printStackTrace();
-						} finally {
-							try {
-								if(jarFile != null) jarFile.close();
-							} catch(Throwable ex3) {}
-						}
+                        try (JarFile jarFile = loadJar(file)) {
+                            Enumeration<JarEntry> entries = jarFile != null ? jarFile.entries() : null;
+                            while (entries != null && entries.hasMoreElements()) {
+                                JarEntry je = entries.nextElement();
+                                if (!je.isDirectory()) {
+                                    String entryName = getClassName(je);
+                                    try {
+                                        if (isClass(je)) {
+                                            Class<?> clazz = Class.forName(entryName);
+                                            if (loadExpansion(clazz)) break;
+                                        }
+                                    } catch (Throwable ignored) {
+                                    }
+                                }
+                            }
+                        } catch (Throwable ex2) {
+                            String error = "Failed to install expansion from JAR '" + file + "':";
+                            Util.log(error);
+                            ex2.printStackTrace();
+                        }
 					} else {
 						String error = "Found a non-jar file at '" + file + "'. Please remove it!";
 						Util.log(error);
@@ -158,8 +136,7 @@ public class Expansions {
 		int lastSep = Math.max(name.lastIndexOf("/"), name.lastIndexOf("\\"));
 		if(lastDot > lastSep) {
 			int start = (lastDot + 1);
-			String extension = name.substring(start).toLowerCase();
-			return extension;
+            return name.substring(start).toLowerCase();
 		} else return "";
 	}
 
@@ -193,11 +170,10 @@ public class Expansions {
 	
 	private static String getClassName(JarEntry je) {
 		if(isClass(je)) {
-			String name = je.getName()
-			  .replace(".class", "")
-			  .replace("/", ".")
-			  .replace(File.separator, ".");
-			return name;
+            return je.getName()
+              .replace(".class", "")
+              .replace("/", ".")
+              .replace(File.separator, ".");
 		} else return "";
 	}
 }

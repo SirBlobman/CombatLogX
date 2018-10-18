@@ -12,7 +12,7 @@ public class PluginUtil extends Util {
 		for(Listener l : ll) {if(l != null) PM.registerEvents(l, PLUGIN);}
 	}
 	
-	public static void call(Event... ee) {
+	static void call(Event... ee) {
 		for(Event e : ee) {if(e != null) PM.callEvent(e);}
 	}
 	

@@ -12,8 +12,7 @@ public class ConfigFactions extends Config {
 	private static File FOLDER = null;
 	private static File FILE = null;
 	private static YamlConfiguration config = new YamlConfiguration();
-	
-	public static void save() {save(config, FILE);}
+
 	public static YamlConfiguration load() {
 		if(FOLDER == null) FOLDER = CompatFactions.FOLDER;
 		if(FILE == null) FILE = new File(FOLDER, "factions.yml");
@@ -24,7 +23,7 @@ public class ConfigFactions extends Config {
 		return config;
 	}
 	
-	public static String NO_ENTRY_MODE;
+	private static String NO_ENTRY_MODE;
 	public static double NO_ENTRY_KNOCKBACK_STRENGTH;
 	public static int MESSAGE_COOLDOWN;
 	
@@ -34,13 +33,13 @@ public class ConfigFactions extends Config {
 		MESSAGE_COOLDOWN = get(config, "factions.no entry.message cooldown", 5);
 	}
 	
-	public static enum NoEntryMode {CANCEL, TELEPORT, KNOCKBACK, KILL};
+	public enum NoEntryMode {CANCEL, TELEPORT, KNOCKBACK, KILL}
+
 	public static NoEntryMode getNoEntryMode() {
 		if(NO_ENTRY_MODE == null || NO_ENTRY_MODE.isEmpty()) load();
 		String mode = NO_ENTRY_MODE.toUpperCase();
 		try {
-			NoEntryMode nem = NoEntryMode.valueOf(mode);
-			return nem;
+			return NoEntryMode.valueOf(mode);
 		} catch(Throwable ex) {
 			String error = "Invalid Mode '" + NO_ENTRY_MODE + "' in 'factions.yml'. Valid modes are CANCEL, TELEPORT, KNOCKBACK, or KILL";
 			Util.print(error);

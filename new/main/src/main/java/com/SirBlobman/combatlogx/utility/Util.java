@@ -1,59 +1,49 @@
 package com.SirBlobman.combatlogx.utility;
 
-import java.lang.reflect.Method;
-import java.util.*;
-import java.util.Map.Entry;
-
+import com.SirBlobman.combatlogx.CombatLogX;
+import com.SirBlobman.combatlogx.config.ConfigLang;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitScheduler;
-import org.bukkit.scoreboard.ScoreboardManager;
 
-import com.SirBlobman.combatlogx.CombatLogX;
-import com.SirBlobman.combatlogx.config.ConfigLang;
-
-import net.md_5.bungee.api.ChatColor;
+import java.lang.reflect.Method;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class Util {
 	public static final CombatLogX PLUGIN = CombatLogX.INSTANCE;
 	public static final Server SERVER = Bukkit.getServer();
 	public static final ConsoleCommandSender CONSOLE = SERVER.getConsoleSender();
 	public static final PluginManager PM = SERVER.getPluginManager();
-	public static final BukkitScheduler BS = SERVER.getScheduler();
-	public static final ScoreboardManager SM = SERVER.getScoreboardManager();
-	
+	static final BukkitScheduler BS = SERVER.getScheduler();
+
 	public static String str(Object o) {
 		if(o == null) return "";
 		else if(o instanceof String) {
-			String str = (String) o;
-			return str;
+			return (String) o;
 		} else if((o instanceof Byte) || (o instanceof Short) || (o instanceof Integer) || (o instanceof Long)) {
 			Number n = (Number) o;
-			Long l = n.longValue();
-			String str = l.toString();
-			return str;
+			long l = n.longValue();
+			return Long.toString(l);
 		} else if((o instanceof Float) || (o instanceof Double) || (o instanceof Number)) {
 			Number n = (Number) o;
-			Double d = n.doubleValue();
-			String str = d.toString();
-			return str;
+			double d = n.doubleValue();
+			return Double.toString(d);
 		} else {
 			Class<?> clazz = o.getClass();
 			try {
 				Method method = clazz.getMethod("name");
-				String str = (String) method.invoke(o);
-				return str;
+				return (String) method.invoke(o);
 			} catch(Throwable ex1) {
 				try {
 					Method method = clazz.getMethod("getName");
-					String str = (String) method.invoke(o);
-					return str;
+					return (String) method.invoke(o);
 				} catch(Throwable ex2) {
-					String str = o.toString();
-					return str;
+					return o.toString();
 				}
 			}
 		}
@@ -61,14 +51,12 @@ public class Util {
 	
 	public static String color(Object o) {
 		String str = str(o);
-		String color = ChatColor.translateAlternateColorCodes('&', str);
-		return color;
+		return ChatColor.translateAlternateColorCodes('&', str);
 	}
 	
-	public static String strip(Object o) {
+	private static String strip(Object o) {
 		String str = str(o);
-		String strip = ChatColor.stripColor(str);
-		return strip;
+		return ChatColor.stripColor(str);
 	}
 	
 	public static String[] color(Object... oo) {
@@ -154,13 +142,12 @@ public class Util {
 	@SafeVarargs
 	public static <L> List<L> newList(L... ll) {
 		List<L> list = new ArrayList<>();
-		for(L l : ll) list.add(l);
+		Collections.addAll(list, ll);
 		return list;
 	}
 	
 	public static <L> List<L> newList(Collection<L> ll) {
-		List<L> list = new ArrayList<>();
-		ll.forEach(l -> list.add(l));
+		List<L> list = new ArrayList<>(ll);
 		return list;
 	}
 	
@@ -171,11 +158,10 @@ public class Util {
 	}
 	
 	public static <K,V> Map<K, V> newMap() {
-		Map<K, V> map = new HashMap<>();
-		return map;
+		return new HashMap<>();
 	}
 	
-	public static <K,V> Map<K, V> newMap(Map<K, V> kv) {
+	static <K,V> Map<K, V> newMap(Map<K, V> kv) {
 		Map<K, V> map = newMap();
 		for(Entry<K, V> e : kv.entrySet()) {
 			K key = e.getKey();

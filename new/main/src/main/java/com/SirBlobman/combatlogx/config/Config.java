@@ -38,8 +38,7 @@ public class Config {
     
     protected static YamlConfiguration load(String name) {
         File file = new File(FOLDER, name + ".yml");
-        YamlConfiguration config = load(file);
-        return config;
+        return load(file);
     }
     
     protected static YamlConfiguration load(File file) {
@@ -77,13 +76,12 @@ public class Config {
      * @return The value at {@code path}, if it is null or not the same type, {@code defaultValue} will be returned
      */
     @SuppressWarnings("unchecked")
-    protected static <T extends Object> T get(YamlConfiguration config, String path, T defaultValue) {
+    protected static <T> T get(YamlConfiguration config, String path, T defaultValue) {
         if(config.isSet(path)) {
             Object o = config.get(path);
             Class<?> clazz = defaultValue.getClass();
             if(clazz.isInstance(o)) {
-                T t = (T) o;
-                return t;
+                return (T) o;
             } else {
                 config.set(path, defaultValue);
                 return defaultValue;

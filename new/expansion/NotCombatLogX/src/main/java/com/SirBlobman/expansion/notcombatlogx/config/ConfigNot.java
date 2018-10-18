@@ -10,18 +10,14 @@ import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.expansion.notcombatlogx.NotCombatLogX;
 
 public class ConfigNot extends Config {
-	private static File FOLDER = NotCombatLogX.FOLDER;
-	private static File FILE = new File(FOLDER, "not.yml");
 	private static YamlConfiguration config = new YamlConfiguration();
-	
-	public static void save() {save(config, FILE);}
-	public static YamlConfiguration load() {
-		FOLDER = NotCombatLogX.FOLDER;
-		FILE = new File(FOLDER, "not.yml");
+
+	public static void load() {
+		File folder = NotCombatLogX.FOLDER;
+		File file = new File(folder, "not.yml");
 		
-		if(!FILE.exists()) copyFromJar("not.yml", FOLDER);
-		config = load(FILE);
-		return config;
+		if(!file.exists()) copyFromJar("not.yml", folder);
+		config = load(file);
 	}
 	
 	public static boolean canDamageTypeTagPlayer(DamageCause dc) {
@@ -33,8 +29,7 @@ public class ConfigNot extends Config {
 			else {
 				String name = dc.name().toLowerCase().replace("_", " ");
 				String path = "damage type." + name;
-				boolean enabled = get(config, path, false);
-				return enabled;
+				return get(config, path, false);
 			}
 		}
 	}
@@ -43,13 +38,11 @@ public class ConfigNot extends Config {
 		if(canDamageTypeTagPlayer(dc)) {
 			boolean allDamage = get(config, "all damage", true);
 			if(allDamage) {
-				String msg = ConfigLang.getWithPrefix("messages.expansions.notcombatlogx.all damage");
-				return msg;
+				return ConfigLang.getWithPrefix("messages.expansions.notcombatlogx.all damage");
 			} else {
 				String name = dc.name().toLowerCase().replace("_", " ");
 				String path = "messages.expansions.notcombatlogx.damage tag." + name;
-				String msg = ConfigLang.getWithPrefix(path);
-				return msg;
+				return ConfigLang.getWithPrefix(path);
 			}
 		} else return "";
 	}

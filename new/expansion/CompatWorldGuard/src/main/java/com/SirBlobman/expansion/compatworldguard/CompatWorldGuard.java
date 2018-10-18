@@ -107,7 +107,7 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
 	}
 
 	private static List<UUID> MESSAGE_COOLDOWN = Util.newList();
-	public void preventEntry(Cancellable e, Player p, Location from, Location to) {
+	private void preventEntry(Cancellable e, Player p, Location from, Location to) {
 		if(CombatUtil.hasEnemy(p)) {
 			LivingEntity enemy = CombatUtil.getEnemy(p);
 
@@ -146,7 +146,7 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
 		}
 	}
 	
-	public Vector getVector(Location from, Location to) {
+	private Vector getVector(Location from, Location to) {
 		Vector vfrom = from.toVector();
 		Vector vto = to.toVector();
 		Vector sub = vfrom.subtract(vto);

@@ -74,7 +74,7 @@ public class CompatFactions implements CLXExpansion, Listener {
     }
     
     private static List<UUID> MESSAGE_COOLDOWN = Util.newList();
-    public void preventEntry(Cancellable e, Player player, Location from, Location to) {
+    private void preventEntry(Cancellable e, Player player, Location from, Location to) {
         if(CombatUtil.hasEnemy(player)) {
             LivingEntity enemy = CombatUtil.getEnemy(player);
             
@@ -108,7 +108,7 @@ public class CompatFactions implements CLXExpansion, Listener {
         }
     }
     
-    public Vector getVector(Location from, Location to) {
+    private Vector getVector(Location from, Location to) {
         Vector vfrom = from.toVector();
         Vector vto = to.toVector();
         Vector sub = vfrom.subtract(vto);

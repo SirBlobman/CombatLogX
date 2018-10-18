@@ -12,7 +12,6 @@ public class ConfigOptions extends Config {
 	private static final File FILE = new File(FOLDER, "config.yml");
 	private static YamlConfiguration config = new YamlConfiguration();
 	
-	public static void save() {save(config, FILE);}
 	public static YamlConfiguration load() {
 		if(!FILE.exists()) copyFromJar("config.yml", FOLDER);
 		config = load(FILE);

@@ -13,15 +13,13 @@ public class ConfigCitizens extends Config {
 	private static File FILE = new File(FOLDER, "citizens.yml");
 	private static YamlConfiguration config = new YamlConfiguration();
 	
-	public static void save() {save(config, FILE);}
-	public static YamlConfiguration load() {
+	public static void load() {
 		if(FOLDER == null) FOLDER = CompatCitizens.FOLDER;
 		if(FILE == null) FILE = new File(FOLDER, "citizens.yml");
 		
 		if(!FILE.exists()) copyFromJar("citizens.yml", FOLDER);
 		config = load(FILE);
 		defaults();
-		return config;
 	}
 	
 	public static boolean CANCEL_OTHER_PUNISHMENTS;

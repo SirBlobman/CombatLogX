@@ -14,7 +14,7 @@ import com.SirBlobman.combatlogx.utility.SchedulerUtil;
 public class Reward {
     private final List<String> validWorlds;
     private final List<String> commands;
-    public Reward(List<String> validWorlds, List<String> commands) {
+    Reward(List<String> validWorlds, List<String> commands) {
         Validate.notEmpty(validWorlds, "validWorlds cannot be empty or NULL!");
         Validate.notEmpty(commands, "commands cannot be empty or NULL!");
         this.validWorlds = validWorlds;

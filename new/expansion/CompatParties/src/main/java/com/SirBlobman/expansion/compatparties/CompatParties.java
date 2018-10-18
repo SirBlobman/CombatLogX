@@ -47,14 +47,14 @@ public class CompatParties implements CLXExpansion, Listener {
 	public void beforeTag(PlayerPreTagEvent e) {
 		Player p = e.getPlayer();
 		LivingEntity enemy = e.getEnemy();
-		if(enemy != null && enemy instanceof Player) {
+		if(enemy instanceof Player) {
 			Player pe = (Player) enemy;
 
 			PartiesAPI api = Parties.getApi();
 			PartyPlayer pp = api.getPartyPlayer(p.getUniqueId());
-			String partyName = pp.getPartyName();			
+			String partyName = pp.getPartyName();
 			Party party = api.getParty(partyName);
-			
+
 			if(party != null) {
 				UUID euuid = pe.getUniqueId();
 				List<UUID> members = party.getMembers();

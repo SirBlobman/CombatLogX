@@ -34,24 +34,24 @@ public class ActionBarUtil extends Util {
 		spigot.sendMessage(ChatMessageType.ACTION_BAR, tc);
 	}
 	
-	public static String getBarsLeft(Player p) {
+	private static String getBarsLeft(Player p) {
 		int timeLeft = CombatUtil.getTimeLeft(p);
 		int right = (ConfigOptions.OPTION_TIMER - timeLeft);
 		int left = (ConfigOptions.OPTION_TIMER - right);
 		
-		String color = color("&a");
+		StringBuilder color = new StringBuilder(color("&a"));
 		for(int i = 0; i < left; i++) {
-			color += "|";
-		} return color;
+			color.append("|");
+		} return color.toString();
 	}
 	
-	public static String getBarsRight(Player p) {
+	private static String getBarsRight(Player p) {
 		int timeLeft = CombatUtil.getTimeLeft(p);
 		int right = (ConfigOptions.OPTION_TIMER - timeLeft);
 		
-		String color = color("&c");
+		StringBuilder color = new StringBuilder(color("&c"));
 		for(int i = 0; i < right; i++) {
-			color += "|";
-		} return color;
+			color.append("|");
+		} return color.toString();
 	}
 }

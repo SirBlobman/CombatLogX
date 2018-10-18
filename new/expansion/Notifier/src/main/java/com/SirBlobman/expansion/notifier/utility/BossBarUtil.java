@@ -19,11 +19,10 @@ import com.SirBlobman.expansion.notifier.config.ConfigNotifier;
 public class BossBarUtil extends Util {
 	private static Map<UUID, BossBar> BOSS_BARS = newMap();
 	
-	public static BossBar getBossBar(Player p) {
+	private static BossBar getBossBar(Player p) {
 		UUID uuid = p.getUniqueId();
 		if(BOSS_BARS.containsKey(uuid)) {
-			BossBar bb = BOSS_BARS.get(uuid);
-			return bb;
+			return BOSS_BARS.get(uuid);
 		} else {
 			String title = getDefaultBossBarTitle();
 			BarColor color = getBossBarColor();
@@ -37,25 +36,17 @@ public class BossBarUtil extends Util {
 		}
 	}
 	
-	public static String getDefaultBossBarTitle() {
+	private static String getDefaultBossBarTitle() {
 		String format = ConfigNotifier.BOSS_BAR_FORMAT;
 		List<String> keys = newList("{time_left}");
 		List<?> vals = newList(ConfigOptions.OPTION_TIMER);
-		String title = formatMessage(format, keys, vals);
-		return title;
+		return formatMessage(format, keys, vals);
 	}
 	
-	public static BarColor getBossBarColor() {
+	private static BarColor getBossBarColor() {
 		String scolor = ConfigNotifier.BOSS_BAR_COLOR;
 		try {
-			BarColor bc = BarColor.valueOf(scolor);
-			if(bc == null) {
-				String error = "Invalid color '" + scolor + "' in 'notifier.yml'/'boss bar.color'. Defaulting to YELLOW";
-				Util.log(error);
-				bc = BarColor.YELLOW;
-				ConfigNotifier.BOSS_BAR_COLOR = BarColor.YELLOW.name();
-			}
-			return bc;
+			return BarColor.valueOf(scolor);
 		} catch(Throwable ex) {
 			String error = "Invalid color '" + scolor + "' in 'notifier.yml'/'boss bar.color'. Defaulting to YELLOW";
 			Util.log(error);
@@ -65,17 +56,10 @@ public class BossBarUtil extends Util {
 		}
 	}
 	
-	public static BarStyle getBossBarStyle() {
+	private static BarStyle getBossBarStyle() {
 		String sstyle = ConfigNotifier.BOSS_BAR_STYLE;
 		try {
-			BarStyle bs = BarStyle.valueOf(sstyle);
-			if(bs == null) {
-				String error = "Invalid style '" + sstyle + "' in 'notifier.yml/'boss bar.style'. Defaulting to SOLID";
-				Util.log(error);
-				bs = BarStyle.SOLID;
-				ConfigNotifier.BOSS_BAR_STYLE = BarStyle.SOLID.name();
-			}
-			return bs;
+			return BarStyle.valueOf(sstyle);
 		} catch(Throwable ex) {
 			String error = "Invalid style '" + sstyle + "' in 'notifier.yml/'boss bar.style'. Defaulting to SOLID";
 			Util.log(error);

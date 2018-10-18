@@ -17,9 +17,8 @@ public class ConfigWG extends Config {
 	private static File FOLDER = CompatWorldGuard.FOLDER;
 	private static File FILE = new File(FOLDER, "worldguard.yml");
 	private static YamlConfiguration config = new YamlConfiguration();
-	
-	public static void save() {save(config, FILE);}
-	public static YamlConfiguration load() {
+
+	public static void load() {
 		if(FOLDER == null) FOLDER = CompatWorldGuard.FOLDER;
 		if(FILE == null) FILE = new File(FOLDER, "worldguard.yml");
 		
@@ -27,16 +26,15 @@ public class ConfigWG extends Config {
 		config = load(FILE);
 		defaults();
 		checkValidForceField();
-		return config;
 	}
 	
-	public static String NO_ENTRY_MODE;
+	private static String NO_ENTRY_MODE;
 	public static double NO_ENTRY_KNOCKBACK_STRENGTH;
 	public static int MESSAGE_COOLDOWN;
 	public static boolean FORCEFIELD_ENABLED;
 	public static int FORCEFIELD_SIZE;
 	public static Material FORCEFIELD_MATERIAL;
-	public static String FORCEFIELD_MATERIAL_NAME;
+	private static String FORCEFIELD_MATERIAL_NAME;
 	
 	private static void defaults() {
 		NO_ENTRY_MODE = get(config, "world guard.no entry.mode", "KNOCKBACK");
@@ -47,13 +45,12 @@ public class ConfigWG extends Config {
 		FORCEFIELD_MATERIAL_NAME = get(config, "world guard.forcefield.material", Material.RED_STAINED_GLASS.name());
 	}
 	
-	public static enum NoEntryMode {CANCEL, TELEPORT, KNOCKBACK, KILL};
+	public enum NoEntryMode {CANCEL, TELEPORT, KNOCKBACK, KILL}
 	public static NoEntryMode getNoEntryMode() {
 		if(NO_ENTRY_MODE == null || NO_ENTRY_MODE.isEmpty()) load();
 		String mode = NO_ENTRY_MODE.toUpperCase();
 		try {
-			NoEntryMode nem = NoEntryMode.valueOf(mode);
-			return nem;
+			return NoEntryMode.valueOf(mode);
 		} catch(Throwable ex) {
 			String error = "Invalid Mode '" + NO_ENTRY_MODE + "' in 'worldguard.yml'. Valid modes are CANCEL, TELEPORT, KNOCKBACK, or KILL";
 			Util.print(error);

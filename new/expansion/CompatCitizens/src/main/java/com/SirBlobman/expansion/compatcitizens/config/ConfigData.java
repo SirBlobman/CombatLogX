@@ -14,7 +14,7 @@ public class ConfigData extends Config {
 	private static final File FOLDER = CompatCitizens.FOLDER;
 	private static final File FUSERS = new File(FOLDER, "users");
 	
-	public static void save(OfflinePlayer op, YamlConfiguration config) {
+	private static void save(OfflinePlayer op, YamlConfiguration config) {
 		try {
 			UUID uuid = op.getUniqueId();
 			String id = uuid.toString();
@@ -32,7 +32,7 @@ public class ConfigData extends Config {
 		}
 	}
 	
-	public static YamlConfiguration load(OfflinePlayer op) {
+	private static YamlConfiguration load(OfflinePlayer op) {
 		YamlConfiguration config = new YamlConfiguration();
 		
 		UUID uuid = op.getUniqueId();
@@ -53,8 +53,7 @@ public class ConfigData extends Config {
 			Object val = config.get(path);
 			Class<?> clazz = defaultValue.getClass();
 			if(clazz.isInstance(val)) {
-				T t = (T) val;
-				return t;
+				return (T) val;
 			} else {
 				String error = "The config value for '" + path + "' is not set to the type '" + clazz.getSimpleName() + "'";
 				Util.print(error);

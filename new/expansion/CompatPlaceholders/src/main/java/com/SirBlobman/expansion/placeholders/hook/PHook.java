@@ -17,24 +17,24 @@ public class PHook extends PlaceholderExpansion {
 	
 	@Override
 	public String onPlaceholderRequest(Player p, String id) {
-		if(id.equals("time_left")) {
-			int timeLeft = CombatUtil.getTimeLeft(p);
-			if(timeLeft < 0) return "Not in combat";
-			else return Integer.toString(timeLeft);
-		} else if(id.equals("enemy_health")) {
-			LivingEntity enemy = CombatUtil.getEnemy(p);
-			String enemyHealth = (enemy != null) ? formatDouble(enemy.getHealth()) : "Unknown";
-			return enemyHealth;
-		} else if(id.equals("enemy_name")) {
-			LivingEntity enemy = CombatUtil.getEnemy(p);
-			String enemyName = (enemy != null) ? ((enemy.getCustomName() != null) ? enemy.getCustomName() : enemy.getName()) : "Unknown";
-			return enemyName;
-		} else if(id.equals("in_combat")) {
-			String yesNo = CombatUtil.isInCombat(p) ? "Yes" : "No";
-			return yesNo;
+		switch (id) {
+			case "time_left":
+				int timeLeft = CombatUtil.getTimeLeft(p);
+				if (timeLeft < 0) return "Not in combat";
+				else return Integer.toString(timeLeft);
+			case "enemy_health": {
+				LivingEntity enemy = CombatUtil.getEnemy(p);
+				return (enemy != null) ? formatDouble(enemy.getHealth()) : "Unknown";
+			}
+			case "enemy_name": {
+				LivingEntity enemy = CombatUtil.getEnemy(p);
+				return (enemy != null) ? ((enemy.getCustomName() != null) ? enemy.getCustomName() : enemy.getName()) : "Unknown";
+			}
+			case "in_combat":
+				return CombatUtil.isInCombat(p) ? "Yes" : "No";
+			default:
+				return null;
 		}
-		
-		else return null;
 	}
 	
 	private static String formatDouble(double d) {

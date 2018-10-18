@@ -21,7 +21,7 @@ public class ScoreboardUtil extends Util {
 	private static final ScoreboardManager SM = SERVER.getScoreboardManager();
 	private static Map<UUID, Scoreboard> SCORE_BOARDS = newMap();
 	
-	public static Scoreboard getScoreBoard(Player p) {
+	private static Scoreboard getScoreBoard(Player p) {
 		UUID uuid = p.getUniqueId();
 		if(SCORE_BOARDS.containsKey(uuid)) {
 			Scoreboard sb = SCORE_BOARDS.get(uuid);

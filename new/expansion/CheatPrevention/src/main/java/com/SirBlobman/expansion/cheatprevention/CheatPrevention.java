@@ -57,7 +57,7 @@ public class CheatPrevention implements CLXExpansion, Listener {
         detectAliases();
     }
     
-    public static void detectAliases() {
+    private static void detectAliases() {
         List<String> list = ConfigCheatPrevention.BLOCKED_COMMANDS_LIST;
         List<String> newList = Util.newList();
         
@@ -204,7 +204,7 @@ public class CheatPrevention implements CLXExpansion, Listener {
         }
     }
     
-    @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=false)
+    @EventHandler(priority=EventPriority.LOWEST)
     public void onCommand(PlayerCommandPreprocessEvent e) {
         Player player = e.getPlayer();
         String message = e.getMessage();

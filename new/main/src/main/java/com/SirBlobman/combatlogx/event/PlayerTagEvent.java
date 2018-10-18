@@ -11,8 +11,8 @@ import org.bukkit.event.player.PlayerEvent;
  * @author SirBlobman
  */
 public class PlayerTagEvent extends PlayerEvent {
-	public static enum TagType {PLAYER, MOB, UNKNOWN}
-	public static enum TagReason {ATTACKED, ATTACKER, UNKNOWN}
+	public enum TagType {PLAYER, MOB, UNKNOWN}
+	public enum TagReason {ATTACKED, ATTACKER, UNKNOWN}
 	
 	private final LivingEntity enemy;
 	private final long combatEnds;

@@ -36,7 +36,7 @@ import net.citizensnpcs.api.trait.trait.Inventory;
 
 public class NPCManager implements Listener {
 	public static Map<UUID, Integer> NPC_IDS = Util.newMap();
-	public static NPC createNPC(Player p) {
+	private static void createNPC(Player p) {
 		if(NPC_IDS.containsKey(p.getUniqueId())) removeNPC(p);
 
 		String entityType = ConfigCitizens.ENTITY_TYPE;
@@ -51,8 +51,8 @@ public class NPCManager implements Listener {
 			type = EntityType.PLAYER;
 		}
 
-		boolean cloneInventory = ConfigCitizens.STORE_INVENTORY ? (type == EntityType.PLAYER ? true : false) : false;
-		boolean sentinel = ConfigCitizens.USE_SENTINELS ? PluginUtil.isEnabled("Sentinel", "mcmonkey") : false;
+		boolean cloneInventory = ConfigCitizens.STORE_INVENTORY && (type == EntityType.PLAYER);
+		boolean sentinel = ConfigCitizens.USE_SENTINELS && PluginUtil.isEnabled("Sentinel", "mcmonkey");
 
 		NPCRegistry reg = CitizensAPI.getNPCRegistry();
 		NPC npc = reg.createNPC(type, p.getName());
@@ -87,7 +87,6 @@ public class NPCManager implements Listener {
 
 		int npcID = npc.getId();
 		NPC_IDS.put(p.getUniqueId(), npcID);
-		return npc;
 	}
 
 	public static void removeNPC(OfflinePlayer op) {
