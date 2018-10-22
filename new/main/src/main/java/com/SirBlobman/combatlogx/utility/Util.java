@@ -1,18 +1,25 @@
 package com.SirBlobman.combatlogx.utility;
 
-import com.SirBlobman.combatlogx.CombatLogX;
-import com.SirBlobman.combatlogx.config.ConfigLang;
-import net.md_5.bungee.api.ChatColor;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitScheduler;
 
-import java.lang.reflect.Method;
-import java.util.*;
-import java.util.Map.Entry;
+import com.SirBlobman.combatlogx.CombatLogX;
+import com.SirBlobman.combatlogx.config.ConfigLang;
 
 public class Util {
 	public static final CombatLogX PLUGIN = CombatLogX.INSTANCE;

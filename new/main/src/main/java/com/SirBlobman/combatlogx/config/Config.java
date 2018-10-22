@@ -2,8 +2,11 @@ package com.SirBlobman.combatlogx.config;
 
 import java.io.File;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
-import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -20,7 +23,9 @@ public class Config {
             if(!folder.exists()) folder.mkdirs();
             if(!newFile.exists()) {
                 if(is != null) {
-                    FileUtils.copyInputStreamToFile(is, newFile);
+                	String pathString = newFile.getPath();
+                	Path path = Paths.get(pathString);
+                	Files.copy(is, path, StandardCopyOption.REPLACE_EXISTING);
                 } else {
                     String error = "The file '" + fileName + "' does not exist in the jar.";
                     Bukkit.getConsoleSender().sendMessage(error);

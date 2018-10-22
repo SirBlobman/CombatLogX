@@ -92,6 +92,12 @@ messages:
         hot floor: "&c&oThe floor is lava! Do not log out!"
         cramming: "&c&oYou are being squished. Do not log out!"
         
+    factions compatibility:
+      no entry: "You cannot enter a no-pvp area during combat"
+        
+    towny compatibility:
+      no entry: "You cannot enter a no-pvp area during combat"
+        
     worldguard compatibility:
       no entry:
         pvp: "You cannot enter a no-pvp area during combat"

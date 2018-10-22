@@ -14,16 +14,13 @@ import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.compatworldguard.CompatWorldGuard;
 
 public class ConfigWG extends Config {
-	private static File FOLDER = CompatWorldGuard.FOLDER;
-	private static File FILE = new File(FOLDER, "worldguard.yml");
 	private static YamlConfiguration config = new YamlConfiguration();
-
 	public static void load() {
-		if(FOLDER == null) FOLDER = CompatWorldGuard.FOLDER;
-		if(FILE == null) FILE = new File(FOLDER, "worldguard.yml");
+		File folder = CompatWorldGuard.FOLDER;
+		File file = new File(folder, "worldguard.yml");
 		
-		if(!FILE.exists()) copyFromJar("worldguard.yml", FOLDER);
-		config = load(FILE);
+		if(!file.exists()) copyFromJar("worldguard.yml", folder);
+		config = load(file);
 		defaults();
 		checkValidForceField();
 	}

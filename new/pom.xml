@@ -33,10 +33,11 @@
 
 		<!-- Plugin Support Expansions -->
 		<module>expansion/CompatCitizens</module>
+		<module>expansion/CompatFactions</module>
 		<module>expansion/CompatParties</module>
 		<module>expansion/CompatPlaceholders</module>
+		<module>expansion/CompatTowny</module>
 		<module>expansion/CompatWorldGuard</module>
-		<module>expansion/CompatFactions</module>
 
 		<!-- Builder -->
 		<module>builder</module>

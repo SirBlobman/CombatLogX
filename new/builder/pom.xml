@@ -34,6 +34,7 @@
 								<copy file="${project.basedir}/../expansion/CompatFactions/target/exp-CompatFactions-${project.version}.jar" tofile="${project.basedir}/target/CombatLogX/expansions/Factions Compatibility.jar"/>
 								<copy file="${project.basedir}/../expansion/CompatParties/target/exp-CompatParties-${project.version}.jar" tofile="${project.basedir}/target/CombatLogX/expansions/Parties Compatbility.jar"/>
 								<copy file="${project.basedir}/../expansion/CompatPlaceholders/target/exp-CompatPlaceholders-${project.version}.jar" tofile="${project.basedir}/target/CombatLogX/expansions/Placeholder Compatibility.jar"/>
+								<copy file="${project.basedir}/../expansion/CompatTowny/target/exp-CompatTowny-${project.version}.jar" tofile="${project.basedir}/target/CombatLogX/expansions/Towny Compatibility.jar"/>
 								<copy file="${project.basedir}/../expansion/CompatWorldGuard/target/exp-CompatWorldGuard-${project.version}.jar" tofile="${project.basedir}/target/CombatLogX/expansions/WorldGuard Compatibility.jar"/>
 
 								<!-- Copy Expansion jars -->

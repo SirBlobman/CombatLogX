@@ -4,6 +4,9 @@ world guard:
   # No entry options for Compat WorldGuard.
   no entry:
     # What should be used to prevent players from entering safe zones?
+    # Safe zones for world guard are areas that have pvp set to false if the enemy is a player or
+    #  mobs-combat set to false if the enemy is a mob
+    #
     # If you want to allow players to enter safe zones, remove this expansion
     # If the player does not have an enemy, nothing will be done (ex: null entity or NotCombatLogX tag)
     #

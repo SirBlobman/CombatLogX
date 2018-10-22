@@ -1,0 +1,26 @@
+# CompatTowny Configuration File
+
+towny options:
+  # No entry options for Compat Towny.
+  no entry:
+    # What should be used to prevent players from entering safe zones?
+    # Safe zones for towny are towns that have pvp disabled.
+    # If you want to allow players to enter safe zones, remove this expansion
+    # If the player does not have an enemy, nothing will be done (ex: null entity or NotCombatLogX tag)
+    #
+    # CANCEL: Cancel their movement
+    # TELEPORT: Teleport them to their enemy if they have one
+    # KNOCKBACK: Push the player backwards like a force field (configurable power)
+    # KILL: Instantly set their health to 0 when they enter the safezone
+    #
+    # Default: KNOCKBACK
+    mode: "KNOCKBACK"
+    
+    # How much force should be used to push back the player?
+    # This option will only be used if the above option is "KNOCKBACK"
+    # Default: 1.5
+    knockback power: 1.5
+    
+    # How often (in seconds) should a message be sent if a player keeps trying to enter the safezone?
+    # Default: 5
+    message cooldown: 5
