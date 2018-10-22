@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -217,40 +216,41 @@ public class CombatUtil implements Runnable {
 	 * Punish a player<br/>
 	 * You should only punish them if they log out during combat<br/>
 	 * This will fire {@link PlayerPunishEvent}
-	 * @param p The player to punish
+	 * @param player The player to punish
 	 * @param reason The reason they are being punished
 	 */
-	public static void punish(Player p, PunishReason reason) {
+	public static void punish(Player player, PunishReason reason) {
 		if(reason == PunishReason.DISCONNECTED && !ConfigOptions.PUNISH_ON_QUIT) return;
 		if(reason == PunishReason.KICKED && !ConfigOptions.PUNISH_ON_KICK) return;
 		if(reason == PunishReason.UNKNOWN && !ConfigOptions.PUNISH_ON_EXPIRE) return;
 		
-		PlayerPunishEvent event = new PlayerPunishEvent(p, reason);
+		PlayerPunishEvent event = new PlayerPunishEvent(player, reason);
 		PluginUtil.call(event);
 		if(!event.isCancelled()) {	
-			if(ConfigOptions.PUNISH_KILL) p.setHealth(0.0D);
+			if(ConfigOptions.PUNISH_KILL) player.setHealth(0.0D);
 			if(ConfigOptions.PUNISH_SUDO) {
 				List<String> commands = ConfigOptions.PUNISH_SUDO_COMMANDS;
-				Stream<String> stream = commands.stream();
 				
-				stream.filter(command -> command.startsWith("[CONSOLE]")).forEach(command -> {
-					String cmd = command.substring(9).replace("{player}", p.getName());
-					Bukkit.dispatchCommand(Util.CONSOLE, cmd);
-				});
-				
-				stream.filter(command -> command.startsWith("[PLAYER]")).forEach(command -> {
-					String cmd = command.substring(8).replace("{player}", p.getName());
-					p.performCommand(cmd);
-				});
-				
-				stream.filter(command -> command.startsWith("[OP]")).forEach(command -> {
-					String cmd = command.substring(4).replace("{player}", p.getName());
+				commands.forEach(command -> {
+					if(command.startsWith("[CONSOLE]")) {
+						String cmd = command.substring(9).replace("{player}", player.getName());
+						Bukkit.dispatchCommand(Util.CONSOLE, cmd);
+					} 
 					
-					if(p.isOp()) p.performCommand(cmd);
-					else {
-						p.setOp(true);
-						p.performCommand(cmd);
-						p.setOp(false);
+					else if(command.startsWith("[PLAYER]")) {
+						String cmd = command.substring(8).replace("{player}", player.getName());
+						player.performCommand(cmd);
+					} 
+					
+					else if(command.startsWith("[OP]")) {
+						String cmd = command.substring(4).replace("{player}", player.getName());
+						
+						if(player.isOp()) player.performCommand(cmd);
+						else {
+							player.setOp(true);
+							player.performCommand(cmd);
+							player.setOp(false);
+						}
 					}
 				});
 			}
