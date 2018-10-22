@@ -1,5 +1,4 @@
-# Default FeatherBoard for CombatLogX
-# You can change this at any time using the same formatting as other FeatherBoard scoreboards
+# This is an example FeatherBoard for CombatLogX.
 
 lines:
   title:

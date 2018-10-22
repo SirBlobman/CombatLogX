@@ -9,7 +9,7 @@
 	</parent>
 
 	<properties>
-		<beta.version>17</beta.version>
+		<beta.version>18</beta.version>
 	</properties>
 
 	<artifactId>combatlogx-1.13-builder</artifactId>

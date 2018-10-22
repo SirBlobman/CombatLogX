@@ -37,13 +37,6 @@ score board:
   # Default: true
   enabled: true
   
-  # Set this to true if you have FeatherBoard installed and you want to use the event-hook CombatLogX
-  # Otherwise a custom scoreboard will be used
-  # If you set this to true ignore any options below and make sure the above option is also true
-  # FeatherBoard can be found here: https://www.spigotmc.org/resources/featherboard-1-13-compatible.2691/updates
-  # Default: false
-  use featherboard: false
-  
   # This is the title of the scoreboard
   title: "&6&lCombatLogX"
   
@@ -53,3 +46,15 @@ score board:
   - "&f&lTime Left: &7{time_left}"
   - "&f&lEnemy Name: &7{enemy_name}"
   - "&f&lEnemy Health: &7{enemy_health}"
+  
+  featherboard: 
+    # Set this to true if you have FeatherBoard installed
+    # Otherwise a custom scoreboard will be used
+    # If you set this to true ignore the 'title' and 'lines' options and make sure that score boards are enabled
+    # FeatherBoard can be found here: https://www.spigotmc.org/resources/2691/
+    # Default: false
+    use: false
+    
+    # What is the name of the scoreboard you want to use?
+    # Default: "combatlogx"
+    board: "combatlogx"
