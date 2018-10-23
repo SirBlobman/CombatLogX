@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
+import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
@@ -20,8 +21,7 @@ public class PHook extends PlaceholderExpansion {
 		switch (id) {
 			case "time_left":
 				int timeLeft = CombatUtil.getTimeLeft(p);
-				if (timeLeft < 0) return "Not in combat";
-				else return Integer.toString(timeLeft);
+				return (timeLeft < 0 ? ConfigLang.getWithPrefix("messages.expansions.placeholder compatibility.zero time left") : Integer.toString(timeLeft));
 			case "enemy_health": {
 				LivingEntity enemy = CombatUtil.getEnemy(p);
 				return (enemy != null) ? formatDouble(enemy.getHealth()) : "Unknown";

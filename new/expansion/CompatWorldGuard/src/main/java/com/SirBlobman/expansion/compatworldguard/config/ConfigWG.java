@@ -39,7 +39,7 @@ public class ConfigWG extends Config {
 		MESSAGE_COOLDOWN = get(config, "world guard.no entry.message cooldown", 5);
 		FORCEFIELD_ENABLED = get(config, "world guard.forcefield.enabled", true);
 		FORCEFIELD_SIZE = get(config, "world guard.forcefield.size", 4);
-		FORCEFIELD_MATERIAL_NAME = get(config, "world guard.forcefield.material", Material.RED_STAINED_GLASS.name());
+		FORCEFIELD_MATERIAL_NAME = get(config, "world guard.forcefield.material", "RED_STAINED_GLASS");
 	}
 	
 	public enum NoEntryMode {CANCEL, TELEPORT, KNOCKBACK, KILL}

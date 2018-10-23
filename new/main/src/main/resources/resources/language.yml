@@ -103,3 +103,6 @@ messages:
         pvp: "You cannot enter a no-pvp area during combat"
         mob: "You cannot enter a non-mob area while tagged with a mob"
         
+    placeholder compatibility:
+      zero time left: "Not in combat"
+        

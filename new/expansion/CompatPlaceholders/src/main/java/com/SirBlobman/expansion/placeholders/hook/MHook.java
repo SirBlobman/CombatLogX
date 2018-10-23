@@ -6,6 +6,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import com.SirBlobman.combatlogx.CombatLogX;
+import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 
 import be.maximvdw.placeholderapi.PlaceholderAPI;
@@ -28,7 +29,7 @@ public class MHook implements PlaceholderReplacer {
 			switch (id) {
 				case "combatlogx_time_left":
 					int timeLeft = CombatUtil.getTimeLeft(p);
-					return timeLeft < 0 ? "Not in combat" : Integer.toString(timeLeft);
+					return (timeLeft < 0 ? ConfigLang.getWithPrefix("messages.expansions.placeholder compatibility.zero time left") : Integer.toString(timeLeft));
 				case "combatlogx_enemy_health": {
 					LivingEntity enemy = CombatUtil.getEnemy(p);
 					return (enemy != null) ? formatDouble(enemy.getHealth()) : "Unknown";

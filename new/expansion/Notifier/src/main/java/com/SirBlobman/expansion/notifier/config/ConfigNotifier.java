@@ -4,8 +4,6 @@ import java.io.File;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.boss.BarColor;
-import org.bukkit.boss.BarStyle;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.SirBlobman.combatlogx.config.Config;
@@ -54,8 +52,8 @@ public class ConfigNotifier extends Config {
 		ACTION_BAR_NO_LONGER_IN_COMBAT = get(config, "action bar.no longer in combat", "&3&lCombat &7>> &a&oYou are no longer in combat.");
 		
 		BOSS_BAR_ENABLED = get(config, "boss bar.enabled", true);
-		BOSS_BAR_COLOR = get(config, "boss bar.color", BarColor.YELLOW.name());
-		BOSS_BAR_STYLE = get(config, "boss bar.style", BarStyle.SOLID.name());
+		BOSS_BAR_COLOR = get(config, "boss bar.color", "YELLOW");
+		BOSS_BAR_STYLE = get(config, "boss bar.style", "SOLID");
 		BOSS_BAR_FORMAT = get(config, "boss bar.format", "&3Combat &7>> &c{time_left} seconds");
 		BOSS_BAR_NO_LONGER_IN_COMBAT = get(config, "boss bar.no longer in combat", "&3Combat &7>> &a&oYou are no longer in combat");
 		
