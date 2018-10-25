@@ -14,6 +14,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		
+		<bukkit.version>1.13.2-R0.1-SNAPSHOT</bukkit.version>
+		<beta.version>21</beta.version>
 	</properties>
 
 	<artifactId>combatlogx-1.13-parent</artifactId>
@@ -47,25 +50,25 @@
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
-			<version>1.13.2-R0.1-SNAPSHOT</version>
+			<version>${bukkit.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.13.2-R0.1-SNAPSHOT</version>
+			<version>${bukkit.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot</artifactId>
-			<version>1.13.2-R0.1-SNAPSHOT</version>
+			<version>${bukkit.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
-			<version>1.13.2-R0.1-SNAPSHOT</version>
+			<version>${bukkit.version}</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>

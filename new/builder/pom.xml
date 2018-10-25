@@ -8,10 +8,6 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<properties>
-		<beta.version>20</beta.version>
-	</properties>
-
 	<artifactId>combatlogx-1.13-builder</artifactId>
 	<name>CombatLogX 1.13+ Builder</name>
 	<description>Creates the final zip for CombatLogX</description>
