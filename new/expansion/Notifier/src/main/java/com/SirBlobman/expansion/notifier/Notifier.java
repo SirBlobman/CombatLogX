@@ -21,7 +21,7 @@ import be.maximvdw.featherboard.api.FeatherBoardAPI;
 
 public class Notifier implements CLXExpansion, Listener {
 	public String getUnlocalizedName() {return "Notifier";}
-	public String getVersion() {return "13.2";}
+	public String getVersion() {return "13.3";}
 	
 	public static File FOLDER;
 	
@@ -53,11 +53,12 @@ public class Notifier implements CLXExpansion, Listener {
 		if(ConfigNotifier.ACTION_BAR_ENABLED) ActionBarUtil.updateActionBar(player);
 		if(ConfigNotifier.SCORE_BOARD_ENABLED) {
 			if(ConfigNotifier.SCORE_BOARD_USE_FEATHERBOARD) {
-				FeatherBoardAPI.showScoreboard(player, ConfigNotifier.SCORE_BOARD_FEATHERBOARD_NAME);
+				if(FeatherBoardAPI.isToggled(player)) {
+					FeatherBoardAPI.showScoreboard(player, ConfigNotifier.SCORE_BOARD_FEATHERBOARD_NAME);
+				}
 			} else ScoreboardUtil.updateScoreBoard(player);
 		}
 	}
-	
 	@EventHandler
 	public void onUntag(PlayerUntagEvent e) {
 		Player player = e.getPlayer();
@@ -67,7 +68,9 @@ public class Notifier implements CLXExpansion, Listener {
 		if(ConfigNotifier.SCORE_BOARD_ENABLED) {
 			if(ConfigNotifier.SCORE_BOARD_USE_FEATHERBOARD) {
 				SchedulerUtil.runLater(20L, () -> {
-					FeatherBoardAPI.removeScoreboardOverride(player, "combatlogx"); 
+					if(FeatherBoardAPI.isToggled(player)) {
+						FeatherBoardAPI.removeScoreboardOverride(player, ConfigNotifier.SCORE_BOARD_FEATHERBOARD_NAME);
+					}
 				});
 			} else ScoreboardUtil.removeScoreBoard(player);
 		}

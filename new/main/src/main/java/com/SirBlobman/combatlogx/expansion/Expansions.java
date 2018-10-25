@@ -45,8 +45,8 @@ public class Expansions {
 					String msg = Util.formatMessage(format, keys, vals);
 					Util.print(msg);
 					
-					clxe.enable();
 					EXPANSIONS.add(clxe);
+					clxe.enable();
 					
 					loaded = true;
 					break;

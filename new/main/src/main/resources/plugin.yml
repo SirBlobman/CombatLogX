@@ -6,6 +6,8 @@ author: SirBlobman
 description: An expandable combat-tagging plugin with actual logging options for 1.13+
 api-version: 1.13
 
+softdepend: [WorldGuard, Towny, PlaceholderAPI, MVdWPlaceholderAPI, Parties, Factions, Citizens]
+
 commands:
   combatlogx:
     usage: /<command> <reload/tag/untag>

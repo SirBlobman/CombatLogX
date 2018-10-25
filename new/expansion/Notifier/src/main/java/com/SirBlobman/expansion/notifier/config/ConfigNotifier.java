@@ -1,15 +1,15 @@
 package com.SirBlobman.expansion.notifier.config;
 
+import com.SirBlobman.combatlogx.config.Config;
+import com.SirBlobman.combatlogx.utility.PluginUtil;
+import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.expansion.notifier.Notifier;
+
 import java.io.File;
 import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
-
-import com.SirBlobman.combatlogx.config.Config;
-import com.SirBlobman.combatlogx.utility.PluginUtil;
-import com.SirBlobman.combatlogx.utility.Util;
-import com.SirBlobman.expansion.notifier.Notifier;
 
 public class ConfigNotifier extends Config {
 	private static YamlConfiguration config = new YamlConfiguration();
@@ -25,7 +25,8 @@ public class ConfigNotifier extends Config {
 		if(SCORE_BOARD_USE_FEATHERBOARD && PluginUtil.isEnabled("FeatherBoard")) {
 			File mainFolder = new File(".").getAbsoluteFile().getParentFile();
 			File pluginsFolder = new File(mainFolder, "plugins");
-			copyFromJar("FeatherBoard/scoreboards/combatlogx.yml", pluginsFolder);
+			File scoreboardFile = new File(pluginsFolder, "FeatherBoard" + File.pathSeparator + "scoreboards" + File.pathSeparator + "combatlogx.yml");
+			if(!scoreboardFile.exists()) copyFromJar("FeatherBoard/scoreboards/combatlogx.yml", pluginsFolder);
 			Bukkit.dispatchCommand(Util.CONSOLE, "fb reload");
 		}
 	}

@@ -163,20 +163,21 @@ public class CommandCombatLogX implements TabExecutor {
 				    "&f&lCombatLogX by SirBlobman",
 				    " ",
 					"&f&lYour Version: &7v" + pversion,
-					"&f&lSpigot Version: &7v" + sversion,
+					"&f&lLatest Version: &7v" + sversion,
+					" ",
 					"&7&oGetting expansion versions...",
-					"&l"
+					" "
 				);
 				Util.sendMessage(cs, msg);
 				
 				List<CLXExpansion> expansions = Expansions.getExpansions();
 				if(expansions.isEmpty()) {
-					String error = Util.color("&f&lYou do not have any expansions.");
+					String error = Util.color("  &f&lYou do not have any expansions.");
 					Util.sendMessage(cs, error);
 				} else expansions.forEach(clxe -> {
 					String name = clxe.getName();
 					String version = clxe.getVersion();
-					String msg1 = Util.color("&f&l" + name + " &7v" + version);
+					String msg1 = Util.color("  &f&l" + name + " &7v" + version);
 					Util.sendMessage(cs, msg1);
 				});
 			});

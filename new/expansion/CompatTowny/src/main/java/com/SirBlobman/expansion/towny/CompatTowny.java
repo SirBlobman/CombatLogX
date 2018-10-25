@@ -28,8 +28,8 @@ import com.SirBlobman.expansion.towny.utility.TownyUtil;
 public class CompatTowny implements CLXExpansion, Listener {
 	public String getUnlocalizedName() {return "CompatTowny";}
 	public String getName() {return "Towny Compatibility";}
-	public String getVersion() {return "13.1";}
-	
+	public String getVersion() {return "13.2";}
+
 	public static File FOLDER;
 
 	@Override
@@ -47,15 +47,15 @@ public class CompatTowny implements CLXExpansion, Listener {
 
 	@Override
 	public void disable() {
-		
+
 	}
 
 	@Override
 	public void onConfigReload() {
 		if(PluginUtil.isEnabled("Towny")) ConfigTowny.load();
 	}
-	
-	@EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true) 
+
+	@EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true) 
 	public void onEnterTown(PlayerMoveEvent e) {
 		Player player = e.getPlayer();
 		if(CombatUtil.isInCombat(player)) {
@@ -68,20 +68,19 @@ public class CompatTowny implements CLXExpansion, Listener {
 	private static List<UUID> MESSAGE_COOLDOWN = Util.newList();
 	private void preventEntry(Cancellable e, Player player, Location from, Location to) {
 		if(CombatUtil.hasEnemy(player)) {
-			LivingEntity enemy = CombatUtil.getEnemy(player);
-
 			NoEntryMode nem = ConfigTowny.getNoEntryMode();
 			switch(nem) {
 			case CANCEL:
 				e.setCancelled(true);
 				break;
 			case TELEPORT:
+				LivingEntity enemy = CombatUtil.getEnemy(player);
 				player.teleport(enemy);
 				break;
 			case KNOCKBACK:
 				if(!TownyUtil.isSafeZone(from)) {
-					Vector v = getVector(from, to);
-					player.setVelocity(v);
+					Vector knockback = getVector(from, to);
+					player.setVelocity(knockback);
 				}
 				break;
 			case KILL:
@@ -99,7 +98,7 @@ public class CompatTowny implements CLXExpansion, Listener {
 			}
 		}
 	}
-	
+
 	private Vector getVector(Location from, Location to) {
 		Vector vfrom = from.toVector();
 		Vector vto = to.toVector();
