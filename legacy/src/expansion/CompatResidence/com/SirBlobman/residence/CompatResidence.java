@@ -15,10 +15,10 @@ import com.SirBlobman.residence.config.ConfigResidence;
 
 public class CompatResidence implements CLXExpansion, Listener {
     public static File FOLDER;
-
+    
     @Override
     public void enable() {
-        if(PluginUtil.isPluginEnabled("Residence")) {
+        if (PluginUtil.isPluginEnabled("Residence")) {
             FOLDER = getDataFolder();
             ConfigResidence.load();
             Util.regEvents(this);
@@ -27,10 +27,18 @@ public class CompatResidence implements CLXExpansion, Listener {
             print(error);
         }
     }
-
-    public String getUnlocalizedName() {return "CompatResidence";}
-    public String getName() {return "Residence Compatibility";}
-    public String getVersion() {return "2";}
+    
+    public String getUnlocalizedName() {
+        return "CompatResidence";
+    }
+    
+    public String getName() {
+        return "Residence Compatibility";
+    }
+    
+    public String getVersion() {
+        return "2";
+    }
     
     @Override
     public void onConfigReload() {
@@ -41,10 +49,10 @@ public class CompatResidence implements CLXExpansion, Listener {
     public void onTag(PlayerTagEvent e) {
         Player target = e.getPlayer();
         LivingEntity enemy = e.getEnemy();
-        if(enemy != null && enemy instanceof Player) {
+        if (enemy != null && enemy instanceof Player) {
             Player attacker = (Player) enemy;
             boolean ff = ResidenceUtil.canFriendlyFire(attacker, target);
-            if(!ff) e.setCancelled(true);
+            if (!ff) e.setCancelled(true);
         }
     }
 }

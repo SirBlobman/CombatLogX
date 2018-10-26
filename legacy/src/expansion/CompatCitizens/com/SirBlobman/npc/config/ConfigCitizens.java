@@ -14,7 +14,7 @@ public class ConfigCitizens extends Config {
     private static final File FOLDER = CompatCitizens.FOLDER;
     private static final File FILE = new File(FOLDER, "config.yml");
     private static YamlConfiguration config = new YamlConfiguration();
-
+    
     public static YamlConfiguration load() {
         try {
             config = Config.load(FILE);
@@ -26,7 +26,7 @@ public class ConfigCitizens extends Config {
         }
         return config;
     }
-
+    
     public static void save() {
         try {
             Config.save(config, FILE);
@@ -36,17 +36,18 @@ public class ConfigCitizens extends Config {
             ex.printStackTrace();
         }
     }
-
+    
     public static String OPTION_NPC_ENTITY_TYPE = EntityType.PLAYER.name();
     public static int OPTION_NPC_SURVIVAL_TIME = 0;
     public static boolean OPTION_MODIFY_INVENTORIES = false;
     public static boolean OPTION_NPC_USE_SENTINEL = false;
-
+    
     private static void defaults() {
         OPTION_NPC_ENTITY_TYPE = get(config, "options.npc.entity type", EntityType.PLAYER.name());
         OPTION_NPC_SURVIVAL_TIME = get(config, "options.npc.survival time", 300);
-        OPTION_NPC_USE_SENTINEL = get(config, "options.npc.use sentinel", PluginUtil.isPluginEnabled("Sentinel", "mcmonkey"));
-
+        OPTION_NPC_USE_SENTINEL = get(config, "options.npc.use sentinel",
+                PluginUtil.isPluginEnabled("Sentinel", "mcmonkey"));
+        
         OPTION_MODIFY_INVENTORIES = get(config, "options.modify inventories", false);
         save();
     }

@@ -19,10 +19,18 @@ public class CompatParties implements CLXExpansion, Listener {
             print(error);
         }
     }
-
-    public String getUnlocalizedName() {return "CompatParties";}
-    public String getName() {return "Parties Compatibility";}
-    public String getVersion() {return "3";}
+    
+    public String getUnlocalizedName() {
+        return "CompatParties";
+    }
+    
+    public String getName() {
+        return "Parties Compatibility";
+    }
+    
+    public String getVersion() {
+        return "3";
+    }
     
     @Override
     public void onConfigReload() {
@@ -36,8 +44,7 @@ public class CompatParties implements CLXExpansion, Listener {
         if (ler instanceof Player) {
             Player p = (Player) ler;
             boolean can = PartyUtil.canAttack(p, led);
-            if (!can)
-                e.setCancelled(true);
+            if (!can) e.setCancelled(true);
         }
     }
 }

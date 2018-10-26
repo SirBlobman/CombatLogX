@@ -25,29 +25,37 @@ import com.SirBlobman.worldguard.olivolja3.ForceField;
 
 public class CompatWorldGuard implements CLXExpansion, Listener {
     public static File FOLDER;
-
+    
     @Override
     public void enable() {
         if (Util.PM.isPluginEnabled("WorldGuard")) {
             FOLDER = getDataFolder();
             ConfigWorldGuard.load();
             Util.regEvents(this);
-            if(ConfigWorldGuard.OPTION_FORCEFIELD_ENABLED) Util.regEvents(new ForceField());
+            if (ConfigWorldGuard.OPTION_FORCEFIELD_ENABLED) Util.regEvents(new ForceField());
         } else {
             String error = "WorldGuard is not installed. This expansion is useless!";
             print(error);
         }
     }
-
-    public String getUnlocalizedName() {return "CompatWorldGuard";}
-    public String getName() {return "WorldGuard Compatability";}
-    public String getVersion() {return "7";}
+    
+    public String getUnlocalizedName() {
+        return "CompatWorldGuard";
+    }
+    
+    public String getName() {
+        return "WorldGuard Compatability";
+    }
+    
+    public String getVersion() {
+        return "7";
+    }
     
     @Override
     public void onConfigReload() {
         ConfigWorldGuard.load();
     }
-
+    
     @EventHandler
     public void pce(PlayerCombatEvent e) {
         LivingEntity ler = e.getAttacker();
@@ -55,18 +63,16 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
         if (ler instanceof Player) {
             Player p = (Player) ler;
             boolean safe = WorldGuardUtil.isSafeZone(p.getLocation());
-            if (safe)
-                e.setCancelled(true);
+            if (safe) e.setCancelled(true);
         }
-
+        
         if (led instanceof Player) {
             Player p = (Player) led;
             boolean safe = WorldGuardUtil.isSafeZone(p.getLocation());
-            if (safe)
-                e.setCancelled(true);
+            if (safe) e.setCancelled(true);
         }
     }
-
+    
     @EventHandler
     public void move(PlayerMoveEvent e) {
         Player p = e.getPlayer();
@@ -74,9 +80,9 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
         Location to = e.getTo();
         World world = to.getWorld();
         String wname = world.getName().toLowerCase();
-        if(!ConfigWorldGuard.OPTION_DISABLED_WORLDS.contains(wname)) checkEvent(p, e, from, to);
+        if (!ConfigWorldGuard.OPTION_DISABLED_WORLDS.contains(wname)) checkEvent(p, e, from, to);
     }
-
+    
     @EventHandler
     public void tp(PlayerTeleportEvent e) {
         Player p = e.getPlayer();
@@ -84,23 +90,24 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
         Location to = e.getTo();
         World world = to.getWorld();
         String wname = world.getName().toLowerCase();
-        if(!ConfigWorldGuard.OPTION_DISABLED_WORLDS.contains(wname)) {
+        if (!ConfigWorldGuard.OPTION_DISABLED_WORLDS.contains(wname)) {
             String cause = e.getCause().name();
-            if (cause.equals("CHROUS_FRUIT") || cause.equals("ENDER_PEARL") || cause.equals("PLUGIN")) checkEvent(p, e, from, to);
+            if (cause.equals("CHROUS_FRUIT") || cause.equals("ENDER_PEARL") || cause.equals("PLUGIN"))
+                checkEvent(p, e, from, to);
         }
     }
-
+    
     public static void checkEvent(Player p, Cancellable e, Location from, Location to) {
         if (ConfigWorldGuard.OPTION_NO_SAFEZONE_ENTRY) {
             if (Combat.isInCombat(p)) {
                 Entity enemy = Combat.getEnemy(p);
                 if (enemy != null) {
                     if (enemy instanceof Player) {
-                        if(WorldGuardUtil.isSafeZone(to)) {
+                        if (WorldGuardUtil.isSafeZone(to)) {
                             if (p.isInsideVehicle()) p.leaveVehicle();
                             String mode = ConfigWorldGuard.OPTION_NO_SAFEZONE_ENTRY_MODE;
                             NoEntryMode nem = NoEntryMode.valueOf(mode);
-                            if (nem == null)  nem = NoEntryMode.CANCEL;
+                            if (nem == null) nem = NoEntryMode.CANCEL;
                             
                             if (nem == NoEntryMode.CANCEL) e.setCancelled(true);
                             else if (nem == NoEntryMode.KILL) p.setHealth(0.0D);
@@ -114,21 +121,17 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
                                 Location l = enemy.getLocation();
                                 p.teleport(l);
                             }
-
+                            
                             String error = ConfigLang.MESSAGE_NO_ENTRY;
                             Util.sendMessage(p, error);
                         }
                     } else if (WorldGuardUtil.isSafeFromMobs(to)) {
-                        if (p.isInsideVehicle())
-                            p.leaveVehicle();
+                        if (p.isInsideVehicle()) p.leaveVehicle();
                         String mode = ConfigWorldGuard.OPTION_NO_SAFEZONE_ENTRY_MODE;
                         NoEntryMode nem = NoEntryMode.valueOf(mode);
-                        if (nem == null)
-                            nem = NoEntryMode.CANCEL;
-                        if (nem == NoEntryMode.CANCEL)
-                            e.setCancelled(true);
-                        else if (nem == NoEntryMode.KILL)
-                            p.setHealth(0.0D);
+                        if (nem == null) nem = NoEntryMode.CANCEL;
+                        if (nem == NoEntryMode.CANCEL) e.setCancelled(true);
+                        else if (nem == NoEntryMode.KILL) p.setHealth(0.0D);
                         else if (nem == NoEntryMode.KNOCKBACK) {
                             Vector vector = from.toVector().subtract(to.toVector());
                             vector = vector.normalize();
@@ -139,7 +142,7 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
                             Location l = enemy.getLocation();
                             p.teleport(l);
                         }
-
+                        
                         String error = ConfigLang.MESSAGE_NO_ENTRY;
                         Util.sendMessage(p, error);
                     }

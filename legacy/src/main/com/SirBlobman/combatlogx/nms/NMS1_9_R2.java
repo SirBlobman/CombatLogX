@@ -24,8 +24,10 @@ public class NMS1_9_R2 extends NMSUtil {
             Method method_a = class_ChatSerializer.getMethod("a", String.class);
             Object object_IChatBaseComponent = method_a.invoke(null, json);
             
-            Constructor<?> constructor_PacketPlayOutChat = class_PacketPlayOutChat.getConstructor(class_IChatBaseComponent, Byte.TYPE);
-            Object object_PacketPlayOutChat = constructor_PacketPlayOutChat.newInstance(object_IChatBaseComponent, ACTION_BAR);
+            Constructor<?> constructor_PacketPlayOutChat = class_PacketPlayOutChat
+                    .getConstructor(class_IChatBaseComponent, Byte.TYPE);
+            Object object_PacketPlayOutChat = constructor_PacketPlayOutChat.newInstance(object_IChatBaseComponent,
+                    ACTION_BAR);
             
             Object object_CraftPlayer = class_CraftPlayer.cast(player);
             Method method_getHandle = class_CraftPlayer.getMethod("getHandle");
@@ -36,7 +38,7 @@ public class NMS1_9_R2 extends NMSUtil {
             Object object_PlayerConnection = field_playerConnection.get(object_EntityPlayer);
             Method method_sendPacket = class_PlayerConnection.getMethod("sendPacket", class_Packet);
             method_sendPacket.invoke(object_PlayerConnection, object_PacketPlayOutChat);
-        } catch(Throwable ex) {
+        } catch (Throwable ex) {
             String error = "An error has occured while sending an NMS action bar for v1_9_R2!";
             print(error);
             ex.printStackTrace();

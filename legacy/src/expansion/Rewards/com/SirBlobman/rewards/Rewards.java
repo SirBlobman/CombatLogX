@@ -16,23 +16,31 @@ import java.util.List;
 
 public class Rewards implements CLXExpansion, Listener {
     public static File FOLDER;
-
+    
     @Override
     public void enable() {
         FOLDER = getDataFolder();
         ConfigRewards.load();
         Util.regEvents(this);
     }
-
-    public String getUnlocalizedName() {return "Rewards";}
-    public String getName() {return "Rewards";}
-    public String getVersion() {return "3";}
+    
+    public String getUnlocalizedName() {
+        return "Rewards";
+    }
+    
+    public String getName() {
+        return "Rewards";
+    }
+    
+    public String getVersion() {
+        return "3";
+    }
     
     @Override
     public void onConfigReload() {
         ConfigRewards.load();
     }
-
+    
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
         Player player = e.getEntity();

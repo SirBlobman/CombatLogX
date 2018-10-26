@@ -10,15 +10,14 @@ import java.io.IOException;
 
 public class Config {
     protected static final File FOLDER = CombatLogX.FOLDER;
-
+    
     protected static YamlConfiguration load(File file) throws IOException, InvalidConfigurationException {
         YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-        if (!file.exists())
-            save(config, file);
+        if (!file.exists()) save(config, file);
         config.load(file);
         return config;
     }
-
+    
     protected static void save(YamlConfiguration config, File file) throws IOException, InvalidConfigurationException {
         if (!file.exists()) {
             File folder = file.getParentFile();
@@ -27,7 +26,7 @@ public class Config {
         }
         config.save(file);
     }
-
+    
     @SuppressWarnings("unchecked")
     protected static <T> T get(YamlConfiguration config, String path, T defaultValue) {
         Object o = config.get(path);

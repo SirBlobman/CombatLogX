@@ -21,12 +21,11 @@ public class Expansions {
     private static final File FOLDER = CombatLogX.FOLDER;
     public static final File EXPAND = new File(FOLDER, "expansions");
     private static HashMap<String, CLXExpansion> EXPANSIONS = Util.newMap();
-
+    
     /**
      * Register your expansion
      * 
-     * @param clazz
-     *            Your class file (should implement {@link CLXExpansion})
+     * @param clazz Your class file (should implement {@link CLXExpansion})
      */
     public static boolean loadExpansion(Class<?> clazz) {
         try {
@@ -44,10 +43,9 @@ public class Expansions {
                     EXPANSIONS.put(n, clxe);
                     reg = true;
                     break;
-                } else
-                    continue;
+                } else continue;
             }
-
+            
             return reg;
         } catch (Throwable ex) {
             String error = "Failed to load expansion:";
@@ -61,7 +59,7 @@ public class Expansions {
         List<CLXExpansion> list = Util.newList(EXPANSIONS.values());
         return list;
     }
-
+    
     @SuppressWarnings("unchecked")
     public static void onDisable() {
         Map<String, CLXExpansion> clone = (HashMap<String, CLXExpansion>) EXPANSIONS.clone();
@@ -71,15 +69,13 @@ public class Expansions {
             ex.disable();
         }
     }
-
+    
     public static void loadExpansions() {
         try {
-            if (!EXPAND.exists())
-                EXPAND.mkdirs();
+            if (!EXPAND.exists()) EXPAND.mkdirs();
             File[] files = EXPAND.listFiles();
             for (File file : files) {
-                if (file.isDirectory())
-                    continue;
+                if (file.isDirectory()) continue;
                 if (isJar(file)) {
                     JarFile jar = null;
                     try {
@@ -92,8 +88,7 @@ public class Expansions {
                                 try {
                                     if (isClass(je)) {
                                         Class<?> clazz = Class.forName(jname);
-                                        if (loadExpansion(clazz))
-                                            break;
+                                        if (loadExpansion(clazz)) break;
                                     }
                                 } catch (Throwable ex) {
                                     String error = "Failed to load class '" + jname + "'";
@@ -107,17 +102,15 @@ public class Expansions {
                         ex.printStackTrace();
                     } finally {
                         try {
-                            if (jar != null)
-                                jar.close();
-                        } catch (Throwable ex) {
-                        }
+                            if (jar != null) jar.close();
+                        } catch (Throwable ex) {}
                     }
                 } else {
                     String error = "Found non-jar file at '" + file + "'. Please remove it!";
                     Util.print(error);
                 }
             }
-
+            
             int count = expansionsAmount();
             String msg = WordUtil.withAmount("Loaded %1s expansion", count);
             Util.print(msg);
@@ -130,28 +123,27 @@ public class Expansions {
     }
     
     public static void reloadConfigs() {
-        for(CLXExpansion ex : EXPANSIONS.values()) {
+        for (CLXExpansion ex : EXPANSIONS.values()) {
             ex.onConfigReload();
         }
     }
-
+    
     public static int expansionsAmount() {
         return EXPANSIONS.size();
     }
-
+    
     public static CLXExpansion getByName(String name) {
         if (EXPANSIONS.containsKey(name)) {
             CLXExpansion clxe = EXPANSIONS.get(name);
             return clxe;
-        } else
-            return null;
+        } else return null;
     }
-
+    
     public static boolean isEnabled(String name) {
         boolean en = EXPANSIONS.containsKey(name);
         return en;
     }
-
+    
     public static String fileExtension(File file) {
         String name = file.getName();
         int i = name.lastIndexOf('.');
@@ -162,18 +154,15 @@ public class Expansions {
             String ex = name.substring(j);
             String l = ex.toLowerCase();
             return l;
-        } else
-            return "";
+        } else return "";
     }
-
+    
     private static boolean isJar(File file) {
         String ext = fileExtension(file);
-        if (ext.equals("jar"))
-            return true;
-        else
-            return false;
+        if (ext.equals("jar")) return true;
+        else return false;
     }
-
+    
     @SuppressWarnings("resource")
     private static synchronized JarFile loadJar(File file) throws Throwable {
         JarFile jar = new JarFile(file);
@@ -182,24 +171,22 @@ public class Expansions {
         URI uri = file.toURI();
         URL url = uri.toURL();
         for (URL it : ucl.getURLs()) {
-            if (it.equals(url)) {
-                return jar;
-            }
+            if (it.equals(url)) { return jar; }
         }
-
+        
         Class<?> urlc = URLClassLoader.class;
         Method addURL = urlc.getDeclaredMethod("addURL", URL.class);
         addURL.setAccessible(true);
         addURL.invoke(ucl, url);
         return jar;
     }
-
+    
     private static boolean isClass(JarEntry je) {
         String name = je.getName();
         boolean is = name.endsWith(".class");
         return is;
     }
-
+    
     private static String className(JarEntry je) {
         if (isClass(je)) {
             String name = je.getName();
@@ -207,7 +194,6 @@ public class Expansions {
             String r2 = r1.replace("/", ".");
             String r3 = r2.replace(File.separator, ".");
             return r3;
-        } else
-            return "";
+        } else return "";
     }
 }

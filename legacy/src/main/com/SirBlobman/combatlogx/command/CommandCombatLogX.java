@@ -74,8 +74,7 @@ public class CommandCombatLogX implements CommandExecutor {
                             Util.sendMessage(cs, error);
                             return true;
                         }
-                    } else
-                        return false;
+                    } else return false;
                 } else if (sub.equals("untag")) {
                     if (args.length > 1) {
                         String perm = "combatlogx.untag";
@@ -102,14 +101,14 @@ public class CommandCombatLogX implements CommandExecutor {
                             return true;
                         }
                     } else return false;
-                } else if(sub.equals("version")) {
+                } else if (sub.equals("version")) {
                     PluginDescriptionFile pdf = CombatLogX.INSTANCE.getDescription();
                     String clxVersion = pdf.getVersion();
                     Util.sendInfoMessage(cs, "&fCombatLogX &7v" + clxVersion);
                     Util.sendInfoMessage(cs, "&l");
                     Util.sendInfoMessage(cs, "&f&lExpansions:");
                     
-                    for(CLXExpansion exp : Expansions.getExpansions()) {
+                    for (CLXExpansion exp : Expansions.getExpansions()) {
                         String name = exp.getName();
                         String version = exp.getVersion();
                         String app = "&7 - &f" + name + " &7v" + version;

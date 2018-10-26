@@ -10,7 +10,7 @@ public class PluginUtil extends Util {
         boolean en = PM.isPluginEnabled(name);
         return en;
     }
-
+    
     public static boolean isPluginEnabled(String name, String author) {
         boolean en = isPluginEnabled(name);
         if (en) {

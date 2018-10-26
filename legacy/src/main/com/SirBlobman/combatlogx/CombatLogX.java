@@ -20,68 +20,67 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CombatLogX extends JavaPlugin {
-	public static CombatLogX INSTANCE;
-	public static File FOLDER;
-	public static ClassLoader CLASS_LOADER;
-
-	@Override
-	public void onEnable() {
-		INSTANCE = this;
-		FOLDER = getDataFolder();
-		CLASS_LOADER = getClassLoader();
-
-
-		Util.runLater(() -> {
-			ConfigOptions.load();
-			ConfigLang.load();
-			
-			int majorMCVersion = NMSUtil.getMajorVersion();
-			int minorMCVersion = NMSUtil.getMinorVersion();
-			if(majorMCVersion > 1 || minorMCVersion > 12) {
-				Util.print("This version of CombatLogX is meant for 1.8-1.12.2");
-				Util.print("1.13+ IS NOT SUPPORTED");
-				Util.print("Disabling CombatLogX....");
-				Util.PM.disablePlugin(this);
-				return;
-			}
-			
-			if (ConfigOptions.OPTION_CHECK_UPDATES) UpdateUtil.checkForUpdates();
-			command("combatlogx", new CommandCombatLogX());
-			command("combattime", new CommandCombatTime());
-			Util.regEvents(new ListenBukkit(), new FinalMonitor());
-			Util.runTimer(new Combat(), 20, 0);
-			Expansions.loadExpansions();
-			if (ConfigOptions.OPTION_BROADCAST_STARTUP)
-				Util.broadcast("&2Enabled");
-		}, 0);
-	}
-
-	@Override
-	public void onDisable() {
-		Expansions.onDisable();
-	}
-
-	public void command(String cmd, CommandExecutor ce) {
-		PluginCommand pc = getCommand(cmd);
-		if (pc != null) {
-			if (ce != null) {
-				pc.setExecutor(ce);
-				if (ce instanceof TabCompleter) {
-					TabCompleter tc = (TabCompleter) ce;
-					pc.setTabCompleter(tc);
-				}
-
-				if (ce instanceof Listener) {
-					Listener l = (Listener) ce;
-					Util.regEvents(l);
-				}
-			} else {
-				String error = Util.format("The command '%1s' cannot have a NULL executor", cmd);
-				Util.print(error);
-			}
-		} else {
-			String error = Util.format("The command '%1s' is not inside of the 'plugin.yml' of CombatLogX", cmd);
-			Util.print(error);
-		}
-	}
+    public static CombatLogX INSTANCE;
+    public static File FOLDER;
+    public static ClassLoader CLASS_LOADER;
+    
+    @Override
+    public void onEnable() {
+        INSTANCE = this;
+        FOLDER = getDataFolder();
+        CLASS_LOADER = getClassLoader();
+        
+        
+        Util.runLater(() -> {
+            ConfigOptions.load();
+            ConfigLang.load();
+            
+            int majorMCVersion = NMSUtil.getMajorVersion();
+            int minorMCVersion = NMSUtil.getMinorVersion();
+            if (majorMCVersion > 1 || minorMCVersion > 12) {
+                Util.print("This version of CombatLogX is meant for 1.8-1.12.2");
+                Util.print("1.13+ IS NOT SUPPORTED");
+                Util.print("Disabling CombatLogX....");
+                Util.PM.disablePlugin(this);
+                return;
+            }
+            
+            if (ConfigOptions.OPTION_CHECK_UPDATES) UpdateUtil.checkForUpdates();
+            command("combatlogx", new CommandCombatLogX());
+            command("combattime", new CommandCombatTime());
+            Util.regEvents(new ListenBukkit(), new FinalMonitor());
+            Util.runTimer(new Combat(), 20, 0);
+            Expansions.loadExpansions();
+            if (ConfigOptions.OPTION_BROADCAST_STARTUP) Util.broadcast("&2Enabled");
+        }, 0);
+    }
+    
+    @Override
+    public void onDisable() {
+        Expansions.onDisable();
+    }
+    
+    public void command(String cmd, CommandExecutor ce) {
+        PluginCommand pc = getCommand(cmd);
+        if (pc != null) {
+            if (ce != null) {
+                pc.setExecutor(ce);
+                if (ce instanceof TabCompleter) {
+                    TabCompleter tc = (TabCompleter) ce;
+                    pc.setTabCompleter(tc);
+                }
+                
+                if (ce instanceof Listener) {
+                    Listener l = (Listener) ce;
+                    Util.regEvents(l);
+                }
+            } else {
+                String error = Util.format("The command '%1s' cannot have a NULL executor", cmd);
+                Util.print(error);
+            }
+        } else {
+            String error = Util.format("The command '%1s' is not inside of the 'plugin.yml' of CombatLogX", cmd);
+            Util.print(error);
+        }
+    }
 }

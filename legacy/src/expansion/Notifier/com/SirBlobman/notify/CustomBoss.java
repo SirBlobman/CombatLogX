@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class CustomBoss {
     private static Map<Player, BossBar> BOSS = Util.newMap();
-
+    
     public static BossBar getBossBar(Player p) {
         if (BOSS.containsKey(p)) {
             BossBar bb = BOSS.get(p);
@@ -47,7 +47,7 @@ public class CustomBoss {
             return getBossBar(p);
         }
     }
-
+    
     public static void changeTime(Player p, long time) {
         if (ConfigNotifier.USE_BOSS_BAR) {
             List<String> l1 = Util.newList("{time_left}");
@@ -61,7 +61,7 @@ public class CustomBoss {
             bb.setTitle(title);
         }
     }
-
+    
     public static void remove(Player p) {
         if (ConfigNotifier.USE_BOSS_BAR) {
             BossBar bb = getBossBar(p);

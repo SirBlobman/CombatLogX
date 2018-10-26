@@ -13,7 +13,7 @@ public class ConfigWorldGuard extends Config {
     private static final File FOLDER = CompatWorldGuard.FOLDER;
     private static final File FILE = new File(FOLDER, "world guard.yml");
     private static YamlConfiguration config = new YamlConfiguration();
-
+    
     public static YamlConfiguration load() {
         try {
             config = Config.load(FILE);
@@ -25,7 +25,7 @@ public class ConfigWorldGuard extends Config {
         }
         return config;
     }
-
+    
     public static void save() {
         try {
             Config.save(config, FILE);
@@ -35,7 +35,7 @@ public class ConfigWorldGuard extends Config {
             ex.printStackTrace();
         }
     }
-
+    
     public static String OPTION_FORCEFIELD_MATERIAL = "";
     public static int OPTION_FORCEFIELD_SIZE = 5;
     public static boolean OPTION_FORCEFIELD_ENABLED = true;
@@ -43,7 +43,7 @@ public class ConfigWorldGuard extends Config {
     public static String OPTION_NO_SAFEZONE_ENTRY_MODE = "";
     public static double OPTION_NO_SAFEZONE_ENTRY_STRENGTH = 0.0D;
     public static List<String> OPTION_DISABLED_WORLDS = Util.newList();
-
+    
     private static void defaults() {
         OPTION_FORCEFIELD_MATERIAL = get("options.forcefield.material", "STAINED_GLASS:14");
         OPTION_FORCEFIELD_SIZE = get("options.forcefield.size", 5);
@@ -51,10 +51,11 @@ public class ConfigWorldGuard extends Config {
         OPTION_NO_SAFEZONE_ENTRY = get("options.safezones.no entry", true);
         OPTION_NO_SAFEZONE_ENTRY_MODE = get("options.safezones.mode", "KNOCKBACK").toUpperCase();
         OPTION_NO_SAFEZONE_ENTRY_STRENGTH = get("options.safezones.knockback strength", 5.0D);
-        OPTION_DISABLED_WORLDS = Util.toLowerCaseList(get("options.disabled worlds", Util.newList("disabled_world_1", "disabled_world_2")));
+        OPTION_DISABLED_WORLDS = Util
+                .toLowerCaseList(get("options.disabled worlds", Util.newList("disabled_world_1", "disabled_world_2")));
         save();
     }
-
+    
     private static <T> T get(String path, T defaultValue) {
         return get(config, path, defaultValue);
     }

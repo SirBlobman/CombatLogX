@@ -13,11 +13,10 @@ public abstract class NMSUtil extends Util {
         String version = Bukkit.getVersion();
         Pattern pat = Pattern.compile("(\\(MC: )([\\d\\.]+)(\\))");
         Matcher mat = pat.matcher(version);
-        if (mat.find())
-            return mat.group(2);
+        if (mat.find()) return mat.group(2);
         return "";
     }
-
+    
     public static String baseVersion() {
         String version = minecraftVersion();
         int last = version.lastIndexOf('.');
@@ -26,17 +25,17 @@ public abstract class NMSUtil extends Util {
     }
     
     public static int getMajorVersion() {
-    	String baseVersion = baseVersion();
-    	String majorString = baseVersion.substring(0, baseVersion.indexOf("."));
-    	return Integer.parseInt(majorString);
+        String baseVersion = baseVersion();
+        String majorString = baseVersion.substring(0, baseVersion.indexOf("."));
+        return Integer.parseInt(majorString);
     }
     
     public static int getMinorVersion() {
-    	String baseVersion = baseVersion();
-    	String minorString = baseVersion.substring(2);
-    	return Integer.parseInt(minorString);
+        String baseVersion = baseVersion();
+        String minorString = baseVersion.substring(2);
+        return Integer.parseInt(minorString);
     }
-
+    
     public static NMSUtil getNMS() {
         String mc = minecraftVersion();
         switch (mc) {
@@ -72,17 +71,18 @@ public abstract class NMSUtil extends Util {
         case "1.8":
             return new NMS1_8_R1();
         default:
-            print("NMS for '" + mc + "' is not supported!", "This means that some scoreboard features and the action bar will not work!");
+            print("NMS for '" + mc + "' is not supported!",
+                    "This means that some scoreboard features and the action bar will not work!");
             return null;
         }
     }
-
+    
     public static String json(String o) {
         String p1 = "{\"text\": \"";
         String p2 = "\"}";
         String json = p1 + o + p2;
         return json;
     }
-
+    
     public abstract void action(Player p, String msg);
 }

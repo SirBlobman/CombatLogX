@@ -32,185 +32,188 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
 
 public class CheatPrevention implements CLXExpansion, Listener {
-	public static File FOLDER;
-	private static List<Player> RE_ENABLE_FLIGHT = Util.newList();
-
-	@Override
-	public void enable() {
-		FOLDER = getDataFolder();
-		ConfigCheatPrevention.load();
-		Util.regEvents(this);
-	}
-
-	@Override
-	public void onConfigReload() {
-		ConfigCheatPrevention.load();
-	}
-
-	public String getUnlocalizedName() {return "CheatPrevention";}
-	public String getName() {return "Cheat Prevention";}
-	public String getVersion() {return "6";}
-
-	@EventHandler
-	public void pce(PlayerTagEvent e) {
-		if(!e.isCancelled()) {
-			Player p = e.getPlayer();
-			if (ConfigCheatPrevention.CHEAT_PREVENT_DISABLE_FLIGHT) {
-				if (ConfigCheatPrevention.CHEAT_PREVENT_ENABLE_FLIGHT) {
-					if (p.getAllowFlight() || p.isFlying())
-						RE_ENABLE_FLIGHT.add(p);
-				}
-				p.setFlying(false);
-				p.setAllowFlight(false);
-			}
-
-			if (ConfigCheatPrevention.CHEAT_PREVENT_AUTO_CLOSE_GUIS)
-				p.closeInventory();
-		}
-	}
-
-	@EventHandler
-	public void ctce(CombatTimerChangeEvent e) {
-		Player p = e.getPlayer();
-
-		if (ConfigCheatPrevention.CHEAT_PREVENT_CHANGE_GAMEMODE) {
-			String m = ConfigCheatPrevention.CHEAT_PREVENT_CHANGE_GAMEMODE_MODE;
-			GameMode gm = GameMode.valueOf(m);
-			p.setGameMode(gm);
-		}
-
-		for (String s : ConfigCheatPrevention.CHEAT_PREVENT_BLOCKED_POTIONS) {
-			try {
-				PotionEffectType pet = PotionEffectType.getByName(s);
-				if (p.hasPotionEffect(pet))
-					p.removePotionEffect(pet);
-			} catch (Throwable ex) {
-				String error = "Invalid potion effect '" + s + "' in combat.yml";
-				Util.print(error);
-			}
-		}
-	}
-
-	@EventHandler
-	public void pue(PlayerUntagEvent e) {
-		Player p = e.getPlayer();
-		if (ConfigCheatPrevention.CHEAT_PREVENT_ENABLE_FLIGHT) {
-			if (RE_ENABLE_FLIGHT.contains(p)) {
-				if (PluginUtil.isPluginEnabled("RandomStuff")) {
-					PlayerInventory pi = p.getInventory();
-					ItemStack chest = pi.getChestplate();
-					if (chest != null && chest.getType() == Material.FIREWORK) {
-						RE_ENABLE_FLIGHT.remove(p);
-						return;
-					}
-				}
-
-				p.setAllowFlight(true);
-				p.setFlying(true);
-				RE_ENABLE_FLIGHT.remove(p);
-			}
-		}
-	}
-
-	@EventHandler
-	public void ioe(InventoryOpenEvent e) {
-		if (ConfigCheatPrevention.CHEAT_PREVENT_OPEN_INVENTORIES) {
-			HumanEntity he = e.getPlayer();
-			if (he instanceof Player) {
-				Player p = (Player) he;
-				if (Combat.isInCombat(p)) {
-					Inventory i = e.getInventory();
-					InventoryType it = i.getType();
-					if (it != InventoryType.PLAYER) {
-						e.setCancelled(true);
-						String msg = ConfigLang.MESSAGE_OPEN_INVENTORY;
-						Util.sendMessage(p, msg);
-					}
-				}
-			}
-		}
-	}
-
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void toggleFlight(PlayerToggleFlightEvent e) {
-		if (e.isCancelled())
-			return;
-		else {
-			Player p = e.getPlayer();
-			if (ConfigCheatPrevention.CHEAT_PREVENT_DISABLE_FLIGHT) {
-				if (Combat.isInCombat(p)) {
-					if (p.getAllowFlight())
-						RE_ENABLE_FLIGHT.add(p);
-					p.setAllowFlight(false);
-					p.setFlying(false);
-					e.setCancelled(true);
-				}
-			}
-		}
-	}
-
-	@EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
-	public void tp(PlayerTeleportEvent e) {
-		Player player = e.getPlayer();
-		if(Combat.isInCombat(player)) {
-			if(ConfigCheatPrevention.CHEAT_PREVENT_TELEPORT) {
-				if(ConfigCheatPrevention.CHEAT_PREVENT_TELEPORT_ALLOW_ENDERPEARLS) {
-					TeleportCause cause = e.getCause();
-					if(cause == TeleportCause.ENDER_PEARL) return;
-				}
-				e.setCancelled(true);
-				Util.sendMessage(player, ConfigLang.MESSAGE_NO_TELEPORT);
-			}
-			
-			if(!ConfigCheatPrevention.CHEAT_PREVENT_TELEPORT_ALLOW_ENDERPEARLS) {
-				TeleportCause cause = e.getCause();
-				if(cause == TeleportCause.ENDER_PEARL) {
-					e.setCancelled(true);
-					Util.sendMessage(player, ConfigLang.MESSAGE_NO_TELEPORT);
-				}
-			}
-			
-			if(ConfigCheatPrevention.CHEAT_PREVENT_TELEPORT_ENDERPEARLS_RESTART) {
-				LivingEntity enemy = Combat.getEnemy(player);
-				Combat.tag(player, enemy);
-			}
-		}
-	}
-
-	@EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=false)
-	public void onCommand(PlayerCommandPreprocessEvent e) {
-		Player p = e.getPlayer();
-		String message = e.getMessage();
-		String cmd = message.toLowerCase();
-		if(Combat.isInCombat(p)) {
-			List<String> commandList = Util.toLowerCaseList(ConfigCheatPrevention.CHEAT_PREVENT_BLOCKED_COMMANDS);
-			boolean deny = false;
-			if(ConfigCheatPrevention.CHEAT_PREVENT_BLOCKED_COMMANDS_MODE) {
-				boolean shouldBlock = true;
-				for(String unblocked : commandList) {
-					if(cmd.startsWith(unblocked)) {
-						shouldBlock = false;
-						break;
-					}
-				}
-
-				deny = shouldBlock;
-			} else {
-				for(String blocked : commandList) {
-					if(cmd.startsWith(blocked)) {
-						deny = true;
-						break;
-					}
-				}
-			}
-
-			if(deny) {
-				e.setCancelled(true);                
-				List<String> l1 = Util.newList("{command}");
-				List<String> l2 = Util.newList(message);
-				String msg1 = Util.formatMessage(ConfigLang.MESSAGE_BLOCKED_COMMAND, l1, l2);
-				Util.sendMessage(p, msg1);
-			}
-		}
-	}
+    public static File FOLDER;
+    private static List<Player> RE_ENABLE_FLIGHT = Util.newList();
+    
+    @Override
+    public void enable() {
+        FOLDER = getDataFolder();
+        ConfigCheatPrevention.load();
+        Util.regEvents(this);
+    }
+    
+    @Override
+    public void onConfigReload() {
+        ConfigCheatPrevention.load();
+    }
+    
+    public String getUnlocalizedName() {
+        return "CheatPrevention";
+    }
+    
+    public String getName() {
+        return "Cheat Prevention";
+    }
+    
+    public String getVersion() {
+        return "6";
+    }
+    
+    @EventHandler
+    public void pce(PlayerTagEvent e) {
+        if (!e.isCancelled()) {
+            Player p = e.getPlayer();
+            if (ConfigCheatPrevention.CHEAT_PREVENT_DISABLE_FLIGHT) {
+                if (ConfigCheatPrevention.CHEAT_PREVENT_ENABLE_FLIGHT) {
+                    if (p.getAllowFlight() || p.isFlying()) RE_ENABLE_FLIGHT.add(p);
+                }
+                p.setFlying(false);
+                p.setAllowFlight(false);
+            }
+            
+            if (ConfigCheatPrevention.CHEAT_PREVENT_AUTO_CLOSE_GUIS) p.closeInventory();
+        }
+    }
+    
+    @EventHandler
+    public void ctce(CombatTimerChangeEvent e) {
+        Player p = e.getPlayer();
+        
+        if (ConfigCheatPrevention.CHEAT_PREVENT_CHANGE_GAMEMODE) {
+            String m = ConfigCheatPrevention.CHEAT_PREVENT_CHANGE_GAMEMODE_MODE;
+            GameMode gm = GameMode.valueOf(m);
+            p.setGameMode(gm);
+        }
+        
+        for (String s : ConfigCheatPrevention.CHEAT_PREVENT_BLOCKED_POTIONS) {
+            try {
+                PotionEffectType pet = PotionEffectType.getByName(s);
+                if (p.hasPotionEffect(pet)) p.removePotionEffect(pet);
+            } catch (Throwable ex) {
+                String error = "Invalid potion effect '" + s + "' in combat.yml";
+                Util.print(error);
+            }
+        }
+    }
+    
+    @EventHandler
+    public void pue(PlayerUntagEvent e) {
+        Player p = e.getPlayer();
+        if (ConfigCheatPrevention.CHEAT_PREVENT_ENABLE_FLIGHT) {
+            if (RE_ENABLE_FLIGHT.contains(p)) {
+                if (PluginUtil.isPluginEnabled("RandomStuff")) {
+                    PlayerInventory pi = p.getInventory();
+                    ItemStack chest = pi.getChestplate();
+                    if (chest != null && chest.getType() == Material.FIREWORK) {
+                        RE_ENABLE_FLIGHT.remove(p);
+                        return;
+                    }
+                }
+                
+                p.setAllowFlight(true);
+                p.setFlying(true);
+                RE_ENABLE_FLIGHT.remove(p);
+            }
+        }
+    }
+    
+    @EventHandler
+    public void ioe(InventoryOpenEvent e) {
+        if (ConfigCheatPrevention.CHEAT_PREVENT_OPEN_INVENTORIES) {
+            HumanEntity he = e.getPlayer();
+            if (he instanceof Player) {
+                Player p = (Player) he;
+                if (Combat.isInCombat(p)) {
+                    Inventory i = e.getInventory();
+                    InventoryType it = i.getType();
+                    if (it != InventoryType.PLAYER) {
+                        e.setCancelled(true);
+                        String msg = ConfigLang.MESSAGE_OPEN_INVENTORY;
+                        Util.sendMessage(p, msg);
+                    }
+                }
+            }
+        }
+    }
+    
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void toggleFlight(PlayerToggleFlightEvent e) {
+        if (e.isCancelled()) return;
+        else {
+            Player p = e.getPlayer();
+            if (ConfigCheatPrevention.CHEAT_PREVENT_DISABLE_FLIGHT) {
+                if (Combat.isInCombat(p)) {
+                    if (p.getAllowFlight()) RE_ENABLE_FLIGHT.add(p);
+                    p.setAllowFlight(false);
+                    p.setFlying(false);
+                    e.setCancelled(true);
+                }
+            }
+        }
+    }
+    
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public void tp(PlayerTeleportEvent e) {
+        Player player = e.getPlayer();
+        if (Combat.isInCombat(player)) {
+            if (ConfigCheatPrevention.CHEAT_PREVENT_TELEPORT) {
+                if (ConfigCheatPrevention.CHEAT_PREVENT_TELEPORT_ALLOW_ENDERPEARLS) {
+                    TeleportCause cause = e.getCause();
+                    if (cause == TeleportCause.ENDER_PEARL) return;
+                }
+                e.setCancelled(true);
+                Util.sendMessage(player, ConfigLang.MESSAGE_NO_TELEPORT);
+            }
+            
+            if (!ConfigCheatPrevention.CHEAT_PREVENT_TELEPORT_ALLOW_ENDERPEARLS) {
+                TeleportCause cause = e.getCause();
+                if (cause == TeleportCause.ENDER_PEARL) {
+                    e.setCancelled(true);
+                    Util.sendMessage(player, ConfigLang.MESSAGE_NO_TELEPORT);
+                }
+            }
+            
+            if (ConfigCheatPrevention.CHEAT_PREVENT_TELEPORT_ENDERPEARLS_RESTART) {
+                LivingEntity enemy = Combat.getEnemy(player);
+                Combat.tag(player, enemy);
+            }
+        }
+    }
+    
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = false)
+    public void onCommand(PlayerCommandPreprocessEvent e) {
+        Player p = e.getPlayer();
+        String message = e.getMessage();
+        String cmd = message.toLowerCase();
+        if (Combat.isInCombat(p)) {
+            List<String> commandList = Util.toLowerCaseList(ConfigCheatPrevention.CHEAT_PREVENT_BLOCKED_COMMANDS);
+            boolean deny = false;
+            if (ConfigCheatPrevention.CHEAT_PREVENT_BLOCKED_COMMANDS_MODE) {
+                boolean shouldBlock = true;
+                for (String unblocked : commandList) {
+                    if (cmd.startsWith(unblocked)) {
+                        shouldBlock = false;
+                        break;
+                    }
+                }
+                
+                deny = shouldBlock;
+            } else {
+                for (String blocked : commandList) {
+                    if (cmd.startsWith(blocked)) {
+                        deny = true;
+                        break;
+                    }
+                }
+            }
+            
+            if (deny) {
+                e.setCancelled(true);
+                List<String> l1 = Util.newList("{command}");
+                List<String> l2 = Util.newList(message);
+                String msg1 = Util.formatMessage(ConfigLang.MESSAGE_BLOCKED_COMMAND, l1, l2);
+                Util.sendMessage(p, msg1);
+            }
+        }
+    }
 }

@@ -12,7 +12,7 @@ public class ConfigResidence extends Config {
     private static final File FOLDER = CompatResidence.FOLDER;
     private static final File FILE = new File(FOLDER, "residence.yml");
     private static YamlConfiguration config = new YamlConfiguration();
-
+    
     public static YamlConfiguration load() {
         try {
             config = Config.load(FILE);
@@ -24,7 +24,7 @@ public class ConfigResidence extends Config {
         }
         return config;
     }
-
+    
     public static void save() {
         try {
             Config.save(config, FILE);
@@ -36,7 +36,6 @@ public class ConfigResidence extends Config {
     }
     
     
-
     private static void defaults() {
         save();
     }

@@ -25,15 +25,15 @@ public class Util {
     public static final ConsoleCommandSender CONSOLE = SERVER.getConsoleSender();
     public static final PluginManager PM = SERVER.getPluginManager();
     public static final BukkitScheduler BS = SERVER.getScheduler();
-
+    
     public static String color(String o) {
         return ChatColor.translateAlternateColorCodes('&', o);
     }
-
+    
     public static String strip(String c) {
         return ChatColor.stripColor(c);
     }
-
+    
     public static String[] color(String... ss) {
         for (int i = 0; i < ss.length; i++) {
             String s = ss[i];
@@ -42,7 +42,7 @@ public class Util {
         }
         return ss;
     }
-
+    
     public static String[] strip(String... cc) {
         for (int i = 0; i < cc.length; i++) {
             String c = cc[i];
@@ -51,10 +51,9 @@ public class Util {
         }
         return cc;
     }
-
+    
     public static String str(Object o) {
-        if (o == null)
-            return "";
+        if (o == null) return "";
         else if ((o instanceof Short) || (o instanceof Integer) || (o instanceof Long)) {
             Number n = (Number) o;
             long l = n.longValue();
@@ -101,7 +100,7 @@ public class Util {
             }
         }
     }
-
+    
     public static String[] str(Object... oo) {
         String[] ss = new String[oo.length];
         for (int i = 0; i < oo.length; i++) {
@@ -111,7 +110,7 @@ public class Util {
         }
         return ss;
     }
-
+    
     public static String format(Object o, Object... oo) {
         String s = str(o);
         Object[] ss = str(oo);
@@ -119,7 +118,7 @@ public class Util {
         String c = color(f);
         return c;
     }
-
+    
     public static String formatMessage(Object o, List<String> keys, List<? extends Object> vals, Object... extra) {
         String s = str(o);
         int klen = keys.size(), vlen = vals.size();
@@ -130,7 +129,7 @@ public class Util {
                 String sv = str(ov);
                 s = s.replace(sk, sv);
             }
-
+            
             String f = format(s, extra);
             return f;
         } else {
@@ -139,7 +138,7 @@ public class Util {
             throw iae;
         }
     }
-
+    
     public static void print(Object... oo) {
         for (Object o : oo) {
             String s = str(o);
@@ -148,17 +147,16 @@ public class Util {
             CONSOLE.sendMessage(c);
         }
     }
-
+    
     public static void printNoPrefix(Object... oo) {
         for (Object o : oo) {
             String s = str(o);
             String c = color(s);
-            if (s.equals("\n"))
-                c = color("&l");
+            if (s.equals("\n")) c = color("&l");
             CONSOLE.sendMessage(c);
         }
     }
-
+    
     public static void broadcast(Object... oo) {
         print(oo);
         Collection<? extends Player> cp = SERVER.getOnlinePlayers();
@@ -170,21 +168,19 @@ public class Util {
             }
         }
     }
-
+    
     public static void sendMessage(CommandSender cs, Object... oo) {
         if (cs instanceof Entity) {
             Entity en = (Entity) cs;
             World world = en.getWorld();
             String name = world.getName().toLowerCase();
             List<String> disabled = toLowerCaseList(ConfigOptions.OPTION_DISABLED_WORLDS);
-            if (disabled.contains(name))
-                return;
+            if (disabled.contains(name)) return;
         }
-
+        
         for (Object o : oo) {
             String s = str(o);
-            if (s.isEmpty() || s.equals(""))
-                continue;
+            if (s.isEmpty() || s.equals("")) continue;
             else {
                 String c = color(ConfigLang.MESSAGE_PREFIX + s);
                 cs.sendMessage(c);
@@ -193,44 +189,42 @@ public class Util {
     }
     
     public static void sendInfoMessage(CommandSender cs, Object... oo) {
-        for(Object o : oo) {
+        for (Object o : oo) {
             String s = str(o);
-            if(s == null || s.isEmpty() || s.equals("")) continue;
+            if (s == null || s.isEmpty() || s.equals("")) continue;
             else {
                 String c = color(s);
                 cs.sendMessage(c);
             }
         }
     }
-
+    
     public static void regEvents(Listener... ll) {
         regEvents(PLUGIN, ll);
     }
-
+    
     public static void regEvents(Plugin p, Listener... ll) {
         for (Listener l : ll) {
-            if (l != null)
-                PM.registerEvents(l, p);
+            if (l != null) PM.registerEvents(l, p);
         }
     }
-
+    
     public static void call(Event... ee) {
         for (Event e : ee) {
-            if (e != null)
-                PM.callEvent(e);
+            if (e != null) PM.callEvent(e);
         }
     }
-
+    
     public static BukkitTask runLater(Runnable r, long delay) {
         BukkitTask bt = BS.runTaskLater(PLUGIN, r, delay);
         return bt;
     }
-
+    
     public static BukkitTask runTimer(Runnable r, long timer, long delay) {
         BukkitTask bt = BS.runTaskTimer(PLUGIN, r, delay, timer);
         return bt;
     }
-
+    
     @SafeVarargs
     public static <S> Set<S> newSet(S... ss) {
         Set<S> set = new HashSet<S>();
@@ -238,7 +232,7 @@ public class Util {
             set.add(s);
         return set;
     }
-
+    
     @SafeVarargs
     public static <L> List<L> newList(L... ll) {
         List<L> list = new ArrayList<L>();
@@ -246,14 +240,14 @@ public class Util {
             list.add(l);
         return list;
     }
-
+    
     public static <L> List<L> newList(Collection<L> ll) {
         List<L> list = new ArrayList<L>();
         for (L l : ll)
             list.add(l);
         return list;
     }
-
+    
     public static List<String> toLowerCaseList(List<String> originalList) {
         List<String> lower = newList();
         for (String caps : originalList) {
@@ -262,7 +256,7 @@ public class Util {
         }
         return lower;
     }
-
+    
     public static <K, V> HashMap<K, V> newMap() {
         HashMap<K, V> map = new HashMap<K, V>();
         return map;

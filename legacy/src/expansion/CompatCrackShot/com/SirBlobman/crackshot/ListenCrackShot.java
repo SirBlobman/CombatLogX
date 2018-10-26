@@ -15,8 +15,7 @@ import org.bukkit.event.Listener;
 public class ListenCrackShot implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void wdee(WeaponDamageEntityEvent e) {
-        if (e.isCancelled())
-            return;
+        if (e.isCancelled()) return;
         double dam = e.getDamage();
         if (dam > 0) {
             Player p = e.getPlayer();

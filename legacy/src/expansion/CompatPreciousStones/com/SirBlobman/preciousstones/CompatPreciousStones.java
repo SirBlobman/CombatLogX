@@ -24,7 +24,7 @@ import com.SirBlobman.preciousstones.config.ConfigPreciousStones;
 
 public class CompatPreciousStones implements CLXExpansion, Listener {
     public static File FOLDER;
-
+    
     @Override
     public void enable() {
         if (PluginUtil.isPluginEnabled("PreciousStones", "Phaed")) {
@@ -36,16 +36,24 @@ public class CompatPreciousStones implements CLXExpansion, Listener {
             print(error);
         }
     }
-
-    public String getUnlocalizedName() {return "CompatPreciousStones";}
-    public String getName() {return "PreciousStones Compatability";}
-    public String getVersion() {return "3";}
+    
+    public String getUnlocalizedName() {
+        return "CompatPreciousStones";
+    }
+    
+    public String getName() {
+        return "PreciousStones Compatability";
+    }
+    
+    public String getVersion() {
+        return "3";
+    }
     
     @Override
     public void onConfigReload() {
         ConfigPreciousStones.load();
     }
-
+    
     @EventHandler
     public void pce(PlayerCombatEvent e) {
         LivingEntity ler = e.getAttacker();
@@ -53,22 +61,19 @@ public class CompatPreciousStones implements CLXExpansion, Listener {
         if (ler instanceof Player) {
             Player p = (Player) ler;
             boolean pvp = StonesUtil.canPvP(p);
-            if (!pvp)
-                e.setCancelled(true);
+            if (!pvp) e.setCancelled(true);
         }
-
+        
         if (led instanceof Player) {
             Player p = (Player) led;
             boolean pvp = StonesUtil.canPvP(p);
-            if (!pvp)
-                e.setCancelled(true);
+            if (!pvp) e.setCancelled(true);
         }
     }
-
+    
     @EventHandler
     public void move(PlayerMoveEvent e) {
-        if (e.isCancelled())
-            return;
+        if (e.isCancelled()) return;
         if (ConfigPreciousStones.OPTION_NO_SAFEZONE_ENTRY) {
             Player p = e.getPlayer();
             Location from = e.getFrom();
@@ -76,9 +81,8 @@ public class CompatPreciousStones implements CLXExpansion, Listener {
             if (Combat.isInCombat(p) && !StonesUtil.canPvP(to)) {
                 String mode = ConfigPreciousStones.OPTION_NO_SAFEZONE_ENTRY_MODE;
                 NoEntryMode nem = NoEntryMode.valueOf(mode);
-                if (nem == null)
-                    nem = NoEntryMode.CANCEL;
-
+                if (nem == null) nem = NoEntryMode.CANCEL;
+                
                 if (nem == NoEntryMode.CANCEL) {
                     e.setCancelled(true);
                 } else if (nem == NoEntryMode.KNOCKBACK) {
@@ -102,11 +106,10 @@ public class CompatPreciousStones implements CLXExpansion, Listener {
             }
         }
     }
-
+    
     @EventHandler
     public void tp(PlayerTeleportEvent e) {
-        if (e.isCancelled())
-            return;
+        if (e.isCancelled()) return;
         if (ConfigPreciousStones.OPTION_NO_SAFEZONE_ENTRY && e.getCause() == TeleportCause.ENDER_PEARL) {
             Player p = e.getPlayer();
             Location from = e.getFrom();

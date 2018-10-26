@@ -11,12 +11,12 @@ public class ReflectionUtil extends Util {
     public static Class<?> getInnerClass(Class<?> original, String innerClassName) {
         try {
             Class<?>[] classes = original.getClasses();
-            for(Class<?> clazz : classes) {
+            for (Class<?> clazz : classes) {
                 String name = clazz.getSimpleName();
-                if(name.equals(innerClassName)) return clazz;
+                if (name.equals(innerClassName)) return clazz;
             }
             return null;
-        } catch(Throwable ex) {
+        } catch (Throwable ex) {
             print("An error occured getting an inner class!");
             ex.printStackTrace();
             return null;

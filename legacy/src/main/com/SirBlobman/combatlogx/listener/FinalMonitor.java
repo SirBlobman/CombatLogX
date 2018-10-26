@@ -25,13 +25,12 @@ public class FinalMonitor implements Listener {
         else {
             LivingEntity ler = e.getAttacker();
             LivingEntity led = e.getTarget();
-
+            
             if (ConfigOptions.OPTION_LOG_TO_FILE) {
                 String msg = Combat.log(ler, led);
-                if (ConfigOptions.OPTION_LOG_TO_CONSOLE)
-                    Util.print(msg);
+                if (ConfigOptions.OPTION_LOG_TO_CONSOLE) Util.print(msg);
             }
-
+            
             if (ler instanceof Player) {
                 Player p = (Player) ler;
                 if (CombatUtil.canBeTagged(p)) {
@@ -49,7 +48,7 @@ public class FinalMonitor implements Listener {
                     Combat.tag(p, led);
                 }
             }
-
+            
             if (led instanceof Player) {
                 Player p = (Player) led;
                 if (CombatUtil.canBeTagged(p)) {
@@ -69,28 +68,25 @@ public class FinalMonitor implements Listener {
             }
         }
     }
-
+    
     @EventHandler(priority = EventPriority.MONITOR)
     public void pue(PlayerUntagEvent e) {
-        if (e.isCancelled())
-            return;
+        if (e.isCancelled()) return;
         Player p = e.getPlayer();
         UntagCause uc = e.getCause();
         switch (uc) {
         case EXPIRE:
             Util.sendMessage(p, ConfigLang.MESSAGE_EXPIRE);
             break;
-
+        
         case KICK:
-            if (ConfigOptions.PUNISH_ON_KICK)
-                Combat.punish(p);
+            if (ConfigOptions.PUNISH_ON_KICK) Combat.punish(p);
             break;
-
+        
         case QUIT:
-            if (ConfigOptions.PUNISH_ON_QUIT)
-                Combat.punish(p);
+            if (ConfigOptions.PUNISH_ON_QUIT) Combat.punish(p);
             break;
-
+        
         case ENEMY_DEATH:
             List<String> l1 = Util.newList("{enemy_name}");
             LivingEntity enemy = Combat.getEnemy(p);

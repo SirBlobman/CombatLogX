@@ -21,28 +21,35 @@ import java.io.File;
 
 public class NotCombatLogX implements CLXExpansion, Listener {
     public static File FOLDER;
-
+    
     @Override
     public void enable() {
         FOLDER = getDataFolder();
-
+        
         ConfigNot.load();
         Util.regEvents(this, new FinalMonitor());
     }
-
-    public String getUnlocalizedName() {return "NotCombatLogX";}
-    public String getName() {return getUnlocalizedName();}
-    public String getVersion() {return "7";}
+    
+    public String getUnlocalizedName() {
+        return "NotCombatLogX";
+    }
+    
+    public String getName() {
+        return getUnlocalizedName();
+    }
+    
+    public String getVersion() {
+        return "7";
+    }
     
     @Override
     public void onConfigReload() {
         ConfigNot.load();
     }
-
+    
     @EventHandler(priority = EventPriority.HIGHEST)
     public void ede(EntityDamageEvent e) {
-        if (e.isCancelled())
-            return;
+        if (e.isCancelled()) return;
         Entity en = e.getEntity();
         if (en instanceof Player) {
             Player p = (Player) en;
@@ -78,16 +85,13 @@ public class NotCombatLogX implements CLXExpansion, Listener {
                                 if (!(ps instanceof Entity)) {
                                     send = true;
                                     msg = ConfigNot.MESSAGE_PROJECTILE;
-                                } else
-                                    send = false;
-                            } else
-                                send = false;
+                                } else send = false;
+                            } else send = false;
                         }
-
+                        
                         if (send) {
                             String color = Util.color(msg);
-                            if (!Combat.isInCombat(p))
-                                Util.sendMessage(p, color);
+                            if (!Combat.isInCombat(p)) Util.sendMessage(p, color);
                             call(p);
                         }
                     }
@@ -95,7 +99,7 @@ public class NotCombatLogX implements CLXExpansion, Listener {
             }
         }
     }
-
+    
     public static void call(Player p) {
         SpecialCombatEvent sce = new SpecialCombatEvent(p);
         Util.call(sce);

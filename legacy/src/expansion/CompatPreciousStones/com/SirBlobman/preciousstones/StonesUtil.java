@@ -15,7 +15,7 @@ public class StonesUtil extends Util {
         boolean pvp = canPvP(l);
         return pvp;
     }
-
+    
     public static boolean canPvP(Location l) {
         IApi api = PreciousStones.API();
         boolean pvp = api.isFieldProtectingArea(FieldFlag.PREVENT_PVP, l);

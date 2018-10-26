@@ -35,22 +35,20 @@ public class ListenCitizens implements Listener {
             NPCUtil.createNPC(p, l);
         }
     }
-
+    
     @EventHandler
     public void die(NPCDeathEvent e) {
         NPC npc = e.getNPC();
-        if (npc.hasTrait(CombatNPC.class))
-            NPCUtil.removeNPC(npc);
-        else
-            return;
+        if (npc.hasTrait(CombatNPC.class)) NPCUtil.removeNPC(npc);
+        else return;
     }
-
+    
     @EventHandler
     public void join(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
         NPCUtil.removeNPC(uuid);
-
+        
         if (ConfigData.exists(p)) {
             double health = ConfigData.get(p, "health", p.getHealth());
             Location l = ConfigData.get(p, "last location", p.getLocation());
@@ -61,16 +59,14 @@ public class ListenCitizens implements Listener {
                 p.setHealth(health);
                 p.teleport(l);
                 World world = p.getWorld();
-
+                
                 if (ConfigCitizens.OPTION_MODIFY_INVENTORIES) {
                     List<ItemStack> list = ConfigData.get(p, "inventory", Util.newList());
                     PlayerInventory pi = p.getInventory();
                     for (ItemStack is : list) {
                         int first = pi.firstEmpty();
-                        if (first >= 0)
-                            pi.addItem(is);
-                        else
-                            world.dropItem(l, is);
+                        if (first >= 0) pi.addItem(is);
+                        else world.dropItem(l, is);
                     }
                 }
             }

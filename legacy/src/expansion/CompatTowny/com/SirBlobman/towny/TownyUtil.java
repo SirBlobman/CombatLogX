@@ -18,7 +18,7 @@ public class TownyUtil {
             return null;
         }
     }
-
+    
     public static TownBlock getTownBlock(Location l) {
         TownyWorld tw = getTownWorld(l);
         Coord coord = Coord.parseCoord(l);
@@ -29,10 +29,9 @@ public class TownyUtil {
             } catch (Throwable ex) {
                 return null;
             }
-        } else
-            return null;
+        } else return null;
     }
-
+    
     public static Town getTown(Location l) {
         TownBlock tb = getTownBlock(l);
         if (tb != null && tb.hasTown()) {
@@ -42,15 +41,14 @@ public class TownyUtil {
             } catch (Throwable ex) {
                 return null;
             }
-        } else
-            return null;
+        } else return null;
     }
-
+    
     public static boolean pvp(Player p) {
         Location l = p.getLocation();
         return pvp(l);
     }
-
+    
     public static boolean pvp(Location l) {
         Town town = getTown(l);
         if (town != null) {

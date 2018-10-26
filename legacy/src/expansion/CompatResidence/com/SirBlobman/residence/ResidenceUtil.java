@@ -16,10 +16,11 @@ public class ResidenceUtil extends Util {
         Location tl = target.getLocation();
         ResidenceInterface ri = ResidenceApi.getResidenceManager();
         ClaimedResidence cr = ri.getByLoc(tl);
-        if(cr != null) {
+        if (cr != null) {
             ResidencePermissions rp = cr.getPermissions();
-            if(rp.playerHas(target, Flags.friendlyfire, FlagCombo.OnlyTrue)) return true;
+            if (rp.playerHas(target, Flags.friendlyfire, FlagCombo.OnlyTrue)) return true;
             else return false;
-        } return false;
+        }
+        return false;
     }
 }

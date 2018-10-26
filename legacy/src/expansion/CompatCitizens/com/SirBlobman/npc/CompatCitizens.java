@@ -11,7 +11,7 @@ import java.io.File;
 
 public class CompatCitizens implements CLXExpansion {
     public static File FOLDER;
-
+    
     @Override
     public void enable() {
         if (PluginUtil.isPluginEnabled("Citizens")) {
@@ -25,7 +25,7 @@ public class CompatCitizens implements CLXExpansion {
             print(error);
         }
     }
-
+    
     @Override
     public void disable() {
         if (PluginUtil.isPluginEnabled("Citizens")) {
@@ -39,8 +39,16 @@ public class CompatCitizens implements CLXExpansion {
         ConfigCitizens.load();
         ConfigData.load();
     }
-
-    public String getUnlocalizedName() {return "CompatCitizens";}
-    public String getName() {return "Citizens Compatibility";}
-    public String getVersion() {return "5";}
+    
+    public String getUnlocalizedName() {
+        return "CompatCitizens";
+    }
+    
+    public String getName() {
+        return "Citizens Compatibility";
+    }
+    
+    public String getVersion() {
+        return "5";
+    }
 }

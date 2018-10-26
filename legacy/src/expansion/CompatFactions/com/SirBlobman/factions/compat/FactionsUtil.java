@@ -21,18 +21,13 @@ public abstract class FactionsUtil extends Util {
             PluginDescriptionFile pdf = pl.getDescription();
             String version = pdf.getVersion();
             List<String> authors = pdf.getAuthors();
-            if (authors.contains("ProSavage"))
-                return new FactionsSavage();
-            else if (version.startsWith("1"))
-                return new FactionsUUID();
-            else
-                return new FactionsNormal();
-        } else if (PM.isPluginEnabled("LegacyFactions"))
-            return new FactionsLegacy();
-        else
-            return null;
+            if (authors.contains("ProSavage")) return new FactionsSavage();
+            else if (version.startsWith("1")) return new FactionsUUID();
+            else return new FactionsNormal();
+        } else if (PM.isPluginEnabled("LegacyFactions")) return new FactionsLegacy();
+        else return null;
     }
-
+    
     public static Location getChunkCenter(Location to) {
         Chunk c = to.getChunk();
         int x = c.getX() * 16;
@@ -40,7 +35,7 @@ public abstract class FactionsUtil extends Util {
         Location l = new Location(to.getWorld(), x, 64, z);
         return l;
     }
-
+    
     public Vector getSafeZoneKnockbackVector(Location original, Location ploc) {
         if (isSafeZone(ploc)) {
             Location center = getChunkCenter(ploc);
@@ -50,10 +45,9 @@ public abstract class FactionsUtil extends Util {
             vector.multiply(ConfigFactions.OPTION_NO_SAFEZONE_ENTRY_STRENGTH);
             vector.setY(0);
             return vector;
-        } else
-            return new Vector(0, 0, 0);
+        } else return new Vector(0, 0, 0);
     }
-
+    
     public Vector getMobsZoneKnockbackVector(Location original, Location ploc) {
         if (isSafeFromMobs(ploc)) {
             Location center = getChunkCenter(ploc);
@@ -63,20 +57,19 @@ public abstract class FactionsUtil extends Util {
             vector.multiply(ConfigFactions.OPTION_NO_SAFEZONE_ENTRY_STRENGTH);
             vector.setY(0);
             return vector;
-        } else
-            return new Vector(0, 0, 0);
+        } else return new Vector(0, 0, 0);
     }
-
+    
     public abstract Object getFactionAt(Player p);
-
+    
     public abstract Object getFactionAt(Location l);
-
+    
     public abstract Object getCurrentFaction(Player p);
-
+    
     public abstract boolean isSafeZone(Location l);
-
+    
     public abstract boolean isSafeFromMobs(Location l);
-
+    
     public boolean canAttack(Player p, LivingEntity le) {
         return CombatUtil.canAttack(p, le);
     }

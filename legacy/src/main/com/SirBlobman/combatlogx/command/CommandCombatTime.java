@@ -31,8 +31,7 @@ public class CommandCombatTime implements CommandExecutor {
                     Util.sendMessage(p, error);
                     return true;
                 }
-            } else
-                return false;
+            } else return false;
         } else {
             String error = ConfigLang.MESSAGE_NOT_PLAYER;
             Util.sendMessage(cs, error);

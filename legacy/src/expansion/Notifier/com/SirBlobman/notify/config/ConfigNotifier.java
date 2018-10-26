@@ -24,7 +24,7 @@ public class ConfigNotifier extends Config {
         }
         return config;
     }
-
+    
     public static void save() {
         try {
             save(config, FILE);
@@ -48,11 +48,12 @@ public class ConfigNotifier extends Config {
         BOSS_BAR_COLOR = get("options.boss bar.color", "YELLOW");
         USE_SCOREBOARD = get("options.scoreboard.enable", true);
         SCOREBOARD_TITLE = get("options.scoreboard.title", "&2CombatLogX");
-        SCOREBOARD_LIST = get("options.scoreboard.format", Util.newList("Time Left: {time_left}", "Enemy: {enemy_name}", "Enemy Health: {enemy_health}"));
+        SCOREBOARD_LIST = get("options.scoreboard.format",
+                Util.newList("Time Left: {time_left}", "Enemy: {enemy_name}", "Enemy Health: {enemy_health}"));
         
         save();
     }
-
+    
     private static <T> T get(String path, T defaultValue) {
         return get(config, path, defaultValue);
     }

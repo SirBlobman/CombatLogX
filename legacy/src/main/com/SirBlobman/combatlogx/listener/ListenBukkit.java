@@ -28,17 +28,15 @@ import java.util.List;
 public class ListenBukkit implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void eve(EntityDamageByEntityEvent e) {
-        if (e.isCancelled())
-            return;
+        if (e.isCancelled()) return;
         Entity ded = e.getEntity();
         Entity der = e.getDamager();
-
+        
         List<String> worlds = ConfigOptions.OPTION_DISABLED_WORLDS;
         World w = ded.getWorld();
         String wn = w.getName();
-        if (worlds.contains(wn))
-            return;
-
+        if (worlds.contains(wn)) return;
+        
         if (der instanceof Projectile) {
             Projectile p = (Projectile) der;
             ProjectileSource ps = p.getShooter();
@@ -47,14 +45,13 @@ public class ListenBukkit implements Listener {
                 der = en;
             }
         }
-
+        
         if (der instanceof Tameable && ConfigOptions.OPTION_LINK_PETS) {
             Tameable t = (Tameable) der;
             AnimalTamer at = t.getOwner();
-            if (at != null && at instanceof Entity)
-                der = (Entity) at;
+            if (at != null && at instanceof Entity) der = (Entity) at;
         }
-
+        
         if (ded instanceof LivingEntity && der instanceof LivingEntity) {
             LivingEntity led = (LivingEntity) ded;
             LivingEntity ler = (LivingEntity) der;
@@ -67,14 +64,14 @@ public class ListenBukkit implements Listener {
                     Util.call(pce);
                     e.setCancelled(pce.isCancelled());
                 }
-
+                
                 if (p2) {
                     Player p = (Player) ler;
                     PlayerCombatEvent pce = new PlayerCombatEvent(p, led, true);
                     Util.call(pce);
                     e.setCancelled(pce.isCancelled());
                 }
-
+                
                 if (!p1 && !p2) {
                     CombatEvent ce = new CombatEvent(ler, led, true);
                     Util.call(ce);
@@ -83,7 +80,7 @@ public class ListenBukkit implements Listener {
             }
         }
     }
-
+    
     @EventHandler
     public void death(PlayerDeathEvent e) {
         Player p = e.getEntity();
@@ -93,7 +90,7 @@ public class ListenBukkit implements Listener {
             Util.call(pue);
         }
     }
-
+    
     @EventHandler
     public void respawn(PlayerRespawnEvent e) {
         Player p = e.getPlayer();
@@ -103,7 +100,7 @@ public class ListenBukkit implements Listener {
             Util.call(pue);
         }
     }
-
+    
     @EventHandler
     public void join(PlayerJoinEvent e) {
         Player p = e.getPlayer();
@@ -112,7 +109,7 @@ public class ListenBukkit implements Listener {
             p.setHealth(0.0D);
         }
     }
-
+    
     @EventHandler
     public void death(EntityDeathEvent e) {
         if (ConfigOptions.OPTION_REMOVE_COMBAT_ON_ENEMY_DEATH) {
@@ -128,7 +125,7 @@ public class ListenBukkit implements Listener {
             }
         }
     }
-
+    
     @EventHandler
     public void kick(PlayerKickEvent e) {
         Player p = e.getPlayer();
@@ -138,7 +135,7 @@ public class ListenBukkit implements Listener {
             Util.call(pue);
         }
     }
-
+    
     @EventHandler
     public void quit(PlayerQuitEvent e) {
         Player p = e.getPlayer();

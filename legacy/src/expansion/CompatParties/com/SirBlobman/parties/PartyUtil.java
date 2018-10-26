@@ -15,7 +15,7 @@ public class PartyUtil extends Util {
         PartiesAPI papi = Parties.getApi();
         return papi;
     }
-
+    
     public static boolean canAttack(Player p, LivingEntity le) {
         if (le instanceof Player) {
             PartiesAPI api = getAPI();
@@ -24,19 +24,14 @@ public class PartyUtil extends Util {
             UUID tuuid = t.getUniqueId();
             PartyPlayer attacker = api.getPartyPlayer(puuid);
             PartyPlayer victim = api.getPartyPlayer(tuuid);
-            if (attacker == null || victim == null)
-                return true;
+            if (attacker == null || victim == null) return true;
             else {
                 String aparty = attacker.getPartyName();
                 String vparty = victim.getPartyName();
-                if (aparty.isEmpty() || vparty.isEmpty())
-                    return true;
-                else if (aparty.equals(vparty))
-                    return false;
-                else
-                    return true;
+                if (aparty.isEmpty() || vparty.isEmpty()) return true;
+                else if (aparty.equals(vparty)) return false;
+                else return true;
             }
-        } else
-            return true;
+        } else return true;
     }
 }

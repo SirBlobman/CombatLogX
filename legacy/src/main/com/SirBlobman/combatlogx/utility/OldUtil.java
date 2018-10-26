@@ -6,8 +6,7 @@ import java.text.DecimalFormat;
 
 public class OldUtil extends Util {
     public static String getName(LivingEntity le) {
-        if (le == null)
-            return "None";
+        if (le == null) return "None";
         try {
             if (le instanceof Player) {
                 Player p = (Player) le;
@@ -23,10 +22,9 @@ public class OldUtil extends Util {
             return name;
         }
     }
-
+    
     public static String getHealth(LivingEntity e) {
-        if (e == null)
-            return "None";
+        if (e == null) return "None";
         try {
             double health = e.getHealth();
             DecimalFormat df = new DecimalFormat("#.##");

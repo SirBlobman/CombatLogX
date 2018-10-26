@@ -22,53 +22,56 @@ public class Notifier implements CLXExpansion, Listener {
     private static NMSUtil NMS;
     public static Notifier INSTANCE;
     public static File FOLDER;
-
+    
     @Override
     public void enable() {
         INSTANCE = this;
         FOLDER = getDataFolder();
         NMS = NMSUtil.getNMS();
         onConfigReload();
-
+        
         Util.regEvents(this);
     }
-
-    public String getUnlocalizedName() {return "Notifier";}
-    public String getName() {return getUnlocalizedName();}
-    public String getVersion() {return "3";}
+    
+    public String getUnlocalizedName() {
+        return "Notifier";
+    }
+    
+    public String getName() {
+        return getUnlocalizedName();
+    }
+    
+    public String getVersion() {
+        return "3";
+    }
     
     @Override
     public void onConfigReload() {
         ConfigNotifier.load();
         
         String base = NMSUtil.baseVersion();
-        if(NMS == null) ConfigNotifier.USE_ACTION_BAR = false;
+        if (NMS == null) ConfigNotifier.USE_ACTION_BAR = false;
         if (!VALID_BOSS.contains(base)) {
             ConfigNotifier.USE_BOSS_BAR = false;
             String error = base + " does not support boss bars";
             print(error);
         }
     }
-
+    
     @EventHandler
     public void pue(PlayerUntagEvent e) {
         Player p = e.getPlayer();
-        if (ConfigNotifier.USE_BOSS_BAR)
-            CustomBoss.remove(p);
-        if (ConfigNotifier.USE_SCOREBOARD)
-            CustomScore.remove(p);
-        if (ConfigNotifier.USE_ACTION_BAR)
-            NMS.action(p, "");
+        if (ConfigNotifier.USE_BOSS_BAR) CustomBoss.remove(p);
+        if (ConfigNotifier.USE_SCOREBOARD) CustomScore.remove(p);
+        if (ConfigNotifier.USE_ACTION_BAR) NMS.action(p, "");
     }
-
+    
     @EventHandler
     public void ctce(CombatTimerChangeEvent e) {
         Player p = e.getPlayer();
         int time = (int) e.secondsLeft();
-        if (ConfigNotifier.USE_BOSS_BAR)
-            CustomBoss.changeTime(p, time);
-        if (ConfigNotifier.USE_SCOREBOARD)
-            CustomScore.update(p);
+        if (ConfigNotifier.USE_BOSS_BAR) CustomBoss.changeTime(p, time);
+        if (ConfigNotifier.USE_SCOREBOARD) CustomScore.update(p);
         if (ConfigNotifier.USE_ACTION_BAR) {
             int bars_right = (ConfigOptions.OPTION_TIMER - time);
             int bars_left = (ConfigOptions.OPTION_TIMER - bars_right);
@@ -78,7 +81,7 @@ public class Notifier implements CLXExpansion, Listener {
             NMS.action(p, msg);
         }
     }
-
+    
     public static void log(Object... oo) {
         INSTANCE.print(oo);
     }

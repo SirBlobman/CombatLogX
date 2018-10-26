@@ -9,7 +9,7 @@ import com.SirBlobman.combatlogx.utility.Util;
 public class ConfigLang extends Config {
     private static final File FILE = new File(FOLDER, "language.yml");
     private static YamlConfiguration CONFIG = new YamlConfiguration();
-
+    
     public static YamlConfiguration load() {
         try {
             CONFIG = Config.load(FILE);
@@ -21,7 +21,7 @@ public class ConfigLang extends Config {
         }
         return CONFIG;
     }
-
+    
     public static void save() {
         try {
             Config.save(CONFIG, FILE);
@@ -31,7 +31,7 @@ public class ConfigLang extends Config {
             ex.printStackTrace();
         }
     }
-
+    
     public static String MESSAGE_PREFIX = "";
     public static String MESSAGE_PREFIX_EXPANSION = "";
     public static String MESSAGE_ATTACK = "";
@@ -60,7 +60,7 @@ public class ConfigLang extends Config {
     public static String MESSAGE_LOG_COMBAT = "";
     public static String MESSAGE_FORCE_UNTAG = "";
     public static String MESSAGE_FORCE_TAG = "";
-
+    
     private static void defaults() {
         MESSAGE_PREFIX = get("prefix.normal", "&e[&fCombatLogX&e] &f");
         MESSAGE_PREFIX_EXPANSION = get("prefix.expansion", "&e[&fCombatLogX - &b{expansion}&e] &f");
@@ -73,12 +73,15 @@ public class ConfigLang extends Config {
         MESSAGE_FORCE_UNTAG = get("command.combatlogx.force untag", "You removed {target} from combat.");
         MESSAGE_FORCE_TAG = get("command.combatlogx.force tag", "You put {target} into combat. This may cause bugs!");
         MESSAGE_TARGET = get("combat.target.player", "{attacker} attacked you! You are now in combat.");
-        MESSAGE_TARGET_MOB = get("combat.target.entity", "You were attacked by a mob named {attacker}! You are now in combat.");
+        MESSAGE_TARGET_MOB = get("combat.target.entity",
+                "You were attacked by a mob named {attacker}! You are now in combat.");
         MESSAGE_ATTACK = get("combat.attack.player", "You attacked {target}! You are now in combat!");
         MESSAGE_ATTACK_MOB = get("combat.attack.entity", "You attacked a mob named {target}! You are now in combat!");
         MESSAGE_EXPIRE = get("combat.expire", "You are no longer in combat!");
-        MESSAGE_ENEMY_DEATH_PLAYER = get("combat.enemy death.player", "Your enemy called &a{enemy_name}&r has died! You are no longer in combat.");
-        MESSAGE_ENEMY_DEATH_MOB = get("combat.enemy death.mob", "Your enemy called &a{enemy_name}&r has died! You are no longer in combat.");
+        MESSAGE_ENEMY_DEATH_PLAYER = get("combat.enemy death.player",
+                "Your enemy called &a{enemy_name}&r has died! You are no longer in combat.");
+        MESSAGE_ENEMY_DEATH_MOB = get("combat.enemy death.mob",
+                "Your enemy called &a{enemy_name}&r has died! You are no longer in combat.");
         MESSAGE_OPEN_INVENTORY = get("combat.open inventory", "You cannot open storage blocks during combat!");
         MESSAGE_BLOCKED_COMMAND = get("combat.blocked command", "&eYou cannot do &c{command}&e during combat!");
         MESSAGE_NO_ENTRY = get("combat.no entry", "You cannot enter a safe-zone while you are in combat!");
@@ -87,12 +90,14 @@ public class ConfigLang extends Config {
         MESSAGE_NOT_IN_COMBAT = get("combat.out", "You are not in combat!");
         MESSAGE_FAIL = get("combat.fail", "That person is in a No-PvP area!");
         MESSAGE_QUIT = get("combat.quit", "{player} left during combat!");
-        MESSAGE_LOG_ATTACKER_ONLY = get("logger.attacker only", "{attacker} was placed into combat by an unknown source (expansion?)");
-        MESSAGE_LOG_TARGET_ONLY = get("logger.target only", "{target} was placed into combat by an unknown source (expansion?)");
+        MESSAGE_LOG_ATTACKER_ONLY = get("logger.attacker only",
+                "{attacker} was placed into combat by an unknown source (expansion?)");
+        MESSAGE_LOG_TARGET_ONLY = get("logger.target only",
+                "{target} was placed into combat by an unknown source (expansion?)");
         MESSAGE_LOG_COMBAT = get("logger.combat", "{target} was attacked by {attacker}");
         save();
     }
-
+    
     private static <T> T get(String path, T defaultValue) {
         return Config.get(CONFIG, path, defaultValue);
     }

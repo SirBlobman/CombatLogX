@@ -13,7 +13,7 @@ public class ConfigRewards extends Config {
     private static final File FOLDER = Rewards.FOLDER;
     private static final File FILE = new File(FOLDER, "rewards.yml");
     private static YamlConfiguration config = new YamlConfiguration();
-
+    
     public static YamlConfiguration load() {
         try {
             config = Config.load(FILE);
@@ -25,7 +25,7 @@ public class ConfigRewards extends Config {
         }
         return config;
     }
-
+    
     public static void save() {
         try {
             Config.save(config, FILE);
@@ -35,13 +35,13 @@ public class ConfigRewards extends Config {
             ex.printStackTrace();
         }
     }
-
+    
     public static List<String> OPTION_KILL_COMMANDS = Util.newList();
-
+    
     private static void defaults() {
         OPTION_KILL_COMMANDS = get(config, "options.kill commands",
                 Util.newList("msg {killer} Nice kill!", "msg {player} Maybe next time!", "eco give {killer} 20"));
-
+        
         save();
     }
 }

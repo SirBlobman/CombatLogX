@@ -10,7 +10,7 @@ import java.util.List;
 public class ConfigOptions extends Config {
     private static final File FILE = new File(FOLDER, "combat.yml");
     private static YamlConfiguration CONFIG = new YamlConfiguration();
-
+    
     public static YamlConfiguration load() {
         try {
             CONFIG = Config.load(FILE);
@@ -22,7 +22,7 @@ public class ConfigOptions extends Config {
         }
         return CONFIG;
     }
-
+    
     public static void save() {
         try {
             Config.save(CONFIG, FILE);
@@ -32,7 +32,7 @@ public class ConfigOptions extends Config {
             ex.printStackTrace();
         }
     }
-
+    
     public static int OPTION_TIMER = 0;
     public static boolean OPTION_CHECK_UPDATES = true;
     public static boolean OPTION_LOG_TO_FILE = true;
@@ -49,17 +49,17 @@ public class ConfigOptions extends Config {
     public static List<String> OPTION_DISABLED_WORLDS = Util.newList();
     public static List<String> OPTION_COMBAT_SUDO_COMMANDS = Util.newList();
     public static List<String> OPTION_COMBAT_CONSOLE_COMMANDS = Util.newList();
-
+    
     public static boolean PUNISH_ON_KICK = false;
     public static boolean PUNISH_ON_QUIT = true;
     public static boolean PUNISH_ON_QUIT_MESSAGE = true;
     public static boolean PUNISH_SUDO_LOGGERS = false;
     public static boolean PUNISH_KILL_PLAYER = true;
     public static boolean PUNISH_CONSOLE = true;
-
+    
     public static List<String> PUNISH_COMMANDS_CONSOLE = Util.newList();
     public static List<String> PUNISH_COMMANDS_LOGGERS = Util.newList();
-
+    
     private static void defaults() {
         OPTION_BROADCAST_STARTUP = get("options.broadcast enable message", true);
         OPTION_LOG_TO_FILE = get("options.log to file", true);
@@ -78,7 +78,7 @@ public class ConfigOptions extends Config {
         OPTION_COMBAT_SUDO_COMMANDS = get("options.combat sudo.commands", Util.newList("say I am now in combat"));
         OPTION_COMBAT_CONSOLE_COMMANDS = get("options.combat sudo.console",
                 Util.newList("msg {player} You are now in combat!"));
-
+        
         PUNISH_KILL_PLAYER = get("punishment.kill loggers", true);
         PUNISH_ON_KICK = get("punishment.kick", false);
         PUNISH_ON_QUIT = get("punishment.quit.enable", true);
@@ -90,7 +90,7 @@ public class ConfigOptions extends Config {
         PUNISH_COMMANDS_LOGGERS = get("punishment.sudo loggers.commands", Util.newList("say I logged out of combat!"));
         save();
     }
-
+    
     private static <T> T get(String path, T defaultValue) {
         return get(CONFIG, path, defaultValue);
     }

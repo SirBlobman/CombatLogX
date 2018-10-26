@@ -34,18 +34,18 @@ import net.citizensnpcs.trait.Toggleable;
 public class NPCUtil extends Util {
     public static Map<UUID, NPC> NPC_REGISTRY = newMap();
     public static TraitInfo COMBAT_NPC;
-
+    
     public static void onStartup() {
         TraitInfo ti = TraitInfo.create(CombatNPC.class);
         COMBAT_NPC = ti;
         CitizensAPI.getTraitFactory().registerTrait(ti);
     }
-
+    
     public static void onShutdown() {
         removeAllNPCs();
         CitizensAPI.getTraitFactory().deregisterTrait(COMBAT_NPC);
     }
-
+    
     @SuppressWarnings("deprecation")
     public static NPC createNPC(Player p, Location lastLocation) {
         NPCRegistry reg = CitizensAPI.getNPCRegistry();
@@ -58,25 +58,25 @@ public class NPCUtil extends Util {
             Util.print("Invalid NPC type '" + ConfigCitizens.OPTION_NPC_ENTITY_TYPE + "'. Defaulting to Player");
             type = EntityType.PLAYER;
         }
-
+        
         NPC npc = reg.createNPC(type, name);
         npc.addTrait(LookClose.class);
         npc.addTrait(CombatNPC.class);
         npc.getTrait(CombatNPC.class).setCombatNPC(true);
-
-        if(ConfigCitizens.OPTION_NPC_USE_SENTINEL) {
+        
+        if (ConfigCitizens.OPTION_NPC_USE_SENTINEL) {
             LivingEntity enemy = Combat.getEnemy(p);
-            if(enemy != null && enemy instanceof Player) {
+            if (enemy != null && enemy instanceof Player) {
                 Player penemy = (Player) enemy;
                 npc.addTrait(SentinelTrait.class);
-
+                
                 SentinelTrait st = npc.getTrait(SentinelTrait.class);
                 st.setInvincible(false);
                 st.setHealth(health);
                 st.addTarget(penemy.getUniqueId());
             }
         }
-
+        
         npc.data().set(NPC.DEFAULT_PROTECTED_METADATA, false);
         npc.data().set(NPC.DAMAGE_OTHERS_METADATA, true);
         npc.data().set(NPC.TARGETABLE_METADATA, true);
@@ -86,13 +86,13 @@ public class NPCUtil extends Util {
             npc.data().set(NPC.DROPS_ITEMS_METADATA, true);
             pi.clear();
         }
-
+        
         npc.spawn(lastLocation);
         LivingEntity le = (LivingEntity) npc.getEntity();
         le.setInvulnerable(false);
         le.setMaxHealth(health);
         le.setHealth(health);
-
+        
         NPC_REGISTRY.put(uuid, npc);
         runLater(new Runnable() {
             @Override
@@ -100,25 +100,22 @@ public class NPCUtil extends Util {
                 removeNPC(uuid);
             }
         }, ConfigCitizens.OPTION_NPC_SURVIVAL_TIME * 20L);
-
+        
         return npc;
     }
-
+    
     public static double getHealth(NPC npc) {
-        if (npc == null)
-            return 0.0D;
+        if (npc == null) return 0.0D;
         if (npc.isSpawned()) {
             Entity e = npc.getEntity();
             if (e instanceof LivingEntity) {
                 LivingEntity le = (LivingEntity) e;
                 double health = le.getHealth();
                 return health;
-            } else
-                return 0.0D;
-        } else
-            return 0.0D;
+            } else return 0.0D;
+        } else return 0.0D;
     }
-
+    
     public static void removeNPC(UUID uuid) {
         if (NPC_REGISTRY.containsKey(uuid)) {
             NPC npc = NPC_REGISTRY.get(uuid);
@@ -133,14 +130,14 @@ public class NPCUtil extends Util {
                 List<ItemStack> list = newList(contents);
                 ConfigData.force(op, "inventory", list);
             }
-
+            
             npc.despawn();
             npc.destroy();
             CitizensAPI.getNPCRegistry().deregister(npc);
             NPC_REGISTRY.remove(uuid);
         }
     }
-
+    
     @SuppressWarnings("deprecation")
     public static void removeNPC(NPC npc) {
         if (npc != null) {
@@ -149,7 +146,7 @@ public class NPCUtil extends Util {
             Location l = npc.getStoredLocation();
             double health = getHealth(npc);
             Inventory i = npc.hasTrait(Inventory.class) ? npc.getTrait(Inventory.class) : null;
-
+            
             ConfigData.force(op, "health", health);
             ConfigData.force(op, "last location", l);
             if (i != null && ConfigCitizens.OPTION_MODIFY_INVENTORIES) {
@@ -157,47 +154,46 @@ public class NPCUtil extends Util {
                 List<ItemStack> list = newList(contents);
                 ConfigData.force(op, "inventory", list);
             }
-
+            
             npc.despawn();
             npc.destroy();
             NPC_REGISTRY.remove(op.getUniqueId());
-        } else
-            return;
+        } else return;
     }
-
+    
     public static void removeAllNPCs() {
         for (UUID uuid : newList(NPC_REGISTRY.keySet())) {
             removeNPC(uuid);
         }
     }
-
+    
     @TraitName("combatlogx_npc")
     public static class CombatNPC extends Trait implements Toggleable {
         @Persist
         private boolean isCombat = false;
-
+        
         public CombatNPC() {
             super("combatlogx_npc");
         }
-
+        
         @Override
         public boolean toggle() {
             isCombat = !isCombat;
             return isCombat;
         }
-
+        
         @Override
         public void run() {
             if (npc.isSpawned() && isCombatNPC()) {
-                //LivingEntity en = (LivingEntity) npc.getEntity();
-                //en.setAI(true);
+                // LivingEntity en = (LivingEntity) npc.getEntity();
+                // en.setAI(true);
             }
         }
-
+        
         public boolean isCombatNPC() {
             return isCombat;
         }
-
+        
         public void setCombatNPC(boolean bool) {
             isCombat = bool;
         }

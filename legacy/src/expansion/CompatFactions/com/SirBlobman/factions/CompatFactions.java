@@ -22,9 +22,17 @@ import com.SirBlobman.factions.compat.FactionsUtil;
 import com.SirBlobman.factions.config.ConfigFactions;
 
 public class CompatFactions implements CLXExpansion, Listener {
-    public String getVersion() {return "5";}
-    public String getUnlocalizedName() {return "CompatFactions";}
-    public String getName() {return "Factions Compatibility";}
+    public String getVersion() {
+        return "5";
+    }
+    
+    public String getUnlocalizedName() {
+        return "CompatFactions";
+    }
+    
+    public String getName() {
+        return "Factions Compatibility";
+    }
     
     public static File FOLDER;
     private static FactionsUtil FUTIL;
@@ -32,7 +40,7 @@ public class CompatFactions implements CLXExpansion, Listener {
     @Override
     public void enable() {
         FUTIL = FactionsUtil.getFactions();
-        if(FUTIL == null) {
+        if (FUTIL == null) {
             String error = "Could not find a valid Factions plugin. Please contact SirBlobman if you think this should not be happening!";
             print(error);
         } else {
@@ -50,18 +58,18 @@ public class CompatFactions implements CLXExpansion, Listener {
     @Override
     public void onConfigReload() {
         FUTIL = FactionsUtil.getFactions();
-        if(FUTIL != null) {
+        if (FUTIL != null) {
             FOLDER = getDataFolder();
             ConfigFactions.load();
         }
     }
     
-    @EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onMove(PlayerMoveEvent e) {
         Player player = e.getPlayer();
         Location to = e.getTo();
-        if(Combat.isInCombat(player)) {
-            if(FUTIL.isSafeZone(to)) {
+        if (Combat.isInCombat(player)) {
+            if (FUTIL.isSafeZone(to)) {
                 Location from = e.getFrom();
                 preventEntry(e, player, from, to);
             }
@@ -70,26 +78,26 @@ public class CompatFactions implements CLXExpansion, Listener {
     
     public void preventEntry(Cancellable e, Player player, Location from, Location to) {
         LivingEntity enemy = Combat.getEnemy(player);
-        if(enemy != null) {
+        if (enemy != null) {
             String noEntryModeString = ConfigFactions.OPTION_NO_SAFEZONE_ENTRY_MODE;
             NoEntryMode nem = NoEntryMode.valueOf(noEntryModeString);
-            if(nem == null) nem = NoEntryMode.CANCEL;
-            switch(nem) {
-                case CANCEL:
-                    e.setCancelled(true);
-                    break;
-                case TELEPORT:
-                    player.teleport(enemy);
-                    break;
-                case KNOCKBACK:
-                    if(!FUTIL.isSafeZone(from)) {
-                        Vector v = getVector(from, to);
-                        player.setVelocity(v);
-                    }
-                    break;
-                case KILL:
-                    player.setHealth(0.0D);
-                    break;
+            if (nem == null) nem = NoEntryMode.CANCEL;
+            switch (nem) {
+            case CANCEL:
+                e.setCancelled(true);
+                break;
+            case TELEPORT:
+                player.teleport(enemy);
+                break;
+            case KNOCKBACK:
+                if (!FUTIL.isSafeZone(from)) {
+                    Vector v = getVector(from, to);
+                    player.setVelocity(v);
+                }
+                break;
+            case KILL:
+                player.setHealth(0.0D);
+                break;
             }
             
             Util.sendMessage(player, ConfigLang.MESSAGE_NO_ENTRY);

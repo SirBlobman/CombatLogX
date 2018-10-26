@@ -17,27 +17,26 @@ public interface CLXExpansion {
      * execute once!
      */
     public void enable();
-
+    
     /**
      * Override this if you have to do something when CombatLogX is disabled
      */
-    public default void disable() {
-    }
-
+    public default void disable() {}
+    
     /**
      * <b>Example:</b> {@code "Citizens Compatability"}
      * 
      * @return The name of your expansion that will be shown to people
      */
     public String getName();
-
+    
     /**
      * <b>Example</b> {@code "CompatCitizens"}
      * 
      * @return The name of your expansion that will be used for files/folders
      */
     public String getUnlocalizedName();
-
+    
     /**
      * <b>Example:</b> {@code "1.0.0"}
      * 
@@ -46,11 +45,11 @@ public interface CLXExpansion {
     public String getVersion();
     
     /**
-     * Put some code here that will be executed when 
-     * someone runs the command "/clx reload"
+     * Put some code here that will be executed when someone runs the command "/clx
+     * reload"
      */
     public void onConfigReload();
-
+    
     /**
      * <i>/plugins/CombatLogX/expansions/</i>
      * 
@@ -65,7 +64,7 @@ public interface CLXExpansion {
         exp.mkdirs();
         return exp;
     }
-
+    
     /**
      * <i>/plugins/CombatLogX/expansions/{@link #getUnlocalizedName()}/</i>
      * 
@@ -77,7 +76,7 @@ public interface CLXExpansion {
         file.mkdirs();
         return file;
     }
-
+    
     public default void print(Object... oo) {
         for (Object o : oo) {
             String prefix = Util.formatMessage(ConfigLang.MESSAGE_PREFIX_EXPANSION, Util.newList("{expansion}"),
