@@ -1,4 +1,4 @@
-package com.SirBlobman.notify.nms;
+package com.SirBlobman.combatlogx.nms;
 
 import com.SirBlobman.combatlogx.utility.Util;
 

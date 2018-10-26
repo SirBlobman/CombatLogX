@@ -1,4 +1,4 @@
-package com.SirBlobman.notify.nms;
+package com.SirBlobman.combatlogx.nms;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,6 +23,18 @@ public abstract class NMSUtil extends Util {
         int last = version.lastIndexOf('.');
         String base = (last < 2) ? version : version.substring(0, last);
         return base;
+    }
+    
+    public static int getMajorVersion() {
+    	String baseVersion = baseVersion();
+    	String majorString = baseVersion.substring(0, baseVersion.indexOf("."));
+    	return Integer.parseInt(majorString);
+    }
+    
+    public static int getMinorVersion() {
+    	String baseVersion = baseVersion();
+    	String minorString = baseVersion.substring(2);
+    	return Integer.parseInt(minorString);
     }
 
     public static NMSUtil getNMS() {

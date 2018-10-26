@@ -144,8 +144,7 @@ public class Util {
         for (Object o : oo) {
             String s = str(o);
             String c = color(ConfigLang.MESSAGE_PREFIX + s);
-            if (s.equals("\n"))
-                c = color("&l");
+            if (s.equals("\n")) c = color("&l");
             CONSOLE.sendMessage(c);
         }
     }

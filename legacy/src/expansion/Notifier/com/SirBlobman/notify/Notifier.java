@@ -12,10 +12,10 @@ import com.SirBlobman.combatlogx.config.ConfigOptions;
 import com.SirBlobman.combatlogx.event.CombatTimerChangeEvent;
 import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
+import com.SirBlobman.combatlogx.nms.NMSUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.combatlogx.utility.WordUtil;
 import com.SirBlobman.notify.config.ConfigNotifier;
-import com.SirBlobman.notify.nms.NMSUtil;
 
 public class Notifier implements CLXExpansion, Listener {
     private static List<String> VALID_BOSS = Util.newList("1.12", "1.11", "1.10");

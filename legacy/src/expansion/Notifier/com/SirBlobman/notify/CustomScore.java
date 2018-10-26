@@ -13,10 +13,10 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
 import com.SirBlobman.combatlogx.Combat;
+import com.SirBlobman.combatlogx.nms.NMSUtil;
 import com.SirBlobman.combatlogx.utility.OldUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.notify.config.ConfigNotifier;
-import com.SirBlobman.notify.nms.NMSUtil;
 
 import io.puharesource.mc.titlemanager.api.v2.TitleManagerAPI;
 

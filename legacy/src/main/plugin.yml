@@ -8,11 +8,12 @@ description: An expandable combat-tagging plugin with actual logging options
 # patch will change when I make small changes that don't affect anything major
 # minor will change when I add a new expansion or create more effective changes
 # major will change when I modify the API or make a lot of changes that affect the plugin
-version: 8.0.0.3
+version: 8.1.0.0
 
 database: false
 depend: []
-softdepend: [Citizens]
+softdepend: [WorldGuard, Citizens, CrackShot, Factions, Parties, PlaceholderAPI, MVdWPlaceholderAPI, PreciousStones, Residence, Towny, Factions, LegacyFactions, FactionsUUID, SavageFactions]
+
 commands:
   combatlogx:
     description: Reload the Config and Messages for this plugin
@@ -28,6 +29,7 @@ commands:
     permission-message: 'Ask the admins for this permission: combatlogx.time'
     usage: /<command>
     aliases: [ct, cl]
+    
 permissions:
   combatlogx.*:
     description: Gives access to all CombatLogX perms (except bypass)
