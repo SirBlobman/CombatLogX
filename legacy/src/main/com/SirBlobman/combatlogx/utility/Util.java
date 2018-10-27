@@ -4,7 +4,21 @@ import com.SirBlobman.combatlogx.CombatLogX;
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.config.ConfigOptions;
 
-import org.bukkit.*;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Server;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Entity;
@@ -15,9 +29,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
-
-import java.lang.reflect.Method;
-import java.util.*;
 
 public class Util {
     public static final Plugin PLUGIN = CombatLogX.INSTANCE;
@@ -227,24 +238,21 @@ public class Util {
     
     @SafeVarargs
     public static <S> Set<S> newSet(S... ss) {
-        Set<S> set = new HashSet<S>();
-        for (S s : ss)
-            set.add(s);
+        Set<S> set = new HashSet<>();
+        Arrays.stream(ss).forEach(set::add);
         return set;
     }
     
     @SafeVarargs
     public static <L> List<L> newList(L... ll) {
-        List<L> list = new ArrayList<L>();
-        for (L l : ll)
-            list.add(l);
+        List<L> list = new ArrayList<>();
+        Arrays.stream(ll).forEach(list::add);
         return list;
     }
     
     public static <L> List<L> newList(Collection<L> ll) {
-        List<L> list = new ArrayList<L>();
-        for (L l : ll)
-            list.add(l);
+        List<L> list = new ArrayList<>();
+        list.addAll(ll);
         return list;
     }
     
@@ -257,8 +265,13 @@ public class Util {
         return lower;
     }
     
-    public static <K, V> HashMap<K, V> newMap() {
-        HashMap<K, V> map = new HashMap<K, V>();
+    public static <K, V> Map<K, V> newMap() {
+        return new HashMap<>();
+    }
+    
+    public static <K, V> Map<K, V> newMap(Map<K, V> oldMap) {
+        Map<K, V> map = newMap();
+        map.putAll(oldMap);
         return map;
     }
 }

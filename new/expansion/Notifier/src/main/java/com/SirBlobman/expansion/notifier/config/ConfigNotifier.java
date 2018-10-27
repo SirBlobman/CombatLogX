@@ -22,7 +22,7 @@ public class ConfigNotifier extends Config {
 		config = load(file);
 		defaults();
 		
-		if(SCORE_BOARD_USE_FEATHERBOARD && PluginUtil.isEnabled("FeatherBoard")) {
+		if(SCORE_BOARD_USE_FEATHERBOARD && PluginUtil.isEnabled("FeatherBoard") && SCORE_BOARD_FEATHERBOARD_NAME.equals("combatlogx")) {
 			File mainFolder = new File(".").getAbsoluteFile().getParentFile();
 			File pluginsFolder = new File(mainFolder, "plugins");
 			File scoreboardFile = new File(pluginsFolder, "FeatherBoard" + File.pathSeparator + "scoreboards" + File.pathSeparator + "combatlogx.yml");

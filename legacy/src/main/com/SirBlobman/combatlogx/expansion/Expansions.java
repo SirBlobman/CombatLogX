@@ -1,26 +1,25 @@
 package com.SirBlobman.combatlogx.expansion;
 
+import com.SirBlobman.combatlogx.CombatLogX;
+import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.combatlogx.utility.WordUtil;
+
 import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import com.SirBlobman.combatlogx.CombatLogX;
-import com.SirBlobman.combatlogx.utility.Util;
-import com.SirBlobman.combatlogx.utility.WordUtil;
-
 public class Expansions {
     private static final File FOLDER = CombatLogX.FOLDER;
     public static final File EXPAND = new File(FOLDER, "expansions");
-    private static HashMap<String, CLXExpansion> EXPANSIONS = Util.newMap();
+    private static Map<String, CLXExpansion> EXPANSIONS = Util.newMap();
     
     /**
      * Register your expansion
@@ -60,9 +59,8 @@ public class Expansions {
         return list;
     }
     
-    @SuppressWarnings("unchecked")
     public static void onDisable() {
-        Map<String, CLXExpansion> clone = (HashMap<String, CLXExpansion>) EXPANSIONS.clone();
+        Map<String, CLXExpansion> clone = Util.newMap(EXPANSIONS);
         EXPANSIONS.clear();
         for (Entry<String, CLXExpansion> e : clone.entrySet()) {
             CLXExpansion ex = e.getValue();
