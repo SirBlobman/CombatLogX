@@ -5,7 +5,7 @@
 
 	<groupId>com.SirBlobman</groupId>
 	<artifactId>combatlogx-legacy</artifactId>
-	<version>8.1.1.0</version>
+	<version>8.1.2.0</version>
 
 	<name>CombatLogX Legacy</name>
 	<description>A version of CombatLogX that is extremely outdated</description>

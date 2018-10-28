@@ -162,6 +162,7 @@ public class Combat implements Runnable {
                     List<String> l1 = Util.newList("{player}");
                     List<String> l2 = Util.newList(p.getName());
                     deathMessage = Util.formatMessage(ConfigLang.MESSAGE_QUIT, l1, l2);
+                    Util.broadcast(deathMessage);
                 }
                 
                 p.setHealth(0);
