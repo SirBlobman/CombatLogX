@@ -8,7 +8,7 @@ description: An expandable combat-tagging plugin with actual logging options
 # patch will change when I make small changes that don't affect anything major
 # minor will change when I add a new expansion or create more effective changes
 # major will change when I modify the API or make a lot of changes that affect the plugin
-version: 8.1.2.0
+version: 8.1.2.1
 
 database: false
 depend: []

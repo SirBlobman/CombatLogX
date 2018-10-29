@@ -41,12 +41,12 @@ public class CustomScore {
     public static void update(Player p) {
         if (ConfigNotifier.USE_SCOREBOARD) {
             Scoreboard sb = getScoreBoard(p);
-            Objective o = sb.getObjective("CombatLogX");
-            o.unregister();
-            o = sb.registerNewObjective("CombatLogX", "dummy");
+            Objective objective = sb.getObjective("CombatLogX");
+            objective.unregister();
+            objective = sb.registerNewObjective("CombatLogX", "dummy");
             String title = Util.color(ConfigNotifier.SCOREBOARD_TITLE);
-            o.setDisplayName(title);
-            o.setDisplaySlot(DisplaySlot.SIDEBAR);
+            objective.setDisplayName(title);
+            objective.setDisplaySlot(DisplaySlot.SIDEBAR);
             
             LivingEntity enemy = Combat.getEnemy(p);
             long time = Combat.timeLeft(p);
@@ -59,9 +59,9 @@ public class CustomScore {
             int i = list.size();
             for (String line : list) {
                 String format = Util.formatMessage(line, l1, l2);
-                format = (format.length() > getCharacterLimit()) ? format.substring(0, getCharacterLimit()) : format;
-                Score s = o.getScore(format);
-                s.setScore(i);
+                if(format.length() >= getCharacterLimit()) {format = format.substring(0, getCharacterLimit());}
+                Score score = objective.getScore(format);
+                score.setScore(i);
                 i--;
             }
             
@@ -91,7 +91,7 @@ public class CustomScore {
     
     public static int getCharacterLimit() {
         String mc = NMSUtil.baseVersion();
-        if (mc.equals("1.7")) return 15;
-        else return 39;
+        if (mc.equals("1.7")) return 16;
+        else return 40;
     }
 }
