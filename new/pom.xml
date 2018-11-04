@@ -16,7 +16,7 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		
 		<bukkit.version>1.13.2-R0.1-SNAPSHOT</bukkit.version>
-		<beta.version>22</beta.version>
+		<beta.version>23</beta.version>
 	</properties>
 
 	<artifactId>combatlogx-1.13-parent</artifactId>

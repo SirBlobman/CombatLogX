@@ -1,7 +1,14 @@
 package com.SirBlobman.combatlogx.listener;
 
+import com.SirBlobman.combatlogx.config.ConfigOptions;
+import com.SirBlobman.combatlogx.event.PlayerPreTagEvent;
+import com.SirBlobman.combatlogx.event.PlayerTagEvent;
+import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagType;
+import com.SirBlobman.combatlogx.event.PlayerUntagEvent.UntagReason;
+import com.SirBlobman.combatlogx.utility.CombatUtil;
+import com.SirBlobman.combatlogx.utility.Util;
+
 import java.util.List;
-import java.util.stream.Stream;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -12,14 +19,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
-
-import com.SirBlobman.combatlogx.config.ConfigOptions;
-import com.SirBlobman.combatlogx.event.PlayerPreTagEvent;
-import com.SirBlobman.combatlogx.event.PlayerTagEvent;
-import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagType;
-import com.SirBlobman.combatlogx.event.PlayerUntagEvent.UntagReason;
-import com.SirBlobman.combatlogx.utility.CombatUtil;
-import com.SirBlobman.combatlogx.utility.Util;
 
 public class CombatListener implements Listener {
 	@EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
@@ -62,19 +61,18 @@ public class CombatListener implements Listener {
 		Player p = e.getPlayer();
 		if(ConfigOptions.COMBAT_SUDO) {
 			List<String> commands = ConfigOptions.COMBAT_SUDO_COMMANDS;
-			Stream<String> stream = commands.stream();
 			
-			stream.filter(command -> command.startsWith("[CONSOLE]")).forEach(command -> {
+			commands.stream().filter(command -> command.startsWith("[CONSOLE]")).forEach(command -> {
 				String cmd = command.substring(9).replace("{player}", p.getName());
 				Bukkit.dispatchCommand(Util.CONSOLE, cmd);
 			});
 			
-			stream.filter(command -> command.startsWith("[PLAYER]")).forEach(command -> {
+			commands.stream().filter(command -> command.startsWith("[PLAYER]")).forEach(command -> {
 				String cmd = command.substring(8).replace("{player}", p.getName());
 				p.performCommand(cmd);
 			});
 			
-			stream.filter(command -> command.startsWith("[OP]")).forEach(command -> {
+			commands.stream().filter(command -> command.startsWith("[OP]")).forEach(command -> {
 				String cmd = command.substring(4).replace("{player}", p.getName());
 				
 				if(p.isOp()) p.performCommand(cmd);

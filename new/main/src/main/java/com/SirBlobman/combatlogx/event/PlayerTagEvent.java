@@ -6,8 +6,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 
 /**
- * This event fires just before a player gets put into combat<br/>
- * If you cancel this event then the player will not get tagged
+ * This event fires after a player gets put into combat
  * @author SirBlobman
  */
 public class PlayerTagEvent extends PlayerEvent {

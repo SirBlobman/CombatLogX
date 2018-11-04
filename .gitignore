@@ -13,7 +13,8 @@
 *.jar
 *.zip
 
-#Maven
+# Other Files
+wiki/
 
 # Don't Ignore
 !*pom.xml

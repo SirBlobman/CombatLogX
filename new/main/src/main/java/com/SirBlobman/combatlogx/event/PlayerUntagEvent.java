@@ -25,6 +25,7 @@ public class PlayerUntagEvent extends PlayerEvent {
 	 * @see CombatUtil#untag(Player)
 	 * @return The reason that the player was untagged<br/><br/>
 	 * <b>EXPIRE:</b> The player waited patiently until he was no longer in combat or he was untagged using the API<br/>
+	 * <b>EXPIRE_ENEMY_DEATH:</b> The player's enemy was killed or died.<br/>
 	 * <b>KICK:</b> The player was kicked from the server by a plugin or staff member during combat<br/>
 	 * <b>QUIT:</b> The player logged out during combat
 	 */

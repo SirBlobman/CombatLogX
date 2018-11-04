@@ -37,9 +37,10 @@ public class Expansions {
                     String v = clxe.getVersion();
                     String msg = Util.format("Loading expansion '%s v%s'", n, v);
                     Util.print(msg);
+                    
+                    EXPANSIONS.put(n, clxe);
                     clxe.enable();
                     Util.print("\n");
-                    EXPANSIONS.put(n, clxe);
                     reg = true;
                     break;
                 } else continue;
