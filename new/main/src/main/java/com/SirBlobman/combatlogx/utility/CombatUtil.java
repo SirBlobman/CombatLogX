@@ -123,62 +123,75 @@ public class CombatUtil implements Runnable {
 	/**
 	 * Put a player into combat<br/>
 	 * This will fire {@link PlayerPreTagEvent} and {@link PlayerTagEvent}
-	 * @param p The player to tag
+	 * @param player The player to tag
 	 * @param enemy The enemy that will tag them (can be null)
 	 * @param type The type of entity that {@code enemy} is
 	 * @param reason The reason that this player will be tagged
 	 * @return {@code true} if the player was tagged, {@code false} otherwise
 	 */
-	public static boolean tag(Player p, LivingEntity enemy, TagType type, TagReason reason) {
-		PlayerPreTagEvent pre = new PlayerPreTagEvent(p, enemy, type, reason);
-		PluginUtil.call(pre);
+	public static boolean tag(Player player, LivingEntity enemy, TagType type, TagReason reason) {
+	    if(isInCombat(player)) {
+            long current = System.currentTimeMillis();
+            long timeToAdd = (ConfigOptions.OPTION_TIMER * 1000L);
+            long combatEnds = (current + timeToAdd);
+            
+            UUID uuid = player.getUniqueId();
+            COMBAT.put(uuid, combatEnds);
+            if(enemy == null && !hasEnemy(player)) ENEMIES.put(uuid, null);
+            else ENEMIES.put(uuid, enemy);
+            
+            return true;
+	    } else {
+	        PlayerPreTagEvent pre = new PlayerPreTagEvent(player, enemy, type, reason);
+	        PluginUtil.call(pre);
 
-		if(!pre.isCancelled()) {
-			long current = System.currentTimeMillis();
-			long timeToAdd = (ConfigOptions.OPTION_TIMER * 1000L);
-			long combatEnds = (current + timeToAdd);
+	        if(!pre.isCancelled()) {
+	            long current = System.currentTimeMillis();
+	            long timeToAdd = (ConfigOptions.OPTION_TIMER * 1000L);
+	            long combatEnds = (current + timeToAdd);
 
-			PlayerTagEvent event = new PlayerTagEvent(p, enemy, type, reason, combatEnds);
-			PluginUtil.call(event);
-			
-			if(!isInCombat(p)) {
-				String msg;
-				String enemyName = (enemy == null) ? "unknown entity" : ((enemy.getCustomName() == null) ? enemy.getName() : enemy.getCustomName());
-				String enemyType = (enemy == null) ? EntityType.UNKNOWN.name() : enemy.getType().name();
-				
-				if(type == TagType.MOB) {
-					List<String> keys = Util.newList("{mob_name}", "{mob_type}");
-					List<?> vals = Util.newList(enemyName, enemyType);
-					if(reason == TagReason.ATTACKED) {
-						String format = ConfigLang.getWithPrefix("messages.combat.tagged.attacked by mob");
-						msg = Util.formatMessage(format, keys, vals);
-					} else if(reason == TagReason.ATTACKER) {
-						String format = ConfigLang.getWithPrefix("messages.combat.tagged.attacker of mob");
-						msg = Util.formatMessage(format, keys, vals);
-					} else msg = ConfigLang.getWithPrefix("messages.combat.tagged.unknown");
-				} else if(type == TagType.PLAYER) {
-					List<String> keys = Util.newList("{name}");
-					List<?> vals = Util.newList(enemyName);
-					if(reason == TagReason.ATTACKED) {
-						String format = ConfigLang.getWithPrefix("messages.combat.tagged.attacked by player");
-						msg = Util.formatMessage(format, keys, vals);
-					} else if(reason == TagReason.ATTACKER) {
-						String format = ConfigLang.getWithPrefix("messages.combat.tagged.attacker of player");
-						msg = Util.formatMessage(format, keys, vals);
-					} else msg = ConfigLang.getWithPrefix("messages.combat.tagged.unknown");
-				} else msg = "";
-				
-				Util.sendMessage(p, msg);
-			}
-			
-			UUID uuid = p.getUniqueId();
-			COMBAT.put(uuid, combatEnds);
+	            PlayerTagEvent event = new PlayerTagEvent(player, enemy, type, reason, combatEnds);
+	            PluginUtil.call(event);
+	            
+	            if(!isInCombat(player)) {
+	                String msg;
+	                String enemyName = (enemy == null) ? "unknown entity" : ((enemy.getCustomName() == null) ? enemy.getName() : enemy.getCustomName());
+	                String enemyType = (enemy == null) ? EntityType.UNKNOWN.name() : enemy.getType().name();
+	                
+	                if(type == TagType.MOB) {
+	                    List<String> keys = Util.newList("{mob_name}", "{mob_type}");
+	                    List<?> vals = Util.newList(enemyName, enemyType);
+	                    if(reason == TagReason.ATTACKED) {
+	                        String format = ConfigLang.getWithPrefix("messages.combat.tagged.attacked by mob");
+	                        msg = Util.formatMessage(format, keys, vals);
+	                    } else if(reason == TagReason.ATTACKER) {
+	                        String format = ConfigLang.getWithPrefix("messages.combat.tagged.attacker of mob");
+	                        msg = Util.formatMessage(format, keys, vals);
+	                    } else msg = ConfigLang.getWithPrefix("messages.combat.tagged.unknown");
+	                } else if(type == TagType.PLAYER) {
+	                    List<String> keys = Util.newList("{name}");
+	                    List<?> vals = Util.newList(enemyName);
+	                    if(reason == TagReason.ATTACKED) {
+	                        String format = ConfigLang.getWithPrefix("messages.combat.tagged.attacked by player");
+	                        msg = Util.formatMessage(format, keys, vals);
+	                    } else if(reason == TagReason.ATTACKER) {
+	                        String format = ConfigLang.getWithPrefix("messages.combat.tagged.attacker of player");
+	                        msg = Util.formatMessage(format, keys, vals);
+	                    } else msg = ConfigLang.getWithPrefix("messages.combat.tagged.unknown");
+	                } else msg = "";
+	                
+	                Util.sendMessage(player, msg);
+	            }
+	            
+	            UUID uuid = player.getUniqueId();
+	            COMBAT.put(uuid, combatEnds);
 
-			if(enemy == null && !hasEnemy(p)) ENEMIES.put(uuid, null);
-			else ENEMIES.put(uuid, enemy);
-			
-			return true;
-		} else return false;
+	            if(enemy == null && !hasEnemy(player)) ENEMIES.put(uuid, null);
+	            else ENEMIES.put(uuid, enemy);
+	            
+	            return true;
+	        } else return false;
+	    }
 	}
 
 	/**
