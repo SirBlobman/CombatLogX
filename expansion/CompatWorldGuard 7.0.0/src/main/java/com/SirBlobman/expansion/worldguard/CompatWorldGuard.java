@@ -1,4 +1,4 @@
-package com.SirBlobman.expansion.compatworldguard;
+package com.SirBlobman.expansion.worldguard;
 
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
@@ -7,10 +7,11 @@ import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.combatlogx.utility.SchedulerUtil;
 import com.SirBlobman.combatlogx.utility.Util;
-import com.SirBlobman.expansion.compatworldguard.config.ConfigWG;
-import com.SirBlobman.expansion.compatworldguard.config.ConfigWG.NoEntryMode;
-import com.SirBlobman.expansion.compatworldguard.olivolja3.ForceField;
-import com.SirBlobman.expansion.compatworldguard.utility.WGUtil;
+import com.SirBlobman.expansion.worldguard.config.ConfigWG;
+import com.SirBlobman.expansion.worldguard.config.ConfigWG.NoEntryMode;
+import com.SirBlobman.expansion.worldguard.olivolja3.ForceField;
+import com.SirBlobman.expansion.worldguard.utility.WGUtil;
+
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -30,15 +31,15 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
     private static List<UUID> MESSAGE_COOLDOWN = Util.newList();
 
     public String getUnlocalizedName() {
-        return "CompatWorldGuard";
+        return "CompatWorldGuard7.0";
     }
 
     public String getName() {
-        return "WorldGuard Compatibility";
+        return "Compatibility for WorldGuard 7";
     }
 
     public String getVersion() {
-        return "13.1";
+        return "1";
     }
 
     @Override

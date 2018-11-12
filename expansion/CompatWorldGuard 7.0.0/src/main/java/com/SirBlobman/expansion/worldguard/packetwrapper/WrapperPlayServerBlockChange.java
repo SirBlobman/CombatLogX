@@ -16,30 +16,31 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.SirBlobman.expansion.compatworldguard.packetwrapper;
+package com.SirBlobman.expansion.worldguard.packetwrapper;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.BlockPosition;
-import com.comphenix.protocol.wrappers.EnumWrappers.Direction;
-import com.comphenix.protocol.wrappers.EnumWrappers.PlayerDigType;
+import com.comphenix.protocol.wrappers.WrappedBlockData;
+import org.bukkit.Location;
+import org.bukkit.World;
 
-public class WrapperPlayClientBlockDig extends AbstractPacket {
-    public static final PacketType TYPE = PacketType.Play.Client.BLOCK_DIG;
+public class WrapperPlayServerBlockChange extends AbstractPacket {
+    public static final PacketType TYPE = PacketType.Play.Server.BLOCK_CHANGE;
 
-    public WrapperPlayClientBlockDig() {
+    public WrapperPlayServerBlockChange() {
         super(new PacketContainer(TYPE), TYPE);
         handle.getModifier().writeDefaults();
     }
 
-    public WrapperPlayClientBlockDig(PacketContainer packet) {
+    public WrapperPlayServerBlockChange(PacketContainer packet) {
         super(packet, TYPE);
     }
 
     /**
      * Retrieve Location.
      * <p>
-     * Notes: block position
+     * Notes: block Coordinates
      *
      * @return The current Location
      */
@@ -56,31 +57,31 @@ public class WrapperPlayClientBlockDig extends AbstractPacket {
         handle.getBlockPositionModifier().write(0, value);
     }
 
-    public Direction getDirection() {
-        return handle.getDirections().read(0);
-    }
-
-    public void setDirection(Direction value) {
-        handle.getDirections().write(0, value);
-    }
-
     /**
-     * Retrieve Status.
-     * <p>
-     * Notes: the action the player is taking against the block (see below)
+     * Retrieve the Bukkit Location.
      *
-     * @return The current Status
+     * @param world World for the location
+     * @return Bukkit Location
      */
-    public PlayerDigType getStatus() {
-        return handle.getPlayerDigTypes().read(0);
+    public Location getBukkitLocation(World world) {
+        return getLocation().toVector().toLocation(world);
     }
 
     /**
-     * Set Status.
+     * Retrieve Block Data.
+     *
+     * @return The current Block Data
+     */
+    public WrappedBlockData getBlockData() {
+        return handle.getBlockData().read(0);
+    }
+
+    /**
+     * Set Block Data.
      *
      * @param value - new value.
      */
-    public void setStatus(PlayerDigType value) {
-        handle.getPlayerDigTypes().write(0, value);
+    public void setBlockData(WrappedBlockData value) {
+        handle.getBlockData().write(0, value);
     }
 }

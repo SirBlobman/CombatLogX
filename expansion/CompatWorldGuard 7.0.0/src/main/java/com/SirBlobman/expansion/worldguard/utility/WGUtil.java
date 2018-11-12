@@ -1,4 +1,4 @@
-package com.SirBlobman.expansion.compatworldguard.utility;
+package com.SirBlobman.expansion.worldguard.utility;
 
 import com.SirBlobman.combatlogx.utility.Util;
 import com.sk89q.worldedit.Vector;

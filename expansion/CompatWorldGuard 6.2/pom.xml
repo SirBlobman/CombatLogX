@@ -10,42 +10,86 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>exp-CompatWorldGuard</artifactId>
+    <artifactId>exp-CompatWorldGuard6.2</artifactId>
     <name>WorldGuard Compatibility</name>
     <description>Expansion for CombatLogX that adds many features related to WorldGuard</description>
 
     <repositories>
         <repository>
             <id>maven-sk89q-com</id>
+            <name>WorldEdit and WorldGuard</name>
             <url>http://maven.sk89q.com/repo/</url>
         </repository>
         <repository>
             <id>repo-dmulloy2-net</id>
+            <name>PlaceholderAPI</name>
             <url>http://repo.dmulloy2.net/nexus/repository/public/</url>
         </repository>
     </repositories>
 
     <dependencies>
+        <!-- CombatLogX API -->
         <dependency>
             <groupId>com.SirBlobman.combatlogx</groupId>
             <artifactId>CombatLogX-API</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
+        
+        <!-- Spigot and Bukkit 1.12.2 -->
+        <dependency>
+        	<groupId>org.spigotmc</groupId>
+        	<artifactId>spigot-api</artifactId>
+        	<version>1.12.2-R0.1-SNAPSHOT</version>
+        	<scope>provided</scope>
+        </dependency>
+        <dependency>
+        	<groupId>org.bukkit</groupId>
+        	<artifactId>bukkit</artifactId>
+        	<version>1.12.2-R0.1-SNAPSHOT</version>
+        	<scope>provided</scope>
+        </dependency>
+        <dependency>
+        	<groupId>org.spigotmc</groupId>
+        	<artifactId>spigot</artifactId>
+        	<version>1.12.2-R0.1-SNAPSHOT</version>
+        	<scope>provided</scope>
+        </dependency>
+        <dependency>
+        	<groupId>org.bukkit</groupId>
+        	<artifactId>craftbukkit</artifactId>
+        	<version>1.12.2-R0.1-SNAPSHOT</version>
+        	<scope>provided</scope>
+        </dependency>
+        
+        <!-- WorldEdit -->
+        <dependency>
+            <groupId>com.sk89q.worldedit</groupId>
+            <artifactId>worldedit-core</artifactId>
+            <version>6.1.4-SNAPSHOT</version>
+        	<scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
-            <version>7.0.0-beta-01</version>
+            <version>6.1.4-SNAPSHOT</version>
+        	<scope>provided</scope>
         </dependency>
+        
+        <!-- WorldGuard -->
         <dependency>
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard-legacy</artifactId>
-            <version>7.0.0-beta-01</version>
+            <version>6.2</version>
+        	<scope>provided</scope>
         </dependency>
+        
+        <!-- ProtocolLib -->
         <dependency>
             <groupId>com.comphenix.protocol</groupId>
             <artifactId>ProtocolLib-API</artifactId>
             <version>4.3.0</version>
+        	<scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

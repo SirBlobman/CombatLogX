@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.SirBlobman.expansion.compatworldguard.packetwrapper;
+package com.SirBlobman.expansion.worldguard.packetwrapper;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;

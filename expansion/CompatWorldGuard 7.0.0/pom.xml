@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.SirBlobman.combatlogx</groupId>
+        <artifactId>CombatLogX-parent</artifactId>
+        <version>9.0.0.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>exp-CompatWorldGuard7.0</artifactId>
+    <name>WorldGuard Compatibility</name>
+    <description>Expansion for CombatLogX that adds many features related to WorldGuard</description>
+
+    <repositories>
+        <repository>
+            <id>maven-sk89q-com</id>
+            <name>WorldEdit and WorldGuard</name>
+            <url>http://maven.sk89q.com/repo/</url>
+        </repository>
+        <repository>
+            <id>repo-dmulloy2-net</id>
+            <name>PlaceholderAPI</name>
+            <url>http://repo.dmulloy2.net/nexus/repository/public/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- CombatLogX API -->
+        <dependency>
+            <groupId>com.SirBlobman.combatlogx</groupId>
+            <artifactId>CombatLogX-API</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <!-- WorldEdit -->
+        <dependency>
+            <groupId>com.sk89q.worldedit</groupId>
+            <artifactId>worldedit-bukkit</artifactId>
+            <version>7.0.0-SNAPSHOT</version>
+        </dependency>
+        
+        <!-- WorldGuard -->
+        <dependency>
+            <groupId>com.sk89q.worldguard</groupId>
+            <artifactId>worldguard-legacy</artifactId>
+            <version>7.0.0-SNAPSHOT</version>
+        </dependency>
+        
+        <!-- ProtocolLib -->
+        <dependency>
+            <groupId>com.comphenix.protocol</groupId>
+            <artifactId>ProtocolLib-API</artifactId>
+            <version>4.3.0</version>
+        </dependency>
+    </dependencies>
+</project>
