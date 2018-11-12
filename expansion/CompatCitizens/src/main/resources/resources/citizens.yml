@@ -1,0 +1,28 @@
+# CompatCitizens Configuration File
+
+citizens:
+  # The entity type that all created NPCs will be
+  # Valid types can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
+  # REMINDER: Only PLAYER NPCs can hold inventories
+  # Default: PLAYER
+  npc type: PLAYER
+
+  # This will only work if the 'npc type' is PLAYER, otherwise it will be ignored
+  # Set this to true if you want the inventory of the player who logged out to be placed into the NPC instead of being dropped
+  # Default: true
+  store inventory: true
+
+  # How long should the plugin wait (in seconds) to remove the NPC after the player logs out
+  # Set this to -1 to make the NPC stay forever
+  # The NPC will be automatically removed if it dies or the player logs back in
+  # Default: 30
+  survival time: 30
+
+  # Should the plugin convert the NPCs to Sentinels?
+  # Sentinels will attack the player instead of just sitting there
+  # Sentinel can be found here: https://www.spigotmc.org/resources/sentinel.22017/
+  sentinels: true
+
+# Set this to true to cancel punishments from other expansions
+# This will prevent issues such as the player being killed even though their NPC is there
+cancel other punishments: true

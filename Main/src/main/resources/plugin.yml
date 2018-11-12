@@ -1,0 +1,20 @@
+name: CombatLogX
+version: ${combatlogx.version}
+main: com.SirBlobman.combatlogx.CombatLogX
+
+author: SirBlobman
+description: An expandable combat-tagging plugin with actual logging options
+api-version: 1.13
+
+softdepend: [WorldGuard, Towny, PlaceholderAPI, MVdWPlaceholderAPI, Parties, Factions, Citizens]
+
+commands:
+  combatlogx:
+    usage: /<command> <reload/tag/untag>
+    description: "Main command for CombatLogX.\nYou can use it to force tag/untag or reload all of the configs"
+    aliases: [combattag, combatlog, clx, ctx]
+
+  combattime:
+    usage: /<command> [player]
+    description: Check how much time you or [player] has left in combat.
+    aliases: [ct]

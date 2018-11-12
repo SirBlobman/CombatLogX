@@ -1,0 +1,60 @@
+# NotCombatLogX Configuration
+
+# Set this to true to make ALL damage tag players
+# This will override any options below
+# Default: true
+all damage: true
+
+# If "all damage" is false, you can change these settings to modify the different types of damage
+# Default for all: false
+damage type:
+  # Cactus Damage / Touching a block that hurts you
+  contact: false
+
+  # Getting stuck in a wall
+  suffocation: false
+
+  # Fall Damage
+  fall: false
+
+  # Touching a fire block
+  fire: false
+
+  # Being on fire
+  fire tick: false
+
+  # Touching Lava
+  lava: false
+
+  # Drowning in water
+  drowning: false
+
+  # Explosions from TNT or plugins (not creepers)
+  block explosion: false
+
+  # Damage from not eating enough food
+  starvation: false
+
+  # Leftover poison potion effect
+  poison: false
+
+  # Magic damage (INSTANT_DAMAGE effect)
+  magic: false
+
+  # Leftover wither potion effect
+  wither: false
+
+  # Anvil damage
+  falling block: false
+
+  # Damage made by plugins
+  custom: false
+
+  # Damage from using an elytra and hitting a wall/mountain/tree
+  fly into wall: false
+
+  # Damage from magma blocks
+  hot floor: false
+
+  # Damage from being near too many entities at once
+  cramming: false

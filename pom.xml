@@ -1,27 +1,82 @@
-<project>
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>com.SirBlobman</groupId>
-    <artifactId>CombatLogX-parent</artifactId>
-    <name>CombatLogX Super Parent</name>
-    <description>CombatLogX POM packaging for new and legacy</description>
-    <version>9.0.0.0</version>
-    <packaging>pom</packaging>
-    
-    <modules>
-        <module>legacy</module>
-        <module>new</module>
-    </modules>
-    
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
-    
-    <repositories>
-		<repository>
-			<id>spigot-repo</id>
-			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-		</repository>
-    </repositories>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<packaging>pom</packaging>
+
+	<name>CombatLogX Parent</name>
+	<description>CombatLogX Parent POM</description>
+
+	<groupId>com.SirBlobman.combatlogx</groupId>
+	<artifactId>CombatLogX-parent</artifactId>
+	<version>9.0.0.0</version>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<combatlogx.version>9.0.0.0</combatlogx.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+
+	<modules>
+		<!-- CombatLogX API -->
+		<module>API</module>
+
+		<!-- NMS Handlers -->
+		<module>1_8_R1</module>
+		<module>1_8_R2</module>
+		<module>1_8_R3</module>
+		<module>1_9_R1</module>
+		<module>1_9_R2</module>
+		<module>1_10_R1</module>
+		<module>1_11_R1</module>
+		<module>1_12_R1</module>
+		<module>1_13_R1</module>
+		<module>1_13_R2</module>
+
+		<!-- Main Plugin -->
+		<module>Main</module>
+        
+        <!-- Normal Expansions -->
+		<module>expansion/CheatPrevention</module>
+		<module>expansion/NotCombatLogX</module>
+		<module>expansion/Notifier</module>
+		<module>expansion/Rewards</module>
+
+		<!-- Plugin Support Expansions -->
+		<module>expansion/CompatCitizens</module>
+		<module>expansion/CompatFactions</module>
+		<module>expansion/CompatParties</module>
+		<module>expansion/CompatPlaceholders</module>
+		<module>expansion/CompatTowny</module>
+		<module>expansion/CompatWorldGuard</module>
+		
+		<!-- CombatLogX Builder -->
+		<module>builder</module>
+	</modules>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<archive>
+						<addMavenDescriptor>false</addMavenDescriptor>
+						<manifest>
+							<addClasspath>false</addClasspath>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

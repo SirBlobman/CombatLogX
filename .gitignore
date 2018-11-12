@@ -1,6 +1,7 @@
 # Eclipse
 .settings/
 .externalToolBuilders/
+bin/
 *.project
 *.classpath
 *.xml
@@ -13,9 +14,8 @@
 *.jar
 *.zip
 
-# Other Files
-wiki/
+# Maven
+target/
 
-# Don't Ignore
-!*pom.xml
-!**/builder/target/CombatLogX*.zip
+# Other
+wiki/

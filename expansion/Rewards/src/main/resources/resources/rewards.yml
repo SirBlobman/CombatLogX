@@ -1,0 +1,20 @@
+rewards:
+  # ID for the reward
+  # This can be anyting but make sure none of them are equal
+  reward1:
+    # A list of worlds that this reward can happen in
+    # If your world's name is a number, please add "" around it.
+    # Example: "1"
+    # Add "*" To allow all worlds
+    worlds:
+    - "*"
+
+    # A list of commands to execute when an enemy is killed
+    # An enemy will not always be a Player
+    # Valid Placeholders:
+    # - {player}: The name of the player that killed their enemy
+    # - {killed}: The name of the entity that was killed for this reward
+    commands:
+    - "msg {player} You killed {killed}!"
+    - "eco give {player} 100"
+    
