@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.SirBlobman.combatlogx</groupId>
+        <artifactId>CombatLogX-parent</artifactId>
+        <version>9.0.0.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>exp-CompatFactions</artifactId>
+    <name>Factions Compatibility</name>
+    <description>Expansion for CombatLogX that adds many features related to Factions</description>
+
+    <repositories>
+
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.SirBlobman.combatlogx</groupId>
+            <artifactId>CombatLogX-API</artifactId>
+            <version>9.0.0.0</version>
+        </dependency>
+
+        <!-- SavageFactions -->
+        <dependency>
+            <groupId>com.massivecraft</groupId>
+            <artifactId>SavageFactions</artifactId>
+            <version>1.6.9.5-U0.2.1-RC</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+</project>

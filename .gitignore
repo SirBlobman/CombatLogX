@@ -11,11 +11,12 @@ bin/
 
 # Java
 *.class
-*.jar
-*.zip
 
 # Maven
 target/
 
 # Other
 wiki/
+
+# Don't Ignore
+!pom.xml
