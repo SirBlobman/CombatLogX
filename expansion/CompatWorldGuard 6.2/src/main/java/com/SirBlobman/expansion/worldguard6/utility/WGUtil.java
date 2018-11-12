@@ -1,4 +1,4 @@
-package com.SirBlobman.expansion.worldguard.utility;
+package com.SirBlobman.expansion.worldguard6.utility;
 
 import com.SirBlobman.combatlogx.utility.Util;
 
@@ -15,6 +15,7 @@ import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.StateFlag.State;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
+import com.sk89q.worldguard.protection.flags.registry.SimpleFlagRegistry;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 
 public class WGUtil extends Util {
@@ -32,8 +33,8 @@ public class WGUtil extends Util {
                 flagRegistry.register(MOB_COMBAT);
             } catch(IllegalStateException ex) {
                 try {
-                    Class<?> class_FlagRegistry = flagRegistry.getClass();
-                    Field field_initialized = class_FlagRegistry.getField("initialized");
+                    Class<?> class_SimpleFlagRegistry = SimpleFlagRegistry.class;
+                    Field field_initialized = class_SimpleFlagRegistry.getDeclaredField("initialized");
                     field_initialized.setAccessible(true);
                     field_initialized.set(flagRegistry, false);
                     flagRegistry.register(MOB_COMBAT);

@@ -1,9 +1,9 @@
-package com.SirBlobman.expansion.worldguard.config;
+package com.SirBlobman.expansion.worldguard7.config;
 
 import com.SirBlobman.combatlogx.CombatLogX;
 import com.SirBlobman.combatlogx.config.Config;
 import com.SirBlobman.combatlogx.utility.Util;
-import com.SirBlobman.expansion.worldguard.CompatWorldGuard;
+import com.SirBlobman.expansion.worldguard7.CompatWorldGuard;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;

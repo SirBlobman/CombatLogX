@@ -1,12 +1,12 @@
-package com.SirBlobman.expansion.worldguard.olivolja3;
+package com.SirBlobman.expansion.worldguard7.olivolja3;
 
 import com.SirBlobman.combatlogx.CombatLogX;
 import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
-import com.SirBlobman.expansion.worldguard.config.ConfigWG;
-import com.SirBlobman.expansion.worldguard.packetwrapper.WrapperPlayClientBlockDig;
-import com.SirBlobman.expansion.worldguard.packetwrapper.WrapperPlayServerBlockChange;
-import com.SirBlobman.expansion.worldguard.utility.WGUtil;
+import com.SirBlobman.expansion.worldguard7.config.ConfigWG;
+import com.SirBlobman.expansion.worldguard7.packetwrapper.WrapperPlayClientBlockDig;
+import com.SirBlobman.expansion.worldguard7.packetwrapper.WrapperPlayServerBlockChange;
+import com.SirBlobman.expansion.worldguard7.utility.WGUtil;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;

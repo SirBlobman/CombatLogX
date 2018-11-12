@@ -1,4 +1,4 @@
-package com.SirBlobman.expansion.worldguard;
+package com.SirBlobman.expansion.worldguard6;
 
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
@@ -7,11 +7,15 @@ import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.combatlogx.utility.SchedulerUtil;
 import com.SirBlobman.combatlogx.utility.Util;
-import com.SirBlobman.expansion.worldguard.config.ConfigWG;
-import com.SirBlobman.expansion.worldguard.config.ConfigWG.NoEntryMode;
-import com.SirBlobman.expansion.worldguard.olivolja3.ForceField;
-import com.SirBlobman.expansion.worldguard.utility.WGUtil;
+import com.SirBlobman.expansion.worldguard6.config.ConfigWG;
+import com.SirBlobman.expansion.worldguard6.config.ConfigWG.NoEntryMode;
+import com.SirBlobman.expansion.worldguard6.utility.WGUtil;
 
+import java.io.File;
+import java.util.List;
+import java.util.UUID;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -22,20 +26,16 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.util.Vector;
 
-import java.io.File;
-import java.util.List;
-import java.util.UUID;
-
 public class CompatWorldGuard implements CLXExpansion, Listener {
     public static File FOLDER;
     private static List<UUID> MESSAGE_COOLDOWN = Util.newList();
 
     public String getUnlocalizedName() {
-        return "CompatWorldGuard7.0";
+        return "CompatWorldGuard6.2";
     }
 
     public String getName() {
-        return "Compatibility for WorldGuard 7";
+        return "Compatability for WorldGuard 6.2";
     }
 
     public String getVersion() {
@@ -45,13 +45,16 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
     @Override
     public void enable() {
         if (PluginUtil.isEnabled("WorldGuard")) {
-            FOLDER = getDataFolder();
-            ConfigWG.load();
-            WGUtil.onLoad();
-            PluginUtil.regEvents(this);
-            if (PluginUtil.isEnabled("ProtocolLib")) {
-                PluginUtil.regEvents(new ForceField());
-                ForceField.registerProtocol();
+            String worldGuardVersion = Bukkit.getPluginManager().getPlugin("WorldGuard").getDescription().getVersion();
+            if(worldGuardVersion.startsWith("6")) {
+                FOLDER = getDataFolder();
+                ConfigWG.load();
+                WGUtil.onLoad();
+                PluginUtil.regEvents(this);
+            } else {
+                String error = "You must use WorldGuard 6.2 with this expansion!";
+                print(error);
+                Expansions.unloadExpansion(this);
             }
         } else {
             String error = "WorldGuard is not installed, automatically disabling...";
