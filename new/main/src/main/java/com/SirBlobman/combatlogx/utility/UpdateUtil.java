@@ -131,6 +131,7 @@ public class UpdateUtil extends Util {
 				br.close();
 				isr.close();
 				is.close();
+
 				spigotVersion = version;
 				return version;
 			} catch (Throwable ex) {return null;}
@@ -142,6 +143,11 @@ public class UpdateUtil extends Util {
 		else {
 			PluginDescriptionFile pdf = PLUGIN.getDescription();
 			String version = pdf.getVersion();
+            if(version.contains("-")) {
+                int indexOf = version.indexOf("-");
+                version = version.substring(0, indexOf);
+            }
+            
 			pluginVersion = version;
 			return version;
 		}

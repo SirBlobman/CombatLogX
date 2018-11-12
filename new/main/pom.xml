@@ -14,4 +14,23 @@
 	<artifactId>CombatLogX-1.13</artifactId>
 	<name>CombatLogX 1.13+</name>
 	<description>CombatLogX for Spigot 1.13 or later</description>
+	
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>plugin.yml</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<excludes>
+					<exclude>plugin.yml</exclude>
+				</excludes>
+			</resource>
+		</resources>
+	</build>
 </project>

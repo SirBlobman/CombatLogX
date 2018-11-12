@@ -9,7 +9,7 @@ import com.SirBlobman.expansion.placeholders.hook.PHook;
 public class CompatPlaceholders implements CLXExpansion {
 	public String getUnlocalizedName() {return "CompatPlaceholders";}
 	public String getName() {return "Placeholder Compatibility";}
-	public String getVersion() {return "13.2";}
+	public String getVersion() {return "13.3";}
 	
 	@Override
 	public void enable() {

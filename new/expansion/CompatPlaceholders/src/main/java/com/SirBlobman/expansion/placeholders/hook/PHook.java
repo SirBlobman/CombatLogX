@@ -17,24 +17,32 @@ public class PHook extends PlaceholderExpansion {
 	public String getVersion() {return "13.1";}
 	
 	@Override
-	public String onPlaceholderRequest(Player p, String id) {
+	public String onPlaceholderRequest(Player player, String id) {
 		switch (id) {
 			case "time_left":
-				int timeLeft = CombatUtil.getTimeLeft(p);
+				int timeLeft = CombatUtil.getTimeLeft(player);
 				return (timeLeft < 0 ? ConfigLang.getWithPrefix("messages.expansions.placeholder compatibility.zero time left") : Integer.toString(timeLeft));
 			case "enemy_health": {
-				LivingEntity enemy = CombatUtil.getEnemy(p);
+				LivingEntity enemy = CombatUtil.getEnemy(player);
 				return (enemy != null) ? formatDouble(enemy.getHealth()) : "Unknown";
 			}
 			case "enemy_name": {
-				LivingEntity enemy = CombatUtil.getEnemy(p);
+				LivingEntity enemy = CombatUtil.getEnemy(player);
 				return (enemy != null) ? ((enemy.getCustomName() != null) ? enemy.getCustomName() : enemy.getName()) : "Unknown";
 			}
-			case "in_combat":
-				return CombatUtil.isInCombat(p) ? "Yes" : "No";
-			default:
-				return null;
+			case "in_combat": {
+                String yes = ConfigLang.get("messages.expansions.placeholder comptability.yes");
+                String no = ConfigLang.get("messages.expansions.placeholder comptability.no");
+                return CombatUtil.isInCombat(player) ? yes : no;
+			}
+            case "combatlogx_status": {
+                String idling = ConfigLang.get("messages.expansions.placeholder comptability.status.idling");
+                String fighting = ConfigLang.get("messages.expansions.placeholder comptability.status.fighting");
+                return CombatUtil.isInCombat(player) ? fighting : idling;
+            }
 		}
+		
+		return null;
 	}
 	
 	private static String formatDouble(double d) {

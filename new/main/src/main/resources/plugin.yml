@@ -1,5 +1,5 @@
 name: CombatLogX
-version: 9.0.0.0
+version: ${project.version}-${beta.version}
 main: com.SirBlobman.combatlogx.CombatLogX
 
 author: SirBlobman
