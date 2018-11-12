@@ -40,8 +40,6 @@
         <dependency>
             <groupId>be.maximvdw</groupId>
             <artifactId>FeatherBoard</artifactId>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/FeatherBoard-4.9.0.jar</systemPath>
             <version>4.9.0</version>
         </dependency>
     </dependencies>
