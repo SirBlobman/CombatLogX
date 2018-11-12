@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 
 public class BossBarUtil extends Util {
     public static void updateBossBar(Player player) {
-
         int timeLeft = CombatUtil.getTimeLeft(player);
         if (timeLeft <= 0) {
             removeBossBar(player, false);
@@ -28,6 +27,7 @@ public class BossBarUtil extends Util {
             if (progress <= 0) progress = 0.0F;
             if (progress >= 1) progress = 1.0F;
 
+            LegacyHandler.getLegacyHandler().removeBossBar(player);
             LegacyHandler.getLegacyHandler().sendBossBar(player, ConfigNotifier.BOSS_BAR_STYLE, ConfigNotifier.BOSS_BAR_COLOR, title, progress);
         }
     }
