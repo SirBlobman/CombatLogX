@@ -121,7 +121,7 @@ Towny can be found here: http://towny.palmergames.com/<br/><br/>
 The WorldGuard Compatibility expansion can be found inside the 'CombatLogX.zip' file as <i>CompatWorldGuard.jar</i><br/>
 This expansion allows for the use of no-pvp and no-mob zones in WorldGuard<br/>
 To set a no pvp zone, use "/rg flag <region> pvp deny"<br/>
-To set a no mob zone, use "/rg flag <region> mob-spawning deny"<br/>
+To set a no mob zone, use "/rg flag <region> mob-combat deny"<br/>
 WorldGuard can be found here: https://dev.bukkit.org/projects/worldguard<br/><br/>
 
 
