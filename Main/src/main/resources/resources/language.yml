@@ -97,6 +97,9 @@ messages:
 
     towny compatibility:
       no entry: "You cannot enter a no-pvp area during combat"
+      
+    residence compatibility:
+      no entry: "You cannot enter a no-pvp area during combat"
 
     worldguard compatibility:
       no entry:

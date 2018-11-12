@@ -46,11 +46,12 @@
 								<copy file="${project.basedir}/../expansion/CompatFactions/target/exp-CompatFactions-${project.version}.jar" tofile="${project.basedir}/build/CombatLogX/expansions/Factions Compatibility.jar"></copy>
 								<copy file="${project.basedir}/../expansion/CompatParties/target/exp-CompatParties-${project.version}.jar" tofile="${project.basedir}/build/CombatLogX/expansions/Parties Compatibility.jar"></copy>
 								<copy file="${project.basedir}/../expansion/CompatPlaceholders/target/exp-CompatPlaceholders-${project.version}.jar" tofile="${project.basedir}/build/CombatLogX/expansions/Placeholders Compatibility.jar"></copy>
+								<copy file="${project.basedir}/../expansion/CompatResidence/target/exp-CompatResidence-${project.version}.jar" tofile="${project.basedir}/build/CombatLogX/expansions/Residence Compatibility.jar"></copy>
 								<copy file="${project.basedir}/../expansion/CompatTowny/target/exp-CompatTowny-${project.version}.jar" tofile="${project.basedir}/build/CombatLogX/expansions/Towny Compatibility.jar"></copy>
 								<copy file="${project.basedir}/../expansion/CompatWorldGuard/target/exp-CompatWorldGuard-${project.version}.jar" tofile="${project.basedir}/build/CombatLogX/expansions/WorldGuard Compatibility.jar"></copy>
 								
 								<!-- Final ZIP File -->
-								<zip basedir="${project.basedir}/build" destfile="${project.basedir}/build/CombatLogX-${project.version}.zip"></zip>
+								<zip basedir="${project.basedir}/build" destfile="${project.basedir}/build/CombatLogX-${combatlogx.version}.zip"></zip>
 							</target>
 						</configuration>
 						<goals>

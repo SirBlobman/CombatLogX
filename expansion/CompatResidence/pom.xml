@@ -11,17 +11,9 @@
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
-	<artifactId>exp-Notifier</artifactId>
-	<name>Notifier</name>
-	<description>Expansion for CombatLogX that contains the action bar, boss bar, and score board</description>
-
-	<repositories>
-		<repository>
-			<id>mvdw-software</id>
-			<name>MVdW Public Repositories</name>
-			<url>http://repo.mvdw-software.be/content/groups/public/</url>
-		</repository>
-	</repositories>
+	<artifactId>exp-CompatResidence</artifactId>
+	<name>WorldGuard Compatibility</name>
+	<description>Expansion for CombatLogX that adds many features related to Residence</description>
 
 	<dependencies>
 		<dependency>
@@ -30,17 +22,10 @@
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
-
-		<!-- MVdWPlaceholderAPI and FeatherBoard -->
 		<dependency>
-			<groupId>be.maximvdw</groupId>
-			<artifactId>MVdWPlaceholderAPI</artifactId>
-			<version>2.5.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>be.maximvdw</groupId>
-			<artifactId>FeatherBoard</artifactId>
-			<version>4.9.0</version>
+			<groupId>com.bekvon.bukkit</groupId>
+			<artifactId>residence</artifactId>
+			<version>4.8.2.0</version>
 		</dependency>
 	</dependencies>
 </project>
