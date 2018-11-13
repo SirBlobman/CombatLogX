@@ -16,4 +16,8 @@ public class SchedulerUtil extends Util {
     public static void runSync(Runnable run) {
         BS.scheduleSyncDelayedTask(PLUGIN, run);
     }
+    
+    public static void runLaterSync(long delay, Runnable task) {
+        BS.scheduleSyncDelayedTask(PLUGIN, task, delay);
+    }
 }

@@ -56,80 +56,82 @@ public abstract class LegacyHandler {
     private static LegacyHandler LEGACY_HANDLER = null;
     public static LegacyHandler getLegacyHandler() {
         if(LEGACY_HANDLER != null) return LEGACY_HANDLER;
-        
-        String mcVersion = getMinecraftVersion();
-        switch(mcVersion) {
-        case "1.13.2":
-        case "1.13.1":
-            LEGACY_HANDLER = new LegacyHandler_1_13_R2();
-            break;
+        else {
             
-        case "1.13.0":
-        case "1.13":
-            LEGACY_HANDLER = new LegacyHandler_1_13_R1();
-            break;
+            String mcVersion = getMinecraftVersion();
+            switch(mcVersion) {
+            case "1.13.2":
+            case "1.13.1":
+                LEGACY_HANDLER = new LegacyHandler_1_13_R2();
+                break;
+                
+            case "1.13.0":
+            case "1.13":
+                LEGACY_HANDLER = new LegacyHandler_1_13_R1();
+                break;
+                
+            case "1.12.2":
+            case "1.12.1":
+            case "1.12.0":
+            case "1.12":
+                LEGACY_HANDLER = new LegacyHandler_1_12_R1();
+                break;
+                
+            case "1.11.2":
+            case "1.11.1":
+            case "1.11.0":
+            case "1.11":
+                LEGACY_HANDLER = new LegacyHandler_1_11_R1();
+                break;
+                
+            case "1.10.2":
+            case "1.10.1":
+            case "1.10.0":
+            case "1.10":
+                LEGACY_HANDLER = new LegacyHandler_1_10_R1();
+                break;
+                
+            case "1.9.4":
+            case "1.9.3":
+                LEGACY_HANDLER = new LegacyHandler_1_9_R2();
+                break;
+                
+            case "1.9.2":
+            case "1.9.1":
+            case "1.9.0":
+            case "1.9":
+                LEGACY_HANDLER = new LegacyHandler_1_9_R1();
+                break;
+                
+            case "1.8.9":
+            case "1.8.8":
+            case "1.8.7":
+            case "1.8.6":
+            case "1.8.5":
+            case "1.8.4":
+                LEGACY_HANDLER = new LegacyHandler_1_8_R3();
+                break;
+                
+            case "1.8.3":
+                LEGACY_HANDLER = new LegacyHandler_1_8_R2();
+                break;
+                
+            case "1.8.2":
+            case "1.8.1":
+            case "1.8.0":
+            case "1.8":
+                LEGACY_HANDLER = new LegacyHandler_1_8_R1();
+                break;
+                
+            default: {
+                Util.print("The version " + mcVersion + " may not be supported!");
+                LEGACY_HANDLER = new LegacyHandler_1_13_R2();
+                break;
+            }
+            }
             
-        case "1.12.2":
-        case "1.12.1":
-        case "1.12.0":
-        case "1.12":
-            LEGACY_HANDLER = new LegacyHandler_1_12_R1();
-            break;
-            
-        case "1.11.2":
-        case "1.11.1":
-        case "1.11.0":
-        case "1.11":
-            LEGACY_HANDLER = new LegacyHandler_1_11_R1();
-            break;
-            
-        case "1.10.2":
-        case "1.10.1":
-        case "1.10.0":
-        case "1.10":
-            LEGACY_HANDLER = new LegacyHandler_1_10_R1();
-            break;
-            
-        case "1.9.4":
-        case "1.9.3":
-            LEGACY_HANDLER = new LegacyHandler_1_9_R2();
-            break;
-            
-        case "1.9.2":
-        case "1.9.1":
-        case "1.9.0":
-        case "1.9":
-            LEGACY_HANDLER = new LegacyHandler_1_9_R1();
-            break;
-            
-        case "1.8.9":
-        case "1.8.8":
-        case "1.8.7":
-        case "1.8.6":
-        case "1.8.5":
-        case "1.8.4":
-            LEGACY_HANDLER = new LegacyHandler_1_8_R3();
-            break;
-            
-        case "1.8.3":
-            LEGACY_HANDLER = new LegacyHandler_1_8_R2();
-            break;
-            
-        case "1.8.2":
-        case "1.8.1":
-        case "1.8.0":
-        case "1.8":
-            LEGACY_HANDLER = new LegacyHandler_1_8_R1();
-            break;
-            
-        default: {
-            Util.print("The version " + mcVersion + " may not be supported!");
-            LEGACY_HANDLER = new LegacyHandler_1_13_R2();
-            break;
+            return LEGACY_HANDLER;
         }
-        }
-        
-        return LEGACY_HANDLER;
     }
 
     public abstract double getMaxHealth(LivingEntity entity);

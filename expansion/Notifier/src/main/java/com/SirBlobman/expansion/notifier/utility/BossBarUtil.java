@@ -34,12 +34,13 @@ public class BossBarUtil extends Util {
 
     public static void removeBossBar(Player player, boolean shuttingDown) {
         String title = color(ConfigNotifier.BOSS_BAR_NO_LONGER_IN_COMBAT);
+        LegacyHandler.getLegacyHandler().removeBossBar(player);
         LegacyHandler.getLegacyHandler().sendBossBar(player, ConfigNotifier.BOSS_BAR_STYLE, ConfigNotifier.BOSS_BAR_COLOR, title, 0.0F);
 
         if (shuttingDown) {
             LegacyHandler.getLegacyHandler().removeBossBar(player);
         } else {
-            SchedulerUtil.runLater(20L, () -> LegacyHandler.getLegacyHandler().removeBossBar(player));
+            SchedulerUtil.runLaterSync(20L, () -> LegacyHandler.getLegacyHandler().removeBossBar(player));
         }
     }
 }
