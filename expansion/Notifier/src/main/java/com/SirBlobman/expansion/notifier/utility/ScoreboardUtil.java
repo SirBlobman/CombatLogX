@@ -1,5 +1,6 @@
 package com.SirBlobman.expansion.notifier.utility;
 
+import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.combatlogx.utility.legacy.LegacyHandler;
@@ -57,8 +58,13 @@ public class ScoreboardUtil extends Util {
             List<String> scoreboardList = ConfigNotifier.SCORE_BOARD_LINES;
             int i = scoreboardList.size();
             for (String line : scoreboardList) {
-                List<String> keys = Util.newList("{time_left}", "{enemy_name}", "{enemy_health}", "{in_combat}");
-                List<?> vals = Util.newList(timeLeft, enemyName, enemyHealth, CombatUtil.isInCombat(player) ? "Yes" : "No");
+                String yes = ConfigLang.get("messages.expansions.placeholder comptability.yes");
+                String no = ConfigLang.get("messages.expansions.placeholder comptability.no");
+                String idling = ConfigLang.get("messages.expansions.placeholder comptability.status.idling");
+                String fighting = ConfigLang.get("messages.expansions.placeholder comptability.status.fighting");
+                
+                List<String> keys = Util.newList("{time_left}", "{enemy_name}", "{enemy_health}", "{in_combat}", "{status}");
+                List<?> vals = Util.newList(timeLeft, enemyName, enemyHealth, CombatUtil.isInCombat(player) ? yes : no, CombatUtil.isInCombat(player) ? fighting : idling);
                 String msg = Util.formatMessage(line, keys, vals);
                 if (msg.length() > 40) {
                     msg = msg.substring(0, 40);

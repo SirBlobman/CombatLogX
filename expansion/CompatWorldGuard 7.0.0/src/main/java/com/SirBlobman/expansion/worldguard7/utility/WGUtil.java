@@ -1,34 +1,32 @@
 package com.SirBlobman.expansion.worldguard7.utility;
 
 import com.SirBlobman.combatlogx.utility.Util;
-import com.sk89q.worldedit.Vector;
+
+import java.lang.reflect.Method;
+
+import org.bukkit.Location;
+
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldedit.util.Location;
-import com.sk89q.worldedit.world.World;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.internal.platform.WorldGuardPlatform;
-import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.StateFlag.State;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import com.sk89q.worldguard.protection.flags.registry.SimpleFlagRegistry;
-import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
-
-import java.lang.reflect.Method;
+import com.sk89q.worldguard.protection.regions.RegionQuery;
 
 public class WGUtil extends Util {
     private static StateFlag MOB_COMBAT = new StateFlag("mob-combat", false);
 
-    private static WorldGuard getAPI() {
-        return WorldGuard.getInstance();
+    private static WorldGuardPlatform getAPI() {
+        return WorldGuard.getInstance().getPlatform();
     }
 
     public static void onLoad() {
-        WorldGuard api = getAPI();
-        FlagRegistry fr = api.getFlagRegistry();
+        FlagRegistry fr = WorldGuard.getInstance().getFlagRegistry();
         Flag<?> flag = fr.get("mob-combat");
         if (flag != null) {
             if (flag instanceof StateFlag) {
@@ -78,36 +76,25 @@ public class WGUtil extends Util {
         }
     }
 
-    private static World getWorld(org.bukkit.World world) {
-        return BukkitAdapter.adapt(world);
-    }
-
-    private static Vector getLocation(org.bukkit.Location loc) {
-        Location loc2 = BukkitAdapter.adapt(loc);
-        return loc2.toVector();
-    }
-
-    private static ApplicableRegionSet getRegions(org.bukkit.Location loc) {
-        WorldGuard api = getAPI();
-        WorldGuardPlatform wgp = api.getPlatform();
-        RegionContainer rc = wgp.getRegionContainer();
-
-        World world = getWorld(loc.getWorld());
-        RegionManager rm = rc.get(world);
-
-        Vector vector = getLocation(loc);
-        return rm.getApplicableRegions(vector);
-    }
-
-    public static boolean allowsPvP(org.bukkit.Location loc) {
-        ApplicableRegionSet regions = getRegions(loc);
-        State state = regions.queryState(null, Flags.PVP);
+    public static boolean allowsPvP(Location loc) {
+        com.sk89q.worldedit.util.Location worldEditLoc = BukkitAdapter.adapt(loc);
+        
+        WorldGuardPlatform api = getAPI();
+        RegionContainer rc = api.getRegionContainer();
+        RegionQuery rq = rc.createQuery();
+        
+        State state = rq.queryState(worldEditLoc, null, Flags.PVP);
         return (state != State.DENY);
     }
 
-    public static boolean allowsMobCombat(org.bukkit.Location loc) {
-        ApplicableRegionSet regions = getRegions(loc);
-        State state = regions.queryState(null, MOB_COMBAT);
+    public static boolean allowsMobCombat(Location loc) {
+        com.sk89q.worldedit.util.Location worldEditLoc = BukkitAdapter.adapt(loc);
+        
+        WorldGuardPlatform api = getAPI();
+        RegionContainer rc = api.getRegionContainer();
+        RegionQuery rq = rc.createQuery();
+        
+        State state = rq.queryState(worldEditLoc, null, MOB_COMBAT);
         return (state != State.DENY);
     }
 }

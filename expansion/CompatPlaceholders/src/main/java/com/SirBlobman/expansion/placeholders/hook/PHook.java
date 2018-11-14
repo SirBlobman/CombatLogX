@@ -49,7 +49,7 @@ public class PHook extends PlaceholderExpansion {
                 String no = ConfigLang.get("messages.expansions.placeholder comptability.no");
                 return CombatUtil.isInCombat(player) ? yes : no;
             }
-            case "combatlogx_status": {
+            case "status": {
                 String idling = ConfigLang.get("messages.expansions.placeholder comptability.status.idling");
                 String fighting = ConfigLang.get("messages.expansions.placeholder comptability.status.fighting");
                 return CombatUtil.isInCombat(player) ? fighting : idling;

@@ -22,6 +22,7 @@ public class MHook implements PlaceholderReplacer {
         PlaceholderAPI.registerPlaceholder(CombatLogX.INSTANCE, "combatlogx_enemy_name", this);
         PlaceholderAPI.registerPlaceholder(CombatLogX.INSTANCE, "combatlogx_enemy_health", this);
         PlaceholderAPI.registerPlaceholder(CombatLogX.INSTANCE, "combatlogx_in_combat", this);
+        PlaceholderAPI.registerPlaceholder(CombatLogX.INSTANCE, "combatlogx_status", this);
     }
 
     @Override

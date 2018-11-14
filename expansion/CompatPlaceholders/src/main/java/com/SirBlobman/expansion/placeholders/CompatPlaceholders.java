@@ -16,7 +16,7 @@ public class CompatPlaceholders implements CLXExpansion {
     }
 
     public String getVersion() {
-        return "13.3";
+        return "13.4";
     }
 
     @Override
