@@ -5,9 +5,12 @@ teleportation:
   # Default: false
   allow during combat: false
 
-  # If the above option is false, set this to true if players should be allowed to teleport using enderpealrs
+  # If the above option is true, these types of teleports won't be blocked
+  # Valid Types can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/event/player/PlayerTeleportEvent.TeleportCause.html
   # Default: false
-  allow ender pearls: false
+  allowed causes:
+  - ENDER_PEARL
+  - PLUGIN
 
   # If the above option is true, set this to true to make enderpearls tag the player again
   # Default: false

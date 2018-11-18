@@ -14,29 +14,37 @@ import com.SirBlobman.combatlogx.utility.SchedulerUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.cheatprevention.config.ConfigCheatPrevention;
 import com.SirBlobman.expansion.cheatprevention.olivolja3.AliasDetection;
+
+import java.io.File;
+import java.util.List;
+
 import org.bukkit.GameMode;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityToggleGlideEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.bukkit.event.player.*;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerGameModeChangeEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
-
-import java.io.File;
-import java.util.List;
+import org.bukkit.event.player.PlayerToggleFlightEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 
 public class CheatPrevention implements CLXExpansion, Listener {
     public static File FOLDER;
-
+    
     private static void detectAliases() {
         List<String> list = ConfigCheatPrevention.BLOCKED_COMMANDS_LIST;
         List<String> newList = Util.newList();
-
+        
         list.forEach(blocked -> {
             String withoutSlash = blocked.substring(1);
             PluginCommand pcmd = Util.SERVER.getPluginCommand(withoutSlash);
@@ -50,22 +58,22 @@ public class CheatPrevention implements CLXExpansion, Listener {
                 });
             }
         });
-
+        
         ConfigCheatPrevention.BLOCKED_COMMANDS_LIST.addAll(newList);
     }
-
+    
     public String getUnlocalizedName() {
         return "CheatPrevention";
     }
-
+    
     public String getName() {
         return "Cheat Prevention";
     }
-
+    
     public String getVersion() {
-        return "13.2";
+        return "13.3";
     }
-
+    
     @Override
     public void enable() {
         FOLDER = getDataFolder();
@@ -73,18 +81,18 @@ public class CheatPrevention implements CLXExpansion, Listener {
         PluginUtil.regEvents(this);
         AliasDetection.cmdDetect();
     }
-
+    
     @Override
     public void disable() {
-
+        
     }
-
+    
     @Override
     public void onConfigReload() {
         ConfigCheatPrevention.load();
         detectAliases();
     }
-
+    
     @EventHandler
     public void onUntag(PlayerUntagEvent e) {
         Player player = e.getPlayer();
@@ -101,11 +109,11 @@ public class CheatPrevention implements CLXExpansion, Listener {
             }
         });
     }
-
+    
     @EventHandler
     public void onChangeTimer(PlayerCombatTimerChangeEvent e) {
         Player player = e.getPlayer();
-
+        
         if (ConfigCheatPrevention.GAMEMODE_CHANGE_WHEN_TAGGED) {
             GameMode pgm = player.getGameMode();
             String smode = ConfigCheatPrevention.GAMEMODE_GAMEMODE;
@@ -119,7 +127,7 @@ public class CheatPrevention implements CLXExpansion, Listener {
                 Util.sendMessage(player, msg);
             }
         }
-
+        
         if (!ConfigCheatPrevention.FLIGHT_ALLOW_DURING_COMBAT) {
             if (player.isFlying() || player.getAllowFlight()) {
                 player.setFlying(false);
@@ -128,7 +136,7 @@ public class CheatPrevention implements CLXExpansion, Listener {
                 Util.sendMessage(player, msg);
             }
         }
-
+        
         if (!ConfigCheatPrevention.FLIGHT_ALLOW_ELYTRAS) {
             if (player.isGliding()) {
                 player.setGliding(false);
@@ -137,7 +145,7 @@ public class CheatPrevention implements CLXExpansion, Listener {
             }
         }
     }
-
+    
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onToggleFlight(PlayerToggleFlightEvent e) {
         Player player = e.getPlayer();
@@ -146,13 +154,13 @@ public class CheatPrevention implements CLXExpansion, Listener {
                 e.setCancelled(true);
                 player.setAllowFlight(false);
                 player.setFlying(false);
-
+                
                 String error = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.flight.not allowed");
                 Util.sendMessage(player, error);
             }
         }
     }
-
+    
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onToggleElytra(EntityToggleGlideEvent e) {
         Entity en = e.getEntity();
@@ -162,14 +170,14 @@ public class CheatPrevention implements CLXExpansion, Listener {
                 if (e.isGliding()) {
                     e.setCancelled(true);
                     player.setGliding(false);
-
+                    
                     String error = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.elytra.not allowed");
                     Util.sendMessage(player, error);
                 }
             }
         }
     }
-
+    
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onChangeGameMode(PlayerGameModeChangeEvent e) {
         Player player = e.getPlayer();
@@ -180,37 +188,34 @@ public class CheatPrevention implements CLXExpansion, Listener {
             if (pgm != gm) {
                 e.setCancelled(true);
                 player.setGameMode(gm);
-
+                
                 String error = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.gamemode.not allowed");
                 Util.sendMessage(player, error);
             }
         }
     }
-
+    
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onTeleport(PlayerTeleportEvent e) {
         Player player = e.getPlayer();
         if (CombatUtil.isInCombat(player)) {
             TeleportCause cause = e.getCause();
-            if (cause.equals(TeleportCause.ENDER_PEARL)) {
-                if (!ConfigCheatPrevention.TELEPORTATION_ALLOW_ENDER_PEARLS) {
-                    e.setCancelled(true);
-                    String error = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.teleport.enderpearl.not allowed");
-                    Util.sendMessage(player, error);
-                }
-                if (ConfigCheatPrevention.TELEPORTATION_ENDER_PEARLS_RESTART_TIMER) {
-                    CombatUtil.tag(player, CombatUtil.getEnemy(player), TagType.PLAYER, TagReason.ATTACKED);
-                }
-            } else {
-                if (!ConfigCheatPrevention.TELEPORTATION_ALLOW_DURING_COMBAT) {
+            String causeName = cause.name();
+            if (!ConfigCheatPrevention.TELEPORTATION_ALLOW_DURING_COMBAT) {
+                if(!ConfigCheatPrevention.TELEPORTATION_ALLOWED_CAUSES.contains(causeName)) {
                     e.setCancelled(true);
                     String error = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.teleport.other.not allowed");
                     Util.sendMessage(player, error);
                 }
             }
+            
+            if(cause == TeleportCause.ENDER_PEARL && ConfigCheatPrevention.TELEPORTATION_ENDER_PEARLS_RESTART_TIMER) {
+                LivingEntity enemy = CombatUtil.getEnemy(player);
+                CombatUtil.tag(player, enemy, TagType.UNKNOWN, TagReason.UNKNOWN);
+            }
         }
     }
-
+    
     @EventHandler(priority = EventPriority.LOWEST)
     public void onCommand(PlayerCommandPreprocessEvent e) {
         Player player = e.getPlayer();
@@ -225,7 +230,7 @@ public class CheatPrevention implements CLXExpansion, Listener {
                     cmd = split1[0].toLowerCase();
                 }
             }
-
+            
             List<String> commandList = Util.toLowercaseList(ConfigCheatPrevention.BLOCKED_COMMANDS_LIST);
             boolean deny = false;
             if (ConfigCheatPrevention.BLOCKED_COMMANDS_IS_WHITELIST) {
@@ -233,7 +238,7 @@ public class CheatPrevention implements CLXExpansion, Listener {
             } else {
                 if (commandList.contains(cmd)) deny = true;
             }
-
+            
             if (deny) {
                 e.setCancelled(true);
                 List<String> keys = Util.newList("{command}");
@@ -244,17 +249,23 @@ public class CheatPrevention implements CLXExpansion, Listener {
             }
         }
     }
-
+    
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onTag(PlayerTagEvent e) {
         Player player = e.getPlayer();
         if (ConfigCheatPrevention.INVENTORY_CLOSE_ON_COMBAT) {
-            player.closeInventory();
-            String error = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.inventory.closed");
-            Util.sendMessage(player, error);
+            InventoryView playerView = player.getOpenInventory();
+            if(playerView != null) {
+                Inventory top = playerView.getTopInventory();
+                if(top != null) {
+                    player.closeInventory();
+                    String error = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.inventory.closed");
+                    Util.sendMessage(player, error);
+                }
+            }
         }
     }
-
+    
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onOpenInventory(InventoryOpenEvent e) {
         HumanEntity he = e.getPlayer();
@@ -267,13 +278,13 @@ public class CheatPrevention implements CLXExpansion, Listener {
             }
         }
     }
-
+    
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onChat(AsyncPlayerChatEvent e) {
         Player player = e.getPlayer();
         if (CombatUtil.isInCombat(player) && !ConfigCheatPrevention.CHAT_ALLOW_DURING_COMBAT) {
             e.setCancelled(true);
-
+            
             String error = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.chat.not allowed");
             Util.sendMessage(player, error);
         }

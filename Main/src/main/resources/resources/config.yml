@@ -1,3 +1,7 @@
+# This config option won't do anything
+# Its just here to provide information
+generated-by-version: "${combatlogx.version}"
+
 # Config Options for CombatLogX
 options:
   # Set this to true if you want to check for updates
