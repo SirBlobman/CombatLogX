@@ -5,11 +5,14 @@ import com.SirBlobman.combatlogx.expansion.Expansions;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.expansion.compatcitizens.config.ConfigCitizens;
 import com.SirBlobman.expansion.compatcitizens.listener.NPCManager;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
+import com.SirBlobman.expansion.compatcitizens.listener.NPCManager.TraitCombatLogX;
 
 import java.io.File;
-import java.util.UUID;
+
+import org.bukkit.OfflinePlayer;
+
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
 
 public class CompatCitizens implements CLXExpansion {
     public static File FOLDER;
@@ -23,7 +26,7 @@ public class CompatCitizens implements CLXExpansion {
     }
 
     public String getVersion() {
-        return "13.1";
+        return "13.2";
     }
 
     @Override
@@ -42,9 +45,12 @@ public class CompatCitizens implements CLXExpansion {
     @Override
     public void disable() {
         if (PluginUtil.isEnabled("Citizens")) {
-            for (UUID uuid : NPCManager.NPC_IDS.keySet()) {
-                OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-                if (op != null) NPCManager.removeNPC(op);
+            for (NPC npc : CitizensAPI.getNPCRegistry()) {
+                if(npc.hasTrait(TraitCombatLogX.class)) {
+                    TraitCombatLogX clxTrait = npc.getTrait(TraitCombatLogX.class);
+                    OfflinePlayer op = clxTrait.getOfflinePlayer();
+                    if(op != null) NPCManager.removeNPC(op);
+                }
             }
         }
     }

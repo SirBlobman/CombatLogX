@@ -45,13 +45,13 @@ public class PHook extends PlaceholderExpansion {
                 return (enemy != null) ? ((enemy.getCustomName() != null) ? enemy.getCustomName() : enemy.getName()) : "Unknown";
             }
             case "in_combat": {
-                String yes = ConfigLang.get("messages.expansions.placeholder comptability.yes");
-                String no = ConfigLang.get("messages.expansions.placeholder comptability.no");
+                String yes = ConfigLang.get("messages.expansions.placeholder compatibility.yes");
+                String no = ConfigLang.get("messages.expansions.placeholder compatibility.no");
                 return CombatUtil.isInCombat(player) ? yes : no;
             }
             case "status": {
-                String idling = ConfigLang.get("messages.expansions.placeholder comptability.status.idling");
-                String fighting = ConfigLang.get("messages.expansions.placeholder comptability.status.fighting");
+                String idling = ConfigLang.get("messages.expansions.placeholder compatibility.status.idling");
+                String fighting = ConfigLang.get("messages.expansions.placeholder compatibility.status.fighting");
                 return CombatUtil.isInCombat(player) ? fighting : idling;
             }
         }

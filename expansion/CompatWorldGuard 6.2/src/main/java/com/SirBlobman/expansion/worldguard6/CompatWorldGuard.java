@@ -39,7 +39,7 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
     }
 
     public String getVersion() {
-        return "1";
+        return "2";
     }
 
     @Override

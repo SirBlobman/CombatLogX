@@ -58,10 +58,10 @@ public class ScoreboardUtil extends Util {
             List<String> scoreboardList = ConfigNotifier.SCORE_BOARD_LINES;
             int i = scoreboardList.size();
             for (String line : scoreboardList) {
-                String yes = ConfigLang.get("messages.expansions.placeholder comptability.yes");
-                String no = ConfigLang.get("messages.expansions.placeholder comptability.no");
-                String idling = ConfigLang.get("messages.expansions.placeholder comptability.status.idling");
-                String fighting = ConfigLang.get("messages.expansions.placeholder comptability.status.fighting");
+                String yes = ConfigLang.get("messages.expansions.placeholder compatibility.yes");
+                String no = ConfigLang.get("messages.expansions.placeholder compatibility.no");
+                String idling = ConfigLang.get("messages.expansions.placeholder compatibility.status.idling");
+                String fighting = ConfigLang.get("messages.expansions.placeholder compatibility.status.fighting");
                 
                 List<String> keys = Util.newList("{time_left}", "{enemy_name}", "{enemy_health}", "{in_combat}", "{status}");
                 List<?> vals = Util.newList(timeLeft, enemyName, enemyHealth, CombatUtil.isInCombat(player) ? yes : no, CombatUtil.isInCombat(player) ? fighting : idling);

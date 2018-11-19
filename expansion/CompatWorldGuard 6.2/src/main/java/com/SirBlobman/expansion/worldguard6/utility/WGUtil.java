@@ -13,7 +13,6 @@ import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.DefaultFlag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.StateFlag.State;
-import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import com.sk89q.worldguard.protection.flags.registry.SimpleFlagRegistry;
 import com.sk89q.worldguard.protection.managers.RegionManager;
@@ -27,26 +26,32 @@ public class WGUtil extends Util {
 
     public static void onLoad() {
         WorldGuardPlugin api = getAPI();
-        FlagRegistry flagRegistry = api.getFlagRegistry();
-        try {
+        if(api.getDescription().getVersion().startsWith("6.2")) {
+            FlagRegistry flagRegistry = api.getFlagRegistry();
             try {
-                flagRegistry.register(MOB_COMBAT);
-            } catch(IllegalStateException ex) {
                 try {
-                    Class<?> class_SimpleFlagRegistry = SimpleFlagRegistry.class;
-                    Field field_initialized = class_SimpleFlagRegistry.getDeclaredField("initialized");
-                    field_initialized.setAccessible(true);
-                    field_initialized.set(flagRegistry, false);
                     flagRegistry.register(MOB_COMBAT);
-                    field_initialized.set(flagRegistry, true);
-                    field_initialized.setAccessible(false);
-                } catch(Throwable ex1) {
-                    Util.print("An error occured trying to register the mob-combat flag!");
-                    ex1.printStackTrace();
+                } catch(IllegalStateException ex) {
+                    try {
+                        Class<?> class_SimpleFlagRegistry = SimpleFlagRegistry.class;
+                        Field field_initialized = class_SimpleFlagRegistry.getDeclaredField("initialized");
+                        field_initialized.setAccessible(true);
+                        field_initialized.set(flagRegistry, false);
+                        flagRegistry.register(MOB_COMBAT);
+                        field_initialized.set(flagRegistry, true);
+                        field_initialized.setAccessible(false);
+                    } catch(Throwable ex1) {
+                        Util.print("An error occured trying to register the mob-combat flag!");
+                        ex1.printStackTrace();
+                    }
                 }
+            } catch(Throwable ex) {
+                ex.printStackTrace();
+                Util.print("The flag 'mob-combat' already exists!");
             }
-        } catch(FlagConflictException ex) {
-            Util.print("The flag 'mob-combat' already exists!");
+        } else {
+            Util.print("Could not register 'mob-combat' flag. Are you using WorldGuard 6.2?");
+            return;
         }
     }
 

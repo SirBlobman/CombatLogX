@@ -43,13 +43,13 @@ public class MHook implements PlaceholderReplacer {
                     return (enemy != null) ? ((enemy.getCustomName() != null) ? enemy.getCustomName() : enemy.getName()) : "Unknown";
                 }
                 case "combatlogx_in_combat": {
-                    String yes = ConfigLang.get("messages.expansions.placeholder comptability.yes");
-                    String no = ConfigLang.get("messages.expansions.placeholder comptability.no");
+                    String yes = ConfigLang.get("messages.expansions.placeholder compatibility.yes");
+                    String no = ConfigLang.get("messages.expansions.placeholder compatibility.no");
                     return CombatUtil.isInCombat(player) ? yes : no;
                 }
                 case "combatlogx_status": {
-                    String idling = ConfigLang.get("messages.expansions.placeholder comptability.status.idling");
-                    String fighting = ConfigLang.get("messages.expansions.placeholder comptability.status.fighting");
+                    String idling = ConfigLang.get("messages.expansions.placeholder compatibility.status.idling");
+                    String fighting = ConfigLang.get("messages.expansions.placeholder compatibility.status.fighting");
                     return CombatUtil.isInCombat(player) ? fighting : idling;
                 }
             }
