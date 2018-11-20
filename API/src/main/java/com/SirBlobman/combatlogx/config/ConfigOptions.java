@@ -5,6 +5,7 @@ import java.util.List;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public class ConfigOptions extends Config {
+    public static boolean OPTION_DEBUG;
     public static boolean OPTION_CHECK_FOR_UPDATES;
     public static List<String> OPTION_DISABLED_WORLDS;
     public static boolean OPTION_BROADCAST_ENABLE_MESSAGE;

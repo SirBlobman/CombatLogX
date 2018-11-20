@@ -4,6 +4,11 @@ generated-by-version: "${combatlogx.version}"
 
 # Config Options for CombatLogX
 options:
+  # Set this to true to see more information in console
+  # You don't need to use this unless you like spam
+  # Default: false
+  debug: false
+
   # Set this to true if you want to check for updates
   # This will not automatically download them
   # Default: true

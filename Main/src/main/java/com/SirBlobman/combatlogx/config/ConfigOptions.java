@@ -9,6 +9,8 @@ import java.util.List;
 
 public class ConfigOptions extends Config {
     private static final File FILE = new File(FOLDER, "config.yml");
+    
+    public static boolean OPTION_DEBUG;
     public static boolean OPTION_CHECK_FOR_UPDATES;
     public static List<String> OPTION_DISABLED_WORLDS;
     public static boolean OPTION_BROADCAST_ENABLE_MESSAGE;
@@ -41,6 +43,8 @@ public class ConfigOptions extends Config {
     }
 
     private static void defaults() {
+        OPTION_DEBUG = get(config, "options.debug", false);
+        
         OPTION_CHECK_FOR_UPDATES = get(config, "options.check for updates", true);
 
         OPTION_DISABLED_WORLDS = Util.toLowercaseList(get(config, "options.disabled worlds", Util.newList("world1", "world2")));
