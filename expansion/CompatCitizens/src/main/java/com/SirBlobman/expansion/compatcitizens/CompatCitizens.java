@@ -13,6 +13,7 @@ import org.bukkit.OfflinePlayer;
 
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.trait.TraitInfo;
 
 public class CompatCitizens implements CLXExpansion {
     public static File FOLDER;
@@ -26,7 +27,7 @@ public class CompatCitizens implements CLXExpansion {
     }
 
     public String getVersion() {
-        return "13.2";
+        return "13.3";
     }
 
     @Override
@@ -34,6 +35,8 @@ public class CompatCitizens implements CLXExpansion {
         if (PluginUtil.isEnabled("Citizens")) {
             FOLDER = getDataFolder();
             ConfigCitizens.load();
+            
+            CitizensAPI.getTraitFactory().registerTrait(TraitInfo.create(TraitCombatLogX.class));
             PluginUtil.regEvents(new NPCManager());
         } else {
             String error = "Citizens is not installed, removing expansion....";
