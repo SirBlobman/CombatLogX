@@ -196,7 +196,7 @@ public class NPCManager implements Listener {
     
     public static class TraitCombatLogX extends Trait {
         private UUID playerUUID;
-        protected TraitCombatLogX() {super("combatlogx");}
+        public TraitCombatLogX() {super("combatlogx");}
         
         public void setPlayer(OfflinePlayer op) {
             Validate.notNull(op, "op cannot be NULL!");
