@@ -33,7 +33,7 @@ public class MHook implements PlaceholderReplacer {
             switch (id) {
                 case "combatlogx_time_left":
                     int timeLeft = CombatUtil.getTimeLeft(player);
-                    return (timeLeft < 0 ? ConfigLang.getWithPrefix("messages.expansions.placeholder compatibility.zero time left") : Integer.toString(timeLeft));
+                    return (timeLeft < 0 ? ConfigLang.get("messages.expansions.placeholder compatibility.zero time left") : Integer.toString(timeLeft));
                 case "combatlogx_enemy_health": {
                     LivingEntity enemy = CombatUtil.getEnemy(player);
                     return (enemy != null) ? formatDouble(enemy.getHealth()) : "Unknown";

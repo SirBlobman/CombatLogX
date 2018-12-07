@@ -1,18 +1,18 @@
 package com.SirBlobman.combatlogx.utility.legacy;
 
-import com.SirBlobman.combatlogx.utility.PluginUtil;
-import com.SirBlobman.combatlogx.utility.Util;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
-import org.inventivetalent.bossbar.BossBarAPI;
-import org.inventivetalent.bossbar.BossBarAPI.Color;
-import org.inventivetalent.bossbar.BossBarAPI.Style;
+
+import com.SirBlobman.combatlogx.utility.PluginUtil;
+import com.SirBlobman.combatlogx.utility.Util;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+
+import org.inventivetalent.bossbar.BossBarAPI;
 
 public class LegacyHandler_1_8_R3 extends LegacyHandler {
     @Override
@@ -78,9 +78,11 @@ public class LegacyHandler_1_8_R3 extends LegacyHandler {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public void sendBossBar(Player player, String style, String color, String title, float progress) {
         if (PluginUtil.isEnabled("BossBarAPI", "inventivetalent")) {
-            BossBarAPI.addBar(Util.newList(player), title, Color.valueOf(color), Style.valueOf(style.replace("SEGMENTED", "NOTCHED").replace("SOLID", "PROGRESS")), progress);
+            removeBossBar(player);
+            BossBarAPI.setMessage(player, title);
         }
     }
 
@@ -89,7 +91,6 @@ public class LegacyHandler_1_8_R3 extends LegacyHandler {
     public void removeBossBar(Player player) {
         if (PluginUtil.isEnabled("BossBarAPI", "inventivetalent")) {
             BossBarAPI.removeBar(player);
-            BossBarAPI.removeAllBars(player);
         }
     }
 

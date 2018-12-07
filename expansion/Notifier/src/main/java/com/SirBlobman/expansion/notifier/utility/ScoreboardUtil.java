@@ -1,13 +1,18 @@
 package com.SirBlobman.expansion.notifier.utility;
 
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Score;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
+
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.combatlogx.utility.legacy.LegacyHandler;
 import com.SirBlobman.expansion.notifier.config.ConfigNotifier;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.*;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -42,8 +47,8 @@ public class ScoreboardUtil extends Util {
 
     public static void updateScoreBoard(Player player) {
         LivingEntity enemy = CombatUtil.getEnemy(player);
-        int timeLeft = CombatUtil.getTimeLeft(player);
-        if (timeLeft > 0) {
+        int timeLeftInt = CombatUtil.getTimeLeft(player);
+        if (timeLeftInt > 0) {
             String enemyName = (enemy != null) ? ((enemy.getCustomName() != null) ? enemy.getCustomName() : enemy.getName()) : "Unknown";
             String enemyHealth = (enemy != null) ? formatDouble(enemy.getHealth()) : "Unknown";
 
@@ -64,6 +69,7 @@ public class ScoreboardUtil extends Util {
                 String fighting = ConfigLang.get("messages.expansions.placeholder compatibility.status.fighting");
                 
                 List<String> keys = Util.newList("{time_left}", "{enemy_name}", "{enemy_health}", "{in_combat}", "{status}");
+                String timeLeft = (timeLeftInt > 0) ? Integer.toString(timeLeftInt) : ConfigLang.get("messages.expansions.placeholder compatibility.zero time left");
                 List<?> vals = Util.newList(timeLeft, enemyName, enemyHealth, CombatUtil.isInCombat(player) ? yes : no, CombatUtil.isInCombat(player) ? fighting : idling);
                 String msg = Util.formatMessage(line, keys, vals);
                 if (msg.length() > 40) {

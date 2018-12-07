@@ -35,7 +35,7 @@ public class PHook extends PlaceholderExpansion {
         switch (id) {
             case "time_left":
                 int timeLeft = CombatUtil.getTimeLeft(player);
-                return (timeLeft < 0 ? ConfigLang.getWithPrefix("messages.expansions.placeholder compatibility.zero time left") : Integer.toString(timeLeft));
+                return (timeLeft < 0 ? ConfigLang.get("messages.expansions.placeholder compatibility.zero time left") : Integer.toString(timeLeft));
             case "enemy_health": {
                 LivingEntity enemy = CombatUtil.getEnemy(player);
                 return (enemy != null) ? formatDouble(enemy.getHealth()) : "Unknown";
