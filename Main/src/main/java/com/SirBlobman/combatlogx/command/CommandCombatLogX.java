@@ -27,21 +27,23 @@ public class CommandCombatLogX implements TabExecutor {
             if (args.length > 0) {
                 String sub = args[0].toLowerCase();
                 switch (sub) {
-                    case "reload":
-                        return reload(cs);
-                    case "tag":
-                        return tag(cs, args);
-                    case "untag":
-                        return untag(cs, args);
-                    case "version":
-                        return version(cs);
-                    default:
-                        return false;
+                case "reload":
+                    return reload(cs);
+                case "tag":
+                    return tag(cs, args);
+                case "untag":
+                    return untag(cs, args);
+                case "version":
+                    return version(cs);
+                default:
+                    break;
                 }
-            } else return false;
-        } else return false;
+            }
+        }
+        
+        return false;
     }
-
+    
     @Override
     public List<String> onTabComplete(CommandSender cs, Command c, String label, String[] args) {
         String cmd = c.getName().toLowerCase();
@@ -57,14 +59,14 @@ public class CommandCombatLogX implements TabExecutor {
             } else return Util.newList();
         } else return Util.newList();
     }
-
+    
     private boolean reload(CommandSender cs) {
         String perm = "combatlogx.reload";
         if (cs.hasPermission(perm)) {
             ConfigOptions.load();
             ConfigLang.load();
             Expansions.reloadConfigs();
-
+            
             String msg = ConfigLang.getWithPrefix("messages.commands.combatlogx.reloaded");
             Util.sendMessage(cs, msg);
             return true;
@@ -77,7 +79,7 @@ public class CommandCombatLogX implements TabExecutor {
             return true;
         }
     }
-
+    
     private boolean tag(CommandSender cs, String[] args) {
         String perm = "combatlogx.tag";
         if (cs.hasPermission(perm)) {
@@ -110,7 +112,7 @@ public class CommandCombatLogX implements TabExecutor {
             return true;
         }
     }
-
+    
     private boolean untag(CommandSender cs, String[] args) {
         String perm = "combatlogx.untag";
         if (cs.hasPermission(perm)) {
@@ -149,7 +151,7 @@ public class CommandCombatLogX implements TabExecutor {
             return true;
         }
     }
-
+    
     private boolean version(CommandSender cs) {
         String perm = "combatlogx.version";
         if (cs.hasPermission(perm)) {
@@ -157,18 +159,18 @@ public class CommandCombatLogX implements TabExecutor {
             SchedulerUtil.runNowAsync(() -> {
                 String pversion = UpdateUtil.getPluginVersion();
                 String sversion = UpdateUtil.getSpigotVersion();
-
+                
                 String[] msg = Util.color(
-                        "&f&lCombatLogX by SirBlobman",
-                        " ",
-                        "&f&lYour Version: &7v" + pversion,
-                        "&f&lLatest Version: &7v" + sversion,
-                        " ",
-                        "&7&oGetting expansion versions...",
-                        " "
+                    "&f&lCombatLogX by SirBlobman",
+                    " ",
+                    "&f&lYour Version: &7v" + pversion,
+                    "&f&lLatest Version: &7v" + sversion,
+                    " ",
+                    "&7&oGetting expansion versions...",
+                    " "
                 );
                 Util.sendMessage(cs, msg);
-
+                
                 List<CLXExpansion> expansions = Expansions.getExpansions();
                 if (expansions.isEmpty()) {
                     String error = Util.color("  &f&lYou do not have any expansions.");

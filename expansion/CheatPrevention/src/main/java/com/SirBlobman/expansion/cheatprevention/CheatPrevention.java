@@ -3,6 +3,7 @@ package com.SirBlobman.expansion.cheatprevention;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.combatlogx.utility.legacy.LegacyHandler;
 import com.SirBlobman.expansion.cheatprevention.config.ConfigCheatPrevention;
 import com.SirBlobman.expansion.cheatprevention.listener.ListenCheatPrevention;
 import com.SirBlobman.expansion.cheatprevention.listener.ListenElytra;
@@ -33,7 +34,11 @@ public class CheatPrevention implements CLXExpansion {
         FOLDER = getDataFolder();
         ConfigCheatPrevention.load();
         PluginUtil.regEvents(new ListenCheatPrevention());
-        PluginUtil.regEvents(new ListenElytra());
+        
+        // The elytra item and related events were added in 1.9+
+        int majorVersion = LegacyHandler.getMajorVersion();
+        if(majorVersion >= 9) PluginUtil.regEvents(new ListenElytra());
+        
         AliasDetection.cmdDetect();
     }
     
