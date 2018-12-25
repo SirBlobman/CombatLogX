@@ -33,5 +33,32 @@
             <version>1.6.9.5-U0.2.1-RC</version>
             <scope>provided</scope>
         </dependency>
+        
+        <!-- FactionsUUID -->
+		<dependency>
+			<groupId>com.massivecraft</groupId>
+			<artifactId>Factions</artifactId>
+			<version>1.6.9.5-U0.2.2</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<!-- LegacyFactions -->
+		<dependency>
+			<groupId>net.redstoneore</groupId>
+			<artifactId>legacyfactions</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+		
+		<!-- MassiveCore and Factions -->
+		<dependency>
+			<groupId>MassiveCraft</groupId>
+			<artifactId>MassiveCore</artifactId>
+			<version>2.14.0</version>
+		</dependency>
+		<dependency>
+			<groupId>MassiveCraft</groupId>
+			<artifactId>Factions</artifactId>
+			<version>2.14.0</version>
+		</dependency>
     </dependencies>
 </project>

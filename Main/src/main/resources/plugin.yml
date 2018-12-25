@@ -6,7 +6,19 @@ author: SirBlobman
 description: An expandable combat-tagging plugin with actual logging options
 api-version: 1.13
 
-softdepend: [WorldGuard, Towny, PlaceholderAPI, MVdWPlaceholderAPI, Parties, Factions, Citizens]
+softdepend:
+- Citizens
+- Factions
+- LegacyFactions
+- Lands
+- Parties
+- PlaceholderAPI
+- MVdWPlaceholderAPI
+- Residence
+- Towny
+- WorldGuard
+- BossBarAPI
+- FeatherBoard
 
 commands:
   combatlogx:

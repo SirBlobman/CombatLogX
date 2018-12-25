@@ -1,16 +1,15 @@
 package com.SirBlobman.expansion.compatfactions.util;
 
-import com.massivecraft.factions.Board;
-import com.massivecraft.factions.FLocation;
-import com.massivecraft.factions.Faction;
 import org.bukkit.Location;
 
-public class FactionsUtilSavage extends FactionsUtil {
+import net.redstoneore.legacyfactions.entity.Faction;
+import net.redstoneore.legacyfactions.locality.Locality;
+
+public class FactionsUtilLegacy extends FactionsUtil {
     @Override
     public Faction getFaction(Location loc) {
-        Board board = Board.getInstance();
-        FLocation floc = new FLocation(loc);
-        return board.getFactionAt(floc);
+        Locality locality = Locality.of(loc);
+        return locality.getFactionHere();
     }
 
     @Override

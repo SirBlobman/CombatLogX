@@ -5,7 +5,7 @@ import com.massivecraft.factions.FLocation;
 import com.massivecraft.factions.Faction;
 import org.bukkit.Location;
 
-public class FactionsUtilSavage extends FactionsUtil {
+public class FactionsUtilUUID extends FactionsUtil {
     @Override
     public Faction getFaction(Location loc) {
         Board board = Board.getInstance();
