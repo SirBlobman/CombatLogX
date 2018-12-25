@@ -42,7 +42,11 @@ public class ListenCheatPrevention implements Listener {
             return true;
         }
         
-        return commandList.contains(command);
+        for(String inList : commandList) {
+            if(command.startsWith(inList)) return true;
+        }
+        
+        return false;
     }
     
     @EventHandler(priority = EventPriority.LOWEST)

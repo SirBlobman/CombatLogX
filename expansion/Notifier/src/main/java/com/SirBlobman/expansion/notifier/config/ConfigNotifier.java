@@ -37,9 +37,14 @@ public class ConfigNotifier extends Config {
         if (SCORE_BOARD_USE_FEATHERBOARD && PluginUtil.isEnabled("FeatherBoard") && SCORE_BOARD_FEATHERBOARD_NAME.equals("combatlogx")) {
             File mainFolder = new File(".").getAbsoluteFile().getParentFile();
             File pluginsFolder = new File(mainFolder, "plugins");
-            File scoreboardFile = new File(pluginsFolder, "FeatherBoard" + File.pathSeparator + "scoreboards" + File.pathSeparator + "combatlogx.yml");
-            if (!scoreboardFile.exists()) copyFromJar("FeatherBoard/scoreboards/combatlogx.yml", pluginsFolder);
-            Bukkit.dispatchCommand(Util.CONSOLE, "fb reload");
+            File folder_FeatherBoard = new File(pluginsFolder, "FeatherBoard");
+            File folder_scoreboards = new File(folder_FeatherBoard, "scoreboard");
+            File scoreboardFile = new File(folder_scoreboards, "combatlogx.yml");
+            
+            if(!scoreboardFile.exists()) {
+                copyFromJar("FeatherBoard/scoreboards/combatlogx.yml", pluginsFolder);
+                Bukkit.dispatchCommand(Util.CONSOLE, "fb reload");
+            }
         }
     }
 

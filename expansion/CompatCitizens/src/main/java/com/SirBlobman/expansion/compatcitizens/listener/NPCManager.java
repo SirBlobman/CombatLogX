@@ -58,6 +58,7 @@ public class NPCManager implements Listener {
         
         NPCRegistry reg = CitizensAPI.getNPCRegistry();
         NPC npc = reg.createNPC(type, player.getName());
+        npc.setProtected(false);
         
         TraitCombatLogX clxTrait = npc.getTrait(TraitCombatLogX.class);
         clxTrait.setPlayer(player);
