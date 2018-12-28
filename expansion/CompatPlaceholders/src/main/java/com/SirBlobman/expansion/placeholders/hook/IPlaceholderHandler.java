@@ -57,15 +57,9 @@ public interface IPlaceholderHandler {
         
         int unusedHearts = 10;
         
-        while(heartsD >= 1.0D) {
+        while(heartsD > 0.0D) {
             heartsD -= 1.0D;
             unusedHearts--;
-            heartsBuilder.append(heartSymbol);
-        }
-        
-        if(heartsD > 0.5D) {
-            unusedHearts--;
-            heartsBuilder.append("&c&l");
             heartsBuilder.append(heartSymbol);
         }
         

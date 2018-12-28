@@ -120,6 +120,8 @@ public class CombatUtil implements Runnable {
      */
     public static boolean tag(Player player, LivingEntity enemy, TagType type, TagReason reason) {
         if (isInCombat(player)) {
+            if(type == TagType.MOB && !ConfigOptions.COMBAT_MOBS) return false;
+            
             long current = System.currentTimeMillis();
             long timeToAdd = (ConfigOptions.OPTION_TIMER * 1000L);
             long combatEnds = (current + timeToAdd);

@@ -28,10 +28,10 @@ public class AttackListener implements Listener {
         }
 
         if ((damager instanceof Tameable) && ConfigOptions.OPTION_LINK_PETS) {
-            Tameable t = (Tameable) damager;
-            AnimalTamer at = t.getOwner();
-            if (at instanceof Entity) {
-                damager = (Entity) at;
+            Tameable pet = (Tameable) damager;
+            AnimalTamer petOwner = pet.getOwner();
+            if (petOwner instanceof Entity) {
+                damager = (Entity) petOwner;
             }
         }
 
