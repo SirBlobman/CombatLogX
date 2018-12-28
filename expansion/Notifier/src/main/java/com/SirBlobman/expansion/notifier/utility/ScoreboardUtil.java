@@ -1,6 +1,5 @@
 package com.SirBlobman.expansion.notifier.utility;
 
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -8,13 +7,13 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
-import com.SirBlobman.combatlogx.config.ConfigLang;
+import com.SirBlobman.combatlogx.expansion.Expansions;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.combatlogx.utility.legacy.LegacyHandler;
 import com.SirBlobman.expansion.notifier.config.ConfigNotifier;
+import com.SirBlobman.expansion.placeholders.hook.IPlaceholderHandler;
 
-import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -22,7 +21,7 @@ import java.util.UUID;
 public class ScoreboardUtil extends Util {
     private static final ScoreboardManager SM = SERVER.getScoreboardManager();
     private static Map<UUID, Scoreboard> SCORE_BOARDS = newMap();
-
+    
     private static Scoreboard getScoreBoard(Player player) {
         UUID uuid = player.getUniqueId();
         if (SCORE_BOARDS.containsKey(uuid)) {
@@ -44,57 +43,49 @@ public class ScoreboardUtil extends Util {
             return getScoreBoard(player);
         }
     }
-
+    
     public static void updateScoreBoard(Player player) {
-        LivingEntity enemy = CombatUtil.getEnemy(player);
         int timeLeftInt = CombatUtil.getTimeLeft(player);
         if (timeLeftInt > 0) {
-            String enemyName = (enemy != null) ? ((enemy.getCustomName() != null) ? enemy.getCustomName() : enemy.getName()) : "Unknown";
-            String enemyHealth = (enemy != null) ? formatDouble(enemy.getHealth()) : "Unknown";
-
-            Scoreboard sb = getScoreBoard(player);
-            Objective obj = sb.getObjective(player.getName());
-            if (obj != null) obj.unregister();
-
+            Scoreboard scoreBoard = getScoreBoard(player);
+            Objective objective = scoreBoard.getObjective(player.getName());
+            if (objective != null) objective.unregister();
+            
             String title = Util.color(ConfigNotifier.SCORE_BOARD_TITLE);
-            obj = LegacyHandler.getLegacyHandler().createScoreboardObjective(sb, player.getName(), "dummy", title);
-            obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-
+            objective = LegacyHandler.getLegacyHandler().createScoreboardObjective(scoreBoard, player.getName(), "dummy", title);
+            objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+            
             List<String> scoreboardList = ConfigNotifier.SCORE_BOARD_LINES;
             int i = scoreboardList.size();
             for (String line : scoreboardList) {
-                String yes = ConfigLang.get("messages.expansions.placeholder compatibility.yes");
-                String no = ConfigLang.get("messages.expansions.placeholder compatibility.no");
-                String idling = ConfigLang.get("messages.expansions.placeholder compatibility.status.idling");
-                String fighting = ConfigLang.get("messages.expansions.placeholder compatibility.status.fighting");
-                
-                List<String> keys = Util.newList("{time_left}", "{enemy_name}", "{enemy_health}", "{in_combat}", "{status}");
-                String timeLeft = (timeLeftInt > 0) ? Integer.toString(timeLeftInt) : ConfigLang.get("messages.expansions.placeholder compatibility.zero time left");
-                List<?> vals = Util.newList(timeLeft, enemyName, enemyHealth, CombatUtil.isInCombat(player) ? yes : no, CombatUtil.isInCombat(player) ? fighting : idling);
-                String msg = Util.formatMessage(line, keys, vals);
-                if (msg.length() > 40) {
-                    msg = msg.substring(0, 40);
+                if(Expansions.isEnabled("CompatPlaceholders")) {
+                    IPlaceholderHandler placeholderHandler = new IPlaceholderHandler() {};
+                    line = line.replace("{time_left}", placeholderHandler.handlePlaceholder(player, "time_left"))
+                            .replace("{enemy_name}", placeholderHandler.handlePlaceholder(player, "enemy_name"))
+                            .replace("{enemy_health}", placeholderHandler.handlePlaceholder(player, "enemy_health"))
+                            .replace("{enemy_health_rounded}", placeholderHandler.handlePlaceholder(player, "enemy_health_rounded"))
+                            .replace("{enemy_hearts}", placeholderHandler.handlePlaceholder(player, "enemy_hearts"))
+                            .replace("{in_combat}", placeholderHandler.handlePlaceholder(player, "in_combat"))
+                            .replace("{status}", placeholderHandler.handlePlaceholder(player, "status"));
                 }
-
-                Score score = obj.getScore(msg);
+                
+                line = color(line);
+                if (line.length() > 40) line = line.substring(0, 40);
+                
+                Score score = objective.getScore(line);
                 score.setScore(i);
                 i--;
             }
-
-            if (!sb.equals(player.getScoreboard())) player.setScoreboard(sb);
+            
+            if (!scoreBoard.equals(player.getScoreboard())) player.setScoreboard(scoreBoard);
         } else removeScoreBoard(player);
     }
-
+    
     public static void removeScoreBoard(Player player) {
         Scoreboard sb = getScoreBoard(player);
         Objective obj = sb.getObjective(player.getName());
         obj.unregister();
-
+        
         player.setScoreboard(SM.getMainScoreboard());
-    }
-
-    private static String formatDouble(double number) {
-        DecimalFormat df = new DecimalFormat("0.00");
-        return df.format(number);
     }
 }

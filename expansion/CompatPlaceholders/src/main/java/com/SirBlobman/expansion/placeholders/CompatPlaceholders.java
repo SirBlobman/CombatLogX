@@ -16,7 +16,7 @@ public class CompatPlaceholders implements CLXExpansion {
     }
 
     public String getVersion() {
-        return "13.5";
+        return "13.6";
     }
 
     @Override
@@ -24,15 +24,17 @@ public class CompatPlaceholders implements CLXExpansion {
         boolean enabled = false;
         if (PluginUtil.isEnabled("PlaceholderAPI")) {
             enabled = true;
-            PHook p = new PHook();
-            p.register();
+            PHook phook = new PHook();
+            phook.register();
         }
 
         if (PluginUtil.isEnabled("MVdWPlaceholderAPI")) {
             enabled = true;
-            MHook m = new MHook();
-            m.register();
+            MHook mhook = new MHook();
+            mhook.register();
         }
+        
+        if(Expansions.isEnabled("Notifier")) enabled = true;
 
         if (!enabled) {
             String error = "Could not find PlaceholderAPI or MVdWPlaceholderAPI. Automatically disabling...";

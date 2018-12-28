@@ -44,8 +44,14 @@ score board:
   # The red numbers on the side cannot be changed or removed
   lines:
   - "&f&lTime Left: &7{time_left}"
+  - " "
   - "&f&lEnemy Name: &7{enemy_name}"
   - "&f&lEnemy Health: &7{enemy_health}"
+  - "&f&lEnemy HealthR: &7{enemy_health_rounded}"
+  - "&f&lEnemy Hearts: &7{enemy_hearts}"
+  - "  "
+  - "&f&lIn Combat? &7{in_combat}"
+  - "&f&lCombat Status: &7{status}"
 
   featherboard:
     # Set this to true if you have FeatherBoard installed

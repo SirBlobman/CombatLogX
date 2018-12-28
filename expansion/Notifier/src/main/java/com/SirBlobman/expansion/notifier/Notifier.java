@@ -28,7 +28,7 @@ public class Notifier implements CLXExpansion, Listener {
     }
     
     public String getVersion() {
-        return "13.5";
+        return "13.6";
     }
     
     @Override
@@ -78,7 +78,7 @@ public class Notifier implements CLXExpansion, Listener {
         if (ConfigNotifier.ACTION_BAR_ENABLED) ActionBarUtil.removeActionBar(player);
         if (ConfigNotifier.SCORE_BOARD_ENABLED) {
             if (ConfigNotifier.SCORE_BOARD_USE_FEATHERBOARD) {
-                SchedulerUtil.runLater(20L, () -> {
+                SchedulerUtil.runLater(5L, () -> {
                     if (FeatherBoardAPI.isToggled(player)) {
                         FeatherBoardAPI.removeScoreboardOverride(player, ConfigNotifier.SCORE_BOARD_FEATHERBOARD_NAME);
                     }

@@ -65,6 +65,16 @@ public class Expansions {
     public static List<CLXExpansion> getExpansions() {
         return Util.newList(EXPANSIONS);
     }
+    
+    public static boolean isEnabled(String unlocalizedName) {
+        List<CLXExpansion> enabled = getExpansions();
+        for(CLXExpansion expansion : enabled) {
+            String expansionName = expansion.getUnlocalizedName();
+            if(expansionName.equals(unlocalizedName)) return true;
+        }
+        
+        return false;
+    }
 
     public static void reloadConfigs() {
         List<CLXExpansion> list = getExpansions();

@@ -1,18 +1,15 @@
 package com.SirBlobman.expansion.notifier.utility;
 
-import com.SirBlobman.combatlogx.config.ConfigLang;
+import org.bukkit.entity.Player;
+
 import com.SirBlobman.combatlogx.config.ConfigOptions;
+import com.SirBlobman.combatlogx.expansion.Expansions;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.SchedulerUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.combatlogx.utility.legacy.LegacyHandler;
 import com.SirBlobman.expansion.notifier.config.ConfigNotifier;
-
-import java.text.DecimalFormat;
-import java.util.List;
-
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import com.SirBlobman.expansion.placeholders.hook.IPlaceholderHandler;
 
 public class BossBarUtil extends Util {
     public static void updateBossBar(Player player) {
@@ -20,18 +17,19 @@ public class BossBarUtil extends Util {
         if (timeLeftInt <= 0) {
             removeBossBar(player, false);
         } else {
-            LivingEntity enemy = CombatUtil.getEnemy(player);
-            String enemyName = (enemy != null) ? ((enemy.getCustomName() != null) ? enemy.getCustomName() : enemy.getName()) : "Unknown";
-            String enemyHealth = (enemy != null) ? formatDouble(enemy.getHealth()) : "Unknown";
-            String yes = ConfigLang.get("messages.expansions.placeholder compatibility.yes");
-            String no = ConfigLang.get("messages.expansions.placeholder compatibility.no");
-            String idling = ConfigLang.get("messages.expansions.placeholder compatibility.status.idling");
-            String fighting = ConfigLang.get("messages.expansions.placeholder compatibility.status.fighting");
+            String title = ConfigNotifier.BOSS_BAR_FORMAT;
+            if(Expansions.isEnabled("CompatPlaceholders")) {
+                IPlaceholderHandler placeholderHandler = new IPlaceholderHandler() {};
+                title = title.replace("{time_left}", placeholderHandler.handlePlaceholder(player, "time_left"))
+                        .replace("{enemy_name}", placeholderHandler.handlePlaceholder(player, "enemy_name"))
+                        .replace("{enemy_health}", placeholderHandler.handlePlaceholder(player, "enemy_health"))
+                        .replace("{enemy_health_rounded}", placeholderHandler.handlePlaceholder(player, "enemy_health_rounded"))
+                        .replace("{enemy_hearts}", placeholderHandler.handlePlaceholder(player, "enemy_hearts"))
+                        .replace("{in_combat}", placeholderHandler.handlePlaceholder(player, "in_combat"))
+                        .replace("{status}", placeholderHandler.handlePlaceholder(player, "status"));
+            }
             
-            List<String> keys = Util.newList("{time_left}", "{enemy_name}", "{enemy_health}", "{in_combat}", "{status}");
-            String timeLeft = (timeLeftInt > 0) ? Integer.toString(timeLeftInt) : ConfigLang.get("messages.expansions.placeholder compatibility.zero time left");
-            List<?> vals = Util.newList(timeLeft, enemyName, enemyHealth, CombatUtil.isInCombat(player) ? yes : no, CombatUtil.isInCombat(player) ? fighting : idling);
-            String title = formatMessage(ConfigNotifier.BOSS_BAR_FORMAT, keys, vals);
+            title = color(title);
 
             float fTimeLeft = (float) timeLeftInt;
             float fTotalTime = (float) ConfigOptions.OPTION_TIMER;
@@ -54,10 +52,5 @@ public class BossBarUtil extends Util {
         } else {
             SchedulerUtil.runLaterSync(20L, () -> LegacyHandler.getLegacyHandler().removeBossBar(player));
         }
-    }
-
-    private static String formatDouble(double number) {
-        DecimalFormat df = new DecimalFormat("0.00");
-        return df.format(number);
     }
 }

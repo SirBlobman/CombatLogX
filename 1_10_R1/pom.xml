@@ -25,10 +25,16 @@
 		</dependency>
 
 		<!-- CombatLogX API -->
-		<dependency>
-			<groupId>com.SirBlobman.combatlogx</groupId>
-			<artifactId>CombatLogX-API</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>com.SirBlobman.combatlogx</groupId>
+            <artifactId>CombatLogX-API</artifactId>
+            <version>${project.version}</version>
+            <exclusions>
+            	<exclusion>
+            		<groupId>org.spigotmc</groupId>
+            		<artifactId>spigot-api</artifactId>
+            	</exclusion>
+            </exclusions>
+        </dependency>
 	</dependencies>
 </project>

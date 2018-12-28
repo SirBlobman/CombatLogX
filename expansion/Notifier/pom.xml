@@ -24,6 +24,7 @@
 	</repositories>
 
 	<dependencies>
+		<!-- CombatLogX API -->
 		<dependency>
 			<groupId>com.SirBlobman.combatlogx</groupId>
 			<artifactId>CombatLogX-API</artifactId>
@@ -41,6 +42,14 @@
 			<groupId>be.maximvdw</groupId>
 			<artifactId>FeatherBoard</artifactId>
 			<version>4.9.0</version>
+		</dependency>
+
+		<!-- CombatLogX Expansion: Placeholder Compatibility -->
+		<dependency>
+			<groupId>com.SirBlobman.combatlogx</groupId>
+			<artifactId>exp-CompatPlaceholders</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

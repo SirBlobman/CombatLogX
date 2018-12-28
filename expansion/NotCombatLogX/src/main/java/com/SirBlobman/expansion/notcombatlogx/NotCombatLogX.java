@@ -1,5 +1,6 @@
 package com.SirBlobman.expansion.notcombatlogx;
 
+import com.SirBlobman.combatlogx.config.ConfigOptions;
 import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagReason;
 import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagType;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
@@ -7,6 +8,8 @@ import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.notcombatlogx.config.ConfigNot;
+
+import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,7 +28,7 @@ public class NotCombatLogX implements CLXExpansion, Listener {
     }
 
     public String getVersion() {
-        return "13.1";
+        return "13.2";
     }
 
     @Override
@@ -47,15 +50,19 @@ public class NotCombatLogX implements CLXExpansion, Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onDamage(EntityDamageEvent e) {
-        Entity en = e.getEntity();
-        if (en instanceof Player) {
-            Player p = (Player) en;
-            DamageCause dc = e.getCause();
-            if (ConfigNot.canDamageTypeTagPlayer(dc)) {
-                if (!CombatUtil.isInCombat(p)) {
-                    String msg = ConfigNot.getTagMessage(dc);
-                    Util.sendMessage(p, msg);
-                    CombatUtil.tag(p, null, TagType.UNKNOWN, TagReason.UNKNOWN);
+        Entity entity = e.getEntity();
+        World world = entity.getWorld();
+        String worldName = world.getName();
+        if(ConfigOptions.OPTION_DISABLED_WORLDS.contains(worldName)) return;
+        
+        if (entity instanceof Player) {
+            Player player = (Player) entity;
+            DamageCause cause = e.getCause();
+            if (ConfigNot.canDamageTypeTagPlayer(cause)) {
+                if (!CombatUtil.isInCombat(player)) {
+                    String msg = ConfigNot.getTagMessage(cause);
+                    Util.sendMessage(player, msg);
+                    CombatUtil.tag(player, null, TagType.UNKNOWN, TagReason.UNKNOWN);
                 }
             }
         }

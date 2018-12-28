@@ -111,8 +111,9 @@ messages:
 
     placeholder compatibility:
       zero time left: "Not in combat"
-      yes: "&aYes"
-      no: "&cNo"
+      unknown: "Unknown"
       status:
         fighting: "&cFighting"
         idling: "&aIdling"
+        in combat: "&aYes"
+        not in combat: "&cNo"
