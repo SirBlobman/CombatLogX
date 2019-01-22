@@ -38,7 +38,7 @@ public class CompatLands implements CLXExpansion, Listener {
     }
 
     public String getVersion() {
-        return "13.1";
+        return "13.2";
     }
 
     @Override
@@ -56,7 +56,7 @@ public class CompatLands implements CLXExpansion, Listener {
 
     @Override
     public void disable() {
-
+        LandsUtil.onDisable();
     }
 
     @Override

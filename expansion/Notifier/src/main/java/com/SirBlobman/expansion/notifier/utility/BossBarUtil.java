@@ -9,7 +9,6 @@ import com.SirBlobman.combatlogx.utility.SchedulerUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.combatlogx.utility.legacy.LegacyHandler;
 import com.SirBlobman.expansion.notifier.config.ConfigNotifier;
-import com.SirBlobman.expansion.placeholders.hook.IPlaceholderHandler;
 
 public class BossBarUtil extends Util {
     public static void updateBossBar(Player player) {
@@ -19,14 +18,8 @@ public class BossBarUtil extends Util {
         } else {
             String title = ConfigNotifier.BOSS_BAR_FORMAT;
             if(Expansions.isEnabled("CompatPlaceholders")) {
-                IPlaceholderHandler placeholderHandler = new IPlaceholderHandler() {};
-                title = title.replace("{time_left}", placeholderHandler.handlePlaceholder(player, "time_left"))
-                        .replace("{enemy_name}", placeholderHandler.handlePlaceholder(player, "enemy_name"))
-                        .replace("{enemy_health}", placeholderHandler.handlePlaceholder(player, "enemy_health"))
-                        .replace("{enemy_health_rounded}", placeholderHandler.handlePlaceholder(player, "enemy_health_rounded"))
-                        .replace("{enemy_hearts}", placeholderHandler.handlePlaceholder(player, "enemy_hearts"))
-                        .replace("{in_combat}", placeholderHandler.handlePlaceholder(player, "in_combat"))
-                        .replace("{status}", placeholderHandler.handlePlaceholder(player, "status"));
+                PlaceholderHandler handler = new PlaceholderHandler();
+                title = handler.replaceAllPlaceholders(player, title);
             }
             
             title = color(title);

@@ -1,16 +1,17 @@
 package com.SirBlobman.expansion.worldguard6.utility;
 
-import com.SirBlobman.combatlogx.utility.Util;
-
-import java.lang.reflect.Field;
-
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.SirBlobman.combatlogx.utility.Util;
+
+import java.lang.reflect.Field;
+
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.DefaultFlag;
+import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.StateFlag.State;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
@@ -28,29 +29,38 @@ public class WGUtil extends Util {
         WorldGuardPlugin api = getAPI();
         if(api.getDescription().getVersion().startsWith("6.2")) {
             FlagRegistry flagRegistry = api.getFlagRegistry();
-            try {
-                try {
-                    flagRegistry.register(MOB_COMBAT);
-                } catch(IllegalStateException ex) {
-                    try {
-                        Class<?> class_SimpleFlagRegistry = SimpleFlagRegistry.class;
-                        Field field_initialized = class_SimpleFlagRegistry.getDeclaredField("initialized");
-                        field_initialized.setAccessible(true);
-                        field_initialized.set(flagRegistry, false);
-                        flagRegistry.register(MOB_COMBAT);
-                        field_initialized.set(flagRegistry, true);
-                        field_initialized.setAccessible(false);
-                    } catch(Throwable ex1) {
-                        Util.print("An error occured trying to register the mob-combat flag!");
-                        ex1.printStackTrace();
-                    }
+            Flag<?> mobCombatFlag = flagRegistry.get("mob-combat");
+            if(mobCombatFlag != null) {
+                if(mobCombatFlag instanceof StateFlag) {
+                    MOB_COMBAT = (StateFlag) mobCombatFlag;
+                } else {
+                    print("The WorldGuard flag 'mob-combat' already exists and is invalid! Please remove it from your regions.");
                 }
-            } catch(Throwable ex) {
-                ex.printStackTrace();
-                Util.print("The flag 'mob-combat' already exists!");
+            } else {
+                try {
+                    try {
+                        flagRegistry.register(MOB_COMBAT);
+                    } catch(IllegalStateException ex) {
+                        try {
+                            Class<?> class_SimpleFlagRegistry = SimpleFlagRegistry.class;
+                            Field field_initialized = class_SimpleFlagRegistry.getDeclaredField("initialized");
+                            field_initialized.setAccessible(true);
+                            field_initialized.set(flagRegistry, false);
+                            flagRegistry.register(MOB_COMBAT);
+                            field_initialized.set(flagRegistry, true);
+                            field_initialized.setAccessible(false);
+                        } catch(Throwable ex1) {
+                            print("An error occured trying to register the mob-combat flag!");
+                            ex1.printStackTrace();
+                        }
+                    }
+                } catch(Throwable ex) {
+                    ex.printStackTrace();
+                    print("The flag 'mob-combat' already exists!");
+                }
             }
         } else {
-            Util.print("Could not register 'mob-combat' flag. Are you using WorldGuard 6.2?");
+            print("Could not register 'mob-combat' flag. Are you using WorldGuard 6.2?");
             return;
         }
     }

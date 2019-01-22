@@ -15,6 +15,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.stream.Collectors;
 
 public class Expansions {
     private static final File FOLDER = CombatLogX.FOLDER;
@@ -34,7 +35,7 @@ public class Expansions {
             boolean loaded = false;
             for (Class<?> interfaceClass : interfaceClasses) {
                 if (interfaceClass.equals(CLXExpansion.class)) {
-                    CLXExpansion clxe = (CLXExpansion) clazz.newInstance();
+                    CLXExpansion clxe = (CLXExpansion) clazz.getDeclaredConstructor().newInstance();
                     String name = clxe.getName();
                     String uname = clxe.getUnlocalizedName();
                     String version = clxe.getVersion();
@@ -68,12 +69,8 @@ public class Expansions {
     
     public static boolean isEnabled(String unlocalizedName) {
         List<CLXExpansion> enabled = getExpansions();
-        for(CLXExpansion expansion : enabled) {
-            String expansionName = expansion.getUnlocalizedName();
-            if(expansionName.equals(unlocalizedName)) return true;
-        }
-        
-        return false;
+        List<String> expansionNames = enabled.stream().map(CLXExpansion::getUnlocalizedName).collect(Collectors.toList());
+        return expansionNames.contains(unlocalizedName);
     }
 
     public static void reloadConfigs() {

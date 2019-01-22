@@ -8,7 +8,6 @@ import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.combatlogx.utility.legacy.LegacyHandler;
 import com.SirBlobman.expansion.notifier.config.ConfigNotifier;
-import com.SirBlobman.expansion.placeholders.hook.IPlaceholderHandler;
 
 public class ActionBarUtil extends Util {
     public static void updateActionBar(Player player) {
@@ -16,19 +15,11 @@ public class ActionBarUtil extends Util {
         if (timeLeftInt > 0) {
             String msg = ConfigNotifier.ACTION_BAR_FORMAT;
             if(Expansions.isEnabled("CompatPlaceholders")) {
-                IPlaceholderHandler placeholderHandler = new IPlaceholderHandler() {};
-                msg = msg.replace("{time_left}", placeholderHandler.handlePlaceholder(player, "time_left"))
-                        .replace("{enemy_name}", placeholderHandler.handlePlaceholder(player, "enemy_name"))
-                        .replace("{enemy_health}", placeholderHandler.handlePlaceholder(player, "enemy_health"))
-                        .replace("{enemy_health_rounded}", placeholderHandler.handlePlaceholder(player, "enemy_health_rounded"))
-                        .replace("{enemy_hearts}", placeholderHandler.handlePlaceholder(player, "enemy_hearts"))
-                        .replace("{in_combat}", placeholderHandler.handlePlaceholder(player, "in_combat"))
-                        .replace("{status}", placeholderHandler.handlePlaceholder(player, "status"));
+                PlaceholderHandler handler = new PlaceholderHandler();
+                msg = handler.replaceAllPlaceholders(player, msg);
             }
             
-            msg = color(msg)
-                    .replace("{bars_left}", getBarsLeft(player))
-                    .replace("{bars_right}", getBarsRight(player));
+            msg = color(msg).replace("{bars_left}", getBarsLeft(player)).replace("{bars_right}", getBarsRight(player));
             
             LegacyHandler.getLegacyHandler().sendActionBar(player, msg);
         } else removeActionBar(player);

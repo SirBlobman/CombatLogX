@@ -1,10 +1,9 @@
 package com.SirBlobman.expansion.lands.utility;
 
-import com.SirBlobman.combatlogx.CombatLogX;
-import com.SirBlobman.combatlogx.utility.Util;
-
 import org.bukkit.Chunk;
 import org.bukkit.Location;
+
+import com.SirBlobman.combatlogx.utility.Util;
 
 import me.angeschossen.lands.api.enums.LandRole;
 import me.angeschossen.lands.api.enums.LandsAction;
@@ -12,11 +11,26 @@ import me.angeschossen.lands.api.objects.LandChunk;
 import me.angeschossen.lands.landsaddons.LandsAddon;
 
 public class LandsUtil extends Util {
-    private static final LandsAddon ADDON = new LandsAddon(CombatLogX.INSTANCE, false);
-    private static final String KEY = ADDON.initialize();
+    private static LandsAddon ADDON = null;
+    private static String KEY = null;
+    
+    public static LandsAddon getAddon() {
+        if(ADDON == null) {
+            ADDON = new LandsAddon(PLUGIN, false);
+        }
+        
+        if(!ADDON.isEnabled()) {
+            KEY = ADDON.initialize();
+        }
+        
+        return ADDON;
+    }
+    
     public static boolean isSafeZone(Location loc) {
         Chunk chunk = loc.getChunk();
-        LandChunk lchunk = ADDON.getLandChunk(chunk);
+        
+        LandsAddon addon = getAddon();
+        LandChunk lchunk = addon.getLandChunk(chunk);
         if(lchunk != null) {
             return !lchunk.getAction(LandRole.VISITOR, LandsAction.ATTACK_PLAYER);
         }
@@ -25,6 +39,6 @@ public class LandsUtil extends Util {
     }
     
     public static void onDisable() {
-        ADDON.disable(KEY);
+        getAddon().disable(KEY);
     }
 }

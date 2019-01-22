@@ -70,7 +70,7 @@ public class CombatLogX extends JavaPlugin {
 
     private void registerCommand(String name, Class<? extends CommandExecutor> clazz) {
         try {
-            CommandExecutor ce = clazz.newInstance();
+            CommandExecutor ce = clazz.getDeclaredConstructor().newInstance();
             PluginCommand pc = getCommand(name);
             if (pc == null) {
                 String error = "An error has occured. If you do not understand this, send the following error code to SirBlobman:\nCLX-cmd-01";

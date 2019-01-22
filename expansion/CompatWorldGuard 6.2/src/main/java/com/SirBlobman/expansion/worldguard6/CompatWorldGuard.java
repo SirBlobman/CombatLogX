@@ -35,11 +35,11 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
     }
 
     public String getName() {
-        return "Compatability for WorldGuard 6.2";
+        return "Compatibility for WorldGuard 6.2";
     }
 
     public String getVersion() {
-        return "2";
+        return "3";
     }
 
     @Override

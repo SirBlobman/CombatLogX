@@ -12,7 +12,6 @@ import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.combatlogx.utility.legacy.LegacyHandler;
 import com.SirBlobman.expansion.notifier.config.ConfigNotifier;
-import com.SirBlobman.expansion.placeholders.hook.IPlaceholderHandler;
 
 import java.util.List;
 import java.util.Map;
@@ -59,14 +58,8 @@ public class ScoreboardUtil extends Util {
             int i = scoreboardList.size();
             for (String line : scoreboardList) {
                 if(Expansions.isEnabled("CompatPlaceholders")) {
-                    IPlaceholderHandler placeholderHandler = new IPlaceholderHandler() {};
-                    line = line.replace("{time_left}", placeholderHandler.handlePlaceholder(player, "time_left"))
-                            .replace("{enemy_name}", placeholderHandler.handlePlaceholder(player, "enemy_name"))
-                            .replace("{enemy_health}", placeholderHandler.handlePlaceholder(player, "enemy_health"))
-                            .replace("{enemy_health_rounded}", placeholderHandler.handlePlaceholder(player, "enemy_health_rounded"))
-                            .replace("{enemy_hearts}", placeholderHandler.handlePlaceholder(player, "enemy_hearts"))
-                            .replace("{in_combat}", placeholderHandler.handlePlaceholder(player, "in_combat"))
-                            .replace("{status}", placeholderHandler.handlePlaceholder(player, "status"));
+                    PlaceholderHandler handler = new PlaceholderHandler();
+                    line = handler.replaceAllPlaceholders(player, line);
                 }
                 
                 line = color(line);
