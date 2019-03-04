@@ -13,8 +13,15 @@ import java.util.List;
  * @see org.bukkit.plugin.java.JavaPlugin
  */
 public interface CLXExpansion {
+
     /**
-     * Code that will execute when CombatLogX loads all the expansions<br/>
+     * Code that will be used when the CombatLogX is being loaded<br/>
+     * This should only execute once and will trigger before CombatLogX is enabled
+     */
+    void load();
+
+    /**
+     * Code that will execute when CombatLogX enables all the expansions<br/>
      * This should only execute once!
      */
     void enable();
@@ -53,6 +60,16 @@ public interface CLXExpansion {
      * <b>Example:</b> {@code "13.1"}
      */
     String getVersion();
+
+    /**
+     * @return Should the expansion be loaded 'onLoad()'
+     */
+    Boolean preload();
+
+    /**
+     * @return If expansion is going to be loaded 'onLoad()'
+     */
+    default boolean isPreloaded() {return preload();}
 
     /**
      * @return The folder where all the expansion jars are stored
@@ -96,4 +113,6 @@ public interface CLXExpansion {
             Util.printNoPrefix(msg);
         }
     }
+
+
 }

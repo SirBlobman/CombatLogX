@@ -1,6 +1,7 @@
 package com.SirBlobman.combatlogx.expansion;
 
 import com.SirBlobman.combatlogx.CombatLogX;
+import com.SirBlobman.combatlogx.config.Config;
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.utility.Util;
 
@@ -46,9 +47,8 @@ public class Expansions {
                     String msg = Util.formatMessage(format, keys, vals);
                     Util.print(msg);
 
+                    if(clxe.isPreloaded()) clxe.load();
                     EXPANSIONS.add(clxe);
-                    clxe.enable();
-
                     loaded = true;
                     break;
                 }
@@ -61,6 +61,34 @@ public class Expansions {
             ex.printStackTrace();
             return false;
         }
+    }
+
+    public static void enableExpansions() {
+        int count = 0;
+        for(CLXExpansion clxe : EXPANSIONS) {
+            String name = clxe.getName();
+            String uname = clxe.getUnlocalizedName();
+            String version = clxe.getVersion();
+
+            List<String> keys = Util.newList("{name}", "{unlocalized_name}", "{version}");
+            List<?> vals = Util.newList(name, uname, version);
+            String format = ConfigLang.get("messages.enabling expansion");
+            String msg = Util.formatMessage(format, keys, vals);
+            Util.print(msg);
+            try {
+                clxe.enable();
+            } catch (Throwable ex) {
+                break;
+            }
+            count++;
+        }
+
+        String format = ConfigLang.get("messages.enabled expansions");
+        List<String> keys = Util.newList("{amount}", "{s}");
+        List<?> vals = Util.newList(count, (count == 1) ? "" : "s");
+        String msg = Util.formatMessage(format, keys, vals);
+        Util.print(msg);
+
     }
 
     public static List<CLXExpansion> getExpansions() {

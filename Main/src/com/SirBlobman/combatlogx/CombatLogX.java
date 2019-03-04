@@ -30,10 +30,17 @@ public class CombatLogX extends JavaPlugin {
     public static ClassLoader CLASS_LOADER;
 
     @Override
-    public void onEnable() {
+    public void onLoad() {
         INSTANCE = this;
         FOLDER = getDataFolder();
         CLASS_LOADER = getClassLoader();
+
+        String loadMSG = ConfigLang.get("messages.broadcasts.on load");
+        Util.broadcast(true, loadMSG);
+        Expansions.loadExpansions();
+    }
+    @Override
+    public void onEnable() {
         SchedulerUtil.runLater(0L, () -> {
             ConfigOptions.load();
             ConfigLang.load();
@@ -47,12 +54,13 @@ public class CombatLogX extends JavaPlugin {
 
             PluginUtil.regEvents(new FinalMonitor(), new CombatListener(), new PunishListener(), new AttackListener());
 
-            Expansions.loadExpansions();
+            Expansions.enableExpansions();
 
             if (ConfigOptions.OPTION_BROADCAST_ENABLE_MESSAGE) {
                 String broadcast = ConfigLang.get("messages.broadcasts.on enable");
                 Util.broadcast(true, broadcast);
             }
+
         });
     }
 
