@@ -10,7 +10,11 @@ messages:
   loading expansion: "Loading expansion '{name} v{version}'"
   loaded expansions: "Loaded {amount} expansion{s}"
 
+  enabling expansion: "Enabling expansion '{name} v{version}'"
+  enabled expansions: "Successfully enabled {amount} expansions{s}"
+
   broadcasts:
+    on load: "§cCombatLogX is preloading expansions this is W.I.P, report any issues!"
     on enable: "&2CombatLogX is now enabled."
     on disable: "&4CombatLogX is not disabled."
 
