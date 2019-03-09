@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.SirBlobman.combatlogx</groupId>
+        <artifactId>exp-CompatWorldGuard-parent</artifactId>
+        <version>9.0.0.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>exp-CompatWorldGuard-main</artifactId>
+    <name>WorldGuard Compatibility Main</name>
+    <description>Expansion for CombatLogX that adds many features related to WorldGuard</description>
+
+    <dependencies>
+        <!-- WorldGuard Compatibility Versions -->
+        <dependency>
+            <groupId>com.SirBlobman.combatlogx</groupId>
+            <artifactId>exp-CompatWorldGuard-6.1</artifactId>
+            <version>9.0.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.SirBlobman.combatlogx</groupId>
+            <artifactId>exp-CompatWorldGuard-6.2</artifactId>
+            <version>9.0.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.SirBlobman.combatlogx</groupId>
+            <artifactId>exp-CompatWorldGuard-7.0</artifactId>
+            <version>9.0.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.2.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<minimizeJar>false</minimizeJar>
+							<artifactSet>
+								<includes>
+									<include>com.SirBlobman.combatlogx:exp-CompatWorldGuard-6.1</include>
+									<include>com.SirBlobman.combatlogx:exp-CompatWorldGuard-6.2</include>
+									<include>com.SirBlobman.combatlogx:exp-CompatWorldGuard-7.0</include>
+								</includes>
+							</artifactSet>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

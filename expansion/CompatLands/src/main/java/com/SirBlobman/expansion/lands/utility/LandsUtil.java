@@ -7,8 +7,8 @@ import com.SirBlobman.combatlogx.utility.Util;
 
 import me.angeschossen.lands.api.enums.LandRole;
 import me.angeschossen.lands.api.enums.LandsAction;
+import me.angeschossen.lands.api.landsaddons.LandsAddon;
 import me.angeschossen.lands.api.objects.LandChunk;
-import me.angeschossen.lands.landsaddons.LandsAddon;
 
 public class LandsUtil extends Util {
     private static LandsAddon ADDON = null;

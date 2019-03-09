@@ -28,42 +28,42 @@ import java.util.UUID;
 public class CompatLands implements CLXExpansion, Listener {
     public static File FOLDER;
     private static List<UUID> MESSAGE_COOLDOWN = Util.newList();
-
+    
     public String getUnlocalizedName() {
         return "CompatLands";
     }
-
+    
     public String getName() {
         return "Lands Compatibility";
     }
-
+    
     public String getVersion() {
-        return "13.2";
+        return "13.3";
     }
-
+    
     @Override
     public void enable() {
-        if (PluginUtil.isEnabled("Lands", "Angeschossen")) {
+        if (PluginUtil.isEnabled("Lands", "Angeschossen", "2.7")) {
             FOLDER = getDataFolder();
             ConfigLands.load();
             PluginUtil.regEvents(this);
         } else {
-            String error = "Lands is not installed. Automatically disabling...";
+            String error = "Lands 2.7 is not installed. Automatically disabling...";
             print(error);
             Expansions.unloadExpansion(this);
         }
     }
-
+    
     @Override
     public void disable() {
-        LandsUtil.onDisable();
+        if (PluginUtil.isEnabled("Lands", "Angeschossen", "2.7")) LandsUtil.onDisable();
     }
-
+    
     @Override
     public void onConfigReload() {
-        if (PluginUtil.isEnabled("Lands", "Angeschossen")) ConfigLands.load();
+        if (PluginUtil.isEnabled("Lands", "Angeschossen", "2.7")) ConfigLands.load();
     }
-
+    
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onEnterLand(PlayerMoveEvent e) {
         Player player = e.getPlayer();
@@ -73,40 +73,40 @@ public class CompatLands implements CLXExpansion, Listener {
             if (LandsUtil.isSafeZone(to)) preventEntry(e, player, from, to);
         }
     }
-
+    
     private void preventEntry(Cancellable e, Player player, Location from, Location to) {
         if (CombatUtil.hasEnemy(player)) {
             NoEntryMode nem = ConfigLands.getNoEntryMode();
             switch (nem) {
-                case CANCEL:
-                    e.setCancelled(true);
-                    break;
-                case TELEPORT:
-                    LivingEntity enemy = CombatUtil.getEnemy(player);
-                    player.teleport(enemy);
-                    break;
-                case KNOCKBACK:
-                    if (!LandsUtil.isSafeZone(from)) {
-                        Vector knockback = getVector(from, to);
-                        player.setVelocity(knockback);
-                    }
-                    break;
-                case KILL:
-                    player.setHealth(0.0D);
-                    break;
+            case CANCEL:
+                e.setCancelled(true);
+                break;
+            case TELEPORT:
+                LivingEntity enemy = CombatUtil.getEnemy(player);
+                player.teleport(enemy);
+                break;
+            case KNOCKBACK:
+                if (!LandsUtil.isSafeZone(from)) {
+                    Vector knockback = getVector(from, to);
+                    player.setVelocity(knockback);
+                }
+                break;
+            case KILL:
+                player.setHealth(0.0D);
+                break;
             }
-
+            
             UUID uuid = player.getUniqueId();
             if (!MESSAGE_COOLDOWN.contains(uuid)) {
                 String msg = ConfigLang.getWithPrefix("messages.expansions.lands compatibility.no entry");
                 player.sendMessage(msg);
-
+                
                 MESSAGE_COOLDOWN.add(uuid);
                 SchedulerUtil.runLater(ConfigLands.NO_ENTRY_MESSAGE_COOLDOWN * 20L, () -> MESSAGE_COOLDOWN.remove(uuid));
             }
         }
     }
-
+    
     private Vector getVector(Location from, Location to) {
         Vector vfrom = from.toVector();
         Vector vto = to.toVector();

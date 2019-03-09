@@ -1,7 +1,6 @@
 package com.SirBlobman.combatlogx.expansion;
 
 import com.SirBlobman.combatlogx.CombatLogX;
-import com.SirBlobman.combatlogx.config.Config;
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.utility.Util;
 
@@ -65,7 +64,7 @@ public class Expansions {
 
     public static void enableExpansions() {
         int count = 0;
-        for(CLXExpansion clxe : EXPANSIONS) {
+        for(CLXExpansion clxe : getExpansions()) {
             String name = clxe.getName();
             String uname = clxe.getUnlocalizedName();
             String version = clxe.getVersion();

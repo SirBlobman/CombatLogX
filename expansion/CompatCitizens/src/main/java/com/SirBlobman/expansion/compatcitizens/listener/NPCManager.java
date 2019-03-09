@@ -16,6 +16,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -160,7 +161,10 @@ public class NPCManager implements Listener {
                     if(npc.hasTrait(Inventory.class)) {
                         Inventory inv = npc.getTrait(Inventory.class);
                         final ItemStack[] contents = inv.getContents().clone();
-                        inv.setContents(new ItemStack[] {});
+                        
+                        final ItemStack[] allAir = new ItemStack[100];
+                        Arrays.fill(allAir, new ItemStack(Material.AIR));
+                        inv.setContents(allAir);
                         
                         World world = entity.getWorld();
                         Location loc = entity.getLocation().clone();

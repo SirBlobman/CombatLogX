@@ -13,7 +13,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<combatlogx.version>9.3.1.1</combatlogx.version>
+		<combatlogx.version>9.4.0.0</combatlogx.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
@@ -51,10 +51,7 @@
 		<module>expansion/CompatPlaceholders</module>
 		<module>expansion/CompatResidence</module>
 		<module>expansion/CompatTowny</module>
-        
-        <!-- Plugin Support: WorldGuard -->
-		<module>expansion/CompatWorldGuard 6.2</module>
-		<module>expansion/CompatWorldGuard 7.0.0</module>
+        <module>expansion/CompatWorldGuard</module>
 		
 		<!-- CombatLogX Builder -->
 		<module>builder</module>

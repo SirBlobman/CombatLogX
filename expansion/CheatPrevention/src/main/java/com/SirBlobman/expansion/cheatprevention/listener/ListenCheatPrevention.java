@@ -30,96 +30,114 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
+import org.bukkit.potion.PotionEffectType;
 
 public class ListenCheatPrevention implements Listener {
-    private boolean isBlocked(String command) {
-        List<String> commandList = ConfigCheatPrevention.BLOCKED_COMMANDS_LIST;
-        if(ConfigCheatPrevention.BLOCKED_COMMANDS_IS_WHITELIST) {
-            for(String inList : commandList) {
-                if(command.startsWith(inList)) return false;
-            }
-            
-            return true;
-        }
-        
-        for(String inList : commandList) {
-            if(command.startsWith(inList)) return true;
-        }
-        
-        return false;
-    }
-    
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled=true)
     public void onCommand(PlayerCommandPreprocessEvent e) {
         Player player = e.getPlayer();
-        String message = e.getMessage();
-        String[] split = message.split(" ");
-        String cmd = split[0].toLowerCase();
-        if (CombatUtil.isInCombat(player)) {
-            if (cmd.startsWith("/cmi") && split.length > 1) {
-                cmd = "/" + split[1].toLowerCase();
-                if (cmd.contains(":")) {
-                    String[] split1 = cmd.split(":");
-                    cmd = split1[0].toLowerCase();
-                }
-            }
-            
-            boolean deny = isBlocked(cmd);
-            if (deny) {
-                e.setCancelled(true);
-                List<String> keys = Util.newList("{command}");
-                List<?> vals = Util.newList(cmd);
-                String format = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.command.not allowed");
-                String error = Util.formatMessage(format, keys, vals);
-                Util.sendMessage(player, error);
-            }
-        }
+        if(!CombatUtil.isInCombat(player)) return;
+        
+        String command = e.getMessage();
+        String actualCommand = convertCommand(command);
+        if(!isBlocked(actualCommand)) return;
+        
+        e.setCancelled(true);
+        String format = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.command.not allowed");
+        String message = format.replace("{command}", actualCommand);
+        Util.sendMessage(player, message);
     }
     
-    @EventHandler
+    private String convertCommand(String original) {
+        if(original == null || original.isEmpty()) original = "";
+        if(!original.startsWith("/")) original = "/" + original;
+        return original;
+    }
+    
+    private String getMainCommand(String original) {
+        if(original == null || original.isEmpty()) return "";
+        
+        int firstSpace = original.indexOf('\u0020');
+        if(firstSpace < 0) return original;
+        
+        return original.substring(0, firstSpace);
+    }
+    
+    private boolean isBlocked(String command) {
+        String mainCommand = getMainCommand(command);
+        
+        if(ConfigCheatPrevention.BLOCKED_COMMANDS_IS_WHITELIST) {
+            List<String> allowedCommands = ConfigCheatPrevention.BLOCKED_COMMANDS_LIST;
+            return (!allowedCommands.contains(mainCommand) && !allowedCommands.contains(command));
+        }
+        
+        List<String> blockedCommands = ConfigCheatPrevention.BLOCKED_COMMANDS_LIST;
+        return (blockedCommands.contains(mainCommand) || blockedCommands.contains(command));
+    }
+    
+    
+    
+    @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
     public void onUntag(PlayerUntagEvent e) {
         Player player = e.getPlayer();
         UntagReason reason = e.getUntagReason();
+        if(reason != UntagReason.EXPIRE) return;
+        
+        String permission = ConfigCheatPrevention.FLIGHT_ENABLE_PERMISSION;
+        if(permission == null || permission.isEmpty()) return;
+        if(!player.hasPermission(permission)) return;
+        
         SchedulerUtil.runLater(5L, () -> {
-            if (reason == UntagReason.EXPIRE) {
-                String perm = ConfigCheatPrevention.FLIGHT_ENABLE_PERMISSION;
-                if (perm != null && !perm.isEmpty()) {
-                    if (player.hasPermission(perm)) {
-                        player.setAllowFlight(true);
-                        player.setFlying(true);
-                    }
-                }
-            }
+            player.setAllowFlight(true);
+            player.setFlying(true);
         });
     }
     
-    @EventHandler
+    
+    
+    @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
     public void onChangeTimer(PlayerCombatTimerChangeEvent e) {
         Player player = e.getPlayer();
         
-        if (ConfigCheatPrevention.GAMEMODE_CHANGE_WHEN_TAGGED) {
-            GameMode pgm = player.getGameMode();
-            String smode = ConfigCheatPrevention.GAMEMODE_GAMEMODE;
-            GameMode gm = GameMode.valueOf(smode);
-            if (pgm != gm) {
-                player.setGameMode(gm);
-                List<String> keys = Util.newList("{gamemode}");
-                List<?> vals = Util.newList(gm.name());
-                String format = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.gamemode.change");
-                String msg = Util.formatMessage(format, keys, vals);
-                Util.sendMessage(player, msg);
-            }
-        }
+        if(ConfigCheatPrevention.GAMEMODE_CHANGE_WHEN_TAGGED) checkGameMode(player);
+        if(!ConfigCheatPrevention.FLIGHT_ALLOW_DURING_COMBAT) checkFlight(player);
+        if(!ConfigCheatPrevention.BLOCKED_POTIONS.isEmpty()) checkPotions(player);
+    }
+    
+    public void checkGameMode(Player player) {
+        GameMode playerGM = player.getGameMode();
+        String configStringGM = ConfigCheatPrevention.GAMEMODE_GAMEMODE;
+        GameMode configGM = GameMode.valueOf(configStringGM);
+        if(playerGM == configGM) return;
         
-        if (!ConfigCheatPrevention.FLIGHT_ALLOW_DURING_COMBAT) {
-            if (player.isFlying() || player.getAllowFlight()) {
-                player.setFlying(false);
-                player.setAllowFlight(false);
-                String msg = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.flight.disabled");
-                Util.sendMessage(player, msg);
+        player.setGameMode(configGM);
+        String format = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.gamemode.change");
+        String message = format.replace("{gramemode}", configGM.name());
+        Util.sendMessage(player, message);
+    }
+    
+    public void checkFlight(Player player) {
+        if(!player.isFlying() && !player.getAllowFlight()) return;
+        
+        player.setFlying(false);
+        player.setAllowFlight(false);
+        String message = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.flight.disabled");
+        Util.sendMessage(player, message);
+    }
+    
+    public void checkPotions(Player player) {
+        List<String> potionTypeList = ConfigCheatPrevention.BLOCKED_POTIONS;
+        for(String potionType : potionTypeList) {
+            PotionEffectType potion = PotionEffectType.getByName(potionType);
+            if(potion == null) {
+                Util.print("[CheatPrevention] Invalid Potion in config '" + potionType + "'.");
+                continue;
             }
+            
+            player.removePotionEffect(potion);
         }
     }
+    
     
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onToggleFlight(PlayerToggleFlightEvent e) {
@@ -135,6 +153,8 @@ public class ListenCheatPrevention implements Listener {
             }
         }
     }
+    
+    
     
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onChangeGameMode(PlayerGameModeChangeEvent e) {
@@ -152,6 +172,8 @@ public class ListenCheatPrevention implements Listener {
             }
         }
     }
+    
+    
     
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onTeleport(PlayerTeleportEvent e) {
@@ -174,6 +196,8 @@ public class ListenCheatPrevention implements Listener {
         }
     }
     
+    
+    
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onTag(PlayerTagEvent e) {
         Player player = e.getPlayer();
@@ -190,6 +214,8 @@ public class ListenCheatPrevention implements Listener {
         }
     }
     
+    
+    
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onOpenInventory(InventoryOpenEvent e) {
         HumanEntity he = e.getPlayer();
@@ -202,6 +228,8 @@ public class ListenCheatPrevention implements Listener {
             }
         }
     }
+    
+    
     
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onChat(AsyncPlayerChatEvent e) {

@@ -40,6 +40,8 @@ public class ConfigCheatPrevention extends Config {
     public static boolean INVENTORY_PREVENT_OPENING;
     
     public static boolean CHAT_ALLOW_DURING_COMBAT;
+    
+    public static List<String> BLOCKED_POTIONS;
 
     private static void defaults() {
         TELEPORTATION_ALLOW_DURING_COMBAT = get(config, "teleportation.allow during combat", false);
@@ -60,5 +62,7 @@ public class ConfigCheatPrevention extends Config {
         INVENTORY_PREVENT_OPENING = get(config, "inventories.prevent opening", true);
 
         CHAT_ALLOW_DURING_COMBAT = get(config, "chat.allow during combat", true);
+        
+        BLOCKED_POTIONS = get(config, "potions.blocked potions", Util.newList("INVISIBILITY", "INCREASE_DAMAGE"));
     }
 }

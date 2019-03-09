@@ -1,5 +1,7 @@
 package com.SirBlobman.expansion.cheatprevention;
 
+import org.bukkit.command.PluginCommand;
+
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.combatlogx.utility.Util;
@@ -11,8 +13,6 @@ import com.SirBlobman.expansion.cheatprevention.olivolja3.AliasDetection;
 
 import java.io.File;
 import java.util.List;
-
-import org.bukkit.command.PluginCommand;
 
 public class CheatPrevention implements CLXExpansion {
     public static File FOLDER;
@@ -26,7 +26,7 @@ public class CheatPrevention implements CLXExpansion {
     }
     
     public String getVersion() {
-        return "13.4";
+        return "13.5";
     }
     
     @Override

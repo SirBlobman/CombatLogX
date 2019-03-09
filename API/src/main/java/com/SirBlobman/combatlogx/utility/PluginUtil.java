@@ -25,14 +25,24 @@ public class PluginUtil extends Util {
     }
 
     public static boolean isEnabled(String plugin, String author) {
-        boolean enabled = isEnabled(plugin);
-        if (enabled) {
+        if (isEnabled(plugin)) {
             Plugin pl = PM.getPlugin(plugin);
             PluginDescriptionFile pdf = pl.getDescription();
             List<String> authors = pdf.getAuthors();
-            enabled = authors.contains(author);
+            return authors.contains(author);
         }
 
-        return enabled;
+        return false;
+    }
+    
+    public static boolean isEnabled(String plugin, String author, String version) {
+        if(isEnabled(plugin, author)) {
+            Plugin pl = PM.getPlugin(plugin);
+            PluginDescriptionFile pdf = pl.getDescription();
+            String plVersion = pdf.getVersion();
+            return plVersion.startsWith(version);
+        }
+        
+        return false;
     }
 }

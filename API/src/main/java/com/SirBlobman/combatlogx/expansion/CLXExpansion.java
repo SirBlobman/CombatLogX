@@ -18,7 +18,7 @@ public interface CLXExpansion {
      * Code that will be used when the CombatLogX is being loaded<br/>
      * This should only execute once and will trigger before CombatLogX is enabled
      */
-    void load();
+    default void load() {}
 
     /**
      * Code that will execute when CombatLogX enables all the expansions<br/>
@@ -64,7 +64,7 @@ public interface CLXExpansion {
     /**
      * @return Should the expansion be loaded 'onLoad()'
      */
-    Boolean preload();
+    default Boolean preload() {return false;}
 
     /**
      * @return If expansion is going to be loaded 'onLoad()'
