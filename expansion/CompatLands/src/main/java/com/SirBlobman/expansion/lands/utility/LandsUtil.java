@@ -39,6 +39,8 @@ public class LandsUtil extends Util {
     }
     
     public static void onDisable() {
+        if(ADDON == null || KEY == null) return;
+        
         getAddon().disable(KEY);
     }
 }

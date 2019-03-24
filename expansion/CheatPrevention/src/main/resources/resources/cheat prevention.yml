@@ -81,3 +81,21 @@ chat:
   # Set this to true if players should be allowed to chat during combat
   # Default: false
   allow during combat: false
+  
+blocks:
+  # Set this to true to allow breaking blocks during combat
+  # Default: false
+  allow breaking: false
+  
+  # Set this to true to allow placing blocks during combat
+  # Default: false
+  allow placing: false
+  
+items:
+  # Set this to true to allow players to pick up items during combat
+  # Default: false
+  allow picking up: false
+  
+  # Set this to true to allow players to drop items during combat
+  # Default: false
+  allow dropping: false

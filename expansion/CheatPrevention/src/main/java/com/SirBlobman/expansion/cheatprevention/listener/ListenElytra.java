@@ -16,31 +16,31 @@ import org.bukkit.event.entity.EntityToggleGlideEvent;
 public class ListenElytra implements Listener {
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onToggleElytra(EntityToggleGlideEvent e) {
-        Entity en = e.getEntity();
-        if (en instanceof Player) {
-            Player player = (Player) en;
-            if (!ConfigCheatPrevention.FLIGHT_ALLOW_ELYTRAS && CombatUtil.isInCombat(player)) {
-                if (e.isGliding()) {
-                    e.setCancelled(true);
-                    player.setGliding(false);
-                    
-                    String error = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.elytra.not allowed");
-                    Util.sendMessage(player, error);
-                }
-            }
-        }
+        if(ConfigCheatPrevention.FLIGHT_ALLOW_ELYTRAS) return;
+        
+        Entity entity = e.getEntity();
+        if(!(entity instanceof Player)) return;
+        
+        Player player = (Player) entity;
+        if(!CombatUtil.isInCombat(player)) return;
+        if(!e.isGliding()) return;
+        
+        e.setCancelled(true);
+        player.setGliding(false);
+        
+        String error = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.elytra.not allowed");
+        Util.sendMessage(player, error);
     }
     
-    @EventHandler
+    @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
     public void onTimerChange(PlayerCombatTimerChangeEvent e) {
-        Player player = e.getPlayer();
+        if(ConfigCheatPrevention.FLIGHT_ALLOW_ELYTRAS) return;
         
-        if (!ConfigCheatPrevention.FLIGHT_ALLOW_ELYTRAS) {
-            if (player.isGliding()) {
-                player.setGliding(false);
-                String msg = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.elytra.disabled");
-                Util.sendMessage(player, msg);
-            }
-        }
+        Player player = e.getPlayer();
+        if(!player.isGliding()) return;
+        
+        player.setGliding(false);
+        String msg = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.elytra.disabled");
+        Util.sendMessage(player, msg);
     }
 }

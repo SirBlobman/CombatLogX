@@ -42,6 +42,12 @@ public class ConfigCheatPrevention extends Config {
     public static boolean CHAT_ALLOW_DURING_COMBAT;
     
     public static List<String> BLOCKED_POTIONS;
+    
+    public static boolean BLOCK_BREAKING_DURING_COMBAT;
+    public static boolean BLOCK_PLACING_DURING_COMBAT;
+    
+    public static boolean ITEM_DROPPING_DURING_COMBAT;
+    public static boolean ITEM_PICK_UP_DURING_COMBAT;
 
     private static void defaults() {
         TELEPORTATION_ALLOW_DURING_COMBAT = get(config, "teleportation.allow during combat", false);
@@ -64,5 +70,11 @@ public class ConfigCheatPrevention extends Config {
         CHAT_ALLOW_DURING_COMBAT = get(config, "chat.allow during combat", true);
         
         BLOCKED_POTIONS = get(config, "potions.blocked potions", Util.newList("INVISIBILITY", "INCREASE_DAMAGE"));
+        
+        BLOCK_BREAKING_DURING_COMBAT = get(config, "blocks.allow breaking", false);
+        BLOCK_PLACING_DURING_COMBAT = get(config, "blocks.allow placing", false);
+        
+        ITEM_DROPPING_DURING_COMBAT = get(config, "items.allow dropping", false);
+        ITEM_PICK_UP_DURING_COMBAT = get(config, "items.allow picking up", false);
     }
 }

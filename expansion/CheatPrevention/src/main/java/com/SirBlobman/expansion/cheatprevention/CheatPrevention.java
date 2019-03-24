@@ -8,7 +8,10 @@ import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.combatlogx.utility.legacy.LegacyHandler;
 import com.SirBlobman.expansion.cheatprevention.config.ConfigCheatPrevention;
 import com.SirBlobman.expansion.cheatprevention.listener.ListenCheatPrevention;
+import com.SirBlobman.expansion.cheatprevention.listener.ListenCommandBlocker;
 import com.SirBlobman.expansion.cheatprevention.listener.ListenElytra;
+import com.SirBlobman.expansion.cheatprevention.listener.ListenNewItemPickup;
+import com.SirBlobman.expansion.cheatprevention.listener.ListenOldItemPickup;
 import com.SirBlobman.expansion.cheatprevention.olivolja3.AliasDetection;
 
 import java.io.File;
@@ -26,20 +29,24 @@ public class CheatPrevention implements CLXExpansion {
     }
     
     public String getVersion() {
-        return "13.5";
+        return "13.6";
     }
     
     @Override
     public void enable() {
         FOLDER = getDataFolder();
         ConfigCheatPrevention.load();
-        PluginUtil.regEvents(new ListenCheatPrevention());
+        AliasDetection.cmdDetect();
+        
+        PluginUtil.regEvents(new ListenCheatPrevention(), new ListenCommandBlocker());
         
         // The elytra item and related events were added in 1.9+
         int majorVersion = LegacyHandler.getMajorVersion();
         if(majorVersion >= 9) PluginUtil.regEvents(new ListenElytra());
         
-        AliasDetection.cmdDetect();
+        // EntityPickupItemEvent replaced PlayerPickupItemEvent in 1.12
+        if(majorVersion >= 12) PluginUtil.regEvents(new ListenNewItemPickup());
+        else PluginUtil.regEvents(new ListenOldItemPickup());
     }
     
     @Override

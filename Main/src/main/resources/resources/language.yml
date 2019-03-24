@@ -72,6 +72,14 @@ messages:
 
       chat:
         not allowed: "&c&oYou cannot send chat messages during combat."
+        
+      blocks:
+        breaking not allowed: "&c&oYou cannot break blocks during combat."
+        placing not allowed: "&c&oYou cannot place blocks during combat."
+        
+      items:
+        pick up not allowed: "&c&oYou cannot pick up items during combat."
+        dropping not allowed: "&c&oYou cannot drop items during combat."
 
 
     notcombatlogx:
