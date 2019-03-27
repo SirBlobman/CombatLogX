@@ -15,7 +15,7 @@ import com.SirBlobman.expansion.cheatprevention.config.ConfigCheatPrevention;
 public class ListenNewItemPickup implements Listener {
     @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
     public void onPickupItem(EntityPickupItemEvent e) {
-        if(ConfigCheatPrevention.ITEM_DROPPING_DURING_COMBAT) return;
+        if(ConfigCheatPrevention.ITEM_PICK_UP_DURING_COMBAT) return;
         
         Entity entity = e.getEntity();
         if((entity instanceof Player)) return;
@@ -24,7 +24,7 @@ public class ListenNewItemPickup implements Listener {
         if(!CombatUtil.isInCombat(player)) return;
         
         e.setCancelled(true);
-        String error = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.items.dropping not allowed");
+        String error = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.items.pick up not allowed");
         Util.sendMessage(player, error);
     }
 }

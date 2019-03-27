@@ -1,11 +1,11 @@
 package com.SirBlobman.expansion.notifier.utility;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
 
 import com.SirBlobman.combatlogx.expansion.Expansions;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
@@ -18,7 +18,6 @@ import java.util.Map;
 import java.util.UUID;
 
 public class ScoreboardUtil extends Util {
-    private static final ScoreboardManager SM = SERVER.getScoreboardManager();
     private static Map<UUID, Scoreboard> SCORE_BOARDS = newMap();
     
     private static Scoreboard getScoreBoard(Player player) {
@@ -34,7 +33,7 @@ public class ScoreboardUtil extends Util {
             }
             return sb;
         } else {
-            Scoreboard sb = SM.getNewScoreboard();
+            Scoreboard sb = Bukkit.getScoreboardManager().getNewScoreboard();
             String title = Util.color(ConfigNotifier.SCORE_BOARD_TITLE);
             Objective obj = LegacyHandler.getLegacyHandler().createScoreboardObjective(sb, player.getName(), "dummy", title);
             obj.setDisplaySlot(DisplaySlot.SIDEBAR);
@@ -79,6 +78,6 @@ public class ScoreboardUtil extends Util {
         Objective obj = sb.getObjective(player.getName());
         obj.unregister();
         
-        player.setScoreboard(SM.getMainScoreboard());
+        player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
     }
 }

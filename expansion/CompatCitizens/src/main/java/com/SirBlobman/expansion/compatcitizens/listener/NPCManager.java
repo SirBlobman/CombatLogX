@@ -168,13 +168,20 @@ public class NPCManager implements Listener {
                         
                         World world = entity.getWorld();
                         Location loc = entity.getLocation().clone();
-                        Arrays.stream(contents).forEach(item -> world.dropItem(loc, item));
+                        Arrays.stream(contents).filter(this::notAir).forEach(item -> world.dropItem(loc, item));
                     }
                     
                     removeNPC(op);
                 }
             }
         }
+    }
+    
+    public boolean notAir(ItemStack is) {
+        if(is == null) return false;
+        
+        Material type = is.getType();
+        return (type != Material.AIR);
     }
     
     @EventHandler
