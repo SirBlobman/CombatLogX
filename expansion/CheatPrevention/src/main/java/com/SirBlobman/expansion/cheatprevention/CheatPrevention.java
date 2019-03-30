@@ -10,6 +10,7 @@ import com.SirBlobman.expansion.cheatprevention.config.ConfigCheatPrevention;
 import com.SirBlobman.expansion.cheatprevention.listener.ListenCheatPrevention;
 import com.SirBlobman.expansion.cheatprevention.listener.ListenCommandBlocker;
 import com.SirBlobman.expansion.cheatprevention.listener.ListenElytra;
+import com.SirBlobman.expansion.cheatprevention.listener.ListenFlight;
 import com.SirBlobman.expansion.cheatprevention.listener.ListenNewItemPickup;
 import com.SirBlobman.expansion.cheatprevention.listener.ListenOldItemPickup;
 import com.SirBlobman.expansion.cheatprevention.olivolja3.AliasDetection;
@@ -29,7 +30,7 @@ public class CheatPrevention implements CLXExpansion {
     }
     
     public String getVersion() {
-        return "13.7";
+        return "13.8";
     }
     
     @Override
@@ -38,7 +39,7 @@ public class CheatPrevention implements CLXExpansion {
         ConfigCheatPrevention.load();
         AliasDetection.cmdDetect();
         
-        PluginUtil.regEvents(new ListenCheatPrevention(), new ListenCommandBlocker());
+        PluginUtil.regEvents(new ListenCheatPrevention(), new ListenCommandBlocker(), new ListenFlight());
         
         // The elytra item and related events were added in 1.9+
         int majorVersion = LegacyHandler.getMajorVersion();

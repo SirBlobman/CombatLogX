@@ -97,13 +97,13 @@ public class Util {
     }
     
     public static void debug(String... ss) {
-        if(ConfigOptions.OPTION_DEBUG) {
-            Logger log = PLUGIN.getLogger();
-            Arrays.stream(ss).forEach(s -> {
-                s = s.replace("\u00A7", "&");
-                log.info("[Debug] " + s);
-            });
-        }
+        if(!ConfigOptions.OPTION_DEBUG) return;
+        
+        Logger log = PLUGIN.getLogger();
+        Arrays.stream(ss).forEach(s -> {
+            s = s.replace("\u00A7", "&");
+            log.info("[Debug] " + s);
+        });
     }
 
     public static void log(Object... oo) {

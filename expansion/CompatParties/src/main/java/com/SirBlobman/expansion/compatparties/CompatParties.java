@@ -1,22 +1,10 @@
 package com.SirBlobman.expansion.compatparties;
 
-import com.SirBlobman.combatlogx.event.PlayerPreTagEvent;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.expansion.Expansions;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
-import com.alessiodp.parties.api.Parties;
-import com.alessiodp.parties.api.interfaces.PartiesAPI;
-import com.alessiodp.parties.api.interfaces.Party;
-import com.alessiodp.parties.api.interfaces.PartyPlayer;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 
-import java.util.List;
-import java.util.UUID;
-
-public class CompatParties implements CLXExpansion, Listener {
+public class CompatParties implements CLXExpansion {
     public String getUnlocalizedName() {
         return "CompatParties";
     }
@@ -26,18 +14,18 @@ public class CompatParties implements CLXExpansion, Listener {
     }
 
     public String getVersion() {
-        return "13.1";
+        return "13.2";
     }
 
     @Override
     public void enable() {
-        if (PluginUtil.isEnabled("Parties")) {
-            PluginUtil.regEvents(this);
-        } else {
-            String error = "Parties is not installed, automatically disabling...";
-            print(error);
+        if (!PluginUtil.isEnabled("Parties")) {
+            print("Parties is not installed, automatically disabling...");
             Expansions.unloadExpansion(this);
+            return;
         }
+        
+        PluginUtil.regEvents(new ListenParties());
     }
 
     @Override
@@ -48,25 +36,5 @@ public class CompatParties implements CLXExpansion, Listener {
     @Override
     public void onConfigReload() {
 
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void beforeTag(PlayerPreTagEvent e) {
-        Player p = e.getPlayer();
-        LivingEntity enemy = e.getEnemy();
-        if (enemy instanceof Player) {
-            Player pe = (Player) enemy;
-
-            PartiesAPI api = Parties.getApi();
-            PartyPlayer pp = api.getPartyPlayer(p.getUniqueId());
-            String partyName = pp.getPartyName();
-            Party party = api.getParty(partyName);
-
-            if (party != null) {
-                UUID euuid = pe.getUniqueId();
-                List<UUID> members = party.getMembers();
-                if (members.contains(euuid)) e.setCancelled(true);
-            }
-        }
     }
 }

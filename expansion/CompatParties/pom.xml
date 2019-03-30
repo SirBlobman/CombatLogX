@@ -16,22 +16,27 @@
 
     <repositories>
         <repository>
-            <id>repo-alessiodp-com</id>
-            <url>https://repo.alessiodp.com</url>
+            <id>jitpack-io</id>
+            <name>Jitpack GitHub</name>
+            <url>https://jitpack.io</url>
         </repository>
     </repositories>
 
     <dependencies>
+    	<!-- CombatLogX API -->
         <dependency>
             <groupId>com.SirBlobman.combatlogx</groupId>
             <artifactId>CombatLogX-API</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
+        
+        <!-- Parties -->
         <dependency>
-            <groupId>com.alessiodp.parties</groupId>
+            <groupId>com.github.AlessioDP.Parties</groupId>
             <artifactId>parties-api</artifactId>
-            <version>2.3.1</version>
+            <version>2.5.1</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

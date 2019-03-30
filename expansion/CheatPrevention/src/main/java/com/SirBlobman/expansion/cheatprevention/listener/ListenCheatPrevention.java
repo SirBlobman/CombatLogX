@@ -15,7 +15,6 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
-import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.potion.PotionEffectType;
@@ -25,8 +24,6 @@ import com.SirBlobman.combatlogx.event.PlayerCombatTimerChangeEvent;
 import com.SirBlobman.combatlogx.event.PlayerTagEvent;
 import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagReason;
 import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagType;
-import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
-import com.SirBlobman.combatlogx.event.PlayerUntagEvent.UntagReason;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.cheatprevention.config.ConfigCheatPrevention;
@@ -34,21 +31,6 @@ import com.SirBlobman.expansion.cheatprevention.config.ConfigCheatPrevention;
 import java.util.List;
 
 public class ListenCheatPrevention implements Listener {
-    @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
-    public void onUntag(PlayerUntagEvent e) {
-        UntagReason reason = e.getUntagReason();
-        if(reason != UntagReason.EXPIRE) return;
-        
-        Player player = e.getPlayer();
-        
-        String permission = ConfigCheatPrevention.FLIGHT_ENABLE_PERMISSION;
-        if(permission == null || permission.isEmpty()) return;
-        if(!player.hasPermission(permission)) return;
-        
-        player.setAllowFlight(true);
-        player.setFlying(true);
-    }
-    
     @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
     public void onChangeTimer(PlayerCombatTimerChangeEvent e) {
         int timer = e.getSecondsLeft();
@@ -56,7 +38,7 @@ public class ListenCheatPrevention implements Listener {
         
         Player player = e.getPlayer();
         if(ConfigCheatPrevention.GAMEMODE_CHANGE_WHEN_TAGGED) checkGameMode(player);
-        if(!ConfigCheatPrevention.FLIGHT_ALLOW_DURING_COMBAT) checkFlight(player);
+        if(!ConfigCheatPrevention.FLIGHT_ALLOW_DURING_COMBAT) ListenFlight.checkFlight(player);
         if(!ConfigCheatPrevention.BLOCKED_POTIONS.isEmpty()) checkPotions(player);
     }
     
@@ -69,15 +51,6 @@ public class ListenCheatPrevention implements Listener {
         player.setGameMode(configGM);
         String format = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.gamemode.change");
         String message = format.replace("{gramemode}", configGM.name());
-        Util.sendMessage(player, message);
-    }
-    
-    public void checkFlight(Player player) {
-        if(!player.isFlying() && !player.getAllowFlight()) return;
-        
-        player.setFlying(false);
-        player.setAllowFlight(false);
-        String message = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.flight.disabled");
         Util.sendMessage(player, message);
     }
     
@@ -101,22 +74,6 @@ public class ListenCheatPrevention implements Listener {
         String causeName = cause.name();
         List<String> allowedCauses = ConfigCheatPrevention.TELEPORTATION_ALLOWED_CAUSES;
         return allowedCauses.contains(causeName);
-    }
-    
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-    public void onToggleFlight(PlayerToggleFlightEvent e) {
-        if(ConfigCheatPrevention.FLIGHT_ALLOW_DURING_COMBAT) return;
-        if(!e.isFlying()) return;
-        
-        Player player = e.getPlayer();
-        if(!CombatUtil.isInCombat(player)) return;
-        
-        e.setCancelled(true);
-        player.setAllowFlight(false);
-        player.setFlying(false);
-        
-        String error = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.flight.not allowed");
-        Util.sendMessage(player, error);
     }
     
     

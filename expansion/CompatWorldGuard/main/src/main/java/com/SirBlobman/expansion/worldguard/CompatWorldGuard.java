@@ -27,60 +27,60 @@ import java.util.UUID;
 public class CompatWorldGuard implements CLXExpansion, Listener {
     public static File FOLDER;
     private static List<UUID> MESSAGE_COOLDOWN = Util.newList();
-
+    
     public String getUnlocalizedName() {
         return "CompatWorldGuard";
     }
-
+    
     public String getName() {
-        return "Compatibility for WorldGuard";
+        return "WorldGuard Compatibility";
     }
-
+    
     public String getVersion() {
-        return "1";
+        return "13.1";
     }
-
+    
     @Override
     public Boolean preload() { return true; }
-
+    
     @Override
     public void load() {
         FOLDER = getDataFolder();
-        if (Util.PM.getPlugin("WorldGuard") != null) {
-            WGUtil.onLoad();
-            ConfigWG.load();
-        } else {
-            String error = "WorldGuard is not installed, automatically disabling...";
-            print(error);
+        if(!PluginUtil.isEnabled("WorldGuard")) {
+            print("WorldGuard is not installed, automatically disabling...");
             Expansions.unloadExpansion(this);
+            return;
         }
+        
+        WGUtil.onLoad();
+        ConfigWG.load();
     }
-
+    
     @Override
     public void enable() {
         PluginUtil.regEvents(this);
         ConfigWG.checkValidForceField();
     }
-
+    
     @Override
     public void disable() {
-
+        
     }
-
+    
     @Override
     public void onConfigReload() {
         if (PluginUtil.isEnabled("WorldGuard")) {
             ConfigWG.load();
         }
     }
-
+    
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
         Player p = e.getPlayer();
         if (CombatUtil.isInCombat(p)) {
             Location to = e.getTo();
             Location from = e.getFrom();
-
+            
             LivingEntity enemy = CombatUtil.getEnemy(p);
             if(to.getBlock().equals(from.getBlock())) return;
             if (enemy != null) {
@@ -92,13 +92,13 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
             }
         }
     }
-
+    
     @EventHandler
     public void onTeleport(PlayerTeleportEvent e) {
         Player p = e.getPlayer();
         if (CombatUtil.isInCombat(p)) {
             Location to = e.getTo();
-
+            
             LivingEntity enemy = CombatUtil.getEnemy(p);
             if (enemy != null) {
                 if (enemy instanceof Player) {
@@ -117,30 +117,30 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
             }
         }
     }
-
+    
     private void preventEntry(Cancellable e, Player p, Location from, Location to) {
         if (CombatUtil.hasEnemy(p)) {
             LivingEntity enemy = CombatUtil.getEnemy(p);
-
+            
             NoEntryMode nem = ConfigWG.getNoEntryMode();
             switch (nem) {
-                case CANCEL:
-                    e.setCancelled(true);
-                    break;
-                case TELEPORT:
-                    p.teleport(enemy);
-                    break;
-                case KNOCKBACK:
-                    if ((enemy instanceof Player && WGUtil.allowsPvP(from)) || (!(enemy instanceof Player) && WGUtil.allowsMobCombat(from))) {
-                        Vector v = getVector(from, to);
-                        p.setVelocity(v);
-                    }
-                    break;
-                case KILL:
-                    p.setHealth(0.0D);
-                    break;
+            case CANCEL:
+                e.setCancelled(true);
+                break;
+            case TELEPORT:
+                p.teleport(enemy);
+                break;
+            case KNOCKBACK:
+                if ((enemy instanceof Player && WGUtil.allowsPvP(from)) || (!(enemy instanceof Player) && WGUtil.allowsMobCombat(from))) {
+                    Vector v = getVector(from, to);
+                    p.setVelocity(v);
+                }
+                break;
+            case KILL:
+                p.setHealth(0.0D);
+                break;
             }
-
+            
             UUID uuid = p.getUniqueId();
             if (!MESSAGE_COOLDOWN.contains(uuid)) {
                 if (enemy instanceof Player) {
@@ -150,13 +150,13 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
                     String msg = ConfigLang.getWithPrefix("messages.expansions.worldguard compatibility.no entry.mob");
                     p.sendMessage(msg);
                 }
-
+                
                 MESSAGE_COOLDOWN.add(uuid);
                 SchedulerUtil.runLater(ConfigWG.MESSAGE_COOLDOWN * 20L, () -> MESSAGE_COOLDOWN.remove(uuid));
             }
         }
     }
-
+    
     private Vector getVector(Location from, Location to) {
         Vector vfrom = from.toVector();
         Vector vto = to.toVector();
