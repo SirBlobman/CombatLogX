@@ -46,7 +46,7 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
     @Override
     public void load() {
         FOLDER = getDataFolder();
-        if(!PluginUtil.isEnabled("WorldGuard")) {
+        if(Util.PM.getPlugin("WorldGuard") == null) {
             print("WorldGuard is not installed, automatically disabling...");
             Expansions.unloadExpansion(this);
             return;
