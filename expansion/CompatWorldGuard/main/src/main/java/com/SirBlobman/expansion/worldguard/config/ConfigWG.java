@@ -99,7 +99,6 @@ public class ConfigWG extends Config {
     }
 
     private static void updateMaterials() {
-
         if(LegacyHandler.getMinorVersion() < 13 && FORCEFIELD_MATERIAL_NAME.contains(":")) {
             String[] materialStrings = FORCEFIELD_MATERIAL_NAME.split(":");
             Material material = Material.getMaterial(materialStrings[0]);
