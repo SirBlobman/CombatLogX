@@ -83,13 +83,13 @@ public class NPCManager implements Listener {
         Location loc = player.getLocation();
         npc.spawn(loc);
         
-        if (type.isAlive()) {
-            LivingEntity npcEntity = (LivingEntity) npc.getEntity();
-            npcEntity.setHealth(player.getHealth());
-            
-            double playerMaxHealth = LegacyHandler.getLegacyHandler().getMaxHealth(player);
-            LegacyHandler.getLegacyHandler().setMaxHealth(npcEntity, playerMaxHealth);
-        }
+        if(!type.isAlive()) return;
+        
+        LivingEntity npcEntity = (LivingEntity) npc.getEntity();
+        npcEntity.setHealth(player.getHealth());
+        
+        double playerMaxHealth = LegacyHandler.getLegacyHandler().getMaxHealth(player);
+        LegacyHandler.getLegacyHandler().setMaxHealth(npcEntity, playerMaxHealth);
     }
     
     private static NPC getNPC(OfflinePlayer op) {
@@ -137,51 +137,44 @@ public class NPCManager implements Listener {
         }
     }
     
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled = true)
     public void onPunish(PlayerPunishEvent e) {
         Player player = e.getPlayer();
         PunishReason reason = e.getReason();
-        if (reason != PunishReason.UNKNOWN) {
-            if (ConfigCitizens.CANCEL_OTHER_PUNISHMENTS) e.setCancelled(true);
-            
-            createNPC(player);
-            if (ConfigCitizens.SURVIVAL_TIME > 0) SchedulerUtil.runLater(ConfigCitizens.SURVIVAL_TIME * 20L, () -> removeNPC(player));
-        }
+        if(reason == PunishReason.UNKNOWN) return;
+        
+        if (ConfigCitizens.CANCEL_OTHER_PUNISHMENTS) e.setCancelled(true);
+        
+        createNPC(player);
+        if (ConfigCitizens.SURVIVAL_TIME > 0) SchedulerUtil.runLater(ConfigCitizens.SURVIVAL_TIME * 20L, () -> removeNPC(player));
     }
     
     @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
     public void onNPCDeath(NPCDeathEvent e) {
         NPC npc = e.getNPC();
-        Entity npcEntity = npc.getEntity();
-        if(npcEntity instanceof LivingEntity) {
-            LivingEntity entity = (LivingEntity) npcEntity;
-            if(npc.hasTrait(TraitCombatLogX.class)) {
-                OfflinePlayer op = npc.getTrait(TraitCombatLogX.class).getOfflinePlayer();
-                if(op != null) {
-                    if(npc.hasTrait(Inventory.class)) {
-                        Inventory inv = npc.getTrait(Inventory.class);
-                        final ItemStack[] contents = inv.getContents().clone();
-                        
-                        final ItemStack[] allAir = new ItemStack[100];
-                        Arrays.fill(allAir, new ItemStack(Material.AIR));
-                        inv.setContents(allAir);
-                        
-                        World world = entity.getWorld();
-                        Location loc = entity.getLocation().clone();
-                        Arrays.stream(contents).filter(this::notAir).forEach(item -> world.dropItem(loc, item));
-                    }
-                    
-                    removeNPC(op);
-                }
-            }
-        }
-    }
-    
-    public boolean notAir(ItemStack is) {
-        if(is == null) return false;
+        if(!npc.hasTrait(TraitCombatLogX.class)) return;
         
-        Material type = is.getType();
-        return (type != Material.AIR);
+        Entity npcEntity = npc.getEntity();
+        if(!(npcEntity instanceof LivingEntity)) return;
+        
+        LivingEntity entity = (LivingEntity) npcEntity;
+        OfflinePlayer owner = npc.getTrait(TraitCombatLogX.class).getOfflinePlayer();
+        if(owner == null) return;
+        
+        if(npc.hasTrait(Inventory.class)) {
+            Inventory invTrait = npc.getTrait(Inventory.class);
+            final ItemStack[] invTraitContents = invTrait.getContents().clone();
+            
+            final ItemStack[] allAir = new ItemStack[100];
+            Arrays.fill(allAir, new ItemStack(Material.AIR));
+            invTrait.setContents(allAir);
+            
+            World world = entity.getWorld();
+            Location loc = entity.getLocation();
+            Arrays.stream(invTraitContents).filter(this::notAir).forEach(item -> world.dropItem(loc, item));
+        }
+        
+        removeNPC(owner);
     }
     
     @EventHandler
@@ -191,19 +184,26 @@ public class NPCManager implements Listener {
         
         SchedulerUtil.runLater(5L, () -> {
             boolean punish = ConfigData.get(player, "punish", false);
-            if (punish) {
-                double health = ConfigData.get(player, "last health", player.getHealth());
-                player.setHealth(health);
-                
-                if (ConfigCitizens.STORE_INVENTORY) {
-                    List<ItemStack> contents = ConfigData.get(player, "last inventory", Util.newList(player.getInventory().getContents()));
-                    ItemStack[] isc = contents.toArray(new ItemStack[0]);
-                    player.getInventory().setContents(isc);
-                }
-                
-                ConfigData.force(player, "punish", false);
+            if(!punish) return;
+            
+            if (ConfigCitizens.STORE_INVENTORY) {
+                List<ItemStack> contents = ConfigData.get(player, "last inventory", Util.newList(player.getInventory().getContents()));
+                ItemStack[] isc = contents.toArray(new ItemStack[0]);
+                player.getInventory().setContents(isc);
             }
+            
+            double health = ConfigData.get(player, "last health", player.getHealth());
+            player.setHealth(health);
+            
+            ConfigData.force(player, "punish", false);
         });
+    }
+    
+    public boolean notAir(ItemStack is) {
+        if(is == null) return false;
+        
+        Material type = is.getType();
+        return (type != Material.AIR);
     }
     
     public static class TraitCombatLogX extends Trait {
