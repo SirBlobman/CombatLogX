@@ -62,7 +62,7 @@ public class ConfigCheatPrevention extends Config {
         GAMEMODE_GAMEMODE = get(config, "gamemode.gamemode", "SURVIVAL").toUpperCase();
 
         BLOCKED_COMMANDS_IS_WHITELIST = get(config, "commands.whitelist", false);
-        BLOCKED_COMMANDS_LIST = get(config, "commands.commands", Util.newList("tp", "fly", "gamemode"));
+        BLOCKED_COMMANDS_LIST = get(config, "commands.commands", Util.newList("/tp", "/fly", "/gamemode"));
 
         INVENTORY_CLOSE_ON_COMBAT = get(config, "inventories.close on tag", true);
         INVENTORY_PREVENT_OPENING = get(config, "inventories.prevent opening", true);

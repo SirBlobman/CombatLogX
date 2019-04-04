@@ -14,16 +14,27 @@ import com.SirBlobman.expansion.cheatprevention.config.ConfigCheatPrevention;
 import java.util.List;
 
 public class ListenCommandBlocker implements Listener {
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled=true)
+    @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
     public void onCommand(PlayerCommandPreprocessEvent e) {
         Player player = e.getPlayer();
-        if(!CombatUtil.isInCombat(player)) return;
+        Util.debug("[Cheat Prevention Command Blocker] Checking player '" + player.getName() + "'.");
+        
+        if(!CombatUtil.isInCombat(player)) {
+            Util.debug("[Cheat Prevention Command Blocker] Player is not in combat, ignoring...");
+            return;
+        }
         
         String command = e.getMessage();
         String actualCommand = convertCommand(command);
-        if(!isBlocked(actualCommand)) return;
+        Util.debug("[Cheat Prevention Command Blocker] Player ran command '" + command + "'. Converted to '" + actualCommand + "'.");
+        if(!isBlocked(actualCommand)) {
+            Util.debug("[Cheat Prevention Command Blocker] That command is not blocked.");
+            return;
+        }
         
         e.setCancelled(true);
+        Util.debug("[Cheat Prevention Command Blocker] Blocked command successfully!");
+        
         String format = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.command.not allowed");
         String message = format.replace("{command}", actualCommand);
         Util.sendMessage(player, message);
