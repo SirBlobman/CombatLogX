@@ -7,15 +7,12 @@ teleportation:
 
   # If the above option is true, these types of teleports won't be blocked
   # Valid Types can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/event/player/PlayerTeleportEvent.TeleportCause.html
-  #
-  # Pro Tip: The 'PLUGIN' cause will allow all teleports from any plugin and command, so use it wisely!
-  #
   # Default: false
   allowed causes:
-  - "ENDER_PEARL"
-  - "PLUGIN"
+  - ENDER_PEARL
+  - PLUGIN
 
-  # If the above option is true, set this to true to make ender pearls tag the player again
+  # If the above option is true, set this to true to make enderpearls tag the player again
   # Default: false
   ender pearls restart timer: false
 
@@ -53,13 +50,12 @@ commands:
   # If a plugin does not register commands properly, they may not be blocked
   # Make sure you also put command aliases here (such as /etp)
   commands:
-  - "/tp"
-  - "/tpa"
-  - "/tpaccept"
-  - "/tpo"
-  - "/fly"
-  - "/gamemode"
-  - "//wand"
+  - /tp
+  - /tpa
+  - /tpaccept
+  - /tpo
+  - /fly
+  - /gamemode
 
 potions:
   # A list of potions that will be removed when a player is tagged
