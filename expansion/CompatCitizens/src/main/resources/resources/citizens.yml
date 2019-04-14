@@ -1,28 +1,55 @@
 # CompatCitizens Configuration File
 
 citizens:
-  # The entity type that all created NPCs will be
-  # Valid types can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
-  # REMINDER: Only PLAYER NPCs can hold inventories
-  # Default: PLAYER
-  npc type: PLAYER
-
-  # This will only work if the 'npc type' is PLAYER, otherwise it will be ignored
-  # Set this to true if you want the inventory of the player who logged out to be placed into the NPC instead of being dropped
+  # Set this to true to cancel punishments from the main plugin (sudo commands, killing, etc...)
   # Default: true
-  store inventory: true
-
-  # How long should the plugin wait (in seconds) to remove the NPC after the player logs out
-  # Set this to -1 to make the NPC stay forever
-  # The NPC will be automatically removed if it dies or the player logs back in
-  # Default: 30
-  survival time: 30
-
-  # Should the plugin convert the NPCs to Sentinels?
-  # Sentinels will attack the player instead of just sitting there
-  # Sentinel can be found here: https://www.spigotmc.org/resources/sentinel.22017/
-  sentinels: true
-
-# Set this to true to cancel punishments from other expansions
-# This will prevent issues such as the player being killed even though their NPC is there
-cancel other punishments: true
+  cancel other punishments: true
+  
+  # Options related to the NPC that will spawn for each player
+  npc:
+    # The entity type for all combat NPCs
+    # Valid entity types can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
+    # REMINDER: Only Player NPCs can hold inventories
+    # Default: PLAYER
+    entity type: "PLAYER"
+    
+    # Set this to true if you want the inventory of the logger to be placed into the NPC
+    # This will cause items to not drop until the NPC is killed
+    # REMINDER: This will only work if "entity type" is set to "PLAYER"
+    # Default: true
+    store inventory: true
+    
+    # Should mobs be able to target the NPC?
+    # REMINDER: Only Player NPCs can be targeted by mobs
+    # Default: true
+    mob targeting: true
+    
+    # This is the time (in seconds) that the NPC will disappear after (and save health/inventory/location data)
+    # Set this to "-1" to make the NPC stay forever
+    # The NPC will be automatically removed if it's killed or if "prevent login" is "false" and the player logs in
+    # Default: 30
+    survival time: 30
+    
+    # Set this to true to make the NPC's survival time get reset when it takes damage from a mob/player
+    # Default: false
+    reset timer on damage: false
+    
+    # Set this to true to prevent the player of the NPC from logging back in while the NPC is still alive
+    # Default: false
+    prevent login: false
+    
+    # Set this to true to set the player into combat if their NPC was still alive when they logged back in
+    # Requires "prevent login: false"
+    # Default: true
+    retag player on login: true
+    
+  # These options will only be used if "Sentinel" is installed
+  # You can find it here: https://www.spigotmc.org/resources/sentinel.22017/
+  sentinel:
+    # Set this to true to allow NPCs to have features of Sentinel if the plugin is installed
+    # Default: true
+    use sentinel: true
+    
+    # Set this to true if the NPC should attack first instead of waiting to be attacked
+    # Default: false
+    attack first: false

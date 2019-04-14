@@ -25,10 +25,12 @@ import com.SirBlobman.combatlogx.event.PlayerTagEvent;
 import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagReason;
 import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagType;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
+import com.SirBlobman.combatlogx.utility.SchedulerUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.cheatprevention.config.ConfigCheatPrevention;
 
 import java.util.List;
+import java.util.UUID;
 
 public class ListenCheatPrevention implements Listener {
     @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
@@ -164,8 +166,8 @@ public class ListenCheatPrevention implements Listener {
         if(!CombatUtil.isInCombat(player)) return;
         
         e.setCancelled(true);
-        String error = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.blocks.placing not allowed");
-        Util.sendMessage(player, error);
+        String message = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.blocks.placing not allowed");
+        sendMessage(player, message);
     }
     
     @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
@@ -176,8 +178,8 @@ public class ListenCheatPrevention implements Listener {
         if(!CombatUtil.isInCombat(player)) return;
         
         e.setCancelled(true);
-        String error = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.blocks.breaking not allowed");
-        Util.sendMessage(player, error);
+        String message = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.blocks.breaking not allowed");
+        sendMessage(player, message);
     }
     
     @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
@@ -188,7 +190,18 @@ public class ListenCheatPrevention implements Listener {
         if(!CombatUtil.isInCombat(player)) return;
         
         e.setCancelled(true);
-        String error = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.items.dropping not allowed");
-        Util.sendMessage(player, error);
+        String message = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.items.dropping not allowed");
+        sendMessage(player, message);
+    }
+    
+    private final List<UUID> MESSAGE_COOLDOWN = Util.newList();
+    private void sendMessage(Player player, String message) {
+        UUID uuid = player.getUniqueId();
+        if(!MESSAGE_COOLDOWN.contains(uuid)) {
+            Util.sendMessage(player, message);
+            
+            MESSAGE_COOLDOWN.add(uuid);
+            SchedulerUtil.runLater(20L * 10L, () -> MESSAGE_COOLDOWN.remove(uuid));
+        }
     }
 }

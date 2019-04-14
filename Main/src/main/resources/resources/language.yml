@@ -129,3 +129,6 @@ messages:
         idling: "&aIdling"
         in combat: "&aYes"
         not in combat: "&cNo"
+        
+    citizens compatibility:
+      kick message: "&cYou are not allowed to log back in until your clone is killed or removed."

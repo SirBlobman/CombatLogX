@@ -232,30 +232,32 @@ public class CombatUtil implements Runnable {
 
         PlayerPunishEvent event = new PlayerPunishEvent(player, reason);
         PluginUtil.call(event);
-        if (!event.isCancelled()) {
-            if (ConfigOptions.PUNISH_KILL) player.setHealth(0.0D);
-            if (ConfigOptions.PUNISH_SUDO) {
-                List<String> commands = ConfigOptions.PUNISH_SUDO_COMMANDS;
+        if (!event.isCancelled()) forcePunish(player);
+    }
+    
+    public static void forcePunish(Player player) {
+        if (ConfigOptions.PUNISH_KILL) player.setHealth(0.0D);
+        if (ConfigOptions.PUNISH_SUDO) {
+            List<String> commands = ConfigOptions.PUNISH_SUDO_COMMANDS;
 
-                commands.forEach(command -> {
-                    if (command.startsWith("[CONSOLE]")) {
-                        String cmd = command.substring(9).replace("{player}", player.getName());
-                        Bukkit.dispatchCommand(Util.CONSOLE, cmd);
-                    } else if (command.startsWith("[PLAYER]")) {
-                        String cmd = command.substring(8).replace("{player}", player.getName());
+            commands.forEach(command -> {
+                if (command.startsWith("[CONSOLE]")) {
+                    String cmd = command.substring(9).replace("{player}", player.getName());
+                    Bukkit.dispatchCommand(Util.CONSOLE, cmd);
+                } else if (command.startsWith("[PLAYER]")) {
+                    String cmd = command.substring(8).replace("{player}", player.getName());
+                    player.performCommand(cmd);
+                } else if (command.startsWith("[OP]")) {
+                    String cmd = command.substring(4).replace("{player}", player.getName());
+
+                    if (player.isOp()) player.performCommand(cmd);
+                    else {
+                        player.setOp(true);
                         player.performCommand(cmd);
-                    } else if (command.startsWith("[OP]")) {
-                        String cmd = command.substring(4).replace("{player}", player.getName());
-
-                        if (player.isOp()) player.performCommand(cmd);
-                        else {
-                            player.setOp(true);
-                            player.performCommand(cmd);
-                            player.setOp(false);
-                        }
+                        player.setOp(false);
                     }
-                });
-            }
+                }
+            });
         }
     }
 

@@ -8,8 +8,12 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
+import com.SirBlobman.combatlogx.utility.SchedulerUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.cheatprevention.config.ConfigCheatPrevention;
+
+import java.util.List;
+import java.util.UUID;
 
 @SuppressWarnings("deprecation")
 public class ListenOldItemPickup implements Listener {
@@ -19,9 +23,21 @@ public class ListenOldItemPickup implements Listener {
         
         Player player = e.getPlayer();
         if(!CombatUtil.isInCombat(player)) return;
+
         
         e.setCancelled(true);
-        String error = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.items.pick up not allowed");
-        Util.sendMessage(player, error);
+        sendMessage(player);
+    }
+
+    private final List<UUID> MESSAGE_COOLDOWN = Util.newList();
+    private void sendMessage(Player player) {
+        UUID uuid = player.getUniqueId();
+        if(!MESSAGE_COOLDOWN.contains(uuid)) {
+            String error = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.items.pick up not allowed");
+            Util.sendMessage(player, error);
+            
+            MESSAGE_COOLDOWN.add(uuid);
+            SchedulerUtil.runLater(20L * 10L, () -> MESSAGE_COOLDOWN.remove(uuid));
+        }
     }
 }
