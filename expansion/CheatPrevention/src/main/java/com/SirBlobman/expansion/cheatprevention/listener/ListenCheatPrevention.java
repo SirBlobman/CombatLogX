@@ -47,12 +47,18 @@ public class ListenCheatPrevention implements Listener {
     public void checkGameMode(Player player) {
         GameMode playerGM = player.getGameMode();
         String configStringGM = ConfigCheatPrevention.GAMEMODE_GAMEMODE;
-        GameMode configGM = GameMode.valueOf(configStringGM);
+        GameMode configGM;
+        try {
+            configGM = GameMode.valueOf(configStringGM);
+        } catch(IllegalArgumentException ex) {
+            Util.print("[Cheat Prevention] Invalid game mode '" + configStringGM + "'. Defaulting to SURVIVAL");
+            configGM = GameMode.SURVIVAL;
+        }
         if(playerGM == configGM) return;
         
         player.setGameMode(configGM);
         String format = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.gamemode.change");
-        String message = format.replace("{gramemode}", configGM.name());
+        String message = format.replace("{gamemode}", configGM.name());
         Util.sendMessage(player, message);
     }
     

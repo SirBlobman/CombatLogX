@@ -46,6 +46,13 @@ public class ListenCreateNPCs implements Listener {
     }
     
     public void createNPC(Player player) {
+        Location location = player.getLocation();
+        if(location == null) {
+            this.expansion.print("Failed to get location for player '" + player.getName() + ", forcing regular punishment instead of NPC...");
+            CombatUtil.forcePunish(player);
+            return;
+        }
+        
         EntityType type = getTypeForNPC();
         if(type == null) {
             type = EntityType.PLAYER;
@@ -85,19 +92,12 @@ public class ListenCreateNPCs implements Listener {
                 sentinelTrait.addTarget(enemyID);
                 if(attackFirst) sentinelTrait.chase(enemy);
             }
-
+            
             double health = player.getHealth();
             sentinelTrait.setHealth(health);
         }
         
-        try {
-            Location location = player.getLocation();
-            npc.spawn(location, SpawnReason.CREATE);
-        } catch(NullPointerException ex) {
-            this.expansion.print("Failed to get location for player '" + player.getName() + ", forcing regular punishment instead of NPC...");
-            CombatUtil.forcePunish(player);
-            return;
-        }
+        npc.spawn(location, SpawnReason.CREATE);
         
         if(type.isAlive()) {
             LivingEntity npcLiving = (LivingEntity) npc.getEntity();
