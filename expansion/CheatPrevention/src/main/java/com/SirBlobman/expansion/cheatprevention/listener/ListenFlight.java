@@ -47,7 +47,7 @@ public class ListenFlight implements Listener {
         Util.debug("[Flight Re-Enable] Checking flight re-enable for '" + player.getName() + "'.");
         
         UntagReason reason = e.getUntagReason();
-        if(reason != UntagReason.EXPIRE) {
+        if(reason != UntagReason.EXPIRE && reason != UntagReason.EXPIRE_ENEMY_DEATH) {
             Util.debug("[Flight Re-Enable] Untag Reason is not expire, ignoring player.");
             return;
         }
