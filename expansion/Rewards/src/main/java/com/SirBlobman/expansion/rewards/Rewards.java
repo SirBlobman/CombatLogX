@@ -23,7 +23,7 @@ public class Rewards implements CLXExpansion, Listener {
     }
 
     public String getVersion() {
-        return "13.3";
+        return "13.4";
     }
 
     @Override
@@ -46,16 +46,22 @@ public class Rewards implements CLXExpansion, Listener {
 
     @EventHandler
     public void onDeath(EntityDeathEvent e) {
-        final LivingEntity le = e.getEntity();
-        final Player killer = le.getKiller();
-        if (killer != null) {
-            LivingEntity enemyOfKiller = CombatUtil.getEnemy(killer);
-            if (le.equals(enemyOfKiller)) SchedulerUtil.runNowAsync(() -> {
-                List<Reward> rewards = ConfigRewards.getRewards(false);
-                rewards.forEach(reward -> {
-                    if (reward.canTriggerReward(killer, le)) reward.triggerReward(killer, le);
-                });
-            });
-        }
+        LivingEntity killed = e.getEntity();
+        if(killed == null) return;
+        
+        Player killer = killed.getKiller();
+        if(killer == null) return;
+        
+        LivingEntity killerEnemy = CombatUtil.getEnemy(killer);
+        if(killerEnemy == null) return;
+        if(!killed.equals(killerEnemy)) return;
+        
+        SchedulerUtil.runNowAsync(() -> {
+            List<Reward> rewardList = ConfigRewards.getRewards(false);
+            for(Reward reward : rewardList) {
+                if(!reward.canTriggerReward(killer, killed)) continue;
+                reward.triggerReward(killer, killed);
+            }
+        });
     }
 }

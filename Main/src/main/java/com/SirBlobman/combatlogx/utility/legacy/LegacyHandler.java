@@ -60,6 +60,10 @@ public abstract class LegacyHandler {
             
             String mcVersion = getMinecraftVersion();
             switch(mcVersion) {
+            case "1.14":
+                LEGACY_HANDLER = new LegacyHandler_1_14_R1();
+                break;
+            
             case "1.13.2":
             case "1.13.1":
                 LEGACY_HANDLER = new LegacyHandler_1_13_R2();

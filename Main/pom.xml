@@ -115,6 +115,12 @@
 			<version>${project.version}</version>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.SirBlobman.combatlogx</groupId>
+			<artifactId>CombatLogX-LS-1_14_R1</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

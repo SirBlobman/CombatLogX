@@ -8,6 +8,14 @@ rewards:
     # Add "*" To allow all worlds
     worlds:
     - "*"
+    
+    # A list of mob types that will trigger this reward
+    # Spigot Entity Types can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
+    # Insert '*' for all mob typed
+    # Default: 
+    # - "*"
+    mob types:
+    - "*"
 
     # A list of commands to execute when an enemy is killed
     # An enemy will not always be a Player

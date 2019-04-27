@@ -1,13 +1,17 @@
 package com.SirBlobman.expansion.rewards.config;
 
-import com.SirBlobman.combatlogx.config.Config;
-import com.SirBlobman.combatlogx.utility.Util;
-import com.SirBlobman.expansion.rewards.Rewards;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import com.SirBlobman.combatlogx.config.Config;
+import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.expansion.rewards.Rewards;
+
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 public class ConfigRewards extends Config {
     private static File FOLDER = Rewards.FOLDER;
@@ -26,22 +30,35 @@ public class ConfigRewards extends Config {
     }
 
     public static List<Reward> getRewards(boolean reload) {
-        if (REWARD_CACHE.isEmpty() || reload) {
-            load();
-            REWARD_CACHE.clear();
-            if (config.isConfigurationSection("rewards")) {
-                ConfigurationSection cs = config.getConfigurationSection("rewards");
-                cs.getKeys(false).forEach(key -> {
-                    ConfigurationSection reward = cs.getConfigurationSection(key);
-                    List<String> validWorlds = reward.getStringList("worlds");
-                    List<String> commands = reward.getStringList("commands");
-                    Reward r = new Reward(validWorlds, commands);
-                    REWARD_CACHE.add(r);
-                });
-            } else {
-                String error = "Invalid Rewards Config! Please reset it!";
-                Util.print(error);
+        if(!reload && !REWARD_CACHE.isEmpty()) return REWARD_CACHE;
+        
+        load();
+        REWARD_CACHE.clear();
+        
+        if(!config.isConfigurationSection("rewards")) {
+            Util.print("Rewards config is missing 'rewards' section, please reset it!");
+            return REWARD_CACHE;
+        }
+        
+        ConfigurationSection section = config.getConfigurationSection("rewards");
+        Set<String> rewardIdSet = section.getKeys(false);
+        if(rewardIdSet == null || rewardIdSet.isEmpty()) {
+            Util.print("You don't have any rewards in your config, please remove this expansion or reset it!");
+            return REWARD_CACHE;
+        }
+        
+        for(String rewardId : rewardIdSet) {
+            if(!config.isConfigurationSection(rewardId)) {
+                Util.print("Invalid reward '" + rewardId + "' in config, please fix or remove it!");
+                continue;
             }
+            
+            ConfigurationSection rewardSection = section.getConfigurationSection(rewardId);
+            List<String> validWorldList = rewardSection.isList("worlds") ? rewardSection.getStringList("worlds") : Arrays.asList("*");
+            List<String> validMobTypeList = rewardSection.isList("mob types") ? rewardSection.getStringList("mob types") : Arrays.asList("*");
+            List<String> commandList = rewardSection.isList("commands") ? rewardSection.getStringList("commands") : new ArrayList<>();
+            Reward reward = new Reward(validWorldList, validMobTypeList, commandList);
+            REWARD_CACHE.add(reward);
         }
 
         return REWARD_CACHE;
