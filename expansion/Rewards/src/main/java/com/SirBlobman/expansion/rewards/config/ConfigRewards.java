@@ -48,7 +48,7 @@ public class ConfigRewards extends Config {
         }
         
         for(String rewardId : rewardIdSet) {
-            if(!config.isConfigurationSection(rewardId)) {
+            if(!section.isConfigurationSection(rewardId)) {
                 Util.print("Invalid reward '" + rewardId + "' in config, please fix or remove it!");
                 continue;
             }

@@ -23,7 +23,7 @@ public class Rewards implements CLXExpansion, Listener {
     }
 
     public String getVersion() {
-        return "13.4";
+        return "13.5";
     }
 
     @Override
