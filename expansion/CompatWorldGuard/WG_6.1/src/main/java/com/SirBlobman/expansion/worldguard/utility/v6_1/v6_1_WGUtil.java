@@ -54,7 +54,7 @@ public class v6_1_WGUtil {
     public static boolean allowsPvP(Location loc) {
         ApplicableRegionSet regionSet = getRegions(loc);
         StateFlag.State state = regionSet.queryState(null, DefaultFlag.PVP);
-        return (state == StateFlag.State.ALLOW);
+        return (state != StateFlag.State.DENY);
     }
 
     public static boolean allowsMobCombat(Location loc) {

@@ -40,7 +40,7 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
     }
     
     public String getVersion() {
-        return "13.2";
+        return "13.3";
     }
     
     @Override
@@ -150,9 +150,11 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
         }
         
         if(nemode == NoEntryMode.KNOCKBACK) {
+            /*
             boolean isPVP = (enemy instanceof Player);
             if(isPVP && !WGUtil.allowsPvP(fromLoc)) return;
             if(!isPVP && !WGUtil.allowsMobCombat(fromLoc)) return;
+            */
             
             Vector knockback = getVector(fromLoc, toLoc);
             player.setVelocity(knockback);
