@@ -1,21 +1,5 @@
 package com.SirBlobman.expansion.worldguard.olivolja3;
 
-import com.SirBlobman.combatlogx.CombatLogX;
-import com.SirBlobman.combatlogx.event.PlayerTagEvent;
-import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
-import com.SirBlobman.combatlogx.utility.CombatUtil;
-import com.SirBlobman.combatlogx.utility.PluginUtil;
-import com.SirBlobman.combatlogx.utility.legacy.LegacyHandler;
-import com.SirBlobman.expansion.worldguard.config.ConfigWG;
-import com.SirBlobman.expansion.worldguard.olivolja3.packetwrapper.WrapperPlayServerBlockChange;
-import com.SirBlobman.expansion.worldguard.utility.WGUtil;
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.ListenerPriority;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.wrappers.WrappedBlockData;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -28,7 +12,30 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.*;
+import com.SirBlobman.api.nms.NMS_Handler;
+import com.SirBlobman.combatlogx.CombatLogX;
+import com.SirBlobman.combatlogx.event.PlayerTagEvent;
+import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
+import com.SirBlobman.combatlogx.utility.CombatUtil;
+import com.SirBlobman.combatlogx.utility.PluginUtil;
+import com.SirBlobman.expansion.worldguard.config.ConfigWG;
+import com.SirBlobman.expansion.worldguard.olivolja3.packetwrapper.WrapperPlayServerBlockChange;
+import com.SirBlobman.expansion.worldguard.utility.WGUtil;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.WrappedBlockData;
 
 public class ForceField implements Listener {
 
@@ -62,7 +69,7 @@ public class ForceField implements Listener {
 
     private WrappedBlockData wrappedData(WrappedBlockData data) {
         data.setType(ConfigWG.FORCEFIELD_MATERIAL);
-        if(LegacyHandler.getMinorVersion() < 13) data.setData(ConfigWG.FORCEFIELD_MATERIAL_DATA);
+        if(NMS_Handler.getMinorVersion() < 13) data.setData(ConfigWG.FORCEFIELD_MATERIAL_DATA);
         return data;
     }
 
@@ -189,14 +196,14 @@ public class ForceField implements Listener {
 
     @SuppressWarnings("deprecation")
     private void sendForceField(Player p, Location loc) {
-        if(LegacyHandler.getMinorVersion() >= 13) p.sendBlockChange(loc, ConfigWG.FORCEFIELD_MATERIAL.createBlockData());
+        if(NMS_Handler.getMinorVersion() >= 13) p.sendBlockChange(loc, ConfigWG.FORCEFIELD_MATERIAL.createBlockData());
         else p.sendBlockChange(loc, ConfigWG.FORCEFIELD_MATERIAL, ConfigWG.FORCEFIELD_MATERIAL_DATA);
     }
 
     @SuppressWarnings("deprecation")
     private void resetBlock(Player p, Location loc) {
         Block b = loc.getBlock();
-        if(LegacyHandler.getMinorVersion() >= 13) p.sendBlockChange(loc, b.getBlockData());
+        if(NMS_Handler.getMinorVersion() >= 13) p.sendBlockChange(loc, b.getBlockData());
         else p.sendBlockChange(loc, b.getType(), b.getData());
     }
 }

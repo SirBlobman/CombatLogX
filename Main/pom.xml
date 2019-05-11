@@ -54,71 +54,11 @@
 			<scope>compile</scope>
 		</dependency>
 
-		<!-- All NMS Versions -->
+		<!-- SirBlobman API -->
 		<dependency>
-			<groupId>com.SirBlobman.combatlogx</groupId>
-			<artifactId>CombatLogX-LS-1_8_R1</artifactId>
-			<version>${project.version}</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.SirBlobman.combatlogx</groupId>
-			<artifactId>CombatLogX-LS-1_8_R2</artifactId>
-			<version>${project.version}</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.SirBlobman.combatlogx</groupId>
-			<artifactId>CombatLogX-LS-1_8_R3</artifactId>
-			<version>${project.version}</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.SirBlobman.combatlogx</groupId>
-			<artifactId>CombatLogX-LS-1_9_R1</artifactId>
-			<version>${project.version}</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.SirBlobman.combatlogx</groupId>
-			<artifactId>CombatLogX-LS-1_9_R2</artifactId>
-			<version>${project.version}</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.SirBlobman.combatlogx</groupId>
-			<artifactId>CombatLogX-LS-1_10_R1</artifactId>
-			<version>${project.version}</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.SirBlobman.combatlogx</groupId>
-			<artifactId>CombatLogX-LS-1_11_R1</artifactId>
-			<version>${project.version}</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.SirBlobman.combatlogx</groupId>
-			<artifactId>CombatLogX-LS-1_12_R1</artifactId>
-			<version>${project.version}</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.SirBlobman.combatlogx</groupId>
-			<artifactId>CombatLogX-LS-1_13_R1</artifactId>
-			<version>${project.version}</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.SirBlobman.combatlogx</groupId>
-			<artifactId>CombatLogX-LS-1_13_R2</artifactId>
-			<version>${project.version}</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.SirBlobman.combatlogx</groupId>
-			<artifactId>CombatLogX-LS-1_14_R1</artifactId>
-			<version>${project.version}</version>
+			<groupId>com.SirBlobman.api</groupId>
+			<artifactId>SirBlobmanAPI</artifactId>
+			<version>1.0</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
@@ -135,25 +75,6 @@
 						<goals>
 							<goal>shade</goal>
 						</goals>
-						<configuration>
-							<minimizeJar>true</minimizeJar>
-							<filters>
-								<filter>
-									<artifact>com.SirBlobman.combatlogx:CombatLogX-API</artifact>
-									<excludes>
-										<exclude>com/SirBlobman/combatlogx/CombatLogX.*</exclude>
-										<exclude>com/SirBlobman/combatlogx/config/**</exclude>
-										<exclude>com/SirBlobman/combatlogx/utility/legacy/LegacyHandler.*</exclude>
-									</excludes>
-								</filter>
-								<filter>
-									<artifact>org.inventivetalent:**</artifact>
-									<excludes>
-										<exclude>**</exclude>
-									</excludes>
-								</filter>
-							</filters>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>

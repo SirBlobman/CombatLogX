@@ -2,12 +2,12 @@ package com.SirBlobman.expansion.notifier.utility;
 
 import org.bukkit.entity.Player;
 
+import com.SirBlobman.api.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.config.ConfigOptions;
 import com.SirBlobman.combatlogx.expansion.Expansions;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.SchedulerUtil;
 import com.SirBlobman.combatlogx.utility.Util;
-import com.SirBlobman.combatlogx.utility.legacy.LegacyHandler;
 import com.SirBlobman.expansion.notifier.config.ConfigNotifier;
 
 public class BossBarUtil extends Util {
@@ -30,20 +30,20 @@ public class BossBarUtil extends Util {
             if (progress <= 0) progress = 0.0F;
             if (progress >= 1) progress = 1.0F;
 
-            LegacyHandler.getLegacyHandler().removeBossBar(player);
-            LegacyHandler.getLegacyHandler().sendBossBar(player, ConfigNotifier.BOSS_BAR_STYLE, ConfigNotifier.BOSS_BAR_COLOR, title, progress);
+            NMS_Handler.getHandler().removeBossBar(player);
+            NMS_Handler.getHandler().sendBossBar(player, title, progress, ConfigNotifier.BOSS_BAR_COLOR, ConfigNotifier.BOSS_BAR_STYLE);
         }
     }
 
     public static void removeBossBar(Player player, boolean shuttingDown) {
         String title = color(ConfigNotifier.BOSS_BAR_NO_LONGER_IN_COMBAT);
-        LegacyHandler.getLegacyHandler().removeBossBar(player);
-        LegacyHandler.getLegacyHandler().sendBossBar(player, ConfigNotifier.BOSS_BAR_STYLE, ConfigNotifier.BOSS_BAR_COLOR, title, 0.0F);
+        NMS_Handler.getHandler().removeBossBar(player);
+        NMS_Handler.getHandler().sendBossBar(player, title, 0.0D, ConfigNotifier.BOSS_BAR_COLOR, ConfigNotifier.BOSS_BAR_STYLE);
 
         if (shuttingDown) {
-            LegacyHandler.getLegacyHandler().removeBossBar(player);
+            NMS_Handler.getHandler().removeBossBar(player);
         } else {
-            SchedulerUtil.runLaterSync(20L, () -> LegacyHandler.getLegacyHandler().removeBossBar(player));
+            SchedulerUtil.runLaterSync(20L, () -> NMS_Handler.getHandler().removeBossBar(player));
         }
     }
 }

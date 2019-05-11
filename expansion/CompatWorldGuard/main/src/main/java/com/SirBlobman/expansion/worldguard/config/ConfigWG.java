@@ -1,13 +1,5 @@
 package com.SirBlobman.expansion.worldguard.config;
 
-import com.SirBlobman.combatlogx.CombatLogX;
-import com.SirBlobman.combatlogx.config.Config;
-import com.SirBlobman.combatlogx.event.PlayerTagEvent;
-import com.SirBlobman.combatlogx.utility.PluginUtil;
-import com.SirBlobman.combatlogx.utility.Util;
-import com.SirBlobman.combatlogx.utility.legacy.LegacyHandler;
-import com.SirBlobman.expansion.worldguard.CompatWorldGuard;
-import com.SirBlobman.expansion.worldguard.olivolja3.ForceField;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -15,6 +7,15 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.SirBlobman.api.nms.NMS_Handler;
+import com.SirBlobman.combatlogx.CombatLogX;
+import com.SirBlobman.combatlogx.config.Config;
+import com.SirBlobman.combatlogx.event.PlayerTagEvent;
+import com.SirBlobman.combatlogx.utility.PluginUtil;
+import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.expansion.worldguard.CompatWorldGuard;
+import com.SirBlobman.expansion.worldguard.olivolja3.ForceField;
 
 import java.io.File;
 import java.util.logging.Level;
@@ -99,7 +100,7 @@ public class ConfigWG extends Config {
     }
 
     private static void updateMaterials() {
-        if(LegacyHandler.getMinorVersion() < 13 && FORCEFIELD_MATERIAL_NAME.contains(":")) {
+        if(NMS_Handler.getMinorVersion() < 13 && FORCEFIELD_MATERIAL_NAME.contains(":")) {
             String[] materialStrings = FORCEFIELD_MATERIAL_NAME.split(":");
             Material material = Material.getMaterial(materialStrings[0]);
             if (material != null && material.isBlock()) {

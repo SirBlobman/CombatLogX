@@ -2,10 +2,10 @@ package com.SirBlobman.expansion.cheatprevention;
 
 import org.bukkit.command.PluginCommand;
 
+import com.SirBlobman.api.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.combatlogx.utility.Util;
-import com.SirBlobman.combatlogx.utility.legacy.LegacyHandler;
 import com.SirBlobman.expansion.cheatprevention.config.ConfigCheatPrevention;
 import com.SirBlobman.expansion.cheatprevention.listener.ListenCheatPrevention;
 import com.SirBlobman.expansion.cheatprevention.listener.ListenCommandBlocker;
@@ -42,7 +42,7 @@ public class CheatPrevention implements CLXExpansion {
         PluginUtil.regEvents(new ListenCheatPrevention(), new ListenCommandBlocker(), new ListenFlight());
         
         // The elytra item and related events were added in 1.9+
-        int majorVersion = LegacyHandler.getMajorVersion();
+        int majorVersion = NMS_Handler.getMajorVersion();
         if(majorVersion >= 9) PluginUtil.regEvents(new ListenElytra());
         
         // EntityPickupItemEvent replaced PlayerPickupItemEvent in 1.12

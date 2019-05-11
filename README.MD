@@ -97,6 +97,10 @@ This expansion puts the following placeholders into MVdWPlaceholderAPI and Place
 <li>{combatlogx_time_left} - See how much time is left</li>
 <li>{combatlogx_enemy_name} - Name of your enemy (entity type if not named)</li>
 <li>{combatlogx_enemy_health} - How much health your enemy has</li>
+<li>{combatlogx_enemy_health_rounded} - How much health your enemy has (nearest integer)</li>
+<li>{combatlogx_enemy_hearts} - How many hearts (half health) your enemy has left</li>
+<li>{combatlogx_status} - Check if a player status (Fighting/Idle, can be changed in language.yml)</li>
+<li>{combatlogx_in_combat} - Check if a player is in combat (Yes/No)</li>
 </ul><br/>
 The placeholder APIs can be found here:<br/>
 PlaceholderAPI: https://www.spigotmc.org/resources/placeholderapi.6245/<br/>
@@ -127,5 +131,5 @@ WorldGuard can be found here: https://dev.bukkit.org/projects/worldguard<br/><br
 
 <hr/>
 This guide is constantly being updated, if you have any suggestions you can contact SirBlobman here:<br/>
-<b>Discord:</b> SirBlobman#7235<br/>
-<b>SpigotMC:</b> <a href=https://www.spigotmc.org/members/sirblobman.73161/>SirBlobman's Profile</a><br/>
+<b>Discord:</b> https://discord.gg/ZtbqXUK<br/>
+<b>SpigotMC:</b> <a href="https://www.spigotmc.org/members/73161/">SirBlobman's Profile</a><br/>

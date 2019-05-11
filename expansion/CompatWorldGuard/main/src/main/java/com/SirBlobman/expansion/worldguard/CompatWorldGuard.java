@@ -40,7 +40,7 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
     }
     
     public String getVersion() {
-        return "13.3";
+        return "13.4";
     }
     
     @Override
@@ -61,10 +61,14 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
     
     @Override
     public void enable() {
-        if(PluginUtil.isEnabled("WorldGuard")) {
-            PluginUtil.regEvents(this);
-            ConfigWG.checkValidForceField();
+        if(!PluginUtil.isEnabled("WorldGuard")) {
+            print("WorldGuard is not installed, automatically disabling...");
+            Expansions.unloadExpansion(this);
+            return;
         }
+        
+        PluginUtil.regEvents(this);
+        ConfigWG.checkValidForceField();
     }
     
     @Override
@@ -150,11 +154,9 @@ public class CompatWorldGuard implements CLXExpansion, Listener {
         }
         
         if(nemode == NoEntryMode.KNOCKBACK) {
-            /*
             boolean isPVP = (enemy instanceof Player);
             if(isPVP && !WGUtil.allowsPvP(fromLoc)) return;
             if(!isPVP && !WGUtil.allowsMobCombat(fromLoc)) return;
-            */
             
             Vector knockback = getVector(fromLoc, toLoc);
             player.setVelocity(knockback);

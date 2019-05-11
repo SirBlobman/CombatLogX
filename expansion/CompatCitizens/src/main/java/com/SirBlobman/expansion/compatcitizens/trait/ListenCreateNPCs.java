@@ -9,11 +9,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
+import com.SirBlobman.api.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.event.PlayerPunishEvent;
 import com.SirBlobman.combatlogx.event.PlayerPunishEvent.PunishReason;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
-import com.SirBlobman.combatlogx.utility.legacy.LegacyHandler;
 import com.SirBlobman.expansion.compatcitizens.CompatCitizens;
 import com.SirBlobman.expansion.compatcitizens.config.ConfigCitizens;
 
@@ -52,6 +52,7 @@ public class ListenCreateNPCs implements Listener {
             CombatUtil.forcePunish(player);
             return;
         }
+        location = location.clone();
         
         EntityType type = getTypeForNPC();
         if(type == null) {
@@ -105,8 +106,9 @@ public class ListenCreateNPCs implements Listener {
             double health = player.getHealth();
             npcLiving.setHealth(health);
             
-            double maxHealth = LegacyHandler.getLegacyHandler().getMaxHealth(player);
-            LegacyHandler.getLegacyHandler().setMaxHealth(player, maxHealth);
+            NMS_Handler nms = NMS_Handler.getHandler();
+            double maxHealth = nms.getMaxHealth(player);
+            nms.setMaxHealth(player, maxHealth);
         }
     }
     

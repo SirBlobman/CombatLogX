@@ -7,10 +7,10 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
+import com.SirBlobman.api.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.expansion.Expansions;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.Util;
-import com.SirBlobman.combatlogx.utility.legacy.LegacyHandler;
 import com.SirBlobman.expansion.notifier.config.ConfigNotifier;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class ScoreboardUtil extends Util {
             Scoreboard sb = SCORE_BOARDS.get(uuid);
             if (sb.getObjective(player.getName()) == null) {
                 String title = Util.color(ConfigNotifier.SCORE_BOARD_TITLE);
-                Objective obj = LegacyHandler.getLegacyHandler().createScoreboardObjective(sb, player.getName(), "dummy", title);
+                Objective obj = NMS_Handler.getHandler().createScoreboardObjective(sb, player.getName(), "dummy", title);
                 obj.setDisplaySlot(DisplaySlot.SIDEBAR);
                 SCORE_BOARDS.put(uuid, sb);
                 return getScoreBoard(player);
@@ -35,7 +35,7 @@ public class ScoreboardUtil extends Util {
         } else {
             Scoreboard sb = Bukkit.getScoreboardManager().getNewScoreboard();
             String title = Util.color(ConfigNotifier.SCORE_BOARD_TITLE);
-            Objective obj = LegacyHandler.getLegacyHandler().createScoreboardObjective(sb, player.getName(), "dummy", title);
+            Objective obj = NMS_Handler.getHandler().createScoreboardObjective(sb, player.getName(), "dummy", title);
             obj.setDisplaySlot(DisplaySlot.SIDEBAR);
             SCORE_BOARDS.put(uuid, sb);
             return getScoreBoard(player);
@@ -50,7 +50,7 @@ public class ScoreboardUtil extends Util {
             if (objective != null) objective.unregister();
             
             String title = Util.color(ConfigNotifier.SCORE_BOARD_TITLE);
-            objective = LegacyHandler.getLegacyHandler().createScoreboardObjective(scoreBoard, player.getName(), "dummy", title);
+            objective = NMS_Handler.getHandler().createScoreboardObjective(scoreBoard, player.getName(), "dummy", title);
             objective.setDisplaySlot(DisplaySlot.SIDEBAR);
             
             List<String> scoreboardList = ConfigNotifier.SCORE_BOARD_LINES;

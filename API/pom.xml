@@ -35,5 +35,11 @@
 			<artifactId>spigot</artifactId>
 			<version>1.13.2-R0.1-SNAPSHOT</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.SirBlobman.api</groupId>
+			<artifactId>SirBlobmanAPI</artifactId>
+			<version>1.0</version>
+		</dependency>
 	</dependencies>
 </project>

@@ -1,5 +1,6 @@
 package com.SirBlobman.combatlogx.command;
 
+import com.SirBlobman.api.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.config.ConfigOptions;
 import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagReason;
@@ -21,43 +22,39 @@ import java.util.List;
 
 public class CommandCombatLogX implements TabExecutor {
     @Override
-    public boolean onCommand(CommandSender cs, Command c, String label, String[] args) {
-        String cmd = c.getName().toLowerCase();
-        if (cmd.equals("combatlogx")) {
-            if (args.length > 0) {
-                String sub = args[0].toLowerCase();
-                switch (sub) {
-                case "reload":
-                    return reload(cs);
-                case "tag":
-                    return tag(cs, args);
-                case "untag":
-                    return untag(cs, args);
-                case "version":
-                    return version(cs);
-                default:
-                    break;
-                }
-            }
-        }
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        String cmd = command.getName().toLowerCase();
+        if(!cmd.equals("combatlogx")) return false;
+        if(args.length < 1) return false;
         
-        return false;
+        String sub = args[0].toLowerCase();
+        switch(sub) {
+        case "reload": return reload(sender);
+        case "tag": return tag(sender, args);
+        case "untag": return untag(sender, args);
+        case "version": return version(sender);
+        
+        default: return false;
+        }
     }
     
     @Override
     public List<String> onTabComplete(CommandSender cs, Command c, String label, String[] args) {
         String cmd = c.getName().toLowerCase();
-        if (cmd.equals("combatlogx")) {
-            if (args.length == 1) {
-                String arg = args[0];
-                List<String> valid = Util.newList("reload", "tag", "untag", "version");
-                return Util.getMatching(valid, arg);
-            } else if (args.length == 2) {
-                String sub = args[0].toLowerCase();
-                if (sub.equals("tag") || sub.equals("untag")) return null;
-                else return Util.newList();
-            } else return Util.newList();
-        } else return Util.newList();
+        if(!cmd.equals("combatlogx")) return Util.newList();
+        
+        if(args.length == 1) {
+            String sub = args[0];
+            List<String> valid = Util.newList("reload", "tag", "untag", "version");
+            return Util.getMatching(valid, sub);
+        }
+        
+        if(args.length == 2) {
+            String sub = args[0].toLowerCase();
+            if(sub.equals("tag") || sub.equals("untag")) return null;
+        }
+        
+        return Util.newList();
     }
     
     private boolean reload(CommandSender cs) {
@@ -152,44 +149,50 @@ public class CommandCombatLogX implements TabExecutor {
         }
     }
     
-    private boolean version(CommandSender cs) {
+    private boolean version(CommandSender sender) {
         String perm = "combatlogx.version";
-        if (cs.hasPermission(perm)) {
-            Util.sendMessage(cs, "Getting plugin versions...");
-            SchedulerUtil.runNowAsync(() -> {
-                String pversion = UpdateUtil.getPluginVersion();
-                String sversion = UpdateUtil.getSpigotVersion();
-                
-                String[] msg = Util.color(
-                    "&f&lCombatLogX by SirBlobman",
-                    " ",
-                    "&f&lYour Version: &7v" + pversion,
-                    "&f&lLatest Version: &7v" + sversion,
-                    " ",
-                    "&7&oGetting expansion versions...",
-                    " "
-                );
-                Util.sendMessage(cs, msg);
-                
-                List<CLXExpansion> expansions = Expansions.getExpansions();
-                if (expansions.isEmpty()) {
-                    String error = Util.color("  &f&lYou do not have any expansions.");
-                    Util.sendMessage(cs, error);
-                } else expansions.forEach(clxe -> {
-                    String name = clxe.getName();
-                    String version = clxe.getVersion();
-                    String msg1 = Util.color("  &f&l" + name + " &7v" + version);
-                    Util.sendMessage(cs, msg1);
-                });
-            });
-            return true;
-        } else {
+        if(!sender.hasPermission(perm)) {
             List<String> keys = Util.newList("{permission}");
             List<String> vals = Util.newList(perm);
             String format = ConfigLang.getWithPrefix("messages.commands.no permission");
             String error = Util.formatMessage(format, keys, vals);
-            Util.sendMessage(cs, error);
+            Util.sendMessage(sender, error);
             return true;
         }
+        
+        Util.sendMessage(sender, "Getting version information...");
+        SchedulerUtil.runNowAsync(() -> {
+            String pversion = UpdateUtil.getPluginVersion();
+            String sversion = UpdateUtil.getSpigotVersion();
+            
+            String[] msg = Util.color(
+                    " ",
+                    "&f&lFull Version: &7" + Bukkit.getVersion(),
+                    "&f&lBukkit Version: &7" + Bukkit.getBukkitVersion(),
+                    "&f&lMinecraft Version: &7" + NMS_Handler.getMinecraftVersion(),
+                    "&f&lNMS Version: &7" + NMS_Handler.getNetMinecraftServerVersion(),
+                    " ", 
+                    "&f&lCombatLogX by SirBlobman",
+                    " ",
+                    "&f&lLatest Version: &7v" + sversion,
+                    "&f&lInstalled Version: &7v" + pversion,
+                    " ",
+                    "&7&oGetting expansion versions...",
+                    " "
+                    );
+            sender.sendMessage(Util.color(msg));
+            
+            List<CLXExpansion> expansions = Expansions.getExpansions();
+            if (expansions.isEmpty()) {
+                String error = Util.color("  &f&lYou do not have any expansions.");
+                Util.sendMessage(sender, error);
+            } else expansions.forEach(clxe -> {
+                String name = clxe.getName();
+                String version = clxe.getVersion();
+                String msg1 = Util.color("  &f&l" + name + " &7v" + version);
+                Util.sendMessage(sender, msg1);
+            });
+        });
+        return true;
     }
 }
