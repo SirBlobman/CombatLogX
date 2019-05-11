@@ -1,5 +1,11 @@
 package com.SirBlobman.combatlogx.command;
 
+import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
+import org.bukkit.entity.Player;
+
 import com.SirBlobman.api.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.config.ConfigOptions;
@@ -12,12 +18,9 @@ import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.SchedulerUtil;
 import com.SirBlobman.combatlogx.utility.UpdateUtil;
 import com.SirBlobman.combatlogx.utility.Util;
-import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabExecutor;
-import org.bukkit.entity.Player;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 
 public class CommandCombatLogX implements TabExecutor {
@@ -33,6 +36,7 @@ public class CommandCombatLogX implements TabExecutor {
         case "tag": return tag(sender, args);
         case "untag": return untag(sender, args);
         case "version": return version(sender);
+        case "toggle": return toggle(sender, args);
         
         default: return false;
         }
@@ -45,16 +49,100 @@ public class CommandCombatLogX implements TabExecutor {
         
         if(args.length == 1) {
             String sub = args[0];
-            List<String> valid = Util.newList("reload", "tag", "untag", "version");
+            List<String> valid = Util.newList("reload", "tag", "untag", "version", "toggle");
             return Util.getMatching(valid, sub);
         }
         
         if(args.length == 2) {
             String sub = args[0].toLowerCase();
+            if(sub.equals("toggle")) {
+                List<String> valid = Util.newList("bossbar", "actionbar", "scoreboard");
+                return Util.getMatching(valid, sub);
+            }
+            
             if(sub.equals("tag") || sub.equals("untag")) return null;
         }
         
         return Util.newList();
+    }
+    
+    private boolean toggle(CommandSender sender, String[] args) {
+        String permission = "combatlogx.notifier.toggle";
+        if(!sender.hasPermission(permission)) {
+            List<String> keys = Util.newList("{permission}");
+            List<String> vals = Util.newList(permission);
+            String format = ConfigLang.getWithPrefix("messages.commands.no permission");
+            String error = Util.formatMessage(format, keys, vals);
+            Util.sendMessage(sender, error);
+            return true;
+        }
+        
+        if(!(sender instanceof Player)) {
+            sender.sendMessage("Only players can toggle stuff.");
+            return true;
+        }
+        
+        if(!Expansions.isEnabled("Notifier")) {
+            sender.sendMessage("Notifier is not installed!");
+            return true;
+        }
+        
+        if(args.length < 2) return false;
+        
+        Player player = (Player) sender;
+        String toggleType = args[1].toLowerCase();
+        if(toggleType.equals("scoreboard")) {
+            try {
+                Class<?> class_ScoreboardUtil = Class.forName("com.SirBlobman.expansion.notifier.utility.ScoreboardUtil");
+                Method method_toggle = class_ScoreboardUtil.getMethod("toggle", Player.class);
+                boolean on = (boolean) method_toggle.invoke(null, player);
+                sender.sendMessage("Score Board: " + (on ? "ON" : "OFF"));
+                return true;
+            } catch(ClassNotFoundException ex) {
+                sender.sendMessage("Notifier is not installed!");
+                return true;
+            } catch(NoSuchMethodException | InvocationTargetException | IllegalArgumentException | IllegalAccessException ex) {
+                sender.sendMessage("Failed to toggle score board, tell an admin to check the console :(");
+                ex.printStackTrace();
+                return true;
+            }
+        }
+        
+        if(toggleType.equals("bossbar")) {
+            try {
+                Class<?> class_ScoreboardUtil = Class.forName("com.SirBlobman.expansion.notifier.utility.BossBarUtil");
+                Method method_toggle = class_ScoreboardUtil.getMethod("toggle", Player.class);
+                boolean on = (boolean) method_toggle.invoke(null, player);
+                sender.sendMessage("Boss Bar: " + (on ? "ON" : "OFF"));
+                return true;
+            } catch(ClassNotFoundException ex) {
+                sender.sendMessage("Notifier is not installed!");
+                return true;
+            } catch(NoSuchMethodException | InvocationTargetException | IllegalArgumentException | IllegalAccessException ex) {
+                sender.sendMessage("Failed to toggle boss bar, tell an admin to check the console :(");
+                ex.printStackTrace();
+                return true;
+            }
+        }
+        
+        if(toggleType.equals("actionbar")) {
+            try {
+                Class<?> class_ScoreboardUtil = Class.forName("com.SirBlobman.expansion.notifier.utility.ActionBarUtil");
+                Method method_toggle = class_ScoreboardUtil.getMethod("toggle", Player.class);
+                boolean on = (boolean) method_toggle.invoke(null, player);
+                sender.sendMessage("Action Bar: " + (on ? "ON" : "OFF"));
+                return true;
+            } catch(ClassNotFoundException ex) {
+                sender.sendMessage("Notifier is not installed!");
+                return true;
+            } catch(NoSuchMethodException | InvocationTargetException | IllegalArgumentException | IllegalAccessException ex) {
+                sender.sendMessage("Failed to toggle action bar, tell an admin to check the console :(");
+                ex.printStackTrace();
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     private boolean reload(CommandSender cs) {

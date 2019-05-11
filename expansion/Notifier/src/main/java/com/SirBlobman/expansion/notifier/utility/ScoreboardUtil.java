@@ -18,10 +18,33 @@ import java.util.Map;
 import java.util.UUID;
 
 public class ScoreboardUtil extends Util {
+    private static final List<UUID> DISABLED_PLAYERS = Util.newList();
+    
+    /**
+     * Toggle if the action bar is disabled or not
+     * @param player the player to toggle
+     * @return {@code true} if enabled, {@code false} if disabled.
+     */
+    public static boolean toggle(Player player) {
+        UUID uuid = player.getUniqueId();
+        
+        if(DISABLED_PLAYERS.contains(uuid)) {
+            DISABLED_PLAYERS.remove(uuid);
+            updateScoreBoard(player);
+        } else {
+            DISABLED_PLAYERS.add(uuid);
+            removeScoreBoard(player);
+        }
+        
+        return !DISABLED_PLAYERS.contains(uuid);
+    }
+    
     private static Map<UUID, Scoreboard> SCORE_BOARDS = newMap();
     
     private static Scoreboard getScoreBoard(Player player) {
         UUID uuid = player.getUniqueId();
+        if(DISABLED_PLAYERS.contains(uuid)) return null;
+        
         if (SCORE_BOARDS.containsKey(uuid)) {
             Scoreboard sb = SCORE_BOARDS.get(uuid);
             if (sb.getObjective(player.getName()) == null) {
@@ -43,40 +66,48 @@ public class ScoreboardUtil extends Util {
     }
     
     public static void updateScoreBoard(Player player) {
+        UUID uuid = player.getUniqueId();
+        if(DISABLED_PLAYERS.contains(uuid)) return;
+        
         int timeLeftInt = CombatUtil.getTimeLeft(player);
-        if (timeLeftInt > 0) {
-            Scoreboard scoreBoard = getScoreBoard(player);
-            Objective objective = scoreBoard.getObjective(player.getName());
-            if (objective != null) objective.unregister();
-            
-            String title = Util.color(ConfigNotifier.SCORE_BOARD_TITLE);
-            objective = NMS_Handler.getHandler().createScoreboardObjective(scoreBoard, player.getName(), "dummy", title);
-            objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-            
-            List<String> scoreboardList = ConfigNotifier.SCORE_BOARD_LINES;
-            int i = scoreboardList.size();
-            for (String line : scoreboardList) {
-                if(Expansions.isEnabled("CompatPlaceholders")) {
-                    PlaceholderHandler handler = new PlaceholderHandler();
-                    line = handler.replaceAllPlaceholders(player, line);
-                }
-                
-                line = color(line);
-                if (line.length() > 40) line = line.substring(0, 40);
-                
-                Score score = objective.getScore(line);
-                score.setScore(i);
-                i--;
+        if(timeLeftInt <= 0) {
+            removeScoreBoard(player);
+            return;
+        }
+        
+        Scoreboard scoreBoard = getScoreBoard(player);
+        Objective objective = scoreBoard.getObjective(player.getName());
+        if (objective != null) objective.unregister();
+        
+        String title = Util.color(ConfigNotifier.SCORE_BOARD_TITLE);
+        objective = NMS_Handler.getHandler().createScoreboardObjective(scoreBoard, player.getName(), "dummy", title);
+        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+        
+        List<String> scoreboardList = ConfigNotifier.SCORE_BOARD_LINES;
+        int i = scoreboardList.size();
+        for (String line : scoreboardList) {
+            if(Expansions.isEnabled("CompatPlaceholders")) {
+                PlaceholderHandler handler = new PlaceholderHandler();
+                line = handler.replaceAllPlaceholders(player, line);
             }
             
-            if (!scoreBoard.equals(player.getScoreboard())) player.setScoreboard(scoreBoard);
-        } else removeScoreBoard(player);
+            line = color(line);
+            if (line.length() > 40) line = line.substring(0, 40);
+            
+            Score score = objective.getScore(line);
+            score.setScore(i);
+            i--;
+        }
+        
+        if (!scoreBoard.equals(player.getScoreboard())) player.setScoreboard(scoreBoard);
     }
     
     public static void removeScoreBoard(Player player) {
         Scoreboard sb = getScoreBoard(player);
-        Objective obj = sb.getObjective(player.getName());
-        obj.unregister();
+        if(sb != null) {
+            Objective obj = sb.getObjective(player.getName());
+            obj.unregister();
+        }
         
         player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
     }

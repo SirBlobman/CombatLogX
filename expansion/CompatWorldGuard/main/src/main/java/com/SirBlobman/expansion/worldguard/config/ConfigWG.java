@@ -15,6 +15,7 @@ import com.SirBlobman.combatlogx.event.PlayerTagEvent;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.worldguard.CompatWorldGuard;
+import com.SirBlobman.expansion.worldguard.listener.ListenWorldGuard;
 import com.SirBlobman.expansion.worldguard.olivolja3.ForceField;
 
 import java.io.File;
@@ -77,7 +78,7 @@ public class ConfigWG extends Config {
                 if(listener.getListener().getClass().getName().endsWith("olivolja3.ForceField")) {
                     ForceField forceField = new ForceField();
                     HandlerList.unregisterAll(plugin);
-                    PluginUtil.regEvents(new CompatWorldGuard());
+                    PluginUtil.regEvents(new ListenWorldGuard());
                     ForceField.unregisterProtocol();
                     Bukkit.getOnlinePlayers().forEach(forceField::removeForceField);
                     forceField.clearData();
@@ -115,5 +116,5 @@ public class ConfigWG extends Config {
         }
     }
 
-    public enum NoEntryMode {CANCEL, TELEPORT, KNOCKBACK, KILL}
+    public enum NoEntryMode {CANCEL, TELEPORT, KNOCKBACK, KILL, VULNERABLE}
 }
