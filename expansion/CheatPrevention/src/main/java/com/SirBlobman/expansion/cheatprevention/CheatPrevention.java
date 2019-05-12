@@ -30,7 +30,7 @@ public class CheatPrevention implements CLXExpansion {
     }
     
     public String getVersion() {
-        return "13.10";
+        return "14.1";
     }
     
     @Override
@@ -42,11 +42,11 @@ public class CheatPrevention implements CLXExpansion {
         PluginUtil.regEvents(new ListenCheatPrevention(), new ListenCommandBlocker(), new ListenFlight());
         
         // The elytra item and related events were added in 1.9+
-        int majorVersion = NMS_Handler.getMajorVersion();
-        if(majorVersion >= 9) PluginUtil.regEvents(new ListenElytra());
+        int minorVersion = NMS_Handler.getMinorVersion();
+        if(minorVersion >= 9) PluginUtil.regEvents(new ListenElytra());
         
         // EntityPickupItemEvent replaced PlayerPickupItemEvent in 1.12
-        if(majorVersion >= 12) PluginUtil.regEvents(new ListenNewItemPickup());
+        if(minorVersion >= 12) PluginUtil.regEvents(new ListenNewItemPickup());
         else PluginUtil.regEvents(new ListenOldItemPickup());
     }
     

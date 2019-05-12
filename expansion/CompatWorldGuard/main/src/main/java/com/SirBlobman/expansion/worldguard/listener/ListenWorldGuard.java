@@ -23,22 +23,7 @@ import com.SirBlobman.expansion.worldguard.utility.WGUtil;
 import java.util.List;
 import java.util.UUID;
 
-import com.sk89q.worldguard.protection.events.DisallowedPVPEvent;
-
-public class ListenWorldGuard implements Listener {
-    @EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=false)
-    public void onWorldGuardDenyPvP(DisallowedPVPEvent e) {
-        if(ConfigWG.getNoEntryMode() != NoEntryMode.VULNERABLE) return;
-        
-        Player player = e.getDefender();
-        if(!CombatUtil.isInCombat(player)) return;
-        if(!CombatUtil.hasEnemy(player)) return;
-        
-        LivingEntity enemy = CombatUtil.getEnemy(player);
-        e.setCancelled(true);
-        sendMessage(player, enemy);
-    }
-    
+public class ListenWorldGuard implements Listener {    
     @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true) 
     public void onMove(PlayerMoveEvent e) {
         Player player = e.getPlayer();
@@ -123,7 +108,7 @@ public class ListenWorldGuard implements Listener {
     }
 
     private static List<UUID> MESSAGE_COOLDOWN = Util.newList();
-    private void sendMessage(Player player, LivingEntity enemy) {
+    public static void sendMessage(Player player, LivingEntity enemy) {
         if(player == null || enemy == null) return;
         
         UUID uuid = player.getUniqueId();

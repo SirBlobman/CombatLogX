@@ -1,3 +1,4 @@
+
 package com.SirBlobman.expansion.worldguard;
 
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
@@ -22,7 +23,7 @@ public class CompatWorldGuard implements CLXExpansion {
     }
     
     public String getVersion() {
-        return "13.4";
+        return "14.1";
     }
     
     @Override
@@ -50,6 +51,7 @@ public class CompatWorldGuard implements CLXExpansion {
         }
         
         PluginUtil.regEvents(new ListenWorldGuard());
+        WGUtil.onEnable();
         ConfigWG.checkValidForceField();
     }
     

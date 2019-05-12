@@ -31,7 +31,7 @@
 			<version>7.0.0-SNAPSHOT</version>
 		</dependency>
 
-		<!-- WorldGuard 6.1 -->
+		<!-- WorldGuard 7.0 -->
 		<dependency>
 			<groupId>com.sk89q.worldguard</groupId>
 			<artifactId>worldguard-core</artifactId>

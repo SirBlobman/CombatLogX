@@ -14,7 +14,6 @@ import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 
 public class v7_0_WGUtil extends Util {
-
     private static final StateFlag MOB_COMBAT = new StateFlag("mob-combat", false);
 
     private static WorldGuardPlatform getAPI() {

@@ -22,8 +22,12 @@ softdepend:
 
 commands:
   combatlogx:
-    usage: /<command> <reload/tag/untag/toggle>
-    description: "Main command for CombatLogX.\nYou can use it to force tag/untag, toggle notifier information, or reload all of the configs"
+    usage: |-
+        /<command> reload OR
+        /<command> tag <player> OR
+        /<command> untag <player> OR
+        /<command> toggle <scoreboard/bossbar/actionbar>
+    description: "Main command for CombatLogX"
     aliases: [combattag, combatlog, clx, ctx]
 
   combattime:

@@ -16,15 +16,33 @@ import org.bukkit.event.entity.EntityToggleGlideEvent;
 public class ListenElytra implements Listener {
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onToggleElytra(EntityToggleGlideEvent e) {
-        if(ConfigCheatPrevention.FLIGHT_ALLOW_ELYTRAS) return;
+        Util.debug("[Anti-Elytra] EntityToggleGlideEvent triggered.");
+        
+        if(ConfigCheatPrevention.FLIGHT_ALLOW_ELYTRAS) {
+            Util.debug("[Anti-Elytra] Config set to allow elytras, ignoring event.");
+            return;
+        }
         
         Entity entity = e.getEntity();
-        if(!(entity instanceof Player)) return;
+        if(!(entity instanceof Player)) {
+            Util.debug("[Anti-Elytra] Entity gliding is not a player, ignoring event.");
+            return;
+        }
         
         Player player = (Player) entity;
-        if(!CombatUtil.isInCombat(player)) return;
-        if(!e.isGliding()) return;
+        Util.debug("[Anti-Elytra] Found player named '" + player.getName() + ". Checking event...");
         
+        if(!CombatUtil.isInCombat(player)) {
+            Util.debug("[Anti-Elytra] Player is not in combat, ignoring event.");
+            return;
+        }
+        
+        if(!e.isGliding()) {
+            Util.debug("[Anti-Elytra] Event will not enable gliding, ignoring event.");
+            return;
+        }
+        
+        Util.debug("[Anti-Elytra] Cancelling EntityToggleGlideEvent for player '" + player.getName() + ".");
         e.setCancelled(true);
         player.setGliding(false);
         

@@ -55,8 +55,10 @@ public class ActionBarUtil extends Util {
     }
     
     public static void removeActionBar(Player player) {
-        String msg = color(ConfigNotifier.ACTION_BAR_NO_LONGER_IN_COMBAT);
-        NMS_Handler.getHandler().sendActionBar(player, msg);
+        if(!DISABLED_PLAYERS.contains(player.getUniqueId())) {
+            String msg = color(ConfigNotifier.ACTION_BAR_NO_LONGER_IN_COMBAT);
+            NMS_Handler.getHandler().sendActionBar(player, msg);
+        }
     }
     
     private static String getBarsLeft(Player p) {
