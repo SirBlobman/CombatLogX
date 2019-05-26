@@ -53,18 +53,19 @@ public class NotCombatLogX implements CLXExpansion, Listener {
         Entity entity = e.getEntity();
         World world = entity.getWorld();
         String worldName = world.getName();
-        if(ConfigOptions.OPTION_DISABLED_WORLDS.contains(worldName)) return;
         
-        if (entity instanceof Player) {
-            Player player = (Player) entity;
-            DamageCause cause = e.getCause();
-            if (ConfigNot.canDamageTypeTagPlayer(cause)) {
-                if (!CombatUtil.isInCombat(player)) {
-                    String msg = ConfigNot.getTagMessage(cause);
-                    Util.sendMessage(player, msg);
-                    CombatUtil.tag(player, null, TagType.UNKNOWN, TagReason.UNKNOWN);
-                }
-            }
+        if(ConfigOptions.OPTION_DISABLED_WORLDS.contains(worldName)) return;
+        if(!(entity instanceof Player)) return;
+        
+        Player player = (Player) entity;
+        DamageCause damage = e.getCause();
+        if(!ConfigNot.canDamageTypeTagPlayer(damage)) return;
+        
+        if(!CombatUtil.isInCombat(player)) {
+            String msg = ConfigNot.getTagMessage(damage);
+            Util.sendMessage(player, msg);
         }
+        
+        CombatUtil.tag(player, null, TagType.UNKNOWN, TagReason.UNKNOWN);
     }
 }

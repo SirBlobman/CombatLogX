@@ -1,18 +1,24 @@
 package com.SirBlobman.combatlogx.utility;
 
-import com.SirBlobman.combatlogx.config.ConfigLang;
-import com.SirBlobman.combatlogx.config.ConfigOptions;
-import com.SirBlobman.combatlogx.event.*;
-import com.SirBlobman.combatlogx.event.PlayerPunishEvent.PunishReason;
-import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagReason;
-import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagType;
-import com.SirBlobman.combatlogx.event.PlayerUntagEvent.UntagReason;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
+import com.SirBlobman.combatlogx.config.ConfigLang;
+import com.SirBlobman.combatlogx.config.ConfigOptions;
+import com.SirBlobman.combatlogx.event.PlayerCombatTimerChangeEvent;
+import com.SirBlobman.combatlogx.event.PlayerPreTagEvent;
+import com.SirBlobman.combatlogx.event.PlayerPunishEvent;
+import com.SirBlobman.combatlogx.event.PlayerPunishEvent.PunishReason;
+import com.SirBlobman.combatlogx.event.PlayerTagEvent;
+import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagReason;
+import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagType;
+import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
+import com.SirBlobman.combatlogx.event.PlayerUntagEvent.UntagReason;
+
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -242,13 +248,13 @@ public class CombatUtil implements Runnable {
 
             commands.forEach(command -> {
                 if (command.startsWith("[CONSOLE]")) {
-                    String cmd = command.substring(9).replace("{player}", player.getName());
+                    String cmd = getSudoCommand(command.substring(9), player);
                     Bukkit.dispatchCommand(Util.CONSOLE, cmd);
                 } else if (command.startsWith("[PLAYER]")) {
-                    String cmd = command.substring(8).replace("{player}", player.getName());
+                    String cmd = getSudoCommand(command.substring(8), player);
                     player.performCommand(cmd);
                 } else if (command.startsWith("[OP]")) {
-                    String cmd = command.substring(4).replace("{player}", player.getName());
+                    String cmd = getSudoCommand(command.substring(4), player);
 
                     if (player.isOp()) player.performCommand(cmd);
                     else {
@@ -259,6 +265,27 @@ public class CombatUtil implements Runnable {
                 }
             });
         }
+    }
+    
+    public static String getSudoCommand(String command, Player player) {
+        command = command.replace("{player}", player.getName());
+        if(PluginUtil.isEnabled("PlaceholderAPI", "extended_clip")) {
+            try {
+                Class<?> class_PlaceholderAPI = Class.forName("me.clip.placeholderapi.PlaceholderAPI");
+                Method method_PlaceholderAPI_setPlaceholders = class_PlaceholderAPI.getMethod("setPlaceholders", OfflinePlayer.class, String.class);
+                command = (String) method_PlaceholderAPI_setPlaceholders.invoke(null, player, command);
+            } catch(Exception ex) {}
+        }
+        
+        if(PluginUtil.isEnabled("MVdWPlaceholderAPI")) {
+            try {
+                Class<?> class_PlaceholderAPI = Class.forName("be.maximvdw.placeholderapi.PlaceholderAPI");
+                Method method_PlaceholderAPI_replacePlaceholders = class_PlaceholderAPI.getMethod("replacePlaceholders", OfflinePlayer.class, String.class);
+                command = (String) method_PlaceholderAPI_replacePlaceholders.invoke(null, player, command);
+            } catch(Exception ex) {}
+        }
+        
+        return command;
     }
 
     @Override

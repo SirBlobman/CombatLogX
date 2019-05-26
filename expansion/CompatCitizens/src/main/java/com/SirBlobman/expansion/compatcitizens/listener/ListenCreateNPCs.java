@@ -1,4 +1,4 @@
-package com.SirBlobman.expansion.compatcitizens.trait;
+package com.SirBlobman.expansion.compatcitizens.listener;
 
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
@@ -14,15 +14,16 @@ import com.SirBlobman.combatlogx.event.PlayerPunishEvent;
 import com.SirBlobman.combatlogx.event.PlayerPunishEvent.PunishReason;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
+import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.compatcitizens.CompatCitizens;
 import com.SirBlobman.expansion.compatcitizens.config.ConfigCitizens;
+import com.SirBlobman.expansion.compatcitizens.trait.TraitCombatLogX;
 
 import java.util.UUID;
 
 import org.mcmonkey.sentinel.SentinelTrait;
 
 import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.event.SpawnReason;
 import net.citizensnpcs.api.npc.MetadataStore;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
@@ -81,24 +82,19 @@ public class ListenCreateNPCs implements Listener {
         TraitCombatLogX traitCLX = npc.getTrait(TraitCombatLogX.class);
         traitCLX.setOwner(player);
         
-        boolean sentinel = PluginUtil.isEnabled("Sentinel", "mcmonkey") && ConfigCitizens.getOption("citizens.sentinel.use sentinel", true);
-        boolean attackFirst = ConfigCitizens.getOption("citizens.sentinel.attack first", false);
-        if(sentinel) {
-            SentinelTrait sentinelTrait = npc.getTrait(SentinelTrait.class);
-            sentinelTrait.setInvincible(false);
-            
+        if(CombatUtil.hasEnemy(player)) {
             LivingEntity enemy = CombatUtil.getEnemy(player);
-            if(enemy != null) {
-                UUID enemyID = enemy.getUniqueId();
-                sentinelTrait.addTarget(enemyID);
-                if(attackFirst) sentinelTrait.chase(enemy);
-            }
-            
-            double health = player.getHealth();
-            sentinelTrait.setHealth(health);
+            if(enemy instanceof Player) traitCLX.setEnemy((Player) enemy);
         }
         
-        npc.spawn(location, SpawnReason.CREATE);
+        Util.debug("[Citizens Compatibility] Attempting to spawn NPC for player '" + player.getName() + "'...");
+        boolean spawned = npc.spawn(location);
+        
+        if(!spawned) {
+            Util.debug("[Citizens Compatibility] Failed to spawn npc for player '" + player.getName() + "', forcing regular punishment.");
+            CombatUtil.forcePunish(player);
+            return;
+        }
         
         if(type.isAlive()) {
             LivingEntity npcLiving = (LivingEntity) npc.getEntity();
@@ -109,6 +105,27 @@ public class ListenCreateNPCs implements Listener {
             NMS_Handler nms = NMS_Handler.getHandler();
             double maxHealth = nms.getMaxHealth(player);
             nms.setMaxHealth(player, maxHealth);
+        }
+        
+        boolean sentinel = PluginUtil.isEnabled("Sentinel", "mcmonkey") && ConfigCitizens.getOption("citizens.sentinel.use sentinel", true);
+        boolean attackFirst = ConfigCitizens.getOption("citizens.sentinel.attack first", false);
+        if(sentinel) {
+            SentinelTrait sentinelTrait = npc.getTrait(SentinelTrait.class);
+            sentinelTrait.setInvincible(false);
+            
+            LivingEntity enemy = CombatUtil.getEnemy(player);
+            if(enemy != null) {
+                UUID enemyID = enemy.getUniqueId();
+                
+                sentinelTrait.respawnTime = Long.MAX_VALUE;
+                sentinelTrait.realistic = true;
+                sentinelTrait.fightback = true;
+                sentinelTrait.targetingHelper.addTarget(enemyID);
+                if(attackFirst) sentinelTrait.attackHelper.chase(enemy);
+            }
+            
+            double health = player.getHealth();
+            sentinelTrait.setHealth(health);
         }
     }
     

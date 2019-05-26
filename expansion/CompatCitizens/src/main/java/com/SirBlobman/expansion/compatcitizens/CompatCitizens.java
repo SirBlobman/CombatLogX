@@ -4,8 +4,9 @@ import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.expansion.Expansions;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.expansion.compatcitizens.config.ConfigCitizens;
-import com.SirBlobman.expansion.compatcitizens.trait.ListenCreateNPCs;
-import com.SirBlobman.expansion.compatcitizens.trait.ListenPlayerJoin;
+import com.SirBlobman.expansion.compatcitizens.listener.ListenCreateNPCs;
+import com.SirBlobman.expansion.compatcitizens.listener.ListenHandleNPCs;
+import com.SirBlobman.expansion.compatcitizens.listener.ListenPlayerJoin;
 import com.SirBlobman.expansion.compatcitizens.trait.TraitCombatLogX;
 
 import java.io.File;
@@ -22,7 +23,7 @@ public class CompatCitizens implements CLXExpansion {
     }
     
     public String getVersion() {
-        return "13.9";
+        return "14.3";
     }
     
     @Override
@@ -36,7 +37,7 @@ public class CompatCitizens implements CLXExpansion {
         FOLDER = getDataFolder();
         ConfigCitizens.load();
         TraitCombatLogX.onEnable();
-        PluginUtil.regEvents(new ListenCreateNPCs(this), new ListenPlayerJoin());
+        PluginUtil.regEvents(new ListenCreateNPCs(this), new ListenPlayerJoin(), new ListenHandleNPCs());
     }
     
     @Override

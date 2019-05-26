@@ -22,7 +22,7 @@ public class ListenNewItemPickup implements Listener {
         if(ConfigCheatPrevention.ITEM_PICK_UP_DURING_COMBAT) return;
         
         Entity entity = e.getEntity();
-        if((entity instanceof Player)) return;
+        if(!(entity instanceof Player)) return;
         
         Player player = (Player) entity;
         if(!CombatUtil.isInCombat(player)) return;

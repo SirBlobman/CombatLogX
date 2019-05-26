@@ -2,28 +2,22 @@ package com.SirBlobman.expansion.compatcitizens.trait;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.compatcitizens.config.ConfigCitizens;
 import com.SirBlobman.expansion.compatcitizens.config.ConfigData;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.DespawnReason;
-import net.citizensnpcs.api.event.NPCDamageEvent;
-import net.citizensnpcs.api.event.NPCDeathEvent;
-import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.api.trait.TraitInfo;
 import net.citizensnpcs.api.trait.trait.Inventory;
@@ -38,6 +32,7 @@ public class TraitCombatLogX extends Trait {
     
     private long ticksUntilRemove = 0;
     private UUID ownerUUID;
+    private UUID enemyUUID;
     
     public void setOwner(OfflinePlayer player) {
         if(player == null) return;
@@ -47,6 +42,17 @@ public class TraitCombatLogX extends Trait {
     
     public OfflinePlayer getOwner() {
         return Bukkit.getOfflinePlayer(this.ownerUUID);
+    }
+    
+    public void setEnemy(Player player) {
+        if(player == null) return;
+        
+        this.enemyUUID = player.getUniqueId();
+    }
+    
+    public Player getEnemy() {
+        Player player = Bukkit.getPlayer(this.enemyUUID);
+        return player;
     }
     
     public void extendTimeUntilRemove() {
@@ -61,7 +67,16 @@ public class TraitCombatLogX extends Trait {
     @Override
     public void run() {
         if(ticksUntilRemove <= 0) {
-            this.npc.despawn(DespawnReason.PLUGIN);
+            if(ConfigCitizens.getOption("citizens.npc.survive until enemy escape", false)) {
+                Player enemy = getEnemy();
+                if(enemy != null && !CombatUtil.isInCombat(enemy)) {
+                    this.npc.despawn(DespawnReason.PLUGIN);
+                }
+            }
+            
+            if(ConfigCitizens.getOption("citizens.npc.survival time", 30) > 0) {
+                this.npc.despawn(DespawnReason.PLUGIN);
+            }
             return;
         }
         
@@ -99,38 +114,5 @@ public class TraitCombatLogX extends Trait {
         
         ConfigData.force(owner, "punish", true);
         this.npc.destroy();
-    }
-
-    @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
-    public void onDamageNPC(NPCDamageEvent e) {
-        NPC npc = e.getNPC();
-        if(!npc.equals(this.npc)) return;
-        
-        if(ConfigCitizens.getOption("citizens.npc.reset timer on damage", false)) extendTimeUntilRemove();
-    }
-    
-    @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
-    public void onDeathNPC(NPCDeathEvent e) {
-        NPC npc = e.getNPC();
-        if(!npc.equals(this.npc)) return;
-        
-        if(npc.hasTrait(Inventory.class)) {
-            Inventory invTrait = npc.getTrait(Inventory.class);
-            final ItemStack[] invContents = invTrait.getContents().clone();
-            
-            final ItemStack[] allAir = new ItemStack[100];
-            Arrays.fill(allAir, new ItemStack(Material.AIR));
-            invTrait.setContents(allAir);
-            
-            Location location = npc.getEntity().getLocation();
-            World world = location.getWorld();
-            for(ItemStack item : invContents) {
-                if(item == null) continue;
-                Material type = item.getType();
-                if(type == Material.AIR) continue;
-                
-                world.dropItem(location, item);
-            }
-        }
     }
 }

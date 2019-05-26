@@ -7,6 +7,6 @@ Make sure to delete this text and fill in the rest below
 * **Minecraft Version**: 
 * **Spigot Version**: 
 
-* **List of Expansions**:
+* **List of Expansions (run the command `/clx version`)**:
 
-* **What is your issue?**
+* **What is your issue? Make sure you type what the actual bug is and how it can be reproduced.**

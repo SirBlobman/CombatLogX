@@ -28,6 +28,7 @@ public class ConfigCheatPrevention extends Config {
     
     public static boolean FLIGHT_ALLOW_DURING_COMBAT;
     public static boolean FLIGHT_ALLOW_ELYTRAS;
+    public static boolean FLIGHT_ALLOW_RIPTIDE;
     public static String FLIGHT_ENABLE_PERMISSION;
     
     public static boolean GAMEMODE_CHANGE_WHEN_TAGGED;
@@ -56,6 +57,7 @@ public class ConfigCheatPrevention extends Config {
 
         FLIGHT_ALLOW_DURING_COMBAT = get(config, "flight.allow during combat", false);
         FLIGHT_ALLOW_ELYTRAS = get(config, "flight.allow elytras", false);
+        FLIGHT_ALLOW_RIPTIDE = get(config, "flight.allow riptide", false);
         FLIGHT_ENABLE_PERMISSION = get(config, "flight.enable permission", "combatlogx.flight.enable");
 
         GAMEMODE_CHANGE_WHEN_TAGGED = get(config, "gamemode.change", true);

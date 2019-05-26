@@ -28,6 +28,11 @@ flight:
   # Default: false
   allow elytras: false
 
+  # Set this to true if players should be allowed to use the riptide trident enchant
+  # Warning: This option is a bit buggy, if you are having issues set it to `true`
+  # Default: false
+  allow riptide: false
+
   # Set this to '' if you don't want to enable flight for anyone
   # Set this to a permission if you want players to have flight enabled after combat
   # Default: 'combatlogx.flight.enable'

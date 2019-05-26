@@ -32,14 +32,15 @@
         <dependency>
             <groupId>net.citizensnpcs</groupId>
             <artifactId>citizensapi</artifactId>
-            <version>2.0.23-SNAPSHOT</version>
+            <version>2.0.25-SNAPSHOT</version>
             <type>jar</type>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.mcmonkey</groupId>
             <artifactId>sentinel</artifactId>
-            <version>1.6.0</version>
+            <version>1.9.1</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

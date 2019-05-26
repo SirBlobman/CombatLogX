@@ -24,15 +24,19 @@ citizens:
     # Default: true
     mob targeting: true
     
-    # This is the time (in seconds) that the NPC will disappear after (and save health/inventory/location data)
+    # This is the time (in seconds) that the NPC will stay alive until disappearing (and saving health/inventory/location data)
     # Set this to "-1" to make the NPC stay forever
-    # The NPC will be automatically removed if it's killed or if "prevent login" is "false" and the player logs in
+    # This option will only work if `reset timer on damage` and `survive until enemy escape` are both false
     # Default: 30
     survival time: 30
     
     # Set this to true to make the NPC's survival time get reset when it takes damage from a mob/player
     # Default: false
     reset timer on damage: false
+    
+    # Set this to true to make NPC's last as long as their enemy is in combat
+    # Default: false
+    survive until enemy escape: false
     
     # Set this to true to prevent the player of the NPC from logging back in while the NPC is still alive
     # Default: false

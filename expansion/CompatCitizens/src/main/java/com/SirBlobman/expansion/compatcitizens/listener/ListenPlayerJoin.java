@@ -1,4 +1,4 @@
-package com.SirBlobman.expansion.compatcitizens.trait;
+package com.SirBlobman.expansion.compatcitizens.listener;
 
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -19,6 +19,7 @@ import com.SirBlobman.combatlogx.utility.SchedulerUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.compatcitizens.config.ConfigCitizens;
 import com.SirBlobman.expansion.compatcitizens.config.ConfigData;
+import com.SirBlobman.expansion.compatcitizens.trait.TraitCombatLogX;
 
 import java.util.List;
 import java.util.UUID;
@@ -59,18 +60,20 @@ public class ListenPlayerJoin implements Listener {
         double lastHealth = ConfigData.get(player, "last health", player.getHealth());
         player.setHealth(lastHealth);
         
-        Location lastLocation = ConfigData.get(player, "last location", player.getLocation());
-        player.teleport(lastLocation);
-        
-        if(ConfigCitizens.getOption("citizens.npc.store inventory", true)) {
-            List<ItemStack> lastInventory = ConfigData.get(player, "last inventory", Util.newList());
-            ItemStack[] lastContents = lastInventory.toArray(new ItemStack[0]);
-            player.getInventory().setContents(lastContents);
-            player.updateInventory();
-        }
-        
-        if(ConfigCitizens.getOption("citizens.npc.retag player", true)) {
-            CombatUtil.tag(player, null, TagType.UNKNOWN, TagReason.UNKNOWN);
+        if(player.getHealth() > 0.0D) {
+            Location lastLocation = ConfigData.get(player, "last location", player.getLocation());
+            player.teleport(lastLocation);
+            
+            if(ConfigCitizens.getOption("citizens.npc.store inventory", true)) {
+                List<ItemStack> lastInventory = ConfigData.get(player, "last inventory", Util.newList());
+                ItemStack[] lastContents = lastInventory.toArray(new ItemStack[0]);
+                player.getInventory().setContents(lastContents);
+                player.updateInventory();
+            }
+            
+            if(ConfigCitizens.getOption("citizens.npc.retag player", true)) {
+                CombatUtil.tag(player, null, TagType.UNKNOWN, TagReason.UNKNOWN);
+            }
         }
         
         ConfigData.force(player, "punish", false);

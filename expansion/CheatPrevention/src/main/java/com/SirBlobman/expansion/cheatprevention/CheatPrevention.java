@@ -13,6 +13,7 @@ import com.SirBlobman.expansion.cheatprevention.listener.ListenElytra;
 import com.SirBlobman.expansion.cheatprevention.listener.ListenFlight;
 import com.SirBlobman.expansion.cheatprevention.listener.ListenNewItemPickup;
 import com.SirBlobman.expansion.cheatprevention.listener.ListenOldItemPickup;
+import com.SirBlobman.expansion.cheatprevention.listener.ListenRiptide;
 import com.SirBlobman.expansion.cheatprevention.olivolja3.AliasDetection;
 
 import java.io.File;
@@ -30,7 +31,7 @@ public class CheatPrevention implements CLXExpansion {
     }
     
     public String getVersion() {
-        return "14.1";
+        return "14.3";
     }
     
     @Override
@@ -48,6 +49,9 @@ public class CheatPrevention implements CLXExpansion {
         // EntityPickupItemEvent replaced PlayerPickupItemEvent in 1.12
         if(minorVersion >= 12) PluginUtil.regEvents(new ListenNewItemPickup());
         else PluginUtil.regEvents(new ListenOldItemPickup());
+        
+        // Riptide added in 1.13
+        if(minorVersion >= 13) PluginUtil.regEvents(new ListenRiptide());
     }
     
     @Override

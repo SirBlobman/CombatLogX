@@ -42,6 +42,7 @@ public class CombatLogX extends JavaPlugin {
         Util.broadcast(true, loadMSG);
         Expansions.loadExpansions();
     }
+    
     @Override
     public void onEnable() {
         SchedulerUtil.runLater(0L, () -> {

@@ -200,8 +200,8 @@ public class ListenCheatPrevention implements Listener {
         sendMessage(player, message);
     }
     
-    private final List<UUID> MESSAGE_COOLDOWN = Util.newList();
-    private void sendMessage(Player player, String message) {
+    private static final List<UUID> MESSAGE_COOLDOWN = Util.newList();
+    public static void sendMessage(Player player, String message) {
         UUID uuid = player.getUniqueId();
         if(!MESSAGE_COOLDOWN.contains(uuid)) {
             Util.sendMessage(player, message);
