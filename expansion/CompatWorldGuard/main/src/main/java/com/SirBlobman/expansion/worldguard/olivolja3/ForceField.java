@@ -1,9 +1,13 @@
 package com.SirBlobman.expansion.worldguard.olivolja3;
 
+import static com.SirBlobman.api.nms.NMS_Handler.getMinorVersion;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,7 +16,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.SirBlobman.api.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.CombatLogX;
 import com.SirBlobman.combatlogx.event.PlayerTagEvent;
 import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
@@ -60,7 +63,7 @@ public class ForceField implements Listener {
                 if(!CombatUtil.isInCombat(p)) return;
                 WrapperPlayServerBlockChange block = new WrapperPlayServerBlockChange(e.getPacket());
                 Location loc = e.getPacket().getBlockPositionModifier().read(0).toLocation(p.getWorld());
-                if(ForceField.fakeBlocks.containsKey(p.getUniqueId()) && ForceField.isSafe(loc) && ForceField.isSafeSurround(loc) && ForceField.canPlace(loc) && ForceField.fakeBlocks.get(p.getUniqueId()).contains(loc)) {
+                if(ForceField.fakeBlocks.containsKey(p.getUniqueId()) && ForceField.isSafe(loc, p) && ForceField.isSafeSurround(loc, p) && ForceField.canPlace(loc) && ForceField.fakeBlocks.get(p.getUniqueId()).contains(loc)) {
                     block.setBlockData(new ForceField().wrappedData(block.getBlockData()));
                 }
             }
@@ -69,7 +72,7 @@ public class ForceField implements Listener {
 
     private WrappedBlockData wrappedData(WrappedBlockData data) {
         data.setType(ConfigWG.FORCEFIELD_MATERIAL);
-        if(NMS_Handler.getMinorVersion() < 13) data.setData(ConfigWG.FORCEFIELD_MATERIAL_DATA);
+        if(getMinorVersion() < 13) data.setData(ConfigWG.FORCEFIELD_MATERIAL_DATA);
         return data;
     }
 
@@ -87,9 +90,10 @@ public class ForceField implements Listener {
 
         if(!CombatUtil.isInCombat(p)) return;
         if(to.getBlock().equals(from.getBlock())) return;
-        if(isSafe(p.getLocation())) return;
+        if(isSafe(to, p)) return;
 
         updateForceField(p);
+
     }
 
     public void clearData() {
@@ -98,9 +102,9 @@ public class ForceField implements Listener {
 
     public void updateForceField(Player p) {
         if(!CombatUtil.isInCombat(p)) return;
-        if(isSafe(p.getLocation())) return;
+        if(isSafe(p.getLocation(), p)) return;
         Set<Location> oldArea = new HashSet<>();
-        Set<Location> area = getForceFieldArea(p);
+        Set<Location> area = getForceFieldArea(p, CombatUtil.getEnemy(p));
         Set<Location> area2 = new HashSet<>(area);
         if(fakeBlocks.containsKey(p.getUniqueId())) {
             oldArea = fakeBlocks.get(p.getUniqueId());
@@ -123,8 +127,8 @@ public class ForceField implements Listener {
     public void onTag(PlayerTagEvent e) {
         Player p = e.getPlayer();
 
-        if(isSafe(p.getLocation())) return;
-        Set<Location> area = getForceFieldArea(p);
+        if(isSafe(p.getLocation(), p)) return;
+        Set<Location> area = getForceFieldArea(p, e.getEnemy());
         fakeBlocks.put(p.getUniqueId(), area);
         for(Location loc : area) {
             sendForceField(p, loc);
@@ -149,10 +153,13 @@ public class ForceField implements Listener {
 
 
 
-    private Set<Location> getForceFieldArea(Player p) {
+    private Set<Location> getForceFieldArea(Player p, LivingEntity enemy) {
         Set<Location> area = new HashSet<>();
         Location pLoc = p.getLocation();
         int radius = ConfigWG.FORCEFIELD_SIZE;
+        PlayerTagEvent.TagType tagType = PlayerTagEvent.TagType.UNKNOWN;
+        if(enemy instanceof Player) tagType = PlayerTagEvent.TagType.PLAYER;
+        else if(enemy instanceof Mob) tagType = PlayerTagEvent.TagType.MOB;
 
         Location loc1 = pLoc.clone().add(radius, 0, radius);
         Location loc2 = pLoc.clone().subtract(radius, 0, radius);
@@ -164,8 +171,8 @@ public class ForceField implements Listener {
         for (int x = bottomBlockX; x <= topBlockX; x++) {
             for (int z = bottomBlockZ; z <= topBlockZ; z++) {
                 Location location = new Location(pLoc.getWorld(), (double) x, pLoc.getY(), (double) z);
-                if(!isSafe(location)) continue;
-                if (!isSafeSurround(location)) continue;
+                if(!isSafe(location, p, tagType)) continue;
+                if (!isSafeSurround(location, p, tagType)) continue;
                 for (int i = -radius; i < radius; i++) {
                     Location loc3 = new Location(location.getWorld(), location.getX(), location.getY(), location.getZ());
                     loc3.setY(loc3.getY() + i);
@@ -184,26 +191,39 @@ public class ForceField implements Listener {
 
     }
 
-    public static boolean isSafe(Location loc) {
-        return !(WGUtil.allowsPvP(loc) || WGUtil.allowsMobCombat(loc));
+    public static boolean isSafe(Location loc, Player player, PlayerTagEvent.TagType tagType) {
+        if(tagType.equals(PlayerTagEvent.TagType.PLAYER)) return !WGUtil.allowsPvP(loc);
+        else if(tagType.equals(PlayerTagEvent.TagType.MOB)) return !WGUtil.allowsMobCombat(loc);
+        return false;
+    }
+    public static boolean isSafe(Location loc, Player player) {
+        if(CombatUtil.getEnemy(player) instanceof Player) return !WGUtil.allowsPvP(loc);
+        else if(CombatUtil.getEnemy(player) instanceof Mob) return !WGUtil.allowsMobCombat(loc);
+        return false;
     }
 
-    public static boolean isSafeSurround(Location loc) {
+    public static boolean isSafeSurround(Location loc, Player player, PlayerTagEvent.TagType tagType) {
         Set<BlockFace> faces = new HashSet<>(Arrays.asList(BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.WEST, BlockFace.EAST));
-        for(BlockFace face : faces) { if(!isSafe(loc.getBlock().getRelative(face).getLocation())) return true; }
+        for(BlockFace face : faces) { if(!isSafe(loc.getBlock().getRelative(face).getLocation(), player, tagType)) return true; }
+        return false;
+    }
+
+    public static boolean isSafeSurround(Location loc, Player player) {
+        Set<BlockFace> faces = new HashSet<>(Arrays.asList(BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.WEST, BlockFace.EAST));
+        for(BlockFace face : faces) { if(!isSafe(loc.getBlock().getRelative(face).getLocation(), player)) return true; }
         return false;
     }
 
     @SuppressWarnings("deprecation")
     private void sendForceField(Player p, Location loc) {
-        if(NMS_Handler.getMinorVersion() >= 13) p.sendBlockChange(loc, ConfigWG.FORCEFIELD_MATERIAL.createBlockData());
+        if(getMinorVersion() >= 13) p.sendBlockChange(loc, ConfigWG.FORCEFIELD_MATERIAL.createBlockData());
         else p.sendBlockChange(loc, ConfigWG.FORCEFIELD_MATERIAL, ConfigWG.FORCEFIELD_MATERIAL_DATA);
     }
 
     @SuppressWarnings("deprecation")
     private void resetBlock(Player p, Location loc) {
         Block b = loc.getBlock();
-        if(NMS_Handler.getMinorVersion() >= 13) p.sendBlockChange(loc, b.getBlockData());
+        if(getMinorVersion() >= 13) p.sendBlockChange(loc, b.getBlockData());
         else p.sendBlockChange(loc, b.getType(), b.getData());
     }
 }

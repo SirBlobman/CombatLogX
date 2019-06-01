@@ -106,10 +106,15 @@ public class TraitCombatLogX extends Trait {
         Location location = npcEntity.getLocation();
         ConfigData.force(owner, "last location", location);
         
-        if(health > 0.0D && this.npc.hasTrait(Inventory.class) && ConfigCitizens.getOption("citizens.npc.store inventory", true)) {
-            Inventory invTrait = this.npc.getTrait(Inventory.class);
-            List<ItemStack> invContents = Util.newList(invTrait.getContents());
-            ConfigData.force(owner, "last inventory", invContents);
+        if(this.npc.hasTrait(Inventory.class) && ConfigCitizens.getOption("citizens.npc.store inventory", true)) {
+            if(health > 0.0D) {
+                Inventory invTrait = this.npc.getTrait(Inventory.class);
+                List<ItemStack> invContents = Util.newList(invTrait.getContents());
+                ConfigData.force(owner, "last inventory", invContents);
+            } else {
+                List<ItemStack> empty = Util.newList();
+                ConfigData.force(owner, "last inventory", empty);
+            }
         }
         
         ConfigData.force(owner, "punish", true);
