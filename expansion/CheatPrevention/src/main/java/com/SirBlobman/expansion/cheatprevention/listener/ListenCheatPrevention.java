@@ -6,6 +6,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -17,9 +18,12 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.potion.PotionEffectType;
 
 import com.SirBlobman.combatlogx.config.ConfigLang;
+import com.SirBlobman.combatlogx.config.ConfigOptions;
 import com.SirBlobman.combatlogx.event.PlayerCombatTimerChangeEvent;
 import com.SirBlobman.combatlogx.event.PlayerTagEvent;
 import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagReason;
@@ -113,6 +117,24 @@ public class ListenCheatPrevention implements Listener {
             e.setCancelled(true);
             String error = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.teleport.other.not allowed");
             Util.sendMessage(player, error);
+            
+            SchedulerUtil.runLater(5L, () -> {
+                if(ConfigOptions.OPTION_DEBUG && !e.isCancelled()) {
+                    Util.debug("Event was cancelled, but maybe messed with. Check these other listener plugins for a reason why...");
+                    HandlerList handlerList = e.getHandlers();
+                    RegisteredListener[] listenerList = handlerList.getRegisteredListeners();
+                    for(RegisteredListener rl : listenerList) {
+                        Listener listener = rl.getListener();
+                        Class<?> lclass = listener.getClass();
+                        String className = lclass.getName();
+                        
+                        Plugin plugin = rl.getPlugin();
+                        String pluginName = plugin.getName();
+                        
+                        Util.debug("Listener Found: [" + pluginName + "] " + className);
+                    }
+                }
+            });
         }
         
         if(cause == TeleportCause.ENDER_PEARL && ConfigCheatPrevention.TELEPORTATION_ENDER_PEARLS_RESTART_TIMER) {

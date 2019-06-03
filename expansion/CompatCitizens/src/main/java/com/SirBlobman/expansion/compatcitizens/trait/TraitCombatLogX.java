@@ -1,26 +1,19 @@
 package com.SirBlobman.expansion.compatcitizens.trait;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.compatcitizens.config.ConfigCitizens;
-import com.SirBlobman.expansion.compatcitizens.config.ConfigData;
 
-import java.util.List;
 import java.util.UUID;
 
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.DespawnReason;
 import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.api.trait.TraitInfo;
-import net.citizensnpcs.api.trait.trait.Inventory;
 
 public class TraitCombatLogX extends Trait {
     public TraitCombatLogX() {super("combatlogx");}
@@ -87,37 +80,5 @@ public class TraitCombatLogX extends Trait {
     public void onAttach() {
         Util.debug("[Citizens Compatibility] NPC ID '" + getIdForNPC() + "' has been set to a CombatLogX NPC.");
         extendTimeUntilRemove();
-    }
-    
-    @Override
-    public void onDespawn() {
-        OfflinePlayer owner = getOwner();
-        if(owner == null) return;
-        
-        double health = 0.0D;
-        Entity npcEntity = this.npc.getEntity();
-        if(npcEntity instanceof LivingEntity) {
-            LivingEntity npcLiving = (LivingEntity) npcEntity;
-            health = npcLiving.getHealth();
-        }
-                
-        ConfigData.force(owner, "last health", health);
-        
-        Location location = npcEntity.getLocation();
-        ConfigData.force(owner, "last location", location);
-        
-        if(this.npc.hasTrait(Inventory.class) && ConfigCitizens.getOption("citizens.npc.store inventory", true)) {
-            if(health > 0.0D) {
-                Inventory invTrait = this.npc.getTrait(Inventory.class);
-                List<ItemStack> invContents = Util.newList(invTrait.getContents());
-                ConfigData.force(owner, "last inventory", invContents);
-            } else {
-                List<ItemStack> empty = Util.newList();
-                ConfigData.force(owner, "last inventory", empty);
-            }
-        }
-        
-        ConfigData.force(owner, "punish", true);
-        this.npc.destroy();
     }
 }
