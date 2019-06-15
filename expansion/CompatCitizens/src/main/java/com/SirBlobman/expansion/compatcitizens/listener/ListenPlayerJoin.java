@@ -10,7 +10,9 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
+import com.SirBlobman.api.utility.ItemUtil;
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagReason;
 import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagType;
@@ -57,25 +59,30 @@ public class ListenPlayerJoin implements Listener {
         boolean punish = ConfigData.get(player, "punish", false);
         if(!punish) return;
         
-        double lastHealth = ConfigData.get(player, "last health", player.getHealth());
-        player.setHealth(lastHealth);
+        Location lastLocation = ConfigData.get(player, "last location", player.getLocation());
+        player.teleport(lastLocation);
         
-        if(player.getHealth() > 0.0D) {
-            Location lastLocation = ConfigData.get(player, "last location", player.getLocation());
-            player.teleport(lastLocation);
-            
-            if(ConfigCitizens.getOption("citizens.npc.store inventory", true)) {
+        if(ConfigCitizens.getOption("citizens.npc.retag player", true)) {
+            CombatUtil.tag(player, null, TagType.UNKNOWN, TagReason.UNKNOWN);
+        }
+        
+        double lastHealth = ConfigData.get(player, "last health", player.getHealth());
+        
+        if(ConfigCitizens.getOption("citizens.npc.store inventory", true)) {
+            if(lastHealth > 0.0D) {
                 List<ItemStack> lastInventory = ConfigData.get(player, "last inventory", Util.newList());
                 ItemStack[] lastContents = lastInventory.toArray(new ItemStack[0]);
                 player.getInventory().setContents(lastContents);
                 player.updateInventory();
-            }
-            
-            if(ConfigCitizens.getOption("citizens.npc.retag player", true)) {
-                CombatUtil.tag(player, null, TagType.UNKNOWN, TagReason.UNKNOWN);
+            } else {
+                PlayerInventory playerInv = player.getInventory();
+                playerInv.setArmorContents(new ItemStack[] {ItemUtil.AIR, ItemUtil.AIR, ItemUtil.AIR, ItemUtil.AIR});
+                playerInv.clear();
+                player.updateInventory();
             }
         }
         
+        player.setHealth(lastHealth);
         ConfigData.force(player, "punish", false);
     }
     

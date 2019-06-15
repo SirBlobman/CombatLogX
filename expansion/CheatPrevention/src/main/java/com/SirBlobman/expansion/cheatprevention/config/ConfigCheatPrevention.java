@@ -27,6 +27,7 @@ public class ConfigCheatPrevention extends Config {
     public static List<String> TELEPORTATION_ALLOWED_CAUSES;
     
     public static boolean FLIGHT_ALLOW_DURING_COMBAT;
+    public static boolean FLIGHT_PREVENT_FALL_DAMAGE;
     public static boolean FLIGHT_ALLOW_ELYTRAS;
     public static boolean FLIGHT_ALLOW_RIPTIDE;
     public static String FLIGHT_ENABLE_PERMISSION;
@@ -56,6 +57,7 @@ public class ConfigCheatPrevention extends Config {
         TELEPORTATION_ALLOWED_CAUSES = get(config, "teleportation.allowed causes", Util.newList("ENDER_PEARL", "PLUGIN"));
 
         FLIGHT_ALLOW_DURING_COMBAT = get(config, "flight.allow during combat", false);
+        FLIGHT_PREVENT_FALL_DAMAGE = get(config, "flight.prevent fall damage", false);
         FLIGHT_ALLOW_ELYTRAS = get(config, "flight.allow elytras", false);
         FLIGHT_ALLOW_RIPTIDE = get(config, "flight.allow riptide", false);
         FLIGHT_ENABLE_PERMISSION = get(config, "flight.enable permission", "combatlogx.flight.enable");

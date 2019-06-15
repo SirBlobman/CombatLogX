@@ -24,9 +24,9 @@ public class AttackListener implements Listener {
         Entity damager = e.getDamager();
 
         if ((damager instanceof Projectile) && ConfigOptions.OPTION_LINK_PROJECTILES) {
-            Projectile p = (Projectile) damager;
-            if (!p.getType().equals(EntityType.ENDER_PEARL)) {
-                ProjectileSource ps = p.getShooter();
+            Projectile projectile = (Projectile) damager;
+            if (!projectile.getType().equals(EntityType.ENDER_PEARL)) {
+                ProjectileSource ps = projectile.getShooter();
                 if (ps instanceof Entity) {
                     damager = (Entity) ps;
                 }
