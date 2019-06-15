@@ -68,7 +68,7 @@ public class ListenPlayerJoin implements Listener {
         Util.debug("[Citizens Compatibility] Teleported player to '" + lastLocation + "'.");
         player.teleport(lastLocation);
         
-        if(ConfigCitizens.getOption("citizens.npc.retag player", true)) {
+        if(ConfigCitizens.getOption("citizens.npc.retag player on login", true)) {
             CombatUtil.tag(player, null, TagType.UNKNOWN, TagReason.UNKNOWN);
             Util.debug("[Citizens Compatibility] Tagged player");
         }
