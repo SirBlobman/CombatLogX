@@ -11,6 +11,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
+import com.SirBlobman.combatlogx.utility.SchedulerUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.compatcitizens.config.ConfigCitizens;
 import com.SirBlobman.expansion.compatcitizens.config.ConfigData;
@@ -38,15 +39,26 @@ public class ListenHandleNPCs implements Listener {
     
     @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
     public void onDespawnNPC(NPCDespawnEvent e) {
+        Util.debug("[Citizens Compatibility] NPCDespawnEvent triggered, checking if an NPC needs to be saved.");
+        
         DespawnReason reason = e.getReason();
-        if(reason == DespawnReason.PENDING_RESPAWN) return;
+        if(reason == DespawnReason.PENDING_RESPAWN) {
+            Util.debug("DespawnReason was Pending Respawn, ignoring...");
+            return;
+        }
         
         NPC npc = e.getNPC();
-        if(!npc.hasTrait(TraitCombatLogX.class)) return;
+        if(!npc.hasTrait(TraitCombatLogX.class)) {
+            Util.debug("The npc was not a combatlogx npc, ignoring...");
+            return;
+        }
         TraitCombatLogX trait = npc.getTrait(TraitCombatLogX.class);
         
         OfflinePlayer owner = trait.getOwner();
-        if(owner == null) return;
+        if(owner == null) {
+            Util.debug("The NPC didn't have an owner, ignoring...");
+            return;
+        }
         
         double health = 0.0D;
         Entity npcEntity = npc.getEntity();
@@ -54,10 +66,12 @@ public class ListenHandleNPCs implements Listener {
             LivingEntity npcLiving = (LivingEntity) npcEntity;
             health = npcLiving.getHealth();
         }
+        Util.debug("NPC Health: " + health);
                 
         ConfigData.force(owner, "last health", health);
         
         Location location = npcEntity.getLocation();
+        Util.debug("NPC Location: " + location);
         ConfigData.force(owner, "last location", location);
         
         if(npc.hasTrait(Inventory.class) && ConfigCitizens.getOption("citizens.npc.store inventory", true)) {
@@ -72,7 +86,9 @@ public class ListenHandleNPCs implements Listener {
         }
         
         ConfigData.force(owner, "punish", true);
-        npc.destroy();
+        Util.debug("Set NPC owner to be punished on next join");
+        
+        SchedulerUtil.runLater(5L, () -> npc.destroy());
     }
     
     @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)

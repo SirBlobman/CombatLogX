@@ -48,22 +48,29 @@ public class ListenPlayerJoin implements Listener {
     @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
     public void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
-        NPC npc = getNPC(player);
-        if(npc == null) return;
         
-        npc.despawn(DespawnReason.PLUGIN);
+        NPC npc = getNPC(player);
+        if(npc != null) npc.despawn(DespawnReason.PLUGIN);
+        
         SchedulerUtil.runLater(5L, () -> punish(player));
     }
     
     public void punish(Player player) {
+        Util.debug("[Citizens Compatibility] '" + player.getName() + "' joined, checking if they need to be punished...");
         boolean punish = ConfigData.get(player, "punish", false);
-        if(!punish) return;
+        if(!punish) {
+            Util.debug("[Citizens Compatibility] Punishment is false in user data file, ignoring.");
+            return;
+        }
+        Util.debug("[Citizens Compatibility] Punishment is true in user data file, punishing...");
         
         Location lastLocation = ConfigData.get(player, "last location", player.getLocation());
+        Util.debug("[Citizens Compatibility] Teleported player to '" + lastLocation + "'.");
         player.teleport(lastLocation);
         
         if(ConfigCitizens.getOption("citizens.npc.retag player", true)) {
             CombatUtil.tag(player, null, TagType.UNKNOWN, TagReason.UNKNOWN);
+            Util.debug("[Citizens Compatibility] Tagged player");
         }
         
         double lastHealth = ConfigData.get(player, "last health", player.getHealth());
@@ -80,10 +87,14 @@ public class ListenPlayerJoin implements Listener {
                 playerInv.clear();
                 player.updateInventory();
             }
+            Util.debug("[Citizens Compatibility] Updated player inventory");
         }
         
         player.setHealth(lastHealth);
+        Util.debug("[Citizens Compatibility] Set player health to '" + lastHealth + "'.");
+        
         ConfigData.force(player, "punish", false);
+        Util.debug("[Citizens Compatibility] Player punishment ended, user data punishment set to false.");
     }
     
     public NPC getNPC(OfflinePlayer player) {

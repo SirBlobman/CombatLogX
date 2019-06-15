@@ -14,7 +14,6 @@ import com.SirBlobman.combatlogx.event.PlayerPunishEvent;
 import com.SirBlobman.combatlogx.event.PlayerPunishEvent.PunishReason;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
-import com.SirBlobman.combatlogx.utility.SchedulerUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.compatcitizens.CompatCitizens;
 import com.SirBlobman.expansion.compatcitizens.config.ConfigCitizens;
@@ -71,7 +70,27 @@ public class ListenCreateNPCs implements Listener {
         
         location = location.clone();
         npc.spawn(location);
+        
+        TraitCombatLogX traitCLX = npc.getTrait(TraitCombatLogX.class);
+        traitCLX.setOwner(player);
+        if(enemy instanceof Player) traitCLX.setEnemy((Player) enemy);
+        Util.debug("[Citizens Compatibility] Added CombatLogX trait and set owner/enemy for NPC");
 
+        boolean mobTargetable = ConfigCitizens.getOption("citizens.npc.mob targeting", true);
+        boolean storeInventory = ConfigCitizens.getOption("citizens.npc.store inventory", true);
+        
+        if(storeInventory) {
+            Inventory invTrait = npc.getTrait(Inventory.class);
+            ItemStack[] contents = player.getInventory().getContents();
+            invTrait.setContents(contents);
+            Util.debug("[Citizens Compatibility] Stored inventory of '" + player.getName() + "' in NPC");
+        }
+        
+        if(mobTargetable) {
+            npc.data().set(NPC.TARGETABLE_METADATA, true);
+            Util.debug("[Citizens Compatibility] Set npc to be targetable by mobs");
+        }
+        
         Util.debug("[Citizens Compatibility] Spawned NPC, checking if sentinel settings are enabled...");
         boolean sentinel = PluginUtil.isEnabled("Sentinel", "mcmonkey") && ConfigCitizens.getOption("citizens.sentinel.use sentinel", true);
         if(sentinel) {
@@ -83,76 +102,55 @@ public class ListenCreateNPCs implements Listener {
             sentinelTrait.realistic = true;
             sentinelTrait.fightback = true;
             Util.debug("[Citizens Compatibility] Enabled realistic and fightback");
-
+            
             sentinelTrait.respawnTime = -1L;
             Util.debug("[Citizens Compatibility] Set respawn mode to 'delete after death'");
             
             if(enemy != null) {
                 UUID enemyID = enemy.getUniqueId();
                 
-                SentinelTargetLabel enemyLabel = new SentinelTargetLabel("uuid:" + enemyID);
-                enemyLabel.addToList(sentinelTrait.allTargets);
-                Util.debug("[Citizens Compatibility] Added player enemy as sentinel target");
-            }
-        }
-        
-        SchedulerUtil.runLater(25L, () -> {
-            Util.debug("[Citizens Compatibility] Checking if NPC is still spawned after 5 ticks...");
-            if(!npc.isSpawned()) {
-                Util.debug("[Citizens Compatibility] Failed to spawn npc for player '" + player.getName() + "', forcing regular punishment.");
-                CombatUtil.forcePunish(player);
-                return;
-            }
-            Util.debug("[Citizens Compatibility] NPC is spawned, running other tasks...");
-            
-            if(npc.getEntity().getType().isAlive()) {
-                LivingEntity npcLiving = (LivingEntity) npc.getEntity();
-                
-                double health = player.getHealth();
-                npcLiving.setHealth(health);
-                
-                NMS_Handler nms = NMS_Handler.getHandler();
-                double maxHealth = nms.getMaxHealth(player);
-                nms.setMaxHealth(player, maxHealth);
-                Util.debug("[Citizens Compatibility] Set npc health to match player health");
-            }
-            
-            boolean mobTargetable = ConfigCitizens.getOption("citizens.npc.mob targeting", true);
-            boolean storeInventory = ConfigCitizens.getOption("citizens.npc.store inventory", true);
-            
-            TraitCombatLogX traitCLX = npc.getTrait(TraitCombatLogX.class);
-            traitCLX.setOwner(player);
-            if(enemy instanceof Player) traitCLX.setEnemy((Player) enemy);
-            Util.debug("[Citizens Compatibility] Added CombatLogX trait and set owner/enemy for NPC");
-            
-            if(storeInventory) {
-                Inventory invTrait = npc.getTrait(Inventory.class);
-                ItemStack[] contents = player.getInventory().getContents();
-                invTrait.setContents(contents);
-                Util.debug("[Citizens Compatibility] Stored inventory of '" + player.getName() + "' in NPC");
-            }
-            
-            if(mobTargetable) {
-                npc.data().set(NPC.TARGETABLE_METADATA, true);
-                Util.debug("[Citizens Compatibility] Set npc to be targetable by mobs");
-            }
-            
-            boolean sentinel2 = PluginUtil.isEnabled("Sentinel", "mcmonkey") && ConfigCitizens.getOption("citizens.sentinel.use sentinel", true);
-            if(sentinel2) {
-                SentinelTrait sentinelTrait = npc.getTrait(SentinelTrait.class);
                 boolean attackFirst = ConfigCitizens.getOption("citizens.sentinel.attack first", false);
                 if(attackFirst) {
                     sentinelTrait.attackHelper.chase(enemy);
+                    sentinelTrait.attackHelper.tryAttack(enemy);
+                    sentinelTrait.attackRate = 60;
+                    sentinelTrait.chaseRange = 100.0D;
+                    sentinelTrait.closeChase = true;
+                    sentinelTrait.setGuarding(npc.getUniqueId());
                     Util.debug("[Citizens Compatibility] Enabled NPC to attack first.");
                 }
+                
+                SentinelTargetLabel enemyLabel = new SentinelTargetLabel("uuid:" + enemyID);
+                enemyLabel.addToList(sentinelTrait.allTargets);
+                Util.debug("[Citizens Compatibility] Added player enemy as sentinel target");
                 
                 double health = player.getHealth();
                 sentinelTrait.setHealth(health);
                 Util.debug("[Citizens Compatibility] Set Sentinel health again just in case");
             }
+        }
+        
+        if(!npc.isSpawned()) {
+            Util.debug("[Citizens Compatibility] Failed to spawn npc for player '" + player.getName() + "', forcing regular punishment.");
+            CombatUtil.forcePunish(player);
+            return;
+        }
+        
+        Util.debug("[Citizens Compatibility] NPC is spawned, running other tasks...");
+        
+        if(npc.getEntity().getType().isAlive()) {
+            LivingEntity npcLiving = (LivingEntity) npc.getEntity();
             
-            Util.debug("[Citizens Compatibility] NPC successfully created!");
-        });
+            double health = player.getHealth();
+            npcLiving.setHealth(health);
+            
+            NMS_Handler nms = NMS_Handler.getHandler();
+            double maxHealth = nms.getMaxHealth(player);
+            nms.setMaxHealth(player, maxHealth);
+            Util.debug("[Citizens Compatibility] Set npc health to match player health");
+        }
+        
+        Util.debug("[Citizens Compatibility] NPC successfully created!");
     }
     
     private EntityType getTypeForNPC() {
