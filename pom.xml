@@ -13,9 +13,16 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<combatlogx.version>9.7.1.4</combatlogx.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+
+		<!-- The format is as follows: -->
+		<!-- major.minor.patch.expansion -->
+		<!-- expansion will change when an expansion is changed or updated -->
+		<!-- patch will change when I make small change -->
+		<!-- minor will change when I add a new expansion (or big changes) -->
+		<!-- major will change when I modify the API or make a lot of changes -->
+		<combatlogx.version>9.7.2.0</combatlogx.version>
 	</properties>
 
 	<modules>
@@ -24,8 +31,8 @@
 
 		<!-- Main Plugin -->
 		<module>Main</module>
-        
-        <!-- Normal Expansions -->
+
+		<!-- Normal Expansions -->
 		<module>expansion/CheatPrevention</module>
 		<module>expansion/NotCombatLogX</module>
 		<module>expansion/Notifier</module>
@@ -39,8 +46,8 @@
 		<module>expansion/CompatPlaceholders</module>
 		<module>expansion/CompatResidence</module>
 		<module>expansion/CompatTowny</module>
-        <module>expansion/CompatWorldGuard</module>
-		
+		<module>expansion/CompatWorldGuard</module>
+
 		<!-- CombatLogX Builder -->
 		<module>builder</module>
 	</modules>

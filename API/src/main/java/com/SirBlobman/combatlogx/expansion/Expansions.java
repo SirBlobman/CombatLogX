@@ -21,7 +21,7 @@ public class Expansions {
     private static final File FOLDER = CombatLogX.FOLDER;
     private static final File EFOLDER = new File(FOLDER, "expansions");
     private static List<CLXExpansion> EXPANSIONS = Util.newList();
-
+    
     /**
      * Register your expansion with CombatLogX
      *
@@ -39,20 +39,20 @@ public class Expansions {
                     String name = clxe.getName();
                     String uname = clxe.getUnlocalizedName();
                     String version = clxe.getVersion();
-
+                    
                     List<String> keys = Util.newList("{name}", "{unlocalized_name}", "{version}");
                     List<?> vals = Util.newList(name, uname, version);
                     String format = ConfigLang.get("messages.loading expansion");
                     String msg = Util.formatMessage(format, keys, vals);
                     Util.print(msg);
-
+                    
                     if(clxe.isPreloaded()) clxe.load();
                     EXPANSIONS.add(clxe);
                     loaded = true;
                     break;
                 }
             }
-
+            
             return loaded;
         } catch (Throwable ex) {
             String error = "Failed to load expansion: ";
@@ -61,14 +61,14 @@ public class Expansions {
             return false;
         }
     }
-
+    
     public static void enableExpansions() {
         int count = 0;
         for(CLXExpansion clxe : getExpansions()) {
             String name = clxe.getName();
             String uname = clxe.getUnlocalizedName();
             String version = clxe.getVersion();
-
+            
             List<String> keys = Util.newList("{name}", "{unlocalized_name}", "{version}");
             List<?> vals = Util.newList(name, uname, version);
             String format = ConfigLang.get("messages.enabling expansion");
@@ -81,15 +81,15 @@ public class Expansions {
             }
             count++;
         }
-
+        
         String format = ConfigLang.get("messages.enabled expansions");
         List<String> keys = Util.newList("{amount}", "{s}");
         List<?> vals = Util.newList(count, (count == 1) ? "" : "s");
         String msg = Util.formatMessage(format, keys, vals);
         Util.print(msg);
-
+        
     }
-
+    
     public static List<CLXExpansion> getExpansions() {
         return Util.newList(EXPANSIONS);
     }
@@ -99,71 +99,98 @@ public class Expansions {
         List<String> expansionNames = enabled.stream().map(CLXExpansion::getUnlocalizedName).collect(Collectors.toList());
         return expansionNames.contains(unlocalizedName);
     }
-
+    
     public static void reloadConfigs() {
         List<CLXExpansion> list = getExpansions();
         list.forEach(CLXExpansion::onConfigReload);
     }
-
+    
     public static void onDisable() {
         List<CLXExpansion> list = getExpansions();
         EXPANSIONS.clear();
         list.forEach(CLXExpansion::disable);
     }
-
+    
     public static void loadExpansions() {
         try {
-            if (!EFOLDER.exists()) EFOLDER.mkdirs();
+            if(!EFOLDER.exists()) {
+                Util.debug("Expansion folder didn't exist, creating...");
+                EFOLDER.mkdirs();
+            }
+            
             File[] files = EFOLDER.listFiles();
-            for (File file : files != null ? files : new File[0]) {
-                if (!file.isDirectory()) {
-                    if (isJar(file)) {
-                        try (JarFile jarFile = loadJar(file)) {
-                            Enumeration<JarEntry> entries = jarFile != null ? jarFile.entries() : null;
-                            while (entries != null && entries.hasMoreElements()) {
-                                JarEntry je = entries.nextElement();
-                                if (!je.isDirectory()) {
-                                    String entryName = getClassName(je);
-                                    try {
-                                        if (isClass(je)) {
-                                            Class<?> clazz = Class.forName(entryName);
-                                            if (loadExpansion(clazz)) break;
-                                        }
-                                    } catch (Throwable ignored) {
-                                    }
-                                }
-                            }
-                        } catch (Throwable ex2) {
-                            String error = "Failed to install expansion from JAR '" + file + "':";
-                            Util.log(error);
-                            ex2.printStackTrace();
-                        }
+            if(files == null) files = new File[0];
+            
+            for(File file : files) {
+                Util.debug("Checking file '" + file.getName() + "' for expansions...");
+                
+                if(file.isDirectory()) {
+                    Util.debug("File is a folder, ignoring.");
+                    continue;
+                }
+                
+                if(!isJar(file)) {
+                    Util.debug("File is not a jar, ignoring.");
+                    continue;
+                }
+                
+                JarFile jarFile = loadJar(file);
+                if(jarFile == null) {
+                    Util.debug("File is an invalid jar, ignoring.");
+                    continue;
+                }
+                
+                Enumeration<JarEntry> jarEntries = jarFile.entries();
+                a: while(jarEntries != null && jarEntries.hasMoreElements()) {
+                    JarEntry jarEntry = jarEntries.nextElement();
+                    Util.debug("Checking jar entry '" + jarEntry.getName() + "'.");
+                    
+                    if(jarEntry.isDirectory()) {
+                        Util.debug("Jar Entry is a folder, ignoring.");
+                        continue a;
+                    }
+                    
+                    String entryName = getClassName(jarEntry);
+                    if(!isClass(jarEntry)) {
+                        Util.debug("Jar Entry is not a class file, ignoring.");
+                        continue a;
+                    }
+                    
+                    Class<?> entryClass = null;
+                    try {
+                        entryClass = Class.forName(entryName);
+                    } catch(Throwable ex) {
+                        Util.debug("An error occurred while loading an expansion: " + ex.getMessage());
+                        continue a;
+                    }
+                    
+                    if(loadExpansion(entryClass)) {
+                        Util.debug("Successfully loaded expansion.");
+                        break a;
                     } else {
-                        String error = "Found a non-jar file at '" + file + "'. Please remove it!";
-                        Util.log(error);
+                        Util.debug("Failed to load expansion.");
+                        continue a;
                     }
                 }
             }
-
+            
             int count = getExpansions().size();
             List<String> keys = Util.newList("{amount}", "{s}");
             List<?> vals = Util.newList(count, (count == 1) ? "" : "s");
             String format = ConfigLang.get("messages.loaded expansions");
             String msg = Util.formatMessage(format, keys, vals);
             Util.print(msg);
-        } catch (Throwable ex1) {
-            String error1 = "There was an extreme error loading any expansions for CombatLogX!";
-            String error2 = "Please send this message to SirBlobman on SpigotMC along with your 'latest.log' file!";
-            Util.print(error1, error2);
-            ex1.printStackTrace();
+        } catch(ReflectiveOperationException | IOException ex) {
+            Util.log("An error occurred while trying to load expansions:");
+            ex.printStackTrace();
         }
     }
-
+    
     public static void unloadExpansion(CLXExpansion exp) {
         exp.disable();
         EXPANSIONS.remove(exp);
     }
-
+    
     private static String getFileExtension(File file) {
         String name = file.getName();
         int lastDot = name.lastIndexOf(".");
@@ -173,43 +200,41 @@ public class Expansions {
             return name.substring(start).toLowerCase();
         } else return "";
     }
-
+    
     private static boolean isJar(File file) {
         String ext = getFileExtension(file);
         return ext.equals("jar");
     }
-
+    
     @SuppressWarnings("resource")
     private static synchronized JarFile loadJar(File file) throws IOException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         JarFile jarFile = new JarFile(file);
         ClassLoader classLoader = CombatLogX.CLASS_LOADER;
-        if (classLoader instanceof URLClassLoader) {
-            URLClassLoader ucl = (URLClassLoader) classLoader;
-            URI uri = file.toURI();
-            URL url = uri.toURL();
-            for (URL urls : ucl.getURLs()) {
-                if (urls.equals(url)) return jarFile;
-            }
-
-            Class<URLClassLoader> clazz = URLClassLoader.class;
-            Method method = clazz.getDeclaredMethod("addURL", URL.class);
-            method.setAccessible(true);
-            method.invoke(ucl, url);
-            return jarFile;
-        } else return null;
+        if(!(classLoader instanceof URLClassLoader)) return null;
+        
+        URLClassLoader ucl = (URLClassLoader) classLoader;
+        URI uri = file.toURI();
+        URL url = uri.toURL();
+        for (URL urls : ucl.getURLs()) {
+            if (urls.equals(url)) return jarFile;
+        }
+        
+        Class<URLClassLoader> clazz = URLClassLoader.class;
+        Method method = clazz.getDeclaredMethod("addURL", URL.class);
+        method.setAccessible(true);
+        method.invoke(ucl, url);
+        return jarFile;
     }
-
+    
     private static boolean isClass(JarEntry je) {
         String name = je.getName();
         return name.endsWith(".class");
     }
-
+    
     private static String getClassName(JarEntry je) {
-        if (isClass(je)) {
-            return je.getName()
-                    .replace(".class", "")
-                    .replace("/", ".")
-                    .replace(File.separator, ".");
-        } else return "";
+        if(!isClass(je)) return "";
+        
+        String name = je.getName();
+        return name.replace(".class", "").replace("/", ".").replace(File.separator, ".");
     }
 }
