@@ -13,7 +13,7 @@ import org.bukkit.event.player.PlayerEvent;
 public class PlayerTagEvent extends PlayerEvent {
     private static final HandlerList HANDLER_LIST = new HandlerList();
     private final LivingEntity enemy;
-    private final long combatEnds;
+    private long combatEnds;
     private final TagReason tagReason;
     private final TagType tagType;
     public PlayerTagEvent(Player p, LivingEntity enemy, TagType type, TagReason reason, long combatEnds) {
@@ -45,6 +45,15 @@ public class PlayerTagEvent extends PlayerEvent {
      */
     public long getEndTime() {
         return combatEnds;
+    }
+    
+    /**
+     * Set the amount of time to wait before the player escapes from combat
+     * The default is {@code System.getCurrentTimeMillis() + (ConfigOptions.OPTION_TIMER * 1000L);}
+     * @param systemTime The system time (in milliseconds) that the timer will end. 
+     */
+    public void setEndTime(long systemTime) {
+        this.combatEnds = systemTime;
     }
 
     /**

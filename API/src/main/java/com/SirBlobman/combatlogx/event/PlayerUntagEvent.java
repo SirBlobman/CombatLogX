@@ -1,19 +1,23 @@
 package com.SirBlobman.combatlogx.event;
 
-import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagReason;
-import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagType;
-import com.SirBlobman.combatlogx.utility.CombatUtil;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 
+import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagReason;
+import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagType;
+import com.SirBlobman.combatlogx.utility.CombatUtil;
+
 public class PlayerUntagEvent extends PlayerEvent {
     private static final HandlerList HANDLER_LIST = new HandlerList();
     private final UntagReason reason;
+    private final LivingEntity previousEnemy;
 
-    public PlayerUntagEvent(Player p, UntagReason reason) {
+    public PlayerUntagEvent(Player p, UntagReason reason, LivingEntity previousEnemy) {
         super(p);
         this.reason = reason;
+        this.previousEnemy = previousEnemy;
     }
 
     public static HandlerList getHandlerList() {
@@ -34,6 +38,10 @@ public class PlayerUntagEvent extends PlayerEvent {
      */
     public UntagReason getUntagReason() {
         return reason;
+    }
+    
+    public LivingEntity getPreviousEnemy() {
+        return this.previousEnemy;
     }
 
     @Deprecated

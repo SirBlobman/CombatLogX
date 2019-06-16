@@ -12,6 +12,8 @@ messages:
 
   enabling expansion: "Enabling expansion '{name} v{version}'"
   enabled expansions: "Successfully enabled {amount} expansion{s}"
+  
+  unknown entity name: "unknown entity"
 
   broadcasts:
     on load: "§cCombatLogX is preloading expansions this is W.I.P, report any issues!"

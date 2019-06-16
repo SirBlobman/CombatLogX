@@ -1,7 +1,6 @@
 package com.SirBlobman.expansion.worldguard.listener;
 
 import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -32,9 +31,11 @@ public class ListenWorldGuard implements Listener {
         Location toLoc = e.getTo();
         Location fromLoc = e.getFrom();
         
+        /*
         Block toBlock = toLoc.getBlock();
         Block fromBlock = fromLoc.getBlock();
         if(toBlock.equals(fromBlock)) return;
+        */
         
         LivingEntity enemy = CombatUtil.getEnemy(player);
         if(enemy == null) return;
@@ -71,10 +72,18 @@ public class ListenWorldGuard implements Listener {
     private Vector getVector(Location fromLoc, Location toLoc) {
         Vector fromVector = fromLoc.toVector();
         Vector toVector = toLoc.toVector();
-        Vector subtract = fromVector.subtract(toVector);
+        Vector subtract = fromVector.subtract(toVector);        
         Vector normal = subtract.normalize();
         Vector multiply = normal.multiply(ConfigWG.NO_ENTRY_KNOCKBACK_STRENGTH);
-        return multiply.setY(0.0D);
+        multiply.setY(0.0D);
+        
+        try {multiply.checkFinite();}
+        catch (IllegalArgumentException ex) {
+            multiply.setX(multiply.getX() == Double.POSITIVE_INFINITY ? 1 : -1);
+            multiply.setZ(multiply.getZ() == Double.POSITIVE_INFINITY ? 1 : -1);
+        }
+        
+        return multiply;
     }
     
     private void preventEntry(Cancellable e, Player player, Location fromLoc, Location toLoc) {
@@ -97,12 +106,17 @@ public class ListenWorldGuard implements Listener {
         }
         
         if(nemode == NoEntryMode.KNOCKBACK) {
+            /*
             boolean isPVP = (enemy instanceof Player);
             if(isPVP && !WGUtil.allowsPvP(fromLoc)) return;
             if(!isPVP && !WGUtil.allowsMobCombat(fromLoc)) return;
+            */
             
-            Vector knockback = getVector(fromLoc, toLoc);
-            player.setVelocity(knockback);
+            e.setCancelled(true);
+            SchedulerUtil.runLater(1L, () -> {
+                Vector knockback = getVector(fromLoc, toLoc);
+                player.setVelocity(knockback);
+            });
             return;
         }
     }

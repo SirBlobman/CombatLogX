@@ -1,22 +1,22 @@
 package com.SirBlobman.expansion.worldguard.utility.v6_1;
 
+import org.bukkit.Location;
+import org.bukkit.World;
+
 import com.SirBlobman.combatlogx.utility.Util;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.DefaultFlag;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.managers.RegionManager;
-import org.bukkit.Location;
-import org.bukkit.World;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 
 public class v6_1_WGUtil {
-
     private static WorldGuardPlugin getAPI = WorldGuardPlugin.inst();
-
     private static StateFlag MOB_COMBAT = new StateFlag("mob-combat", false);
 
     public static void registerFlag() {
@@ -62,5 +62,4 @@ public class v6_1_WGUtil {
         StateFlag.State state = regionSet.queryValue(null, MOB_COMBAT);
         return (state != StateFlag.State.DENY);
     }
-
 }

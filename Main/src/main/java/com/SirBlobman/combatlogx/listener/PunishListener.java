@@ -12,13 +12,13 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class PunishListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onQuit(PlayerQuitEvent e) {
-        Player p = e.getPlayer();
-        CombatUtil.untag(p, UntagReason.QUIT);
+        Player player = e.getPlayer();
+        CombatUtil.untag(player, UntagReason.QUIT);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onKick(PlayerKickEvent e) {
-        Player p = e.getPlayer();
-        CombatUtil.untag(p, UntagReason.KICK);
+        Player player = e.getPlayer();
+        CombatUtil.untag(player, UntagReason.KICK);
     }
 }

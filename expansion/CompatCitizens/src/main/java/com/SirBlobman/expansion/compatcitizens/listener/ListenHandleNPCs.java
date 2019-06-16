@@ -19,13 +19,16 @@ import com.SirBlobman.expansion.compatcitizens.trait.TraitCombatLogX;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import net.citizensnpcs.api.event.DespawnReason;
 import net.citizensnpcs.api.event.NPCDamageByEntityEvent;
 import net.citizensnpcs.api.event.NPCDeathEvent;
 import net.citizensnpcs.api.event.NPCDespawnEvent;
 import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.trait.trait.Equipment;
 import net.citizensnpcs.api.trait.trait.Inventory;
+import net.citizensnpcs.api.trait.trait.Equipment.EquipmentSlot;
 
 public class ListenHandleNPCs implements Listener {
     @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
@@ -76,12 +79,10 @@ public class ListenHandleNPCs implements Listener {
         
         if(npc.hasTrait(Inventory.class) && ConfigCitizens.getOption("citizens.npc.store inventory", true)) {
             if(health > 0.0D) {
-                Inventory invTrait = npc.getTrait(Inventory.class);
-                List<ItemStack> invContents = Util.newList(invTrait.getContents());
-                ConfigData.force(owner, "last inventory", invContents);
+                Map<String, Object> inventoryData = getInventoryData(npc);
+                ConfigData.force(owner, "inventory data", inventoryData);
             } else {
-                List<ItemStack> empty = Util.newList();
-                ConfigData.force(owner, "last inventory", empty);
+                ConfigData.force(owner, "inventory data", null);
             }
         }
         
@@ -114,5 +115,50 @@ public class ListenHandleNPCs implements Listener {
                 world.dropItem(location, item);
             }
         }
+        
+        if(npc.hasTrait(Equipment.class)) {
+            Equipment npcEquip = npc.getTrait(Equipment.class);
+            ItemStack[] contents = npcEquip.getEquipment().clone();
+            for(EquipmentSlot slot : EquipmentSlot.values()) npcEquip.set(slot, new ItemStack(Material.AIR));
+            
+            Location location = npc.getEntity().getLocation();
+            World world = location.getWorld();
+            for(ItemStack item : contents) {
+                if(item == null) continue;
+                Material type = item.getType();
+                if(type == Material.AIR) continue;
+                
+                world.dropItem(location, item);
+            }
+        }
+    }
+    
+    public  Map<String, Object> getInventoryData(NPC npc) {
+        if(npc == null) return Util.newMap();
+        
+        Map<String, Object> inventoryData = Util.newMap();
+        
+        if(npc.hasTrait(Inventory.class)) {
+            Inventory npcInv = npc.getTrait(Inventory.class);
+            ItemStack[] contents = npcInv.getContents();
+            
+            List<ItemStack> itemList = Util.newList(contents);
+            inventoryData.put("items", itemList);
+        }
+        
+        if(npc.hasTrait(Equipment.class)) {
+            Equipment npcEquip = npc.getTrait(Equipment.class);
+            ItemStack itemHelmet = npcEquip.get(EquipmentSlot.HELMET);
+            ItemStack itemChestplate = npcEquip.get(EquipmentSlot.CHESTPLATE);
+            ItemStack itemLeggings = npcEquip.get(EquipmentSlot.LEGGINGS);
+            ItemStack itemBoots = npcEquip.get(EquipmentSlot.BOOTS);
+
+            inventoryData.put("helmet", itemHelmet);
+            inventoryData.put("chestplate", itemChestplate);
+            inventoryData.put("leggings", itemLeggings);
+            inventoryData.put("boots", itemBoots);
+        }
+        
+        return inventoryData;
     }
 }

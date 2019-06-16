@@ -1,6 +1,7 @@
 package com.SirBlobman.expansion.compatcitizens.listener;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -76,17 +77,14 @@ public class ListenPlayerJoin implements Listener {
         double lastHealth = ConfigData.get(player, "last health", player.getHealth());
         
         if(ConfigCitizens.getOption("citizens.npc.store inventory", true)) {
-            if(lastHealth > 0.0D) {
-                List<ItemStack> lastInventory = ConfigData.get(player, "last inventory", Util.newList());
-                ItemStack[] lastContents = lastInventory.toArray(new ItemStack[0]);
-                player.getInventory().setContents(lastContents);
-                player.updateInventory();
-            } else {
+            if(lastHealth > 0.0D) transferInventoryToPlayer(player);
+            else {
                 PlayerInventory playerInv = player.getInventory();
                 playerInv.setArmorContents(new ItemStack[] {ItemUtil.AIR, ItemUtil.AIR, ItemUtil.AIR, ItemUtil.AIR});
                 playerInv.clear();
                 player.updateInventory();
             }
+            
             Util.debug("[Citizens Compatibility] Updated player inventory");
         }
         
@@ -120,5 +118,28 @@ public class ListenPlayerJoin implements Listener {
         }
         
         return null;
+    }
+    
+    public void transferInventoryToPlayer(Player player) {
+        if(player == null) return;
+        
+        PlayerInventory playerInv = player.getInventory();
+        final ItemStack air = new ItemStack(Material.AIR);
+        
+        List<ItemStack> itemList = ConfigData.get(player, "inventory data.items", Util.newList());
+        ItemStack[] contents = itemList.toArray(new ItemStack[0]);
+        playerInv.setContents(contents);
+
+        ItemStack itemHelmet = ConfigData.get(player, "inventory data.helmet", air);
+        ItemStack itemChestplate = ConfigData.get(player, "inventory data.chestplate", air);
+        ItemStack itemLeggings = ConfigData.get(player, "inventory data.leggings", air);
+        ItemStack itemBoots = ConfigData.get(player, "inventory data.boots", air);
+        playerInv.setHelmet(itemHelmet);
+        playerInv.setChestplate(itemChestplate);
+        playerInv.setLeggings(itemLeggings);
+        playerInv.setBoots(itemBoots);
+        
+        player.updateInventory();
+        ConfigData.force(player, "inventory data", null);
     }
 }

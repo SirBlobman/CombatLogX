@@ -19,6 +19,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.SirBlobman.combatlogx.CombatLogX;
 import com.SirBlobman.combatlogx.event.PlayerTagEvent;
 import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
+import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagType;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.expansion.worldguard.config.ConfigWG;
@@ -153,14 +154,12 @@ public class ForceField implements Listener {
 
 
 
-    private Set<Location> getForceFieldArea(Player p, LivingEntity enemy) {
+    private Set<Location> getForceFieldArea(Player player, LivingEntity enemy) {
         Set<Location> area = new HashSet<>();
-        Location pLoc = p.getLocation();
+        Location pLoc = player.getLocation();
         int radius = ConfigWG.FORCEFIELD_SIZE;
-        PlayerTagEvent.TagType tagType = PlayerTagEvent.TagType.UNKNOWN;
-        if(enemy instanceof Player) tagType = PlayerTagEvent.TagType.PLAYER;
-        else if(enemy instanceof Mob) tagType = PlayerTagEvent.TagType.MOB;
-
+        TagType tagType = (enemy == null ? TagType.UNKNOWN : (enemy instanceof Player ? TagType.PLAYER : TagType.MOB));
+        
         Location loc1 = pLoc.clone().add(radius, 0, radius);
         Location loc2 = pLoc.clone().subtract(radius, 0, radius);
         int topBlockX = loc1.getBlockX() < loc2.getBlockX() ? loc2.getBlockX() : loc1.getBlockX();
@@ -171,8 +170,8 @@ public class ForceField implements Listener {
         for (int x = bottomBlockX; x <= topBlockX; x++) {
             for (int z = bottomBlockZ; z <= topBlockZ; z++) {
                 Location location = new Location(pLoc.getWorld(), (double) x, pLoc.getY(), (double) z);
-                if(!isSafe(location, p, tagType)) continue;
-                if (!isSafeSurround(location, p, tagType)) continue;
+                if(!isSafe(location, player, tagType)) continue;
+                if (!isSafeSurround(location, player, tagType)) continue;
                 for (int i = -radius; i < radius; i++) {
                     Location loc3 = new Location(location.getWorld(), location.getX(), location.getY(), location.getZ());
                     loc3.setY(loc3.getY() + i);
