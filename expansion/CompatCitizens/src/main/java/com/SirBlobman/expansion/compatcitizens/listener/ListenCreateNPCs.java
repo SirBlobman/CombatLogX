@@ -93,6 +93,9 @@ public class ListenCreateNPCs implements Listener {
     }
     
     private void setOptions(NPC npc, Player player, LivingEntity enemy) {
+        boolean mobTargetable = ConfigCitizens.getOption("citizens.npc.mob targeting", true);
+        npc.data().set(NPC.TARGETABLE_METADATA, !mobTargetable);
+        
         npc.removeTrait(Owner.class);
         
         TraitCombatLogX traitCLX = npc.getTrait(TraitCombatLogX.class);
@@ -101,9 +104,6 @@ public class ListenCreateNPCs implements Listener {
         
         boolean storeInventory = ConfigCitizens.getOption("citizens.npc.store inventory", true);
         if(storeInventory) transferInventoryToNPC(player, npc);
-
-        boolean mobTargetable = ConfigCitizens.getOption("citizens.npc.mob targeting", true);
-        if(mobTargetable) npc.data().set(NPC.TARGETABLE_METADATA, true);
         
         if(npc.getEntity().getType().isAlive()) {
             LivingEntity npcLiving = (LivingEntity) npc.getEntity();
