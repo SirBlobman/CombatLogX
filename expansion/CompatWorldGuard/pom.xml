@@ -22,6 +22,10 @@
         <module>WG_6.2</module>
         <module>WG_7.0</module>
     </modules>
+    
+    <properties>
+    	<bukkit.version>1.8-R0.1-SNAPSHOT</bukkit.version>
+    </properties>
 
     <repositories>
         <repository>

@@ -7,7 +7,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,8 +17,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.SirBlobman.combatlogx.CombatLogX;
 import com.SirBlobman.combatlogx.event.PlayerTagEvent;
-import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagType;
+import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.expansion.worldguard.config.ConfigWG;
@@ -197,7 +196,7 @@ public class ForceField implements Listener {
     }
     public static boolean isSafe(Location loc, Player player) {
         if(CombatUtil.getEnemy(player) instanceof Player) return !WGUtil.allowsPvP(loc);
-        else if(CombatUtil.getEnemy(player) instanceof Mob) return !WGUtil.allowsMobCombat(loc);
+        else if(CombatUtil.getEnemy(player) instanceof LivingEntity) return !WGUtil.allowsMobCombat(loc);
         return false;
     }
 

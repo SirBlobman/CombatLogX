@@ -2,8 +2,10 @@ package com.SirBlobman.expansion.compatcitizens.listener;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -86,15 +88,30 @@ public class ListenCreateNPCs implements Listener {
             CombatUtil.forcePunish(player);
             return;
         }
-        npc.setProtected(false);
         
         setOptions(npc, player, enemy);
         setSentinel(npc, player, enemy);
     }
     
     private void setOptions(NPC npc, Player player, LivingEntity enemy) {
+        npc.setProtected(false);
+        npc.data().set(NPC.SHOULD_SAVE_METADATA, false);
+        
         boolean mobTargetable = ConfigCitizens.getOption("citizens.npc.mob targeting", true);
-        npc.data().set(NPC.TARGETABLE_METADATA, !mobTargetable);
+        if(mobTargetable) {
+            npc.data().set(NPC.TARGETABLE_METADATA, false);
+            Entity npcEntity = npc.getEntity();
+            if(npcEntity instanceof LivingEntity) {
+                LivingEntity npcLiving = (LivingEntity) npcEntity;
+                
+                for(Entity entity : npcLiving.getNearbyEntities(16.0, 16.0, 16.0)) {
+                    if(!(entity instanceof Monster)) return;
+                    
+                    Monster monster = (Monster) entity;
+                    monster.setTarget(npcLiving);
+                }
+            }
+        }
         
         npc.removeTrait(Owner.class);
         
@@ -160,6 +177,7 @@ public class ListenCreateNPCs implements Listener {
         
         ItemStack[] contents = playerInv.getContents();
         playerInv.setContents(airInventory);
+        player.updateInventory();
         
         Equipment npcEquip = npc.getTrait(Equipment.class);
         npcEquip.set(EquipmentSlot.HELMET, itemHelmet);
@@ -169,7 +187,5 @@ public class ListenCreateNPCs implements Listener {
         
         Inventory npcInv = npc.getTrait(Inventory.class);
         npcInv.setContents(contents);
-        
-        player.updateInventory();
     }
 }

@@ -76,12 +76,9 @@ public class ListenWorldGuard implements Listener {
         Vector normal = subtract.normalize();
         Vector multiply = normal.multiply(ConfigWG.NO_ENTRY_KNOCKBACK_STRENGTH);
         multiply.setY(0.0D);
-        
-        try {multiply.checkFinite();}
-        catch (IllegalArgumentException ex) {
-            multiply.setX(multiply.getX() == Double.POSITIVE_INFINITY ? 1 : -1);
-            multiply.setZ(multiply.getZ() == Double.POSITIVE_INFINITY ? 1 : -1);
-        }
+
+        if(Double.isInfinite(multiply.getX())) multiply.setX(multiply.getX() == Double.POSITIVE_INFINITY ? 1 : -1);
+        if(Double.isInfinite(multiply.getZ())) multiply.setZ(multiply.getZ() == Double.POSITIVE_INFINITY ? 1 : -1);
         
         return multiply;
     }
