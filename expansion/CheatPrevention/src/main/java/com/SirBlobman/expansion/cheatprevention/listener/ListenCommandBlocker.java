@@ -43,7 +43,7 @@ public class ListenCommandBlocker implements Listener {
     private String convertCommand(String original) {
         if(original == null || original.isEmpty()) original = "";
         if(!original.startsWith("/")) original = "/" + original;
-        return original;
+        return original.toLowerCase();
     }
     
     private String getMainCommand(String original) {

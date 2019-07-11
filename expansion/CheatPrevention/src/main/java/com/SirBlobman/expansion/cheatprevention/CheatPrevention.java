@@ -1,5 +1,6 @@
 package com.SirBlobman.expansion.cheatprevention;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 
 import com.SirBlobman.api.nms.NMS_Handler;
@@ -31,14 +32,16 @@ public class CheatPrevention implements CLXExpansion {
     }
     
     public String getVersion() {
-        return "14.5";
+        return "14.6";
     }
     
     @Override
     public void enable() {
         FOLDER = getDataFolder();
         ConfigCheatPrevention.load();
+        
         AliasDetection.cmdDetect();
+        detectAliases();
         
         PluginUtil.regEvents(new ListenCheatPrevention(), new ListenCommandBlocker(), new ListenFlight());
         
@@ -65,25 +68,31 @@ public class CheatPrevention implements CLXExpansion {
         detectAliases();
     }
     
-    private static void detectAliases() {
-        List<String> list = ConfigCheatPrevention.BLOCKED_COMMANDS_LIST;
+    private void detectAliases() {
         List<String> newList = Util.newList();
-        
-        list.forEach(blocked -> {
-            Util.debug(String.format("Checking aliases for command '%s'", blocked));
-            String withoutSlash = blocked.substring(1);
-            PluginCommand pcmd = Util.SERVER.getPluginCommand(withoutSlash);
-            if (pcmd != null) {
-                String withSlash = "/" + pcmd.getName();
-                newList.add(withSlash);
-                List<String> aliases = pcmd.getAliases();
-                aliases.forEach(alias -> {
-                    Util.debug(String.format("Found alias '%s' for command '%s'", alias, blocked));
-                    String asCmd = "/" + alias;
-                    newList.add(asCmd);
-                });
+
+        List<String> blockedCommandList = Util.newList(ConfigCheatPrevention.BLOCKED_COMMANDS_LIST);
+        for(String blockedCmd : blockedCommandList) {
+            Util.debug("Checking aliases for command '" + blockedCmd + "'.");
+            String noSlash = blockedCmd.startsWith("/") ? blockedCmd.substring(1) : blockedCmd;
+            PluginCommand pluginCommand = Bukkit.getPluginCommand(noSlash);
+            if(pluginCommand == null) {
+                Util.debug("'" + blockedCmd + "' is not a valid command.");
+                continue;
             }
-        });
+            
+            String originalCommand = pluginCommand.getName();
+            String originalWithSlash = "/" + originalCommand;
+            newList.add(originalWithSlash);
+            Util.debug("Original command for '" + blockedCmd + "' is '" + originalCommand + "'.");
+            
+            List<String> aliasList = pluginCommand.getAliases();
+            for(String alias : aliasList) {
+                Util.debug("Found alias '" + alias + "' for command '" + originalCommand + "'.");
+                String aliasWithSlash = "/" + alias;
+                newList.add(aliasWithSlash);
+            }
+        }
         
         ConfigCheatPrevention.BLOCKED_COMMANDS_LIST.addAll(newList);
     }

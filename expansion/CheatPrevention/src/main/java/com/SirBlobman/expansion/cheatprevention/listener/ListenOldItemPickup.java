@@ -23,12 +23,11 @@ public class ListenOldItemPickup implements Listener {
         
         Player player = e.getPlayer();
         if(!CombatUtil.isInCombat(player)) return;
-
         
         e.setCancelled(true);
         sendMessage(player);
     }
-
+    
     private final List<UUID> MESSAGE_COOLDOWN = Util.newList();
     private void sendMessage(Player player) {
         UUID uuid = player.getUniqueId();
