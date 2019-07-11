@@ -32,6 +32,7 @@ messages:
 
     combattime:
       not in combat: "&c&oYou are not in combat."
+      not in combat other: "&c&o{target} is not in combat."
       time left: "&a&oYou have &c{time} seconds &a&oremaining."
       time left other: "&f{target}&a&o has &c{time} seconds &a&oremaining"
 

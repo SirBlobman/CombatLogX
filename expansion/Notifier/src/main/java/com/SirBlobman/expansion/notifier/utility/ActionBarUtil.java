@@ -28,7 +28,7 @@ public class ActionBarUtil extends Util {
             updateActionBar(player);
         } else {
             DISABLED_PLAYERS.add(uuid);
-            removeActionBar(player);
+            removeActionBar(player, true);
         }
         
         return !DISABLED_PLAYERS.contains(uuid);
@@ -39,7 +39,7 @@ public class ActionBarUtil extends Util {
         
         int timeLeftInt = CombatUtil.getTimeLeft(player);
         if(timeLeftInt <= 0) {
-            removeActionBar(player);
+            removeActionBar(player, false);
             return;
         }
         
@@ -54,7 +54,13 @@ public class ActionBarUtil extends Util {
         NMS_Handler.getHandler().sendActionBar(player, msg);
     }
     
-    public static void removeActionBar(Player player) {
+    public static void removeActionBar(Player player, boolean isShutdown) {
+        if(isShutdown) {
+            String msg = "";
+            NMS_Handler.getHandler().sendActionBar(player, msg);
+            return;
+        }
+        
         if(!DISABLED_PLAYERS.contains(player.getUniqueId())) {
             String msg = color(ConfigNotifier.ACTION_BAR_NO_LONGER_IN_COMBAT);
             NMS_Handler.getHandler().sendActionBar(player, msg);

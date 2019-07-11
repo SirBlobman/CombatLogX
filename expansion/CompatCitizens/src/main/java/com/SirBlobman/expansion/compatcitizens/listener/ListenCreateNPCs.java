@@ -42,7 +42,7 @@ public class ListenCreateNPCs implements Listener {
         this.expansion = expansion;
     }
     
-    @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
+    @EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
     public void onPunish(PlayerPunishEvent e) {
         PunishReason reason = e.getReason();
         if(reason == PunishReason.UNKNOWN) return;
@@ -81,6 +81,12 @@ public class ListenCreateNPCs implements Listener {
             return;
         }
         
+        npc.removeTrait(Owner.class);
+        
+        TraitCombatLogX traitCLX = npc.getTrait(TraitCombatLogX.class);
+        traitCLX.setOwner(player);
+        if(enemy instanceof Player) traitCLX.setEnemy((Player) enemy);
+        
         location = location.clone();
         boolean isSpawned = npc.spawn(location);
         
@@ -112,12 +118,6 @@ public class ListenCreateNPCs implements Listener {
                 }
             }
         }
-        
-        npc.removeTrait(Owner.class);
-        
-        TraitCombatLogX traitCLX = npc.getTrait(TraitCombatLogX.class);
-        traitCLX.setOwner(player);
-        if(enemy instanceof Player) traitCLX.setEnemy((Player) enemy);
         
         boolean storeInventory = ConfigCitizens.getOption("citizens.npc.store inventory", true);
         if(storeInventory) transferInventoryToNPC(player, npc);

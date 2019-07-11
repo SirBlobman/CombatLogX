@@ -7,20 +7,34 @@ import org.bukkit.entity.Player;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.compatcitizens.config.ConfigCitizens;
+import com.SirBlobman.expansion.compatcitizens.listener.ListenHandleNPCs;
 
 import java.util.UUID;
 
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.DespawnReason;
+import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.npc.NPCRegistry;
 import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.api.trait.TraitInfo;
 
 public class TraitCombatLogX extends Trait {
     public TraitCombatLogX() {super("combatlogx");}
     
+    public static TraitInfo TRAIT_INFO;
     public static void onEnable() {
-        TraitInfo traitInfoCLX = TraitInfo.create(TraitCombatLogX.class);
-        CitizensAPI.getTraitFactory().registerTrait(traitInfoCLX);
+        TRAIT_INFO = TraitInfo.create(TraitCombatLogX.class);
+        CitizensAPI.getTraitFactory().registerTrait(TRAIT_INFO);
+    }
+    
+    public static void onDisable() {
+        NPCRegistry registry = CitizensAPI.getNPCRegistry();
+        for(NPC npc : registry) {
+            if(!ListenHandleNPCs.isValid(npc)) continue;
+            npc.despawn();
+        }
+        
+        CitizensAPI.getTraitFactory().deregisterTrait(TRAIT_INFO);
     }
     
     private long ticksUntilRemove = 0;

@@ -28,7 +28,7 @@ public class Notifier implements CLXExpansion, Listener {
     }
     
     public String getVersion() {
-        return "13.9";
+        return "13.10";
     }
     
     @Override
@@ -42,7 +42,7 @@ public class Notifier implements CLXExpansion, Listener {
     public void disable() {
         Bukkit.getOnlinePlayers().forEach(player -> {
             BossBarUtil.removeBossBar(player, true);
-            ActionBarUtil.removeActionBar(player);
+            ActionBarUtil.removeActionBar(player, true);
         });
     }
     
@@ -75,7 +75,7 @@ public class Notifier implements CLXExpansion, Listener {
         Player player = e.getPlayer();
         
         if (ConfigNotifier.BOSS_BAR_ENABLED) BossBarUtil.removeBossBar(player, false);
-        if (ConfigNotifier.ACTION_BAR_ENABLED) ActionBarUtil.removeActionBar(player);
+        if (ConfigNotifier.ACTION_BAR_ENABLED) ActionBarUtil.removeActionBar(player, false);
         if (ConfigNotifier.SCORE_BOARD_ENABLED) {
             if (ConfigNotifier.SCORE_BOARD_USE_FEATHERBOARD) {
                 SchedulerUtil.runLater(5L, () -> {

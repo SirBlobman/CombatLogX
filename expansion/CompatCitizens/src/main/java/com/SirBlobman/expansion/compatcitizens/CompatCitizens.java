@@ -23,7 +23,7 @@ public class CompatCitizens implements CLXExpansion {
     }
     
     public String getVersion() {
-        return "14.10";
+        return "14.12";
     }
     
     @Override
@@ -43,7 +43,7 @@ public class CompatCitizens implements CLXExpansion {
     @Override
     public void disable() {
         if(!PluginUtil.isEnabled("Citizens")) return;
-        
+        TraitCombatLogX.onDisable();
     }
     
     @Override

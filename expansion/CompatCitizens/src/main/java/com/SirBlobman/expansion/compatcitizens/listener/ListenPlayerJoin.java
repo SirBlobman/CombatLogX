@@ -33,7 +33,7 @@ import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
 
 public class ListenPlayerJoin implements Listener {
-    @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
+    @EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
     public void beforeLogin(AsyncPlayerPreLoginEvent e) {
         if(!ConfigCitizens.getOption("citizens.npc.prevent login", false)) return;
         
@@ -46,14 +46,18 @@ public class ListenPlayerJoin implements Listener {
         e.setLoginResult(Result.KICK_OTHER);
     }
     
-    @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
+    @EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
     public void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
+        Util.debug("[Citizens Compatibility] Checking '" + player.getName() + "' for NPCs");
         
         NPC npc = getNPC(player);
-        if(npc != null) npc.despawn(DespawnReason.PLUGIN);
+        if(npc != null) {
+            Util.debug("Found NPC, despawning.");
+            npc.despawn(DespawnReason.PLUGIN);
+        }
         
-        SchedulerUtil.runLater(5L, () -> punish(player));
+        SchedulerUtil.runLater(1L, () -> punish(player));
     }
     
     public void punish(Player player) {
@@ -129,7 +133,7 @@ public class ListenPlayerJoin implements Listener {
         List<ItemStack> itemList = ConfigData.get(player, "inventory data.items", Util.newList());
         ItemStack[] contents = itemList.toArray(new ItemStack[0]);
         playerInv.setContents(contents);
-
+        
         ItemStack itemHelmet = ConfigData.get(player, "inventory data.helmet", air);
         ItemStack itemChestplate = ConfigData.get(player, "inventory data.chestplate", air);
         ItemStack itemLeggings = ConfigData.get(player, "inventory data.leggings", air);

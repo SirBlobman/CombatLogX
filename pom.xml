@@ -19,10 +19,10 @@
 		<!-- The format is as follows: -->
 		<!-- major.minor.patch.expansion -->
 		<!-- expansion will change when an expansion is changed or updated -->
-		<!-- patch will change when I make small change -->
+		<!-- patch will change when I make small changes -->
 		<!-- minor will change when I add a new expansion (or big changes) -->
 		<!-- major will change when I modify the API or make a lot of changes -->
-		<combatlogx.version>9.8.0.2</combatlogx.version>
+		<combatlogx.version>9.8.1.0</combatlogx.version>
 	</properties>
 
 	<modules>
