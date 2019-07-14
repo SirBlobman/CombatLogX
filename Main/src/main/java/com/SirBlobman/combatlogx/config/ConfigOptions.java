@@ -1,8 +1,8 @@
 package com.SirBlobman.combatlogx.config;
 
-import com.SirBlobman.combatlogx.utility.Util;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.EntityType;
+
+import com.SirBlobman.combatlogx.utility.Util;
 
 import java.io.File;
 import java.util.List;
@@ -73,7 +73,7 @@ public class ConfigOptions extends Config {
         COMBAT_SELF = get(config, "combat.self", true);
 
         COMBAT_MOBS = get(config, "combat.mobs.enabled", true);
-        COMBAT_MOBS_BLACKLIST = get(config, "combat.mobs.blacklist", Util.newList(EntityType.WITHER.name(), EntityType.ARMOR_STAND.name()));
+        COMBAT_MOBS_BLACKLIST = get(config, "combat.mobs.blacklist", Util.newList("ARMOR_STAND", "WITHER"));
 
         COMBAT_SUDO = get(config, "combat.sudo.enabled", false);
         COMBAT_SUDO_COMMANDS = get(config, "combat.sudo.commands", Util.newList("[PLAYER]me is now in Combat"));

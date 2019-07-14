@@ -7,6 +7,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
+import com.SirBlobman.api.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.config.ConfigOptions;
 import com.SirBlobman.combatlogx.event.PlayerCombatTimerChangeEvent;
@@ -162,8 +163,8 @@ public class CombatUtil implements Runnable {
         endMillis = tagEvent.getEndTime();
         
         if(!isInCombat(player)) {
-            String enemyName = (enemy == null ? ConfigLang.get("messages.unknown entity name") : enemy.getName());
             String enemyType = (enemy == null ? EntityType.UNKNOWN.name() : enemy.getType().name());
+            String enemyName = (enemy == null ? ConfigLang.get("messages.unknown entity name") : NMS_Handler.getMinorVersion() == 7 ? (enemy instanceof Player ? ((Player) enemy).getName() : enemyType) : enemy.getName());
             
             String message = "";
             if(tagType == TagType.MOB) {

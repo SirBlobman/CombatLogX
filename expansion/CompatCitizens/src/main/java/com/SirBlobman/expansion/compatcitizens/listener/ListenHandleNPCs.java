@@ -11,6 +11,9 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
+import com.SirBlobman.api.nms.NMS_Handler;
+import com.SirBlobman.api.utility.ItemUtil;
+import com.SirBlobman.combatlogx.utility.SchedulerUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.compatcitizens.config.ConfigCitizens;
 import com.SirBlobman.expansion.compatcitizens.config.ConfigData;
@@ -22,6 +25,7 @@ import java.util.Map;
 
 import net.citizensnpcs.api.event.DespawnReason;
 import net.citizensnpcs.api.event.NPCDamageByEntityEvent;
+import net.citizensnpcs.api.event.NPCDeathEvent;
 import net.citizensnpcs.api.event.NPCDespawnEvent;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.trait.Equipment;
@@ -44,6 +48,14 @@ public class ListenHandleNPCs implements Listener {
     }
     
     @EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
+    public void onDeath(NPCDeathEvent e) {
+        NPC npc = e.getNPC();
+        if(!isValid(npc)) return;
+        
+        e.getDrops().clear();
+    }
+    
+    @EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
     public void beforeDespawn(NPCDespawnEvent e) {
         DespawnReason reason = e.getReason();
         if(reason == DespawnReason.PENDING_RESPAWN) return;
@@ -51,7 +63,21 @@ public class ListenHandleNPCs implements Listener {
         NPC npc = e.getNPC();
         if(!isValid(npc)) return;
         
-        if(reason == DespawnReason.DEATH) {           
+        if(reason == DespawnReason.DEATH) {    
+            if(npc.hasTrait(Equipment.class)) {
+                Equipment npcEquip = npc.getTrait(Equipment.class);
+                ItemStack[] contents = npcEquip.getEquipment().clone();
+                contents[0] = null;
+                for(EquipmentSlot slot : EquipmentSlot.values()) npcEquip.set(slot, new ItemStack(Material.AIR));
+                
+                Location location = npc.getEntity().getLocation();
+                World world = location.getWorld();
+                for(ItemStack item : contents) {
+                    if(ItemUtil.isAir(item)) continue;
+                    world.dropItem(location, item);
+                }
+            }    
+            
             if(npc.hasTrait(Inventory.class)) {
                 Inventory invTrait = npc.getTrait(Inventory.class);
                 final ItemStack[] invContents = invTrait.getContents().clone();
@@ -62,26 +88,9 @@ public class ListenHandleNPCs implements Listener {
                 
                 Location location = npc.getEntity().getLocation();
                 World world = location.getWorld();
-                for(ItemStack item : invContents) {
-                    if(item == null) continue;
-                    Material type = item.getType();
-                    if(type == Material.AIR) continue;
-                    
-                    world.dropItem(location, item);
-                }
-            }
-            
-            if(npc.hasTrait(Equipment.class)) {
-                Equipment npcEquip = npc.getTrait(Equipment.class);
-                ItemStack[] contents = npcEquip.getEquipment().clone();
-                for(EquipmentSlot slot : EquipmentSlot.values()) npcEquip.set(slot, new ItemStack(Material.AIR));
-                
-                Location location = npc.getEntity().getLocation();
-                World world = location.getWorld();
-                for(ItemStack item : contents) {
-                    if(item == null) continue;
-                    Material type = item.getType();
-                    if(type == Material.AIR) continue;
+                for(int slot = 0; slot < (4*9) && slot < invContents.length; slot++) {
+                    ItemStack item = invContents[slot];
+                    if(ItemUtil.isAir(item)) continue;
                     
                     world.dropItem(location, item);
                 }
@@ -113,7 +122,7 @@ public class ListenHandleNPCs implements Listener {
         }
         
         ConfigData.force(owner, "punish", true);
-        npc.destroy();
+        SchedulerUtil.runLater(1L, npc::destroy);
     }
     
     public static Map<String, Object> getInventoryData(NPC npc) {
@@ -124,8 +133,15 @@ public class ListenHandleNPCs implements Listener {
         if(npc.hasTrait(Inventory.class)) {
             Inventory npcInv = npc.getTrait(Inventory.class);
             ItemStack[] contents = npcInv.getContents();
+            int inventorySize = contents.length;
             
-            List<ItemStack> itemList = Util.newList(contents);
+            ItemStack[] itemArray = new ItemStack[4*9];
+            Arrays.fill(itemArray, new ItemStack(Material.AIR));
+            for(int slot = 0; slot < inventorySize && slot < (4*9); slot++) {
+                ItemStack item = contents[slot];
+                itemArray[slot] = item;
+            }
+            List<ItemStack> itemList = Util.newList(itemArray);
             inventoryData.put("items", itemList);
         }
         
@@ -140,6 +156,13 @@ public class ListenHandleNPCs implements Listener {
             inventoryData.put("chestplate", itemChestplate);
             inventoryData.put("leggings", itemLeggings);
             inventoryData.put("boots", itemBoots);
+            
+            if(NMS_Handler.getMinorVersion() > 8) {
+                ItemStack itemMain = npcEquip.get(EquipmentSlot.HAND);
+                ItemStack itemOff = npcEquip.get(EquipmentSlot.OFF_HAND);
+                inventoryData.put("main hand", itemMain);
+                inventoryData.put("off hand", itemOff);
+            }
         }
         
         return inventoryData;

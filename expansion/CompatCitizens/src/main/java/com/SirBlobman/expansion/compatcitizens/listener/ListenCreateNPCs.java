@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import com.SirBlobman.api.nms.NMS_Handler;
+import com.SirBlobman.api.utility.ItemUtil;
 import com.SirBlobman.combatlogx.event.PlayerPunishEvent;
 import com.SirBlobman.combatlogx.event.PlayerPunishEvent.PunishReason;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
@@ -164,35 +165,51 @@ public class ListenCreateNPCs implements Listener {
     private void transferInventoryToNPC(Player player, NPC npc) {
         if(player == null || npc == null) return;
         
-        debug("Sending inventory of '" + player.getName() + "' to NPC.");
-        
-        final ItemStack air = new ItemStack(Material.AIR);
-        ItemStack[] airArmor = new ItemStack[4]; Arrays.fill(airArmor, air);
-        ItemStack[] airInventory = new ItemStack[4 * 9]; Arrays.fill(airInventory, air);
-        
         PlayerInventory playerInv = player.getInventory();
-        ItemStack itemHelmet = playerInv.getHelmet(); itemHelmet = (itemHelmet == null ? air : itemHelmet.clone());
-        ItemStack itemChestplate = playerInv.getChestplate(); itemChestplate = (itemChestplate == null ? air : itemChestplate.clone());
-        ItemStack itemLeggings = playerInv.getLeggings(); itemLeggings = (itemLeggings == null ? air : itemLeggings.clone());
-        ItemStack itemBoots = playerInv.getBoots(); itemBoots = (itemBoots == null ? air : itemBoots.clone());
-        playerInv.setArmorContents(airArmor);
         
-        Equipment npcEquip = npc.getTrait(Equipment.class);
-        npcEquip.set(EquipmentSlot.HELMET, itemHelmet);
-        npcEquip.set(EquipmentSlot.CHESTPLATE, itemChestplate);
-        npcEquip.set(EquipmentSlot.LEGGINGS, itemLeggings);
-        npcEquip.set(EquipmentSlot.BOOTS, itemBoots);
-        debug("Copied player armor to NPC");
+        Equipment equipment = npc.getTrait(Equipment.class);
+        ItemStack helmet = copyItem(playerInv.getHelmet());
+        ItemStack chestplate = copyItem(playerInv.getChestplate());
+        ItemStack leggings = copyItem(playerInv.getLeggings());
+        ItemStack boots = copyItem(playerInv.getBoots());
+        if(NMS_Handler.getMinorVersion() > 8) {
+            ItemStack mainHand = copyItem(playerInv.getItemInMainHand());
+            ItemStack offHand = copyItem(playerInv.getItemInOffHand());
+            equipment.set(EquipmentSlot.HAND, mainHand);
+            equipment.set(EquipmentSlot.OFF_HAND, offHand);
+        }
+        equipment.set(EquipmentSlot.HELMET, helmet);
+        equipment.set(EquipmentSlot.CHESTPLATE, chestplate);
+        equipment.set(EquipmentSlot.LEGGINGS, leggings);
+        equipment.set(EquipmentSlot.BOOTS, boots);
         
-        ItemStack[] contents = playerInv.getContents(); contents = (contents == null ? airInventory : contents.clone());
+        Inventory inventory = npc.getTrait(Inventory.class);
+        ItemStack[] contents = copyItems(playerInv, 0, 4 * 9);
+        inventory.setContents(contents);
+        
         playerInv.clear();
         player.updateInventory();
         
-        Inventory npcInv = npc.getTrait(Inventory.class);
-        npcInv.setContents(contents);
-        debug("Copied player inventory to NPC.");
-        
         Map<String, Object> inventoryData = ListenHandleNPCs.getInventoryData(npc);
         ConfigData.force(player, "inventory data", inventoryData);
+    }
+    
+    private ItemStack copyItem(ItemStack item) {
+        if(ItemUtil.isAir(item)) return new ItemStack(Material.AIR);
+        
+        return item.clone();
+    }
+    
+    private ItemStack[] copyItems(org.bukkit.inventory.Inventory inventory, int minSlot, int maxSlot) {
+        ItemStack[] itemArray = new ItemStack[maxSlot];
+        Arrays.fill(itemArray, new ItemStack(Material.AIR));
+        
+        int inventorySize = inventory.getSize();
+        for(int slot = minSlot; slot < inventorySize && slot < maxSlot; slot++) {
+            ItemStack item = inventory.getItem(slot);
+            itemArray[slot] = copyItem(item);
+        }
+        
+        return itemArray;
     }
 }

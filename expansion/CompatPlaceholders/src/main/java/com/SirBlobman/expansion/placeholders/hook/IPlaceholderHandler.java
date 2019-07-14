@@ -3,6 +3,7 @@ package com.SirBlobman.expansion.placeholders.hook;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
+import com.SirBlobman.api.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.Util;
@@ -20,7 +21,7 @@ public interface IPlaceholderHandler {
     default String getEnemyName(Player player) {
         LivingEntity enemy = CombatUtil.getEnemy(player);
         String unknown = ConfigLang.get("messages.expansions.placeholder compatibility.unknown");
-        return (enemy == null ? unknown : enemy.getName());
+        return (enemy == null ? unknown : (NMS_Handler.getMinorVersion() == 7 ? (enemy instanceof Player ? ((Player) enemy).getName() : enemy.getType().name()) : enemy.getName()));
     }
     
     default String getEnemyHealth(Player player) {

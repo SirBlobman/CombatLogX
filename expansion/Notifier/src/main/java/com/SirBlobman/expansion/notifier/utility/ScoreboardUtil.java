@@ -93,6 +93,7 @@ public class ScoreboardUtil extends Util {
             
             line = color(line);
             if (line.length() > 40) line = line.substring(0, 40);
+            if(NMS_Handler.getMinorVersion() == 7 && line.length() > 16) line = line.substring(0, 16);
             
             Score score = objective.getScore(line);
             score.setScore(i);

@@ -13,6 +13,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import com.SirBlobman.api.nms.NMS_Handler;
 import com.SirBlobman.api.utility.ItemUtil;
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagReason;
@@ -142,6 +143,13 @@ public class ListenPlayerJoin implements Listener {
         playerInv.setChestplate(itemChestplate);
         playerInv.setLeggings(itemLeggings);
         playerInv.setBoots(itemBoots);
+        
+        if(NMS_Handler.getMinorVersion() > 8) {
+            ItemStack itemMain = ConfigData.get(player, "inventory data.main hand", air);
+            ItemStack itemOff = ConfigData.get(player, "inventory data.off hand", air);
+            playerInv.setItemInMainHand(itemMain);
+            playerInv.setItemInOffHand(itemOff);
+        }
         
         player.updateInventory();
         ConfigData.force(player, "inventory data", null);
