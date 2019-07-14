@@ -31,7 +31,7 @@ public class NotCombatLogX implements CLXExpansion, Listener {
     }
 
     public String getVersion() {
-        return "13.3";
+        return "14.1";
     }
 
     @Override
@@ -48,6 +48,7 @@ public class NotCombatLogX implements CLXExpansion, Listener {
 
     @Override
     public void onConfigReload() {
+        FOLDER = getDataFolder();
         ConfigNot.load();
     }
 

@@ -8,8 +8,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.util.Vector;
 
 import com.SirBlobman.combatlogx.config.ConfigLang;
@@ -40,7 +38,7 @@ public class CompatLands implements CLXExpansion, Listener {
     }
     
     public String getVersion() {
-        return "13.4";
+        return "14.1";
     }
     
     public boolean checkForLands(boolean print) {
@@ -49,14 +47,13 @@ public class CompatLands implements CLXExpansion, Listener {
             return false;
         }
         
-        Plugin landsPlugin = PluginUtil.PM.getPlugin("Lands");
-        PluginDescriptionFile landsPDF = landsPlugin.getDescription();
-        String version = landsPDF.getVersion();
-        
-        if(version.startsWith("2.7") || version.startsWith("2.8")) return true;
-        
-        if(print) print("Only 2.7 or 2.8 are allowed, but you have '" + version + "'! Automatically disabling...");
-        return false;
+        try {
+            Class.forName("me.angeschossen.lands.api.landsaddons.LandsAddon");
+            return true;
+        } catch(ReflectiveOperationException ex) {
+            if(print) print("Your lands version does not support the API used by CombatLogX. If you believe this is an error, please contact SirBlobman.");
+            return false;
+        }
     }
     
     @Override

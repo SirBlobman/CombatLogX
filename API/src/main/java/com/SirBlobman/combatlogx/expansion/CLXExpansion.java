@@ -113,6 +113,4 @@ public interface CLXExpansion {
             Util.printNoPrefix(msg);
         }
     }
-
-
 }

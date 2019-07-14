@@ -30,7 +30,7 @@ public class CompatFactions implements CLXExpansion, Listener {
     private static List<UUID> MESSAGE_COOLDOWN = Util.newList();
 
     public String getVersion() {
-        return "13.2";
+        return "14.1";
     }
 
     public String getUnlocalizedName() {

@@ -14,7 +14,7 @@ public class CompatParties implements CLXExpansion {
     }
 
     public String getVersion() {
-        return "13.2";
+        return "14.1";
     }
 
     @Override

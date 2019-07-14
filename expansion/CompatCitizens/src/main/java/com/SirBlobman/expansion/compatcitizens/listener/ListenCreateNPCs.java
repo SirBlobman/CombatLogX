@@ -18,12 +18,13 @@ import com.SirBlobman.combatlogx.event.PlayerPunishEvent;
 import com.SirBlobman.combatlogx.event.PlayerPunishEvent.PunishReason;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
-import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.compatcitizens.CompatCitizens;
 import com.SirBlobman.expansion.compatcitizens.config.ConfigCitizens;
+import com.SirBlobman.expansion.compatcitizens.config.ConfigData;
 import com.SirBlobman.expansion.compatcitizens.trait.TraitCombatLogX;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import org.mcmonkey.sentinel.SentinelTrait;
 import org.mcmonkey.sentinel.targeting.SentinelTargetLabel;
@@ -40,6 +41,11 @@ public class ListenCreateNPCs implements Listener {
     private final CompatCitizens expansion;
     public ListenCreateNPCs(CompatCitizens expansion) {
         this.expansion = expansion;
+    }
+    
+    private void debug(String message) {
+        message = "[Debug] " + message;
+        this.expansion.print(message);
     }
     
     @EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
@@ -101,7 +107,10 @@ public class ListenCreateNPCs implements Listener {
     
     private void setOptions(NPC npc, Player player, LivingEntity enemy) {
         npc.setProtected(false);
-        npc.data().set(NPC.SHOULD_SAVE_METADATA, false);
+        
+        boolean storeInventory = ConfigCitizens.getOption("citizens.npc.store inventory", true);
+        debug("NPC Store Inventory Value: " + storeInventory);
+        if(storeInventory) transferInventoryToNPC(player, npc);
         
         boolean mobTargetable = ConfigCitizens.getOption("citizens.npc.mob targeting", true);
         if(mobTargetable) {
@@ -117,10 +126,7 @@ public class ListenCreateNPCs implements Listener {
                     monster.setTarget(npcLiving);
                 }
             }
-        }
-        
-        boolean storeInventory = ConfigCitizens.getOption("citizens.npc.store inventory", true);
-        if(storeInventory) transferInventoryToNPC(player, npc);
+        };
         
         if(npc.getEntity().getType().isAlive()) {
             LivingEntity npcLiving = (LivingEntity) npc.getEntity();
@@ -135,57 +141,58 @@ public class ListenCreateNPCs implements Listener {
     }
     
     private void setSentinel(NPC npc, Player player, LivingEntity enemy) {
-        Util.debug("[Citizens Compatibility] Spawned NPC, checking if sentinel settings are enabled...");
         boolean sentinel = PluginUtil.isEnabled("Sentinel", "mcmonkey") && ConfigCitizens.getOption("citizens.sentinel.use sentinel", true);
         if(sentinel) {
-            Util.debug("[Citizens Compatibility] Sentinel enabled");
             SentinelTrait sentinelTrait = npc.getTrait(SentinelTrait.class);
             sentinelTrait.setInvincible(false);
-            Util.debug("[Citizens Compatibility] Added trait to NPC and set it to not be invincible.");
             
             sentinelTrait.respawnTime = -1L;
-            Util.debug("[Citizens Compatibility] Set respawn mode to 'delete after death'");
             
             if(enemy != null) {
                 boolean attackFirst = ConfigCitizens.getOption("citizens.sentinel.attack first", false);
                 if(attackFirst) {
                     SentinelTargetLabel targetLabel = new SentinelTargetLabel("uuid:" + enemy.getUniqueId().toString());
                     targetLabel.addToList(sentinelTrait.allTargets);
-                    Util.debug("[Citizens Compatibility] Added player enemy as 'attack first' sentinel target");
                 }
             }
             
             double health = player.getHealth();
             sentinelTrait.setHealth(health);
-            Util.debug("[Citizens Compatibility] Set Sentinel health again just in case");
         }
     }
     
     private void transferInventoryToNPC(Player player, NPC npc) {
         if(player == null || npc == null) return;
         
+        debug("Sending inventory of '" + player.getName() + "' to NPC.");
+        
         final ItemStack air = new ItemStack(Material.AIR);
         ItemStack[] airArmor = new ItemStack[4]; Arrays.fill(airArmor, air);
         ItemStack[] airInventory = new ItemStack[4 * 9]; Arrays.fill(airInventory, air);
         
         PlayerInventory playerInv = player.getInventory();
-        ItemStack itemHelmet = playerInv.getHelmet();
-        ItemStack itemChestplate = playerInv.getChestplate();
-        ItemStack itemLeggings = playerInv.getLeggings();
-        ItemStack itemBoots = playerInv.getBoots();
+        ItemStack itemHelmet = playerInv.getHelmet(); itemHelmet = (itemHelmet == null ? air : itemHelmet.clone());
+        ItemStack itemChestplate = playerInv.getChestplate(); itemChestplate = (itemChestplate == null ? air : itemChestplate.clone());
+        ItemStack itemLeggings = playerInv.getLeggings(); itemLeggings = (itemLeggings == null ? air : itemLeggings.clone());
+        ItemStack itemBoots = playerInv.getBoots(); itemBoots = (itemBoots == null ? air : itemBoots.clone());
         playerInv.setArmorContents(airArmor);
-        
-        ItemStack[] contents = playerInv.getContents();
-        playerInv.setContents(airInventory);
-        player.updateInventory();
         
         Equipment npcEquip = npc.getTrait(Equipment.class);
         npcEquip.set(EquipmentSlot.HELMET, itemHelmet);
         npcEquip.set(EquipmentSlot.CHESTPLATE, itemChestplate);
         npcEquip.set(EquipmentSlot.LEGGINGS, itemLeggings);
         npcEquip.set(EquipmentSlot.BOOTS, itemBoots);
+        debug("Copied player armor to NPC");
+        
+        ItemStack[] contents = playerInv.getContents(); contents = (contents == null ? airInventory : contents.clone());
+        playerInv.clear();
+        player.updateInventory();
         
         Inventory npcInv = npc.getTrait(Inventory.class);
         npcInv.setContents(contents);
+        debug("Copied player inventory to NPC.");
+        
+        Map<String, Object> inventoryData = ListenHandleNPCs.getInventoryData(npc);
+        ConfigData.force(player, "inventory data", inventoryData);
     }
 }

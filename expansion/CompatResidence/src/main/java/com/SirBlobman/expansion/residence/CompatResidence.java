@@ -28,7 +28,7 @@ import org.bukkit.util.Vector;
 public class CompatResidence implements CLXExpansion, Listener {
     public String getUnlocalizedName() {return "CompatResidence";}
     public String getName() {return "Residence Compatibility";}
-    public String getVersion() {return "13.1";}
+    public String getVersion() {return "14.1";}
     
     public static File FOLDER;
     

@@ -63,7 +63,6 @@ public class Expansions {
     }
     
     public static void enableExpansions() {
-        int count = 0;
         for(CLXExpansion clxe : getExpansions()) {
             String name = clxe.getName();
             String uname = clxe.getUnlocalizedName();
@@ -77,16 +76,17 @@ public class Expansions {
             try {
                 clxe.enable();
             } catch (Throwable ex) {
-                break;
+                ex.printStackTrace();
+                continue;
             }
-            count++;
         }
         
-        String format = ConfigLang.get("messages.enabled expansions");
-        List<String> keys = Util.newList("{amount}", "{s}");
-        List<?> vals = Util.newList(count, (count == 1) ? "" : "s");
-        String msg = Util.formatMessage(format, keys, vals);
-        Util.print(msg);
+        
+        int count = getExpansions().size();
+        List<String> keyList = Util.newList("{amount}", "{s}");
+        List<?> valueList = Util.newList(count, (count == 1 ? "" : "s"));
+        String message = Util.formatMessage(ConfigLang.get("messages.enabled expansions"), keyList, valueList);
+        Util.print(message);
         
     }
     

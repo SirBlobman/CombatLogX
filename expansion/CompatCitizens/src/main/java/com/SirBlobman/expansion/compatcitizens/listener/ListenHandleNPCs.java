@@ -51,7 +51,7 @@ public class ListenHandleNPCs implements Listener {
         NPC npc = e.getNPC();
         if(!isValid(npc)) return;
         
-        if(reason == DespawnReason.DEATH) {            
+        if(reason == DespawnReason.DEATH) {           
             if(npc.hasTrait(Inventory.class)) {
                 Inventory invTrait = npc.getTrait(Inventory.class);
                 final ItemStack[] invContents = invTrait.getContents().clone();
@@ -116,7 +116,7 @@ public class ListenHandleNPCs implements Listener {
         npc.destroy();
     }
     
-    public  Map<String, Object> getInventoryData(NPC npc) {
+    public static Map<String, Object> getInventoryData(NPC npc) {
         if(npc == null) return Util.newMap();
         
         Map<String, Object> inventoryData = Util.newMap();

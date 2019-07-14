@@ -28,7 +28,7 @@ public class Notifier implements CLXExpansion, Listener {
     }
     
     public String getVersion() {
-        return "13.10";
+        return "14.1";
     }
     
     @Override
