@@ -15,6 +15,7 @@ import com.SirBlobman.expansion.cheatprevention.listener.ListenFlight;
 import com.SirBlobman.expansion.cheatprevention.listener.ListenNewItemPickup;
 import com.SirBlobman.expansion.cheatprevention.listener.ListenOldItemPickup;
 import com.SirBlobman.expansion.cheatprevention.listener.ListenRiptide;
+import com.SirBlobman.expansion.cheatprevention.listener.ListenTotem;
 import com.SirBlobman.expansion.cheatprevention.olivolja3.AliasDetection;
 
 import java.io.File;
@@ -32,7 +33,7 @@ public class CheatPrevention implements CLXExpansion {
     }
     
     public String getVersion() {
-        return "14.7";
+        return "14.8";
     }
     
     @Override
@@ -48,6 +49,9 @@ public class CheatPrevention implements CLXExpansion {
         // The elytra item and related events were added in 1.9+
         int minorVersion = NMS_Handler.getMinorVersion();
         if(minorVersion >= 9) PluginUtil.regEvents(new ListenElytra());
+        
+        //The Totem of Undying was added in 1.11+
+        if(minorVersion >= 11) PluginUtil.regEvents(new ListenTotem());
         
         // EntityPickupItemEvent replaced PlayerPickupItemEvent in 1.12
         if(minorVersion >= 12) PluginUtil.regEvents(new ListenNewItemPickup());

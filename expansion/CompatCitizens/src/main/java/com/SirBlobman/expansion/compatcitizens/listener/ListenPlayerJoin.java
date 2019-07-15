@@ -50,6 +50,7 @@ public class ListenPlayerJoin implements Listener {
     @EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
     public void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
+        player.setCanPickupItems(false);
         Util.debug("[Citizens Compatibility] Checking '" + player.getName() + "' for NPCs");
         
         NPC npc = getNPC(player);
@@ -58,7 +59,10 @@ public class ListenPlayerJoin implements Listener {
             npc.despawn(DespawnReason.PLUGIN);
         }
         
-        SchedulerUtil.runLater(1L, () -> punish(player));
+        SchedulerUtil.runLater(1L, () -> {
+            punish(player);
+            player.setCanPickupItems(true);
+        });
     }
     
     public void punish(Player player) {
@@ -145,9 +149,7 @@ public class ListenPlayerJoin implements Listener {
         playerInv.setBoots(itemBoots);
         
         if(NMS_Handler.getMinorVersion() > 8) {
-            ItemStack itemMain = ConfigData.get(player, "inventory data.main hand", air);
             ItemStack itemOff = ConfigData.get(player, "inventory data.off hand", air);
-            playerInv.setItemInMainHand(itemMain);
             playerInv.setItemInOffHand(itemOff);
         }
         

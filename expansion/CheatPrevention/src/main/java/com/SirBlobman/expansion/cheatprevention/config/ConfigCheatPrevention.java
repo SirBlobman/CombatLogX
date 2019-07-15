@@ -50,6 +50,7 @@ public class ConfigCheatPrevention extends Config {
     
     public static boolean ITEM_DROPPING_DURING_COMBAT;
     public static boolean ITEM_PICK_UP_DURING_COMBAT;
+    public static boolean ITEM_PREVENT_TOTEMS;
 
     private static void defaults() {
         TELEPORTATION_ALLOW_DURING_COMBAT = get(config, "teleportation.allow during combat", false);
@@ -80,5 +81,6 @@ public class ConfigCheatPrevention extends Config {
         
         ITEM_DROPPING_DURING_COMBAT = get(config, "items.allow dropping", false);
         ITEM_PICK_UP_DURING_COMBAT = get(config, "items.allow picking up", false);
+        ITEM_PREVENT_TOTEMS = get(config, "items.prevent totem usage", false);
     }
 }

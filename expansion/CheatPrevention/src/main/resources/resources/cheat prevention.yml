@@ -113,3 +113,7 @@ items:
   # Set this to true to allow players to drop items during combat
   # Default: false
   allow dropping: false
+  
+  # Set this to true to prevent players from using totems of undying during combat
+  # Default: false
+  prevent totem usage: false

@@ -7,17 +7,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 import com.SirBlobman.combatlogx.utility.CombatUtil;
-import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.expansion.worldguard.config.ConfigWG;
 import com.SirBlobman.expansion.worldguard.config.ConfigWG.NoEntryMode;
 
 import com.sk89q.worldguard.protection.events.DisallowedPVPEvent;
 
-public class ListenV6 implements Listener {
-    public ListenV6() {
-        PluginUtil.regEvents(this);
-    }
-    
+public class ListenV6 implements Listener {    
     @EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=false)
     public void onWorldGuardDenyPvP(DisallowedPVPEvent e) {
         if(ConfigWG.getNoEntryMode() != NoEntryMode.VULNERABLE) return;

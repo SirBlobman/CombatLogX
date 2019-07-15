@@ -12,6 +12,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.util.Vector;
 
 import com.SirBlobman.combatlogx.config.ConfigLang;
+import com.SirBlobman.combatlogx.event.PlayerPreTagEvent;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.SchedulerUtil;
 import com.SirBlobman.combatlogx.utility.Util;
@@ -22,7 +23,16 @@ import com.SirBlobman.expansion.worldguard.utility.WGUtil;
 import java.util.List;
 import java.util.UUID;
 
-public class ListenWorldGuard implements Listener {    
+public class ListenWorldGuard implements Listener {
+    @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
+    public void beforeTag(PlayerPreTagEvent e) {
+        Player player = e.getPlayer();
+        Location location = player.getLocation();
+        if(WGUtil.allowsTagging(location)) return;
+        
+        e.setCancelled(true);
+    }
+    
     @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true) 
     public void onMove(PlayerMoveEvent e) {
         Player player = e.getPlayer();

@@ -173,9 +173,7 @@ public class ListenCreateNPCs implements Listener {
         ItemStack leggings = copyItem(playerInv.getLeggings());
         ItemStack boots = copyItem(playerInv.getBoots());
         if(NMS_Handler.getMinorVersion() > 8) {
-            ItemStack mainHand = copyItem(playerInv.getItemInMainHand());
             ItemStack offHand = copyItem(playerInv.getItemInOffHand());
-            equipment.set(EquipmentSlot.HAND, mainHand);
             equipment.set(EquipmentSlot.OFF_HAND, offHand);
         }
         equipment.set(EquipmentSlot.HELMET, helmet);
