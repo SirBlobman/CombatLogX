@@ -1,39 +1,35 @@
-package com.SirBlobman.expansion.worldguard.listener;
+package com.SirBlobman.expansion.compatfactions.listener;
 
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.util.Vector;
 
 import com.SirBlobman.combatlogx.config.ConfigLang;
-import com.SirBlobman.combatlogx.event.PlayerPreTagEvent;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.SchedulerUtil;
 import com.SirBlobman.combatlogx.utility.Util;
-import com.SirBlobman.expansion.worldguard.config.ConfigWG;
-import com.SirBlobman.expansion.worldguard.config.ConfigWG.NoEntryMode;
-import com.SirBlobman.expansion.worldguard.utility.WGUtil;
+import com.SirBlobman.expansion.compatfactions.config.ConfigFactions;
+import com.SirBlobman.expansion.compatfactions.config.ConfigFactions.NoEntryMode;
+import com.SirBlobman.expansion.compatfactions.utility.FactionsUtil;
 
 import java.util.List;
 import java.util.UUID;
 
-public class ListenWorldGuard implements Listener {
-    @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
-    public void beforeTag(PlayerPreTagEvent e) {
-        Player player = e.getPlayer();
-        Location location = player.getLocation();
-        if(WGUtil.allowsTagging(location)) return;
-        
-        e.setCancelled(true);
+public class ListenFactions implements Listener {
+    private final FactionsUtil FUTIL;
+    public ListenFactions(FactionsUtil futil) {
+        this.FUTIL = futil;
     }
     
-    @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true) 
+    @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
     public void onMove(PlayerMoveEvent e) {
         Player player = e.getPlayer();
         if(!CombatUtil.isInCombat(player)) return;
@@ -44,33 +40,25 @@ public class ListenWorldGuard implements Listener {
         Location toLoc = e.getTo();
         Location fromLoc = e.getFrom();
         
-        if(enemy instanceof Player && WGUtil.allowsPvP(toLoc)) return;
-        if(!(enemy instanceof Player) && WGUtil.allowsMobCombat(toLoc)) return;
-        
+        if(!FUTIL.isSafeZone(toLoc)) return;
         preventEntry(e, player, fromLoc, toLoc);
     }
     
-    @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
-    public void onTeleport(PlayerTeleportEvent e) {
-        Player player = e.getPlayer();
+    @EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=false)
+    public void onCancelPVP(EntityDamageByEntityEvent e) {
+        if(!e.isCancelled()) return;
+        if(ConfigFactions.getNoEntryMode() != NoEntryMode.VULNERABLE) return;
+        
+        Entity entity = e.getEntity();
+        if(!(entity instanceof Player)) return;
+        
+        Player player = (Player) entity;
         if(!CombatUtil.isInCombat(player)) return;
+        if(!CombatUtil.hasEnemy(player)) return;
         
         LivingEntity enemy = CombatUtil.getEnemy(player);
-        if(enemy == null) return;
-        
-        Location toLoc = e.getTo();
-        if(enemy instanceof Player) {
-            if(WGUtil.allowsPvP(toLoc)) return;
-            e.setCancelled(true);
-            String noEntryMessage = ConfigLang.getWithPrefix("messages.expansions.worldguard compatibility.no entry.pvp");
-            Util.sendMessage(player, noEntryMessage);
-            return;
-        }
-        
-        if(WGUtil.allowsMobCombat(toLoc)) return;
-        e.setCancelled(true);
-        String noEntryMessage = ConfigLang.getWithPrefix("messages.expansions.worldguard compatibility.no entry.mob");
-        Util.sendMessage(player, noEntryMessage);
+        e.setCancelled(false);
+        sendMessage(player, enemy);
     }
     
     private Vector getVector(Location fromLoc, Location toLoc) {
@@ -79,7 +67,7 @@ public class ListenWorldGuard implements Listener {
         Vector subtract = fromVector.subtract(toVector);
         
         Vector normal = subtract.normalize();
-        Vector multiply = normal.multiply(ConfigWG.NO_ENTRY_KNOCKBACK_STRENGTH);
+        Vector multiply = normal.multiply(ConfigFactions.NO_ENTRY_KNOCKBACK_STRENGTH);
         
         Double multX = multiply.getX();
         Double multZ = multiply.getZ();
@@ -96,7 +84,7 @@ public class ListenWorldGuard implements Listener {
         LivingEntity enemy = CombatUtil.getEnemy(player);
         sendMessage(player, enemy);
         
-        NoEntryMode nemode = ConfigWG.getNoEntryMode();
+        NoEntryMode nemode = ConfigFactions.getNoEntryMode();
         if(nemode == NoEntryMode.VULNERABLE) return;
         
         if(nemode == NoEntryMode.CANCEL) {
@@ -126,11 +114,11 @@ public class ListenWorldGuard implements Listener {
         UUID uuid = player.getUniqueId();
         if(MESSAGE_COOLDOWN.contains(uuid)) return;
         
-        String messageKey = "messages.expansions.worldguard compatibility.no entry." + (enemy instanceof Player ? "pvp" : "mob");
+        String messageKey = "messages.expansions.factions compatibility.no entry";
         String message = ConfigLang.getWithPrefix(messageKey);
         Util.sendMessage(player, message);
         
         MESSAGE_COOLDOWN.add(uuid);
-        SchedulerUtil.runLater(ConfigWG.MESSAGE_COOLDOWN * 20L, () -> MESSAGE_COOLDOWN.remove(uuid));
+        SchedulerUtil.runLater(ConfigFactions.MESSAGE_COOLDOWN * 20L, () -> MESSAGE_COOLDOWN.remove(uuid));
     }
 }

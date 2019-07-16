@@ -53,7 +53,7 @@ public class v6_2_WGUtil {
     
     public static boolean allowsTagging(Location loc) {
         ApplicableRegionSet regions = getRegions(loc);
-        boolean noTagging = regions.queryValue(null, NO_TAG);
-        return !noTagging;
+        Boolean noTagging = regions.queryValue(null, NO_TAG);
+        return (noTagging == null || !noTagging);
     }
 }

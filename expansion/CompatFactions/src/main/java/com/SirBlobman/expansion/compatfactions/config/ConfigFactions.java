@@ -43,5 +43,5 @@ public class ConfigFactions extends Config {
         }
     }
 
-    public enum NoEntryMode {CANCEL, TELEPORT, KNOCKBACK, KILL}
+    public enum NoEntryMode {CANCEL, TELEPORT, KNOCKBACK, KILL, VULNERABLE}
 }

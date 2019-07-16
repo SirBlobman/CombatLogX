@@ -1,4 +1,4 @@
-package com.SirBlobman.expansion.compatfactions.util;
+package com.SirBlobman.expansion.compatfactions.utility;
 
 import com.massivecraft.factions.Board;
 import com.massivecraft.factions.FLocation;

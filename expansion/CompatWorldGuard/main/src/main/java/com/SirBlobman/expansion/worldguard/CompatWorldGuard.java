@@ -23,7 +23,7 @@ public class CompatWorldGuard implements CLXExpansion {
     }
     
     public String getVersion() {
-        return "14.7";
+        return "14.8";
     }
     
     @Override

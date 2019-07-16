@@ -58,7 +58,7 @@ public class v7_0_WGUtil extends Util {
         RegionContainer rc = api.getRegionContainer();
         RegionQuery rq = rc.createQuery();
         
-        boolean noTagging = rq.queryValue(worldEditLoc, null, NO_TAG);
-        return !noTagging;
+        Boolean noTagging = rq.queryValue(worldEditLoc, null, NO_TAG);
+        return (noTagging == null || !noTagging);
     }
 }

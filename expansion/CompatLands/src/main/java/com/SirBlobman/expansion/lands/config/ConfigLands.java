@@ -11,7 +11,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 public class ConfigLands extends Config {
     public static double NO_ENTRY_KNOCKBACK_STRENGTH;
-    public static int NO_ENTRY_MESSAGE_COOLDOWN;
+    public static int MESSAGE_COOLDOWN;
     private static YamlConfiguration config = new YamlConfiguration();
     private static String NO_ENTRY_MODE;
 
@@ -27,7 +27,7 @@ public class ConfigLands extends Config {
     private static void defaults() {
         NO_ENTRY_MODE = get(config, "lands options.no entry.mode", "KNOCKBACK");
         NO_ENTRY_KNOCKBACK_STRENGTH = get(config, "lands options.no entry.knockback strength", 1.5D);
-        NO_ENTRY_MESSAGE_COOLDOWN = get(config, "lands options.no entry.message cooldown", 5);
+        MESSAGE_COOLDOWN = get(config, "lands options.no entry.message cooldown", 5);
     }
 
     public static NoEntryMode getNoEntryMode() {
@@ -42,5 +42,5 @@ public class ConfigLands extends Config {
         }
     }
 
-    public enum NoEntryMode {CANCEL, TELEPORT, KNOCKBACK, KILL}
+    public enum NoEntryMode {CANCEL, TELEPORT, KNOCKBACK, KILL, VULNERABLE}
 }
