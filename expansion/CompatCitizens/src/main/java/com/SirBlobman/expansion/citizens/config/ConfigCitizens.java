@@ -1,9 +1,9 @@
-package com.SirBlobman.expansion.compatcitizens.config;
+package com.SirBlobman.expansion.citizens.config;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.SirBlobman.combatlogx.config.Config;
-import com.SirBlobman.expansion.compatcitizens.CompatCitizens;
+import com.SirBlobman.expansion.citizens.CompatCitizens;
 
 import java.io.File;
 

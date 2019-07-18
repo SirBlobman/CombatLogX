@@ -1,8 +1,9 @@
-package com.SirBlobman.expansion.compatcitizens.config;
+package com.SirBlobman.expansion.citizens.config;
 
 import com.SirBlobman.combatlogx.config.Config;
 import com.SirBlobman.combatlogx.utility.Util;
-import com.SirBlobman.expansion.compatcitizens.CompatCitizens;
+import com.SirBlobman.expansion.citizens.CompatCitizens;
+
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
 

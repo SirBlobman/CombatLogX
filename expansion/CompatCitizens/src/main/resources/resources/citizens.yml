@@ -47,6 +47,11 @@ citizens:
     # Default: true
     retag player on login: true
     
+    # Set this to false if NPCs should be allowed to use totems
+    # This may cause bugs so I recommend leaving it alone
+    # Default: true
+    prevent totem usage: true
+    
   # These options will only be used if "Sentinel" is installed
   # You can find it here: https://www.spigotmc.org/resources/sentinel.22017/
   sentinel:

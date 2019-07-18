@@ -1,4 +1,4 @@
-package com.SirBlobman.expansion.compatcitizens.listener;
+package com.SirBlobman.expansion.citizens.listener;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -15,9 +15,9 @@ import com.SirBlobman.api.nms.NMS_Handler;
 import com.SirBlobman.api.utility.ItemUtil;
 import com.SirBlobman.combatlogx.utility.SchedulerUtil;
 import com.SirBlobman.combatlogx.utility.Util;
-import com.SirBlobman.expansion.compatcitizens.config.ConfigCitizens;
-import com.SirBlobman.expansion.compatcitizens.config.ConfigData;
-import com.SirBlobman.expansion.compatcitizens.trait.TraitCombatLogX;
+import com.SirBlobman.expansion.citizens.config.ConfigCitizens;
+import com.SirBlobman.expansion.citizens.config.ConfigData;
+import com.SirBlobman.expansion.citizens.trait.TraitCombatLogX;
 
 import java.util.Arrays;
 import java.util.List;

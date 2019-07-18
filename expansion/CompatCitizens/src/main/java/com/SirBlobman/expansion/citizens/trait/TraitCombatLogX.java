@@ -1,4 +1,4 @@
-package com.SirBlobman.expansion.compatcitizens.trait;
+package com.SirBlobman.expansion.citizens.trait;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -6,8 +6,8 @@ import org.bukkit.entity.Player;
 
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.Util;
-import com.SirBlobman.expansion.compatcitizens.config.ConfigCitizens;
-import com.SirBlobman.expansion.compatcitizens.listener.ListenHandleNPCs;
+import com.SirBlobman.expansion.citizens.config.ConfigCitizens;
+import com.SirBlobman.expansion.citizens.listener.ListenHandleNPCs;
 
 import java.util.UUID;
 

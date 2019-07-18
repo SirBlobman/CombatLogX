@@ -120,6 +120,9 @@ messages:
       
     lands compatibility:
       no entry: "You cannot enter a no-pvp area during combat"
+      
+    red protect compatibility:
+      no entry: "You cannot enter a no-pvp area during combat"
 
     worldguard compatibility:
       no entry:

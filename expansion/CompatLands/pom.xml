@@ -31,7 +31,7 @@
         <dependency>
             <groupId>me.angeschossen</groupId>
             <artifactId>lands</artifactId>
-            <version>3.7.4.1</version>
+            <version>3.8.0.2</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

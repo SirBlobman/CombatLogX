@@ -1,13 +1,15 @@
-package com.SirBlobman.expansion.compatcitizens;
+package com.SirBlobman.expansion.citizens;
 
+import com.SirBlobman.api.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.expansion.Expansions;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
-import com.SirBlobman.expansion.compatcitizens.config.ConfigCitizens;
-import com.SirBlobman.expansion.compatcitizens.listener.ListenCreateNPCs;
-import com.SirBlobman.expansion.compatcitizens.listener.ListenHandleNPCs;
-import com.SirBlobman.expansion.compatcitizens.listener.ListenPlayerJoin;
-import com.SirBlobman.expansion.compatcitizens.trait.TraitCombatLogX;
+import com.SirBlobman.expansion.citizens.config.ConfigCitizens;
+import com.SirBlobman.expansion.citizens.listener.ListenCreateNPCs;
+import com.SirBlobman.expansion.citizens.listener.ListenHandleNPCs;
+import com.SirBlobman.expansion.citizens.listener.ListenPlayerJoin;
+import com.SirBlobman.expansion.citizens.listener.ListenTotemNPC;
+import com.SirBlobman.expansion.citizens.trait.TraitCombatLogX;
 
 import java.io.File;
 
@@ -23,7 +25,7 @@ public class CompatCitizens implements CLXExpansion {
     }
     
     public String getVersion() {
-        return "14.15";
+        return "14.17";
     }
     
     @Override
@@ -38,6 +40,9 @@ public class CompatCitizens implements CLXExpansion {
         ConfigCitizens.load();
         TraitCombatLogX.onEnable();
         PluginUtil.regEvents(new ListenCreateNPCs(this), new ListenPlayerJoin(), new ListenHandleNPCs());
+        
+        int minorVersion = NMS_Handler.getMinorVersion();
+        if(minorVersion >= 11) PluginUtil.regEvents(new ListenTotemNPC());
     }
     
     @Override
