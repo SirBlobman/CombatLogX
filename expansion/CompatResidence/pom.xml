@@ -22,10 +22,13 @@
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- Residence (Requires Local Install) -->
+		<!-- Spigot URL: https://www.spigotmc.org/resources/11480/ -->
 		<dependency>
 			<groupId>com.bekvon.bukkit</groupId>
 			<artifactId>residence</artifactId>
-			<version>4.8.2.0</version>
+			<version>4.8.6.6</version>
 		</dependency>
 	</dependencies>
 </project>

@@ -1,5 +1,9 @@
 package com.SirBlobman.expansion.notifier.utility;
 
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -10,12 +14,9 @@ import org.bukkit.scoreboard.Scoreboard;
 import com.SirBlobman.api.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.expansion.Expansions;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
+import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.notifier.config.ConfigNotifier;
-
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 public class ScoreboardUtil extends Util {
     private static final List<UUID> DISABLED_PLAYERS = Util.newList();
@@ -69,6 +70,11 @@ public class ScoreboardUtil extends Util {
         UUID uuid = player.getUniqueId();
         if(DISABLED_PLAYERS.contains(uuid)) return;
         
+        if(ConfigNotifier.SCORE_BOARD_USE_FEATHERBOARD && PluginUtil.isEnabled("FeatherBoard")) {
+        	MVDWUtil.enableScoreboard(player);
+        	return;
+        }
+        
         int timeLeftInt = CombatUtil.getTimeLeft(player);
         if(timeLeftInt <= 0) {
             removeScoreBoard(player);
@@ -104,6 +110,11 @@ public class ScoreboardUtil extends Util {
     }
     
     public static void removeScoreBoard(Player player) {
+    	if(ConfigNotifier.SCORE_BOARD_USE_FEATHERBOARD && PluginUtil.isEnabled("FeatherBoard")) {
+    		MVDWUtil.disableScoreboard(player);
+    		return;
+    	}
+    	
         Scoreboard sb = getScoreBoard(player);
         if(sb != null) {
             Objective obj = sb.getObjective(player.getName());

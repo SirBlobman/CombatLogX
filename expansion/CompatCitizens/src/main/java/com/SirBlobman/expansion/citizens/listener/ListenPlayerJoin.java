@@ -89,7 +89,7 @@ public class ListenPlayerJoin implements Listener {
             if(lastHealth > 0.0D) transferInventoryToPlayer(player);
             else {
                 PlayerInventory playerInv = player.getInventory();
-                playerInv.setArmorContents(new ItemStack[] {ItemUtil.AIR, ItemUtil.AIR, ItemUtil.AIR, ItemUtil.AIR});
+                playerInv.setArmorContents(new ItemStack[] {ItemUtil.getAir(), ItemUtil.getAir(), ItemUtil.getAir(), ItemUtil.getAir()});
                 playerInv.clear();
                 player.updateInventory();
             }

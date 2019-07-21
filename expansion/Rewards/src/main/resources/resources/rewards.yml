@@ -11,7 +11,7 @@ rewards:
     
     # A list of mob types that will trigger this reward
     # Spigot Entity Types can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
-    # Insert '*' for all mob typed
+    # Insert '*' for all mob types
     # Default: 
     # - "*"
     mob types:

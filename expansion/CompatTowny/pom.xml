@@ -22,10 +22,13 @@
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- Towny (Requires Local Install) -->
+		<!-- URL: http://towny.palmergames.com/category/towny-download/towny-release-download/ -->
 		<dependency>
 			<groupId>com.palmergames.bukkit</groupId>
-			<artifactId>towny</artifactId>
-			<version>0.93.0.0</version>
+			<artifactId>Towny</artifactId>
+			<version>0.94.0.0</version>
 		</dependency>
 	</dependencies>
 </project>

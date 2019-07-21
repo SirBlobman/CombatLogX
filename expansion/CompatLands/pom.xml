@@ -30,8 +30,8 @@
         <!-- Spigot URL: 'https://www.spigotmc.org/resources/53313/' -->
         <dependency>
             <groupId>me.angeschossen</groupId>
-            <artifactId>lands</artifactId>
-            <version>3.8.0.2</version>
+            <artifactId>Lands</artifactId>
+            <version>3.8.2.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

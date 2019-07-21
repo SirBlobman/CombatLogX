@@ -33,7 +33,7 @@
 								<mkdir dir="${project.basedir}/build"></mkdir>
 								
 								<!-- Copy Main JAR -->
-								<copy file="${project.basedir}/../Main/target/CombatLogX-Plugin-${project.version}-shaded.jar" tofile="${project.basedir}/build/CombatLogX.jar"></copy>
+								<copy file="${project.basedir}/../Main/target/CombatLogX-Plugin-${project.version}.jar" tofile="${project.basedir}/build/CombatLogX.jar"></copy>
 								
 								<!-- Copy Normal Expansion JARs -->
 								<copy file="${project.basedir}/../expansion/CheatPrevention/target/exp-CheatPrevention-${project.version}.jar" tofile="${project.basedir}/build/CombatLogX/expansions/Cheat Prevention.jar"></copy>
