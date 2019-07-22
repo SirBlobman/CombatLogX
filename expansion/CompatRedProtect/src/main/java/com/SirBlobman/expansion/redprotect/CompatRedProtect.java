@@ -41,13 +41,11 @@ public class CompatRedProtect implements CLXExpansion {
 
     @Override
     public void disable() {
-        // TODO Auto-generated method stub
-        
+    	
     }
 
     @Override
     public void onConfigReload() {
-        // TODO Auto-generated method stub
-        
+    	if(PluginUtil.isEnabled("RedProtect")) ConfigRedProtect.load();
     }
 }
