@@ -29,6 +29,7 @@
 			<groupId>com.palmergames.bukkit</groupId>
 			<artifactId>Towny</artifactId>
 			<version>0.94.0.0</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

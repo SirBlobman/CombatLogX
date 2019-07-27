@@ -1,0 +1,1376 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] CombatLogX Parent                                                  [pom]
+[INFO] CombatLogX API                                                     [jar]
+[INFO] CombatLogX Plugin                                                  [jar]
+[INFO] Cheat Prevention                                                   [jar]
+[INFO] NotCombatLogX                                                      [jar]
+[INFO] Placeholder Compatibility                                          [jar]
+[INFO] Notifier                                                           [jar]
+[INFO] Rewards                                                            [jar]
+[INFO] Citizens Compatibility                                             [jar]
+[INFO] Factions Compatibility                                             [jar]
+[INFO] Lands Compatibility                                                [jar]
+[INFO] Parties Compatibility                                              [jar]
+[INFO] RedProtect Compatibility                                           [jar]
+[INFO] WorldGuard Compatibility                                           [jar]
+[INFO] Towny Compatibility                                                [jar]
+[INFO] WorldGuard Compatibility Parent                                    [pom]
+[INFO] WorldGuard Compatibility 6.1                                       [jar]
+[INFO] WorldGuard Compatibility 6.2                                       [jar]
+[INFO] WorldGuard Compatibility 7.0                                       [jar]
+[INFO] WorldGuard Compatibility Main                                      [jar]
+[INFO] CLX Builder                                                        [pom]
+[INFO] 
+[INFO] ------------< com.SirBlobman.combatlogx:CombatLogX-parent >-------------
+[INFO] Building CombatLogX Parent 9.0.0.0                                [1/21]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ CombatLogX-parent ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ CombatLogX-parent ---
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\pom.xml to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\CombatLogX-parent\9.0.0.0\CombatLogX-parent-9.0.0.0.pom
+[INFO] 
+[INFO] --------------< com.SirBlobman.combatlogx:CombatLogX-API >--------------
+[INFO] Building CombatLogX API 9.0.0.0                                   [2/21]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ CombatLogX-API ---
+[INFO] Deleting C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\API\target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ CombatLogX-API ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ CombatLogX-API ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 16 source files to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\API\target\classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ CombatLogX-API ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\API\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ CombatLogX-API ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ CombatLogX-API ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ CombatLogX-API ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\API\target\CombatLogX-API-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ CombatLogX-API ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ CombatLogX-API ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ CombatLogX-API ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\API\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ CombatLogX-API ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ CombatLogX-API ---
+[INFO] No tests to run.
+[INFO] Skipping execution of surefire because it has already been run for this configuration
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ CombatLogX-API ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ CombatLogX-API ---
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\API\target\CombatLogX-API-9.0.0.0.jar to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\CombatLogX-API\9.0.0.0\CombatLogX-API-9.0.0.0.jar
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\API\pom.xml to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\CombatLogX-API\9.0.0.0\CombatLogX-API-9.0.0.0.pom
+[INFO] 
+[INFO] ------------< com.SirBlobman.combatlogx:CombatLogX-Plugin >-------------
+[INFO] Building CombatLogX Plugin 9.0.0.0                                [3/21]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ CombatLogX-Plugin ---
+[INFO] Deleting C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\Main\target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ CombatLogX-Plugin ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 3 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ CombatLogX-Plugin ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 10 source files to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\Main\target\classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ CombatLogX-Plugin ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\Main\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ CombatLogX-Plugin ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ CombatLogX-Plugin ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ CombatLogX-Plugin ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\Main\target\CombatLogX-Plugin-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-shade-plugin:3.2.1:shade (default) @ CombatLogX-Plugin ---
+[INFO] Including com.SirBlobman.combatlogx:CombatLogX-API:jar:9.0.0.0 in the shaded jar.
+[INFO] Including com.SirBlobman.api:SirBlobmanAPI:jar:1.2 in the shaded jar.
+[WARNING] CombatLogX-Plugin-9.0.0.0.jar, CombatLogX-API-9.0.0.0.jar define 4 overlapping classes: 
+[WARNING]   - com.SirBlobman.combatlogx.config.Config
+[WARNING]   - com.SirBlobman.combatlogx.CombatLogX
+[WARNING]   - com.SirBlobman.combatlogx.config.ConfigLang
+[WARNING]   - com.SirBlobman.combatlogx.config.ConfigOptions
+[WARNING] maven-shade-plugin has detected that some class files are
+[WARNING] present in two or more JARs. When this happens, only one
+[WARNING] single version of the class is copied to the uber jar.
+[WARNING] Usually this is not harmful and you can skip these warnings,
+[WARNING] otherwise try to manually exclude artifacts based on
+[WARNING] mvn dependency:tree -Ddetail=true and the above output.
+[WARNING] See http://maven.apache.org/plugins/maven-shade-plugin/
+[INFO] Replacing original artifact with shaded artifact.
+[INFO] Replacing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\Main\target\CombatLogX-Plugin-9.0.0.0.jar with C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\Main\target\CombatLogX-Plugin-9.0.0.0-shaded.jar
+[INFO] Dependency-reduced POM written at: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\Main\dependency-reduced-pom.xml
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ CombatLogX-Plugin ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 3 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ CombatLogX-Plugin ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ CombatLogX-Plugin ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\Main\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ CombatLogX-Plugin ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ CombatLogX-Plugin ---
+[INFO] No tests to run.
+[INFO] Skipping execution of surefire because it has already been run for this configuration
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ CombatLogX-Plugin ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\Main\target\CombatLogX-Plugin-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-shade-plugin:3.2.1:shade (default) @ CombatLogX-Plugin ---
+[INFO] Including com.SirBlobman.combatlogx:CombatLogX-API:jar:9.0.0.0 in the shaded jar.
+[INFO] Including com.SirBlobman.api:SirBlobmanAPI:jar:1.2 in the shaded jar.
+[WARNING] CombatLogX-Plugin-9.0.0.0.jar, CombatLogX-API-9.0.0.0.jar define 4 overlapping classes: 
+[WARNING]   - com.SirBlobman.combatlogx.config.Config
+[WARNING]   - com.SirBlobman.combatlogx.CombatLogX
+[WARNING]   - com.SirBlobman.combatlogx.config.ConfigLang
+[WARNING]   - com.SirBlobman.combatlogx.config.ConfigOptions
+[WARNING] maven-shade-plugin has detected that some class files are
+[WARNING] present in two or more JARs. When this happens, only one
+[WARNING] single version of the class is copied to the uber jar.
+[WARNING] Usually this is not harmful and you can skip these warnings,
+[WARNING] otherwise try to manually exclude artifacts based on
+[WARNING] mvn dependency:tree -Ddetail=true and the above output.
+[WARNING] See http://maven.apache.org/plugins/maven-shade-plugin/
+[INFO] Replacing original artifact with shaded artifact.
+[INFO] Replacing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\Main\target\CombatLogX-Plugin-9.0.0.0.jar with C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\Main\target\CombatLogX-Plugin-9.0.0.0-shaded.jar
+[INFO] Dependency-reduced POM written at: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\Main\dependency-reduced-pom.xml
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ CombatLogX-Plugin ---
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\Main\target\CombatLogX-Plugin-9.0.0.0.jar to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\CombatLogX-Plugin\9.0.0.0\CombatLogX-Plugin-9.0.0.0.jar
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\Main\dependency-reduced-pom.xml to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\CombatLogX-Plugin\9.0.0.0\CombatLogX-Plugin-9.0.0.0.pom
+[INFO] 
+[INFO] -----------< com.SirBlobman.combatlogx:exp-CheatPrevention >------------
+[INFO] Building Cheat Prevention 9.0.0.0                                 [4/21]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ exp-CheatPrevention ---
+[INFO] Deleting C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CheatPrevention\target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-CheatPrevention ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-CheatPrevention ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 11 source files to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CheatPrevention\target\classes
+[WARNING] /C:/Users/SirBlobman/Documents/Eclipse/Java/Spigot/CombatLogX/expansion/CheatPrevention/src/main/java/com/SirBlobman/expansion/cheatprevention/listener/ListenOldItemPickup.java: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CheatPrevention\src\main\java\com\SirBlobman\expansion\cheatprevention\listener\ListenOldItemPickup.java uses or overrides a deprecated API.
+[WARNING] /C:/Users/SirBlobman/Documents/Eclipse/Java/Spigot/CombatLogX/expansion/CheatPrevention/src/main/java/com/SirBlobman/expansion/cheatprevention/listener/ListenOldItemPickup.java: Recompile with -Xlint:deprecation for details.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-CheatPrevention ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CheatPrevention\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-CheatPrevention ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-CheatPrevention ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-CheatPrevention ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CheatPrevention\target\exp-CheatPrevention-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-CheatPrevention ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-CheatPrevention ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-CheatPrevention ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CheatPrevention\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-CheatPrevention ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-CheatPrevention ---
+[INFO] No tests to run.
+[INFO] Skipping execution of surefire because it has already been run for this configuration
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-CheatPrevention ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CheatPrevention\target\exp-CheatPrevention-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ exp-CheatPrevention ---
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CheatPrevention\target\exp-CheatPrevention-9.0.0.0.jar to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-CheatPrevention\9.0.0.0\exp-CheatPrevention-9.0.0.0.jar
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CheatPrevention\pom.xml to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-CheatPrevention\9.0.0.0\exp-CheatPrevention-9.0.0.0.pom
+[INFO] 
+[INFO] ------------< com.SirBlobman.combatlogx:exp-NotCombatLogX >-------------
+[INFO] Building NotCombatLogX 9.0.0.0                                    [5/21]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ exp-NotCombatLogX ---
+[INFO] Deleting C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\NotCombatLogX\target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-NotCombatLogX ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-NotCombatLogX ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 2 source files to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\NotCombatLogX\target\classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-NotCombatLogX ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\NotCombatLogX\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-NotCombatLogX ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-NotCombatLogX ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-NotCombatLogX ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\NotCombatLogX\target\exp-NotCombatLogX-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-NotCombatLogX ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-NotCombatLogX ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-NotCombatLogX ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\NotCombatLogX\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-NotCombatLogX ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-NotCombatLogX ---
+[INFO] No tests to run.
+[INFO] Skipping execution of surefire because it has already been run for this configuration
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-NotCombatLogX ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\NotCombatLogX\target\exp-NotCombatLogX-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ exp-NotCombatLogX ---
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\NotCombatLogX\target\exp-NotCombatLogX-9.0.0.0.jar to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-NotCombatLogX\9.0.0.0\exp-NotCombatLogX-9.0.0.0.jar
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\NotCombatLogX\pom.xml to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-NotCombatLogX\9.0.0.0\exp-NotCombatLogX-9.0.0.0.pom
+[INFO] 
+[INFO] ----------< com.SirBlobman.combatlogx:exp-CompatPlaceholders >----------
+[INFO] Building Placeholder Compatibility 9.0.0.0                        [6/21]
+[INFO] --------------------------------[ jar ]---------------------------------
+[WARNING] The POM for org.spigotmc:spigot:jar:1.9 is missing, no dependency information available
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ exp-CompatPlaceholders ---
+[INFO] Deleting C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatPlaceholders\target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-CompatPlaceholders ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatPlaceholders\src\main\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-CompatPlaceholders ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 4 source files to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatPlaceholders\target\classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-CompatPlaceholders ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatPlaceholders\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-CompatPlaceholders ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-CompatPlaceholders ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-CompatPlaceholders ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatPlaceholders\target\exp-CompatPlaceholders-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-CompatPlaceholders ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatPlaceholders\src\main\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-CompatPlaceholders ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-CompatPlaceholders ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatPlaceholders\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-CompatPlaceholders ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-CompatPlaceholders ---
+[INFO] No tests to run.
+[INFO] Skipping execution of surefire because it has already been run for this configuration
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-CompatPlaceholders ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ exp-CompatPlaceholders ---
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatPlaceholders\target\exp-CompatPlaceholders-9.0.0.0.jar to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-CompatPlaceholders\9.0.0.0\exp-CompatPlaceholders-9.0.0.0.jar
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatPlaceholders\pom.xml to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-CompatPlaceholders\9.0.0.0\exp-CompatPlaceholders-9.0.0.0.pom
+[INFO] 
+[INFO] ---------------< com.SirBlobman.combatlogx:exp-Notifier >---------------
+[INFO] Building Notifier 9.0.0.0                                         [7/21]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ exp-Notifier ---
+[INFO] Deleting C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\Notifier\target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-Notifier ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-Notifier ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 8 source files to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\Notifier\target\classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-Notifier ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\Notifier\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-Notifier ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-Notifier ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-Notifier ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\Notifier\target\exp-Notifier-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-Notifier ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-Notifier ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-Notifier ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\Notifier\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-Notifier ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-Notifier ---
+[INFO] No tests to run.
+[INFO] Skipping execution of surefire because it has already been run for this configuration
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-Notifier ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\Notifier\target\exp-Notifier-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ exp-Notifier ---
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\Notifier\target\exp-Notifier-9.0.0.0.jar to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-Notifier\9.0.0.0\exp-Notifier-9.0.0.0.jar
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\Notifier\pom.xml to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-Notifier\9.0.0.0\exp-Notifier-9.0.0.0.pom
+[INFO] 
+[INFO] ---------------< com.SirBlobman.combatlogx:exp-Rewards >----------------
+[INFO] Building Rewards 9.0.0.0                                          [8/21]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ exp-Rewards ---
+[INFO] Deleting C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\Rewards\target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-Rewards ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-Rewards ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 3 source files to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\Rewards\target\classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-Rewards ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\Rewards\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-Rewards ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-Rewards ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-Rewards ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\Rewards\target\exp-Rewards-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-Rewards ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-Rewards ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-Rewards ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\Rewards\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-Rewards ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-Rewards ---
+[INFO] No tests to run.
+[INFO] Skipping execution of surefire because it has already been run for this configuration
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-Rewards ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\Rewards\target\exp-Rewards-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ exp-Rewards ---
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\Rewards\target\exp-Rewards-9.0.0.0.jar to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-Rewards\9.0.0.0\exp-Rewards-9.0.0.0.jar
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\Rewards\pom.xml to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-Rewards\9.0.0.0\exp-Rewards-9.0.0.0.pom
+[INFO] 
+[INFO] ------------< com.SirBlobman.combatlogx:exp-CompatCitizens >------------
+[INFO] Building Citizens Compatibility 9.0.0.0                           [9/21]
+[INFO] --------------------------------[ jar ]---------------------------------
+[WARNING] The POM for org.mcmonkey:sentinel:jar:1.9.1 is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ exp-CompatCitizens ---
+[INFO] Deleting C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatCitizens\target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-CompatCitizens ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-CompatCitizens ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 8 source files to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatCitizens\target\classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-CompatCitizens ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatCitizens\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-CompatCitizens ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-CompatCitizens ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-CompatCitizens ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatCitizens\target\exp-CompatCitizens-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-CompatCitizens ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-CompatCitizens ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-CompatCitizens ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatCitizens\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-CompatCitizens ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-CompatCitizens ---
+[INFO] No tests to run.
+[INFO] Skipping execution of surefire because it has already been run for this configuration
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-CompatCitizens ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatCitizens\target\exp-CompatCitizens-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ exp-CompatCitizens ---
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatCitizens\target\exp-CompatCitizens-9.0.0.0.jar to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-CompatCitizens\9.0.0.0\exp-CompatCitizens-9.0.0.0.jar
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatCitizens\pom.xml to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-CompatCitizens\9.0.0.0\exp-CompatCitizens-9.0.0.0.pom
+[INFO] 
+[INFO] ------------< com.SirBlobman.combatlogx:exp-CompatFactions >------------
+[INFO] Building Factions Compatibility 9.0.0.0                          [10/21]
+[INFO] --------------------------------[ jar ]---------------------------------
+[WARNING] The POM for com.github.ProSavage:SavageFactions:jar:1.6.x-0.1.21-gbdd5473-400 is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ exp-CompatFactions ---
+[INFO] Deleting C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatFactions\target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-CompatFactions ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-CompatFactions ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 8 source files to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatFactions\target\classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-CompatFactions ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatFactions\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-CompatFactions ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-CompatFactions ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-CompatFactions ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatFactions\target\exp-CompatFactions-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-CompatFactions ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-CompatFactions ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-CompatFactions ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatFactions\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-CompatFactions ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-CompatFactions ---
+[INFO] No tests to run.
+[INFO] Skipping execution of surefire because it has already been run for this configuration
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-CompatFactions ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatFactions\target\exp-CompatFactions-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ exp-CompatFactions ---
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatFactions\target\exp-CompatFactions-9.0.0.0.jar to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-CompatFactions\9.0.0.0\exp-CompatFactions-9.0.0.0.jar
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatFactions\pom.xml to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-CompatFactions\9.0.0.0\exp-CompatFactions-9.0.0.0.pom
+[INFO] 
+[INFO] -------------< com.SirBlobman.combatlogx:exp-CompatLands >--------------
+[INFO] Building Lands Compatibility 9.0.0.0                             [11/21]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ exp-CompatLands ---
+[INFO] Deleting C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatLands\target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-CompatLands ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-CompatLands ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 4 source files to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatLands\target\classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-CompatLands ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatLands\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-CompatLands ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-CompatLands ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-CompatLands ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatLands\target\exp-CompatLands-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-CompatLands ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-CompatLands ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-CompatLands ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatLands\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-CompatLands ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-CompatLands ---
+[INFO] No tests to run.
+[INFO] Skipping execution of surefire because it has already been run for this configuration
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-CompatLands ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatLands\target\exp-CompatLands-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ exp-CompatLands ---
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatLands\target\exp-CompatLands-9.0.0.0.jar to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-CompatLands\9.0.0.0\exp-CompatLands-9.0.0.0.jar
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatLands\pom.xml to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-CompatLands\9.0.0.0\exp-CompatLands-9.0.0.0.pom
+[INFO] 
+[INFO] ------------< com.SirBlobman.combatlogx:exp-CompatParties >-------------
+[INFO] Building Parties Compatibility 9.0.0.0                           [12/21]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ exp-CompatParties ---
+[INFO] Deleting C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatParties\target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-CompatParties ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatParties\src\main\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-CompatParties ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 2 source files to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatParties\target\classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-CompatParties ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatParties\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-CompatParties ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-CompatParties ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-CompatParties ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatParties\target\exp-CompatParties-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-CompatParties ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatParties\src\main\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-CompatParties ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-CompatParties ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatParties\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-CompatParties ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-CompatParties ---
+[INFO] No tests to run.
+[INFO] Skipping execution of surefire because it has already been run for this configuration
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-CompatParties ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ exp-CompatParties ---
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatParties\target\exp-CompatParties-9.0.0.0.jar to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-CompatParties\9.0.0.0\exp-CompatParties-9.0.0.0.jar
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatParties\pom.xml to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-CompatParties\9.0.0.0\exp-CompatParties-9.0.0.0.pom
+[INFO] 
+[INFO] -----------< com.SirBlobman.combatlogx:exp-CompatRedProtect >-----------
+[INFO] Building RedProtect Compatibility 9.0.0.0                        [13/21]
+[INFO] --------------------------------[ jar ]---------------------------------
+[WARNING] The POM for br.net.fabiozumbi12.RedProtect:RedProtect-Spigot:jar:7.6.0 is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ exp-CompatRedProtect ---
+[INFO] Deleting C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatRedProtect\target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-CompatRedProtect ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-CompatRedProtect ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 4 source files to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatRedProtect\target\classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-CompatRedProtect ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatRedProtect\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-CompatRedProtect ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-CompatRedProtect ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-CompatRedProtect ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatRedProtect\target\exp-CompatRedProtect-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-CompatRedProtect ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-CompatRedProtect ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-CompatRedProtect ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatRedProtect\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-CompatRedProtect ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-CompatRedProtect ---
+[INFO] No tests to run.
+[INFO] Skipping execution of surefire because it has already been run for this configuration
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-CompatRedProtect ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ exp-CompatRedProtect ---
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatRedProtect\target\exp-CompatRedProtect-9.0.0.0.jar to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-CompatRedProtect\9.0.0.0\exp-CompatRedProtect-9.0.0.0.jar
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatRedProtect\pom.xml to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-CompatRedProtect\9.0.0.0\exp-CompatRedProtect-9.0.0.0.pom
+[INFO] 
+[INFO] -----------< com.SirBlobman.combatlogx:exp-CompatResidence >------------
+[INFO] Building WorldGuard Compatibility 9.0.0.0                        [14/21]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ exp-CompatResidence ---
+[INFO] Deleting C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatResidence\target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-CompatResidence ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-CompatResidence ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 4 source files to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatResidence\target\classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-CompatResidence ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatResidence\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-CompatResidence ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-CompatResidence ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-CompatResidence ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatResidence\target\exp-CompatResidence-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-CompatResidence ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-CompatResidence ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-CompatResidence ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatResidence\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-CompatResidence ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-CompatResidence ---
+[INFO] No tests to run.
+[INFO] Skipping execution of surefire because it has already been run for this configuration
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-CompatResidence ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ exp-CompatResidence ---
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatResidence\target\exp-CompatResidence-9.0.0.0.jar to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-CompatResidence\9.0.0.0\exp-CompatResidence-9.0.0.0.jar
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatResidence\pom.xml to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-CompatResidence\9.0.0.0\exp-CompatResidence-9.0.0.0.pom
+[INFO] 
+[INFO] -------------< com.SirBlobman.combatlogx:exp-CompatTowny >--------------
+[INFO] Building Towny Compatibility 9.0.0.0                             [15/21]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ exp-CompatTowny ---
+[INFO] Deleting C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatTowny\target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-CompatTowny ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-CompatTowny ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 4 source files to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatTowny\target\classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-CompatTowny ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatTowny\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-CompatTowny ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-CompatTowny ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-CompatTowny ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatTowny\target\exp-CompatTowny-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-CompatTowny ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-CompatTowny ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-CompatTowny ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatTowny\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-CompatTowny ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-CompatTowny ---
+[INFO] No tests to run.
+[INFO] Skipping execution of surefire because it has already been run for this configuration
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-CompatTowny ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatTowny\target\exp-CompatTowny-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ exp-CompatTowny ---
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatTowny\target\exp-CompatTowny-9.0.0.0.jar to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-CompatTowny\9.0.0.0\exp-CompatTowny-9.0.0.0.jar
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatTowny\pom.xml to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-CompatTowny\9.0.0.0\exp-CompatTowny-9.0.0.0.pom
+[INFO] 
+[INFO] -------< com.SirBlobman.combatlogx:exp-CompatWorldGuard-parent >--------
+[INFO] Building WorldGuard Compatibility Parent 9.0.0.0                 [16/21]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ exp-CompatWorldGuard-parent ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ exp-CompatWorldGuard-parent ---
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\pom.xml to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-CompatWorldGuard-parent\9.0.0.0\exp-CompatWorldGuard-parent-9.0.0.0.pom
+[INFO] 
+[INFO] ---------< com.SirBlobman.combatlogx:exp-CompatWorldGuard-6.1 >---------
+[INFO] Building WorldGuard Compatibility 6.1 9.0.0.0                    [17/21]
+[INFO] --------------------------------[ jar ]---------------------------------
+[WARNING] The POM for com.sk89q.worldguard:worldguard-legacy:jar:6.1.2 is missing, no dependency information available
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ exp-CompatWorldGuard-6.1 ---
+[INFO] Deleting C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\WG_6.1\target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-CompatWorldGuard-6.1 ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-CompatWorldGuard-6.1 ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 1 source file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\WG_6.1\target\classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-CompatWorldGuard-6.1 ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\WG_6.1\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-CompatWorldGuard-6.1 ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-CompatWorldGuard-6.1 ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-CompatWorldGuard-6.1 ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\WG_6.1\target\exp-CompatWorldGuard-6.1-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-CompatWorldGuard-6.1 ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-CompatWorldGuard-6.1 ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-CompatWorldGuard-6.1 ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\WG_6.1\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-CompatWorldGuard-6.1 ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-CompatWorldGuard-6.1 ---
+[INFO] No tests to run.
+[INFO] Skipping execution of surefire because it has already been run for this configuration
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-CompatWorldGuard-6.1 ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ exp-CompatWorldGuard-6.1 ---
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\WG_6.1\target\exp-CompatWorldGuard-6.1-9.0.0.0.jar to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-CompatWorldGuard-6.1\9.0.0.0\exp-CompatWorldGuard-6.1-9.0.0.0.jar
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\WG_6.1\pom.xml to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-CompatWorldGuard-6.1\9.0.0.0\exp-CompatWorldGuard-6.1-9.0.0.0.pom
+[INFO] 
+[INFO] ---------< com.SirBlobman.combatlogx:exp-CompatWorldGuard-6.2 >---------
+[INFO] Building WorldGuard Compatibility 6.2 9.0.0.0                    [18/21]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ exp-CompatWorldGuard-6.2 ---
+[INFO] Deleting C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\WG_6.2\target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-CompatWorldGuard-6.2 ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-CompatWorldGuard-6.2 ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 1 source file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\WG_6.2\target\classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-CompatWorldGuard-6.2 ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\WG_6.2\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-CompatWorldGuard-6.2 ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-CompatWorldGuard-6.2 ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-CompatWorldGuard-6.2 ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\WG_6.2\target\exp-CompatWorldGuard-6.2-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-CompatWorldGuard-6.2 ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-CompatWorldGuard-6.2 ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-CompatWorldGuard-6.2 ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\WG_6.2\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-CompatWorldGuard-6.2 ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-CompatWorldGuard-6.2 ---
+[INFO] No tests to run.
+[INFO] Skipping execution of surefire because it has already been run for this configuration
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-CompatWorldGuard-6.2 ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ exp-CompatWorldGuard-6.2 ---
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\WG_6.2\target\exp-CompatWorldGuard-6.2-9.0.0.0.jar to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-CompatWorldGuard-6.2\9.0.0.0\exp-CompatWorldGuard-6.2-9.0.0.0.jar
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\WG_6.2\pom.xml to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-CompatWorldGuard-6.2\9.0.0.0\exp-CompatWorldGuard-6.2-9.0.0.0.pom
+[INFO] 
+[INFO] ---------< com.SirBlobman.combatlogx:exp-CompatWorldGuard-7.0 >---------
+[INFO] Building WorldGuard Compatibility 7.0 9.0.0.0                    [19/21]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ exp-CompatWorldGuard-7.0 ---
+[INFO] Deleting C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\WG_7.0\target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-CompatWorldGuard-7.0 ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-CompatWorldGuard-7.0 ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 2 source files to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\WG_7.0\target\classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-CompatWorldGuard-7.0 ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\WG_7.0\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-CompatWorldGuard-7.0 ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-CompatWorldGuard-7.0 ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-CompatWorldGuard-7.0 ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\WG_7.0\target\exp-CompatWorldGuard-7.0-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-CompatWorldGuard-7.0 ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-CompatWorldGuard-7.0 ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-CompatWorldGuard-7.0 ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\WG_7.0\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-CompatWorldGuard-7.0 ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-CompatWorldGuard-7.0 ---
+[INFO] No tests to run.
+[INFO] Skipping execution of surefire because it has already been run for this configuration
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-CompatWorldGuard-7.0 ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ exp-CompatWorldGuard-7.0 ---
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\WG_7.0\target\exp-CompatWorldGuard-7.0-9.0.0.0.jar to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-CompatWorldGuard-7.0\9.0.0.0\exp-CompatWorldGuard-7.0-9.0.0.0.jar
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\WG_7.0\pom.xml to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-CompatWorldGuard-7.0\9.0.0.0\exp-CompatWorldGuard-7.0-9.0.0.0.pom
+[INFO] 
+[INFO] --------< com.SirBlobman.combatlogx:exp-CompatWorldGuard-main >---------
+[INFO] Building WorldGuard Compatibility Main 9.0.0.0                   [20/21]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ exp-CompatWorldGuard-main ---
+[INFO] Deleting C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\main\target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-CompatWorldGuard-main ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-CompatWorldGuard-main ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 8 source files to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\main\target\classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-CompatWorldGuard-main ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\main\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-CompatWorldGuard-main ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-CompatWorldGuard-main ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-CompatWorldGuard-main ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\main\target\exp-CompatWorldGuard-main-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-shade-plugin:3.2.1:shade (default) @ exp-CompatWorldGuard-main ---
+[INFO] Including com.SirBlobman.combatlogx:exp-CompatWorldGuard-6.1:jar:9.0.0.0 in the shaded jar.
+[INFO] Including com.SirBlobman.combatlogx:exp-CompatWorldGuard-6.2:jar:9.0.0.0 in the shaded jar.
+[INFO] Including com.sk89q.worldguard:worldguard-legacy:jar:6.2 in the shaded jar.
+[INFO] Including com.SirBlobman.combatlogx:exp-CompatWorldGuard-7.0:jar:9.0.0.0 in the shaded jar.
+[INFO] Including com.sk89q.worldedit:worldedit-bukkit:jar:7.0.0-SNAPSHOT in the shaded jar.
+[INFO] Including com.sk89q.worldedit:worldedit-core:jar:7.0.0-SNAPSHOT in the shaded jar.
+[INFO] Including com.sk89q.worldedit.worldedit-libs:core:jar:7.0.0-SNAPSHOT in the shaded jar.
+[INFO] Including de.schlichtherle:truezip:jar:6.8.3 in the shaded jar.
+[INFO] Including rhino:js:jar:1.7R2 in the shaded jar.
+[INFO] Including com.google.code.gson:gson:jar:2.8.0 in the shaded jar.
+[INFO] Including org.slf4j:slf4j-api:jar:1.7.26 in the shaded jar.
+[INFO] Including com.sk89q.worldedit.worldedit-libs:bukkit:jar:7.0.0-SNAPSHOT in the shaded jar.
+[INFO] Including org.bukkit:bukkit:jar:1.13.2-R0.1-SNAPSHOT in the shaded jar.
+[INFO] Including io.papermc:paperlib:jar:1.0.2 in the shaded jar.
+[INFO] Including org.apache.logging.log4j:log4j-slf4j-impl:jar:2.8.1 in the shaded jar.
+[INFO] Including org.apache.logging.log4j:log4j-api:jar:2.8.1 in the shaded jar.
+[INFO] Including org.bstats:bstats-bukkit:jar:1.4 in the shaded jar.
+[INFO] Including com.sk89q.worldguard:worldguard-core:jar:7.0.0-SNAPSHOT in the shaded jar.
+[INFO] Including com.google.code.findbugs:jsr305:jar:1.3.9 in the shaded jar.
+[INFO] Including com.sk89q.intake:intake:jar:4.2-SNAPSHOT in the shaded jar.
+[INFO] Including com.sk89q:squirrelid:jar:0.2.0 in the shaded jar.
+[INFO] Including org.flywaydb:flyway-core:jar:3.0 in the shaded jar.
+[INFO] Including org.khelekore:prtree:jar:1.5.0 in the shaded jar.
+[INFO] Including commons-lang:commons-lang:jar:2.6 in the shaded jar.
+[INFO] Including com.googlecode.json-simple:json-simple:jar:1.1.1 in the shaded jar.
+[INFO] Including junit:junit:jar:4.10 in the shaded jar.
+[INFO] Including org.hamcrest:hamcrest-core:jar:1.1 in the shaded jar.
+[INFO] Including com.google.guava:guava:jar:17.0 in the shaded jar.
+[INFO] Including org.yaml:snakeyaml:jar:1.14 in the shaded jar.
+[INFO] Including com.comphenix.protocol:ProtocolLib-API:jar:4.3.0 in the shaded jar.
+[INFO] Including cglib:cglib-nodep:jar:3.2.5 in the shaded jar.
+[INFO] Including com.comphenix.executors:BukkitExecutors:jar:1.1-SNAPSHOT in the shaded jar.
+[WARNING] flyway-core-3.0.jar, worldguard-core-7.0.0-SNAPSHOT.jar define 169 overlapping classes: 
+[WARNING]   - org.flywaydb.core.internal.dbsupport.sqlserver.SQLServerSchema
+[WARNING]   - org.flywaydb.core.internal.dbsupport.oracle.OracleTable
+[WARNING]   - org.flywaydb.core.internal.util.logging.LogFactory
+[WARNING]   - org.flywaydb.core.api.MigrationInfoService
+[WARNING]   - org.flywaydb.core.internal.dbsupport.h2.H2SqlStatementBuilder
+[WARNING]   - org.flywaydb.core.internal.util.jdbc.DriverDataSource
+[WARNING]   - org.flywaydb.core.internal.dbsupport.oracle.OracleSqlStatementBuilder
+[WARNING]   - org.flywaydb.core.internal.resolver.jdbc.JdbcMigrationExecutor
+[WARNING]   - org.flywaydb.core.api.migration.spring.SpringJdbcMigration
+[WARNING]   - org.flywaydb.core.internal.resolver.ResolvedMigrationComparator
+[WARNING]   - 159 more...
+[WARNING] junit-4.10.jar, hamcrest-core-1.1.jar define 21 overlapping classes: 
+[WARNING]   - org.hamcrest.internal.SelfDescribingValue
+[WARNING]   - org.hamcrest.Description
+[WARNING]   - org.hamcrest.CoreMatchers
+[WARNING]   - org.hamcrest.core.AllOf
+[WARNING]   - org.hamcrest.SelfDescribing
+[WARNING]   - org.hamcrest.core.IsSame
+[WARNING]   - org.hamcrest.BaseDescription
+[WARNING]   - org.hamcrest.core.DescribedAs
+[WARNING]   - org.hamcrest.Factory
+[WARNING]   - org.hamcrest.internal.ArrayIterator
+[WARNING]   - 11 more...
+[WARNING] worldguard-legacy-6.2.jar, worldguard-core-7.0.0-SNAPSHOT.jar define 229 overlapping classes: 
+[WARNING]   - com.sk89q.worldguard.blacklist.event.ItemBlacklistEvent
+[WARNING]   - com.sk89q.worldguard.protection.flags.FlagContext$FlagContextBuilder
+[WARNING]   - com.sk89q.worldguard.blacklist.action.RepeatGuardedAction
+[WARNING]   - com.sk89q.worldguard.protection.managers.migration.Migration
+[WARNING]   - com.sk89q.worldguard.protection.PermissiveRegionSet
+[WARNING]   - com.sk89q.worldguard.session.handler.ExitFlag
+[WARNING]   - com.sk89q.worldguard.protection.managers.migration.MigrationException
+[WARNING]   - com.sk89q.worldguard.protection.util.NormativeOrders$PriorityComparator
+[WARNING]   - com.sk89q.worldguard.protection.managers.migration.UUIDMigration$1
+[WARNING]   - com.sk89q.worldguard.protection.regions.ProtectedRegion$CircularInheritanceException
+[WARNING]   - 219 more...
+[WARNING] jsr305-1.3.9.jar, core-7.0.0-SNAPSHOT.jar define 35 overlapping classes: 
+[WARNING]   - javax.annotation.RegEx
+[WARNING]   - javax.annotation.concurrent.Immutable
+[WARNING]   - javax.annotation.meta.TypeQualifierDefault
+[WARNING]   - javax.annotation.meta.TypeQualifier
+[WARNING]   - javax.annotation.Syntax
+[WARNING]   - javax.annotation.Nonnull
+[WARNING]   - javax.annotation.CheckReturnValue
+[WARNING]   - javax.annotation.CheckForNull
+[WARNING]   - javax.annotation.meta.TypeQualifierNickname
+[WARNING]   - javax.annotation.MatchesPattern
+[WARNING]   - 25 more...
+[WARNING] core-7.0.0-SNAPSHOT.jar, bukkit-7.0.0-SNAPSHOT.jar define 74 overlapping classes: 
+[WARNING]   - com.sk89q.worldedit.util.formatting.text.ScoreComponent
+[WARNING]   - com.sk89q.worldedit.util.formatting.text.KeybindComponent$Builder
+[WARNING]   - com.sk89q.worldedit.util.formatting.text.serializer.gson.GsonComponentSerializer
+[WARNING]   - com.sk89q.worldedit.util.formatting.text.AbstractComponent
+[WARNING]   - com.sk89q.worldedit.util.formatting.text.ScopedComponent
+[WARNING]   - com.sk89q.worldedit.util.formatting.text.serializer.gson.NameMapSerializer
+[WARNING]   - com.sk89q.worldedit.util.formatting.text.Component
+[WARNING]   - com.sk89q.worldedit.util.formatting.text.event.ClickEvent$Action
+[WARNING]   - com.sk89q.worldedit.util.formatting.text.SelectorComponentImpl
+[WARNING]   - com.sk89q.worldedit.util.formatting.text.TranslatableComponentImpl$BuilderImpl
+[WARNING]   - 64 more...
+[WARNING] prtree-1.5.0.jar, worldguard-core-7.0.0-SNAPSHOT.jar define 40 overlapping classes: 
+[WARNING]   - org.khelekore.prtree.LeafNode
+[WARNING]   - org.khelekore.prtree.LeafBuilder$Partition
+[WARNING]   - org.khelekore.prtree.MBRConverter
+[WARNING]   - org.khelekore.prtree.MinDist
+[WARNING]   - org.khelekore.prtree.DistanceCalculator
+[WARNING]   - org.khelekore.prtree.PRTree$InternalNodeFactory
+[WARNING]   - org.khelekore.prtree.LeafBuilder
+[WARNING]   - org.khelekore.prtree.LeafBuilder$Noder
+[WARNING]   - org.khelekore.prtree.InternalNode
+[WARNING]   - org.khelekore.prtree.MinDist2D
+[WARNING]   - 30 more...
+[WARNING] slf4j-api-1.7.26.jar, core-7.0.0-SNAPSHOT.jar define 34 overlapping classes: 
+[WARNING]   - org.slf4j.helpers.SubstituteLogger
+[WARNING]   - org.slf4j.helpers.NamedLoggerBase
+[WARNING]   - org.slf4j.helpers.NOPMDCAdapter
+[WARNING]   - org.slf4j.MarkerFactory
+[WARNING]   - org.slf4j.helpers.BasicMarker
+[WARNING]   - org.slf4j.spi.LoggerFactoryBinder
+[WARNING]   - org.slf4j.MDC$MDCCloseable
+[WARNING]   - org.slf4j.spi.LocationAwareLogger
+[WARNING]   - org.slf4j.helpers.MessageFormatter
+[WARNING]   - org.slf4j.helpers.Util$ClassContextSecurityManager
+[WARNING]   - 24 more...
+[WARNING] maven-shade-plugin has detected that some class files are
+[WARNING] present in two or more JARs. When this happens, only one
+[WARNING] single version of the class is copied to the uber jar.
+[WARNING] Usually this is not harmful and you can skip these warnings,
+[WARNING] otherwise try to manually exclude artifacts based on
+[WARNING] mvn dependency:tree -Ddetail=true and the above output.
+[WARNING] See http://maven.apache.org/plugins/maven-shade-plugin/
+[INFO] Replacing original artifact with shaded artifact.
+[INFO] Replacing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\main\target\exp-CompatWorldGuard-main-9.0.0.0.jar with C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\main\target\exp-CompatWorldGuard-main-9.0.0.0-shaded.jar
+[INFO] Dependency-reduced POM written at: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\main\dependency-reduced-pom.xml
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exp-CompatWorldGuard-main ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exp-CompatWorldGuard-main ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ exp-CompatWorldGuard-main ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\main\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ exp-CompatWorldGuard-main ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ exp-CompatWorldGuard-main ---
+[INFO] No tests to run.
+[INFO] Skipping execution of surefire because it has already been run for this configuration
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.0:jar (default-jar) @ exp-CompatWorldGuard-main ---
+[INFO] Building jar: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\main\target\exp-CompatWorldGuard-main-9.0.0.0.jar
+[INFO] 
+[INFO] --- maven-shade-plugin:3.2.1:shade (default) @ exp-CompatWorldGuard-main ---
+[INFO] Including com.SirBlobman.combatlogx:exp-CompatWorldGuard-6.1:jar:9.0.0.0 in the shaded jar.
+[INFO] Including com.SirBlobman.combatlogx:exp-CompatWorldGuard-6.2:jar:9.0.0.0 in the shaded jar.
+[INFO] Including com.sk89q.worldguard:worldguard-legacy:jar:6.2 in the shaded jar.
+[INFO] Including com.SirBlobman.combatlogx:exp-CompatWorldGuard-7.0:jar:9.0.0.0 in the shaded jar.
+[INFO] Including com.sk89q.worldedit:worldedit-bukkit:jar:7.0.0-SNAPSHOT in the shaded jar.
+[INFO] Including com.sk89q.worldedit:worldedit-core:jar:7.0.0-SNAPSHOT in the shaded jar.
+[INFO] Including com.sk89q.worldedit.worldedit-libs:core:jar:7.0.0-SNAPSHOT in the shaded jar.
+[INFO] Including de.schlichtherle:truezip:jar:6.8.3 in the shaded jar.
+[INFO] Including rhino:js:jar:1.7R2 in the shaded jar.
+[INFO] Including com.google.code.gson:gson:jar:2.8.0 in the shaded jar.
+[INFO] Including org.slf4j:slf4j-api:jar:1.7.26 in the shaded jar.
+[INFO] Including com.sk89q.worldedit.worldedit-libs:bukkit:jar:7.0.0-SNAPSHOT in the shaded jar.
+[INFO] Including org.bukkit:bukkit:jar:1.13.2-R0.1-SNAPSHOT in the shaded jar.
+[INFO] Including io.papermc:paperlib:jar:1.0.2 in the shaded jar.
+[INFO] Including org.apache.logging.log4j:log4j-slf4j-impl:jar:2.8.1 in the shaded jar.
+[INFO] Including org.apache.logging.log4j:log4j-api:jar:2.8.1 in the shaded jar.
+[INFO] Including org.bstats:bstats-bukkit:jar:1.4 in the shaded jar.
+[INFO] Including com.sk89q.worldguard:worldguard-core:jar:7.0.0-SNAPSHOT in the shaded jar.
+[INFO] Including com.google.code.findbugs:jsr305:jar:1.3.9 in the shaded jar.
+[INFO] Including com.sk89q.intake:intake:jar:4.2-SNAPSHOT in the shaded jar.
+[INFO] Including com.sk89q:squirrelid:jar:0.2.0 in the shaded jar.
+[INFO] Including org.flywaydb:flyway-core:jar:3.0 in the shaded jar.
+[INFO] Including org.khelekore:prtree:jar:1.5.0 in the shaded jar.
+[INFO] Including commons-lang:commons-lang:jar:2.6 in the shaded jar.
+[INFO] Including com.googlecode.json-simple:json-simple:jar:1.1.1 in the shaded jar.
+[INFO] Including junit:junit:jar:4.10 in the shaded jar.
+[INFO] Including org.hamcrest:hamcrest-core:jar:1.1 in the shaded jar.
+[INFO] Including com.google.guava:guava:jar:17.0 in the shaded jar.
+[INFO] Including org.yaml:snakeyaml:jar:1.14 in the shaded jar.
+[INFO] Including com.comphenix.protocol:ProtocolLib-API:jar:4.3.0 in the shaded jar.
+[INFO] Including cglib:cglib-nodep:jar:3.2.5 in the shaded jar.
+[INFO] Including com.comphenix.executors:BukkitExecutors:jar:1.1-SNAPSHOT in the shaded jar.
+[WARNING] flyway-core-3.0.jar, worldguard-core-7.0.0-SNAPSHOT.jar define 169 overlapping classes: 
+[WARNING]   - org.flywaydb.core.internal.dbsupport.sqlserver.SQLServerSchema
+[WARNING]   - org.flywaydb.core.internal.dbsupport.oracle.OracleTable
+[WARNING]   - org.flywaydb.core.internal.util.logging.LogFactory
+[WARNING]   - org.flywaydb.core.api.MigrationInfoService
+[WARNING]   - org.flywaydb.core.internal.dbsupport.h2.H2SqlStatementBuilder
+[WARNING]   - org.flywaydb.core.internal.util.jdbc.DriverDataSource
+[WARNING]   - org.flywaydb.core.internal.dbsupport.oracle.OracleSqlStatementBuilder
+[WARNING]   - org.flywaydb.core.internal.resolver.jdbc.JdbcMigrationExecutor
+[WARNING]   - org.flywaydb.core.api.migration.spring.SpringJdbcMigration
+[WARNING]   - org.flywaydb.core.internal.resolver.ResolvedMigrationComparator
+[WARNING]   - 159 more...
+[WARNING] junit-4.10.jar, hamcrest-core-1.1.jar define 21 overlapping classes: 
+[WARNING]   - org.hamcrest.internal.SelfDescribingValue
+[WARNING]   - org.hamcrest.Description
+[WARNING]   - org.hamcrest.CoreMatchers
+[WARNING]   - org.hamcrest.core.AllOf
+[WARNING]   - org.hamcrest.SelfDescribing
+[WARNING]   - org.hamcrest.core.IsSame
+[WARNING]   - org.hamcrest.BaseDescription
+[WARNING]   - org.hamcrest.core.DescribedAs
+[WARNING]   - org.hamcrest.Factory
+[WARNING]   - org.hamcrest.internal.ArrayIterator
+[WARNING]   - 11 more...
+[WARNING] worldguard-legacy-6.2.jar, worldguard-core-7.0.0-SNAPSHOT.jar define 229 overlapping classes: 
+[WARNING]   - com.sk89q.worldguard.blacklist.event.ItemBlacklistEvent
+[WARNING]   - com.sk89q.worldguard.protection.flags.FlagContext$FlagContextBuilder
+[WARNING]   - com.sk89q.worldguard.blacklist.action.RepeatGuardedAction
+[WARNING]   - com.sk89q.worldguard.protection.managers.migration.Migration
+[WARNING]   - com.sk89q.worldguard.protection.PermissiveRegionSet
+[WARNING]   - com.sk89q.worldguard.session.handler.ExitFlag
+[WARNING]   - com.sk89q.worldguard.protection.managers.migration.MigrationException
+[WARNING]   - com.sk89q.worldguard.protection.util.NormativeOrders$PriorityComparator
+[WARNING]   - com.sk89q.worldguard.protection.managers.migration.UUIDMigration$1
+[WARNING]   - com.sk89q.worldguard.protection.regions.ProtectedRegion$CircularInheritanceException
+[WARNING]   - 219 more...
+[WARNING] jsr305-1.3.9.jar, core-7.0.0-SNAPSHOT.jar define 35 overlapping classes: 
+[WARNING]   - javax.annotation.RegEx
+[WARNING]   - javax.annotation.concurrent.Immutable
+[WARNING]   - javax.annotation.meta.TypeQualifierDefault
+[WARNING]   - javax.annotation.meta.TypeQualifier
+[WARNING]   - javax.annotation.Syntax
+[WARNING]   - javax.annotation.Nonnull
+[WARNING]   - javax.annotation.CheckReturnValue
+[WARNING]   - javax.annotation.CheckForNull
+[WARNING]   - javax.annotation.meta.TypeQualifierNickname
+[WARNING]   - javax.annotation.MatchesPattern
+[WARNING]   - 25 more...
+[WARNING] core-7.0.0-SNAPSHOT.jar, bukkit-7.0.0-SNAPSHOT.jar define 74 overlapping classes: 
+[WARNING]   - com.sk89q.worldedit.util.formatting.text.ScoreComponent
+[WARNING]   - com.sk89q.worldedit.util.formatting.text.KeybindComponent$Builder
+[WARNING]   - com.sk89q.worldedit.util.formatting.text.serializer.gson.GsonComponentSerializer
+[WARNING]   - com.sk89q.worldedit.util.formatting.text.AbstractComponent
+[WARNING]   - com.sk89q.worldedit.util.formatting.text.ScopedComponent
+[WARNING]   - com.sk89q.worldedit.util.formatting.text.serializer.gson.NameMapSerializer
+[WARNING]   - com.sk89q.worldedit.util.formatting.text.Component
+[WARNING]   - com.sk89q.worldedit.util.formatting.text.event.ClickEvent$Action
+[WARNING]   - com.sk89q.worldedit.util.formatting.text.SelectorComponentImpl
+[WARNING]   - com.sk89q.worldedit.util.formatting.text.TranslatableComponentImpl$BuilderImpl
+[WARNING]   - 64 more...
+[WARNING] prtree-1.5.0.jar, worldguard-core-7.0.0-SNAPSHOT.jar define 40 overlapping classes: 
+[WARNING]   - org.khelekore.prtree.LeafNode
+[WARNING]   - org.khelekore.prtree.LeafBuilder$Partition
+[WARNING]   - org.khelekore.prtree.MBRConverter
+[WARNING]   - org.khelekore.prtree.MinDist
+[WARNING]   - org.khelekore.prtree.DistanceCalculator
+[WARNING]   - org.khelekore.prtree.PRTree$InternalNodeFactory
+[WARNING]   - org.khelekore.prtree.LeafBuilder
+[WARNING]   - org.khelekore.prtree.LeafBuilder$Noder
+[WARNING]   - org.khelekore.prtree.InternalNode
+[WARNING]   - org.khelekore.prtree.MinDist2D
+[WARNING]   - 30 more...
+[WARNING] slf4j-api-1.7.26.jar, core-7.0.0-SNAPSHOT.jar define 34 overlapping classes: 
+[WARNING]   - org.slf4j.helpers.SubstituteLogger
+[WARNING]   - org.slf4j.helpers.NamedLoggerBase
+[WARNING]   - org.slf4j.helpers.NOPMDCAdapter
+[WARNING]   - org.slf4j.MarkerFactory
+[WARNING]   - org.slf4j.helpers.BasicMarker
+[WARNING]   - org.slf4j.spi.LoggerFactoryBinder
+[WARNING]   - org.slf4j.MDC$MDCCloseable
+[WARNING]   - org.slf4j.spi.LocationAwareLogger
+[WARNING]   - org.slf4j.helpers.MessageFormatter
+[WARNING]   - org.slf4j.helpers.Util$ClassContextSecurityManager
+[WARNING]   - 24 more...
+[WARNING] maven-shade-plugin has detected that some class files are
+[WARNING] present in two or more JARs. When this happens, only one
+[WARNING] single version of the class is copied to the uber jar.
+[WARNING] Usually this is not harmful and you can skip these warnings,
+[WARNING] otherwise try to manually exclude artifacts based on
+[WARNING] mvn dependency:tree -Ddetail=true and the above output.
+[WARNING] See http://maven.apache.org/plugins/maven-shade-plugin/
+[INFO] Replacing original artifact with shaded artifact.
+[INFO] Replacing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\main\target\exp-CompatWorldGuard-main-9.0.0.0.jar with C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\main\target\exp-CompatWorldGuard-main-9.0.0.0-shaded.jar
+[INFO] Dependency-reduced POM written at: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\main\dependency-reduced-pom.xml
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ exp-CompatWorldGuard-main ---
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\main\target\exp-CompatWorldGuard-main-9.0.0.0.jar to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-CompatWorldGuard-main\9.0.0.0\exp-CompatWorldGuard-main-9.0.0.0.jar
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\expansion\CompatWorldGuard\main\dependency-reduced-pom.xml to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\exp-CompatWorldGuard-main\9.0.0.0\exp-CompatWorldGuard-main-9.0.0.0.pom
+[INFO] 
+[INFO] ------------< com.SirBlobman.combatlogx:CombatLogX-Builder >------------
+[INFO] Building CLX Builder 9.0.0.0                                     [21/21]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ CombatLogX-Builder ---
+[INFO] Deleting C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\target
+[INFO] 
+[INFO] --- maven-antrun-plugin:1.8:run (default) @ CombatLogX-Builder ---
+[INFO] Executing tasks
+
+main:
+   [delete] Deleting directory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build
+    [mkdir] Created dir: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX\expansions
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX\expansions
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX\expansions
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX\expansions
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX\expansions
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX\expansions
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX\expansions
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX\expansions
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX\expansions
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX\expansions
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX\expansions
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX\expansions
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX\expansions
+      [zip] Building zip: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX-9.8.4.1.zip
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- maven-antrun-plugin:1.8:run (default) @ CombatLogX-Builder ---
+[INFO] Executing tasks
+
+main:
+   [delete] Deleting directory C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build
+    [mkdir] Created dir: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX\expansions
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX\expansions
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX\expansions
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX\expansions
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX\expansions
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX\expansions
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX\expansions
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX\expansions
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX\expansions
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX\expansions
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX\expansions
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX\expansions
+     [copy] Copying 1 file to C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX\expansions
+      [zip] Building zip: C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\build\CombatLogX-9.8.4.1.zip
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ CombatLogX-Builder ---
+[INFO] Installing C:\Users\SirBlobman\Documents\Eclipse\Java\Spigot\CombatLogX\builder\pom.xml to C:\Users\SirBlobman\.m2\repository\com\SirBlobman\combatlogx\CombatLogX-Builder\9.0.0.0\CombatLogX-Builder-9.0.0.0.pom
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for CombatLogX Parent 9.0.0.0:
+[INFO] 
+[INFO] CombatLogX Parent .................................. SUCCESS [  0.263 s]
+[INFO] CombatLogX API ..................................... SUCCESS [  2.342 s]
+[INFO] CombatLogX Plugin .................................. SUCCESS [  2.027 s]
+[INFO] Cheat Prevention ................................... SUCCESS [  0.679 s]
+[INFO] NotCombatLogX ...................................... SUCCESS [  0.282 s]
+[INFO] Placeholder Compatibility .......................... SUCCESS [  0.278 s]
+[INFO] Notifier ........................................... SUCCESS [  0.501 s]
+[INFO] Rewards ............................................ SUCCESS [  0.297 s]
+[INFO] Citizens Compatibility ............................. SUCCESS [  0.618 s]
+[INFO] Factions Compatibility ............................. SUCCESS [  0.491 s]
+[INFO] Lands Compatibility ................................ SUCCESS [  0.406 s]
+[INFO] Parties Compatibility .............................. SUCCESS [  0.198 s]
+[INFO] RedProtect Compatibility ........................... SUCCESS [  0.366 s]
+[INFO] WorldGuard Compatibility ........................... SUCCESS [  0.381 s]
+[INFO] Towny Compatibility ................................ SUCCESS [  0.395 s]
+[INFO] WorldGuard Compatibility Parent .................... SUCCESS [  0.016 s]
+[INFO] WorldGuard Compatibility 6.1 ....................... SUCCESS [  0.251 s]
+[INFO] WorldGuard Compatibility 6.2 ....................... SUCCESS [  0.321 s]
+[INFO] WorldGuard Compatibility 7.0 ....................... SUCCESS [  0.331 s]
+[INFO] WorldGuard Compatibility Main ...................... SUCCESS [  3.437 s]
+[INFO] CLX Builder ........................................ SUCCESS [  2.413 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  16.491 s
+[INFO] Finished at: 2019-07-27T18:14:43-04:00
+[INFO] ------------------------------------------------------------------------

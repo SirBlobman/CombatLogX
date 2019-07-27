@@ -1,5 +1,8 @@
 package com.SirBlobman.expansion.worldguard.listener;
 
+import java.util.List;
+import java.util.UUID;
+
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -19,9 +22,6 @@ import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.worldguard.config.ConfigWG;
 import com.SirBlobman.expansion.worldguard.config.ConfigWG.NoEntryMode;
 import com.SirBlobman.expansion.worldguard.utility.WGUtil;
-
-import java.util.List;
-import java.util.UUID;
 
 public class ListenWorldGuard implements Listener {
     @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
@@ -74,20 +74,9 @@ public class ListenWorldGuard implements Listener {
     }
     
     private Vector getVector(Location fromLoc, Location toLoc) {
-        Vector fromVector = fromLoc.toVector();
-        Vector toVector = toLoc.toVector();
-        Vector subtract = fromVector.subtract(toVector);
-        
-        Vector normal = subtract.normalize();
-        Vector multiply = normal.multiply(ConfigWG.NO_ENTRY_KNOCKBACK_STRENGTH);
-        
-        Double multX = multiply.getX();
-        Double multZ = multiply.getZ();
-        if(multX.isInfinite()) multiply.setX(multX > 0 ? 1.0D : -1.0D);
-        if(multZ.isInfinite()) multiply.setZ(multZ > 0 ? 1.0D : -1.0D);
-        
-        multiply.setY(0.0D);
-        return multiply;
+    	Vector normal = Util.getVector(fromLoc, toLoc);
+    	Vector multiply = normal.multiply(ConfigWG.NO_ENTRY_KNOCKBACK_STRENGTH);
+    	return Util.makeFinite(multiply);
     }
     
     private void preventEntry(Cancellable e, Player player, Location fromLoc, Location toLoc) {

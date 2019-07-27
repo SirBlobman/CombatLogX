@@ -13,7 +13,7 @@ import java.io.File;
 public class CompatResidence implements CLXExpansion, Listener {
     public String getUnlocalizedName() {return "CompatResidence";}
     public String getName() {return "Residence Compatibility";}
-    public String getVersion() {return "14.2";}
+    public String getVersion() {return "14.3";}
     
     public static File FOLDER;
     

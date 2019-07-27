@@ -23,7 +23,7 @@ public class CompatLands implements CLXExpansion, Listener {
     }
     
     public String getVersion() {
-        return "14.3";
+        return "14.4";
     }
     
     public boolean checkForLands(boolean print) {

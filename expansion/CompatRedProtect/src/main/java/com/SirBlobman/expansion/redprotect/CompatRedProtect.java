@@ -1,12 +1,12 @@
 package com.SirBlobman.expansion.redprotect;
 
+import java.io.File;
+
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.expansion.Expansions;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.expansion.redprotect.config.ConfigRedProtect;
 import com.SirBlobman.expansion.redprotect.listener.ListenRedProtect;
-
-import java.io.File;
 
 public class CompatRedProtect implements CLXExpansion {
     @Override
@@ -21,7 +21,7 @@ public class CompatRedProtect implements CLXExpansion {
 
     @Override
     public String getVersion() {
-        return "14.1";
+        return "14.2";
     }
     
     public static File FOLDER;

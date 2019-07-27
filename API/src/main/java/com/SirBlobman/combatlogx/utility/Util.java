@@ -1,9 +1,5 @@
 package com.SirBlobman.combatlogx.utility;
 
-import com.SirBlobman.combatlogx.CombatLogX;
-import com.SirBlobman.combatlogx.config.ConfigLang;
-import com.SirBlobman.combatlogx.config.ConfigOptions;
-
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,11 +13,17 @@ import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitScheduler;
+import org.bukkit.util.Vector;
+
+import com.SirBlobman.combatlogx.CombatLogX;
+import com.SirBlobman.combatlogx.config.ConfigLang;
+import com.SirBlobman.combatlogx.config.ConfigOptions;
 
 public class Util {
     public static final CombatLogX PLUGIN = CombatLogX.INSTANCE;
@@ -200,5 +202,41 @@ public class Util {
             if (item.startsWith(arg) || item.equals(arg)) list.add(item);
         });
         return list;
+    }
+    
+    public static Vector getVector(Location fromLoc, Location toLoc) {
+    	if(fromLoc == null || toLoc == null) return null;
+    	
+    	Vector fromVec = fromLoc.toVector();
+    	Vector toVec = toLoc.toVector();
+    	Vector subtract = fromVec.subtract(toVec);
+    	Vector normal = subtract.normalize();
+    	return makeFinite(normal);
+    }
+    
+    public static Vector makeFinite(Vector original) {
+    	double x = original.getX();
+    	double y = original.getY();
+    	double z = original.getZ();
+    	if(Double.isNaN(x)) x = 0.0D;
+    	if(Double.isNaN(y)) y = 0.0D;
+    	if(Double.isNaN(z)) z = 0.0D;
+    	
+    	if(Double.isInfinite(x)) {
+    		boolean negative = (x < 0.0D);
+    		x = negative ? -1 : 1;
+    	}
+    	
+    	if(Double.isInfinite(y)) {
+    		boolean negative = (y < 0.0D);
+    		y = negative ? -1 : 1;
+    	}
+    	
+    	if(Double.isInfinite(z)) {
+    		boolean negative = (z < 0.0D);
+    		z = negative ? -1 : 1;
+    	}
+    	
+    	return new Vector(x, y, z);
     }
 }

@@ -16,7 +16,7 @@ public class CompatFactions implements CLXExpansion, Listener {
     private static FactionsUtil FUTIL;
 
     public String getVersion() {
-        return "14.2";
+        return "14.3";
     }
 
     public String getUnlocalizedName() {
