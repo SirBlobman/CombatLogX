@@ -15,14 +15,6 @@
 	<name>Notifier</name>
 	<description>Expansion for CombatLogX that contains the action bar, boss bar, and score board</description>
 
-	<repositories>
-		<repository>
-			<id>mvdw-software</id>
-			<name>MVdW Public Repositories</name>
-			<url>http://repo.mvdw-software.be/content/groups/public/</url>
-		</repository>
-	</repositories>
-
 	<dependencies>
 		<!-- CombatLogX API -->
 		<dependency>
@@ -36,7 +28,7 @@
 		<dependency>
 			<groupId>be.maximvdw</groupId>
 			<artifactId>MVdWPlaceholderAPI</artifactId>
-			<version>3.0.1-SNAPSHOT</version>
+			<version>3.0.1</version>
 		</dependency>
 
 		<!-- CombatLogX Expansion: Placeholder Compatibility -->

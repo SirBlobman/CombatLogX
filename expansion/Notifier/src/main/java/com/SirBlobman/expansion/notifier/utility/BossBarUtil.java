@@ -58,19 +58,16 @@ public class BossBarUtil extends Util {
         if (progress <= 0) progress = 0.0F;
         if (progress >= 1) progress = 1.0F;
         
-        NMS_Handler.getHandler().removeBossBar(player);
-        NMS_Handler.getHandler().sendBossBar(player, title, progress, ConfigNotifier.BOSS_BAR_COLOR, ConfigNotifier.BOSS_BAR_STYLE);
+        NMS_Handler.getHandler().sendNewBossBar(player, title, progress, ConfigNotifier.BOSS_BAR_COLOR, ConfigNotifier.BOSS_BAR_STYLE);
     }
     
     public static void removeBossBar(Player player, boolean shuttingDown) {
-        NMS_Handler.getHandler().removeBossBar(player);
-        
         if(!DISABLED_PLAYERS.contains(player.getUniqueId())) {
             if (shuttingDown) {
                 NMS_Handler.getHandler().removeBossBar(player);
             } else {
                 String title = color(ConfigNotifier.BOSS_BAR_NO_LONGER_IN_COMBAT);
-                NMS_Handler.getHandler().sendBossBar(player, title, 0.0D, ConfigNotifier.BOSS_BAR_COLOR, ConfigNotifier.BOSS_BAR_STYLE);
+                NMS_Handler.getHandler().sendNewBossBar(player, title, 0.0D, ConfigNotifier.BOSS_BAR_COLOR, ConfigNotifier.BOSS_BAR_STYLE);
                 SchedulerUtil.runLaterSync(20L, () -> NMS_Handler.getHandler().removeBossBar(player));
             }
         }

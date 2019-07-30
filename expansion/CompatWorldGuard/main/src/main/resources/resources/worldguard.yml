@@ -35,6 +35,9 @@ world guard:
     # Should the forcefield be enabled?
     # Default: false
     enabled: false
+    
+    # This is the force field bypass permission
+    bypass permission: "combatlogx.bypass.forcefield"
 
     # Size of forcefield recommended between 2-6.
     # Default: 4
