@@ -16,52 +16,47 @@ import org.bukkit.event.player.PlayerEvent;
  */
 public class PlayerPreTagEvent extends PlayerEvent implements Cancellable {
     private static final HandlerList HANDLER_LIST = new HandlerList();
+    public static HandlerList getHandlerList() {return HANDLER_LIST;}
+    public HandlerList getHandlers() {return HANDLER_LIST;}
+    
     private final LivingEntity enemy;
     private final TagType tagType;
     private final TagReason tagReason;
-    private boolean cancelled = false;
-
-    public PlayerPreTagEvent(Player p, LivingEntity enemy, TagType type, TagReason reason) {
-        super(p);
+    public PlayerPreTagEvent(Player player, LivingEntity enemy, TagType type, TagReason reason) {
+        super(player);
         this.enemy = enemy;
         this.tagType = type;
         this.tagReason = reason;
     }
 
-    public static HandlerList getHandlerList() {
-        return HANDLER_LIST;
-    }
-
+    private boolean cancelled = false;
     public boolean isCancelled() {
-        return cancelled;
+        return this.cancelled;
     }
 
     public void setCancelled(boolean cancel) {
         this.cancelled = cancel;
     }
-
-    public HandlerList getHandlers() {
-        return HANDLER_LIST;
-    }
+    
 
     /**
      * @return The enemy that will tag the player (can be null)
      */
     public LivingEntity getEnemy() {
-        return enemy;
+        return this.enemy;
     }
 
     /**
      * @return The type of entity that will cause this player to be tagged
      */
     public TagType getTaggedBy() {
-        return tagType;
+        return this.tagType;
     }
 
     /**
      * @return The reason that will cause this player to be tagged
      */
     public TagReason getTagReason() {
-        return tagReason;
+        return this.tagReason;
     }
 }

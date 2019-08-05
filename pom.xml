@@ -22,7 +22,7 @@
 		<!-- patch will change when I make small changes -->
 		<!-- minor will change when I add a new expansion (or big changes) -->
 		<!-- major will change when I modify the API or make a lot of changes -->
-		<combatlogx.version>9.8.4.1</combatlogx.version>
+		<combatlogx.version>9.9.0.0</combatlogx.version>
 	</properties>
 
 	<modules>
@@ -37,6 +37,7 @@
 		<module>expansion/NotCombatLogX</module>
 		<module>expansion/Notifier</module>
 		<module>expansion/Rewards</module>
+		<module>expansion/NewbieHelper</module>
 
 		<!-- Plugin Support Expansions -->
 		<module>expansion/CompatCitizens</module>

@@ -117,3 +117,8 @@ items:
   # Set this to true to prevent players from using totems of undying during combat
   # Default: false
   prevent totem usage: false
+  
+entities:
+  # Set this to true to prevent player's from right-clicking entities during combat
+  # Default: true
+  prevent interaction: true

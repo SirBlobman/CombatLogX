@@ -36,6 +36,10 @@ score board:
   # Set this to true to enable the score board
   # Default: true
   enabled: true
+  
+  # Set this to true to save the scoreboard from before the player was tagged
+  # Otherwise, it will just set back to the server's main scoreboard
+  save previous: false
 
   # This is the title of the scoreboard
   title: "&6&lCombatLogX"

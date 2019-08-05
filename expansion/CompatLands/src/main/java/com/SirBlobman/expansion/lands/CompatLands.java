@@ -1,65 +1,76 @@
 package com.SirBlobman.expansion.lands;
 
-import org.bukkit.event.Listener;
+import java.io.File;
 
-import com.SirBlobman.combatlogx.expansion.CLXExpansion;
-import com.SirBlobman.combatlogx.expansion.Expansions;
+import com.SirBlobman.combatlogx.config.ConfigLang;
+import com.SirBlobman.combatlogx.expansion.NoEntryExpansion;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.expansion.lands.config.ConfigLands;
 import com.SirBlobman.expansion.lands.listener.ListenLands;
-import com.SirBlobman.expansion.lands.utility.LandsUtil;
 
-import java.io.File;
+public class CompatLands extends NoEntryExpansion {
+	public static File FOLDER;
 
-public class CompatLands implements CLXExpansion, Listener {
-    public static File FOLDER;
-    
-    public String getUnlocalizedName() {
-        return "CompatLands";
-    }
-    
-    public String getName() {
-        return "Lands Compatibility";
-    }
-    
-    public String getVersion() {
-        return "14.4";
-    }
-    
-    public boolean checkForLands(boolean print) {
-        if(!PluginUtil.isEnabled("Lands", "Angeschossen")) {
-            if(print) print("Could not find plugin 'Lands'. Automatically disabling...");
-            return false;
-        }
-        
-        try {
-            Class.forName("me.angeschossen.lands.api.landsaddons.LandsAddon");
-            return true;
-        } catch(ReflectiveOperationException ex) {
-            if(print) print("Your lands version does not support the API used by CombatLogX. If you believe this is an error, please contact SirBlobman.");
-            return false;
-        }
-    }
-    
-    @Override
-    public void enable() {
-        if(!checkForLands(true)) {
-            Expansions.unloadExpansion(this);
-            return;
-        }
-        
-        FOLDER = getDataFolder();
-        ConfigLands.load();
-        PluginUtil.regEvents(new ListenLands());
-    }
-    
-    @Override
-    public void disable() {
-        if(checkForLands(false)) LandsUtil.onDisable();
-    }
-    
-    @Override
-    public void onConfigReload() {
-        if(checkForLands(false)) ConfigLands.load();
-    }
+	public String getUnlocalizedName() {
+		return "CompatLands";
+	}
+
+	public String getName() {
+		return "Lands Compatibility";
+	}
+
+	public String getVersion() {
+		return "14.5";
+	}
+
+	@Override
+	public boolean canEnable() {
+		if(!PluginUtil.isEnabled("Lands", "Angeschossen")) {
+			print("Could not find Lands plugin.");
+			return false;
+		}
+
+		try {
+			Class.forName("me.angeschossen.lands.api.landsaddons.LandsAddon");
+			return true;
+		} catch(ReflectiveOperationException ex) {
+			print("Your Lands version is not supported by CombatLogX.");
+			return false;
+		}
+	}
+
+	@Override
+	public void onEnable() {
+		FOLDER = getDataFolder();
+		ConfigLands.load();
+
+		ListenLands listener = new ListenLands(this);
+		PluginUtil.regEvents(listener);
+	}
+
+	@Override
+	public void onConfigReload() {
+		ConfigLands.load();
+	}
+
+	@Override
+	public double getKnockbackStrength() {
+		return ConfigLands.NO_ENTRY_KNOCKBACK_STRENGTH;
+	}
+
+	@Override
+	public NoEntryMode getNoEntryMode() {
+		return ConfigLands.getNoEntryMode();
+	}
+
+	@Override
+	public String getNoEntryMessage(boolean mobEnemy) {
+		String messageKey = "messages.expansions.lands compatibility.no entry";
+		return ConfigLang.getWithPrefix(messageKey);
+	}
+
+	@Override
+	public int getNoEntryMessageCooldown() {
+		return ConfigLands.MESSAGE_COOLDOWN;
+	}
 }

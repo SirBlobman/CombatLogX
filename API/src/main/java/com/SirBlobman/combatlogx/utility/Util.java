@@ -1,14 +1,9 @@
 package com.SirBlobman.combatlogx.utility;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -31,177 +26,175 @@ public class Util {
     public static final ConsoleCommandSender CONSOLE = SERVER.getConsoleSender();
     public static final PluginManager PM = SERVER.getPluginManager();
     static final BukkitScheduler BS = SERVER.getScheduler();
-
-    public static String str(Object o) {
-        if (o == null) return "";
-        else if (o instanceof String) {
-            return (String) o;
-        } else if ((o instanceof Byte) || (o instanceof Short) || (o instanceof Integer) || (o instanceof Long)) {
-            Number n = (Number) o;
-            long l = n.longValue();
-            return Long.toString(l);
-        } else if ((o instanceof Float) || (o instanceof Double) || (o instanceof Number)) {
-            Number n = (Number) o;
-            double d = n.doubleValue();
-            return Double.toString(d);
-        } else {
-            Class<?> clazz = o.getClass();
-            try {
-                Method method = clazz.getMethod("name");
-                return (String) method.invoke(o);
-            } catch (Throwable ex1) {
-                try {
-                    Method method = clazz.getMethod("getName");
-                    return (String) method.invoke(o);
-                } catch (Throwable ex2) {
-                    return o.toString();
-                }
-            }
-        }
-    }
-
-    public static String color(Object o) {
-        String str = str(o);
-        return ChatColor.translateAlternateColorCodes('&', str);
-    }
-
-    private static String strip(Object o) {
-        String str = str(o);
-        return ChatColor.stripColor(str);
-    }
-
-    public static String[] color(Object... oo) {
-        String[] cc = new String[oo.length];
-        int i = 0;
-        for (Object o : oo) {
-            String str = color(o);
-            cc[i] = str;
-            i++;
-        }
-        return cc;
-    }
-
-    public static String formatMessage(Object format, List<String> keys, List<?> vals, Object... oo) {
-        if (keys.size() != vals.size()) {
-            throw new IllegalArgumentException("You must have the same number of keys as you do values!");
-        } else {
-            String s = str(format);
-            for (int i = 0; i < keys.size(); i++) {
-                String key = keys.get(i);
-                Object val = vals.get(i);
-                String sal = str(val);
-                s = s.replace(key, sal);
-            }
-
-            String f = String.format(s, oo);
-            return color(f);
-        }
+    
+    public static String toString(Object object) {
+    	if(object == null) return "";
+    	if(object instanceof String) return (String) object;
+    	
+    	Class<?> object_class = object.getClass();
+    	try {
+    		Method method = object_class.getMethod("name");
+    		return (String) method.invoke(object);
+    	} catch(ReflectiveOperationException ex1) {
+    		try {
+        		Method method = object_class.getMethod("getName");
+        		return (String) method.invoke(object);
+    		} catch(ReflectiveOperationException ex2) {
+    			return object.toString();
+    		}
+    	}
     }
     
-    public static void debug(String... ss) {
-        if(!ConfigOptions.OPTION_DEBUG) return;
-        
-        Logger log = PLUGIN.getLogger();
-        Arrays.stream(ss).forEach(s -> {
-            s = s.replace("\u00A7", "&");
-            log.info("[Debug] " + s);
-        });
+    public static String color(Object object) {
+    	String string = toString(object);
+    	return ChatColor.translateAlternateColorCodes('&', string);
+    }
+    
+    public static String[] color(Object... objects) {
+    	String[] colorArray = new String[objects.length];
+    	for(int i = 0; i < objects.length; i++) {
+    		Object object = objects[i];
+    		String string = color(object);
+    		colorArray[i] = string;
+    	}
+    	return colorArray;
+    }
+    
+    public static String removeColor(Object object) {
+    	String string = toString(object);
+    	return ChatColor.stripColor(string);
+    }
+    
+    public static String formatMessage(Object object, List<String> keyList, List<?> valueList, Object... objects) {
+    	int keyListSize = keyList.size();
+    	int valueListSize = valueList.size();
+    	if(keyListSize != valueListSize) {
+    		String error = "You must have the same number of keys and values!";
+    		throw new IllegalArgumentException(error);
+    	}
+    	
+    	String string = toString(object);
+    	for(int i = 0; i < keyListSize; i++) {
+    		String key = keyList.get(i);
+    		Object value = valueList.get(i);
+    		String stringValue = toString(value);
+    		string = string.replace(key, stringValue);
+    	}
+    	
+    	String format = String.format(string, objects);
+    	return color(format);
+    }
+    
+    public static void debug(String... messages) {
+    	if(!ConfigOptions.OPTION_DEBUG) return;
+    	
+    	Logger logger = PLUGIN.getLogger();
+    	for(String message : messages) {
+    		message = message.replace('\u00A7', '&');
+    		logger.info("[Debug] " + message);
+    	}
+    }
+    
+    /**
+     * Console messages with prefix and no color
+     * @param objects All objects to be converted into strings and sent to console
+     */
+    public static void log(Object... objects) {
+    	if(objects.length == 1 && toString(objects[0]).isEmpty()) return;
+    	
+    	for(Object object : objects) {
+    		String string = removeColor(object);
+    		String prefix = removeColor(ConfigLang.get("messages.plugin prefix"));
+    		CONSOLE.sendMessage(prefix + " " + string);
+    	}
     }
 
-    public static void log(Object... oo) {
-        if (oo[0].equals("")) return;
-        for (Object o : oo) {
-            String prefix = ConfigLang.get("messages.plugin prefix");
-            String log = strip(prefix) + " " + strip(o);
-            CONSOLE.sendMessage(log);
-        }
+    /**
+     * Console messages with prefix and color
+     * @param objects All objects to be converted into strings and sent to console
+     */
+    public static void print(Object... objects) {
+    	if(objects.length == 1 && toString(objects[0]).isEmpty()) return;
+    	
+    	for(Object object : objects) {
+    		String string = color(object);
+    		String prefix = ConfigLang.get("messages.plugin prefix");
+    		printNoPrefix(prefix + " " + string);
+    	}
     }
 
-    public static void print(Object... oo) {
-        if (oo[0].equals("")) return;
-        String[] msgs = color(oo);
-        for (String msg : msgs) {
-            String prefix = ConfigLang.get("messages.plugin prefix");
-            String print = prefix + " " + msg;
-            printNoPrefix(print);
-        }
+    /**
+     * Console messages with no prefix and color
+     * @param objects All objects to be converted into strings and sent to console
+     */
+    public static void printNoPrefix(Object... objects) {
+    	if(objects.length == 1 && toString(objects[0]).isEmpty()) return;
+    	
+    	for(Object object : objects) {
+    		String string = color(object);
+    		CONSOLE.sendMessage(string);
+    	}
     }
-
-    public static void printNoPrefix(Object... oo) {
-        if (oo[0].equals("")) return;
-        String[] msgs = color(oo);
-        for (String msg : msgs) {
-            CONSOLE.sendMessage(msg);
-        }
-    }
-
-    public static void broadcast(boolean prefix, Object... oo) {
-        if (oo[0].equals("")) return;
-        for (Object o : oo) {
-            String str = str(o);
-            if (!str.isEmpty()) {
-                String sprefix = ConfigLang.get("messages.plugin prefix") + " ";
-                String bcast = color((prefix ? sprefix : "") + str);
-                SERVER.broadcastMessage(bcast);
-            }
-        }
+    
+    public static void broadcast(boolean prefix, Object... objects) {
+    	for(Object object : objects) {
+    		String string = color(object);
+    		if(string.isEmpty()) continue;
+    		
+    		String prefixString = ConfigLang.get("messages.plugin prefix") + " ";
+    		SERVER.broadcastMessage((prefix ? prefixString : "") + string);
+    	}
     }
 
     /**
      * Send a list of messages to a {@link CommandSender}<br/>
      * If the message is empty or null it won't be sent
      *
-     * @param cs The {@link CommandSender} that will receive the message
-     * @param oo A list of objects which will be converted to strings using {@link Util#str(Object)}
+     * @param sender The {@link CommandSender} that will receive the message
+     * @param objects A list of objects which will be converted to strings using {@link Util#toString(Object)}
      */
-    public static void sendMessage(CommandSender cs, Object... oo) {
-        Arrays.stream(oo).forEach(obj -> {
-            String str = str(obj);
-            if (str != null && !str.isEmpty() && !str.equals(" ")) {
-                String msg = color(str);
-                cs.sendMessage(msg);
-            }
-        });
+    public static void sendMessage(CommandSender sender, Object... objects) {
+    	for(Object object : objects) {
+    		String string = color(object);
+    		if(string.isEmpty()) continue;
+    		
+    		sender.sendMessage(string);
+    	}
     }
 
     @SafeVarargs
     public static <L> List<L> newList(L... ll) {
-        List<L> list = new ArrayList<>();
-        Collections.addAll(list, ll);
-        return list;
+    	return com.SirBlobman.api.utility.Util.newList(ll);
     }
 
     public static <L> List<L> newList(Collection<L> ll) {
-        List<L> list = new ArrayList<>(ll);
-        return list;
+    	return com.SirBlobman.api.utility.Util.newList(ll);
     }
 
-    public static List<String> toLowercaseList(List<String> original) {
+    public static List<String> toLowercaseList(Collection<String> original) {
         List<String> list = newList();
-        original.forEach(u -> list.add(u.toLowerCase()));
+        for(String string : original) {
+        	String lower = string.toLowerCase();
+        	list.add(lower);
+        }
         return list;
     }
 
     public static <K, V> Map<K, V> newMap() {
-        return new HashMap<>();
+    	return com.SirBlobman.api.utility.Util.newMap();
     }
 
     static <K, V> Map<K, V> newMap(Map<K, V> kv) {
-        Map<K, V> map = newMap();
-        for (Entry<K, V> e : kv.entrySet()) {
-            K key = e.getKey();
-            V val = e.getValue();
-            map.put(key, val);
-        }
-        return map;
+    	return com.SirBlobman.api.utility.Util.newMap(kv);
     }
 
     public static List<String> getMatching(List<String> original, String arg) {
-        List<String> list = newList();
-        original.forEach(item -> {
-            if (item.startsWith(arg) || item.equals(arg)) list.add(item);
-        });
-        return list;
+    	List<String> list = newList();
+    	for(String string : original) {
+    		if(!string.startsWith(arg) && !string.equals(arg)) continue;
+    		list.add(string);
+    	}
+    	return list;
     }
     
     public static Vector getVector(Location fromLoc, Location toLoc) {
@@ -209,34 +202,27 @@ public class Util {
     	
     	Vector fromVec = fromLoc.toVector();
     	Vector toVec = toLoc.toVector();
+    	
     	Vector subtract = fromVec.subtract(toVec);
     	Vector normal = subtract.normalize();
     	return makeFinite(normal);
     }
     
     public static Vector makeFinite(Vector original) {
-    	double x = original.getX();
-    	double y = original.getY();
-    	double z = original.getZ();
-    	if(Double.isNaN(x)) x = 0.0D;
-    	if(Double.isNaN(y)) y = 0.0D;
-    	if(Double.isNaN(z)) z = 0.0D;
-    	
-    	if(Double.isInfinite(x)) {
-    		boolean negative = (x < 0.0D);
-    		x = negative ? -1 : 1;
-    	}
-    	
-    	if(Double.isInfinite(y)) {
-    		boolean negative = (y < 0.0D);
-    		y = negative ? -1 : 1;
-    	}
-    	
-    	if(Double.isInfinite(z)) {
-    		boolean negative = (z < 0.0D);
-    		z = negative ? -1 : 1;
-    	}
+    	double x = makeFinite(original.getX());
+    	double y = makeFinite(original.getY());
+    	double z = makeFinite(original.getZ());
     	
     	return new Vector(x, y, z);
+    }
+    
+    public static double makeFinite(double number) {
+    	if(Double.isNaN(number)) return 0.0D;
+    	if(Double.isInfinite(number)) {
+    		boolean negative = (number < 0.0D);
+    		return (negative ? -1.0D : 1.0D);
+    	}
+    	
+    	return number;
     }
 }

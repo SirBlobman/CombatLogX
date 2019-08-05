@@ -12,22 +12,19 @@ import org.bukkit.event.player.PlayerEvent;
  */
 public class PlayerCombatTimerChangeEvent extends PlayerEvent {
     private static final HandlerList HANDLER_LIST = new HandlerList();
+    public static HandlerList getHandlerList() {return HANDLER_LIST;}
+    public HandlerList getHandlers() {return HANDLER_LIST;}
+    
     private final int timeLeft;
-
-    public PlayerCombatTimerChangeEvent(Player p, int timeLeft) {
-        super(p);
+    public PlayerCombatTimerChangeEvent(Player player, int timeLeft) {
+        super(player);
         this.timeLeft = timeLeft;
     }
 
-    public static HandlerList getHandlerList() {
-        return HANDLER_LIST;
-    }
-
-    public HandlerList getHandlers() {
-        return HANDLER_LIST;
-    }
-
+    /**
+     * @return The seconds left before the player escapes from combat
+     */
     public int getSecondsLeft() {
-        return timeLeft;
+        return this.timeLeft;
     }
 }

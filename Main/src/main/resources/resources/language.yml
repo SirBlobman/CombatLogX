@@ -85,6 +85,9 @@ messages:
       items:
         pick up not allowed: "&c&oYou cannot pick up items during combat."
         dropping not allowed: "&c&oYou cannot drop items during combat."
+        
+      entities:
+        interaction not allowed: "&c&oYou cannot interact with that during combat."
 
 
     notcombatlogx:
@@ -140,3 +143,14 @@ messages:
         
     citizens compatibility:
       kick message: "&cYou are not allowed to log back in until your clone is killed or removed."
+      
+    newbie helper:
+      pvp:
+        enabled: "&7&lPVP: &aEnabled"
+        disabled: "&7&lPVP: &cDisabled"
+      no pvp:
+        self: "&c&oYou cannot hit that player while your PVP is disabled."
+        other: "&c&oThat player doesn't have pvp enabled."
+      disabled:
+        attacker: "You attacked someone so your newbie protection was disabled."
+        expired: "Your newbie protection has expired."

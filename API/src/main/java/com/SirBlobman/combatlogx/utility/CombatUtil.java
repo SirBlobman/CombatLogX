@@ -1,5 +1,11 @@
 package com.SirBlobman.combatlogx.utility;
 
+import java.lang.reflect.Method;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -20,46 +26,39 @@ import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagType;
 import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.event.PlayerUntagEvent.UntagReason;
 
-import java.lang.reflect.Method;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
 public class CombatUtil implements Runnable {
     private static Map<UUID, Long> COMBAT = Util.newMap();
     private static Map<UUID, LivingEntity> ENEMIES = Util.newMap();
     
     /**
-     * @param p The player to check
+     * @param player The player to check
      * @return {@code true} if the player is in combat, false if they are not
      */
-    public static boolean isInCombat(Player p) {
-        UUID uuid = p.getUniqueId();
+    public static boolean isInCombat(Player player) {
+        UUID uuid = player.getUniqueId();
         return COMBAT.containsKey(uuid);
     }
     
     /**
-     * @param p The player to check
+     * @param player The player to check
      * @return {@code true} if the player has a non-null enemy, false otherwise
      */
-    public static boolean hasEnemy(Player p) {
-        UUID uuid = p.getUniqueId();
+    public static boolean hasEnemy(Player player) {
+        UUID uuid = player.getUniqueId();
         if (!ENEMIES.containsKey(uuid)) return false;
         
-        LivingEntity enemy = getEnemy(p);
+        LivingEntity enemy = getEnemy(player);
         return (enemy != null);
     }
     
     /**
-     * @param p The player to check
+     * @param player The player to check
      * @return The enemy of {@code p} as a LivingEntity<br/>
      * {@code null} if the player does not have an enemy
      * @see #hasEnemy(Player)
      */
-    public static LivingEntity getEnemy(Player p) {
-        UUID uuid = p.getUniqueId();
+    public static LivingEntity getEnemy(Player player) {
+        UUID uuid = player.getUniqueId();
         return ENEMIES.getOrDefault(uuid, null);
     }
     
@@ -71,9 +70,13 @@ public class CombatUtil implements Runnable {
         
         Map<UUID, Long> copy = Util.newMap(COMBAT);
         for (UUID uuid : copy.keySet()) {
-            Player p = Bukkit.getPlayer(uuid);
-            if (p != null) list.add(p);
-            else COMBAT.remove(uuid);
+            Player player = Bukkit.getPlayer(uuid);
+            if (player == null) {
+            	COMBAT.remove(uuid);
+            	continue;
+            }
+            
+            list.add(player);
         }
         
         return list;
@@ -86,14 +89,17 @@ public class CombatUtil implements Runnable {
         List<LivingEntity> list = Util.newList();
         
         Map<UUID, LivingEntity> copy = Util.newMap(ENEMIES);
-        for (Entry<UUID, LivingEntity> e : copy.entrySet()) {
-            UUID uuid = e.getKey();
-            LivingEntity enemy = e.getValue();
+        for (Entry<UUID, LivingEntity> entry : copy.entrySet()) {
+            UUID uuid = entry.getKey();
+            LivingEntity enemy = entry.getValue();
             
-            Player p = Bukkit.getPlayer(uuid);
-            if (p != null && isInCombat(p)) {
-                if (enemy != null) list.add(enemy);
-            } else ENEMIES.remove(uuid);
+            Player player = Bukkit.getPlayer(uuid);
+            if(player == null || !isInCombat(player)) {
+            	ENEMIES.remove(uuid);
+            	continue;
+            }
+            
+            if(enemy != null) list.add(enemy);
         }
         
         return list;
@@ -112,12 +118,12 @@ public class CombatUtil implements Runnable {
         
         
         Map<UUID, LivingEntity> copy = Util.newMap(ENEMIES);
-        for (Entry<UUID, LivingEntity> e : copy.entrySet()) {
-            LivingEntity check = e.getValue();
-            if (enemy.equals(check)) {
-                UUID uuid = e.getKey();
-                return Bukkit.getOfflinePlayer(uuid);
-            }
+        for (Entry<UUID, LivingEntity> entry : copy.entrySet()) {
+        	LivingEntity mapEnemy = entry.getValue();
+        	if(!enemy.equals(mapEnemy)) continue;
+        	
+        	UUID uuid = entry.getKey();
+        	return Bukkit.getOfflinePlayer(uuid);
         }
         
         return null;
@@ -134,9 +140,11 @@ public class CombatUtil implements Runnable {
      * @return {@code true} if the player was tagged, {@code false} otherwise
      */
     public static boolean tag(Player player, LivingEntity enemy, TagType tagType, TagReason tagReason) {
+        PlayerPreTagEvent preTagEvent = new PlayerPreTagEvent(player, enemy, tagType, tagReason);
+        PluginUtil.call(preTagEvent);
+        if(preTagEvent.isCancelled()) return false;
+        
         if(isInCombat(player)) {
-            if(tagType == TagType.MOB && !ConfigOptions.COMBAT_MOBS) return false;
-            
             long systemMillis = System.currentTimeMillis();
             long millisToAdd = (ConfigOptions.OPTION_TIMER * 1000L);
             long endMillis = (systemMillis + millisToAdd);
@@ -149,10 +157,6 @@ public class CombatUtil implements Runnable {
             
             return true;
         }
-        
-        PlayerPreTagEvent preTagEvent = new PlayerPreTagEvent(player, enemy, tagType, tagReason);
-        PluginUtil.call(preTagEvent);
-        if(preTagEvent.isCancelled()) return false;
         
         long systemMillis = System.currentTimeMillis();
         long millisToAdd = (ConfigOptions.OPTION_TIMER * 1000L);
@@ -307,7 +311,7 @@ public class CombatUtil implements Runnable {
                 Method method_PlaceholderAPI_replacePlaceholders = class_PlaceholderAPI.getMethod("replacePlaceholders", OfflinePlayer.class, String.class);
                 command = (String) method_PlaceholderAPI_replacePlaceholders.invoke(null, player, command);
             }
-        } catch(Exception ex) {
+        } catch(ReflectiveOperationException ex) {
             Util.debug("An error occurred while trying to get placeholders through reflection.");
             if(ConfigOptions.OPTION_DEBUG) ex.printStackTrace();
         }
@@ -317,7 +321,7 @@ public class CombatUtil implements Runnable {
     
     @Override
     public void run() {
-        List<Player> combatPlayerList = Bukkit.getOnlinePlayers().stream().filter(CombatUtil::isInCombat).collect(Collectors.toList());
+        List<Player> combatPlayerList = getPlayersInCombat();
         for(Player player : combatPlayerList) {
             int timeLeft = getTimeLeft(player);
             if(timeLeft <= 0) untag(player, UntagReason.EXPIRE);

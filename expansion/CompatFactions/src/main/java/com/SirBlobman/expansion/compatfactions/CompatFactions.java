@@ -1,22 +1,20 @@
 package com.SirBlobman.expansion.compatfactions;
 
-import org.bukkit.event.Listener;
+import java.io.File;
 
-import com.SirBlobman.combatlogx.expansion.CLXExpansion;
-import com.SirBlobman.combatlogx.expansion.Expansions;
+import com.SirBlobman.combatlogx.config.ConfigLang;
+import com.SirBlobman.combatlogx.expansion.NoEntryExpansion;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.expansion.compatfactions.config.ConfigFactions;
 import com.SirBlobman.expansion.compatfactions.listener.ListenFactions;
 import com.SirBlobman.expansion.compatfactions.utility.FactionsUtil;
 
-import java.io.File;
-
-public class CompatFactions implements CLXExpansion, Listener {
+public class CompatFactions extends NoEntryExpansion {
     public static File FOLDER;
     private static FactionsUtil FUTIL;
 
     public String getVersion() {
-        return "14.3";
+        return "14.4";
     }
 
     public String getUnlocalizedName() {
@@ -28,25 +26,6 @@ public class CompatFactions implements CLXExpansion, Listener {
     }
 
     @Override
-    public void enable() {
-        FUTIL = FactionsUtil.getFactionsUtil();
-        if (FUTIL == null) {
-            String error = "Could not find a valid Factions plugin. Please contact SirBlobman if you think this should not be happening!";
-            print(error);
-            Expansions.unloadExpansion(this);
-        } else {
-            FOLDER = getDataFolder();
-            ConfigFactions.load();
-            PluginUtil.regEvents(new ListenFactions(FUTIL));
-        }
-    }
-
-    @Override
-    public void disable() {
-
-    }
-
-    @Override
     public void onConfigReload() {
         FUTIL = FactionsUtil.getFactionsUtil();
         if (FUTIL != null) {
@@ -54,4 +33,45 @@ public class CompatFactions implements CLXExpansion, Listener {
             ConfigFactions.load();
         }
     }
+
+	@Override
+	public boolean canEnable() {
+		FUTIL = FactionsUtil.getFactionsUtil();
+		if(FUTIL == null) {
+			print("Could not find a valid Factions plugin.");
+			return false;
+		}
+		
+		return true;
+	}
+
+	@Override
+	public void onEnable() {
+		FOLDER = getDataFolder();
+		ConfigFactions.load();
+		
+		ListenFactions listener = new ListenFactions(this, FUTIL);
+		PluginUtil.regEvents(listener);
+	}
+
+	@Override
+	public double getKnockbackStrength() {
+		return ConfigFactions.NO_ENTRY_KNOCKBACK_STRENGTH;
+	}
+
+	@Override
+	public NoEntryMode getNoEntryMode() {
+		return ConfigFactions.getNoEntryMode();
+	}
+
+	@Override
+	public String getNoEntryMessage(boolean mobEnemy) {
+        String messageKey = "messages.expansions.factions compatibility.no entry";
+        return ConfigLang.getWithPrefix(messageKey);
+	}
+
+	@Override
+	public int getNoEntryMessageCooldown() {
+		return ConfigFactions.MESSAGE_COOLDOWN;
+	}
 }

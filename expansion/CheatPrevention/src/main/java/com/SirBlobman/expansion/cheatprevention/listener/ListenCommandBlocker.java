@@ -1,5 +1,7 @@
 package com.SirBlobman.expansion.cheatprevention.listener;
 
+import java.util.List;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -11,29 +13,17 @@ import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.cheatprevention.config.ConfigCheatPrevention;
 
-import java.util.List;
-
 public class ListenCommandBlocker implements Listener {
-    @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
+    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
     public void onCommand(PlayerCommandPreprocessEvent e) {
         Player player = e.getPlayer();
-        Util.debug("[Cheat Prevention Command Blocker] Checking player '" + player.getName() + "'.");
-        
-        if(!CombatUtil.isInCombat(player)) {
-            Util.debug("[Cheat Prevention Command Blocker] Player is not in combat, ignoring...");
-            return;
-        }
+        if(!CombatUtil.isInCombat(player)) return;
         
         String command = e.getMessage();
         String actualCommand = convertCommand(command);
-        Util.debug("[Cheat Prevention Command Blocker] Player ran command '" + command + "'. Converted to '" + actualCommand + "'.");
-        if(!isBlocked(actualCommand)) {
-            Util.debug("[Cheat Prevention Command Blocker] That command is not blocked.");
-            return;
-        }
+        if(!isBlocked(actualCommand)) return;
         
         e.setCancelled(true);
-        Util.debug("[Cheat Prevention Command Blocker] Blocked command successfully!");
         
         String format = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.command.not allowed");
         String message = format.replace("{command}", actualCommand);
@@ -43,27 +33,35 @@ public class ListenCommandBlocker implements Listener {
     private String convertCommand(String original) {
         if(original == null || original.isEmpty()) original = "";
         if(!original.startsWith("/")) original = "/" + original;
-        return original.toLowerCase();
-    }
-    
-    private String getMainCommand(String original) {
-        if(original == null || original.isEmpty()) return "";
         
-        int firstSpace = original.indexOf('\u0020');
-        if(firstSpace < 0) return original;
-        
-        return original.substring(0, firstSpace);
+        return original;
     }
     
     private boolean isBlocked(String command) {
-        String mainCommand = getMainCommand(command);
-        
-        if(ConfigCheatPrevention.BLOCKED_COMMANDS_IS_WHITELIST) {
-            List<String> allowedCommands = ConfigCheatPrevention.BLOCKED_COMMANDS_LIST;
-            return (!allowedCommands.contains(mainCommand) && !allowedCommands.contains(command));
-        }
-        
-        List<String> blockedCommands = ConfigCheatPrevention.BLOCKED_COMMANDS_LIST;
-        return (blockedCommands.contains(mainCommand) || blockedCommands.contains(command));
+    	List<String> commandList = ConfigCheatPrevention.BLOCKED_COMMANDS_LIST;
+    	boolean contains = listContainsOrStartsWith(commandList, command);
+    	
+    	return (ConfigCheatPrevention.BLOCKED_COMMANDS_IS_WHITELIST ? !contains : contains);
+    }
+    
+    private boolean listContainsOrStartsWith(List<String> list, String query) {
+    	if(list.contains(query)) {
+    		debug("Command List contains '" + query + "'.");
+    		return true;
+    	}
+    	
+    	for(String string : list) {
+    		if(query.startsWith(string)) {
+    			debug("'" + query + "' starts with '" + string + "'.");
+    			return true;
+    		}
+    	}
+    	
+    	debug("Could not find '" + query + "' in command list.");
+    	return false;
+    }
+    
+    private void debug(String message) {
+    	Util.debug("[Cheat Prevention] [Command Blocker] " + message);
     }
 }

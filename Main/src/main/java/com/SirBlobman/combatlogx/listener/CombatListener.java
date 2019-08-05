@@ -1,105 +1,156 @@
 package com.SirBlobman.combatlogx.listener;
 
-import com.SirBlobman.combatlogx.config.ConfigOptions;
-import com.SirBlobman.combatlogx.event.PlayerPreTagEvent;
-import com.SirBlobman.combatlogx.event.PlayerTagEvent;
-import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagType;
-import com.SirBlobman.combatlogx.event.PlayerUntagEvent.UntagReason;
-import com.SirBlobman.combatlogx.utility.CombatUtil;
-import com.SirBlobman.combatlogx.utility.Util;
+import java.util.List;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
-import java.util.List;
+import com.SirBlobman.combatlogx.config.ConfigOptions;
+import com.SirBlobman.combatlogx.event.PlayerPreTagEvent;
+import com.SirBlobman.combatlogx.event.PlayerTagEvent;
+import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagType;
+import com.SirBlobman.combatlogx.event.PlayerUntagEvent.UntagReason;
+import com.SirBlobman.combatlogx.utility.CombatUtil;
 
 public class CombatListener implements Listener {
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-    public void onPreTag(PlayerPreTagEvent e) {
-        Player p = e.getPlayer();
-        TagType type = e.getTaggedBy();
+	@EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
+	public void beforeTag(PlayerPreTagEvent e) {
+		Player player = e.getPlayer();
+		TagType tagType = e.getTaggedBy();
 
-        World world = p.getWorld();
-        String wname = world.getName().toLowerCase();
-        if (ConfigOptions.OPTION_DISABLED_WORLDS.contains(wname)) e.setCancelled(true);
+		World world = player.getWorld();
+		String worldName = world.getName().toLowerCase();
+		if(ConfigOptions.OPTION_DISABLED_WORLDS.contains(worldName)) {
+			e.setCancelled(true);
+			return;
+		}
 
-        if (ConfigOptions.COMBAT_BYPASS_ALLOW) {
-            String perm = ConfigOptions.COMBAT_BYPASS_PERMISSION;
-            if (p.hasPermission(perm)) e.setCancelled(true);
-        }
+		if(ConfigOptions.COMBAT_BYPASS_ALLOW && player.hasPermission(ConfigOptions.COMBAT_BYPASS_PERMISSION)) {
+			e.setCancelled(true);
+			return;
+		}
 
-        if (type == TagType.MOB) {
-            if (!ConfigOptions.COMBAT_MOBS) e.setCancelled(true);
-            else {
-                LivingEntity enemy = e.getEnemy();
-                if (enemy != null) {
-                    List<String> blacklist = ConfigOptions.COMBAT_MOBS_BLACKLIST;
-                    String entityType = enemy.getType().name();
-                    if (blacklist.contains(entityType)) e.setCancelled(true);
-                }
-            }
-        }
+		if(tagType == TagType.MOB) {
+			if(!ConfigOptions.COMBAT_MOBS) {
+				e.setCancelled(true);
+				return;
+			}
 
-        if (type == TagType.PLAYER) {
-            LivingEntity lenemy = e.getEnemy();
-            if (lenemy instanceof Player) {
-                Player enemy = (Player) lenemy;
-                if (enemy.equals(p) && !ConfigOptions.COMBAT_SELF) e.setCancelled(true);
-            }
-        }
-    }
+			LivingEntity enemy = e.getEnemy();
+			if(enemy != null) {
+				String enemyType = enemy.getType().name();
+				List<String> blacklist = ConfigOptions.COMBAT_MOBS_BLACKLIST;
+				if(blacklist.contains(enemyType)) {
+					e.setCancelled(true);
+					return;
+				}
+			}
+		}
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onTag(PlayerTagEvent e) {
-        Player p = e.getPlayer();
-        if (ConfigOptions.COMBAT_SUDO) {
-            List<String> commands = ConfigOptions.COMBAT_SUDO_COMMANDS;
+		if(tagType == TagType.PLAYER && !ConfigOptions.COMBAT_SELF) {
+			LivingEntity enemy = e.getEnemy();
+			UUID enemyId = enemy.getUniqueId();
+			UUID playerId = player.getUniqueId();
+			if(playerId.equals(enemyId)) {
+				e.setCancelled(true);
+				return;
+			}
+		}
+	}
 
-            commands.stream().filter(command -> command.startsWith("[CONSOLE]")).forEach(command -> {
-                String cmd = command.substring(9).replace("{player}", p.getName());
-                Bukkit.dispatchCommand(Util.CONSOLE, cmd);
-            });
+	@EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
+	public void onTag(PlayerTagEvent e) {
+		Player player = e.getPlayer();
+		if(!ConfigOptions.COMBAT_SUDO) return;
 
-            commands.stream().filter(command -> command.startsWith("[PLAYER]")).forEach(command -> {
-                String cmd = command.substring(8).replace("{player}", p.getName());
-                p.performCommand(cmd);
-            });
+		List<String> commandList = ConfigOptions.COMBAT_SUDO_COMMANDS;
+		String playerName = player.getName();
+		for(String command : commandList) {
+			command = command.replace("{player}", playerName);
+			if(command.startsWith("[CONSOLE]")) {
+				command = command.substring(9);
+				CommandSender console = Bukkit.getConsoleSender();
+				try {Bukkit.dispatchCommand(console, command);}
+				catch(Exception error) {error.printStackTrace();}
+				continue;
+			}
 
-            commands.stream().filter(command -> command.startsWith("[OP]")).forEach(command -> {
-                String cmd = command.substring(4).replace("{player}", p.getName());
+			if(command.startsWith("[PLAYER]")) {
+				command = command.substring(8);
+				try {player.performCommand(command);}
+				catch(Exception error) {error.printStackTrace();}
+			}
 
-                if (p.isOp()) p.performCommand(cmd);
-                else {
-                    p.setOp(true);
-                    p.performCommand(cmd);
-                    p.setOp(false);
-                }
-            });
-        }
-    }
+			if(command.startsWith("[OP]")) {
+				command = command.substring(4);
+				if(player.isOp()) {
+					player.performCommand(command);
+					continue;
+				}
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onEntityDeath(EntityDeathEvent e) {
-        LivingEntity le = e.getEntity();
-        OfflinePlayer op = CombatUtil.getByEnemy(le);
-        if (op != null && op.isOnline()) {
-            Player p = op.getPlayer();
-            if (CombatUtil.isInCombat(p) && ConfigOptions.COMBAT_UNTAG_ON_ENEMY_DEATH) {
-                CombatUtil.untag(p, UntagReason.EXPIRE_ENEMY_DEATH);
-            }
-        }
+				player.setOp(true);
+				try {player.performCommand(command);}
+				catch(Exception error) {error.printStackTrace();}
 
-        if (le instanceof Player) {
-            Player p = (Player) le;
-            if (CombatUtil.isInCombat(p) && ConfigOptions.COMBAT_UNTAG_ON_SELF_DEATH) {
-                CombatUtil.untag(p, UntagReason.EXPIRE);
-            }
-        }
-    }
+				player.setOp(false);
+				continue;
+			}
+		}
+	}
+	
+	@EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
+	public void onDeath(EntityDeathEvent e) {
+		checkEnemyDeathUntag(e);
+		checkSelfDeathUntag(e);
+	}
+	
+	@EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
+	public void onRespawn(PlayerRespawnEvent e) {
+		checkSelfDeathUntag(e);
+	}
+	
+	private void checkEnemyDeathUntag(EntityDeathEvent e) {
+		if(!ConfigOptions.COMBAT_UNTAG_ON_ENEMY_DEATH) return;
+		
+		LivingEntity enemy = e.getEntity();
+		
+		OfflinePlayer offline = CombatUtil.getByEnemy(enemy);
+		if(offline == null || !offline.isOnline()) return;
+		
+		Player player = offline.getPlayer();
+		if(!CombatUtil.isInCombat(player)) return;
+		
+		CombatUtil.untag(player, UntagReason.EXPIRE_ENEMY_DEATH);
+	}
+	
+	private void checkSelfDeathUntag(EntityDeathEvent e) {
+		if(!ConfigOptions.COMBAT_UNTAG_ON_SELF_DEATH) return;
+		
+		LivingEntity entity = e.getEntity();
+		if(!(entity instanceof Player)) return;
+		
+		Player player = (Player) entity;
+		if(!CombatUtil.isInCombat(player)) return;
+		
+		CombatUtil.untag(player, UntagReason.EXPIRE);
+	}
+	
+	private void checkSelfDeathUntag(PlayerRespawnEvent e) {
+		if(!ConfigOptions.COMBAT_UNTAG_ON_SELF_DEATH) return;
+		
+		Player player = e.getPlayer();
+		if(!CombatUtil.isInCombat(player)) return;
+		
+		CombatUtil.untag(player, UntagReason.EXPIRE);
+	}
 }

@@ -21,6 +21,11 @@
 			<name>PlaceholderAPI</name>
 			<url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
 		</repository>
+		<repository>
+			<id>mvdw-software</id>
+			<name>MVdW Public Repositories</name>
+			<url>http://repo.mvdw-software.com/content/groups/public/</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
@@ -40,12 +45,18 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- MVdW PlaceholderAPI -->
+		<!-- MVdWPlaceholderAPI -->
 		<dependency>
 			<groupId>be.maximvdw</groupId>
 			<artifactId>MVdWPlaceholderAPI</artifactId>
-			<version>3.0.1</version>
+			<version>3.0.1-SNAPSHOT</version>
 			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.spigotmc</groupId>
+					<artifactId>spigot</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 </project>

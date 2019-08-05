@@ -1,11 +1,13 @@
 package com.SirBlobman.expansion.compatfactions.config;
 
-import com.SirBlobman.combatlogx.config.Config;
-import com.SirBlobman.combatlogx.utility.Util;
-import com.SirBlobman.expansion.compatfactions.CompatFactions;
+import java.io.File;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.File;
+import com.SirBlobman.combatlogx.config.Config;
+import com.SirBlobman.combatlogx.expansion.NoEntryExpansion.NoEntryMode;
+import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.expansion.compatfactions.CompatFactions;
 
 public class ConfigFactions extends Config {
     public static double NO_ENTRY_KNOCKBACK_STRENGTH;
@@ -37,11 +39,9 @@ public class ConfigFactions extends Config {
         try {
             return NoEntryMode.valueOf(mode);
         } catch (Throwable ex) {
-            String error = "Invalid Mode '" + NO_ENTRY_MODE + "' in 'factions.yml'. Valid modes are CANCEL, TELEPORT, KNOCKBACK, or KILL";
+            String error = "Invalid Mode '" + NO_ENTRY_MODE + "' in 'factions.yml', defaulting to CANCEL.";
             Util.print(error);
             return NoEntryMode.CANCEL;
         }
     }
-
-    public enum NoEntryMode {CANCEL, TELEPORT, KNOCKBACK, KILL, VULNERABLE}
 }

@@ -7,40 +7,43 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 
 public class PlayerPunishEvent extends PlayerEvent implements Cancellable {
-    public enum PunishReason {DISCONNECTED, KICKED, UNKNOWN}
-    
-    private static final HandlerList HANDLER_LIST = new HandlerList();
-    private final PunishReason punishReason;
-    private final LivingEntity previousEnemy;
-    private boolean cancelled = false;
+	public enum PunishReason {DISCONNECTED, KICKED, UNKNOWN}
+	
+	private static final HandlerList HANDLER_LIST = new HandlerList();
+	public static HandlerList getHandlerList() {return HANDLER_LIST;}
+	public HandlerList getHandlers() {return HANDLER_LIST;}
 
-    public PlayerPunishEvent(Player p, PunishReason reason, LivingEntity previousEnemy) {
-        super(p);
-        this.punishReason = reason;
-        this.previousEnemy = previousEnemy;
-    }
+	private final PunishReason punishReason;
+	private final LivingEntity previousEnemy;
 
-    public static HandlerList getHandlerList() {
-        return HANDLER_LIST;
-    }
+	public PlayerPunishEvent(Player player, PunishReason reason, LivingEntity previousEnemy) {
+		super(player);
+		this.punishReason = reason;
+		this.previousEnemy = previousEnemy;
+	}
 
-    public boolean isCancelled() {
-        return cancelled;
-    }
+	private boolean cancelled = false;
+	public boolean isCancelled() {
+		return this.cancelled;
+	}
 
-    public void setCancelled(boolean cancel) {
-        this.cancelled = cancel;
-    }
+	public void setCancelled(boolean cancel) {
+		this.cancelled = cancel;
+	}
 
-    public HandlerList getHandlers() {
-        return HANDLER_LIST;
-    }
 
-    public PunishReason getReason() {
-        return punishReason;
-    }
-    
-    public LivingEntity getPreviousEnemy() {
-        return this.previousEnemy;
-    }
+	/**
+	 * @return The {@link PunishReason} that a player should be punished
+	 */
+	public PunishReason getReason() {
+		return this.punishReason;
+	}
+
+	/**
+	 * 
+	 * @return The last known entity that was the player's enemy
+	 */
+	public LivingEntity getPreviousEnemy() {
+		return this.previousEnemy;
+	}
 }

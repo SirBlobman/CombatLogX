@@ -1,13 +1,14 @@
 package com.SirBlobman.expansion.residence.config;
 
-import com.SirBlobman.combatlogx.config.Config;
-import com.SirBlobman.combatlogx.utility.Util;
-import com.SirBlobman.expansion.residence.CompatResidence;
-
 import java.io.File;
 import java.util.Arrays;
 
 import org.bukkit.configuration.file.YamlConfiguration;
+
+import com.SirBlobman.combatlogx.config.Config;
+import com.SirBlobman.combatlogx.expansion.NoEntryExpansion.NoEntryMode;
+import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.expansion.residence.CompatResidence;
 
 public class ConfigResidence extends Config {
     public static double NO_ENTRY_KNOCKBACK_STRENGTH;
@@ -41,6 +42,4 @@ public class ConfigResidence extends Config {
             return NoEntryMode.CANCEL;
         }
     }
-
-    public enum NoEntryMode {CANCEL, TELEPORT, KNOCKBACK, KILL, VULNERABLE}
 }

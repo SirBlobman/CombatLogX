@@ -25,7 +25,7 @@ public class CompatCitizens implements CLXExpansion {
     }
     
     public String getVersion() {
-        return "14.17";
+        return "14.18";
     }
     
     @Override

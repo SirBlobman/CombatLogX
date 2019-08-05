@@ -1,5 +1,8 @@
 package com.SirBlobman.expansion.cheatprevention.listener;
 
+import java.util.List;
+import java.util.UUID;
+
 import org.bukkit.GameMode;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
@@ -14,6 +17,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.Inventory;
@@ -32,9 +36,6 @@ import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.SchedulerUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.cheatprevention.config.ConfigCheatPrevention;
-
-import java.util.List;
-import java.util.UUID;
 
 public class ListenCheatPrevention implements Listener {
     @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
@@ -220,6 +221,18 @@ public class ListenCheatPrevention implements Listener {
         e.setCancelled(true);
         String message = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.items.dropping not allowed");
         sendMessage(player, message);
+    }
+    
+    @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
+    public void onInteract(PlayerInteractEntityEvent e) {
+    	if(!ConfigCheatPrevention.ENTITY_PREVENT_INTERACTION) return;
+    	
+    	Player player = e.getPlayer();
+    	if(!CombatUtil.isInCombat(player)) return;
+    	
+    	e.setCancelled(true);
+    	String message = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.entities.interaction not allowed");
+    	sendMessage(player, message);
     }
     
     private static final List<UUID> MESSAGE_COOLDOWN = Util.newList();

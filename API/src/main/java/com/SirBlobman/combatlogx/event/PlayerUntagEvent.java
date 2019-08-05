@@ -10,22 +10,19 @@ import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagType;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 
 public class PlayerUntagEvent extends PlayerEvent {
-    private static final HandlerList HANDLER_LIST = new HandlerList();
+    public enum UntagReason {EXPIRE, EXPIRE_ENEMY_DEATH, QUIT, KICK}
+    
+	private static final HandlerList HANDLER_LIST = new HandlerList();
+	public static HandlerList getHandlerList() {return HANDLER_LIST;}
+	public HandlerList getHandlers() {return HANDLER_LIST;}
+	
     private final UntagReason reason;
     private final LivingEntity previousEnemy;
 
-    public PlayerUntagEvent(Player p, UntagReason reason, LivingEntity previousEnemy) {
-        super(p);
+    public PlayerUntagEvent(Player player, UntagReason reason, LivingEntity previousEnemy) {
+        super(player);
         this.reason = reason;
         this.previousEnemy = previousEnemy;
-    }
-
-    public static HandlerList getHandlerList() {
-        return HANDLER_LIST;
-    }
-
-    public HandlerList getHandlers() {
-        return HANDLER_LIST;
     }
 
     /**
@@ -37,7 +34,7 @@ public class PlayerUntagEvent extends PlayerEvent {
      * @see CombatUtil#untag(Player)
      */
     public UntagReason getUntagReason() {
-        return reason;
+        return this.reason;
     }
     
     public LivingEntity getPreviousEnemy() {
@@ -48,6 +45,4 @@ public class PlayerUntagEvent extends PlayerEvent {
     public void reTag() {
         CombatUtil.tag(getPlayer(), null, TagType.UNKNOWN, TagReason.UNKNOWN);
     }
-
-    public enum UntagReason {EXPIRE, EXPIRE_ENEMY_DEATH, QUIT, KICK}
 }

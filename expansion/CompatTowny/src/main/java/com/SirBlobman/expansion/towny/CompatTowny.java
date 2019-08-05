@@ -1,16 +1,14 @@
 package com.SirBlobman.expansion.towny;
 
-import org.bukkit.event.Listener;
+import java.io.File;
 
-import com.SirBlobman.combatlogx.expansion.CLXExpansion;
-import com.SirBlobman.combatlogx.expansion.Expansions;
+import com.SirBlobman.combatlogx.config.ConfigLang;
+import com.SirBlobman.combatlogx.expansion.NoEntryExpansion;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.expansion.towny.config.ConfigTowny;
 import com.SirBlobman.expansion.towny.listener.ListenTowny;
 
-import java.io.File;
-
-public class CompatTowny implements CLXExpansion, Listener {
+public class CompatTowny extends NoEntryExpansion {
     public static File FOLDER;
 
     public String getUnlocalizedName() {
@@ -22,29 +20,51 @@ public class CompatTowny implements CLXExpansion, Listener {
     }
 
     public String getVersion() {
-        return "14.3";
+        return "14.4";
+    }
+    
+    @Override
+    public boolean canEnable() {
+    	if(!PluginUtil.isEnabled("Towny")) {
+    		print("Could not find Towny plugin.");
+    		return false;
+    	}
+    	
+    	return true;
     }
 
     @Override
-    public void enable() {
-        if (PluginUtil.isEnabled("Towny")) {
-            FOLDER = getDataFolder();
-            ConfigTowny.load();
-            PluginUtil.regEvents(new ListenTowny());
-        } else {
-            String error = "Towny is not installed. Automatically disabling...";
-            print(error);
-            Expansions.unloadExpansion(this);
-        }
-    }
-
-    @Override
-    public void disable() {
-
+    public void onEnable() {
+    	FOLDER = getDataFolder();
+    	ConfigTowny.load();
+    	
+    	ListenTowny listener = new ListenTowny(this);
+    	PluginUtil.regEvents(listener);
     }
 
     @Override
     public void onConfigReload() {
-        if (PluginUtil.isEnabled("Towny")) ConfigTowny.load();
+    	ConfigTowny.load();
     }
+
+	@Override
+	public double getKnockbackStrength() {
+		return ConfigTowny.NO_ENTRY_KNOCKBACK_STRENGTH;
+	}
+
+	@Override
+	public NoEntryMode getNoEntryMode() {
+		return ConfigTowny.getNoEntryMode();
+	}
+
+	@Override
+	public String getNoEntryMessage(boolean mobEnemy) {
+		String messageKey = "messages.expansions.towny compatibility.no entry";
+		return ConfigLang.getWithPrefix(messageKey);
+	}
+
+	@Override
+	public int getNoEntryMessageCooldown() {
+		return ConfigTowny.MESSAGE_COOLDOWN;
+	}
 }

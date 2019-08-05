@@ -31,7 +31,7 @@ public class TraitCombatLogX extends Trait {
         NPCRegistry registry = CitizensAPI.getNPCRegistry();
         for(NPC npc : registry) {
             if(!ListenHandleNPCs.isValid(npc)) continue;
-            npc.despawn();
+            npc.destroy();
         }
         
         CitizensAPI.getTraitFactory().deregisterTrait(TRAIT_INFO);

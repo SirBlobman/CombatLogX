@@ -1,7 +1,7 @@
 # NotCombatLogX Configuration
 
 # Set this to true to make ALL damage tag players
-# This will override any options below
+# Setting this to true will ignore all other 'damage type' options
 # Default: true
 all damage: true
 

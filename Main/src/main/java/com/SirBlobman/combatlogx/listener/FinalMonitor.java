@@ -17,10 +17,10 @@ public class FinalMonitor implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onUntag(PlayerUntagEvent e) {
         Player player = e.getPlayer();
-        UntagReason uc = e.getUntagReason();
+        UntagReason reason = e.getUntagReason();
         LivingEntity enemy = e.getPreviousEnemy();
         
-        switch (uc) {
+        switch (reason) {
         case QUIT:
             CombatUtil.punish(player, PunishReason.DISCONNECTED, enemy);
             break;

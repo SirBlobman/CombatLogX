@@ -1,5 +1,8 @@
 package com.SirBlobman.expansion.worldguard.config;
 
+import java.io.File;
+import java.util.logging.Level;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -12,18 +15,16 @@ import com.SirBlobman.api.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.CombatLogX;
 import com.SirBlobman.combatlogx.config.Config;
 import com.SirBlobman.combatlogx.event.PlayerTagEvent;
+import com.SirBlobman.combatlogx.expansion.NoEntryExpansion.NoEntryMode;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.worldguard.CompatWorldGuard;
 import com.SirBlobman.expansion.worldguard.listener.ListenWorldGuard;
 import com.SirBlobman.expansion.worldguard.olivolja3.ForceField;
 
-import java.io.File;
-import java.util.logging.Level;
-
 public class ConfigWG extends Config {
 	private static YamlConfiguration config = new YamlConfiguration();
-	public static void load() {
+	public static void load(CompatWorldGuard expansion) {
 		File folder = CompatWorldGuard.FOLDER;
 		File file = new File(folder, "worldguard.yml");
 
@@ -31,7 +32,7 @@ public class ConfigWG extends Config {
 		config = load(file);
 		defaults();
 		updateMaterials();
-		checkValidForceField();
+		checkValidForceField(expansion);
 	}
 
 	public static double NO_ENTRY_KNOCKBACK_STRENGTH;
@@ -59,7 +60,8 @@ public class ConfigWG extends Config {
 	}
 
 	public static NoEntryMode getNoEntryMode() {
-		if (NO_ENTRY_MODE == null || NO_ENTRY_MODE.isEmpty()) load();
+		if (NO_ENTRY_MODE == null || NO_ENTRY_MODE.isEmpty()) return NoEntryMode.CANCEL;
+		
 		String mode = NO_ENTRY_MODE.toUpperCase();
 		try {
 			return NoEntryMode.valueOf(mode);
@@ -70,7 +72,7 @@ public class ConfigWG extends Config {
 		}
 	}
 
-	public static void checkValidForceField() {
+	public static void checkValidForceField(CompatWorldGuard expansion) {
 		if(!PluginUtil.isEnabled("CombatLogX")) return;
 		Plugin plugin = JavaPlugin.getPlugin(CombatLogX.class);
 		if (FORCEFIELD_ENABLED && !plugin.getServer().getPluginManager().isPluginEnabled("ProtocolLib")) {
@@ -82,7 +84,7 @@ public class ConfigWG extends Config {
 				if(listener.getListener().getClass().getName().endsWith("olivolja3.ForceField")) {
 					ForceField forceField = new ForceField();
 					HandlerList.unregisterAll(plugin);
-					PluginUtil.regEvents(new ListenWorldGuard());
+					PluginUtil.regEvents(new ListenWorldGuard(expansion));
 					ForceField.unregisterProtocol();
 					Bukkit.getOnlinePlayers().forEach(forceField::removeForceField);
 					forceField.clearData();
@@ -119,6 +121,4 @@ public class ConfigWG extends Config {
 			if (forceFieldMaterial != null && forceFieldMaterial.isBlock()) FORCEFIELD_MATERIAL = forceFieldMaterial;
 		}
 	}
-
-	public enum NoEntryMode {CANCEL, TELEPORT, KNOCKBACK, KILL, VULNERABLE}
 }

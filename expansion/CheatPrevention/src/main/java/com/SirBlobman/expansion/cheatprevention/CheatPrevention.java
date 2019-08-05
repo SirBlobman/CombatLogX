@@ -1,12 +1,10 @@
 package com.SirBlobman.expansion.cheatprevention;
 
-import org.bukkit.Bukkit;
-import org.bukkit.command.PluginCommand;
+import java.io.File;
 
 import com.SirBlobman.api.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
-import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.cheatprevention.config.ConfigCheatPrevention;
 import com.SirBlobman.expansion.cheatprevention.listener.ListenCheatPrevention;
 import com.SirBlobman.expansion.cheatprevention.listener.ListenCommandBlocker;
@@ -16,10 +14,6 @@ import com.SirBlobman.expansion.cheatprevention.listener.ListenNewItemPickup;
 import com.SirBlobman.expansion.cheatprevention.listener.ListenOldItemPickup;
 import com.SirBlobman.expansion.cheatprevention.listener.ListenRiptide;
 import com.SirBlobman.expansion.cheatprevention.listener.ListenTotem;
-import com.SirBlobman.expansion.cheatprevention.olivolja3.AliasDetection;
-
-import java.io.File;
-import java.util.List;
 
 public class CheatPrevention implements CLXExpansion {
     public static File FOLDER;
@@ -33,16 +27,13 @@ public class CheatPrevention implements CLXExpansion {
     }
     
     public String getVersion() {
-        return "14.8";
+        return "14.11";
     }
     
     @Override
     public void enable() {
         FOLDER = getDataFolder();
         ConfigCheatPrevention.load();
-        
-        AliasDetection.cmdDetect();
-        detectAliases();
         
         PluginUtil.regEvents(new ListenCheatPrevention(), new ListenCommandBlocker(), new ListenFlight());
         
@@ -69,35 +60,5 @@ public class CheatPrevention implements CLXExpansion {
     @Override
     public void onConfigReload() {
         ConfigCheatPrevention.load();
-        detectAliases();
-    }
-    
-    private void detectAliases() {
-        List<String> newList = Util.newList();
-
-        List<String> blockedCommandList = Util.newList(ConfigCheatPrevention.BLOCKED_COMMANDS_LIST);
-        for(String blockedCmd : blockedCommandList) {
-            Util.debug("Checking aliases for command '" + blockedCmd + "'.");
-            String noSlash = blockedCmd.startsWith("/") ? blockedCmd.substring(1) : blockedCmd;
-            PluginCommand pluginCommand = Bukkit.getPluginCommand(noSlash);
-            if(pluginCommand == null) {
-                Util.debug("'" + blockedCmd + "' is not a valid command.");
-                continue;
-            }
-            
-            String originalCommand = pluginCommand.getName();
-            String originalWithSlash = "/" + originalCommand;
-            newList.add(originalWithSlash);
-            Util.debug("Original command for '" + blockedCmd + "' is '" + originalCommand + "'.");
-            
-            List<String> aliasList = pluginCommand.getAliases();
-            for(String alias : aliasList) {
-                Util.debug("Found alias '" + alias + "' for command '" + originalCommand + "'.");
-                String aliasWithSlash = "/" + alias;
-                newList.add(aliasWithSlash);
-            }
-        }
-        
-        ConfigCheatPrevention.BLOCKED_COMMANDS_LIST.addAll(newList);
     }
 }

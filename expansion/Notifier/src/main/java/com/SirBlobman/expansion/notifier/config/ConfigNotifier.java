@@ -11,19 +11,6 @@ import java.io.File;
 import java.util.List;
 
 public class ConfigNotifier extends Config {
-    public static boolean ACTION_BAR_ENABLED;
-    public static String ACTION_BAR_FORMAT;
-    public static String ACTION_BAR_NO_LONGER_IN_COMBAT;
-    public static boolean BOSS_BAR_ENABLED;
-    public static String BOSS_BAR_COLOR;
-    public static String BOSS_BAR_STYLE;
-    public static String BOSS_BAR_FORMAT;
-    public static String BOSS_BAR_NO_LONGER_IN_COMBAT;
-    public static boolean SCORE_BOARD_ENABLED;
-    public static String SCORE_BOARD_TITLE;
-    public static List<String> SCORE_BOARD_LINES;
-    public static boolean SCORE_BOARD_USE_FEATHERBOARD;
-    public static String SCORE_BOARD_FEATHERBOARD_NAME;
     private static YamlConfiguration config = new YamlConfiguration();
 
     public static void load() {
@@ -47,6 +34,24 @@ public class ConfigNotifier extends Config {
             }
         }
     }
+    
+    public static boolean ACTION_BAR_ENABLED;
+    public static String ACTION_BAR_FORMAT;
+    public static String ACTION_BAR_NO_LONGER_IN_COMBAT;
+    
+    public static boolean BOSS_BAR_ENABLED;
+    public static String BOSS_BAR_COLOR;
+    public static String BOSS_BAR_STYLE;
+    public static String BOSS_BAR_FORMAT;
+    public static String BOSS_BAR_NO_LONGER_IN_COMBAT;
+    
+    public static boolean SCORE_BOARD_ENABLED;
+    public static boolean SCORE_BOARD_SAVE_PREVIOUS;
+    public static String SCORE_BOARD_TITLE;
+    public static List<String> SCORE_BOARD_LINES;
+    
+    public static boolean SCORE_BOARD_USE_FEATHERBOARD;
+    public static String SCORE_BOARD_FEATHERBOARD_NAME;
 
     private static void defaults() {
         ACTION_BAR_ENABLED = get(config, "action bar.enabled", true);
@@ -60,8 +65,10 @@ public class ConfigNotifier extends Config {
         BOSS_BAR_NO_LONGER_IN_COMBAT = get(config, "boss bar.no longer in combat", "&3Combat &7>> &a&oYou are no longer in combat");
 
         SCORE_BOARD_ENABLED = get(config, "score board.enabled", true);
+        SCORE_BOARD_SAVE_PREVIOUS = get(config, "score board.save previous", true);
         SCORE_BOARD_TITLE = get(config, "score board.title", "&6&lCombatLogX");
         SCORE_BOARD_LINES = get(config, "score board.lines", Util.newList("&f&lTime Left: &7{time_left}", "&f&lEnemy Name: &7{enemy_name}", "&f&lEnemy Health: &7{enemy_health}"));
+        
         SCORE_BOARD_USE_FEATHERBOARD = get(config, "score board.featherboard.use", false);
         SCORE_BOARD_FEATHERBOARD_NAME = get(config, "score board.featherboard.board", "combatlogx");
     }

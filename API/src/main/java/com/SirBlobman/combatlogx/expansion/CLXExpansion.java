@@ -1,10 +1,12 @@
 package com.SirBlobman.combatlogx.expansion;
 
+import java.io.File;
+
+import org.bukkit.plugin.java.JavaPlugin;
+
+import com.SirBlobman.combatlogx.CombatLogX;
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.utility.Util;
-
-import java.io.File;
-import java.util.List;
 
 /**
  * An expansion for CombatLogX
@@ -77,12 +79,10 @@ public interface CLXExpansion {
      * <i>/plugins/CombatLogX/expansions/</i>
      */
     default File getExpansionsFolder() {
-        File dot = new File(".");
-        File mainFolder = dot.getAbsoluteFile().getParentFile();
-        File pluginsFolder = new File(mainFolder, "plugins");
-        File combatLogXFolder = new File(pluginsFolder, "CombatLogX");
-        File expansionsFolder = new File(combatLogXFolder, "expansions");
+        File pluginFolder = JavaPlugin.getPlugin(CombatLogX.class).getDataFolder();
+        File expansionsFolder = new File(pluginFolder, "expansions");
         if (!expansionsFolder.exists()) expansionsFolder.mkdirs();
+        
         return expansionsFolder;
     }
 
@@ -95,22 +95,20 @@ public interface CLXExpansion {
         File expansionsFolder = getExpansionsFolder();
         File folder = new File(expansionsFolder, getUnlocalizedName());
         if (!folder.exists()) folder.mkdirs();
+        
         return folder;
     }
 
     /**
      * Print a message to console with the prefix for this expansion
      */
-    default void print(Object... oo) {
-        for (Object o : oo) {
-            String format = ConfigLang.get("messages.expansion prefix");
-            List<String> keys = Util.newList("{expansion}");
-            List<String> vals = Util.newList(getName());
-            String prefix = Util.formatMessage(format, keys, vals);
-
-            String s = Util.str(o);
-            String msg = Util.color(prefix + " " + s);
-            Util.printNoPrefix(msg);
-        }
+    default void print(Object... objects) {
+    	for(Object object : objects) {
+    		String string = Util.color(object);
+    		if(string.isEmpty()) continue;
+    		
+    		String prefix = ConfigLang.get("messages.expansion prefix").replace("{expansion}", getName());
+    		Util.printNoPrefix(prefix + " " + string);
+    	}
     }
 }

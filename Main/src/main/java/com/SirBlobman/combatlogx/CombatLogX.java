@@ -2,6 +2,7 @@ package com.SirBlobman.combatlogx;
 
 import java.io.File;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
@@ -10,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.SirBlobman.combatlogx.command.CommandCombatLogX;
 import com.SirBlobman.combatlogx.command.CommandCombatTime;
+import com.SirBlobman.combatlogx.command.CustomCommand;
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.config.ConfigOptions;
 import com.SirBlobman.combatlogx.event.PlayerUntagEvent.UntagReason;
@@ -68,7 +70,6 @@ public class CombatLogX extends JavaPlugin {
     @Override
     public void onDisable() {
         CombatUtil.getPlayersInCombat().forEach(player -> CombatUtil.untag(player, UntagReason.EXPIRE));
-
         Expansions.onDisable();
 
         if (ConfigOptions.OPTION_BROADCAST_DISABLE_MESSAGE) {
@@ -76,35 +77,77 @@ public class CombatLogX extends JavaPlugin {
             Util.broadcast(true, broadcast);
         }
     }
-
+    
     private void registerCommand(String name, Class<? extends CommandExecutor> clazz) {
-        try {
-            CommandExecutor ce = clazz.getDeclaredConstructor().newInstance();
-            PluginCommand pc = getCommand(name);
-            if (pc == null) {
-                String error = "An error has occured. If you do not understand this, send the following error code to SirBlobman:\nCLX-cmd-01";
-                Util.print(error);
-            } else {
-                if (ce == null) {
-                    String error = "An error has occured. If you do not understand this, send the following error code to SirBlobman:\nCLX-cmd-02";
-                    Util.print(error);
-                } else {
-                    pc.setExecutor(ce);
-
-                    if (ce instanceof TabCompleter) {
-                        TabCompleter tc = (TabCompleter) ce;
-                        pc.setTabCompleter(tc);
-                    }
-
-                    if (ce instanceof Listener) {
-                        Listener l = (Listener) ce;
-                        PluginUtil.regEvents(l);
-                    }
-                }
-            }
-        } catch (Throwable ex) {
-            String error = "An error has occured. If you do not understand this, send the following error code to SirBlobman:\nCLX-cmd-00";
-            Util.print(error);
-        }
+    	try {
+    		PluginCommand command = getCommand(name);
+    		if(command == null) {
+    			Util.print("Could not find the command '" + name + "' in plugin.yml, attempting to force register...");
+    			forceRegisterCommand(name, clazz);
+    			return;
+    		}
+    		
+    		CommandExecutor executor = clazz.getDeclaredConstructor().newInstance();
+    		if(executor == null) {
+    			Util.print("Could not instantiate the command '" + name + "'.");
+    			return;
+    		}
+    		
+    		command.setExecutor(executor);
+    		if(executor instanceof TabCompleter) {
+    			TabCompleter completer = (TabCompleter) executor;
+    			command.setTabCompleter(completer);
+    		}
+    		
+    		if(executor instanceof Listener) {
+    			Listener listener = (Listener) executor;
+    			PluginUtil.regEvents(listener);
+    		}
+    	} catch(ReflectiveOperationException ex) {
+    		Util.print("An error occurred while registering a CombatLogX command.");
+    		ex.printStackTrace();
+    	}
+    }
+    
+    public void forceRegisterCommand(String commandName, Class<? extends CommandExecutor> clazz) {
+    	try {
+    		CommandExecutor executor = clazz.getDeclaredConstructor().newInstance();
+    		if(executor == null) {
+    			Util.print("Could not instantiate the command '" + commandName + "'.");
+    			return;
+    		}
+    		
+        	CustomCommand command = new CustomCommand(commandName, executor);
+        	Bukkit.getPluginManager().registerEvents(command, this);
+        	
+    		if(executor instanceof Listener) {
+    			Listener listener = (Listener) executor;
+    			PluginUtil.regEvents(listener);
+    		}
+    	} catch(ReflectiveOperationException ex) {
+    		Util.print("An error occurred while registering a CombatLogX command.");
+    		ex.printStackTrace();
+    	}
+    }
+    
+    public void forceRegisterCommand(String commandName, Class<? extends CommandExecutor> clazz, String description, String usage, String... aliases) {
+    	try {
+    		CommandExecutor executor = clazz.getDeclaredConstructor().newInstance();
+    		if(executor == null) {
+    			Util.print("Could not instantiate the command '" + commandName + "'.");
+    			return;
+    		}
+    		
+        	CustomCommand command = new CustomCommand(commandName, executor, description, usage, aliases);
+        	Bukkit.getPluginManager().registerEvents(command, this);
+        	
+    		if(executor instanceof Listener) {
+    			Listener listener = (Listener) executor;
+    			PluginUtil.regEvents(listener);
+    		}
+    	} catch(ReflectiveOperationException ex) {
+    		Util.print("An error occurred while registering a CombatLogX command.");
+    		ex.printStackTrace();
+    	}
     }
 }

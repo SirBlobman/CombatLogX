@@ -23,39 +23,35 @@ public class AttackListener implements Listener {
         Entity damaged = e.getEntity();
         Entity damager = e.getDamager();
 
-        if ((damager instanceof Projectile) && ConfigOptions.OPTION_LINK_PROJECTILES) {
+        if (damager instanceof Projectile && ConfigOptions.OPTION_LINK_PROJECTILES) {
             Projectile projectile = (Projectile) damager;
             if (!projectile.getType().equals(EntityType.ENDER_PEARL)) {
-                ProjectileSource ps = projectile.getShooter();
-                if (ps instanceof Entity) {
-                    damager = (Entity) ps;
-                }
+                ProjectileSource shooter = projectile.getShooter();
+                if (shooter instanceof Entity) damager = (Entity) shooter;
             }
         }
 
-        if ((damager instanceof Tameable) && ConfigOptions.OPTION_LINK_PETS) {
+        if (damager instanceof Tameable && ConfigOptions.OPTION_LINK_PETS) {
             Tameable pet = (Tameable) damager;
             AnimalTamer petOwner = pet.getOwner();
-            if (petOwner instanceof Entity) {
-                damager = (Entity) petOwner;
-            }
+            if (petOwner instanceof Entity) damager = (Entity) petOwner;
         }
 
         if (damaged instanceof LivingEntity && damager instanceof LivingEntity) {
             if (damaged instanceof Player) {
-                Player p = (Player) damaged;
+                Player player = (Player) damaged;
                 LivingEntity enemy = (LivingEntity) damager;
                 TagType type = (damager instanceof Player) ? TagType.PLAYER : TagType.MOB;
                 TagReason reason = TagReason.ATTACKED;
-                CombatUtil.tag(p, enemy, type, reason);
+                CombatUtil.tag(player, enemy, type, reason);
             }
 
             if (damager instanceof Player) {
-                Player p = (Player) damager;
+                Player player = (Player) damager;
                 LivingEntity enemy = (LivingEntity) damaged;
                 TagType type = damaged instanceof Player ? TagType.PLAYER : TagType.MOB;
                 TagReason reason = TagReason.ATTACKER;
-                CombatUtil.tag(p, enemy, type, reason);
+                CombatUtil.tag(player, enemy, type, reason);
             }
         }
     }

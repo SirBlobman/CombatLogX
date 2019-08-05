@@ -4,6 +4,7 @@ import org.bukkit.Location;
 
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.expansion.worldguard.CompatWorldGuard;
 import com.SirBlobman.expansion.worldguard.listener.ListenV6;
 import com.SirBlobman.expansion.worldguard.utility.v6_1.v6_1_WGUtil;
 import com.SirBlobman.expansion.worldguard.utility.v6_2.v6_2_WGUtil;
@@ -23,9 +24,9 @@ public class WGUtil extends Util {
         registerFlag();
     }
     
-    public static void onEnable() {
-        if(WORLDGUARD_VERSION.startsWith("6")) PluginUtil.regEvents(new ListenV6());
-        else PluginUtil.regEvents(new ListenV7());
+    public static void onEnable(CompatWorldGuard expansion) {
+        if(WORLDGUARD_VERSION.startsWith("6")) PluginUtil.regEvents(new ListenV6(expansion));
+        else PluginUtil.regEvents(new ListenV7(expansion));
     }
 
     private static void registerFlag() {
