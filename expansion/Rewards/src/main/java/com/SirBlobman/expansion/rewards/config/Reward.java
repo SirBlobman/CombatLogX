@@ -30,7 +30,7 @@ public class Reward {
     public boolean canTriggerReward(Player player, LivingEntity killed) {
         if(player == null || killed == null) return false;
         
-        if(validWorlds.contains("*")) {
+        if(!validWorlds.contains("*")) {
             World world = player.getWorld();
             String worldName = world.getName();
             if(!validWorlds.contains(worldName)) return false;
