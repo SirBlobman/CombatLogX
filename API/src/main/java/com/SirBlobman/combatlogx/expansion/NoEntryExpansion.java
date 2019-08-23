@@ -65,6 +65,10 @@ public abstract class NoEntryExpansion implements CLXExpansion {
 			});
 			return;
 		}
+		
+		if(nemode == NoEntryMode.KILL) {
+			player.setHealth(0.0D);
+		}
 	}
 
 	private static List<UUID> MESSAGE_COOLDOWN = Util.newList();

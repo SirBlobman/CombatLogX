@@ -10,129 +10,123 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
 
 import com.SirBlobman.api.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.expansion.Expansions;
-import com.SirBlobman.combatlogx.utility.CombatUtil;
-import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.notifier.config.ConfigNotifier;
 
 public class ScoreboardUtil extends Util {
-    private static final List<UUID> DISABLED_PLAYERS = Util.newList();
-    private static final Map<UUID, Scoreboard> PREVIOUS_SCOREBOARD = Util.newMap();
-    
-    /**
-     * Toggle if the action bar is disabled or not
-     * @param player the player to toggle
-     * @return {@code true} if enabled, {@code false} if disabled.
-     */
-    public static boolean toggle(Player player) {
-        UUID uuid = player.getUniqueId();
-        
-        if(DISABLED_PLAYERS.contains(uuid)) {
-            DISABLED_PLAYERS.remove(uuid);
-            updateScoreBoard(player);
-        } else {
-            DISABLED_PLAYERS.add(uuid);
-            removeScoreBoard(player);
-        }
-        
-        return !DISABLED_PLAYERS.contains(uuid);
-    }
-    
-    private static Map<UUID, Scoreboard> SCORE_BOARDS = newMap();
-    
-    private static Scoreboard getScoreBoard(Player player) {
-        UUID uuid = player.getUniqueId();
-        if(DISABLED_PLAYERS.contains(uuid)) return null;
-        
-        if (SCORE_BOARDS.containsKey(uuid)) {
-            Scoreboard scoreboard = SCORE_BOARDS.get(uuid);
-            if (scoreboard.getObjective(player.getName()) == null) {
-                String title = Util.color(ConfigNotifier.SCORE_BOARD_TITLE);
-                
-                Objective objective = NMS_Handler.getHandler().createScoreboardObjective(scoreboard, player.getName(), "dummy", title);
-                objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-                SCORE_BOARDS.put(uuid, scoreboard);
-                return getScoreBoard(player);
-            }
-            return scoreboard;
-        } else {
-        	if(ConfigNotifier.SCORE_BOARD_SAVE_PREVIOUS) {
-            	Scoreboard previous = player.getScoreboard();
-            	PREVIOUS_SCOREBOARD.put(uuid, previous);
-        	}
-        	
-            Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-            String title = Util.color(ConfigNotifier.SCORE_BOARD_TITLE);
-            
-            Objective objective = NMS_Handler.getHandler().createScoreboardObjective(scoreboard, player.getName(), "dummy", title);
-            objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-            
-            SCORE_BOARDS.put(uuid, scoreboard);
-            return getScoreBoard(player);
-        }
-    }
-    
-    public static void updateScoreBoard(Player player) {
-        UUID uuid = player.getUniqueId();
-        if(DISABLED_PLAYERS.contains(uuid)) return;
-        
-        if(ConfigNotifier.SCORE_BOARD_USE_FEATHERBOARD && PluginUtil.isEnabled("FeatherBoard")) {
-        	MVDWUtil.enableScoreboard(player);
-        	return;
-        }
-        
-        int timeLeftInt = CombatUtil.getTimeLeft(player);
-        if(timeLeftInt <= 0) {
-            removeScoreBoard(player);
-            return;
-        }
-        
-        Scoreboard scoreBoard = getScoreBoard(player);
-        Objective objective = scoreBoard.getObjective(player.getName());
-        if (objective != null) objective.unregister();
-        
-        String title = Util.color(ConfigNotifier.SCORE_BOARD_TITLE);
-        objective = NMS_Handler.getHandler().createScoreboardObjective(scoreBoard, player.getName(), "dummy", title);
-        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-        
-        List<String> scoreboardList = ConfigNotifier.SCORE_BOARD_LINES;
-        int i = scoreboardList.size();
-        for (String line : scoreboardList) {
-            if(Expansions.isEnabled("CompatPlaceholders")) {
-                PlaceholderHandler handler = new PlaceholderHandler();
-                line = handler.replaceAllPlaceholders(player, line);
-            }
-            
-            line = color(line);
-            if (line.length() > 40) line = line.substring(0, 40);
-            if(NMS_Handler.getMinorVersion() <= 7 && line.length() > 16) line = line.substring(0, 16);
-            
-            Score score = objective.getScore(line);
-            score.setScore(i);
-            i--;
-        }
-        
-        if (!scoreBoard.equals(player.getScoreboard())) player.setScoreboard(scoreBoard);
-    }
-    
-    public static void removeScoreBoard(Player player) {
-    	if(ConfigNotifier.SCORE_BOARD_USE_FEATHERBOARD && PluginUtil.isEnabled("FeatherBoard")) {
-    		MVDWUtil.disableScoreboard(player);
-    		return;
-    	}
-    	
-        Scoreboard scoreboard = getScoreBoard(player);
-        if(scoreboard != null) {
-        	String username = player.getName();
-            Objective objective = scoreboard.getObjective(username);
-            objective.unregister();
-        }
-        
-        UUID uuid = player.getUniqueId();
-        player.setScoreboard(PREVIOUS_SCOREBOARD.getOrDefault(uuid, Bukkit.getScoreboardManager().getMainScoreboard()));
-        PREVIOUS_SCOREBOARD.remove(uuid);
-    }
+	private static final List<UUID> DISABLED_PLAYERS = Util.newList();
+
+	/**
+	 * Toggle if the action bar is disabled or not
+	 * @param player the player to toggle
+	 * @return {@code true} if enabled, {@code false} if disabled.
+	 */
+	public static boolean toggle(Player player) {
+		UUID uuid = player.getUniqueId();
+
+		if(DISABLED_PLAYERS.contains(uuid)) {
+			DISABLED_PLAYERS.remove(uuid);
+			updateScoreBoard(player);
+		} else {
+			DISABLED_PLAYERS.add(uuid);
+			removeScoreBoard(player);
+		}
+
+		return !DISABLED_PLAYERS.contains(uuid);
+	}
+
+
+	private static final Map<UUID, Scoreboard> SCOREBOARDS = Util.newMap();
+
+	public static void updateScoreBoard(Player player) {
+		if(player == null) return;
+
+		UUID uuid = player.getUniqueId();
+		if(!OLD_BOARDS.containsKey(uuid)) saveOldScoreboard(player);
+
+		Scoreboard scoreboard = SCOREBOARDS.getOrDefault(uuid, createScoreboard(player));
+		SCOREBOARDS.put(uuid, scoreboard);
+
+		Objective objective = scoreboard.getObjective("combatlogx");
+		insertLines(player, scoreboard, objective);
+		player.setScoreboard(scoreboard);
+	}
+
+	public static void removeScoreBoard(Player player) {
+		if(player == null) return;
+
+		UUID uuid = player.getUniqueId();
+		SCOREBOARDS.remove(uuid);
+		
+		if(OLD_BOARDS.containsKey(uuid)) {
+			restoreOldScoreboard(player);
+			return;
+		}
+
+		ScoreboardManager manager = Bukkit.getScoreboardManager();
+		player.setScoreboard(manager.getMainScoreboard());
+	}
+
+	private static Scoreboard createScoreboard(Player player) {
+		ScoreboardManager manager = Bukkit.getScoreboardManager();
+		Scoreboard scoreboard = manager.getNewScoreboard();
+
+		String title = Util.color(ConfigNotifier.SCORE_BOARD_TITLE);
+		Objective objective = NMS_Handler.getHandler().createScoreboardObjective(scoreboard, "combatlogx", "dummy", title);
+		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+
+		return scoreboard;
+	}
+
+	private static void insertLines(Player player, Scoreboard scoreboard, Objective objective) {
+		for(String entry : scoreboard.getEntries()) scoreboard.resetScores(entry);
+		
+		List<String> lineList = ConfigNotifier.SCORE_BOARD_LINES;
+		int index = lineList.size();
+		for(String line : lineList) {
+			if(Expansions.isEnabled("CompatPlaceholders")) {
+				PlaceholderHandler handler = new PlaceholderHandler();
+				line = handler.replaceAllPlaceholders(player, line);
+			}
+
+			line = Util.color(line);
+			if(line.length() > 40) line = line.substring(0, 40);
+			if(NMS_Handler.getMinorVersion() <= 7 && line.length() > 16) line = line.substring(0, 16);
+
+			Score score = objective.getScore(line);
+			score.setScore(index--);
+		}
+	}
+
+
+	private static final Map<UUID, Scoreboard> OLD_BOARDS = Util.newMap();
+
+	private static void saveOldScoreboard(Player player) {
+		if(player == null) return;
+		if(!ConfigNotifier.SCORE_BOARD_SAVE_PREVIOUS) return;
+
+		Scoreboard scoreboard = player.getScoreboard();
+		if(scoreboard == null) return;
+		if(scoreboard.getObjective("combatlogx") != null) return;
+
+		UUID uuid = player.getUniqueId();
+		OLD_BOARDS.put(uuid, scoreboard);
+	}
+
+	private static void restoreOldScoreboard(Player player) {
+		if(player == null) return;
+		if(!ConfigNotifier.SCORE_BOARD_SAVE_PREVIOUS) return;
+
+		UUID uuid = player.getUniqueId();
+		Scoreboard scoreboard = OLD_BOARDS.getOrDefault(uuid, null);
+		if(scoreboard == null) return;
+		if(scoreboard.getObjective("combatlogx") != null) return;
+
+		OLD_BOARDS.remove(uuid);
+		player.setScoreboard(scoreboard);
+	}
 }

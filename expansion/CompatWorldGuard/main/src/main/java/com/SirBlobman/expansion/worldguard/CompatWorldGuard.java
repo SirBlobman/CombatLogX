@@ -24,7 +24,7 @@ public class CompatWorldGuard extends NoEntryExpansion {
     }
     
     public String getVersion() {
-        return "14.10";
+        return "14.11";
     }
     
     @Override

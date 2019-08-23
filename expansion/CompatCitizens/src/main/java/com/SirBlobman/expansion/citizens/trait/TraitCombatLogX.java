@@ -1,15 +1,16 @@
 package com.SirBlobman.expansion.citizens.trait;
 
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import com.SirBlobman.combatlogx.CombatLogX;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.citizens.config.ConfigCitizens;
 import com.SirBlobman.expansion.citizens.listener.ListenHandleNPCs;
-
-import java.util.UUID;
 
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.DespawnReason;
@@ -82,7 +83,7 @@ public class TraitCombatLogX extends Trait {
             }
             
             if(ConfigCitizens.getOption("citizens.npc.survival time", 30) > 0) {
-                this.npc.despawn(DespawnReason.PLUGIN);
+                Bukkit.getScheduler().runTaskLater(CombatLogX.INSTANCE, () -> this.npc.despawn(DespawnReason.PLUGIN), 1L);
             }
             return;
         }

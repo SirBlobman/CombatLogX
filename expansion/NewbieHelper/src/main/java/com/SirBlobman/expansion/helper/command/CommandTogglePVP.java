@@ -21,6 +21,12 @@ public class CommandTogglePVP implements CommandExecutor, Listener {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		if(!sender.hasPermission("combatlogx.command.pvptoggle")) {
+			String message = ConfigLang.getWithPrefix("messages.commands.no permission").replace("{permission}", "combatlogx.command.pvptoggle");
+			Util.sendMessage(sender, message);
+			return true;
+		}
+		
 		if(!(sender instanceof Player)) {
 			String message = ConfigLang.getWithPrefix("messages.commands.not player");
 			Util.sendMessage(sender, message);

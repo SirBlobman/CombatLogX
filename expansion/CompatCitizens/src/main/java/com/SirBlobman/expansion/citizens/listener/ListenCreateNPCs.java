@@ -132,12 +132,12 @@ public class ListenCreateNPCs implements Listener {
         if(npc.getEntity().getType().isAlive()) {
             LivingEntity npcLiving = (LivingEntity) npc.getEntity();
             
+            NMS_Handler nms = NMS_Handler.getHandler();
+            double maxHealth = Math.max(player.getHealth(), nms.getMaxHealth(player));
+            nms.setMaxHealth(npcLiving, maxHealth);
+            
             double health = player.getHealth();
             npcLiving.setHealth(health);
-            
-            NMS_Handler nms = NMS_Handler.getHandler();
-            double maxHealth = nms.getMaxHealth(player);
-            nms.setMaxHealth(player, maxHealth);
         }
     }
     

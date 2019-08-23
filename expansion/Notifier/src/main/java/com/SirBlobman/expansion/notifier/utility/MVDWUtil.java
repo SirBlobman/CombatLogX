@@ -19,7 +19,7 @@ public class MVDWUtil extends Util {
 		if(HAS_SCOREBOARD.contains(uuid)) return;
 		
 		Plugin plugin = Bukkit.getPluginManager().getPlugin("FeatherBoard");
-		String scoreboardName = ConfigNotifier.SCORE_BOARD_FEATHERBOARD_NAME;
+		String scoreboardName = ConfigNotifier.SCORE_BOARD_FEATHERBOARD_NAME.toLowerCase();
 		EventAPI.triggerEvent(plugin, player, scoreboardName, true);
 		
 		HAS_SCOREBOARD.add(uuid);
@@ -28,10 +28,21 @@ public class MVDWUtil extends Util {
 	public static void disableScoreboard(Player player) {
 		UUID uuid = player.getUniqueId();
 		HAS_SCOREBOARD.remove(uuid);
-		
 
 		Plugin plugin = Bukkit.getPluginManager().getPlugin("FeatherBoard");
-		String scoreboardName = ConfigNotifier.SCORE_BOARD_FEATHERBOARD_NAME;
+		String scoreboardName = ConfigNotifier.SCORE_BOARD_FEATHERBOARD_NAME.toLowerCase();
 		EventAPI.triggerEvent(plugin, player, scoreboardName, false);
+		
+		/* Debugging Code
+		
+		try {
+			Class<?> class_FeatherBoardAPI = Class.forName("be.maximvdw.featherboard.api.FeatherBoardAPI");
+			Method method_resetDefaultScoreboard = class_FeatherBoardAPI.getDeclaredMethod("resetDefaultScoreboard", Player.class);
+			method_resetDefaultScoreboard.invoke(null, player);
+		} catch(ReflectiveOperationException ex) {
+			if(ConfigOptions.OPTION_DEBUG) ex.printStackTrace();
+		}
+		
+		*/
 	}
 }
