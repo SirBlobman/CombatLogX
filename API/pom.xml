@@ -28,24 +28,26 @@
 	</repositories>
 
 	<dependencies>
+		<!-- SirBlobman API -->
+		<dependency>
+			<groupId>com.SirBlobman.api</groupId>
+			<artifactId>SirBlobmanAPI</artifactId>
+			<version>1.6</version>
+			<scope>compile</scope>
+		</dependency>
+		
 		<!-- Spigot API -->
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
 			<version>${bukkit.version}</version>
 		</dependency>
+		
+		<!-- Spigot NMS -->
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot</artifactId>
 			<version>${bukkit.version}</version>
-		</dependency>
-		
-		<!-- SirBlobman API -->
-		<dependency>
-			<groupId>com.SirBlobman.api</groupId>
-			<artifactId>SirBlobmanAPI</artifactId>
-			<version>1.5</version>
-			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 </project>

@@ -1,4 +1,4 @@
-# Mac OS Files
+# Mac OSX
 *.DS_Store
 
 # Eclipse
@@ -7,19 +7,13 @@
 bin/
 *.project
 *.classpath
-*.xml
 
 # IntelliJ IDEA
 .idea/
-
-# Java
-*.class
+*.iml
 
 # Maven
 target/
 
 # Other
 wiki/
-
-# Don't Ignore
-!pom.xml

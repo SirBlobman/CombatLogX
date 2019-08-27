@@ -15,6 +15,7 @@ options:
   check for updates: true
 
   # Add worlds to this list if you do not want players to be tagged in them
+  # World names are case sensitive, therefore "world1" is not the same as "wOrLd1"
   disabled worlds:
   - "world1"
   - "world2"

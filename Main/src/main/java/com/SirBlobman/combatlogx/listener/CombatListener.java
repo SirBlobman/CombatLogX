@@ -29,7 +29,7 @@ public class CombatListener implements Listener {
 		TagType tagType = e.getTaggedBy();
 
 		World world = player.getWorld();
-		String worldName = world.getName().toLowerCase();
+		String worldName = world.getName();
 		if(ConfigOptions.OPTION_DISABLED_WORLDS.contains(worldName)) {
 			e.setCancelled(true);
 			return;
