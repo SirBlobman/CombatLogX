@@ -31,6 +31,7 @@ public class CompatFactions extends NoEntryExpansion {
         if (FUTIL != null) {
             FOLDER = getDataFolder();
             ConfigFactions.load();
+			ConfigFactions.checkValidForceField(this, FUTIL);
         }
     }
 
@@ -49,6 +50,7 @@ public class CompatFactions extends NoEntryExpansion {
 	public void onEnable() {
 		FOLDER = getDataFolder();
 		ConfigFactions.load();
+		ConfigFactions.checkValidForceField(this, FUTIL);
 		
 		ListenFactions listener = new ListenFactions(this, FUTIL);
 		PluginUtil.regEvents(listener);

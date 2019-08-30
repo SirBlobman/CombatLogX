@@ -1,12 +1,18 @@
 package com.SirBlobman.expansion.worldguard.config;
 
 import java.io.File;
+import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import com.SirBlobman.combatlogx.olivolja3.force.field.ForceField;
+import com.SirBlobman.expansion.worldguard.listener.WorldGuardForceField;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,7 +26,6 @@ import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.worldguard.CompatWorldGuard;
 import com.SirBlobman.expansion.worldguard.listener.ListenWorldGuard;
-import com.SirBlobman.expansion.worldguard.olivolja3.ForceField;
 
 public class ConfigWG extends Config {
 	private static YamlConfiguration config = new YamlConfiguration();
@@ -50,7 +55,7 @@ public class ConfigWG extends Config {
 		NO_ENTRY_MODE = get(config, "world guard.no entry.mode", "KNOCKBACK");
 		NO_ENTRY_KNOCKBACK_STRENGTH = get(config, "world guard.no entry.knockback power", 1.5D);
 		MESSAGE_COOLDOWN = get(config, "world guard.no entry.message cooldown", 5);
-		
+
 		FORCEFIELD_ENABLED = get(config, "world guard.forcefield.enabled", false);
 		FORCEFIELD_SIZE = get(config, "world guard.forcefield.size", 4);
 		FORCEFIELD_MATERIAL_NAME = get(config, "world guard.forcefield.material", "GLASS");
@@ -75,35 +80,32 @@ public class ConfigWG extends Config {
 	public static void checkValidForceField(CompatWorldGuard expansion) {
 		if(!PluginUtil.isEnabled("CombatLogX")) return;
 		Plugin plugin = JavaPlugin.getPlugin(CombatLogX.class);
-		if (FORCEFIELD_ENABLED && !plugin.getServer().getPluginManager().isPluginEnabled("ProtocolLib")) {
-			plugin.getLogger().log(Level.WARNING, "ForceField is enabled but ProtocolLib isn't, disabling forcefield...");
+
+		if(FORCEFIELD_ENABLED && !PluginUtil.isEnabled("ProtocolLib")) {
+			expansion.print("ForceField is enabled but you do not have ProtocolLib installed. Automatically disabling...");
 			FORCEFIELD_ENABLED = false;
 		}
+
 		if(!FORCEFIELD_ENABLED) {
-			for(RegisteredListener listener : PlayerTagEvent.getHandlerList().getRegisteredListeners()) {
-				if(listener.getListener().getClass().getName().endsWith("olivolja3.ForceField")) {
-					ForceField forceField = new ForceField();
-					HandlerList.unregisterAll(plugin);
-					PluginUtil.regEvents(new ListenWorldGuard(expansion));
-					ForceField.unregisterProtocol();
+			List<RegisteredListener> registeredListeners = HandlerList.getRegisteredListeners(plugin);
+			for(RegisteredListener rl : registeredListeners) {
+				Listener listener = rl.getListener();
+				if(listener instanceof WorldGuardForceField) {
+					ForceField forceField = (ForceField) listener;
+					HandlerList.unregisterAll(forceField);
+
+					forceField.unregisterProtocol();
 					Bukkit.getOnlinePlayers().forEach(forceField::removeForceField);
 					forceField.clearData();
-					return;
 				}
 			}
-
-		} else {
-			RegisteredListener[] registeredListeners = PlayerTagEvent.getHandlerList().getRegisteredListeners();
-			for (RegisteredListener listener : registeredListeners) {
-				if(!listener.getListener().equals(new ForceField())) {
-					ForceField forceField = new ForceField();
-					PluginUtil.regEvents(new ForceField());
-					ForceField.registerProtocol();
-					Bukkit.getOnlinePlayers().forEach(forceField::updateForceField);
-					return;
-				}
-			}
+			return;
 		}
+
+		WorldGuardForceField forceField = new WorldGuardForceField(expansion);
+		PluginUtil.regEvents(forceField);
+		forceField.registerProtocol();
+		Bukkit.getOnlinePlayers().forEach(forceField::updateForceField);
 	}
 
 	private static void updateMaterials() {

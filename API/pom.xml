@@ -16,14 +16,20 @@
 	</parent>
 	
 	<properties>
-		<bukkit.version>1.8-R0.1-SNAPSHOT</bukkit.version>
+		<bukkit.version>1.14.4-R0.1-SNAPSHOT</bukkit.version>
 	</properties>
 
 	<repositories>
+		<!-- Spigot and Bukkit Repository -->
 		<repository>
-			<id>hub-spigotmc-org</id>
-			<name>Spigot and Bukkit</name>
+			<id>hub.spigotmc.org</id>
 			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+		</repository>
+
+		<!-- ProtocolLib Repository -->
+		<repository>
+			<id>repo.dmulloy2.net</id>
+			<url>http://repo.dmulloy2.net/nexus/repository/public/</url>
 		</repository>
 	</repositories>
 
@@ -48,6 +54,14 @@
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot</artifactId>
 			<version>${bukkit.version}</version>
+		</dependency>
+
+		<!-- ProtocolLib -->
+		<dependency>
+			<groupId>com.comphenix.protocol</groupId>
+			<artifactId>ProtocolLib-API</artifactId>
+			<version>4.4.0</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

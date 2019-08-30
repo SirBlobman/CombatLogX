@@ -28,7 +28,7 @@ world guard:
     # Default: 5
     message cooldown: 5
 
-  # Forcefield options for Compat WorldGuard.
+  # Forcefield options for WorldGuard Compatibility
   # Note: forcefield requires ProtocolLib to work.
   # ProtocolLib: https://www.spigotmc.org/resources/protocollib.1997/
   forcefield:

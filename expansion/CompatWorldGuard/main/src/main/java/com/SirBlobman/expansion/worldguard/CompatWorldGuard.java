@@ -24,7 +24,7 @@ public class CompatWorldGuard extends NoEntryExpansion {
     }
     
     public String getVersion() {
-        return "14.11";
+        return "14.12";
     }
     
     @Override
@@ -65,6 +65,7 @@ public class CompatWorldGuard extends NoEntryExpansion {
     @Override
     public void onConfigReload() {
     	ConfigWG.load(this);
+    	ConfigWG.checkValidForceField(this);
     }
 
 	@Override

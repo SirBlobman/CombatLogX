@@ -21,3 +21,27 @@ factions:
     # How often (in seconds) should a message be sent if a player keeps trying to enter the safezone?
     # Default: 5
     message cooldown: 5
+
+  # Forcefield options for Compat WorldGuard.
+  # Note: forcefield requires ProtocolLib to work.
+  # ProtocolLib: https://www.spigotmc.org/resources/protocollib.1997/
+  forcefield:
+    # Should the forcefield be enabled?
+    # Default: false
+    enabled: false
+
+    # This is the force field bypass permission
+    bypass permission: "combatlogx.bypass.forcefield"
+
+    # Size of forcefield recommended between 2-6.
+    # Default: 4
+    size: 4
+
+    # Material name of the block that the forcefield should be made out of.
+    # Default: GLASS
+    #
+    # Valid Materials for the latest spigot version can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+    # Please do not use materials that start with "LEGACY"
+    # A list for 1.8 can be found here: https://pastebin.com/gVmHf6Fu
+    # A list for 1.12 can be found here: https://pastebin.com/Fb8NJHUe
+    material: "GLASS"
