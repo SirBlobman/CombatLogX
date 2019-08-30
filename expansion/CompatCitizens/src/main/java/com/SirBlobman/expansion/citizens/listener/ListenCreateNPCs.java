@@ -25,7 +25,9 @@ import com.SirBlobman.expansion.citizens.config.ConfigData;
 import com.SirBlobman.expansion.citizens.trait.TraitCombatLogX;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.mcmonkey.sentinel.SentinelTrait;
 import org.mcmonkey.sentinel.targeting.SentinelTargetLabel;
@@ -110,56 +112,69 @@ public class ListenCreateNPCs implements Listener {
         npc.setProtected(false);
         
         boolean storeInventory = ConfigCitizens.getOption("citizens.npc.store inventory", true);
-        debug("NPC Store Inventory Value: " + storeInventory);
         if(storeInventory) transferInventoryToNPC(player, npc);
         
+        setAliveOptions(npc, player);
+    }
+
+    private void setAliveOptions(NPC npc, Player player) {
+        if(npc == null || player == null) return;
+
+        Entity entity = npc.getEntity();
+        EntityType npcType = entity.getType();
+        if(!npcType.isAlive()) return;
+
+        LivingEntity npcLiving = (LivingEntity) entity;
+        NMS_Handler nms = NMS_Handler.getHandler();
+
+        double maxHealth = Math.max(player.getHealth(), nms.getMaxHealth(player));
+        nms.setMaxHealth(npcLiving, maxHealth);
+
+        double health = player.getHealth();
+        npcLiving.setHealth(health);
+
         boolean mobTargetable = ConfigCitizens.getOption("citizens.npc.mob targeting", true);
-        if(mobTargetable) {
-            npc.data().set(NPC.TARGETABLE_METADATA, false);
-            Entity npcEntity = npc.getEntity();
-            if(npcEntity instanceof LivingEntity) {
-                LivingEntity npcLiving = (LivingEntity) npcEntity;
-                
-                for(Entity entity : npcLiving.getNearbyEntities(16.0, 16.0, 16.0)) {
-                    if(!(entity instanceof Monster)) return;
-                    
-                    Monster monster = (Monster) entity;
-                    monster.setTarget(npcLiving);
-                }
-            }
-        };
-        
-        if(npc.getEntity().getType().isAlive()) {
-            LivingEntity npcLiving = (LivingEntity) npc.getEntity();
-            
-            NMS_Handler nms = NMS_Handler.getHandler();
-            double maxHealth = Math.max(player.getHealth(), nms.getMaxHealth(player));
-            nms.setMaxHealth(npcLiving, maxHealth);
-            
-            double health = player.getHealth();
-            npcLiving.setHealth(health);
+        if(mobTargetable) setMobTargetable(npc);
+    }
+
+    private void setMobTargetable(NPC npc) {
+        if(npc == null) return;
+
+        Entity entity = npc.getEntity();
+        EntityType npcType = entity.getType();
+        if(!npcType.isAlive()) return;
+
+        LivingEntity npcLiving = (LivingEntity) entity;
+        List<Entity> nearbyList = npcLiving.getNearbyEntities(16.0D, 16.0D, 16.0D);
+        for(Entity nearby : nearbyList) {
+            if(!(nearby instanceof Monster)) continue;
+
+            Monster monster = (Monster) entity;
+            monster.setTarget(npcLiving);
         }
     }
     
     private void setSentinel(NPC npc, Player player, LivingEntity enemy) {
         boolean sentinel = PluginUtil.isEnabled("Sentinel", "mcmonkey") && ConfigCitizens.getOption("citizens.sentinel.use sentinel", true);
-        if(sentinel) {
-            SentinelTrait sentinelTrait = npc.getTrait(SentinelTrait.class);
-            sentinelTrait.setInvincible(false);
-            
-            sentinelTrait.respawnTime = -1L;
-            
-            if(enemy != null) {
-                boolean attackFirst = ConfigCitizens.getOption("citizens.sentinel.attack first", false);
-                if(attackFirst) {
-                    SentinelTargetLabel targetLabel = new SentinelTargetLabel("uuid:" + enemy.getUniqueId().toString());
-                    targetLabel.addToList(sentinelTrait.allTargets);
-                }
-            }
-            
-            double health = player.getHealth();
-            sentinelTrait.setHealth(health);
+        if(!sentinel) return;
+
+        SentinelTrait sentinelTrait = npc.getTrait(SentinelTrait.class);
+        sentinelTrait.setInvincible(false);
+        sentinelTrait.respawnTime = -1L;
+
+        if(enemy != null) {
+            boolean attackFirst = ConfigCitizens.getOption("citizens.sentinel.attack first", false);
+            if(attackFirst) enableAttackFirst(sentinelTrait, enemy);
         }
+    }
+
+    private void enableAttackFirst(SentinelTrait trait, LivingEntity enemy) {
+        if(trait == null || enemy == null) return;
+
+        UUID uuid = enemy.getUniqueId();
+        String uuidString = uuid.toString();
+        SentinelTargetLabel label = new SentinelTargetLabel("uuid:" + uuidString);
+        label.addToList(trait.allTargets);
     }
     
     private void transferInventoryToNPC(Player player, NPC npc) {

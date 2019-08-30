@@ -48,7 +48,7 @@ public class CombatLogX extends JavaPlugin {
     @Override
     public void onEnable() {
         SchedulerUtil.runLater(0L, () -> {
-            if (ConfigOptions.OPTION_CHECK_FOR_UPDATES) UpdateUtil.checkForUpdates();
+            if (ConfigOptions.OPTION_CHECK_FOR_UPDATES) UpdateUtil.checkForUpdates(this);
 
             registerCommand("combatlogx", CommandCombatLogX.class);
             registerCommand("combattime", CommandCombatTime.class);
@@ -88,12 +88,8 @@ public class CombatLogX extends JavaPlugin {
     		}
     		
     		CommandExecutor executor = clazz.getDeclaredConstructor().newInstance();
-    		if(executor == null) {
-    			Util.print("Could not instantiate the command '" + name + "'.");
-    			return;
-    		}
-    		
     		command.setExecutor(executor);
+
     		if(executor instanceof TabCompleter) {
     			TabCompleter completer = (TabCompleter) executor;
     			command.setTabCompleter(completer);
@@ -112,11 +108,6 @@ public class CombatLogX extends JavaPlugin {
     public void forceRegisterCommand(String commandName, Class<? extends CommandExecutor> clazz) {
     	try {
     		CommandExecutor executor = clazz.getDeclaredConstructor().newInstance();
-    		if(executor == null) {
-    			Util.print("Could not instantiate the command '" + commandName + "'.");
-    			return;
-    		}
-    		
         	CustomCommand command = new CustomCommand(commandName, executor);
         	Bukkit.getPluginManager().registerEvents(command, this);
         	
@@ -133,11 +124,6 @@ public class CombatLogX extends JavaPlugin {
     public void forceRegisterCommand(String commandName, Class<? extends CommandExecutor> clazz, String description, String usage, String... aliases) {
     	try {
     		CommandExecutor executor = clazz.getDeclaredConstructor().newInstance();
-    		if(executor == null) {
-    			Util.print("Could not instantiate the command '" + commandName + "'.");
-    			return;
-    		}
-    		
         	CustomCommand command = new CustomCommand(commandName, executor, description, usage, aliases);
         	Bukkit.getPluginManager().registerEvents(command, this);
         	

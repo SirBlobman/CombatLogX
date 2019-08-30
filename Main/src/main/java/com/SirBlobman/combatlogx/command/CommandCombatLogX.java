@@ -1,5 +1,6 @@
 package com.SirBlobman.combatlogx.command;
 
+import com.SirBlobman.combatlogx.CombatLogX;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -250,7 +251,7 @@ public class CommandCombatLogX implements TabExecutor {
         
         Util.sendMessage(sender, "Getting version information...");
         SchedulerUtil.runNowAsync(() -> {
-            String pversion = UpdateUtil.getPluginVersion();
+            String pversion = UpdateUtil.getPluginVersion(CombatLogX.INSTANCE);
             String sversion = UpdateUtil.getSpigotVersion();
             
             String[] msg = Util.color(

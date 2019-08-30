@@ -1,98 +1,80 @@
 package com.SirBlobman.combatlogx.utility;
 
+import com.SirBlobman.combatlogx.CombatLogX;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.regex.Pattern;
 
-public class UpdateUtil extends Util {
+import static com.SirBlobman.combatlogx.utility.Util.color;
+import static com.SirBlobman.combatlogx.utility.Util.print;
+
+public class UpdateUtil {
     private static final String SPIGOT_URL = "https://api.spigotmc.org/legacy/update.php?resource=31689";
     private static String spigotVersion = null;
     private static String pluginVersion = null;
 
-    public static void checkForUpdates() {
-        BS.runTaskAsynchronously(PLUGIN, () -> {
-            String spigotVersion = getSpigotVersion();
-            String pluginVersion = getPluginVersion();
-            int pluginMajor = getPluginVersionMajor();
-            int spigotMajor = getSpigotVersionMajor();
+    public static void checkForUpdates(CombatLogX plugin) {
+        BukkitScheduler scheduler = Bukkit.getScheduler();
+        scheduler.runTaskAsynchronously(plugin, () -> updateTask(plugin));
+    }
 
-            if (pluginMajor == -1 || spigotMajor == -1) {
-                String[] error = getErrorMessage();
-                printNoPrefix(error);
-            } else if (pluginMajor == spigotMajor) {
-                int pluginMinor = getPluginVersionMinor();
-                int spigotMinor = getSpigotVersionMinor();
+    private static void updateTask(CombatLogX plugin) {
+        String spigotVersion = getSpigotVersion();
+        String pluginVersion = getPluginVersion(plugin);
 
-                if (pluginMinor == spigotMinor) {
-                    int pluginPatch = getPluginVersionPatch();
-                    int spigotPatch = getSpigotVersionPatch();
-
-                    if (pluginPatch == spigotPatch) {
-                        int pluginExpan = getPluginVersionExpansion();
-                        int spigotExpan = getSpigotVersionExpansion();
-
-                        if (pluginExpan == spigotExpan) {
-                            String[] msg = getUpdatedMessage();
-                            printNoPrefix(msg);
-                        } else if (pluginExpan > spigotExpan) {
-                            String[] msg = getBetaMessage();
-                            printNoPrefix(msg);
-                        } else {
-                            String[] msg = getUpdateMessage(pluginVersion, spigotVersion);
-                            printNoPrefix(msg);
-                        }
-                    } else if (pluginPatch > spigotPatch) {
-                        String[] msg = getBetaMessage();
-                        printNoPrefix(msg);
-                    } else {
-                        String[] msg = getUpdateMessage(pluginVersion, spigotVersion);
-                        printNoPrefix(msg);
-                    }
-                } else if (pluginMinor > spigotMinor) {
-                    String[] msg = getBetaMessage();
-                    printNoPrefix(msg);
-                } else {
-                    String[] msg = getUpdateMessage(pluginVersion, spigotVersion);
-                    printNoPrefix(msg);
-                }
-            } else if (pluginMajor > spigotMajor) {
-                String[] msg = getBetaMessage();
-                printNoPrefix(msg);
-            } else {
-                String[] msg = getUpdateMessage(pluginVersion, spigotVersion);
-                printNoPrefix(msg);
+        for(VersionPart part : VersionPart.values()) {
+            int spigotPart = getVersionPart(spigotVersion, part);
+            int pluginPart = getVersionPart(pluginVersion, part);
+            if(spigotPart == -1 || pluginPart == -1) {
+                Util.print(
+                        "&8==============================================",
+                        "&eCombatLogX Update Checker",
+                        " ",
+                        "&cThere was an error checking for updates",
+                        "&8=============================================="
+                );
+                return;
             }
-        });
-    }
 
-    private static String[] getErrorMessage() {
-        return color(
-                "&8==============================================",
-                "&eCombatLogX Update Checker",
-                " ",
-                "&cThere was an error checking for updates",
-                "&8=============================================="
-        );
-    }
+            int response = checkVersions(spigotPart, pluginPart);
+            if(response < 0) {
+                Util.print(
+                        "&8==============================================",
+                        "&eCombatLogX Update Checker",
+                        " ",
+                        "&cYou are using a beta or bleeding-edge version.",
+                        "&cThanks for testing CombatLogX!",
+                        "&8=============================================="
+                );
+                return;
+            }
 
-    private static String[] getBetaMessage() {
-        return color(
-                "&8==============================================",
-                "&eCombatLogX Update Checker",
-                " ",
-                "&cYou are using a beta or bleeding-edge version.",
-                "&cThanks for testing CombatLogX!",
-                "&8=============================================="
-        );
-    }
+            if(response > 0) {
+                Util.print(
+                        "&8==============================================",
+                        "&eCombatLogX Update Checker",
+                        " ",
+                        "&aThere is an update available!",
+                        "&e&lLatest Version: &a" + spigotVersion,
+                        "&e&lYour Version: &c" + pluginVersion,
+                        "&eGet it here: &bhttps://www.spigotmc.org/resources/combatlogx.31689/",
+                        "&8=============================================="
+                );
+                return;
+            }
+        }
 
-    private static String[] getUpdatedMessage() {
-        return color(
+        Util.print(
                 "&8==============================================",
                 "&eCombatLogX Update Checker",
                 " ",
@@ -101,130 +83,85 @@ public class UpdateUtil extends Util {
         );
     }
 
-    private static String[] getUpdateMessage(String pluginVersion, String spigotVersion) {
-        return color(
-                "&8==============================================",
-                "&eCombatLogX Update Checker",
-                " ",
-                "&aThere is an update available!",
-                "&e&lLatest Version: &a" + spigotVersion,
-                "&e&lYour Version: &c" + pluginVersion,
-                "&eGet it here: &bhttps://www.spigotmc.org/resources/combatlogx.31689/",
-                "&8=============================================="
-        );
-    }
-
     public static String getSpigotVersion() {
-        if (spigotVersion != null) return spigotVersion;
-        else {
+        if(spigotVersion != null) return spigotVersion;
+
+        print("Checking for updates using the Spigot API...");
+        try {
+            URL url = new URL(SPIGOT_URL);
+            URLConnection urlConnection = url.openConnection();
+            HttpURLConnection connection = (HttpURLConnection) urlConnection;
+            connection.setRequestMethod("GET");
+
+            InputStream stream = connection.getInputStream();
+            InputStreamReader reader = new InputStreamReader(stream);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+
+            spigotVersion = bufferedReader.readLine();
+            bufferedReader.close();
+            return spigotVersion;
+        } catch(MalformedURLException ex) {
+            Util.print("Invalid Spigot URL for update checker, please contact SirBlobman!");
+            ex.printStackTrace();
+            return null;
+        } catch(IOException ex) {
+            Util.print("An error occurred while trying to check for CombatLogX updates.");
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String getPluginVersion(CombatLogX plugin) {
+        if(pluginVersion != null) return pluginVersion;
+
+        PluginDescriptionFile description = plugin.getDescription();
+        String version = description.getVersion();
+        if(version.contains("-")) {
+            int indexOf = version.indexOf("-");
+            version = version.substring(0, indexOf);
+        }
+
+        return pluginVersion = version;
+    }
+
+    private static int[] splitVersion(String version) {
+        int[] failure = {-1, -1, -1, -1};
+        if(version == null || version.isEmpty()) return failure;
+
+        String[] split = version.split(Pattern.quote("."), 4);
+        if(split.length != 4) return failure;
+
+        int[] splitVersion = new int[4];
+        for(int i = 0; i < split.length; i++) {
+            String string = split[i];
             try {
-                print("Checking for updates using Spigot API...");
-                URL url = new URL(SPIGOT_URL);
-                URLConnection urlc = url.openConnection();
-                HttpURLConnection http = (HttpURLConnection) urlc;
-                http.setRequestMethod("GET");
-
-                InputStream is = http.getInputStream();
-                InputStreamReader isr = new InputStreamReader(is);
-                BufferedReader br = new BufferedReader(isr);
-                String version = br.readLine();
-                br.close();
-                isr.close();
-                is.close();
-
-                spigotVersion = version;
-                return version;
-            } catch (Throwable ex) {
-                return null;
-            }
+                int part = Integer.parseInt(string);
+                splitVersion[i] = part;
+            } catch(NumberFormatException ex) {splitVersion[i] = -1;}
         }
+        return splitVersion;
     }
 
-    public static String getPluginVersion() {
-        if (pluginVersion != null) return pluginVersion;
-        else {
-            PluginDescriptionFile pdf = PLUGIN.getDescription();
-            String version = pdf.getVersion();
-            if (version.contains("-")) {
-                int indexOf = version.indexOf("-");
-                version = version.substring(0, indexOf);
-            }
+    private static int getVersionPart(String version, VersionPart part) {
+        int arrayPart = part.getArrayPart();
+        int[] splitVersion = splitVersion(version);
+        return splitVersion[arrayPart];
+    }
 
-            pluginVersion = version;
-            return version;
+    private static int checkVersions(int spigot, int plugin) {
+        return Integer.compare(spigot, plugin);
+    }
+
+    private enum VersionPart {
+        MAJOR(0), MINOR(1), PATCH(2), EXPANSION(3);
+
+        private final int arrayPart;
+        VersionPart(int arrayPart) {
+            this.arrayPart = arrayPart;
         }
-    }
 
-    private static int[] getVersionAll(String version) {
-        int[] fail = new int[]{-1, 0, 0, 0};
-        if (version == null || version.isEmpty()) return fail;
-        else {
-            String[] split = version.split("\\.", 4);
-            if (split.length != 4) return fail;
-            else {
-                int[] ii = new int[4];
-                for (int part = 0; part < split.length; part++) {
-                    String s = split[part];
-                    s = s.replaceAll("[^0-9]", "");
-                    int i;
-                    try {
-                        i = Integer.parseInt(s);
-                    } catch (Throwable ex) {
-                        i = -1;
-                    }
-                    ii[part] = i;
-                }
-                return ii;
-            }
+        protected int getArrayPart() {
+            return this.arrayPart;
         }
-    }
-
-    private static int getPluginVersionMajor() {
-        String version = getPluginVersion();
-        int[] all = getVersionAll(version);
-        return all[0];
-    }
-
-    private static int getPluginVersionMinor() {
-        String version = getPluginVersion();
-        int[] all = getVersionAll(version);
-        return all[1];
-    }
-
-    private static int getPluginVersionPatch() {
-        String version = getPluginVersion();
-        int[] all = getVersionAll(version);
-        return all[2];
-    }
-
-    private static int getPluginVersionExpansion() {
-        String version = getPluginVersion();
-        int[] all = getVersionAll(version);
-        return all[3];
-    }
-
-    // Spigot Version Parts
-    private static int getSpigotVersionMajor() {
-        String version = getSpigotVersion();
-        int[] all = getVersionAll(version);
-        return all[0];
-    }
-
-    private static int getSpigotVersionMinor() {
-        String version = getSpigotVersion();
-        int[] all = getVersionAll(version);
-        return all[1];
-    }
-
-    private static int getSpigotVersionPatch() {
-        String version = getSpigotVersion();
-        int[] all = getVersionAll(version);
-        return all[2];
-    }
-
-    private static int getSpigotVersionExpansion() {
-        String version = getSpigotVersion();
-        int[] all = getVersionAll(version);
-        return all[3];
     }
 }

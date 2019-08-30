@@ -1,7 +1,7 @@
 package com.SirBlobman.expansion.helper.listener;
 
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
+import com.SirBlobman.combatlogx.config.ConfigOptions;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.helper.config.ConfigNewbie;
+import org.bukkit.projectiles.ProjectileSource;
 
 public class ListenNewbieHelper implements Listener {
 	@EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
@@ -23,8 +24,9 @@ public class ListenNewbieHelper implements Listener {
 	
 	@EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
 	public void onPVP(EntityDamageByEntityEvent e) {
-		Entity der = e.getDamager();
 		Entity ded = e.getEntity();
+		Entity der = linkPet(linkProjectile(e.getDamager()));
+
 		if(!(der instanceof Player) || !(ded instanceof Player)) return;
 		
 		Player damager = (Player) der;
@@ -33,7 +35,7 @@ public class ListenNewbieHelper implements Listener {
 		boolean damagedProtected = ConfigNewbie.getData(damaged, "protected", false);
 		if(damagedProtected) {
 			long systemMillis = System.currentTimeMillis();
-			long firstPlayed = damaged.hasPlayedBefore() ? damaged.getFirstPlayed() : systemMillis;
+			long firstPlayed = damaged.getFirstPlayed();
 			long subtract = (systemMillis - firstPlayed);
 			if(subtract >= ConfigNewbie.getOption("expire time", 30_000)) {
 				String message = ConfigLang.getWithPrefix("messages.expansions.newbie helper.disabled.expired");
@@ -54,5 +56,26 @@ public class ListenNewbieHelper implements Listener {
 			ConfigNewbie.setData(damager, "protected", false);
 			return;
 		}
+	}
+
+	private Entity linkProjectile(Entity entity) {
+		if(!ConfigOptions.OPTION_LINK_PROJECTILES) return entity;
+		if(!(entity instanceof Projectile)) return entity;
+
+		Projectile projectile = (Projectile) entity;
+		ProjectileSource shooter = projectile.getShooter();
+
+		if(shooter instanceof Entity) return (Entity) shooter;
+		return entity;
+	}
+
+	private Entity linkPet(Entity entity) {
+		if(!ConfigOptions.OPTION_LINK_PETS) return entity;
+		if(!(entity instanceof Tameable)) return entity;
+
+		Tameable pet = (Tameable) entity;
+		AnimalTamer owner = pet.getOwner();
+		if(owner instanceof Entity) return (Entity) owner;
+		return entity;
 	}
 }

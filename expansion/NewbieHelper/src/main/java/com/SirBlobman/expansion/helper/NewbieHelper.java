@@ -24,7 +24,7 @@ public class NewbieHelper implements CLXExpansion {
 
 	@Override
 	public String getVersion() {
-		return "14.2";
+		return "14.3";
 	}
 	
 
