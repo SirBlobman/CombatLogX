@@ -1,9 +1,9 @@
-#CombatLogX
+# CombatLogX
 CombatLogX is a simple combat tagging plugin  
 You can also abbreviate it as CLX  
 For planned features, you can check the 'To Do.list' file
 
-##Version Information
+## Version Information
 The format is as follows:
 *major*.*minor*.*patch*.*expansion*  
 *expansion* will change when an expansion is changed or updated  
@@ -11,7 +11,7 @@ The format is as follows:
 *minor* will change when I add a new expansion or create more effective changes  
 *major* will change when I modify the API or make a lot of changes that affect the plugin  
 
-##Expansion Information
+## Expansion Information
 Expansions are similar to plugins, but instead of going in */plugins/* they go in */plugins/CombatLogX/expansions/*  
 They can be used to add new features to CombatLogX or add Compatibility with other plugins  
   
