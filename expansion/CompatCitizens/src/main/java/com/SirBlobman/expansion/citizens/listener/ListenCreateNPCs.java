@@ -1,54 +1,35 @@
 package com.SirBlobman.expansion.citizens.listener;
 
+import com.SirBlobman.api.nms.NMS_Handler;
+import com.SirBlobman.api.utility.ItemUtil;
+import com.SirBlobman.combatlogx.event.PlayerPunishEvent;
+import com.SirBlobman.combatlogx.event.PlayerPunishEvent.PunishReason;
+import com.SirBlobman.combatlogx.utility.CombatUtil;
+import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.expansion.citizens.CompatCitizens;
+import com.SirBlobman.expansion.citizens.config.ConfigCitizens;
+import com.SirBlobman.expansion.citizens.config.ConfigData;
+import com.SirBlobman.expansion.citizens.trait.TraitCombatLogX;
+import com.SirBlobman.expansion.citizens.utility.SentinelUtil;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.npc.NPCRegistry;
+import net.citizensnpcs.api.trait.trait.Equipment;
+import net.citizensnpcs.api.trait.trait.Owner;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import com.SirBlobman.api.nms.NMS_Handler;
-import com.SirBlobman.api.utility.ItemUtil;
-import com.SirBlobman.combatlogx.event.PlayerPunishEvent;
-import com.SirBlobman.combatlogx.event.PlayerPunishEvent.PunishReason;
-import com.SirBlobman.combatlogx.utility.CombatUtil;
-import com.SirBlobman.combatlogx.utility.PluginUtil;
-import com.SirBlobman.expansion.citizens.CompatCitizens;
-import com.SirBlobman.expansion.citizens.config.ConfigCitizens;
-import com.SirBlobman.expansion.citizens.config.ConfigData;
-import com.SirBlobman.expansion.citizens.trait.TraitCombatLogX;
-
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import org.mcmonkey.sentinel.SentinelTrait;
-import org.mcmonkey.sentinel.targeting.SentinelTargetLabel;
-
-import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.npc.NPC;
-import net.citizensnpcs.api.npc.NPCRegistry;
-import net.citizensnpcs.api.trait.trait.Equipment;
-import net.citizensnpcs.api.trait.trait.Equipment.EquipmentSlot;
-import net.citizensnpcs.api.trait.trait.Inventory;
-import net.citizensnpcs.api.trait.trait.Owner;
 
 public class ListenCreateNPCs implements Listener {
     private final CompatCitizens expansion;
     public ListenCreateNPCs(CompatCitizens expansion) {
         this.expansion = expansion;
-    }
-    
-    private void debug(String message) {
-        message = "[Debug] " + message;
-        this.expansion.print(message);
     }
     
     @EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
@@ -66,14 +47,13 @@ public class ListenCreateNPCs implements Listener {
     private EntityType getTypeForNPC() {
         String configType = ConfigCitizens.getOption("citizens.npc.entity type", EntityType.PLAYER.name());
         try {
-            EntityType type = EntityType.valueOf(configType);
-            return type;
+            return EntityType.valueOf(configType);
         } catch(IllegalArgumentException error) {
             return null;
         }
     }
     
-    public void createNPC(Player player, LivingEntity enemy) {
+    private void createNPC(Player player, LivingEntity enemy) {
         Location location = player.getLocation();
         
         EntityType type = getTypeForNPC();
@@ -84,12 +64,6 @@ public class ListenCreateNPCs implements Listener {
         
         NPCRegistry npcRegistry = CitizensAPI.getNPCRegistry();
         NPC npc = npcRegistry.createNPC(type, player.getName());
-        if(location == null) {
-            this.expansion.print("Failed to get location for player '" + player.getName() + ", forcing regular punishment instead of NPC...");
-            CombatUtil.forcePunish(player);
-            return;
-        }
-        
         npc.removeTrait(Owner.class);
         
         TraitCombatLogX traitCLX = npc.getTrait(TraitCombatLogX.class);
@@ -104,11 +78,11 @@ public class ListenCreateNPCs implements Listener {
             return;
         }
         
-        setOptions(npc, player, enemy);
-        setSentinel(npc, player, enemy);
+        setOptions(npc, player);
+        SentinelUtil.setSentinel(npc, player, enemy);
     }
     
-    private void setOptions(NPC npc, Player player, LivingEntity enemy) {
+    private void setOptions(NPC npc, Player player) {
         npc.setProtected(false);
         
         boolean storeInventory = ConfigCitizens.getOption("citizens.npc.store inventory", true);
@@ -154,75 +128,45 @@ public class ListenCreateNPCs implements Listener {
         }
     }
     
-    private void setSentinel(NPC npc, Player player, LivingEntity enemy) {
-        boolean sentinel = PluginUtil.isEnabled("Sentinel", "mcmonkey") && ConfigCitizens.getOption("citizens.sentinel.use sentinel", true);
-        if(!sentinel) return;
-
-        SentinelTrait sentinelTrait = npc.getTrait(SentinelTrait.class);
-        sentinelTrait.setInvincible(false);
-        sentinelTrait.respawnTime = -1L;
-
-        if(enemy != null) {
-            boolean attackFirst = ConfigCitizens.getOption("citizens.sentinel.attack first", false);
-            if(attackFirst) enableAttackFirst(sentinelTrait, enemy);
-        }
-    }
-
-    private void enableAttackFirst(SentinelTrait trait, LivingEntity enemy) {
-        if(trait == null || enemy == null) return;
-
-        UUID uuid = enemy.getUniqueId();
-        String uuidString = uuid.toString();
-        SentinelTargetLabel label = new SentinelTargetLabel("uuid:" + uuidString);
-        label.addToList(trait.allTargets);
-    }
-    
     private void transferInventoryToNPC(Player player, NPC npc) {
         if(player == null || npc == null) return;
         
         PlayerInventory playerInv = player.getInventory();
-        
-        Equipment equipment = npc.getTrait(Equipment.class);
-        ItemStack helmet = copyItem(playerInv.getHelmet());
-        ItemStack chestplate = copyItem(playerInv.getChestplate());
-        ItemStack leggings = copyItem(playerInv.getLeggings());
-        ItemStack boots = copyItem(playerInv.getBoots());
-        if(NMS_Handler.getMinorVersion() > 8) {
-            ItemStack offHand = copyItem(playerInv.getItemInOffHand());
-            equipment.set(EquipmentSlot.OFF_HAND, offHand);
+
+        Entity entity = npc.getEntity();
+        if(entity instanceof Player || entity instanceof Zombie || entity instanceof Skeleton) {
+            Equipment equipment = npc.getTrait(Equipment.class);
+            equipment.set(Equipment.EquipmentSlot.HELMET, copyItem(playerInv.getHelmet()));
+            equipment.set(Equipment.EquipmentSlot.CHESTPLATE, copyItem(playerInv.getChestplate()));
+            equipment.set(Equipment.EquipmentSlot.LEGGINGS, copyItem(playerInv.getLeggings()));
+            equipment.set(Equipment.EquipmentSlot.BOOTS, copyItem(playerInv.getBoots()));
+
+            @SuppressWarnings("deprecation")
+            ItemStack handItem = copyItem(NMS_Handler.getMinorVersion() > 8 ? playerInv.getItemInMainHand() : playerInv.getItemInHand());
+            equipment.set(Equipment.EquipmentSlot.HAND, handItem);
+
+            if(NMS_Handler.getMinorVersion() > 8) {
+                ItemStack offItem = copyItem(playerInv.getItemInOffHand());
+                equipment.set(Equipment.EquipmentSlot.OFF_HAND, offItem);
+            }
         }
-        equipment.set(EquipmentSlot.HELMET, helmet);
-        equipment.set(EquipmentSlot.CHESTPLATE, chestplate);
-        equipment.set(EquipmentSlot.LEGGINGS, leggings);
-        equipment.set(EquipmentSlot.BOOTS, boots);
-        
-        Inventory inventory = npc.getTrait(Inventory.class);
-        ItemStack[] contents = copyItems(playerInv, 0, 4 * 9);
-        inventory.setContents(contents);
-        
+
+        ItemStack[] contents = playerInv.getContents().clone();
+        List<ItemStack> contentsList = Util.newList(contents);
+
+        ItemStack[] armor = playerInv.getArmorContents().clone();
+        List<ItemStack> armorList = Util.newList(armor);
+
+        ConfigData.force(player, "inventory data.items", contentsList);
+        ConfigData.force(player, "inventory data.armor", armorList);
+
         playerInv.clear();
         player.updateInventory();
-        
-        Map<String, Object> inventoryData = ListenHandleNPCs.getInventoryData(npc);
-        ConfigData.force(player, "inventory data", inventoryData);
     }
-    
+
     private ItemStack copyItem(ItemStack item) {
-        if(ItemUtil.isAir(item)) return new ItemStack(Material.AIR);
-        
+        if(ItemUtil.isAir(item)) return ItemUtil.getAir();
+
         return item.clone();
-    }
-    
-    private ItemStack[] copyItems(org.bukkit.inventory.Inventory inventory, int minSlot, int maxSlot) {
-        ItemStack[] itemArray = new ItemStack[maxSlot];
-        Arrays.fill(itemArray, new ItemStack(Material.AIR));
-        
-        int inventorySize = inventory.getSize();
-        for(int slot = minSlot; slot < inventorySize && slot < maxSlot; slot++) {
-            ItemStack item = inventory.getItem(slot);
-            itemArray[slot] = copyItem(item);
-        }
-        
-        return itemArray;
     }
 }

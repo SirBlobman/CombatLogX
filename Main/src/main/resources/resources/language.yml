@@ -29,6 +29,15 @@ messages:
       tag: "&a&oYou just forced &f{target}&a&o into combat. This may cause issues!"
       untag: "&a&oYou just forced &f{target}&a&o out of combat. This may cause issues!"
       not in combat: "&c&oThat player is not in combat."
+      help:
+      - "&f"
+      - "&6&lCombatLogX Command Help:"
+      - "  &f&l/combatlogx help&7: View this help page."
+      - "  &f&l/combatlogx version&7: Check your version of CombatLogX."
+      - "  &f&l/combatlogx tag <player>&7: Forcefully put a player into combat (may cause errors.)"
+      - "  &f&l/combatlogx untag <player>&7: Forcefully remove a player from combat (may cause errors.)"
+      - "  &f&l/combatlogx toggle&7: (Requires Notifier expansion) Enable or Disable your boss bar, action bar, and score board."
+      - "&f"
 
     combattime:
       not in combat: "&c&oYou are not in combat."

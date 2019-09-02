@@ -13,14 +13,15 @@ citizens:
     # Default: PLAYER
     entity type: "PLAYER"
     
-    # Set this to true if you want the inventory of the logger to be placed into the NPC
+    # Set this to true if you want the inventory of the logger to be stored and dropped by the NPC
     # This will cause items to not drop until the NPC is killed
-    # REMINDER: This will only work if "entity type" is set to "PLAYER"
+    # If the npc is a player, zombie (zombie villager / pig zombie), or skeleton (wither skeleton),
+    # the armor, main hand, and off hand item will be visible on the NPC as well
     # Default: true
     store inventory: true
     
     # Should mobs be able to target the NPC?
-    # REMINDER: Only Player NPCs can be targeted by mobs
+    # Information: Mobs may only be able to target Player NPCs depending on your minecraft version
     # Default: true
     mob targeting: true
     

@@ -8,13 +8,9 @@ import com.SirBlobman.combatlogx.expansion.NoEntryExpansion;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.combatlogx.utility.Util;
-import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.WrappedBlockData;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -34,7 +30,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.*;
 
 public abstract class ForceField implements Listener {
-    private final Map<UUID, Set<Location>> fakeBlocks = Util.newMap();
+    final Map<UUID, Set<Location>> fakeBlocks = Util.newMap();
     private final CombatLogX plugin = JavaPlugin.getPlugin(CombatLogX.class);
     private final NoEntryExpansion expansion;
     public ForceField(NoEntryExpansion expansion) {
@@ -50,31 +46,11 @@ public abstract class ForceField implements Listener {
 
     public void registerProtocol() {
         ProtocolManager manager = ProtocolLibrary.getProtocolManager();
-        PacketAdapter adapter = new PacketAdapter(plugin, ListenerPriority.NORMAL, PacketType.Play.Server.BLOCK_CHANGE) {
-            @Override
-            public void onPacketSending(PacketEvent e) {
-                if(e.isCancelled()) return;
-
-                Player player = e.getPlayer();
-                if(!CombatUtil.isInCombat(player)) return;
-
-                PacketContainer packet = e.getPacket();
-                WrapperPlayServerBlockChange block = new WrapperPlayServerBlockChange(packet);
-
-                World world = player.getWorld();
-                Location location = packet.getBlockPositionModifier().read(0).toLocation(world);
-
-                UUID uuid = player.getUniqueId();
-                if(fakeBlocks.containsKey(uuid) && isSafe(location, player) && isSafeSurround(location, player) && canPlace(location) && fakeBlocks.get(uuid).contains(location)) {
-                    WrappedBlockData blockData = wrappedData(block.getBlockData());
-                    block.setBlockData(blockData);
-                }
-            }
-        };
+        PacketAdapter adapter = new ForceFieldAdapter(this);
         manager.addPacketListener(adapter);
     }
 
-    private WrappedBlockData wrappedData(WrappedBlockData data) {
+    WrappedBlockData wrappedData(WrappedBlockData data) {
         data.setType(getForceFieldMaterial());
         if(NMS_Handler.getMinorVersion() < 13) data.setData(getForceFieldMaterialData());
         return data;
@@ -105,7 +81,7 @@ public abstract class ForceField implements Listener {
                     Location location3 = new Location(world, location.getX(), location.getY() + i, location.getZ());
                     if(!canPlace(location3)) continue;
 
-                    area.add(location3.clone());
+                    area.add(new Location(location3.getWorld(), location3.getBlockX(), location3.getBlockY(), location3.getBlockZ()));
                 }
             }
         }
@@ -139,10 +115,11 @@ public abstract class ForceField implements Listener {
 
     public void updateForceField(Player player) {
         if(!CombatUtil.isInCombat(player)) return;
-        LivingEntity enemy = CombatUtil.getEnemy(player);
 
         Location playerLoc = player.getLocation();
         if(isSafe(playerLoc, player)) return;
+
+        LivingEntity enemy = CombatUtil.getEnemy(player);
 
         Set<Location> oldArea = new HashSet<>();
         Set<Location> area = getForceFieldArea(player, enemy);
@@ -211,7 +188,7 @@ public abstract class ForceField implements Listener {
         Location toLoc = e.getTo();
         Location fromLoc = e.getFrom();
         if(toLoc.getBlock().equals(fromLoc.getBlock())) return;
-        if(!isSafe(toLoc, player)) return;
+        if(isSafe(toLoc, player)) return;
 
         updateForceField(player);
     }

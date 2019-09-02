@@ -4,16 +4,16 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Objects;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
 
 public abstract class AbstractPacket {
-    protected final PacketContainer handle;
+    protected PacketContainer handle;
     protected AbstractPacket(PacketContainer handle, PacketType type) {
-        Validate.notNull(handle, "handle cannot be null!");
-        Validate.isTrue(handle.getType() == type, handle.getHandle() + " is not a packet of type " + type);
+        if(handle == null) throw new IllegalArgumentException("Packet handle cannot be NULL!");
+        if(!Objects.equal(handle.getType(), type)) throw new IllegalArgumentException(handle.getHandle() + " is not a packet of type " + type);
 
         this.handle = handle;
     }

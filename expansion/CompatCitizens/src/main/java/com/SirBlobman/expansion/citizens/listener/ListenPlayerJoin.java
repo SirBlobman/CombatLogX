@@ -1,7 +1,20 @@
 package com.SirBlobman.expansion.citizens.listener;
 
+import com.SirBlobman.api.utility.ItemUtil;
+import com.SirBlobman.combatlogx.config.ConfigLang;
+import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagReason;
+import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagType;
+import com.SirBlobman.combatlogx.utility.CombatUtil;
+import com.SirBlobman.combatlogx.utility.SchedulerUtil;
+import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.expansion.citizens.config.ConfigCitizens;
+import com.SirBlobman.expansion.citizens.config.ConfigData;
+import com.SirBlobman.expansion.citizens.trait.TraitCombatLogX;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.event.DespawnReason;
+import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.npc.NPCRegistry;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,25 +26,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import com.SirBlobman.api.nms.NMS_Handler;
-import com.SirBlobman.api.utility.ItemUtil;
-import com.SirBlobman.combatlogx.config.ConfigLang;
-import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagReason;
-import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagType;
-import com.SirBlobman.combatlogx.utility.CombatUtil;
-import com.SirBlobman.combatlogx.utility.SchedulerUtil;
-import com.SirBlobman.combatlogx.utility.Util;
-import com.SirBlobman.expansion.citizens.config.ConfigCitizens;
-import com.SirBlobman.expansion.citizens.config.ConfigData;
-import com.SirBlobman.expansion.citizens.trait.TraitCombatLogX;
-
 import java.util.List;
 import java.util.UUID;
-
-import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.event.DespawnReason;
-import net.citizensnpcs.api.npc.NPC;
-import net.citizensnpcs.api.npc.NPCRegistry;
 
 public class ListenPlayerJoin implements Listener {
     @EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
@@ -65,7 +61,7 @@ public class ListenPlayerJoin implements Listener {
         });
     }
     
-    public void punish(Player player) {
+    private void punish(Player player) {
         Util.debug("[Citizens Compatibility] '" + player.getName() + "' joined, checking if they need to be punished...");
         boolean punish = ConfigData.get(player, "punish", false);
         if(!punish) {
@@ -104,14 +100,14 @@ public class ListenPlayerJoin implements Listener {
         Util.debug("[Citizens Compatibility] Player punishment ended, user data punishment set to false.");
     }
     
-    public NPC getNPC(OfflinePlayer player) {
+    private NPC getNPC(OfflinePlayer player) {
         if(player == null) return null;
         
         UUID uuid = player.getUniqueId();
         return getNPC(uuid);
     }
     
-    public NPC getNPC(UUID playerUUID) {
+    private NPC getNPC(UUID playerUUID) {
         if(playerUUID == null) return null;
         
         NPCRegistry npcRegistry = CitizensAPI.getNPCRegistry();
@@ -129,31 +125,21 @@ public class ListenPlayerJoin implements Listener {
         return null;
     }
     
-    public void transferInventoryToPlayer(Player player) {
+    private void transferInventoryToPlayer(Player player) {
         if(player == null) return;
         
         PlayerInventory playerInv = player.getInventory();
-        final ItemStack air = new ItemStack(Material.AIR);
         
         List<ItemStack> itemList = ConfigData.get(player, "inventory data.items", Util.newList());
         ItemStack[] contents = itemList.toArray(new ItemStack[0]);
         playerInv.setContents(contents);
-        
-        ItemStack itemHelmet = ConfigData.get(player, "inventory data.helmet", air);
-        ItemStack itemChestplate = ConfigData.get(player, "inventory data.chestplate", air);
-        ItemStack itemLeggings = ConfigData.get(player, "inventory data.leggings", air);
-        ItemStack itemBoots = ConfigData.get(player, "inventory data.boots", air);
-        playerInv.setHelmet(itemHelmet);
-        playerInv.setChestplate(itemChestplate);
-        playerInv.setLeggings(itemLeggings);
-        playerInv.setBoots(itemBoots);
-        
-        if(NMS_Handler.getMinorVersion() > 8) {
-            ItemStack itemOff = ConfigData.get(player, "inventory data.off hand", air);
-            playerInv.setItemInOffHand(itemOff);
-        }
+
+        List<ItemStack> armorList = ConfigData.get(player, "inventory data.armor", Util.newList());
+        ItemStack[] armor = armorList.toArray(new ItemStack[0]);
+        playerInv.setArmorContents(armor);
         
         player.updateInventory();
-        ConfigData.force(player, "inventory data", null);
+        ConfigData.force(player, "inventory data.items", null);
+        ConfigData.force(player, "inventory data.armor", null);
     }
 }

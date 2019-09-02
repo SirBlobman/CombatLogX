@@ -22,12 +22,8 @@ softdepend:
 
 commands:
   combatlogx:
-    usage: |-
-        /<command> reload OR
-        /<command> tag <player> OR
-        /<command> untag <player> OR
-        /<command> toggle <scoreboard/bossbar/actionbar>
     description: "Main command for CombatLogX"
+    usage: "/<command> help"
     aliases: [combattag, combatlog, clx, ctx]
 
   combattime:

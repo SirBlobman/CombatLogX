@@ -1,11 +1,13 @@
 package com.SirBlobman.combatlogx.utility;
 
-import java.lang.reflect.Method;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.UUID;
-
+import com.SirBlobman.api.nms.NMS_Handler;
+import com.SirBlobman.combatlogx.config.ConfigLang;
+import com.SirBlobman.combatlogx.config.ConfigOptions;
+import com.SirBlobman.combatlogx.event.*;
+import com.SirBlobman.combatlogx.event.PlayerPunishEvent.PunishReason;
+import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagReason;
+import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagType;
+import com.SirBlobman.combatlogx.event.PlayerUntagEvent.UntagReason;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -13,18 +15,11 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import com.SirBlobman.api.nms.NMS_Handler;
-import com.SirBlobman.combatlogx.config.ConfigLang;
-import com.SirBlobman.combatlogx.config.ConfigOptions;
-import com.SirBlobman.combatlogx.event.PlayerCombatTimerChangeEvent;
-import com.SirBlobman.combatlogx.event.PlayerPreTagEvent;
-import com.SirBlobman.combatlogx.event.PlayerPunishEvent;
-import com.SirBlobman.combatlogx.event.PlayerPunishEvent.PunishReason;
-import com.SirBlobman.combatlogx.event.PlayerTagEvent;
-import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagReason;
-import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagType;
-import com.SirBlobman.combatlogx.event.PlayerUntagEvent;
-import com.SirBlobman.combatlogx.event.PlayerUntagEvent.UntagReason;
+import java.lang.reflect.Method;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.UUID;
 
 public class CombatUtil implements Runnable {
     private static Map<UUID, Long> COMBAT = Util.newMap();
@@ -135,8 +130,8 @@ public class CombatUtil implements Runnable {
      *
      * @param player The player to tag
      * @param enemy  The enemy that will tag them (can be null)
-     * @param type   The type of entity that {@code enemy} is
-     * @param reason The reason that this player will be tagged
+     * @param tagType   The type of entity that {@code enemy} is
+     * @param tagReason The reason that this player will be tagged
      * @return {@code true} if the player was tagged, {@code false} otherwise
      */
     public static boolean tag(Player player, LivingEntity enemy, TagType tagType, TagReason tagReason) {
@@ -170,7 +165,7 @@ public class CombatUtil implements Runnable {
             String enemyType = (enemy == null ? EntityType.UNKNOWN.name() : enemy.getType().name());
             String enemyName = (enemy == null ? ConfigLang.get("messages.unknown entity name") : NMS_Handler.getMinorVersion() == 7 ? (enemy instanceof Player ? ((Player) enemy).getName() : enemyType) : enemy.getName());
             
-            String message = "";
+            String message;
             if(tagType == TagType.MOB) {
                 List<String> keys = Util.newList("{mob_name}", "{mob_type}");
                 List<?> vals = Util.newList(enemyName, enemyType);
@@ -230,7 +225,7 @@ public class CombatUtil implements Runnable {
     }
     
     /**
-     * @param p The player to check
+     * @param player The player to check
      * @return The time (in seconds) left in combat
      */
     public static int getTimeLeft(Player player) {
@@ -290,13 +285,12 @@ public class CombatUtil implements Runnable {
                     player.setOp(true);
                     player.performCommand(cmd);
                     player.setOp(false);
-                    continue;
                 }
             }
         }
     }
     
-    public static String getSudoCommand(String command, Player player) {
+    private static String getSudoCommand(String command, Player player) {
         command = command.replace("{player}", player.getName());
         
         try {

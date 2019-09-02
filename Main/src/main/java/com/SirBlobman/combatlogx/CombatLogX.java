@@ -1,14 +1,5 @@
 package com.SirBlobman.combatlogx;
 
-import java.io.File;
-
-import org.bukkit.Bukkit;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.PluginCommand;
-import org.bukkit.command.TabCompleter;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import com.SirBlobman.combatlogx.command.CommandCombatLogX;
 import com.SirBlobman.combatlogx.command.CommandCombatTime;
 import com.SirBlobman.combatlogx.command.CustomCommand;
@@ -20,11 +11,16 @@ import com.SirBlobman.combatlogx.listener.AttackListener;
 import com.SirBlobman.combatlogx.listener.CombatListener;
 import com.SirBlobman.combatlogx.listener.FinalMonitor;
 import com.SirBlobman.combatlogx.listener.PunishListener;
-import com.SirBlobman.combatlogx.utility.CombatUtil;
-import com.SirBlobman.combatlogx.utility.PluginUtil;
-import com.SirBlobman.combatlogx.utility.SchedulerUtil;
-import com.SirBlobman.combatlogx.utility.UpdateUtil;
-import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.combatlogx.utility.*;
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.command.TabCompleter;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
+import java.lang.reflect.Constructor;
 
 public class CombatLogX extends JavaPlugin {
     public static CombatLogX INSTANCE;
@@ -86,8 +82,16 @@ public class CombatLogX extends JavaPlugin {
     			forceRegisterCommand(name, clazz);
     			return;
     		}
-    		
-    		CommandExecutor executor = clazz.getDeclaredConstructor().newInstance();
+
+			Constructor<? extends CommandExecutor> constructor;
+    		CommandExecutor executor;
+    		try {
+    			 constructor = clazz.getDeclaredConstructor();
+    			 executor = constructor.newInstance();
+			} catch(ReflectiveOperationException ex) {
+    			constructor = clazz.getDeclaredConstructor(CombatLogX.class);
+    			executor = constructor.newInstance(this);
+			}
     		command.setExecutor(executor);
 
     		if(executor instanceof TabCompleter) {
@@ -107,7 +111,16 @@ public class CombatLogX extends JavaPlugin {
     
     public void forceRegisterCommand(String commandName, Class<? extends CommandExecutor> clazz) {
     	try {
-    		CommandExecutor executor = clazz.getDeclaredConstructor().newInstance();
+			Constructor<? extends CommandExecutor> constructor;
+			CommandExecutor executor;
+			try {
+				constructor = clazz.getDeclaredConstructor();
+				executor = constructor.newInstance();
+			} catch(ReflectiveOperationException ex) {
+				constructor = clazz.getDeclaredConstructor(CombatLogX.class);
+				executor = constructor.newInstance(this);
+			}
+
         	CustomCommand command = new CustomCommand(commandName, executor);
         	Bukkit.getPluginManager().registerEvents(command, this);
         	
@@ -123,7 +136,16 @@ public class CombatLogX extends JavaPlugin {
     
     public void forceRegisterCommand(String commandName, Class<? extends CommandExecutor> clazz, String description, String usage, String... aliases) {
     	try {
-    		CommandExecutor executor = clazz.getDeclaredConstructor().newInstance();
+			Constructor<? extends CommandExecutor> constructor;
+			CommandExecutor executor;
+			try {
+				constructor = clazz.getDeclaredConstructor();
+				executor = constructor.newInstance();
+			} catch(ReflectiveOperationException ex) {
+				constructor = clazz.getDeclaredConstructor(CombatLogX.class);
+				executor = constructor.newInstance(this);
+			}
+
         	CustomCommand command = new CustomCommand(commandName, executor, description, usage, aliases);
         	Bukkit.getPluginManager().registerEvents(command, this);
         	

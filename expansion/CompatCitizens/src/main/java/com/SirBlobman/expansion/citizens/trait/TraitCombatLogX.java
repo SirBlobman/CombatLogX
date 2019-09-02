@@ -31,7 +31,7 @@ public class TraitCombatLogX extends Trait {
     public static void onDisable() {
         NPCRegistry registry = CitizensAPI.getNPCRegistry();
         for(NPC npc : registry) {
-            if(!ListenHandleNPCs.isValid(npc)) continue;
+            if(ListenHandleNPCs.isInvalid(npc)) continue;
             npc.destroy();
         }
         
