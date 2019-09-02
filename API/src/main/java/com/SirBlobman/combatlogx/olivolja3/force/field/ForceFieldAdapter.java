@@ -31,10 +31,10 @@ public class ForceFieldAdapter extends PacketAdapter {
 
         UUID uuid = player.getUniqueId();
         PacketContainer packet = e.getPacket();
-        World world = player.getWorld();
+        player.getWorld()
 
         WrapperPlayServerBlockChange block = new WrapperPlayServerBlockChange(packet);
-        Location location = packet.getBlockPositionModifier().read(0).toLocation(world);
+        Location location = packet.getBlockPositionModifier().read(0).toLocation(player.getWorld());
         if(this.forceField.fakeBlocks.containsKey(uuid) && this.forceField.isSafe(location, player) && this.forceField.isSafeSurround(location, player) && this.forceField.canPlace(location) && this.forceField.fakeBlocks.get(uuid).contains(location)) {
             block.setBlockData(this.forceField.wrappedData(block.getBlockData()));
         }

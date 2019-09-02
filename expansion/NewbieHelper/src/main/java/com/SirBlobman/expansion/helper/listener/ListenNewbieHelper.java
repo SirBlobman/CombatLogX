@@ -37,7 +37,8 @@ public class ListenNewbieHelper implements Listener {
 			long systemMillis = System.currentTimeMillis();
 			long firstPlayed = damaged.getFirstPlayed();
 			long subtract = (systemMillis - firstPlayed);
-			if(subtract >= ConfigNewbie.getOption("expire time", 30_000)) {
+			int expireTime = ConfigNewbie.getOption("expire time", 30_000);
+			if(subtract >= expireTime) {
 				String message = ConfigLang.getWithPrefix("messages.expansions.newbie helper.disabled.expired");
 				Util.sendMessage(damaged, message);
 				ConfigNewbie.setData(damager, "protected", false);
