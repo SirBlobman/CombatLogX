@@ -47,7 +47,7 @@ public class ConfigOptions extends Config {
         
         OPTION_CHECK_FOR_UPDATES = get(config, "options.check for updates", true);
 
-        OPTION_DISABLED_WORLDS = Util.toLowercaseList(get(config, "options.disabled worlds", Util.newList("world1", "world2")));
+        OPTION_DISABLED_WORLDS = get(config, "options.disabled worlds", Util.newList("world1", "wOrLd2"));
 
         OPTION_BROADCAST_ENABLE_MESSAGE = get(config, "options.broadcasts.on enable", true);
         OPTION_BROADCAST_ENABLE_MESSAGE = get(config, "options.broadcasts.on disable", true);

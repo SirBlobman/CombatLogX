@@ -37,6 +37,10 @@ public abstract class ForceField implements Listener {
         this.expansion = expansion;
     }
 
+    public final NoEntryExpansion getExpansion() {
+        return this.expansion;
+    }
+
     public void unregisterProtocol() {
         if(!PluginUtil.isEnabled("ProtocolLib")) return;
 
@@ -50,9 +54,16 @@ public abstract class ForceField implements Listener {
         manager.addPacketListener(adapter);
     }
 
+    @SuppressWarnings("deprecation")
     WrappedBlockData wrappedData(WrappedBlockData data) {
-        data.setType(getForceFieldMaterial());
-        if(NMS_Handler.getMinorVersion() < 13) data.setData(getForceFieldMaterialData());
+        Material type = getForceFieldMaterial();
+        data.setType(type);
+
+        if(NMS_Handler.getMinorVersion() < 13) {
+            int typeData = getForceFieldMaterialData();
+            data.setData(typeData);
+        }
+
         return data;
     }
 
@@ -147,19 +158,19 @@ public abstract class ForceField implements Listener {
         for(Location location : locations) resetBlock(player, location);
     }
 
-    public static boolean canPlace(Location location) {
+    static boolean canPlace(Location location) {
         Block block = location.getBlock();
         Material type = block.getType();
         return (type == Material.AIR || !type.isSolid());
     }
 
-    public boolean isSafeSurround(Location location, Player player, PlayerTagEvent.TagType tagType) {
+    private boolean isSafeSurround(Location location, Player player, PlayerTagEvent.TagType tagType) {
         Set<BlockFace> faces = new HashSet<>(Arrays.asList(BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.WEST, BlockFace.EAST));
         for(BlockFace face : faces) { if(!isSafe(location.getBlock().getRelative(face).getLocation(), player, tagType)) return true; }
         return false;
     }
 
-    public boolean isSafeSurround(Location location, Player player) {
+    boolean isSafeSurround(Location location, Player player) {
         LivingEntity enemy = CombatUtil.getEnemy(player);
         PlayerTagEvent.TagType tagType = (enemy == null ? PlayerTagEvent.TagType.UNKNOWN : (enemy instanceof Player ? PlayerTagEvent.TagType.PLAYER : PlayerTagEvent.TagType.MOB));
         return isSafeSurround(location, player, tagType);
@@ -187,6 +198,8 @@ public abstract class ForceField implements Listener {
 
         Location toLoc = e.getTo();
         Location fromLoc = e.getFrom();
+        if(toLoc == null) return;
+
         if(toLoc.getBlock().equals(fromLoc.getBlock())) return;
         if(isSafe(toLoc, player)) return;
 

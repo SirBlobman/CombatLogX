@@ -20,7 +20,7 @@
 	</parent>
 
 	<dependencies>
-		<!-- Spigot and Bukkit 1.13.2 -->
+		<!-- Spigot API and NMS -->
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
@@ -28,20 +28,8 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.bukkit</groupId>
-			<artifactId>bukkit</artifactId>
-			<version>${bukkit.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot</artifactId>
-			<version>${bukkit.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.bukkit</groupId>
-			<artifactId>craftbukkit</artifactId>
 			<version>${bukkit.version}</version>
 			<scope>provided</scope>
 		</dependency>

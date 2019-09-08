@@ -1,8 +1,11 @@
 package com.SirBlobman.combatlogx.listener;
 
-import java.util.List;
-import java.util.UUID;
-
+import com.SirBlobman.combatlogx.config.ConfigOptions;
+import com.SirBlobman.combatlogx.event.PlayerPreTagEvent;
+import com.SirBlobman.combatlogx.event.PlayerTagEvent;
+import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagType;
+import com.SirBlobman.combatlogx.event.PlayerUntagEvent.UntagReason;
+import com.SirBlobman.combatlogx.utility.CombatUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
@@ -15,12 +18,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
-import com.SirBlobman.combatlogx.config.ConfigOptions;
-import com.SirBlobman.combatlogx.event.PlayerPreTagEvent;
-import com.SirBlobman.combatlogx.event.PlayerTagEvent;
-import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagType;
-import com.SirBlobman.combatlogx.event.PlayerUntagEvent.UntagReason;
-import com.SirBlobman.combatlogx.utility.CombatUtil;
+import java.util.List;
+import java.util.UUID;
 
 public class CombatListener implements Listener {
 	@EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
@@ -61,10 +60,7 @@ public class CombatListener implements Listener {
 			LivingEntity enemy = e.getEnemy();
 			UUID enemyId = enemy.getUniqueId();
 			UUID playerId = player.getUniqueId();
-			if(playerId.equals(enemyId)) {
-				e.setCancelled(true);
-				return;
-			}
+			if(playerId.equals(enemyId)) e.setCancelled(true);
 		}
 	}
 
@@ -101,9 +97,7 @@ public class CombatListener implements Listener {
 				player.setOp(true);
 				try {player.performCommand(command);}
 				catch(Exception error) {error.printStackTrace();}
-
 				player.setOp(false);
-				continue;
 			}
 		}
 	}
@@ -125,9 +119,10 @@ public class CombatListener implements Listener {
 		LivingEntity enemy = e.getEntity();
 		
 		OfflinePlayer offline = CombatUtil.getByEnemy(enemy);
-		if(offline == null || !offline.isOnline()) return;
-		
+		if(offline == null) return;
+
 		Player player = offline.getPlayer();
+		if(player == null) return;
 		if(!CombatUtil.isInCombat(player)) return;
 		
 		CombatUtil.untag(player, UntagReason.EXPIRE_ENEMY_DEATH);

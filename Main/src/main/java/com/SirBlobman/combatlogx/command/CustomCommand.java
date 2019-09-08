@@ -1,7 +1,6 @@
 package com.SirBlobman.combatlogx.command;
 
-import java.util.Arrays;
-
+import com.SirBlobman.combatlogx.utility.Util;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,7 +10,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-import com.SirBlobman.combatlogx.utility.Util;
+import java.util.Arrays;
 
 public class CustomCommand extends Command implements Listener {
 	private final CommandExecutor executor;
@@ -41,6 +40,8 @@ public class CustomCommand extends Command implements Listener {
 		String commandName = split[0];
 		if(commandName.startsWith("/")) commandName = commandName.substring(1);
 		if(commandName.equals(this.getName()) || this.getAliases().contains(commandName)) {
+			e.setCancelled(true);
+
 			String[] args = split.length > 1 ? Arrays.copyOfRange(split, 1, split.length) : new String[0];
 			execute(player, commandName, args);
 		}
