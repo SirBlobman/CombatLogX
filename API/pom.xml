@@ -38,7 +38,7 @@
 		<dependency>
 			<groupId>com.SirBlobman.api</groupId>
 			<artifactId>SirBlobmanAPI</artifactId>
-			<version>1.6</version>
+			<version>1.8</version>
 			<scope>compile</scope>
 		</dependency>
 		

@@ -15,9 +15,9 @@ import com.SirBlobman.expansion.cheatprevention.config.ConfigCheatPrevention;
 import java.util.List;
 import java.util.UUID;
 
-@SuppressWarnings("deprecation")
 public class ListenOldItemPickup implements Listener {
     @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
+    @SuppressWarnings("deprecation")
     public void onPickupItem(PlayerPickupItemEvent e) {
         if(ConfigCheatPrevention.ITEM_PICK_UP_DURING_COMBAT) return;
         

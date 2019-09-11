@@ -25,7 +25,7 @@ public class Rewards implements CLXExpansion, Listener {
     }
 
     public String getVersion() {
-        return "14.4";
+        return "14.5";
     }
 
     @Override
@@ -37,7 +37,7 @@ public class Rewards implements CLXExpansion, Listener {
 
     @Override
     public void disable() {
-
+        // Do Nothing
     }
 
     @Override
@@ -61,7 +61,7 @@ public class Rewards implements CLXExpansion, Listener {
         SchedulerUtil.runNowAsync(() -> {
             List<Reward> rewardList = ConfigRewards.getRewards(false);
             for(Reward reward : rewardList) {
-                if(!reward.canTriggerReward(killer, killed)) continue;
+                if(reward.failsRewardTrigger(killer, killed)) continue;
                 reward.triggerReward(killer, killed);
             }
         });

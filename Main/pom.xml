@@ -51,6 +51,21 @@
 				<version>3.2.1</version>
 				<configuration>
 					<createDependencyReducedPom>false</createDependencyReducedPom>
+					<relocations>
+						<relocation>
+							<pattern>com.SirBlobman.api</pattern>
+							<shadedPattern>com.SirBlobman.combatlogx.api</shadedPattern>
+						</relocation>
+					</relocations>
+					<filters>
+						<filter>
+							<artifact>com.SirBlobman.combatlogx:CombatLogX-API</artifact>
+							<excludes>
+								<exclude>com/SirBlobman/combatlogx/config/**</exclude>
+								<exclude>com/SirBlobman/combatlogx/CombatLogX.class</exclude>
+							</excludes>
+						</filter>
+					</filters>
 				</configuration>
 				<executions>
 					<execution>

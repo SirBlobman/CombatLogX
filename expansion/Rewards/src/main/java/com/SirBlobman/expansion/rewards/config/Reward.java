@@ -1,5 +1,8 @@
 package com.SirBlobman.expansion.rewards.config;
 
+import com.SirBlobman.combatlogx.utility.SchedulerUtil;
+import com.SirBlobman.combatlogx.utility.Util;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandException;
@@ -8,12 +11,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import com.SirBlobman.combatlogx.utility.SchedulerUtil;
-import com.SirBlobman.combatlogx.utility.Util;
-
 import java.util.List;
-
-import org.apache.commons.lang.Validate;
 
 public class Reward {
     private final List<String> validWorlds, validMobTypes, commands;
@@ -27,26 +25,26 @@ public class Reward {
         this.commands = commands;
     }
     
-    public boolean canTriggerReward(Player player, LivingEntity killed) {
-        if(player == null || killed == null) return false;
+    public boolean failsRewardTrigger(Player player, LivingEntity killed) {
+        if(player == null || killed == null) return true;
         
         if(!validWorlds.contains("*")) {
             World world = player.getWorld();
             String worldName = world.getName();
-            if(!validWorlds.contains(worldName)) return false;
+            if(!validWorlds.contains(worldName)) return true;
         }
         
         if(!validMobTypes.contains("*")) {
             EntityType mobType = killed.getType();
             String mobTypeString = mobType.name();
-            if(!validMobTypes.contains(mobTypeString)) return false;
+            return !validMobTypes.contains(mobTypeString);
         }
         
-        return true;
+        return false;
     }
     
     public void triggerReward(Player player, LivingEntity killed) {
-        if(!canTriggerReward(player, killed)) return;
+        if(failsRewardTrigger(player, killed)) return;
         
         CommandSender console = Bukkit.getConsoleSender();
         for(String command : this.commands) {
