@@ -46,6 +46,7 @@ public class ListenRedProtect implements Listener {
 
 		LivingEntity enemy = CombatUtil.getEnemy(player);
 		if(enemy == null) return;
+		if(!(enemy instanceof Player)) return;
 
 		Location toLoc = e.getTo();
 		Location fromLoc = e.getFrom();
