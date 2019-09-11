@@ -16,10 +16,10 @@
 	<description>Expansion for CombatLogX that adds many features related to WorldGuard</description>
 
 	<repositories>
+		<!-- WorldEdit and WorldGuard -->
 		<repository>
-			<id>maven-sk89q-com</id>
-			<name>WorldEdit and WorldGuard</name>
-			<url>http://maven.sk89q.com/repo/</url>
+			<id>maven.enginehub.org</id>
+			<url>https://maven.enginehub.org/repo/</url>
 		</repository>
 	</repositories>
 
@@ -50,8 +50,14 @@
 		<dependency>
 			<groupId>com.sk89q.worldguard</groupId>
 			<artifactId>worldguard-legacy</artifactId>
-			<version>6.1.2</version>
+			<version>6.1.2-SNAPSHOT</version>
 			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.bukkit</groupId>
+					<artifactId>bukkit</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- WorldGuard Compatibility Versions -->

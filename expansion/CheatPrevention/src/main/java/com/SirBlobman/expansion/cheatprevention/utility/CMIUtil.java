@@ -1,11 +1,10 @@
 package com.SirBlobman.expansion.cheatprevention.utility;
 
-import java.util.List;
-
 import com.SirBlobman.combatlogx.utility.Util;
-
 import com.Zrips.CMI.CMI;
 import com.Zrips.CMI.Containers.CommandAlias;
+
+import java.util.List;
 
 public class CMIUtil {
 	public static List<String> getAliases(String command) {

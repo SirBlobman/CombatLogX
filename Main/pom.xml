@@ -1,13 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<packaging>jar</packaging>
 
 	<name>CombatLogX Plugin</name>
 	<description>CombatLogX Main Plugin</description>
 	<artifactId>CombatLogX-Plugin</artifactId>
-	
+
 	<properties>
 		<bukkit.version>1.13.2-R0.1-SNAPSHOT</bukkit.version>
 	</properties>
@@ -33,7 +33,7 @@
 			<version>${bukkit.version}</version>
 			<scope>provided</scope>
 		</dependency>
-	
+
 		<!-- CombatLogX API -->
 		<dependency>
 			<groupId>com.SirBlobman.combatlogx</groupId>
@@ -45,12 +45,14 @@
 
 	<build>
 		<plugins>
+			<!-- Include Dependencies -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
 				<version>3.2.1</version>
 				<configuration>
 					<createDependencyReducedPom>false</createDependencyReducedPom>
+					<minimizeJar>true</minimizeJar>
 					<relocations>
 						<relocation>
 							<pattern>com.SirBlobman.api</pattern>

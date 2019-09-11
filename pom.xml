@@ -33,6 +33,7 @@
 		<module>Main</module>
 
 		<!-- Normal Expansions -->
+		<module>expansion/CheatPrevention/legacy</module>
 		<module>expansion/CheatPrevention</module>
 		<module>expansion/NotCombatLogX</module>
 		<module>expansion/Notifier</module>
@@ -63,6 +64,7 @@
 		</resources>
 
 		<plugins>
+			<!-- Remove META-INF Maven Information -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>

@@ -43,6 +43,10 @@
 					<groupId>org.spigotmc</groupId>
 					<artifactId>spigot</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>be.maximvdw</groupId>
+					<artifactId>MVdWUpdater</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 

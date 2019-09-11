@@ -23,19 +23,15 @@
     </repositories>
 
     <dependencies>
-    	<dependency>
-    		<groupId>org.spigotmc</groupId>
-    		<artifactId>spigot-api</artifactId>
-    		<version>1.14.4-R0.1-SNAPSHOT</version>
-    		<scope>provided</scope>
-    	</dependency>
-    
+        <!-- CombatLogX API -->
         <dependency>
             <groupId>com.SirBlobman.combatlogx</groupId>
             <artifactId>CombatLogX-API</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Citizens API -->
         <dependency>
             <groupId>net.citizensnpcs</groupId>
             <artifactId>citizensapi</artifactId>
@@ -43,11 +39,14 @@
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Sentinel -->
         <dependency>
             <groupId>org.mcmonkey</groupId>
             <artifactId>sentinel</artifactId>
-            <version>1.9.1</version>
+            <version>1.9.2</version>
             <scope>provided</scope>
+            <type>jar</type>
         </dependency>
     </dependencies>
 </project>

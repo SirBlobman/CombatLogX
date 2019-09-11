@@ -1,19 +1,12 @@
 package com.SirBlobman.expansion.cheatprevention;
 
-import java.io.File;
-
 import com.SirBlobman.api.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.expansion.cheatprevention.config.ConfigCheatPrevention;
-import com.SirBlobman.expansion.cheatprevention.listener.ListenCheatPrevention;
-import com.SirBlobman.expansion.cheatprevention.listener.ListenCommandBlocker;
-import com.SirBlobman.expansion.cheatprevention.listener.ListenElytra;
-import com.SirBlobman.expansion.cheatprevention.listener.ListenFlight;
-import com.SirBlobman.expansion.cheatprevention.listener.ListenNewItemPickup;
-import com.SirBlobman.expansion.cheatprevention.listener.ListenOldItemPickup;
-import com.SirBlobman.expansion.cheatprevention.listener.ListenRiptide;
-import com.SirBlobman.expansion.cheatprevention.listener.ListenTotem;
+import com.SirBlobman.expansion.cheatprevention.listener.*;
+
+import java.io.File;
 
 public class CheatPrevention implements CLXExpansion {
     public static File FOLDER;

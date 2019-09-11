@@ -1,18 +1,17 @@
 package com.SirBlobman.expansion.cheatprevention.config;
 
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
-
 import com.SirBlobman.combatlogx.config.Config;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.cheatprevention.CheatPrevention;
 import com.SirBlobman.expansion.cheatprevention.utility.CMIUtil;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import java.io.File;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class ConfigCheatPrevention extends Config {
 	private static File FOLDER = CheatPrevention.FOLDER;

@@ -27,9 +27,8 @@
   </build>
   <repositories>
     <repository>
-      <id>maven-sk89q-com</id>
-      <name>WorldEdit and WorldGuard</name>
-      <url>http://maven.sk89q.com/repo/</url>
+      <id>maven.enginehub.org</id>
+      <url>https://maven.enginehub.org/repo/</url>
     </repository>
   </repositories>
   <dependencies>
@@ -114,8 +113,46 @@
     <dependency>
       <groupId>com.sk89q.worldguard</groupId>
       <artifactId>worldguard-legacy</artifactId>
-      <version>6.1.2</version>
+      <version>6.1.2-SNAPSHOT</version>
       <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>bukkit</artifactId>
+          <groupId>org.bukkit</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>flyway-core</artifactId>
+          <groupId>org.flywaydb</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>opencsv</artifactId>
+          <groupId>net.sf.opencsv</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>squirrelid</artifactId>
+          <groupId>com.sk89q</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>commandbook</artifactId>
+          <groupId>com.sk89q</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>json-simple</artifactId>
+          <groupId>com.googlecode.json-simple</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>guavabackport</artifactId>
+          <groupId>com.sk89q</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>prtree</artifactId>
+          <groupId>org.khelekore</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>jsr305</artifactId>
+          <groupId>com.google.code.findbugs</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.SirBlobman.combatlogx</groupId>

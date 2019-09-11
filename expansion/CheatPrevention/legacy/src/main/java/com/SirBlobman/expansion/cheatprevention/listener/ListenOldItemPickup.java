@@ -17,7 +17,6 @@ import java.util.UUID;
 
 public class ListenOldItemPickup implements Listener {
     @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
-    @SuppressWarnings("deprecation")
     public void onPickupItem(PlayerPickupItemEvent e) {
         if(ConfigCheatPrevention.ITEM_PICK_UP_DURING_COMBAT) return;
         
