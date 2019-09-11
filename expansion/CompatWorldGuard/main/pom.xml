@@ -24,14 +24,6 @@
 	</repositories>
 
 	<dependencies>
-		<!-- Spigot API 1.14.4 -->
-		<dependency>
-			<groupId>org.spigotmc</groupId>
-			<artifactId>spigot-api</artifactId>
-			<version>1.14.4-R0.1-SNAPSHOT</version>
-			<scope>provided</scope>
-		</dependency>
-
 		<!-- WorldEdit 6.1.5 -->
 		<dependency>
 			<groupId>com.sk89q.worldedit</groupId>

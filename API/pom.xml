@@ -14,10 +14,6 @@
 		<version>9.0.0.0</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
-	
-	<properties>
-		<bukkit.version>1.14.4-R0.1-SNAPSHOT</bukkit.version>
-	</properties>
 
 	<repositories>
 		<!-- Spigot and Bukkit Repository -->
@@ -47,6 +43,7 @@
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
 			<version>${bukkit.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		
 		<!-- Spigot NMS -->
@@ -54,6 +51,7 @@
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot</artifactId>
 			<version>${bukkit.version}</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- ProtocolLib -->
@@ -64,4 +62,33 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- Include Dependencies -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.2.1</version>
+				<configuration>
+					<createDependencyReducedPom>false</createDependencyReducedPom>
+					<minimizeJar>true</minimizeJar>
+					<relocations>
+						<relocation>
+							<pattern>com.SirBlobman.api</pattern>
+							<shadedPattern>com.SirBlobman.combatlogx.api</shadedPattern>
+						</relocation>
+					</relocations>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

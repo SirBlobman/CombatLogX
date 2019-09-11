@@ -1,12 +1,12 @@
 package com.SirBlobman.expansion.towny;
 
-import java.io.File;
-
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.expansion.NoEntryExpansion;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.expansion.towny.config.ConfigTowny;
 import com.SirBlobman.expansion.towny.listener.ListenTowny;
+
+import java.io.File;
 
 public class CompatTowny extends NoEntryExpansion {
     public static File FOLDER;
@@ -20,7 +20,7 @@ public class CompatTowny extends NoEntryExpansion {
     }
 
     public String getVersion() {
-        return "14.4";
+        return "14.5";
     }
     
     @Override

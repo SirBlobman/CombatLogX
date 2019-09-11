@@ -8,10 +8,6 @@
 	<description>CombatLogX Main Plugin</description>
 	<artifactId>CombatLogX-Plugin</artifactId>
 
-	<properties>
-		<bukkit.version>1.13.2-R0.1-SNAPSHOT</bukkit.version>
-	</properties>
-
 	<parent>
 		<groupId>com.SirBlobman.combatlogx</groupId>
 		<artifactId>CombatLogX-parent</artifactId>
@@ -53,12 +49,6 @@
 				<configuration>
 					<createDependencyReducedPom>false</createDependencyReducedPom>
 					<minimizeJar>true</minimizeJar>
-					<relocations>
-						<relocation>
-							<pattern>com.SirBlobman.api</pattern>
-							<shadedPattern>com.SirBlobman.combatlogx.api</shadedPattern>
-						</relocation>
-					</relocations>
 					<filters>
 						<filter>
 							<artifact>com.SirBlobman.combatlogx:CombatLogX-API</artifact>

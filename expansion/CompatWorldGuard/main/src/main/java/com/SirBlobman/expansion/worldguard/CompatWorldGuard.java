@@ -1,8 +1,6 @@
 
 package com.SirBlobman.expansion.worldguard;
 
-import java.io.File;
-
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.expansion.Expansions;
 import com.SirBlobman.combatlogx.expansion.NoEntryExpansion;
@@ -11,6 +9,8 @@ import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.worldguard.config.ConfigWG;
 import com.SirBlobman.expansion.worldguard.listener.ListenWorldGuard;
 import com.SirBlobman.expansion.worldguard.utility.WGUtil;
+
+import java.io.File;
 
 public class CompatWorldGuard extends NoEntryExpansion {
     public static File FOLDER;
@@ -24,7 +24,7 @@ public class CompatWorldGuard extends NoEntryExpansion {
     }
     
     public String getVersion() {
-        return "14.12";
+        return "14.13";
     }
     
     @Override

@@ -1,9 +1,5 @@
 package com.SirBlobman.expansion.notifier;
 
-import java.io.File;
-
-import org.bukkit.Bukkit;
-
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.expansion.notifier.config.ConfigNotifier;
@@ -11,6 +7,9 @@ import com.SirBlobman.expansion.notifier.listener.ListenNotifier;
 import com.SirBlobman.expansion.notifier.utility.ActionBarUtil;
 import com.SirBlobman.expansion.notifier.utility.BossBarUtil;
 import com.SirBlobman.expansion.notifier.utility.ScoreboardUtil;
+import org.bukkit.Bukkit;
+
+import java.io.File;
 
 public class Notifier implements CLXExpansion {
     public static File FOLDER;
@@ -20,7 +19,7 @@ public class Notifier implements CLXExpansion {
     }
     
     public String getVersion() {
-        return "14.7";
+        return "14.8";
     }
     
     @Override

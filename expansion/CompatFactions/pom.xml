@@ -23,10 +23,28 @@
 	</repositories>
 
 	<dependencies>
+		<!-- CombatLogX API -->
 		<dependency>
 			<groupId>com.SirBlobman.combatlogx</groupId>
 			<artifactId>CombatLogX-API</artifactId>
 			<version>9.0.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Spigot API -->
+		<dependency>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot-api</artifactId>
+			<version>${bukkit.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Spigot NMS -->
+		<dependency>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot</artifactId>
+			<version>${bukkit.version}</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- SavageFactions -->

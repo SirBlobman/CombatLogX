@@ -1,13 +1,13 @@
 package com.SirBlobman.expansion.helper;
 
-import java.io.File;
-
 import com.SirBlobman.combatlogx.CombatLogX;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.expansion.helper.command.CommandTogglePVP;
 import com.SirBlobman.expansion.helper.config.ConfigNewbie;
 import com.SirBlobman.expansion.helper.listener.ListenNewbieHelper;
+
+import java.io.File;
 
 public class NewbieHelper implements CLXExpansion {
 	public static File FOLDER;
@@ -24,7 +24,7 @@ public class NewbieHelper implements CLXExpansion {
 
 	@Override
 	public String getVersion() {
-		return "14.3";
+		return "14.4";
 	}
 	
 

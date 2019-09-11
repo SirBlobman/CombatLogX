@@ -1,12 +1,12 @@
 package com.SirBlobman.expansion.redprotect;
 
-import java.io.File;
-
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.expansion.NoEntryExpansion;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.expansion.redprotect.config.ConfigRedProtect;
 import com.SirBlobman.expansion.redprotect.listener.ListenRedProtect;
+
+import java.io.File;
 
 public class CompatRedProtect extends NoEntryExpansion {
 	public static File FOLDER;
@@ -23,7 +23,7 @@ public class CompatRedProtect extends NoEntryExpansion {
 
 	@Override
 	public String getVersion() {
-		return "14.3";
+		return "14.4";
 	}
 
 	@Override

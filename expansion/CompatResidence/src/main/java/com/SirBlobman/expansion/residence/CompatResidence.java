@@ -1,18 +1,18 @@
 package com.SirBlobman.expansion.residence;
 
-import java.io.File;
-
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.expansion.NoEntryExpansion;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.expansion.residence.config.ConfigResidence;
 import com.SirBlobman.expansion.residence.listener.ListenResidence;
 
+import java.io.File;
+
 public class CompatResidence extends NoEntryExpansion {
     public static File FOLDER;
     public String getUnlocalizedName() {return "CompatResidence";}
     public String getName() {return "Residence Compatibility";}
-    public String getVersion() {return "14.5";}
+    public String getVersion() {return "14.6";}
     
     @Override
     public boolean canEnable() {

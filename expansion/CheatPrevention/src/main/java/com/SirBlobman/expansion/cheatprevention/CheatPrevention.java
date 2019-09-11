@@ -20,7 +20,7 @@ public class CheatPrevention implements CLXExpansion {
     }
     
     public String getVersion() {
-        return "14.11";
+        return "14.12";
     }
     
     @Override

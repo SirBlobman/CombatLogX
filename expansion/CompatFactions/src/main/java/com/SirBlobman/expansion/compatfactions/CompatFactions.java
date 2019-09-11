@@ -1,7 +1,5 @@
 package com.SirBlobman.expansion.compatfactions;
 
-import java.io.File;
-
 import com.SirBlobman.combatlogx.config.ConfigLang;
 import com.SirBlobman.combatlogx.expansion.NoEntryExpansion;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
@@ -9,12 +7,14 @@ import com.SirBlobman.expansion.compatfactions.config.ConfigFactions;
 import com.SirBlobman.expansion.compatfactions.listener.ListenFactions;
 import com.SirBlobman.expansion.compatfactions.utility.FactionsUtil;
 
+import java.io.File;
+
 public class CompatFactions extends NoEntryExpansion {
     public static File FOLDER;
     private static FactionsUtil FUTIL;
 
     public String getVersion() {
-        return "14.4";
+        return "14.5";
     }
 
     public String getUnlocalizedName() {
