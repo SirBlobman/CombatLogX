@@ -1,16 +1,14 @@
-package com.SirBlobman.expansion.notifier.utility;
+package com.SirBlobman.expansion.notifier.hook;
 
-import java.util.List;
-import java.util.UUID;
-
+import be.maximvdw.placeholderapi.EventAPI;
+import com.SirBlobman.combatlogx.utility.Util;
+import com.SirBlobman.expansion.notifier.config.ConfigNotifier;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import com.SirBlobman.combatlogx.utility.Util;
-import com.SirBlobman.expansion.notifier.config.ConfigNotifier;
-
-import be.maximvdw.placeholderapi.EventAPI;
+import java.util.List;
+import java.util.UUID;
 
 public class MVDWUtil extends Util {
 	private static List<UUID> HAS_SCOREBOARD = newList();

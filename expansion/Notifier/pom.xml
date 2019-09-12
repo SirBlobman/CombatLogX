@@ -17,9 +17,12 @@
 	
 	<repositories>
 		<repository>
-			<id>mvdw-software</id>
-			<name>MVdW Public Repositories</name>
+			<id>repo.mvdw-software.com</id>
 			<url>http://repo.mvdw-software.com/content/groups/public/</url>
+		</repository>
+		<repository>
+			<id>repo.puha.io</id>
+			<url>http://repo.puha.io/repo/</url>
 		</repository>
 	</repositories>
 
@@ -28,6 +31,14 @@
 		<dependency>
 			<groupId>com.SirBlobman.combatlogx</groupId>
 			<artifactId>CombatLogX-API</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- CombatLogX Expansion: Placeholder Compatibility -->
+		<dependency>
+			<groupId>com.SirBlobman.combatlogx</groupId>
+			<artifactId>exp-CompatPlaceholders</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -66,11 +77,11 @@
 			</exclusions>
 		</dependency>
 
-		<!-- CombatLogX Expansion: Placeholder Compatibility -->
+		<!-- TitleManager API -->
 		<dependency>
-			<groupId>com.SirBlobman.combatlogx</groupId>
-			<artifactId>exp-CompatPlaceholders</artifactId>
-			<version>${project.version}</version>
+			<groupId>io.puharesource.mc</groupId>
+			<artifactId>TitleManager</artifactId>
+			<version>2.0.0</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>

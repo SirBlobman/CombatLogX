@@ -1,4 +1,4 @@
-package com.SirBlobman.expansion.notifier.utility;
+package com.SirBlobman.expansion.notifier.hook;
 
 import org.bukkit.entity.Player;
 

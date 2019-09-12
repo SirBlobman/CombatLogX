@@ -57,6 +57,17 @@ score board:
   - "&f&lIn Combat? &7{in_combat}"
   - "&f&lCombat Status: &7{status}"
 
+  title manager:
+    # Should the Title Manager scoreboard be removed when the CombatLogX scoreboard is triggered?
+    #
+    # Default: true
+    disable: true
+
+    # Should the Title Manager scoreboard be restored when the CombatLogX scoreboard is un-triggered?
+    #
+    # Default: true
+    restore: true
+
   featherboard:
     # Set this to true if you have FeatherBoard installed
     # Otherwise a custom scoreboard will be used

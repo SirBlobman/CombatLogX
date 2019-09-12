@@ -48,7 +48,6 @@
 				<version>3.2.1</version>
 				<configuration>
 					<createDependencyReducedPom>false</createDependencyReducedPom>
-					<minimizeJar>true</minimizeJar>
 					<filters>
 						<filter>
 							<artifact>com.SirBlobman.combatlogx:CombatLogX-API</artifact>

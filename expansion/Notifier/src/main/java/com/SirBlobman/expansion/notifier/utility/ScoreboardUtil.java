@@ -1,21 +1,17 @@
 package com.SirBlobman.expansion.notifier.utility;
 
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Score;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
-
 import com.SirBlobman.api.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.expansion.Expansions;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.notifier.config.ConfigNotifier;
+import com.SirBlobman.expansion.notifier.hook.PlaceholderHandler;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.*;
+
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class ScoreboardUtil extends Util {
 	private static final List<UUID> DISABLED_PLAYERS = Util.newList();

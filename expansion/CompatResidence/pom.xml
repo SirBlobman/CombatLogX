@@ -46,6 +46,7 @@
 			<groupId>com.bekvon.bukkit</groupId>
 			<artifactId>Residence</artifactId>
 			<version>4.8.6.6</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

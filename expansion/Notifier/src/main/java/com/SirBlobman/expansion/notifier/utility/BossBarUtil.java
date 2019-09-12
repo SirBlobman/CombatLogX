@@ -1,5 +1,6 @@
 package com.SirBlobman.expansion.notifier.utility;
 
+import com.SirBlobman.expansion.notifier.hook.PlaceholderHandler;
 import org.bukkit.entity.Player;
 
 import com.SirBlobman.api.nms.NMS_Handler;

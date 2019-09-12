@@ -53,6 +53,9 @@ public class ConfigNotifier extends Config {
     public static boolean SCORE_BOARD_USE_FEATHERBOARD;
     public static String SCORE_BOARD_FEATHERBOARD_NAME;
 
+    public static boolean SCORE_BOARD_TITLE_MANAGER_DISABLE;
+    public static boolean SCORE_BOARD_TITLE_MANAGER_RESTORE;
+
     private static void defaults() {
         ACTION_BAR_ENABLED = get(config, "action bar.enabled", true);
         ACTION_BAR_FORMAT = get(config, "action bar.format", "&3&lCombat &7>> {bars_left}{bars_right} &2{time_left} seconds.");
@@ -71,5 +74,8 @@ public class ConfigNotifier extends Config {
         
         SCORE_BOARD_USE_FEATHERBOARD = get(config, "score board.featherboard.use", false);
         SCORE_BOARD_FEATHERBOARD_NAME = get(config, "score board.featherboard.board", "combatlogx");
+
+        SCORE_BOARD_TITLE_MANAGER_DISABLE = get(config, "score board.title manager.disable", true);
+        SCORE_BOARD_TITLE_MANAGER_RESTORE = get(config, "score board.title manager.restore", true);
     }
 }
