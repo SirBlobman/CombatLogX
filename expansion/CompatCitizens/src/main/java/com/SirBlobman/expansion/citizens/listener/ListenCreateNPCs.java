@@ -1,5 +1,7 @@
 package com.SirBlobman.expansion.citizens.listener;
 
+import java.util.List;
+
 import com.SirBlobman.api.nms.NMS_Handler;
 import com.SirBlobman.api.utility.ItemUtil;
 import com.SirBlobman.combatlogx.event.PlayerPunishEvent;
@@ -11,11 +13,7 @@ import com.SirBlobman.expansion.citizens.config.ConfigCitizens;
 import com.SirBlobman.expansion.citizens.config.ConfigData;
 import com.SirBlobman.expansion.citizens.trait.TraitCombatLogX;
 import com.SirBlobman.expansion.citizens.utility.SentinelUtil;
-import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.npc.NPC;
-import net.citizensnpcs.api.npc.NPCRegistry;
-import net.citizensnpcs.api.trait.trait.Equipment;
-import net.citizensnpcs.api.trait.trait.Owner;
+
 import org.bukkit.Location;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -24,7 +22,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import java.util.List;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.npc.NPCRegistry;
+import net.citizensnpcs.api.trait.trait.Equipment;
+import net.citizensnpcs.api.trait.trait.Owner;
 
 public class ListenCreateNPCs implements Listener {
     private final CompatCitizens expansion;
@@ -123,7 +125,7 @@ public class ListenCreateNPCs implements Listener {
         for(Entity nearby : nearbyList) {
             if(!(nearby instanceof Monster)) continue;
 
-            Monster monster = (Monster) entity;
+            Monster monster = (Monster) nearby;
             monster.setTarget(npcLiving);
         }
     }

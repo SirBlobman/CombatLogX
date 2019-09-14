@@ -23,7 +23,7 @@
 		<!-- patch will change when I make small changes -->
 		<!-- minor will change when I add a new expansion (or big changes) -->
 		<!-- major will change when I modify the API or make a lot of changes -->
-		<combatlogx.version>9.9.1.3</combatlogx.version>
+		<combatlogx.version>9.9.1.4</combatlogx.version>
 	</properties>
 
 	<modules>

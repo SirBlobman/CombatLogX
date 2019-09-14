@@ -1,5 +1,7 @@
 package com.SirBlobman.expansion.citizens;
 
+import java.io.File;
+
 import com.SirBlobman.api.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.expansion.Expansions;
@@ -10,8 +12,6 @@ import com.SirBlobman.expansion.citizens.listener.ListenHandleNPCs;
 import com.SirBlobman.expansion.citizens.listener.ListenPlayerJoin;
 import com.SirBlobman.expansion.citizens.listener.ListenTotemNPC;
 import com.SirBlobman.expansion.citizens.trait.TraitCombatLogX;
-
-import java.io.File;
 
 public class CompatCitizens implements CLXExpansion {
     public static File FOLDER;
@@ -25,7 +25,7 @@ public class CompatCitizens implements CLXExpansion {
     }
     
     public String getVersion() {
-        return "14.24";
+        return "14.25";
     }
     
     @Override
