@@ -3,31 +3,7 @@ package com.SirBlobman.expansion.cheatprevention.listener;
 import java.util.List;
 import java.util.UUID;
 
-import org.bukkit.GameMode;
-import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerGameModeChangeEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryView;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.RegisteredListener;
-import org.bukkit.potion.PotionEffectType;
-
 import com.SirBlobman.combatlogx.config.ConfigLang;
-import com.SirBlobman.combatlogx.config.ConfigOptions;
 import com.SirBlobman.combatlogx.event.PlayerCombatTimerChangeEvent;
 import com.SirBlobman.combatlogx.event.PlayerTagEvent;
 import com.SirBlobman.combatlogx.event.PlayerTagEvent.TagReason;
@@ -36,6 +12,23 @@ import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.SchedulerUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.cheatprevention.config.ConfigCheatPrevention;
+
+import org.bukkit.GameMode;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.player.*;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
+import org.bukkit.potion.PotionEffectType;
 
 public class ListenCheatPrevention implements Listener {
     @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
@@ -90,7 +83,7 @@ public class ListenCheatPrevention implements Listener {
     }
     
     
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    @EventHandler(ignoreCancelled=true)
     public void onChangeGameMode(PlayerGameModeChangeEvent e) {
         Player player = e.getPlayer();
         if(!CombatUtil.isInCombat(player)) return;
@@ -108,7 +101,7 @@ public class ListenCheatPrevention implements Listener {
         Util.sendMessage(player, error);
     }
     
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    @EventHandler(ignoreCancelled=true)
     public void onTeleport(PlayerTeleportEvent e) {
         Player player = e.getPlayer();
         if(!CombatUtil.isInCombat(player)) return;
@@ -118,24 +111,6 @@ public class ListenCheatPrevention implements Listener {
             e.setCancelled(true);
             String error = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.teleport.other.not allowed");
             Util.sendMessage(player, error);
-            
-            SchedulerUtil.runLater(5L, () -> {
-                if(ConfigOptions.OPTION_DEBUG && !e.isCancelled()) {
-                    Util.debug("Event was cancelled, but maybe messed with. Check these other listener plugins for a reason why...");
-                    HandlerList handlerList = e.getHandlers();
-                    RegisteredListener[] listenerList = handlerList.getRegisteredListeners();
-                    for(RegisteredListener rl : listenerList) {
-                        Listener listener = rl.getListener();
-                        Class<?> lclass = listener.getClass();
-                        String className = lclass.getName();
-                        
-                        Plugin plugin = rl.getPlugin();
-                        String pluginName = plugin.getName();
-                        
-                        Util.debug("Listener Found: [" + pluginName + "] " + className);
-                    }
-                }
-            });
         }
         
         if(cause == TeleportCause.ENDER_PEARL && ConfigCheatPrevention.TELEPORTATION_ENDER_PEARLS_RESTART_TIMER) {
@@ -144,7 +119,7 @@ public class ListenCheatPrevention implements Listener {
         }
     }
     
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
     public void onTag(PlayerTagEvent e) {
         if(!ConfigCheatPrevention.INVENTORY_CLOSE_ON_COMBAT) return;
         
@@ -156,11 +131,13 @@ public class ListenCheatPrevention implements Listener {
         if(inventory == null) return;
         
         player.closeInventory();
+        Util.debug("Closed inventory with type '" + inventory.getClass().getName() + "' for player '" + player.getName() + "'.");
+
         String error = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.inventory.closed");
         Util.sendMessage(player, error);
     }
     
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    @EventHandler(ignoreCancelled=true)
     public void onOpenInventory(InventoryOpenEvent e) {
         if(!ConfigCheatPrevention.INVENTORY_PREVENT_OPENING) return;
         
@@ -175,7 +152,7 @@ public class ListenCheatPrevention implements Listener {
         Util.sendMessage(player, error);
     }
     
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    @EventHandler(ignoreCancelled=true)
     public void onChat(AsyncPlayerChatEvent e) {
         if(ConfigCheatPrevention.CHAT_ALLOW_DURING_COMBAT) return;
         
@@ -187,7 +164,7 @@ public class ListenCheatPrevention implements Listener {
         Util.sendMessage(player, error);
     }
     
-    @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
+    @EventHandler(ignoreCancelled=true)
     public void onPlaceBlock(BlockPlaceEvent e) {
         if(ConfigCheatPrevention.BLOCK_PLACING_DURING_COMBAT) return;
         
@@ -199,7 +176,7 @@ public class ListenCheatPrevention implements Listener {
         sendMessage(player, message);
     }
     
-    @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
+    @EventHandler(ignoreCancelled=true)
     public void onBreakBlock(BlockBreakEvent e) {
         if(ConfigCheatPrevention.BLOCK_BREAKING_DURING_COMBAT) return;
         
@@ -211,7 +188,7 @@ public class ListenCheatPrevention implements Listener {
         sendMessage(player, message);
     }
     
-    @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
+    @EventHandler(ignoreCancelled=true)
     public void onDropItem(PlayerDropItemEvent e) {
         if(ConfigCheatPrevention.ITEM_DROPPING_DURING_COMBAT) return;
         
@@ -223,8 +200,8 @@ public class ListenCheatPrevention implements Listener {
         sendMessage(player, message);
     }
     
-    @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
-    public void onInteract(PlayerInteractEntityEvent e) {
+    @EventHandler(ignoreCancelled=true)
+    public void onInteractWithEntity(PlayerInteractEntityEvent e) {
     	if(!ConfigCheatPrevention.ENTITY_PREVENT_INTERACTION) return;
     	
     	Player player = e.getPlayer();
@@ -233,6 +210,21 @@ public class ListenCheatPrevention implements Listener {
     	e.setCancelled(true);
     	String message = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.entities.interaction not allowed");
     	sendMessage(player, message);
+    }
+
+    @EventHandler(ignoreCancelled=true)
+    public void onInteractWithBlock(PlayerInteractEvent e) {
+        if(!ConfigCheatPrevention.PREVENT_BLOCK_RIGHT_CLICK) return;
+
+        Action action = e.getAction();
+        if(action != Action.RIGHT_CLICK_BLOCK) return;
+
+        Player player = e.getPlayer();
+        if(!CombatUtil.isInCombat(player)) return;
+
+        e.setCancelled(true);
+        String message = ConfigLang.getWithPrefix("messages.expansions.cheat prevention.blocks.interaction not allowed");
+        sendMessage(player, message);
     }
     
     private static final List<UUID> MESSAGE_COOLDOWN = Util.newList();

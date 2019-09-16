@@ -1,5 +1,8 @@
 package com.SirBlobman.combatlogx;
 
+import java.io.File;
+import java.lang.reflect.Constructor;
+
 import com.SirBlobman.combatlogx.command.CommandCombatLogX;
 import com.SirBlobman.combatlogx.command.CommandCombatTime;
 import com.SirBlobman.combatlogx.command.CustomCommand;
@@ -12,15 +15,13 @@ import com.SirBlobman.combatlogx.listener.CombatListener;
 import com.SirBlobman.combatlogx.listener.FinalMonitor;
 import com.SirBlobman.combatlogx.listener.PunishListener;
 import com.SirBlobman.combatlogx.utility.*;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.File;
-import java.lang.reflect.Constructor;
 
 public class CombatLogX extends JavaPlugin {
     public static CombatLogX INSTANCE;

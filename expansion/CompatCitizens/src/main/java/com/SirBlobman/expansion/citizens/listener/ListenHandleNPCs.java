@@ -1,17 +1,14 @@
 package com.SirBlobman.expansion.citizens.listener;
 
+import java.util.List;
+
 import com.SirBlobman.api.utility.ItemUtil;
 import com.SirBlobman.combatlogx.utility.SchedulerUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.citizens.config.ConfigCitizens;
 import com.SirBlobman.expansion.citizens.config.ConfigData;
 import com.SirBlobman.expansion.citizens.trait.TraitCombatLogX;
-import net.citizensnpcs.api.event.DespawnReason;
-import net.citizensnpcs.api.event.NPCDamageByEntityEvent;
-import net.citizensnpcs.api.event.NPCDeathEvent;
-import net.citizensnpcs.api.event.NPCDespawnEvent;
-import net.citizensnpcs.api.npc.NPC;
-import net.citizensnpcs.api.trait.trait.Equipment;
+
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
@@ -22,7 +19,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
+import net.citizensnpcs.api.event.DespawnReason;
+import net.citizensnpcs.api.event.NPCDamageByEntityEvent;
+import net.citizensnpcs.api.event.NPCDeathEvent;
+import net.citizensnpcs.api.event.NPCDespawnEvent;
+import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.trait.trait.Equipment;
 
 public class ListenHandleNPCs implements Listener {
     public static boolean isInvalid(NPC npc) {
@@ -80,7 +82,7 @@ public class ListenHandleNPCs implements Listener {
 
     private void checkLocation(OfflinePlayer owner, Entity npcEntity) {
         Location location = npcEntity.getLocation();
-        ConfigData.force(owner, "last lcoation", location);
+        ConfigData.force(owner, "last location", location);
     }
 
     private void checkInventory(OfflinePlayer owner, NPC npc) {

@@ -8,7 +8,7 @@ teleportation:
   # If the above option is true, these types of teleports won't be blocked
   # Valid Types can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/event/player/PlayerTeleportEvent.TeleportCause.html
   #
-  # Pro Tip: The 'PLUGIN' cause will allow all teleports from any plugin and command, so use it wisely!
+  # Tip: The 'PLUGIN' cause will allow all teleports from any plugin and command, so use it wisely!
   #
   # Default: false
   allowed causes:
@@ -104,6 +104,11 @@ blocks:
   # Set this to true to allow placing blocks during combat
   # Default: false
   allow placing: false
+
+  # Set this to true to prevent players from right-clicking any blocks during combat (e.g. doors, buttons, etc...)
+  #
+  # Default: true
+  prevent right-click: true
   
 items:
   # Set this to true to allow players to pick up items during combat

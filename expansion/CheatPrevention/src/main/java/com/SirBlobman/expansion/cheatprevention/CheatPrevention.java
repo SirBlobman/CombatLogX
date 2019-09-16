@@ -1,12 +1,12 @@
 package com.SirBlobman.expansion.cheatprevention;
 
+import java.io.File;
+
 import com.SirBlobman.api.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.expansion.cheatprevention.config.ConfigCheatPrevention;
 import com.SirBlobman.expansion.cheatprevention.listener.*;
-
-import java.io.File;
 
 public class CheatPrevention implements CLXExpansion {
     public static File FOLDER;
@@ -20,7 +20,7 @@ public class CheatPrevention implements CLXExpansion {
     }
     
     public String getVersion() {
-        return "14.12";
+        return "14.13";
     }
     
     @Override
