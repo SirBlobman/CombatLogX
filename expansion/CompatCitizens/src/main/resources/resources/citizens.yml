@@ -4,6 +4,10 @@ citizens:
   # Set this to true to cancel punishments from the main plugin (sudo commands, killing, etc...)
   # Default: true
   cancel other punishments: true
+
+  # This option will prevent players from being tagged by NPC entities
+  # Default: false
+  prevent npc tagging: false
   
   # Options related to the NPC that will spawn for each player
   npc:
