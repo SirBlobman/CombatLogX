@@ -37,6 +37,14 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- CombatLogX Expansion - Newbie Helper -->
+		<dependency>
+			<groupId>com.SirBlobman.combatlogx</groupId>
+			<artifactId>exp-NewbieHelper</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
 		<!-- Spigot API -->
 		<dependency>
 			<groupId>org.spigotmc</groupId>
@@ -61,12 +69,13 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- MVdWPlaceholderAPI -->
+		<!-- MVdW PlaceholderAPI -->
 		<dependency>
 			<groupId>be.maximvdw</groupId>
 			<artifactId>MVdWPlaceholderAPI</artifactId>
 			<version>3.0.1-SNAPSHOT</version>
 			<scope>provided</scope>
+
 			<exclusions>
 				<exclusion>
 					<groupId>org.spigotmc</groupId>

@@ -3,6 +3,9 @@ package com.SirBlobman.expansion.helper.command;
 import java.util.List;
 import java.util.UUID;
 
+import com.SirBlobman.combatlogx.config.ConfigLang;
+import com.SirBlobman.combatlogx.utility.Util;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,11 +16,14 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-import com.SirBlobman.combatlogx.config.ConfigLang;
-import com.SirBlobman.combatlogx.utility.Util;
-
 public class CommandTogglePVP implements CommandExecutor, Listener {
 	private static final List<UUID> NO_PVP = Util.newList();
+	static boolean isPVPEnabled(Player player) {
+		if(player == null) return true;
+
+		UUID uuid = player.getUniqueId();
+		return !NO_PVP.contains(uuid);
+	}
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -53,11 +59,7 @@ public class CommandTogglePVP implements CommandExecutor, Listener {
 		if(!(der instanceof Player) || !(ded instanceof Player)) return;
 		
 		Player damager = (Player) der;
-		Player damaged = (Player) ded;
-		
 		UUID damagerId = damager.getUniqueId();
-		UUID damagedId = damaged.getUniqueId();
-		
 		if(NO_PVP.contains(damagerId)) {
 			e.setCancelled(true);
 			
@@ -65,13 +67,14 @@ public class CommandTogglePVP implements CommandExecutor, Listener {
 			Util.sendMessage(damager, message);
 			return;
 		}
-		
+
+		Player damaged = (Player) ded;
+		UUID damagedId = damaged.getUniqueId();
 		if(NO_PVP.contains(damagedId)) {
 			e.setCancelled(true);
 			
 			String message = ConfigLang.getWithPrefix("messages.expansions.newbie helper.no pvp.other");
 			Util.sendMessage(damager, message);
-			return;
 		}
 	}
 }

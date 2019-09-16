@@ -1,13 +1,14 @@
 package com.SirBlobman.expansion.helper;
 
+import java.io.File;
+
 import com.SirBlobman.combatlogx.CombatLogX;
 import com.SirBlobman.combatlogx.expansion.CLXExpansion;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
+import com.SirBlobman.expansion.helper.command.CommandCheckPVP;
 import com.SirBlobman.expansion.helper.command.CommandTogglePVP;
 import com.SirBlobman.expansion.helper.config.ConfigNewbie;
 import com.SirBlobman.expansion.helper.listener.ListenNewbieHelper;
-
-import java.io.File;
 
 public class NewbieHelper implements CLXExpansion {
 	public static File FOLDER;
@@ -24,7 +25,7 @@ public class NewbieHelper implements CLXExpansion {
 
 	@Override
 	public String getVersion() {
-		return "14.4";
+		return "14.5";
 	}
 	
 
@@ -33,8 +34,10 @@ public class NewbieHelper implements CLXExpansion {
 		FOLDER = getDataFolder();
 		
 		ConfigNewbie.load();
-		
-		CombatLogX.INSTANCE.forceRegisterCommand("togglepvp", CommandTogglePVP.class, "Toggle your ability to pvp.", "/<command>", "pvptoggle");
+
+		CombatLogX plugin = CombatLogX.INSTANCE;
+		plugin.forceRegisterCommand("togglepvp", CommandTogglePVP.class, "Toggle your ability to pvp.", "/<command>", "pvptoggle");
+		plugin.forceRegisterCommand("checkpvp", CommandCheckPVP.class, "Check the pvp status of a player", "/<command> [player]", "pvpcheck");
 		PluginUtil.regEvents(new ListenNewbieHelper());
 	}
 

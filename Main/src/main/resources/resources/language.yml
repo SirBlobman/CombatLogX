@@ -150,6 +150,9 @@ messages:
         idling: "&aIdling"
         in combat: "&aYes"
         not in combat: "&cNo"
+      newbie helper:
+        in protection: "&aProtected"
+        not in protection: "&cNot Protected"
         
     citizens compatibility:
       kick message: "&cYou are not allowed to log back in until your clone is killed or removed."
@@ -164,3 +167,7 @@ messages:
       disabled:
         attacker: "You attacked someone so your newbie protection was disabled."
         expired: "Your newbie protection has expired."
+      check:
+        format: "&a{target} has pvp set to {setting}"
+        setting enabled: "&aON"
+        setting disabled: "&cOFF"
