@@ -80,7 +80,7 @@ public class ListenHandleNPCs implements Listener {
 
     private void checkLocation(OfflinePlayer owner, Entity npcEntity) {
         Location location = npcEntity.getLocation();
-        ConfigData.force(owner, "last lcoation", location);
+        ConfigData.force(owner, "last location", location);
     }
 
     private void checkInventory(OfflinePlayer owner, NPC npc) {
