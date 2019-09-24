@@ -1,14 +1,15 @@
 package com.SirBlobman.expansion.notifier.config;
 
+import java.io.File;
+import java.util.List;
+
 import com.SirBlobman.combatlogx.config.Config;
 import com.SirBlobman.combatlogx.utility.PluginUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.notifier.Notifier;
+
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
-
-import java.io.File;
-import java.util.List;
 
 public class ConfigNotifier extends Config {
     private static YamlConfiguration config = new YamlConfiguration();
@@ -56,6 +57,8 @@ public class ConfigNotifier extends Config {
     public static boolean SCORE_BOARD_TITLE_MANAGER_DISABLE;
     public static boolean SCORE_BOARD_TITLE_MANAGER_RESTORE;
 
+    public static boolean ANIMATED_NAMES_USE;
+
     private static void defaults() {
         ACTION_BAR_ENABLED = get(config, "action bar.enabled", true);
         ACTION_BAR_FORMAT = get(config, "action bar.format", "&3&lCombat &7>> {bars_left}{bars_right} &2{time_left} seconds.");
@@ -77,5 +80,7 @@ public class ConfigNotifier extends Config {
 
         SCORE_BOARD_TITLE_MANAGER_DISABLE = get(config, "score board.title manager.disable", true);
         SCORE_BOARD_TITLE_MANAGER_RESTORE = get(config, "score board.title manager.restore", true);
+
+        ANIMATED_NAMES_USE = get(config, "animatednames.use", false);
     }
 }

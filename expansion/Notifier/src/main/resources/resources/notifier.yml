@@ -47,15 +47,17 @@ score board:
   # These are the lines that show up on the scoreboard
   # The red numbers on the side cannot be changed or removed
   lines:
-  - "&f&lTime Left: &7{time_left}"
-  - " "
-  - "&f&lEnemy Name: &7{enemy_name}"
-  - "&f&lEnemy Health: &7{enemy_health}"
-  - "&f&lEnemy HealthR: &7{enemy_health_rounded}"
-  - "&f&lEnemy Hearts: &7{enemy_hearts}"
-  - "  "
-  - "&f&lIn Combat? &7{in_combat}"
-  - "&f&lCombat Status: &7{status}"
+  - "&f&lTime Left:"
+  - "  &7{time_left} seconds"
+  - "&f&lEnemy Name:"
+  - "  &7{enemy_name}"
+  - "&f&lEnemy Health:"
+  - "  &7{enemy_health} health"
+  - "  &7{enemy_health_rounded} rounded"
+  - "  &7{enemy_health_hearts}"
+  - "&f&lCombat Status:"
+  - "  &7{in_combat}"
+  - "  &7{status}"
 
   title manager:
     # Should the Title Manager scoreboard be removed when the CombatLogX scoreboard is triggered?
@@ -79,3 +81,10 @@ score board:
     # What is the name of the scoreboard you want to use?
     # Default: "combatlogx"
     board: "combatlogx"
+
+animatednames:
+  # Set this to true if you have AnimatedNames installed
+  # This will send a 'combatlogx' trigger to the plugin
+  #
+  # Default: false
+  use: false

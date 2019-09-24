@@ -1,7 +1,7 @@
 package com.SirBlobman.expansion.notifier.utility;
 
-import com.SirBlobman.expansion.notifier.hook.PlaceholderHandler;
-import org.bukkit.entity.Player;
+import java.util.List;
+import java.util.UUID;
 
 import com.SirBlobman.api.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.config.ConfigOptions;
@@ -10,9 +10,9 @@ import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.SirBlobman.combatlogx.utility.SchedulerUtil;
 import com.SirBlobman.combatlogx.utility.Util;
 import com.SirBlobman.expansion.notifier.config.ConfigNotifier;
+import com.SirBlobman.expansion.notifier.hook.PlaceholderHandler;
 
-import java.util.List;
-import java.util.UUID;
+import org.bukkit.entity.Player;
 
 public class BossBarUtil extends Util {
     private static final List<UUID> DISABLED_PLAYERS = Util.newList();
@@ -37,7 +37,8 @@ public class BossBarUtil extends Util {
     }
     
     public static void updateBossBar(Player player) {
-        if(DISABLED_PLAYERS.contains(player.getUniqueId())) return;
+        UUID uuid = player.getUniqueId();
+        if(DISABLED_PLAYERS.contains(uuid)) return;
         
         int timeLeftInt = CombatUtil.getTimeLeft(player);
         if (timeLeftInt <= 0) {
@@ -58,19 +59,41 @@ public class BossBarUtil extends Util {
         float progress = (fTimeLeft / fTotalTime);
         if (progress <= 0) progress = 0.0F;
         if (progress >= 1) progress = 1.0F;
-        
-        NMS_Handler.getHandler().sendNewBossBar(player, title, progress, ConfigNotifier.BOSS_BAR_COLOR, ConfigNotifier.BOSS_BAR_STYLE);
+
+        forceSendBossBar(player, title, progress);
     }
     
     public static void removeBossBar(Player player, boolean shuttingDown) {
-        if(!DISABLED_PLAYERS.contains(player.getUniqueId())) {
-            if (shuttingDown) {
-                NMS_Handler.getHandler().removeBossBar(player);
-            } else {
-                String title = color(ConfigNotifier.BOSS_BAR_NO_LONGER_IN_COMBAT);
-                NMS_Handler.getHandler().sendNewBossBar(player, title, 0.0D, ConfigNotifier.BOSS_BAR_COLOR, ConfigNotifier.BOSS_BAR_STYLE);
-                SchedulerUtil.runLaterSync(20L, () -> NMS_Handler.getHandler().removeBossBar(player));
-            }
+        UUID uuid = player.getUniqueId();
+        if(DISABLED_PLAYERS.contains(uuid)) return;
+
+        if(shuttingDown) {
+            forceRemoveBossBar(player);
+            return;
+        }
+
+        String title = color(ConfigNotifier.BOSS_BAR_NO_LONGER_IN_COMBAT);
+        forceSendBossBar(player, title, 0.0D);
+        SchedulerUtil.runLaterSync(20L, () -> forceRemoveBossBar(player));
+    }
+
+    private static void forceRemoveBossBar(Player player) {
+        try {
+            NMS_Handler nmsHandler = NMS_Handler.getHandler();
+            nmsHandler.removeBossBar(player);
+        } catch(Exception ex) {
+            Util.print("An error occurred while removing a boss bar.");
+            ex.printStackTrace();
+        }
+    }
+
+    private static void forceSendBossBar(Player player, String title, double progress) {
+        try {
+            NMS_Handler nmsHandler = NMS_Handler.getHandler();
+            nmsHandler.sendNewBossBar(player, title, progress, ConfigNotifier.BOSS_BAR_COLOR, ConfigNotifier.BOSS_BAR_STYLE);
+        } catch(Exception ex) {
+            Util.print("An error occurred while sending a boss bar.");
+            ex.printStackTrace();
         }
     }
 }

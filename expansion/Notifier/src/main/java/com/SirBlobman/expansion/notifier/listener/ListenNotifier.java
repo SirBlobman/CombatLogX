@@ -9,6 +9,7 @@ import com.SirBlobman.expansion.notifier.hook.TitleManagerUtil;
 import com.SirBlobman.expansion.notifier.utility.ActionBarUtil;
 import com.SirBlobman.expansion.notifier.utility.BossBarUtil;
 import com.SirBlobman.expansion.notifier.utility.ScoreboardUtil;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -39,6 +40,10 @@ public class ListenNotifier implements Listener {
 			
 			ScoreboardUtil.updateScoreBoard(player);
 		}
+
+		if(ConfigNotifier.ANIMATED_NAMES_USE) {
+			MVDWUtil.enableAnimatedNameTrigger(player);
+		}
 	}
 	
 	@EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
@@ -61,6 +66,10 @@ public class ListenNotifier implements Listener {
 					Bukkit.getScheduler().runTaskLater(CombatLogX.INSTANCE, task, 5L);
 				}
 			}
+		}
+
+		if(ConfigNotifier.ANIMATED_NAMES_USE) {
+			MVDWUtil.disableAnimatedNameTrigger(player);
 		}
 	}
 }
