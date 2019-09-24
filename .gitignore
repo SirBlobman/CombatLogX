@@ -1,20 +1,7 @@
-# Mac OSX
-*.DS_Store
-
-# Eclipse
-.settings/
-.externalToolBuilders/
-bin/
-*.project
-*.classpath
-
 # IntelliJ IDEA
 .idea/
 *.iml
 
 # Maven
 target/
-*dependency-reduced-pom.xml
-
-# Other
-wiki/
+dependency-reduced-pom.xml
