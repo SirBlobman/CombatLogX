@@ -1,4 +1,0 @@
-# How much time do players have before their newbie protection expires?
-# Time is in milliseconds
-# Default: 30000 (30 seconds)
-expire time: 30000
