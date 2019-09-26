@@ -16,7 +16,7 @@ public class ListenerPunishChecks implements Listener {
     }
 
     @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
-    public void onPunish(PlayerPunishEvent e) {
+    public void beforePunish(PlayerPunishEvent e) {
         FileConfiguration config = this.plugin.getConfig("config.yml");
         boolean punishOnQuit = config.getBoolean("punishments.on-quit");
         boolean punishOnKick = config.getBoolean("punishments.on-kick");

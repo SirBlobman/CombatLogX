@@ -10,8 +10,8 @@ import org.bukkit.entity.Player;
  */
 public class PlayerUntagEvent extends CustomPlayerEvent {
     public enum UntagReason {
-        /** The player waited patiently until they were no longer in combat */ EXPIRE,
-        /** The player's enemy died and the config option was enabled to untag them */ EXPIRE_ENEMY_DEATH,
+        /** The player waited patiently until they were no longer in combat */ EXPIRE(true),
+        /** The player's enemy died and the config option was enabled to untag them */ EXPIRE_ENEMY_DEATH(true),
         /** The player disconnected from the server */ QUIT,
         /** The player was kicked by a plugin or timed out */ KICK
         ;
