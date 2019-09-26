@@ -26,18 +26,16 @@
             <id>bungeecord-repo</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
+
+        <!-- ProtocolLib Repository -->
+        <repository>
+            <id>dmulloy2-repo</id>
+            <url>http://repo.dmulloy2.net/nexus/repository/public/</url>
+        </repository>
     </repositories>
     
     
     <dependencies>
-        <!-- Spigot API -->
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>${spigot.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        
         <!-- SirBlobman API -->
         <!-- Requires local installation -->
         <!-- https://www.github.com/SirBlobman/SirBlobmanAPI -->
@@ -46,6 +44,22 @@
             <artifactId>SirBlobmanAPI</artifactId>
             <version>1.9</version>
             <scope>compile</scope>
+        </dependency>
+
+        <!-- Spigot API -->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>${spigot.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- ProtocolLib API -->
+        <dependency>
+            <groupId>com.comphenix.protocol</groupId>
+            <artifactId>ProtocolLib-API</artifactId>
+            <version>4.4.0</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
     
@@ -61,7 +75,7 @@
                     <relocations>
                         <relocation>
                             <pattern>com.SirBlobman.api</pattern>
-                            <shadedPattern>com.SirBlobman.api.combatlogx</shadedPattern>
+                            <shadedPattern>com.SirBlobman.combatlogx.api.shaded</shadedPattern>
                         </relocation>
                     </relocations>
                     <shadedArtifactAttached>true</shadedArtifactAttached>

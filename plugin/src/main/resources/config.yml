@@ -1,0 +1,129 @@
+# Default Settings Configuration for ${bukkit.plugin.name} v${bukkit.plugin.version}
+# Made by SirBlobman
+
+# Should extra messages be printed for certain tasks?
+# Only use this if you are having issues or you are asked to by SirBlobman
+#
+# Default: false
+debug: false
+
+# Should the plugin check for updates after it's enabled?
+#
+# Default: true
+update-checker: true
+
+broadcast:
+  # Should a message be broadcasted when the plugin is loaded by Bukkit?
+  #
+  # Default: true
+  on-load: true
+
+  # Should a message be broadcasted when the plugin is enabled?
+  #
+  # Default: true
+  on-enable: true
+
+  # Should a message be broadcasted when the plugin is disabled?
+  #
+  # Default: true
+  on-disable: true
+
+# This is a list of worlds that CombatLogX will not tag players in
+# World names are case sensitive. "world" is not the same as "WoRlD"
+# Make sure you are not using the world aliases from Multiverse
+disabled-worlds:
+- "disabled_world_1"
+- "DiSaBlEd_WoRlD_2"
+
+# This is a list of commands that will be executed whenever a player is tagged.
+# Commands will run in console by default
+# Available Prefixes:
+# [PLAYER] - run the command as the player that was tagged
+# [OP] - run the command as the player that was tagged, but with "Server Operator" permissions
+combat-sudo-command-list:
+- "tell {player} you are now in combat."
+- "[PLAYER]say I am now in combat."
+
+# Set this to true to link wolves, cats, parrots, and other pets to the entity that owns them.
+# This will only link the owner if the pet is the attacker
+#
+# Default: true
+link-pets: true
+
+# Set this to true to link arrows, potions, snowballs, eggs, and other projectiles that can be shot by entities.
+# This will only link the shootr if they are the attacker
+#
+# Default: true
+link-projectiles: true
+
+combat:
+  # How long should players be tagged?
+  # The timer is in seconds.
+  #
+  # Default: 15
+  timer: 15
+
+  # What permission should be used to bypass combat tagging?
+  # Set this to "" to disable the bypass permission.
+  #
+  # Default: "combatlogx.bypass"
+  bypass-permission: "combatlogx.bypass"
+
+  # Should players be allowed to tag themselves using arrows?
+  #
+  # Default: false
+  self-combat: false
+
+  mobs:
+    # Should mobs be able to tag players?
+    #
+    # Default: false
+    tag-players: false
+
+    # If you set this to true, the mobs in the mob-list wil be the only ones that can tag players.
+    # If you set this to false, the mobs in the mob-list will not be allowed to tag players.
+    # If 'tag-players' is set to false, all mobs will not be unable to tag players
+    #
+    # Default: false
+    whitelist-mode: false
+
+    mob-list:
+    - "WITHER"
+    - "ARMOR_STAND"
+
+untag:
+  # Should players be removed from combat when they die?
+  #
+  # Default: true
+  on-self-death: true
+
+  # Should players be removed from combat when their enemy is killed?
+  #
+  # Default: false
+  on-enemy-death: false
+
+punishments:
+  # Should players be punished when they quit the game?
+  #
+  # Default: true
+  on-quit: true
+
+  # Should players be punished if they are kicked from the game?
+  #
+  # Default: false
+  on-kick: false
+
+  # Should players be punished if the combat timer expires?
+  # You shouldn't need this option.
+  #
+  # Default: false
+  on-expire: false
+
+  # This is a list of commands that will be executed on the player that logged out.
+  # Commands will run in console by default
+  # Available Prefixes:
+  # [PLAYER] - run the command as the player that was tagged
+  # [OP] - run the command as the player that was tagged, but with "Server Operator" permissions
+  punish-command-list:
+  - "kill {player}"
+  - "warn {player} logging out during combat -s"

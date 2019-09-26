@@ -26,7 +26,16 @@
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
     </repositories>
-    
+
+    <properties>
+        <bukkit.plugin.name>CombatLogX</bukkit.plugin.name>
+        <bukkit.plugin.prefix>CombatLogX</bukkit.plugin.prefix>
+        <bukkit.plugin.description>A combat tagging plugin with expansions.</bukkit.plugin.description>
+
+        <bukkit.plugin.main>com.SirBlobman.combatlogx.CombatLogX</bukkit.plugin.main>
+        <bukkit.plugin.version>${combatlogx.version}</bukkit.plugin.version>
+        <bukkit.plugin.author>SirBlobman</bukkit.plugin.author>
+    </properties>
     
     <dependencies>
         <!-- Spigot API -->
@@ -44,13 +53,6 @@
             <version>${project.version}</version>
             <classifier>shaded</classifier>
             <scope>compile</scope>
-            
-            <exclusions>
-                <exclusion>
-                    <groupId>com.SirBlobman.api</groupId>
-                    <artifactId>SirBlobmanAPI</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
     
@@ -63,6 +65,12 @@
                 <version>3.2.1</version>
                 
                 <configuration>
+                    <relocations>
+                        <relocation>
+                            <pattern>com.SirBlobman.api</pattern>
+                            <shadedPattern>com.SirBlobman.combatlogx.api.shaded</shadedPattern>
+                        </relocation>
+                    </relocations>
                     <shadedArtifactAttached>true</shadedArtifactAttached>
                 </configuration>
                 

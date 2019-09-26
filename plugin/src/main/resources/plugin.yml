@@ -1,0 +1,41 @@
+name: "${bukkit.plugin.name}"
+prefix: "${bukkit.plugin.prefix}"
+description: "${bukkit.plugin.description}"
+
+main: "${bukkit.plugin.main}"
+version: "${bukkit.plugin.version}"
+author: "${bukkit.plugin.author}"
+
+softdepend:
+- "Citizens"
+- "Factions"
+- "FactionsUUID"
+- "GriefPrevention"
+- "Lands"
+- "LegacyFactions"
+- "MVdWPlaceholderAPI"
+- "PlaceholderAPI"
+- "RedProtect"
+- "Residence"
+- "SavageFactions"
+- "WorldGuard"
+
+commands:
+  combatlogx:
+    description: "Main command for CombatLogX."
+    usage: "/<command> help"
+    aliases:
+    - "combatlogx"
+    - "combattag"
+    - "clx"
+    - "combattagx"
+    - "ctx"
+
+  combattimer:
+    description: "Check how much time you have left in combat."
+    usage: "/<command> [player]"
+    aliases:
+    - "combattime"
+    - "ctime"
+    - "clt"
+    - "ct"

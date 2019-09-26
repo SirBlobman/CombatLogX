@@ -62,6 +62,7 @@
                                 <copy file="${expansion.compatibility.dir}/Lands/target/LandsCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/Lands Compatibility.jar"></copy>
                                 <copy file="${expansion.compatibility.dir}/RedProtect/target/RedProtectCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/RedProtect Compatibility.jar"></copy>
                                 <copy file="${expansion.compatibility.dir}/Residence/target/ResidenceCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/Residence Compatibility.jar"></copy>
+                                <copy file="${expansion.compatibility.dir}/Towny/target/TownyCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/Towny Compatibility.jar"></copy>
                                 <copy file="${expansion.compatibility.dir}/WorldGuard/target/WorldGuardCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/WorldGuard Compatibility.jar"></copy>
                                 
                                 <!-- Create Final ZIP File -->

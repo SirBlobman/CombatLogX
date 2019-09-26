@@ -53,6 +53,9 @@
         <module>expansion/compatibility/Lands</module>
         <module>expansion/compatibility/RedProtect</module>
         <module>expansion/compatibility/Residence</module>
+        <module>expansion/compatibility/Towny</module>
+        
+        <!-- WorldGuard Compatibility -->
         <module>expansion/compatibility/WorldGuard/6.1</module>
         <module>expansion/compatibility/WorldGuard/6.2</module>
         <module>expansion/compatibility/WorldGuard/7.0</module>
@@ -67,10 +70,6 @@
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
-            </resource>
-            <resource>
-                <directory>src/main/java</directory>
-                <filtering>false</filtering>
             </resource>
         </resources>
     </build>
