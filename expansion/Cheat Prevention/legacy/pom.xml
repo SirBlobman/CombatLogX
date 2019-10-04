@@ -48,8 +48,8 @@
             <groupId>com.SirBlobman.combatlogx</groupId>
             <artifactId>CombatLogX-Plugin</artifactId>
             <version>${project.version}</version>
-            <classifier>shaded</classifier>
             <scope>provided</scope>
+            <type>jar</type>
         </dependency>
     </dependencies>
 </project>

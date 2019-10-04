@@ -38,14 +38,14 @@
             <version>${spigot.version}</version>
             <scope>provided</scope>
         </dependency>
-        
+
         <!-- CombatLogX Plugin -->
         <dependency>
             <groupId>com.SirBlobman.combatlogx</groupId>
             <artifactId>CombatLogX-Plugin</artifactId>
             <version>${project.version}</version>
-            <classifier>shaded</classifier>
             <scope>provided</scope>
+            <type>jar</type>
         </dependency>
         
         <!-- Legacy Cheat Prevention -->

@@ -77,8 +77,6 @@
                             <shadedPattern>com.SirBlobman.combatlogx.api.shaded</shadedPattern>
                         </relocation>
                     </relocations>
-                    <shadedArtifactAttached>true</shadedArtifactAttached>
-                    <shadedClassifierName>shaded</shadedClassifierName>
                 </configuration>
                 
                 <executions>
