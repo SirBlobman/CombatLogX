@@ -42,7 +42,7 @@
         <!-- CombatLogX Plugin -->
         <dependency>
             <groupId>com.SirBlobman.combatlogx</groupId>
-            <artifactId>CombatLogX-Plugin</artifactId>
+            <artifactId>CombatLogX-plugin</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
             <type>jar</type>
