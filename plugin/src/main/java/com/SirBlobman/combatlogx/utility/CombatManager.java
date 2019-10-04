@@ -13,6 +13,7 @@ import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
@@ -65,7 +66,7 @@ public class CombatManager implements ICombatManager, Runnable {
         uuidToExpireTime.remove(uuid);
 
         UUID previousEnemyId = uuidToEnemy.remove(uuid);
-        Entity previousEnemyEntity = (previousEnemyId != null ? Bukkit.getEntity(previousEnemyId) : null);
+        Entity previousEnemyEntity = (previousEnemyId != null ? getEntityByUUID(previousEnemyId) : null);
         LivingEntity previousEnemy = (previousEnemyEntity instanceof LivingEntity ? (LivingEntity) previousEnemyEntity : null);
 
         PlayerUntagEvent untagEvent = new PlayerUntagEvent(player, untagReason, previousEnemy);
@@ -105,7 +106,7 @@ public class CombatManager implements ICombatManager, Runnable {
 
         UUID uuid = player.getUniqueId();
         UUID enemyId = uuidToEnemy.getOrDefault(uuid, null);
-        Entity enemyEntity = (enemyId != null ? Bukkit.getEntity(enemyId) : null);
+        Entity enemyEntity = (enemyId != null ? getEntityByUUID(enemyId) : null);
         return (enemyEntity instanceof LivingEntity ? (LivingEntity) enemyEntity : null);
     }
 
@@ -153,6 +154,28 @@ public class CombatManager implements ICombatManager, Runnable {
 
         runPunishCommands(player, previousEnemy);
         return true;
+    }
+
+    @Override
+    public String getSudoCommand(Player player, LivingEntity enemy, String command) {
+        command = command.replace("{player}", player.getName()).replace("{enemy}", getEntityName(enemy));
+
+        try {
+            PluginManager manager = Bukkit.getPluginManager();
+            if(manager.isPluginEnabled("PlaceholderAPI")) {
+                Class<?> class_PlaceholderAPI = Class.forName("me.clip.placeholderapi.PlaceholderAPI");
+                Method method_setPlaceholders = class_PlaceholderAPI.getDeclaredMethod("setPlaceholders", OfflinePlayer.class, String.class);
+                command = (String) method_setPlaceholders.invoke(null, player, command);
+            }
+
+            if(manager.isPluginEnabled("MVdWPlaceholderAPI")) {
+                Class<?> class_PlaceholderAPI = Class.forName("be.maximvdw.placeholderapi.PlaceholderAPI");
+                Method method_replacePlaceholders = class_PlaceholderAPI.getDeclaredMethod("replacePlaceholders", OfflinePlayer.class, String.class);
+                command = (String) method_replacePlaceholders.invoke(null, player, command);
+            }
+        } catch(ReflectiveOperationException ignored) {}
+
+        return command;
     }
 
     @Override
@@ -247,25 +270,22 @@ public class CombatManager implements ICombatManager, Runnable {
         }
     }
 
-    @Override
-    public String getSudoCommand(Player player, LivingEntity enemy, String command) {
-        command = command.replace("{player}", player.getName()).replace("{enemy}", getEntityName(enemy));
+    private Entity getEntityByUUID(UUID uuid) {
+        if(uuid == null) return null;
 
-        try {
-            PluginManager manager = Bukkit.getPluginManager();
-            if(manager.isPluginEnabled("PlaceholderAPI")) {
-                Class<?> class_PlaceholderAPI = Class.forName("me.clip.placeholderapi.PlaceholderAPI");
-                Method method_setPlaceholders = class_PlaceholderAPI.getDeclaredMethod("setPlaceholders", OfflinePlayer.class, String.class);
-                command = (String) method_setPlaceholders.invoke(null, player, command);
+        if(NMS_Handler.getMinorVersion() >= 12) {
+            return Bukkit.getEntity(uuid);
+        }
+
+        List<World> worldList = Bukkit.getWorlds();
+        for(World world : worldList) {
+            List<Entity> entityList = world.getEntities();
+            for(Entity entity : entityList) {
+                UUID entityId = entity.getUniqueId();
+                if(entityId.equals(uuid)) return entity;
             }
+        }
 
-            if(manager.isPluginEnabled("MVdWPlaceholderAPI")) {
-                Class<?> class_PlaceholderAPI = Class.forName("be.maximvdw.placeholderapi.PlaceholderAPI");
-                Method method_replacePlaceholders = class_PlaceholderAPI.getDeclaredMethod("replacePlaceholders", OfflinePlayer.class, String.class);
-                command = (String) method_replacePlaceholders.invoke(null, player, command);
-            }
-        } catch(ReflectiveOperationException ignored) {}
-
-        return command;
+        return null;
     }
 }

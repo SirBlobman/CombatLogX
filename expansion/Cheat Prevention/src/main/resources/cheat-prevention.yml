@@ -1,0 +1,165 @@
+# Default Configuration for the Cheat Prevention Expansion
+
+# How long should the cooldown be for certain messages? (in seconds)
+# This currently only applies to item dropping/pickup, block placing/breaking/interaction, and riptide,
+#
+# Default: 10
+message-cooldown: 10
+
+# This is a list of potion effects that will be removed when a player is tagged.
+# Valid Potions: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
+# To disable potion blocking, set the option to this:
+#   blocked-potion-list: []
+blocked-potion-list:
+  - "INVISIBILITY"
+  - "INCREASE_DAMAGE"
+
+# Set this to true to disable chat during combat
+# Set this to false to allow chat
+#
+# Default: true
+disable-chat: true
+
+# Set this to true to prevent players from right-clicking entities during combat
+# Set this to false to allow players to right-click entities
+#
+# Default: true
+prevent-entity-interaction: true
+
+teleportation:
+  # Set this to true if teleporting should be blocked during combat
+  # Set this to false if teleporting should be allowed during combat
+  #
+  # Default: true
+  prevent-teleport: true
+
+  # If 'prevent-teleport' is true, the causes in this list will not be blocked
+  # Valid causes can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/event/player/PlayerTeleportEvent.TeleportCause.html
+  #
+  # Tip: The 'PLUGIN' cause may be required here to fix issues with region protection plugins
+  allowed-cause-list:
+    - "ENDER_PEARL"
+    - "PLUGIN"
+
+  # If an ender pearl was shot, should the player's tag timer be reset?
+  #
+  # Default: false
+  restart-timer-for-ender-pearl: false
+
+flight:
+  # Set this to true to prevent players from flying during combat
+  # Set this to false to allow players to fly during combat
+  #
+  # Default: true
+  prevent-flying: true
+
+  # This option will prevent fall damage if a player lost their flight due to CombatLogX
+  #
+  # Default: true
+  prevent-fall-damage: true
+
+  # This is a permission that will give players their flight back after they are removed from combat
+  # Set it to "" to disable it
+  #
+  # Default: "combatlogx.flight.enable"
+  re-enable-flight-permission: "combatlogx.flight.re-enable"
+
+game-mode:
+  # Set this to true if a player's game-mode should be changed when they are put into combat.
+  #
+  # Default: true
+  change-game-mode: true
+
+  # If 'change-game-mode' is true, what game-mode should the player be changed to?
+  # Valid Game-modes: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/GameMode.html
+  #
+  # Default: SURVIVAL
+  game-mode: SURVIVAL
+
+command-blocker:
+  # Set this to true if the 'command-list' is the list of allowed commands
+  # Set this to false if the 'command-list' is the list of blocked commands
+  #
+  # Default: false
+  whitelist-mode: false
+
+  # This is a list of commands
+  # If a plugin does not register commands properly, they may not be blocked
+  # Make sure to also put aliases here (e.g. "/etp")
+  command-list:
+    - "/teleport"
+    - "/tpa"
+    - "/tpaccept"
+    - "/tpo"
+    - "/tpahere"
+    - "/fly"
+    - "/gamemode"
+    - "//wand"
+    - "/spawn"
+    - "/home"
+
+inventories:
+  # Set this to true to close the player's inventory when they are tagged.
+  # For some reason any open menu counts as an inventory (e.g. Chat, Pause Menu, etc...)
+  #
+  # Default: true
+  close-on-tag: true
+
+  # Set this to true to prevent players from opening inventories and menus during combat.
+  # Set this to false to allow players to open inventories and menus
+  #
+  # Default: true
+  prevent-opening: true
+
+blocks:
+  # Set this to true to prevent players from breaking blocks during combat
+  # Set this to false to allow players to break blocks
+  #
+  # Default: true
+  prevent-breaking: true
+
+  # Set this to true to prevent players from placing blocks during combat
+  # Set this to false to allow players to break blocks
+  #
+  # Default: true
+  prevent-placing: true
+
+  # Set this to true to prevent players from right-clicking blocks during combat
+  # Set this t false to allow players to right-click blocks
+  #
+  # Default: false
+  prevent-interaction: false
+
+items:
+  # Set this to true to prevent players from picking up items during combat
+  # Set this to false to allow players to pick up items
+  #
+  # Default: true
+  prevent-item-pickup: true
+
+  # Set this to true to prevent players from dropping items during combat
+  # Set this to false to allow players to drop items
+  #
+  # Default: true
+  prevent-item-drop: true
+
+  # Set this to true to prevent players from using the elytra during combat
+  # Set this to false to allow players to glide away with elytras
+  # This option will be ignored on versions where the elytra does not exist.
+  #
+  # Default: true
+  prevent-elytra: true
+
+  # Set this to true if the riptide enchantment effect should be cancelled during combat
+  # Set this to false to allow the riptide enchantment effect
+  # This option will be ignored on versions where the riptide enchantment does not exist.
+  #
+  # Default: true
+  prevent-riptide: true
+
+  # Set this to true if players should not be allowed to use totems of undying during combat
+  # Set this to false to allow totems of undying
+  # This option will be ignored on versions where the totem of undying does not exist
+  #
+  # Default: false
+  prevent-totem-usage: false

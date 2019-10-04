@@ -1,0 +1,59 @@
+# Default Configuration for the Damage Tagger Expansion
+
+# Set this to true if players should be tagged by all types of damage.
+# If this is true, all of the damage-type settings will be ignored.
+#
+# Default: false
+all-damage: false
+
+damage-type:
+  # Cactus Damage / Touching a block that hurts you
+  contact: true
+
+  # Getting stuck in a wall
+  suffocation: true
+
+  # Fall Damage
+  fall: true
+
+  # Touching a fire block
+  fire: true
+
+  # Being on fire
+  fire-tick: true
+
+  # Touching Lava
+  lava: true
+
+  # Drowning in water
+  drowning: true
+
+  # Explosions from TNT or plugins (not creepers)
+  block-explosion: true
+
+  # Damage from not eating enough food
+  starvation: true
+
+  # Leftover poison potion effect
+  poison: true
+
+  # Magic damage (Instant Damage Potion)
+  magic: true
+
+  # Leftover wither potion effect
+  wither: true
+
+  # Anvil damage
+  falling-block: true
+
+  # Damage made by plugins
+  custom: true
+
+  # Damage from using an elytra and hitting a wall/mountain/tree
+  fly-into-wall: true
+
+  # Damage from magma blocks
+  hot-floor: true
+
+  # Damage from being near too many entities at once
+  cramming: true

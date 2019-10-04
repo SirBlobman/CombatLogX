@@ -149,10 +149,11 @@ public class ListenerCombatChecks implements Listener {
     private void runSudoCommands(Player player, LivingEntity enemy) {
         if(player == null) return;
 
+        ICombatManager combatManager = this.plugin.getCombatManager();
+        if(combatManager.isInCombat(player)) return;
+
         FileConfiguration config = this.plugin.getConfig("config.yml");
         List<String> sudoCommandList = config.getStringList("combat-sudo-command-list");
-
-        ICombatManager combatManager = this.plugin.getCombatManager();
         for(String sudoCommand : sudoCommandList) {
             sudoCommand = combatManager.getSudoCommand(player, enemy, sudoCommand);
             if(sudoCommand.startsWith("[PLAYER]")) {

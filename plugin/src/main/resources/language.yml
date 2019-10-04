@@ -39,7 +39,7 @@ errors:
 
 commands:
   combatlogx:
-    reloaded: "&aSuccessfully reload all configuration files from CombatLogX and expansions."
+    reloaded: "&aSuccessfully reloaded all configuration files from CombatLogX and expansions."
     tag-player: "&aYou just forced &f{target}&a into combat. This may cause issues."
     tag-player-fail: "&c&oCould not tag player &a{target}&c&o."
     untag-player: "&aYou just forced &f{target}&a out of combat. This may cause issues."
@@ -47,6 +47,7 @@ commands:
     - "&f"
     - "&6&lCombatLogX Command Help:"
     - "  &f&l/combatlogx help&7: View this help page."
+    - "  &f&l/combatlogx reload&7: Reload the config.yml, language.yml, and all expansion config files."
     - "  &f&l/combatlogx version&7: Check your version of CombatLogX."
     - "  &f&l/combatlogx tag <player>&7: Force a player into combat."
     - "  &f&l/combatlogx untag <player>&7: Force a player out of combat."
@@ -75,6 +76,7 @@ tag-messages:
 cheat-prevention:
   command-blocked: "&cYou do not have access to &a{command}&c during combat."
   no-riptide: "&cThe riptide enchantment is disabled during combat."
+  no-totem: "&cYou are not allowed to use totems of undying during combat."
   no-entity-interaction: "&cYou are not allowed to use that mob during combat."
   no-chat: "&cYou are not allowed to send chat messages during combat."
 

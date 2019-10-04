@@ -24,7 +24,7 @@
         <!-- 'minor' will change when a new expansion is created or big changes are made -->
         <!-- 'patch' will change when small changes are made to the plugin -->
         <!-- 'expansion' will change when an expansion is changed or updated -->
-        <combatlogx.version>10.0.0.0</combatlogx.version>
+        <combatlogx.version>10.0.0.0-Beta</combatlogx.version>
     </properties>
     
     <modules>
@@ -73,4 +73,15 @@
             </resource>
         </resources>
     </build>
+    
+    <distributionManagement>
+        <repository>
+            <id>codemc-releases</id>
+            <url>https://repo.codemc.io/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>codemc-snapshots</id>
+            <url>https://repo.codemc.io/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>

@@ -32,17 +32,22 @@
             <id>dmulloy2-repo</id>
             <url>http://repo.dmulloy2.net/nexus/repository/public/</url>
         </repository>
+        
+        <!-- CodeMC Repository -->
+        <repository>
+            <id>codemc-repo</id>
+            <url>https://repo.codemc.io/repository/maven-public/</url>
+        </repository>
     </repositories>
     
     
     <dependencies>
         <!-- SirBlobman API -->
-        <!-- Requires local installation -->
         <!-- https://www.github.com/SirBlobman/SirBlobmanAPI -->
         <dependency>
             <groupId>com.SirBlobman.api</groupId>
             <artifactId>SirBlobmanAPI</artifactId>
-            <version>1.9</version>
+            <version>1.10</version>
             <scope>compile</scope>
         </dependency>
 
