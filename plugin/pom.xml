@@ -78,6 +78,7 @@
                         </relocation>
                     </relocations>
                     <shadedArtifactAttached>true</shadedArtifactAttached>
+                    <shadedClassifierName>shaded</shadedClassifierName>
                 </configuration>
                 
                 <executions>

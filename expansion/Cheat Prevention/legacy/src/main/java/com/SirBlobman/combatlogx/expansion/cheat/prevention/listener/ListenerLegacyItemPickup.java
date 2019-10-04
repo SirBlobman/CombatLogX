@@ -3,9 +3,9 @@ package com.SirBlobman.combatlogx.expansion.cheat.prevention.listener;
 import java.util.List;
 import java.util.UUID;
 
-import com.SirBlobman.api.utility.Util;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
+import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 
 import org.bukkit.Bukkit;

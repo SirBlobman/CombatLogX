@@ -9,6 +9,17 @@
     <name>CombatLogX Parent</name>
     <description>This is the CombatLogX parent pom used to package the project.</description>
     <url>https://www.spigotmc.org/resources/31689/</url>
+
+    <distributionManagement>
+        <repository>
+            <id>codemc-releases</id>
+            <url>https://repo.codemc.io/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>codemc-snapshots</id>
+            <url>https://repo.codemc.io/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
     
     <properties>    
         <java.version>1.8</java.version>
@@ -73,15 +84,4 @@
             </resource>
         </resources>
     </build>
-    
-    <distributionManagement>
-        <repository>
-            <id>codemc-releases</id>
-            <url>https://repo.codemc.io/repository/maven-releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>codemc-snapshots</id>
-            <url>https://repo.codemc.io/repository/maven-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
 </project>
