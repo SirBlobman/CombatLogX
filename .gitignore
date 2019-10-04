@@ -4,4 +4,5 @@
 
 # Maven
 target/
+builder/build/
 dependency-reduced-pom.xml
