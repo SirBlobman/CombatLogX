@@ -42,7 +42,7 @@
                                 <mkdir dir="${build.dir}"></mkdir>
                                 
                                 <!-- Copy Plugin JAR File -->
-                                <copy file="${plugin.target.dir}/CombatLogX-Plugin-${project.version}.jar" tofile="${build.dir}/CombatLogX.jar"></copy>
+                                <copy file="${plugin.target.dir}/CombatLogX-plugin-${project.version}.jar" tofile="${build.dir}/CombatLogX.jar"></copy>
                                 
                                 <!-- Copy Main Expansion JAR Files -->
                                 <copy file="${expansion.dir}/Cheat Prevention/target/CheatPrevention-${project.version}.jar" tofile="${build.expansion.dir}/Cheat Prevention.jar"></copy>
