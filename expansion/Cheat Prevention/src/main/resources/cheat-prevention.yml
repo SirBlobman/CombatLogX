@@ -11,8 +11,8 @@ message-cooldown: 10
 # To disable potion blocking, set the option to this:
 #   blocked-potion-list: []
 blocked-potion-list:
-  - "INVISIBILITY"
-  - "INCREASE_DAMAGE"
+- "INVISIBILITY"
+- "INCREASE_DAMAGE"
 
 # Set this to true to disable chat during combat
 # Set this to false to allow chat
@@ -38,10 +38,10 @@ teleportation:
   #
   # Tip: The 'PLUGIN' cause may be required here to fix issues with region protection plugins
   allowed-cause-list:
-    - "ENDER_PEARL"
-    - "PLUGIN"
+  - "ENDER_PEARL"
+  - "PLUGIN"
 
-  # If an ender pearl was shot, should the player's tag timer be reset?
+  # If an ender pearl was shot and the ENDER_PEARL cause is allowed, should the player's tag timer be reset?
   #
   # Default: false
   restart-timer-for-ender-pearl: false
@@ -58,13 +58,11 @@ flight:
   # Default: true
   prevent-fall-damage: true
 
-  # This is a permission that will give players their flight back after they are removed from combat
-  # Set it to "" to disable it
-  #
-  # Default: "combatlogx.flight.enable"
-  re-enable-flight-permission: "combatlogx.flight.re-enable"
-
 game-mode:
+  # Set this to true to prevent players from changing their game mode during combat.
+  # Set this to false to allow players to change their game mode during combat
+  prevent-game-mode-change: true
+
   # Set this to true if a player's game-mode should be changed when they are put into combat.
   #
   # Default: true
@@ -87,16 +85,16 @@ command-blocker:
   # If a plugin does not register commands properly, they may not be blocked
   # Make sure to also put aliases here (e.g. "/etp")
   command-list:
-    - "/teleport"
-    - "/tpa"
-    - "/tpaccept"
-    - "/tpo"
-    - "/tpahere"
-    - "/fly"
-    - "/gamemode"
-    - "//wand"
-    - "/spawn"
-    - "/home"
+  - "/teleport"
+  - "/tpa"
+  - "/tpaccept"
+  - "/tpo"
+  - "/tpahere"
+  - "/fly"
+  - "/gamemode"
+  - "//wand"
+  - "/spawn"
+  - "/home"
 
 inventories:
   # Set this to true to close the player's inventory when they are tagged.

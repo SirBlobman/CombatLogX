@@ -27,11 +27,11 @@ public class ListenerRiptide implements Listener {
 
     @EventHandler(priority= EventPriority.HIGH, ignoreCancelled=true)
     public void onMove(PlayerMoveEvent e) {
-        FileConfiguration config = this.expansion.getConfig("cheat-prevention.yml");
-        if(!config.getBoolean("items.prevent-riptide")) return;
-
         Player player = e.getPlayer();
         if(!player.isRiptiding()) return;
+
+        FileConfiguration config = this.expansion.getConfig("cheat-prevention.yml");
+        if(!config.getBoolean("items.prevent-riptide")) return;
 
         ICombatManager combatManager = this.plugin.getCombatManager();
         if(combatManager.isInCombat(player)) return;

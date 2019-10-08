@@ -1,8 +1,8 @@
 package com.SirBlobman.combatlogx.expansion.cheat.prevention;
 
+import com.SirBlobman.combatlogx.api.shaded.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.shaded.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.expansion.cheat.prevention.listener.*;
 
 import org.bukkit.Bukkit;
@@ -40,26 +40,30 @@ public class CheatPrevention extends Expansion {
         PluginManager manager = Bukkit.getPluginManager();
         JavaPlugin plugin = getPlugin().getPlugin();
 
-        int minorVersion = NMS_Handler.getMinorVersion();
-        if(minorVersion >= 9) manager.registerEvents(new ListenerElytra(this), plugin);
-
-        if(minorVersion >= 11) manager.registerEvents(new ListenerTotemOfUndying(this), plugin);
-
-        Listener itemPickupListener = minorVersion >= 12 ? new ListenerNewItemPickup(this) : new ListenerLegacyItemPickup(this);
-        manager.registerEvents(itemPickupListener, plugin);
-
-        if(minorVersion >= 13) manager.registerEvents(new ListenerRiptide(this), plugin);
-
+        // All Versions
         manager.registerEvents(new ListenerBlocks(this), plugin);
         manager.registerEvents(new ListenerChat(this), plugin);
         manager.registerEvents(new ListenerCommandBlocker(this), plugin);
-        /*
         manager.registerEvents(new ListenerEntities(this), plugin);
         manager.registerEvents(new ListenerFlight(this), plugin);
         manager.registerEvents(new ListenerGameMode(this), plugin);
         manager.registerEvents(new ListenerInventories(this), plugin);
         manager.registerEvents(new ListenerTeleport(this), plugin);
-         */
+
+        int minorVersion = NMS_Handler.getMinorVersion();
+
+        // 1.9+ Elytra
+        if(minorVersion >= 9) manager.registerEvents(new ListenerElytra(this), plugin);
+
+        // 1.11+ Totem of Undying
+        if(minorVersion >= 11) manager.registerEvents(new ListenerTotemOfUndying(this), plugin);
+
+        // 1.12+ PlayerPickupItemEvent --> EntityPickupItemEvent
+        Listener itemPickupListener = minorVersion >= 12 ? new ListenerNewItemPickup(this) : new ListenerLegacyItemPickup(this);
+        manager.registerEvents(itemPickupListener, plugin);
+
+        // 1.13+ Riptide Enchantment
+        if(minorVersion >= 13) manager.registerEvents(new ListenerRiptide(this), plugin);
     }
 
     @Override
