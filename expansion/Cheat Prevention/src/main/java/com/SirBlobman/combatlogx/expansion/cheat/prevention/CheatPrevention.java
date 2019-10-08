@@ -48,6 +48,7 @@ public class CheatPrevention extends Expansion {
         manager.registerEvents(new ListenerFlight(this), plugin);
         manager.registerEvents(new ListenerGameMode(this), plugin);
         manager.registerEvents(new ListenerInventories(this), plugin);
+        manager.registerEvents(new ListenerPotions(this), plugin);
         manager.registerEvents(new ListenerTeleport(this), plugin);
 
         int minorVersion = NMS_Handler.getMinorVersion();
