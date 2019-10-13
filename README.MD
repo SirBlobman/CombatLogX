@@ -14,4 +14,4 @@ If you want to find out more about the expansions, please visit this page:
 
 ## Support
 Support is provided by creating a new issue, or by chatting with the Support Team on my discord.  
-**Discord Link:** <https://discord.gg/ZtbqXUK>
+**Discord Link:** <https://discord.gg/XMq2agT>
