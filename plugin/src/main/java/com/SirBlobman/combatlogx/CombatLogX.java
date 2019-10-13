@@ -264,6 +264,6 @@ public class CombatLogX extends JavaPlugin implements ICombatLogX {
         BukkitScheduler scheduler = Bukkit.getScheduler();
 
         CombatManager combatManager = getCombatManager();
-        scheduler.runTaskTimerAsynchronously(this, combatManager, 0L, 10L);
+        scheduler.runTaskTimer(this, combatManager, 0L, 10L);
     }
 }

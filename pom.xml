@@ -43,7 +43,7 @@
         <!-- 'minor' will change when a new expansion is created or big changes are made -->
         <!-- 'patch' will change when small changes are made to the plugin -->
         <!-- 'expansion' will change when an expansion is changed or updated -->
-        <combatlogx.version>10.0.0.0-Beta1</combatlogx.version>
+        <combatlogx.version>10.0.0.0-Beta2</combatlogx.version>
     </properties>
 
     <modules>
