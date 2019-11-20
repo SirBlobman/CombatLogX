@@ -1,0 +1,31 @@
+# Scoreboard Configuration for Notifier
+
+# Set this to true if the scoreboard should be enabled
+# The Scoreboard is on the side of the screen
+# Different versions have different character limits so make sure you use them properly
+# If you are going to use the FeatherBoard trigger, set this to false
+enabled: true
+
+# Set this to true to save the scoreboard the player had before combat
+# Otherwise, the main scoreboard will be restored instead
+save-previous: true
+
+# This is the scoreboard title
+# Make sure to follow your version's character limit
+scoreboard-title: "&6&lCombatLogX"
+
+# These are the scoreboard lines
+# Make sure to follow your version's line/character limit
+scoreboard-lines:
+- "&f"
+- "&f&lCombat Stats:"
+- "&8\u00BB &f&lTime Left: &7{time_left}"
+- "&8\u00BB &f&lIn Combat: &7{in_combat}"
+- "&8\u00BB &f&lStatus: &7{status}"
+- "&f"
+- "&f&lEnemy Stats"
+- "&8\u00BB &f&lName: &7{enemy_name}"
+- "&8\u00BB &f&lHealth: &7{enemy_health}"
+- "&8\u00BB &f&lHealthR: &7{enemy_health_rounded}"
+- "&8\u00BB &f&lHearts: &7{enemy_hearts}"
+- "&f"

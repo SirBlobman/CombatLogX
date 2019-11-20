@@ -42,12 +42,19 @@ public class CombatManager implements ICombatManager, Runnable {
         long timerMillis = (1000L * config.getLong("combat.timer"));
         long endMillis = (systemMillis + timerMillis);
 
-        PlayerTagEvent tagEvent = new PlayerTagEvent(player, enemy, tagType, tagReason, endMillis);
-        PluginManager manager = Bukkit.getPluginManager();
-        manager.callEvent(tagEvent);
-        endMillis = tagEvent.getEndTime();
+        if(!wasInCombat) {
+            PlayerTagEvent tagEvent = new PlayerTagEvent(player, enemy, tagType, tagReason, endMillis);
+            PluginManager manager = Bukkit.getPluginManager();
+            manager.callEvent(tagEvent);
+            endMillis = tagEvent.getEndTime();
 
-        if(!wasInCombat) sendTagMessage(player, enemy, tagType, tagReason);
+            sendTagMessage(player, enemy, tagType, tagReason);
+        } else {
+            PlayerReTagEvent tagEvent = new PlayerReTagEvent(player, enemy, tagType, tagReason, endMillis);
+            PluginManager manager = Bukkit.getPluginManager();
+            manager.callEvent(tagEvent);
+            endMillis = tagEvent.getEndTime();
+        }
 
         UUID uuid = player.getUniqueId();
         uuidToExpireTime.put(uuid, endMillis);
@@ -215,7 +222,7 @@ public class CombatManager implements ICombatManager, Runnable {
             this.plugin.sendMessage(player, message);
         }
 
-        if(tagType == PlayerPreTagEvent.TagType.MOB) {
+        if(tagType == PlayerPreTagEvent.TagType.PLAYER) {
             String messagePath = "tag-messages." + (tagReason == PlayerPreTagEvent.TagReason.ATTACKER ? "attacker.of-" : "attacked.by-") + "player";
 
             String message = this.plugin.getLanguageMessageColored(messagePath).replace("{mob_type}", enemyType).replace("{name}", enemyName);
@@ -224,7 +231,7 @@ public class CombatManager implements ICombatManager, Runnable {
     }
 
     private String getEntityName(LivingEntity enemy) {
-        if(enemy == null) return this.plugin.getLanguageMessage("erros.unknown-entity-name");
+        if(enemy == null) return this.plugin.getLanguageMessage("errors.unknown-entity-name");
 
         int minorVersion = NMS_Handler.getMinorVersion();
         if(minorVersion <= 7) {

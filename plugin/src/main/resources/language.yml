@@ -141,6 +141,7 @@ newbie-helper:
   no-pvp:
     self: "&cYou are not allowed to hit that player while your PvP is disabled."
     other: "&cThat player has PvP disabled."
+    protected: "&cThat player is protected, you are not allowed to attack them yet!"
   protection-disabled:
     attacker: "&cYou attacked someone, your newbie protection is now disabled."
     expired: "&cYour newbie protection has expired."

@@ -6,13 +6,14 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import com.SirBlobman.api.nms.NMS_Handler;
+import com.SirBlobman.api.utility.MessageUtil;
 import com.SirBlobman.api.utility.Util;
 import com.SirBlobman.combatlogx.CombatLogX;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
+import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import com.SirBlobman.combatlogx.utility.UpdateChecker;
 
 import org.bukkit.Bukkit;
@@ -92,7 +93,7 @@ public class CommandCombatLogX implements TabExecutor {
         String[] colored = new String[messages.length];
         for(int i = 0; i < messages.length; i++) {
             String string = messages[i];
-            colored[i] = Util.color(string);
+            colored[i] = MessageUtil.color(string);
         }
         return colored;
     }
@@ -115,8 +116,8 @@ public class CommandCombatLogX implements TabExecutor {
             this.plugin.reloadConfig("language.yml");
             ExpansionManager.reloadConfigs();
         } catch(Exception ex) {
-            String message1 = Util.color("&f&l[&6CombatLogX&f&l] &cAn error has occurred while loading your configurations. &cPlease check console for further details.");
-            String message2 = Util.color("&f&l[&6CombatLogX&f&l[ &c&lError Message: &7" + ex.getMessage());
+            String message1 = MessageUtil.color("&f&l[&6CombatLogX&f&l] &cAn error has occurred while loading your configurations. &cPlease check console for further details.");
+            String message2 = MessageUtil.color("&f&l[&6CombatLogX&f&l[ &c&lError Message: &7" + ex.getMessage());
 
             this.plugin.sendMessage(sender, message1, message2);
             ex.printStackTrace();
@@ -193,8 +194,8 @@ public class CommandCombatLogX implements TabExecutor {
                 "&f&lNMS Version: &7" + NMS_Handler.getNetMinecraftServerVersion(),
                 "&f",
                 "&f&lCombatLogX by SirBlobman",
-                "&f&lLatest Version: &7v" + spigotVersion,
                 "&f&lInstalled Version: &7v" + pluginVersion,
+                "&f&lLatest Version: &7v" + spigotVersion,
                 "&f",
                 "&7&oGetting expansion versions...",
                 "&f"
@@ -203,7 +204,7 @@ public class CommandCombatLogX implements TabExecutor {
 
         List<Expansion> expansionList = ExpansionManager.getExpansions();
         if(expansionList.isEmpty()) {
-            String message2 = Util.color("  &f&lYou do not have any expansions installed.");
+            String message2 = MessageUtil.color("  &f&lYou do not have any expansions installed.");
             this.plugin.sendMessage(sender, message2);
             return;
         }
@@ -212,7 +213,7 @@ public class CommandCombatLogX implements TabExecutor {
             String expName = expansion.getName();
             String expVersion = expansion.getVersion();
 
-            String message3 = Util.color("  &f&l" + expName + " &7v" + expVersion);
+            String message3 = MessageUtil.color("  &f&l" + expName + " &7v" + expVersion);
             this.plugin.sendMessage(sender, message3);
         }
     }

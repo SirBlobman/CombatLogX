@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 
@@ -48,6 +49,9 @@ public class ListenerInventories implements Listener {
 
         Inventory topInv = openView.getTopInventory();
         if(topInv == null) return;
+
+        InventoryType type = openView.getType();
+        if(type == InventoryType.CRAFTING) return;
 
         player.closeInventory();
         String message = this.plugin.getLanguageMessageColoredWithPrefix("cheat-prevention.inventory.force-closed");

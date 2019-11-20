@@ -1,0 +1,14 @@
+# Action Bar Configuration for Notifier
+
+# Set this to true if the action bar should be enabled
+# The Action Bar is a message shown above the hotbar
+# If your version is not 1.8 or higher, set this to false
+enabled: true
+
+# This is the message format for the action bar
+message-timer: "&6&lCombat &7\u00BB &f{bars_left}{bars_right} &f{time_left} seconds."
+message-ended: "&6&lCombat &7\u00BB &fYou are no longer in combat."
+
+# These are the color codes for the {bars_left} and {bars_right} placeholders
+bars-left-color: "&a"
+bars-right-color: "&c"

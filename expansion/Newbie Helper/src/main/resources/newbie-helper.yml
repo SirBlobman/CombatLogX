@@ -1,0 +1,33 @@
+# Default Configuration for the Newbie Helper Expansion
+# Made by SirBlobman
+
+newbie-protection:
+  # Should the newbie protection be enabled?
+  # The newbie protection does not let newbies be attacked by any other player for a configurable amount of time.
+  # The newbie protection will expire when the time runs out or if another option is triggered
+  #
+  # Default: true
+  enable: true
+
+  # If this option is set to true, newbie protection will be disabled when a newbie attacks any player
+  #
+  # Default: true
+  remove-protection-on-attack: true
+
+  # How long (in seconds) should the newbie protection timer last?
+  #
+  # Default: 30
+  protection-timer: 30
+
+pvp-checks:
+  # Should projectiles be linked to the entity that shot them?
+  # Projectiles are only linked for the attacker
+  #
+  # Default: true
+  link-projectiles: true
+
+  # Should pets be linked to the entity that owns them?
+  # Pets are only linked for the attacker
+  #
+  # Default: true
+  link-pets: true

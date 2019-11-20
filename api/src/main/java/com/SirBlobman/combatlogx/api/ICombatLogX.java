@@ -5,9 +5,11 @@ import java.util.logging.Logger;
 
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -26,6 +28,9 @@ public interface ICombatLogX {
     public void reloadConfig(String fileName);
     public void saveConfig(String fileName);
     public void saveDefaultConfig(String fileName);
+
+    public YamlConfiguration getDataFile(OfflinePlayer user);
+    public void saveDataFile(OfflinePlayer user, YamlConfiguration config);
 
     public String getLanguageMessage(String path);
     public String getLanguageMessageColored(String path);

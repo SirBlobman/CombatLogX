@@ -10,7 +10,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.regex.Pattern;
 
-import com.SirBlobman.api.utility.Util;
+import com.SirBlobman.api.utility.MessageUtil;
 import com.SirBlobman.combatlogx.CombatLogX;
 
 import org.bukkit.Bukkit;
@@ -26,7 +26,7 @@ public final class UpdateChecker {
     private static void print(String... messages) {
         CommandSender console = Bukkit.getConsoleSender();
         for(String message : messages) {
-            message = Util.color(message);
+            message = MessageUtil.color(message);
             console.sendMessage(message);
         }
     }

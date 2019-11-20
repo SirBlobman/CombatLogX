@@ -27,6 +27,12 @@
             <id>bungeecord-repo</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
+
+        <!-- MVdW Repository -->
+        <repository>
+            <id>mvdw-software</id>
+            <url>https://repo.mvdw-software.com/content/groups/public/</url>
+        </repository>
     </repositories>
     
     
@@ -46,6 +52,24 @@
             <version>${project.version}</version>
             <scope>provided</scope>
             <type>jar</type>
+        </dependency>
+
+        <!-- MVdWPlaceholderAPI -->
+        <dependency>
+            <groupId>be.maximvdw</groupId>
+            <artifactId>MVdWPlaceholderAPI</artifactId>
+            <version>3.0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.spigotmc</groupId>
+                    <artifactId>spigot</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>be.maximvdw</groupId>
+                    <artifactId>MVdWUpdater</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>

@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
+import com.SirBlobman.api.SirBlobmanAPI;
+import com.SirBlobman.api.utility.MessageUtil;
 import com.SirBlobman.api.utility.Util;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
@@ -24,6 +26,7 @@ import com.SirBlobman.combatlogx.utility.CombatManager;
 import com.SirBlobman.combatlogx.utility.UpdateChecker;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
@@ -41,6 +44,11 @@ import com.google.common.base.Charsets;
 public class CombatLogX extends JavaPlugin implements ICombatLogX {
     private static final Map<String, FileConfiguration> fileNameToConfigMap = Util.newMap();
     private final CombatManager combatManager = new CombatManager(this);
+    private final SirBlobmanAPI api = new SirBlobmanAPI(this);
+
+    public SirBlobmanAPI getSirBlobmanAPI() {
+        return this.api;
+    }
 
     @Override
     public CombatLogX getPlugin() {
@@ -140,6 +148,18 @@ public class CombatLogX extends JavaPlugin implements ICombatLogX {
     }
 
     @Override
+    public YamlConfiguration getDataFile(OfflinePlayer user) {
+        SirBlobmanAPI api = getSirBlobmanAPI();
+        return api.getDataFile(user);
+    }
+
+    @Override
+    public void saveDataFile(OfflinePlayer user, YamlConfiguration dataFile) {
+        SirBlobmanAPI api = getSirBlobmanAPI();
+        api.saveDataFile(user, dataFile);
+    }
+
+    @Override
     public String getLanguageMessage(String path) {
         FileConfiguration language = getConfig("language.yml");
         if(language == null) return path;
@@ -157,7 +177,7 @@ public class CombatLogX extends JavaPlugin implements ICombatLogX {
         String message = getLanguageMessage(path);
         if(message == null || message.isEmpty()) return "";
 
-        return Util.color(message);
+        return MessageUtil.color(message);
     }
 
     @Override
@@ -168,7 +188,7 @@ public class CombatLogX extends JavaPlugin implements ICombatLogX {
         String prefix = getLanguageMessageColored("prefixes.plugin");
         if(prefix == null || prefix.isEmpty()) return message;
 
-        return Util.color(prefix + " " + message);
+        return MessageUtil.color(prefix + " " + message);
     }
 
     @Override
@@ -206,7 +226,7 @@ public class CombatLogX extends JavaPlugin implements ICombatLogX {
 
     private void broadcastMessage(String message) {
         if(message == null || message.isEmpty()) return;
-        String color = Util.color(message);
+        String color = MessageUtil.color(message);
 
         CommandSender console = Bukkit.getConsoleSender();
         console.sendMessage(color);
