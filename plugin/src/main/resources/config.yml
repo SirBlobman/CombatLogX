@@ -90,7 +90,7 @@ combat:
     # Default: false
     tag-players: false
 
-    # If you set this to true, the mobs in the mob-list wil be the only ones that can tag players.
+    # If you set this to true, the mobs in the mob-list will be the only ones that can tag players.
     # If you set this to false, the mobs in the mob-list will not be allowed to tag players.
     # If 'tag-players' is set to false, all mobs will not be able to tag players
     #

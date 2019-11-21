@@ -138,6 +138,8 @@ newbie-helper:
   pvptoggle:
     enabled: "&7&lPvP: &aEnabled"
     disabled: "&7&lPvP: &cDisabled"
+    admin-enabled: "&7You set the pvp of &e{target}&7 to &aEnabled"
+    admin-disabled: "&7You set the pvp of &e{target}&7 to &cDisabled"
   no-pvp:
     self: "&cYou are not allowed to hit that player while your PvP is disabled."
     other: "&cThat player has PvP disabled."
