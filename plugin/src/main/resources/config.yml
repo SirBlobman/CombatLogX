@@ -39,10 +39,20 @@ disabled-worlds:
 # Commands will run in console by default
 # Available Prefixes:
 # [PLAYER] - run the command as the player that was tagged
-# [OP] - run the command as the player that was tagged, but with "Server Operator" permissions
+# [OP] - run the command as the player that was tagged, but with "Server Operator" permissions (not recommended)
 combat-sudo-command-list:
   - "tell {player} you are now in combat."
   - "[PLAYER]say I am now in combat."
+
+# This is a list of commands that will be executed whenever a player is untagged
+# Commands will be run in console by default
+# Available Prefixes:
+# [PLAYER] - run the command as the player that was tagged
+# [OP] - run the command as the player that was tagged, but with "Server Operator" permissions (not recommended)
+untag-sudo-command-list:
+  - "tell {player} you are no longer in combat!"
+  - "[PLAYER]say I am no longer in combat."
+
 
 # Set this to true to link wolves, cats, parrots, and other pets to the entity that owns them.
 # This will only link the owner if the pet is the attacker

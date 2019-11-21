@@ -1,9 +1,14 @@
 package com.SirBlobman.combatlogx.listener;
 
+import java.util.List;
+
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -41,6 +46,7 @@ public class ListenerUntagger implements Listener {
         ICombatManager combatManager = this.plugin.getCombatManager();
         combatManager.punish(player, untagReason, previousEnemy);
         sendUntagMessage(player, untagReason);
+        runUntagCommands(player);
     }
 
     private void sendUntagMessage(Player player, PlayerUntagEvent.UntagReason untagReason) {
@@ -53,6 +59,39 @@ public class ListenerUntagger implements Listener {
         if(untagReason == PlayerUntagEvent.UntagReason.EXPIRE_ENEMY_DEATH) {
             String message = this.plugin.getLanguageMessageColoredWithPrefix("combat-timer.enemy-death");
             this.plugin.sendMessage(player, message);
+        }
+    }
+
+    private void runUntagCommands(Player player) {
+        if(player == null) return;
+
+        ICombatManager combatManager = this.plugin.getCombatManager();
+        FileConfiguration config = this.plugin.getConfig("config.yml");
+        List<String> sudoCommandList = config.getStringList("untag-sudo-command-list");
+        for(String sudoCommand : sudoCommandList) {
+            sudoCommand = combatManager.getSudoCommand(player, null, sudoCommand);
+            if(sudoCommand.startsWith("[PLAYER]")) {
+                String command = sudoCommand.substring("[PLAYER]".length());
+                player.performCommand(command);
+                continue;
+            }
+
+            if(sudoCommand.startsWith("[OP]")) {
+                String command = sudoCommand.substring("[OP]".length());
+                if(player.isOp()) {
+                    player.performCommand(command);
+                    continue;
+                }
+
+                player.setOp(true);
+                player.performCommand(command);
+                player.setOp(false);
+
+                continue;
+            }
+
+            CommandSender console = Bukkit.getConsoleSender();
+            Bukkit.dispatchCommand(console, sudoCommand);
         }
     }
 }
