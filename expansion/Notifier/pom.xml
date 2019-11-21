@@ -28,10 +28,16 @@
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
 
+        <!-- CodeMC Repository -->
+        <repository>
+            <id>codemc-snapshots</id>
+            <url>https://repo.codemc.io/repository/maven-snapshots/</url>
+        </repository>
+
         <!-- MVdW Repository -->
         <repository>
             <id>mvdw-software</id>
-            <url>https://repo.mvdw-software.com/content/groups/public/</url>
+            <url>http://repo.mvdw-software.com/content/groups/public/</url>
         </repository>
     </repositories>
     

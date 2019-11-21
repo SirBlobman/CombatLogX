@@ -15,13 +15,11 @@ import com.SirBlobman.api.utility.Util;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
+import com.SirBlobman.combatlogx.api.listener.ICustomDeathListener;
 import com.SirBlobman.combatlogx.command.CommandCombatLogX;
 import com.SirBlobman.combatlogx.command.CommandCombatTimer;
 import com.SirBlobman.combatlogx.command.CustomCommand;
-import com.SirBlobman.combatlogx.listener.ListenerAttack;
-import com.SirBlobman.combatlogx.listener.ListenerCombatChecks;
-import com.SirBlobman.combatlogx.listener.ListenerPunishChecks;
-import com.SirBlobman.combatlogx.listener.ListenerUntagger;
+import com.SirBlobman.combatlogx.listener.*;
 import com.SirBlobman.combatlogx.utility.CombatManager;
 import com.SirBlobman.combatlogx.utility.UpdateChecker;
 
@@ -44,6 +42,7 @@ import com.google.common.base.Charsets;
 public class CombatLogX extends JavaPlugin implements ICombatLogX {
     private static final Map<String, FileConfiguration> fileNameToConfigMap = Util.newMap();
     private final CombatManager combatManager = new CombatManager(this);
+    private final ICustomDeathListener customDeathListener = new ListenerCustomDeath(this);
     private final SirBlobmanAPI api = new SirBlobmanAPI(this);
 
     public SirBlobmanAPI getSirBlobmanAPI() {
@@ -202,6 +201,11 @@ public class CombatLogX extends JavaPlugin implements ICombatLogX {
     }
 
     @Override
+    public ICustomDeathListener getCustomDeathListener() {
+        return this.customDeathListener;
+    }
+
+    @Override
     public void sendMessage(CommandSender sender, String... messages) {
         if(messages == null || messages.length == 0) return;
         for(String message : messages) {
@@ -273,6 +277,7 @@ public class CombatLogX extends JavaPlugin implements ICombatLogX {
         manager.registerEvents(new ListenerCombatChecks(this), this);
         manager.registerEvents(new ListenerPunishChecks(this), this);
         manager.registerEvents(new ListenerUntagger(this), this);
+        manager.registerEvents(customDeathListener, this);
     }
 
     private void registerCommands() {

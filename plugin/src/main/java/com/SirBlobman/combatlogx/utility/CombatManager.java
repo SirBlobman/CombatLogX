@@ -1,9 +1,7 @@
 package com.SirBlobman.combatlogx.utility;
 
 import java.lang.reflect.Method;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import com.SirBlobman.api.nms.NMS_Handler;
 import com.SirBlobman.api.utility.Util;
@@ -16,6 +14,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -159,6 +158,7 @@ public class CombatManager implements ICombatManager, Runnable {
         manager.callEvent(punishEvent);
         if(punishEvent.isCancelled()) return false;
 
+        checkKill(player);
         runPunishCommands(player, previousEnemy);
         return true;
     }
@@ -245,6 +245,26 @@ public class CombatManager implements ICombatManager, Runnable {
         }
 
         return enemy.getName();
+    }
+
+    private void checkKill(Player player) {
+        FileConfiguration config = this.plugin.getConfig("config.yml");
+        String killOption = Optional.ofNullable(config.getString("punishments.kill-time")).orElse("QUIT");
+
+        if(killOption.equals("QUIT")) {
+            player.setHealth(0.0D);
+            this.plugin.getCustomDeathListener().add(player);
+            return;
+        }
+
+        if(killOption.equals("KILL")) {
+            YamlConfiguration playerData = this.plugin.getDataFile(player);
+            playerData.set("kill-on-join", true);
+            this.plugin.saveDataFile(player, playerData);
+            // return;
+        }
+
+        // NEVER or unknown option means do nothing
     }
 
     private void runPunishCommands(Player player, LivingEntity previousEnemy) {

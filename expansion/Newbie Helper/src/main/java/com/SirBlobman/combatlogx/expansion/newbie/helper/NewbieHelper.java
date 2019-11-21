@@ -2,6 +2,7 @@ package com.SirBlobman.combatlogx.expansion.newbie.helper;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
+import com.SirBlobman.combatlogx.expansion.newbie.helper.command.CommandTogglePVP;
 import com.SirBlobman.combatlogx.expansion.newbie.helper.listener.ListenerNewbieProtection;
 
 import org.bukkit.Bukkit;
@@ -34,8 +35,11 @@ public class NewbieHelper extends Expansion {
 
     @Override
     public void onEnable() {
+        ICombatLogX plugin = getPlugin();
+        plugin.registerCommand("togglepvp", new CommandTogglePVP(this), "Do you want to PVP or not?", "/<command>", "pvptoggle", "pvp");
+
         PluginManager manager = Bukkit.getPluginManager();
-        manager.registerEvents(new ListenerNewbieProtection(this), getPlugin().getPlugin());
+        manager.registerEvents(new ListenerNewbieProtection(this), plugin.getPlugin());
     }
 
     @Override

@@ -32,8 +32,8 @@ broadcast:
 # World names are case sensitive. "world" is not the same as "WoRlD"
 # Make sure you are not using the world aliases from Multiverse
 disabled-worlds:
-- "disabled_world_1"
-- "DiSaBlEd_WoRlD_2"
+  - "disabled_world_1"
+  - "DiSaBlEd_WoRlD_2"
 
 # This is a list of commands that will be executed whenever a player is tagged.
 # Commands will run in console by default
@@ -41,8 +41,8 @@ disabled-worlds:
 # [PLAYER] - run the command as the player that was tagged
 # [OP] - run the command as the player that was tagged, but with "Server Operator" permissions
 combat-sudo-command-list:
-- "tell {player} you are now in combat."
-- "[PLAYER]say I am now in combat."
+  - "tell {player} you are now in combat."
+  - "[PLAYER]say I am now in combat."
 
 # Set this to true to link wolves, cats, parrots, and other pets to the entity that owns them.
 # This will only link the owner if the pet is the attacker
@@ -82,14 +82,14 @@ combat:
 
     # If you set this to true, the mobs in the mob-list wil be the only ones that can tag players.
     # If you set this to false, the mobs in the mob-list will not be allowed to tag players.
-    # If 'tag-players' is set to false, all mobs will not be unable to tag players
+    # If 'tag-players' is set to false, all mobs will not be able to tag players
     #
     # Default: false
     whitelist-mode: false
 
     mob-list:
-    - "WITHER"
-    - "ARMOR_STAND"
+      - "WITHER"
+      - "ARMOR_STAND"
 
 untag:
   # Should players be removed from combat when they die?
@@ -114,16 +114,32 @@ punishments:
   on-kick: false
 
   # Should players be punished if the combat timer expires?
-  # You shouldn't need this option.
+  # You shouldn't need this option unless you're testing something
   #
   # Default: false
   on-expire: false
 
+  # When should the player be killed by CombatLogX?
+  # Valid Options: QUIT, JOIN, NEVER
+  #
+  # Default: QUIT
+  kill-time: QUIT
+
+  # A random message is selected from this list when the player is killed by CombatLogX
+  # If you don't want custom death messages set this to an empty list
+  #
+  # Disabled: custom-death-messages: []
+  custom-death-messages:
+    - "{name} was killed for logging out during combat."
+    - "{name} instantly died due to logging our during combat."
+
   # This is a list of commands that will be executed on the player that logged out.
-  # Commands will run in console by default
+  # Set this to an empty list to not run any commands
+  # Commands will run in console if a prefix is not added
   # Available Prefixes:
   # [PLAYER] - run the command as the player that was tagged
-  # [OP] - run the command as the player that was tagged, but with "Server Operator" permissions
+  # [OP] - run the command as the player that was tagged, but with "Server Operator" permissions (not recommended)
+  #
+  # Disabled: punish-command-list: []
   punish-command-list:
-  - "kill {player}"
-  - "warn {player} logging out during combat -s"
+    - "warn {player} logging out during combat -s"

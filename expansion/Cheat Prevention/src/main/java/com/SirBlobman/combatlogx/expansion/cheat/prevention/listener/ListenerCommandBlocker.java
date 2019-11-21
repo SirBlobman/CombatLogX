@@ -21,7 +21,7 @@ public class ListenerCommandBlocker implements Listener {
         this.plugin = expansion.getPlugin();
     }
 
-    @EventHandler(priority=EventPriority.HIGH, ignoreCancelled=true)
+    @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
     public void beforeCommand(PlayerCommandPreprocessEvent e) {
         Player player = e.getPlayer();
         ICombatManager combatManager = this.plugin.getCombatManager();
@@ -34,6 +34,11 @@ public class ListenerCommandBlocker implements Listener {
         e.setCancelled(true);
         String message = this.plugin.getLanguageMessageColoredWithPrefix("cheat-prevention.command-blocked").replace("{command}", actualCommand);
         this.plugin.sendMessage(player, message);
+    }
+
+    @EventHandler(priority=EventPriority.HIGH, ignoreCancelled=true)
+    public void beforeCommand2(PlayerCommandPreprocessEvent e) {
+        beforeCommand(e);
     }
 
     private String convertCommand(String command) {
