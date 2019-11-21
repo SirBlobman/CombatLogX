@@ -39,6 +39,17 @@ public final class UpdateChecker {
     private static void updateTask(CombatLogX plugin) {
         String spigotVersion = getSpigotVersion();
         String pluginVersion = getPluginVersion(plugin);
+        if(pluginVersion.toLowerCase().contains("beta")) {
+            print(
+                    "&8==============================================",
+                    "&eCombatLogX Update Checker",
+                    " ",
+                    "&cYou are using a beta or bleeding-edge version.",
+                    "&cThanks for testing CombatLogX!",
+                    "&8=============================================="
+            );
+            return;
+        }
 
         for(VersionPart part : VersionPart.values()) {
             int spigotPart = getVersionPart(spigotVersion, part);
@@ -136,8 +147,8 @@ public final class UpdateChecker {
         int[] failure = {-1, -1, -1, -1};
         if(version == null || version.isEmpty()) return failure;
 
-        String[] split = version.split(Pattern.quote("."), 4);
-        if(split.length != 4) return failure;
+        String[] split = version.split(Pattern.quote("."));
+        if(split.length < 4) return failure;
 
         int[] splitVersion = new int[4];
         for(int i = 0; i < split.length; i++) {
