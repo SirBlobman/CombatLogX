@@ -36,6 +36,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+        <build.number>Unknown</build.number>
 
         <!-- Actual CombatLogX Version -->
         <!-- Format: major.minor.patch.expansiom -->
@@ -43,7 +44,8 @@
         <!-- 'minor' will change when a new expansion is created or big changes are made -->
         <!-- 'patch' will change when small changes are made to the plugin -->
         <!-- 'expansion' will change when an expansion is changed or updated -->
-        <combatlogx.version>10.0.0.0-Beta2</combatlogx.version>
+        <!-- ${build.number} is based on jenkins -->
+        <combatlogx.version>10.0.0.0-Beta2-${build.number}</combatlogx.version>
     </properties>
 
     <modules>

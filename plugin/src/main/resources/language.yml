@@ -1,5 +1,5 @@
-# Default Language Configuration for ${bukkit.plugin.name} v${bukkit.plugin.version}
-# Made by SirBlobman
+# Default Language Configuration for ${bukkit.plugin.name}
+# Made by SirBlobman for v${bukkit.plugin.version}
 #
 # Do not set any messages to 'false' or 'null'
 # Do not delete any message entries from this file

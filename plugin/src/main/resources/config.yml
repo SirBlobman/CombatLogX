@@ -1,5 +1,5 @@
-# Default Settings Configuration for ${bukkit.plugin.name} v${bukkit.plugin.version}
-# Made by SirBlobman
+# Default Settings Configuration for ${bukkit.plugin.name}
+# Made by SirBlobman for v${bukkit.plugin.version}
 
 # Should extra messages be printed for certain tasks?
 # Only use this if you are having issues or you are asked to by SirBlobman
