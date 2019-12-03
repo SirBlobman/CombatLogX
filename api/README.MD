@@ -61,6 +61,7 @@ public void onTag(PlayerTagEvent e) {
 ### com.SirBlobman.combatlogx.api.event.PlayerReTagEvent
 This event will be fired when a player is already in combat, but their timer is extended  
 That usually occurs when they are tagged again or another plugin tags them during combat
+
 **Example:** *Tell the player every time they are tagged*
 ```java
 @EventHandler
