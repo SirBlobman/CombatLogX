@@ -6,7 +6,7 @@ You can use it to create new expansions or to check stuff with your own plugin
 A lot of developers use maven to build projects more easily
 CodeMC was nice enough to sponsor a maven repository for CombatLogX
 
-** Repository: CodeMC Snapshots **
+**Repository: CodeMC Snapshots**
 ```xml
 <repository>
     <id>codemc-snapshots</id>
@@ -14,7 +14,7 @@ CodeMC was nice enough to sponsor a maven repository for CombatLogX
 </repository>
 ```
 
-** Dependency: CombatLogX API **
+**Dependency: CombatLogX API**
 ```xml
 <dependency>
     <groupId>com.SirBlobman.combatlogx</groupId>
