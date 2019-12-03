@@ -43,7 +43,7 @@ public void beforeTag(PlayerPreTagEvent e) {
 ```
 
 ### com.SirBlobman.combatlogx.api.event.PlayerTagEvent
-This event will be fired when a player is put into combat for the first time
+This event will be fired when a player is put into combat for the first time  
 You can use this to close menus and do other things in your plugins.
 
 **Example:** *Give the player a rotten flesh when they get into combat*
@@ -59,7 +59,7 @@ public void onTag(PlayerTagEvent e) {
 ```
 
 ### com.SirBlobman.combatlogx.api.event.PlayerReTagEvent
-This event will be fired when a player is already in combat, but their timer is extended
+This event will be fired when a player is already in combat, but their timer is extended  
 That usually occurs when they are tagged again or another plugin tags them during combat
 **Example:** *Tell the player every time they are tagged*
 ```java
@@ -89,7 +89,7 @@ public void onUntag(PlayerUntagEvent e) {
 ```
 
 ### com.SirBlobman.combatlogx.api.event.PlayerPunishEvent
-This event is fired before the punish commands are executed by CombatLogX
+This event is fired before the punish commands are executed by CombatLogX  
 If the event is cancelled, the punishments will not run.
 
 **Example:** *Prevent a player with a permission from being punished*
@@ -105,7 +105,7 @@ public void beforePunish(PlayerPunishEvent e) {
 ```
 
 ### com.SirBlobman.combatlogx.api.event.PlayerCombatTimerChangeEvent
-This event is fired for every second of a player's time during combat.
+This event is fired for every second of a player's time during combat.  
 You can use this to update scoreboards and other things.
 
 **Example:** *Send a message for every time the timer updates*
@@ -119,7 +119,7 @@ public void onTimerChange(PlayerCombatTimerChangeEvent e) {
 ```
 
 ## Other API Uses
-CombatLogX has many uses, but some common examples are provided below.
+CombatLogX has many uses, but some common examples are provided below.  
 Good luck with your coding!
 
 **Example:** *Check if a Player is in Combat*
