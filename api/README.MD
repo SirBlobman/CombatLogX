@@ -2,9 +2,31 @@
 This is the API module for CombatLogX.   
 You can use it to create new expansions or to check stuff with your own plugin
 
+# Maven Repository
+A lot of developers use maven to build projects more easily
+CodeMC was nice enough to sponsor a maven repository for CombatLogX
+
+** Repository: CodeMC Snapshots **
+```xml
+<repository>
+    <id>codemc-snapshots</id>
+    <url>https://repo.codemc.io/repository/maven-snapshots/</url>
+</repository>
+```
+
+** Dependency: CombatLogX API **
+```xml
+<dependency>
+    <groupId>com.SirBlobman.combatlogx</groupId>
+    <artifactId>CombatLogX-API</artifactId>
+    <version>10.0.0.0-SNAPSHOT</version>
+    <scope>provided</scope>
+</dependency>
+```
+
 ## Events
 A list of events with some examples is provided below
-### com.SirBlobman.combatlogx.event.PlayerPreTagEvent
+### com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent
 This event will be fired before a player gets tagged by CombatLogX  
 You can cancel it to prevent the player from being tagged.  
 
@@ -20,8 +42,8 @@ public void beforeTag(PlayerPreTagEvent e) {
 }
 ```
 
-### com.SirBlobman.combatlogx.event.PlayerTagEvent
-This event will be fired when a player is put into combat.  
+### com.SirBlobman.combatlogx.api.event.PlayerTagEvent
+This event will be fired when a player is put into combat for the first time
 You can use this to close menus and do other things in your plugins.
 
 **Example:** *Give the player a rotten flesh when they get into combat*
@@ -36,7 +58,19 @@ public void onTag(PlayerTagEvent e) {
 }
 ```
 
-### com.SirBlobman.combatlogx.event.PlayerUntagEvent
+### com.SirBlobman.combatlogx.api.event.PlayerReTagEvent
+This event will be fired when a player is already in combat, but their timer is extended
+That usually occurs when they are tagged again or another plugin tags them during combat
+**Example:** *Tell the player every time they are tagged*
+```java
+@EventHandler
+public void onTag(PlayerReTagEvent e) {
+    Player player = e.getPlayer();
+    player.sendMessage("You've been tagged again!");
+}
+```
+
+### com.SirBlobman.combatlogx.api.event.PlayerUntagEvent
 This event will be fired when a player is removed from combat.  
 This can be used to punish players for logging out or reward them for waiting until expiration
 
@@ -54,7 +88,7 @@ public void onUntag(PlayerUntagEvent e) {
 }
 ```
 
-### com.SirBlobman.combatlogx.event.PlayerPunishEvent
+### com.SirBlobman.combatlogx.api.event.PlayerPunishEvent
 This event is fired before the punish commands are executed by CombatLogX
 If the event is cancelled, the punishments will not run.
 
@@ -70,7 +104,7 @@ public void beforePunish(PlayerPunishEvent e) {
 }
 ```
 
-### com.SirBlobman.combatlogx.event.PlayerCombatTimerChangeEvent
+### com.SirBlobman.combatlogx.api.event.PlayerCombatTimerChangeEvent
 This event is fired for every second of a player's time during combat.
 You can use this to update scoreboards and other things.
 
@@ -84,3 +118,18 @@ public void onTimerChange(PlayerCombatTimerChangeEvent e) {
 }
 ```
 
+## Other API Uses
+CombatLogX has many uses, but some common examples are provided below.
+Good luck with your coding!
+
+**Example:** *Check if a Player is in Combat*
+```java
+public boolean isInCombat(Player player) {
+    UUID uuid = UUID.fromString("5ba03c6c-ad4c-4475-8ec9-8bc8a15a9ebe");
+    Player player = Bukkit.getPlayer(uuid); /* SirBlobman */
+
+    ICombatLogX plugin = (ICombatLogX) Bukkit.getPluginManager().getPlugin("CombatLogX"); /* Make sure to check CombatLogX is enabled first */
+    ICombatManager combatManager = plugin.getCombatManager();
+    return combatManager.isInCombat(player);
+}
+```

@@ -12,6 +12,10 @@ One of the main features of this plugin are the Expansions, which are like modul
 If you want to find out more about the expansions, please visit this page:  
 <https://www.spigotmc.org/wiki/combatlogx/>
 
+## Developer API
+If you want to create expansions or learn how to use the CombatLogX API, please visit this page:
+<https://github.com/SirBlobman/CombatLogX/blob/master/api/README.MD>
+
 ## Support
 Support is provided by creating a new issue, or by chatting with the Support Team on my discord.  
 **Discord Link:** <https://discord.gg/XMq2agT>
