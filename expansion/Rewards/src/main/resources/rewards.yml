@@ -34,7 +34,7 @@ rewards:
       - "world_the_end"
 
     # Set this to true if a single command should be chosen randomly instead of running all commands
-    random-ommand: false
+    random-command: false
 
     # A list of commands to execute when the reward chance is successful
     # Valid Placeholders:
@@ -44,7 +44,7 @@ rewards:
     commands:
       - "give {player} diamond 5"
       - "msg {player} You won 5 diamonds for killing {enemy-name}"
-      - "msg {player} Kill more {enemy-type} for a 0.005% chance of a diamond."
+      - "msg {player} Kill more {enemy-type} for a 0.5% chance of a diamond."
 
   reward2:
     chance: 50
@@ -53,6 +53,6 @@ rewards:
     mob-list: []
     world-whitelist: false
     world-list: []
-    randomCommand: false
+    random-command: false
     commands:
       - "msg {player} Good job! You killed an {enemy-type}."

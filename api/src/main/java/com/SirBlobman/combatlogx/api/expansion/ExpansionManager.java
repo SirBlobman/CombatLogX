@@ -96,7 +96,7 @@ public final class ExpansionManager {
         return nameToExpansionMap.containsKey(unlocalizedExpansionName);
     }
 
-    public static Expansion gtExpansion(String unlocalizedExpansionName) {
+    public static Expansion getExpansion(String unlocalizedExpansionName) {
         return nameToExpansionMap.getOrDefault(unlocalizedExpansionName, null);
     }
 

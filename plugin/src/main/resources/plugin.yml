@@ -8,6 +8,7 @@ author: "${bukkit.plugin.author}"
 
 softdepend:
 - "Citizens"
+- "CrackShot"
 - "Factions"
 - "FactionsUUID"
 - "GriefPrevention"
@@ -18,6 +19,9 @@ softdepend:
 - "RedProtect"
 - "Residence"
 - "SavageFactions"
+- "Sentinel"
+- "Towny"
+- "WorldEdit"
 - "WorldGuard"
 
 commands:

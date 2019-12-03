@@ -63,7 +63,7 @@ public class ListenerPVP implements Listener {
         return (owner instanceof Entity ? (Entity) owner : entity);
     }
 
-    @EventHandler(priority= EventPriority.HIGHEST, ignoreCancelled=true)
+    @EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
     public void onEntityCombat(EntityDamageByEntityEvent e) {
         Entity ded = e.getEntity();
         if (!(ded instanceof Player)) return;

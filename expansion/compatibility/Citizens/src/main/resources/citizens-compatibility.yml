@@ -1,0 +1,80 @@
+# Default Configuration for the Citizens Compatibility Expansion
+
+# Set this to true to enable other CombatLogX punishments, such as killing
+#
+# Default: false
+allow-punishments: false
+
+# Should NPCs have the ability to tag players?
+#
+# Default: false
+npc-tagging: false
+
+# Should player's be blocked from logging in if they have an active combat NPC?
+#
+# Default: false
+prevent-login: false
+
+# Should a player be placed into combat if they login while their combat NPC is still alive?
+#
+# Default: false
+retag-player-on-login: true
+
+# Options for CombatLogX NPCs
+npc-options:
+  # What mob type should combat NPCs be?
+  # Valid Mob Types:  https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
+  #
+  # Default: "PLAYER"
+  mob-type: "PLAYER"
+
+  # Set this to true of NPCs should store the inventory of the player that logged out
+  # This will prevent the inventory items from being dropped until the NPC is killed
+  # If the NPC mob type can use armor/weapons, they will be applied to the correct slots
+  #
+  # Default: true
+  store-inventory: true
+
+  # Should nearby mobs have the ability to target the NPC?
+  # Information: Mobs may only be able to target PLAYER NPCs
+  #
+  # Default: true
+  mob-target: true
+
+  # This is the amount of time that a combat NPC will stay alive before despawning
+  # NPCs will save their health/inventory/location when despawned.
+  # Set this to '-1' if the NPC should live forever
+  # This option will be ignored unless 'stay-on-damage' and 'stay-until-enemy-escape' are both false
+  #
+  # Default: 30
+  survival-seconds: 30
+
+  # Set this to true to make the survival time be reset any time the NPC is damaged by a player
+  #
+  # Default: false
+  stay-on-damage: false
+
+  # Set this to true if you want the NPC to stay as long as their enemy is in combat
+  #
+  # Default: false
+  stay-until-enemy-escape: false
+
+  # Set this to false if combat NPCs should be allowed to use totems of undying
+  # (Disabling this option may cause bugs, do it at your own risk!)
+  #
+  # Default: true
+  prevent-resurrect: true
+
+# Options for CombatLogX NPCs if the Sentinel plugin is installed
+# Sentinel can be found here: https://www.spigotmc.org/resources/22017/
+sentinel-options:
+  # Set this to true if combat NPCs should have sentinel features
+  #
+  # Default: true
+  enable-sentinel: true
+
+  # Set this to true if combat NPCs should attack their enemy first
+  # Set this to false if combat NPCs should wait to be attacked
+  #
+  # Default: false
+  attack-first: false
