@@ -1,7 +1,7 @@
 package com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener;
 
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
-import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CitizensCompatibility;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.utility.NPCManager;
 
 import org.bukkit.configuration.file.FileConfiguration;
@@ -15,8 +15,8 @@ import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 
 public class ListenerCombat implements Listener {
-    private final CitizensCompatibility expansion;
-    public ListenerCombat(CitizensCompatibility expansion) {
+    private final CompatibilityCitizens expansion;
+    public ListenerCombat(CompatibilityCitizens expansion) {
         this.expansion = expansion;
     }
 

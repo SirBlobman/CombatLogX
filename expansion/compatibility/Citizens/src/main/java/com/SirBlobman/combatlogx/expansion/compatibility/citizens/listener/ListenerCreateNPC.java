@@ -1,7 +1,7 @@
 package com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener;
 
 import com.SirBlobman.combatlogx.api.event.PlayerPunishEvent;
-import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CitizensCompatibility;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.utility.NPCManager;
 
 import org.bukkit.configuration.file.FileConfiguration;
@@ -12,8 +12,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 public class ListenerCreateNPC implements Listener {
-    private final CitizensCompatibility expansion;
-    public ListenerCreateNPC(CitizensCompatibility expansion) {
+    private final CompatibilityCitizens expansion;
+    public ListenerCreateNPC(CompatibilityCitizens expansion) {
         this.expansion = expansion;
     }
 

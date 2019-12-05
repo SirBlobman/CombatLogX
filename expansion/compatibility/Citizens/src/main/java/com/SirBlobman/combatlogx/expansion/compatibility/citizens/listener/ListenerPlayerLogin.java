@@ -3,7 +3,7 @@ package com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener;
 import java.util.UUID;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CitizensCompatibility;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.utility.NPCManager;
 
 import org.bukkit.Bukkit;
@@ -21,9 +21,9 @@ import net.citizensnpcs.api.event.DespawnReason;
 import net.citizensnpcs.api.npc.NPC;
 
 public class ListenerPlayerLogin implements Listener {
-    private final CitizensCompatibility expansion;
+    private final CompatibilityCitizens expansion;
     private final ICombatLogX plugin;
-    public ListenerPlayerLogin(CitizensCompatibility expansion) {
+    public ListenerPlayerLogin(CompatibilityCitizens expansion) {
         this.expansion = expansion;
         this.plugin = this.expansion.getPlugin();
     }

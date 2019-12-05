@@ -12,7 +12,7 @@ import com.SirBlobman.combatlogx.api.shaded.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.api.shaded.utility.ItemUtil;
 import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
-import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CitizensCompatibility;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.trait.TraitCombatNPC;
 
 import org.bukkit.Location;
@@ -213,7 +213,7 @@ public final class NPCManager {
         combatManager.tag(player, null, PlayerPreTagEvent.TagType.UNKNOWN, PlayerPreTagEvent.TagReason.UNKNOWN);
     }
 
-    public static void createNPC(CitizensCompatibility expansion, Player player, LivingEntity enemy) {
+    public static void createNPC(CompatibilityCitizens expansion, Player player, LivingEntity enemy) {
         if(expansion == null || player == null) return;
 
         Location location = player.getLocation().clone();
@@ -242,7 +242,7 @@ public final class NPCManager {
         SentinelManager.setSentinelOptions(expansion, npc, player, enemy);
     }
 
-    private static EntityType getMobType(CitizensCompatibility expansion) {
+    private static EntityType getMobType(CompatibilityCitizens expansion) {
         FileConfiguration config = expansion.getConfig("citizens-compatibility.yml");
         String mobTypeString = config.getString("npc-options.mob-type");
 
@@ -257,7 +257,7 @@ public final class NPCManager {
         }
     }
 
-    private static void setOptions(CitizensCompatibility expansion, NPC npc, Player player) {
+    private static void setOptions(CompatibilityCitizens expansion, NPC npc, Player player) {
         if(expansion == null || npc == null || player == null) return;
 
         FileConfiguration config = expansion.getConfig("citizens-compatibility.yml");
@@ -270,7 +270,7 @@ public final class NPCManager {
         setLivingOptions(expansion, npc, player);
     }
 
-    private static void setLivingOptions(CitizensCompatibility expansion, NPC npc, Player player) {
+    private static void setLivingOptions(CompatibilityCitizens expansion, NPC npc, Player player) {
         if(expansion == null || npc == null || player == null) return;
 
         Entity entity = npc.getEntity();
@@ -289,7 +289,7 @@ public final class NPCManager {
         setMobTargetable(expansion, npc);
     }
 
-    private static void setMobTargetable(CitizensCompatibility expansion, NPC npc) {
+    private static void setMobTargetable(CompatibilityCitizens expansion, NPC npc) {
         if(expansion == null || npc == null) return;
 
         FileConfiguration config = expansion.getConfig("citizens-compatibility.yml");

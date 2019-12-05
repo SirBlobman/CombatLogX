@@ -16,9 +16,9 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class CitizensCompatibility extends Expansion {
+public class CompatibilityCitizens extends Expansion {
     private boolean successfulEnable = false;
-    public CitizensCompatibility(ICombatLogX plugin) {
+    public CompatibilityCitizens(ICombatLogX plugin) {
         super(plugin);
     }
 

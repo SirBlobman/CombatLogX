@@ -1,6 +1,6 @@
 package com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener;
 
-import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CitizensCompatibility;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.trait.TraitCombatNPC;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.utility.NPCManager;
 
@@ -20,8 +20,8 @@ import net.citizensnpcs.api.event.NPCDespawnEvent;
 import net.citizensnpcs.api.npc.NPC;
 
 public class ListenerHandleNPC implements Listener {
-    private final CitizensCompatibility expansion;
-    public ListenerHandleNPC(CitizensCompatibility expansion) {
+    private final CompatibilityCitizens expansion;
+    public ListenerHandleNPC(CompatibilityCitizens expansion) {
         this.expansion = expansion;
     }
 

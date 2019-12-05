@@ -2,7 +2,7 @@ package com.SirBlobman.combatlogx.expansion.compatibility.citizens.utility;
 
 import java.util.UUID;
 
-import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CitizensCompatibility;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -15,7 +15,7 @@ import org.mcmonkey.sentinel.SentinelTrait;
 import org.mcmonkey.sentinel.targeting.SentinelTargetLabel;
 
 public final class SentinelManager {
-    public static void setSentinelOptions(CitizensCompatibility expansion, NPC npc, Player player, LivingEntity enemy) {
+    public static void setSentinelOptions(CompatibilityCitizens expansion, NPC npc, Player player, LivingEntity enemy) {
         if(expansion == null || npc == null || player == null) return;
 
         PluginManager manager = Bukkit.getPluginManager();
