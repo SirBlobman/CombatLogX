@@ -15,6 +15,7 @@ import com.SirBlobman.combatlogx.CombatLogX;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.scheduler.BukkitScheduler;
 
@@ -32,12 +33,15 @@ public final class UpdateChecker {
     }
 
     public static void checkForUpdates(CombatLogX plugin) {
+        FileConfiguration config = plugin.getConfig("config.yml");
+        if(!config.getBoolean("update-checker")) return;
+
         BukkitScheduler scheduler = Bukkit.getScheduler();
         scheduler.runTaskAsynchronously(plugin, () -> updateTask(plugin));
     }
 
     private static void updateTask(CombatLogX plugin) {
-        String spigotVersion = getSpigotVersion();
+        String spigotVersion = getSpigotVersion(plugin);
         String pluginVersion = getPluginVersion(plugin);
         if(pluginVersion.toLowerCase().contains("beta")) {
             print(
@@ -102,8 +106,11 @@ public final class UpdateChecker {
         );
     }
 
-    public static String getSpigotVersion() {
+    public static String getSpigotVersion(CombatLogX plugin) {
         if(spigotVersion != null) return spigotVersion;
+
+        FileConfiguration config = plugin.getConfig("config.yml");
+        if(!config.getBoolean("update-checker")) return "Update Checker Disabled!";
 
         print("Checking for updates using the Spigot API...");
         try {

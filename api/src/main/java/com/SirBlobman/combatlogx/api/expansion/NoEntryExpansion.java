@@ -18,7 +18,7 @@ import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.util.Vector;
 
 public abstract class NoEntryExpansion extends Expansion {
-    public enum NoEntryMode {KILL, CANCEL, TELEPORT, KNOCKBACK, VULNERABLE}
+    public enum NoEntryMode {KILL, CANCEL, TELEPORT, KNOCKBACK, VULNERABLE, NOTHING}
     public NoEntryExpansion(ICombatLogX plugin) {
         super(plugin);
     }
@@ -48,8 +48,9 @@ public abstract class NoEntryExpansion extends Expansion {
         UUID uuid = player.getUniqueId();
         if(noEntryMessageCooldownList.contains(uuid)) return;
 
-        String message = getNoEntryMessage(enemy instanceof Player ? PlayerPreTagEvent.TagType.PLAYER : PlayerPreTagEvent.TagType.MOB);
-        getPlugin().sendMessage(player, message);
+        ICombatLogX plugin = getPlugin();
+        String message = plugin.getLanguageMessageColoredWithPrefix(getNoEntryMessage(enemy instanceof Player ? PlayerPreTagEvent.TagType.PLAYER : PlayerPreTagEvent.TagType.MOB));
+        plugin.sendMessage(player, message);
 
         noEntryMessageCooldownList.add(uuid);
 
@@ -78,6 +79,7 @@ public abstract class NoEntryExpansion extends Expansion {
 
             case TELEPORT:
                 if(enemy != null) player.teleport(enemy);
+                else e.setCancelled(true);
                 break;
 
             case KNOCKBACK:
@@ -86,6 +88,7 @@ public abstract class NoEntryExpansion extends Expansion {
                 break;
 
             case VULNERABLE:
+            case NOTHING:
             default:
                 break;
         }
@@ -106,7 +109,8 @@ public abstract class NoEntryExpansion extends Expansion {
 
         Vector subtract = fromVec.subtract(toVec);
         Vector normal = subtract.normalize();
-        return makeFinite(normal);
+        Vector multiply = normal.multiply(getNoEntryKnockbackStrength());
+        return makeFinite(multiply);
     }
 
     private Vector makeFinite(Vector original) {

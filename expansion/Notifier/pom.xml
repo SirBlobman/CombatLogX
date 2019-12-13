@@ -21,14 +21,8 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
-        
-        <!-- BungeeCord Chat Repository -->
-        <repository>
-            <id>bungeecord-repo</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-        </repository>
 
-        <!-- CodeMC Repository -->
+        <!-- CodeMC Snapshots -->
         <repository>
             <id>codemc-snapshots</id>
             <url>https://repo.codemc.io/repository/maven-snapshots/</url>

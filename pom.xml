@@ -22,7 +22,7 @@
     </distributionManagement>
 
     <repositories>
-        <!-- CodeMC Repository -->
+        <!-- CodeMC Snapshots -->
         <repository>
             <id>codemc-snapshots</id>
             <url>https://repo.codemc.io/repository/maven-snapshots/</url>

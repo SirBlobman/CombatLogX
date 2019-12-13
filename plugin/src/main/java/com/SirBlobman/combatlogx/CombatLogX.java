@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 import com.SirBlobman.api.SirBlobmanAPI;
 import com.SirBlobman.api.utility.MessageUtil;
@@ -267,8 +268,9 @@ public class CombatLogX extends JavaPlugin implements ICombatLogX {
     }
 
     private void untagAllPlayers() {
-        Collection<? extends Player> playerList = Bukkit.getOnlinePlayers();
-        for(Player player : playerList) getCombatManager().untag(player, PlayerUntagEvent.UntagReason.EXPIRE);
+        CombatManager manager = getCombatManager();
+        List<Player> playerList = Bukkit.getOnlinePlayers().stream().filter(manager::isInCombat).collect(Collectors.toList());
+        playerList.forEach(player -> manager.untag(player, PlayerUntagEvent.UntagReason.EXPIRE));
     }
 
     private void registerListeners() {

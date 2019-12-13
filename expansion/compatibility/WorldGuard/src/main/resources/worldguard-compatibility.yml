@@ -1,0 +1,24 @@
+# Default WorldGuard Compatibility Config
+# Made by SirBlobman
+
+no-entry:
+  # How should CombatLogX prevent players from entering 'pvp: deny' or 'mob-combat: deny' regions?
+  # KNOCKBACK - Add some opposite velocity to the player so they are pushed backwards
+  # CANCEL - Cancel the player's move event
+  # NOTHING - Don't do anything, just let them in
+  # VULNERABLE - Let the player in, but remove their pvp protection from WorldGuard
+  # KILL - Set the player's health to 0
+  # TELEPORT - Teleport the player to their enemy if they have one, or CANCEL if they don't have one.
+  #
+  # Default: KNOCKBACK
+  mode: KNOCKBACK
+
+  # How much should we multiply the velocity value if the 'mode' is KNOCKBACK?
+  #
+  # Default: 1.5
+  knockback-strength: 1.5
+
+  # How long should we wait before "no entry" messages (in seconds)
+  #
+  # Default: 30
+  message-cooldown: 30

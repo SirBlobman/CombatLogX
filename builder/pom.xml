@@ -36,37 +36,37 @@
                         <configuration>
                             <target>
                                 <!-- Delete Previous Build Directory -->
-                                <delete dir="${build.dir}"></delete>
+                                <delete dir="${build.dir}"/>
                                 
                                 <!-- Re-Create Build Directory -->
-                                <mkdir dir="${build.dir}"></mkdir>
+                                <mkdir dir="${build.dir}"/>
                                 
                                 <!-- Copy Plugin JAR File -->
-                                <copy file="${plugin.target.dir}/CombatLogX-plugin-${project.version}.jar" tofile="${build.dir}/CombatLogX.jar"></copy>
+                                <copy file="${plugin.target.dir}/CombatLogX-plugin-${project.version}.jar" tofile="${build.dir}/CombatLogX.jar"/>
                                 
                                 <!-- Copy Main Expansion JAR Files -->
-                                <copy file="${expansion.dir}/Cheat Prevention/target/CheatPrevention-${project.version}.jar" tofile="${build.expansion.dir}/Cheat Prevention.jar"></copy>
-                                <copy file="${expansion.dir}/Damage Tagger/target/DamageTagger-${project.version}.jar" tofile="${build.expansion.dir}/Damage Tagger.jar"></copy>
-                                <copy file="${expansion.dir}/Newbie Helper/target/NewbieHelper-${project.version}.jar" tofile="${build.expansion.dir}/Newbie Helper.jar"></copy>
-                                <copy file="${expansion.dir}/Notifier/target/Notifier-${project.version}.jar" tofile="${build.expansion.dir}/Notifier.jar"></copy>
-                                <copy file="${expansion.dir}/Rewards/target/Rewards-${project.version}.jar" tofile="${build.expansion.dir}/Rewards.jar"></copy>
+                                <copy file="${expansion.dir}/Cheat Prevention/target/CheatPrevention-${project.version}.jar" tofile="${build.expansion.dir}/Cheat Prevention.jar"/>
+                                <copy file="${expansion.dir}/Damage Tagger/target/DamageTagger-${project.version}.jar" tofile="${build.expansion.dir}/Damage Tagger.jar"/>
+                                <copy file="${expansion.dir}/Newbie Helper/target/NewbieHelper-${project.version}.jar" tofile="${build.expansion.dir}/Newbie Helper.jar"/>
+                                <copy file="${expansion.dir}/Notifier/target/Notifier-${project.version}.jar" tofile="${build.expansion.dir}/Notifier.jar"/>
+                                <copy file="${expansion.dir}/Rewards/target/Rewards-${project.version}.jar" tofile="${build.expansion.dir}/Rewards.jar"/>
                                 
                                 <!-- Copy Compatibility Expansion JAR Files -->
-                                <copy file="${expansion.compatibility.dir}/Citizens/target/CitizensCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/Citizens Compatibility.jar"></copy>
-                                <copy file="${expansion.compatibility.dir}/PlaceholderAPI/target/PlaceholderAPICompatibility-${project.version}.jar" tofile="${build.expansion.dir}/PlaceholderAPI Compatibility.jar"></copy>
-                                <copy file="${expansion.compatibility.dir}/MVdWPlaceholderAPI/target/MVdWPlaceholderAPICompatibility-${project.version}.jar" tofile="${build.expansion.dir}/MVdWPlaceholderAPI Compatibility.jar"></copy>
+                                <copy file="${expansion.compatibility.dir}/Citizens/target/CitizensCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/Citizens Compatibility.jar"/>
+                                <copy file="${expansion.compatibility.dir}/PlaceholderAPI/target/PlaceholderAPICompatibility-${project.version}.jar" tofile="${build.expansion.dir}/PlaceholderAPI Compatibility.jar"/>
+                                <copy file="${expansion.compatibility.dir}/MVdWPlaceholderAPI/target/MVdWPlaceholderAPICompatibility-${project.version}.jar" tofile="${build.expansion.dir}/MVdWPlaceholderAPI Compatibility.jar"/>
                                 
                                 <!-- Copy Region Compatibility Expansion JAR Files -->
-                                <copy file="${expansion.compatibility.dir}/Factions/target/FactionsCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/Factions Compatibility.jar"></copy>
-                                <copy file="${expansion.compatibility.dir}/GriefPrevention/target/GriefPreventionCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/GriefPrevention Compatibility.jar"></copy>
-                                <copy file="${expansion.compatibility.dir}/Lands/target/LandsCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/Lands Compatibility.jar"></copy>
-                                <copy file="${expansion.compatibility.dir}/RedProtect/target/RedProtectCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/RedProtect Compatibility.jar"></copy>
-                                <copy file="${expansion.compatibility.dir}/Residence/target/ResidenceCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/Residence Compatibility.jar"></copy>
-                                <copy file="${expansion.compatibility.dir}/Towny/target/TownyCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/Towny Compatibility.jar"></copy>
-                                <copy file="${expansion.compatibility.dir}/WorldGuard/target/WorldGuardCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/WorldGuard Compatibility.jar"></copy>
+                                <copy file="${expansion.compatibility.dir}/Factions/target/FactionsCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/Factions Compatibility.jar"/>
+                                <copy file="${expansion.compatibility.dir}/GriefPrevention/target/GriefPreventionCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/GriefPrevention Compatibility.jar"/>
+                                <copy file="${expansion.compatibility.dir}/Lands/target/LandsCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/Lands Compatibility.jar"/>
+                                <copy file="${expansion.compatibility.dir}/RedProtect/target/RedProtectCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/RedProtect Compatibility.jar"/>
+                                <copy file="${expansion.compatibility.dir}/Residence/target/ResidenceCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/Residence Compatibility.jar"/>
+                                <copy file="${expansion.compatibility.dir}/Towny/target/TownyCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/Towny Compatibility.jar"/>
+                                <copy file="${expansion.compatibility.dir}/WorldGuard/target/WorldGuardCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/WorldGuard Compatibility.jar"/>
                                 
                                 <!-- Create Final ZIP File -->
-                                <zip basedir="${build.dir}" destfile="${build.dir}/CombatLogX-${combatlogx.version}.zip"></zip>
+                                <zip basedir="${build.dir}" destfile="${build.dir}/CombatLogX-${combatlogx.version}.zip"/>
                             </target>
                         </configuration>
                         <goals>
