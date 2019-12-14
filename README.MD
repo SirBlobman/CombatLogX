@@ -9,7 +9,7 @@ One of the main features of this plugin are the Expansions, which are like modul
 * Punish players that log out during combat
 
 ## Jenkins Builds
-CodeMC was nice enough to sponsor a CI Jenkins server. 
+CodeMC was nice enough to sponsor a CI Jenkins server.  
 The build status is displayed below:  
 [![Build Status](https://ci.codemc.io/job/SirBlobman/job/CombatLogX/badge/icon)](https://ci.codemc.io/job/SirBlobman/job/CombatLogX/)
 
