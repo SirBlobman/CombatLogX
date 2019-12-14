@@ -90,10 +90,6 @@ public final class HookForceField {
         Bukkit.getOnlinePlayers().forEach(forceField::updateForceField);
     }
 
-    public static boolean isForceFieldEnabled() {
-        return forceFieldEnabled;
-    }
-
     public static int getForceFieldRadius() {
         return forceFieldRadius;
     }

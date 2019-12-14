@@ -21,8 +21,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.PluginManager;
@@ -233,39 +231,5 @@ public abstract class ForceField implements Listener {
     public void onUntag(PlayerUntagEvent e) {
         Player player = e.getPlayer();
         removeForceField(player);
-    }
-
-    @EventHandler
-    public void onBlockDamage(BlockDamageEvent e) {
-        Player player = e.getPlayer();
-        ICombatManager combatManager = this.plugin.getCombatManager();
-        if(!combatManager.isInCombat(player)) return;
-
-        UUID uuid = player.getUniqueId();
-        Block block = e.getBlock();
-        Location location = block.getLocation();
-        if(fakeBlocks.containsKey(uuid)) {
-            Set<Location> locations = fakeBlocks.get(uuid);
-            if(locations.contains(location)) {
-                e.setCancelled(true);
-            }
-        }
-    }
-
-    @EventHandler
-    public void onBlockBreak(BlockBreakEvent e) {
-        Player player = e.getPlayer();
-        ICombatManager combatManager = this.plugin.getCombatManager();
-        if(!combatManager.isInCombat(player)) return;
-
-        UUID uuid = player.getUniqueId();
-        Block block = e.getBlock();
-        Location location = block.getLocation();
-        if(fakeBlocks.containsKey(uuid)) {
-            Set<Location> locations = fakeBlocks.get(uuid);
-            if(locations.contains(location)) {
-                e.setCancelled(true);
-            }
-        }
     }
 }

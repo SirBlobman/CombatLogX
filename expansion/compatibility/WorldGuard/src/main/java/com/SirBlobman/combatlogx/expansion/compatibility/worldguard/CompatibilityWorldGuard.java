@@ -80,6 +80,7 @@ public class CompatibilityWorldGuard extends NoEntryExpansion {
         logger.info("Successfully hooked into WorldGuard v" + version);
 
         saveDefaultConfig("worldguard-compatibility.yml");
+        HookForceField.onConfigLoad(this);
 
         ListenerWorldGuard listener = new ListenerWorldGuard(this);
         JavaPlugin plugin = getPlugin().getPlugin();
@@ -92,6 +93,7 @@ public class CompatibilityWorldGuard extends NoEntryExpansion {
     @Override
     public void reloadConfig() {
         reloadConfig("worldguard-compatibility.yml");
+        HookForceField.onConfigLoad(this);
         HookForceField.checkValidForceField(this);
     }
 

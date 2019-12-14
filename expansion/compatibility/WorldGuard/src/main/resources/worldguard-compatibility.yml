@@ -22,3 +22,20 @@ no-entry:
   #
   # Default: 30
   message-cooldown: 30
+
+force-field:
+  # Even if this option is 'true', you still need to install ProtocolLib
+  # ProtocolLib can be found here: https://www.spigotmc.org/resources/1997/
+  enabled: true
+
+  # For 1.13+, use the correct material name
+  # for 1.8 and below, use the format 'material<:data>'
+  material: GLASS
+  # material: STAINED_GLASS:14
+
+  # What radius around the player should we check for forcefield areas
+  # Smaller values cause less lag but may allow players into the region
+  radius: 5
+
+  # What permission is needed to bypass the force field glass?
+  bypass-permission: "combatlogx.bypass.worldguard.force.field"
