@@ -1,29 +1,28 @@
-package com.SirBlobman.combatlogx.expansion.compatibility.placeholderapi;
-
-import java.util.logging.Logger;
+package com.SirBlobman.combatlogx.expansion.compatibility.mvdwplaceholderapi;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
-import com.SirBlobman.combatlogx.expansion.compatibility.placeholderapi.hook.HookPlaceholderAPI;
-
+import com.SirBlobman.combatlogx.expansion.compatibility.mvdwplaceholderapi.hook.HookMVdW;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
-public class CompatibilityPlaceholderAPI extends Expansion {
-    public CompatibilityPlaceholderAPI(ICombatLogX plugin) {
+import java.util.logging.Logger;
+
+public class CompatibilityMVdWPlaceholderAPI extends Expansion {
+    public CompatibilityMVdWPlaceholderAPI(ICombatLogX plugin) {
         super(plugin);
     }
 
     @Override
     public String getUnlocalizedName() {
-        return "CompatibilityPlaceholderAPI";
+        return "CompatibilityMVdWPlaceholderAPI";
     }
 
     @Override
     public String getName() {
-        return "PlaceholderAPI Compatibility";
+        return "MVdWPlaceholderAPI Compatibility";
     }
 
     @Override
@@ -36,24 +35,24 @@ public class CompatibilityPlaceholderAPI extends Expansion {
         PluginManager manager = Bukkit.getPluginManager();
         Logger logger = getLogger();
 
-        if(!manager.isPluginEnabled("PlaceholderAPI")) {
-            logger.info("The PlaceholderAPI plugin could not be found. This expansion will be automatically disabled.");
+        if(!manager.isPluginEnabled("MVdWPlaceholderAPI")) {
+            logger.info("The MVdWPlaceholderAPI plugin could not be found. This expansion will be automatically disabled.");
             ExpansionManager.unloadExpansion(this);
             return;
         }
 
-        Plugin pluginPlaceholderAPI = manager.getPlugin("PlaceholderAPI");
+        Plugin pluginPlaceholderAPI = manager.getPlugin("MVdWPlaceholderAPI");
         if(pluginPlaceholderAPI == null) {
-            logger.info("The PlaceholderAPI plugin could not be found. This expansion will be automatically disabled.");
+            logger.info("The MVdWPlaceholderAPI plugin could not be found. This expansion will be automatically disabled.");
             ExpansionManager.unloadExpansion(this);
             return;
         }
 
         String versionPlaceholderAPI = pluginPlaceholderAPI.getDescription().getVersion();
-        logger.info("Successfully hooked into PlaceholderAPI v" + versionPlaceholderAPI);
+        logger.info("Successfully hooked into MVdWPlaceholderAPI v" + versionPlaceholderAPI);
 
-        HookPlaceholderAPI hookPlaceholderAPI = new HookPlaceholderAPI(this);
-        hookPlaceholderAPI.register();
+        HookMVdW hookMVdW = new HookMVdW(this);
+        hookMVdW.register();
     }
 
     @Override
