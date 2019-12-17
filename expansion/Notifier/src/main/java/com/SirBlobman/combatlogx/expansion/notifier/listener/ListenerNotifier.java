@@ -7,6 +7,7 @@ import com.SirBlobman.combatlogx.expansion.notifier.Notifier;
 import com.SirBlobman.combatlogx.expansion.notifier.utility.ActionBarHandler;
 import com.SirBlobman.combatlogx.expansion.notifier.utility.BossBarHandler;
 import com.SirBlobman.combatlogx.expansion.notifier.utility.MVdWHandler;
+import com.SirBlobman.combatlogx.expansion.notifier.utility.TitleManagerHandler;
 import com.SirBlobman.combatlogx.expansion.notifier.utility.scoreboard.ScoreboardHandler;
 
 import org.bukkit.Bukkit;
@@ -44,6 +45,8 @@ public class ListenerNotifier implements Listener {
             String trigger = config.getString("AnimatedNames.trigger");
             MVdWHandler.enableTrigger("AnimatedNames", trigger, player);
         }
+
+        TitleManagerHandler.disableScoreboard(this.expansion, player);
     }
 
     @EventHandler(priority=EventPriority.MONITOR)
@@ -64,6 +67,8 @@ public class ListenerNotifier implements Listener {
                 String trigger = config.getString("AnimatedNames.trigger");
                 MVdWHandler.disableTrigger("AnimatedNames", trigger, player);
             }
+
+            TitleManagerHandler.restoreScoreboard(this.expansion, player);
         };
         Bukkit.getScheduler().runTaskLater(this.expansion.getPlugin().getPlugin(), task, 1L);
     }

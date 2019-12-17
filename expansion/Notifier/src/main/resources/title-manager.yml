@@ -1,0 +1,11 @@
+# Title Manager Configuration for Notifier
+
+# Set this option to true if you want the TitleManager scoreboard to be disabled when a player is put into combat
+#
+# Default: true
+disable-scoreboard: true
+
+# Set this option to true if you want the TitleManager scoreboard to be restored when a player is no longer in combat
+#
+# Default: true
+restore-scoreboard: true
