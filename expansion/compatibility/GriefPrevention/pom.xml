@@ -21,6 +21,12 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+
+        <!-- Jitpack -->
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io/</url>
+        </repository>
     </repositories>
     
     
@@ -39,7 +45,14 @@
             <artifactId>CombatLogX-plugin</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
-            <type>jar</type>
+        </dependency>
+
+        <!-- GriefPrevention -->
+        <dependency>
+            <groupId>com.github.TechFortress</groupId>
+            <artifactId>GriefPrevention</artifactId>
+            <version>16.7.1</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

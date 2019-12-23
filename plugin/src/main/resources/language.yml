@@ -160,6 +160,7 @@ lands-compatibility-no-entry: "&cYou are not allowed to enter that area during c
 redprotect-compatibility-no-entry: "&cYou are not allowed to enter that area during combat."
 residence-compatibility-no-entry: "&cYou are not allowed to enter that area during combat."
 towny-compatibility-no-entry: "&cYou are not allowed to enter that area during combat."
+
 worldguard-compatibility:
   no-entry:
     pvp: "&cYou are not allowed to enter a non-player-combat area during combat."
