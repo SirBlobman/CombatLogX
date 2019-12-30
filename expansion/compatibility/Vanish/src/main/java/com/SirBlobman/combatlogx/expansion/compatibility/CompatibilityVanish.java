@@ -4,10 +4,12 @@ import java.util.logging.Logger;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
+import com.SirBlobman.combatlogx.expansion.compatibility.listener.ListenerVanish;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class CompatibilityVanish extends Expansion {
     public CompatibilityVanish(ICombatLogX plugin) {
@@ -43,32 +45,34 @@ public class CompatibilityVanish extends Expansion {
     public void onEnable() {
         Logger logger = getLogger();
         PluginManager manager = Bukkit.getPluginManager();
+        JavaPlugin plugin = getPlugin().getPlugin();
 
         if(manager.isPluginEnabled("SuperVanish")) {
-            Plugin plugin = manager.getPlugin("SuperVanish");
-            if(plugin != null) {
-                String version = plugin.getDescription().getVersion();
+            Plugin pluginSuperVanish = manager.getPlugin("SuperVanish");
+            if(pluginSuperVanish != null) {
+                String version = pluginSuperVanish.getDescription().getVersion();
                 logger.info("Successfully hooked into SuperVanish v" + version);
             }
         }
 
         if(manager.isPluginEnabled("PremiumVanish")) {
-            Plugin plugin = manager.getPlugin("PremiumVanish");
-            if(plugin != null) {
-                String version = plugin.getDescription().getVersion();
+            Plugin pluginPremiumVanish = manager.getPlugin("PremiumVanish");
+            if(pluginPremiumVanish != null) {
+                String version = pluginPremiumVanish.getDescription().getVersion();
                 logger.info("Successfully hooked into SuperVanish v" + version);
             }
         }
 
         if(manager.isPluginEnabled("Essentials")) {
-            Plugin plugin = manager.getPlugin("Essentials");
-            if(plugin != null) {
-                String version = plugin.getDescription().getVersion();
+            Plugin pluginEssentials = manager.getPlugin("Essentials");
+            if(pluginEssentials != null) {
+                String version = pluginEssentials.getDescription().getVersion();
                 logger.info("Successfully hooked into Essentials v" + version);
             }
         }
 
         saveDefaultConfig("vanish-compatibility.yml");
+        manager.registerEvents(new ListenerVanish(this), plugin);
     }
 
     @Override
