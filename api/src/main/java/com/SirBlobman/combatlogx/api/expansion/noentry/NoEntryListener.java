@@ -1,10 +1,8 @@
-package com.SirBlobman.combatlogx.expansion.compatibility.factions.listener;
+package com.SirBlobman.combatlogx.api.expansion.noentry;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.expansion.NoEntryExpansion.NoEntryMode;
+import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagType;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
-import com.SirBlobman.combatlogx.expansion.compatibility.factions.CompatibilityFactions;
-import com.SirBlobman.combatlogx.expansion.compatibility.factions.hook.FactionsHook;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -17,18 +15,16 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
-public class ListenerFactions implements Listener {
-    private final CompatibilityFactions expansion;
-    private final FactionsHook factionsHook;
-    public ListenerFactions(CompatibilityFactions expansion, FactionsHook factionsHook) {
+public class NoEntryListener implements Listener {
+    private final NoEntryExpansion expansion;
+    public NoEntryListener(NoEntryExpansion expansion) {
         this.expansion = expansion;
-        this.factionsHook = factionsHook;
     }
 
     @EventHandler(priority=EventPriority.HIGHEST)
     public void onCancelPVP(EntityDamageByEntityEvent e) {
         if(!e.isCancelled()) return;
-        if(this.expansion.getNoEntryMode() != NoEntryMode.VULNERABLE) return;
+        if(this.expansion.getNoEntryHandler().getNoEntryMode() != NoEntryMode.VULNERABLE) return;
 
         Entity entity = e.getEntity();
         if(!(entity instanceof Player)) return;
@@ -58,7 +54,10 @@ public class ListenerFactions implements Listener {
         if(enemy == null) return;
 
         Location toLocation = e.getTo();
-        if(!this.factionsHook.isSafeZone(toLocation)) return;
+        TagType tagType = (enemy instanceof Player ? TagType.PLAYER : TagType.MOB);
+
+        NoEntryHandler handler = this.expansion.getNoEntryHandler();
+        if(!handler.isSafeZone(player, toLocation, tagType)) return;
 
         Location fromLocation = e.getFrom();
         this.expansion.preventEntry(e, player, fromLocation, toLocation);
@@ -76,7 +75,10 @@ public class ListenerFactions implements Listener {
         if(enemy == null) return;
 
         Location toLocation = e.getTo();
-        if(!this.factionsHook.isSafeZone(toLocation)) return;
+        TagType tagType = (enemy instanceof Player ? TagType.PLAYER : TagType.MOB);
+
+        NoEntryHandler handler = this.expansion.getNoEntryHandler();
+        if(!handler.isSafeZone(player, toLocation, tagType)) return;
 
         e.setCancelled(true);
         this.expansion.sendNoEntryMessage(player, enemy);

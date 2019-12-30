@@ -21,8 +21,13 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+
+        <!-- Towny Github Repository -->
+        <repository>
+            <id>github-towny</id>
+            <url>https://maven.pkg.github.com/TownyAdvanced/Towny</url>
+        </repository>
     </repositories>
-    
     
     <dependencies>
         <!-- Spigot API -->
@@ -39,7 +44,14 @@
             <artifactId>CombatLogX-plugin</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
-            <type>jar</type>
+        </dependency>
+
+        <!-- Towny -->
+        <dependency>
+            <groupId>com.palmergames.bukkit.towny</groupId>
+            <artifactId>Towny</artifactId>
+            <version>0.95.2.0</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

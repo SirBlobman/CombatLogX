@@ -21,6 +21,12 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+
+        <!-- RedProtect GitHub Repository -->
+        <repository>
+            <id>redprotect-repo</id>
+            <url>https://raw.githubusercontent.com/FabioZumbi12/RedProtect/mvn-repo/</url>
+        </repository>
     </repositories>
     
     
@@ -40,6 +46,22 @@
             <version>${project.version}</version>
             <scope>provided</scope>
             <type>jar</type>
+        </dependency>
+
+        <!-- RedProtect Core -->
+        <dependency>
+            <groupId>br.net.fabiozumbi12.RedProtect</groupId>
+            <artifactId>RedProtect-Core</artifactId>
+            <version>7.6.2</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- RedProtect Spigot -->
+        <dependency>
+            <groupId>br.net.fabiozumbi12.RedProtect</groupId>
+            <artifactId>RedProtect-Spigot</artifactId>
+            <version>7.6.2</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

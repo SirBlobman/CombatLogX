@@ -3,20 +3,22 @@ package com.SirBlobman.combatlogx.expansion.compatibility.worldguard;
 import java.util.logging.Logger;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
-import com.SirBlobman.combatlogx.api.expansion.NoEntryExpansion;
-import com.SirBlobman.combatlogx.expansion.compatibility.worldguard.hook.HookForceField;
+import com.SirBlobman.combatlogx.api.expansion.noentry.NoEntryExpansion;
+import com.SirBlobman.combatlogx.api.expansion.noentry.NoEntryForceFieldListener;
+import com.SirBlobman.combatlogx.api.expansion.noentry.NoEntryHandler;
+import com.SirBlobman.combatlogx.api.expansion.noentry.NoEntryListener;
+import com.SirBlobman.combatlogx.expansion.compatibility.worldguard.handler.WorldGuardNoEntryHandler;
 import com.SirBlobman.combatlogx.expansion.compatibility.worldguard.hook.HookWorldGuard;
 import com.SirBlobman.combatlogx.expansion.compatibility.worldguard.listener.ListenerWorldGuard;
 
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CompatibilityWorldGuard extends NoEntryExpansion {
+    private NoEntryHandler noEntryHandler;
     public CompatibilityWorldGuard(ICombatLogX plugin) {
         super(plugin);
     }
@@ -60,8 +62,9 @@ public class CompatibilityWorldGuard extends NoEntryExpansion {
 
     @Override
     public void onActualEnable() {
-        PluginManager manager = Bukkit.getPluginManager();
         Logger logger = getLogger();
+        PluginManager manager = Bukkit.getPluginManager();
+        JavaPlugin plugin = getPlugin().getPlugin();
 
         Plugin pluginWorldGuard = manager.getPlugin("WorldGuard");
         if(pluginWorldGuard == null) {
@@ -70,57 +73,37 @@ public class CompatibilityWorldGuard extends NoEntryExpansion {
             return;
         }
 
-        Plugin pluginProtocolLib = manager.getPlugin("ProtocolLib");
-        if(pluginProtocolLib != null) {
-            String version = pluginProtocolLib.getDescription().getVersion();
-            logger.info("Sucessfully hooked into ProtocolLib v" + version);
-        }
-
         String version = pluginWorldGuard.getDescription().getVersion();
         logger.info("Successfully hooked into WorldGuard v" + version);
 
         saveDefaultConfig("worldguard-compatibility.yml");
-        HookForceField.onConfigLoad(this);
+        this.noEntryHandler = new WorldGuardNoEntryHandler(this);
 
-        ListenerWorldGuard listener = new ListenerWorldGuard(this);
-        JavaPlugin plugin = getPlugin().getPlugin();
+        ListenerWorldGuard listenerWorldGuard = new ListenerWorldGuard();
+        manager.registerEvents(listenerWorldGuard, plugin);
+
+        NoEntryListener listener = new NoEntryListener(this);
         manager.registerEvents(listener, plugin);
 
         HookWorldGuard.registerListeners(this);
-        HookForceField.checkValidForceField(this);
+
+        Plugin pluginProtocolLib = manager.getPlugin("ProtocolLib");
+        if(pluginProtocolLib != null) {
+            NoEntryForceFieldListener forceFieldListener = new NoEntryForceFieldListener(this);
+            manager.registerEvents(forceFieldListener, plugin);
+
+            String versionProtocolLib = pluginProtocolLib.getDescription().getVersion();
+            logger.info("Successfully hooked into ProtocolLib v" + versionProtocolLib);
+        }
     }
 
     @Override
     public void reloadConfig() {
         reloadConfig("worldguard-compatibility.yml");
-        HookForceField.onConfigLoad(this);
-        HookForceField.checkValidForceField(this);
     }
 
     @Override
-    public double getNoEntryKnockbackStrength() {
-        FileConfiguration config = getConfig("worldguard-compatibility.yml");
-        return config.getDouble("no-entry.knockback-strength", 1.5D);
-    }
-
-    @Override
-    public NoEntryMode getNoEntryMode() {
-        FileConfiguration config = getConfig("worldguard-compatibility.yml");
-        String modeString = config.getString("no-entry.knockback-strength", "KNOCKBACK");
-
-        try {return NoEntryMode.valueOf(modeString);}
-        catch(IllegalArgumentException | NullPointerException ex) {return NoEntryMode.KNOCKBACK;}
-    }
-
-    @Override
-    public String getNoEntryMessage(PlayerPreTagEvent.TagType tagType) {
-        String path = "worldguard-compatibility.no-entry.";
-        return (path + (tagType == PlayerPreTagEvent.TagType.PLAYER ? "pvp" : "mob"));
-    }
-
-    @Override
-    public int getNoEntryMessageCooldown() {
-        FileConfiguration config = getConfig("worldguard-compatibility.yml");
-        return config.getInt("no-entry.message-cooldown", 30);
+    public NoEntryHandler getNoEntryHandler() {
+        return this.noEntryHandler;
     }
 }

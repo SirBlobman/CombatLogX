@@ -5,7 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.expansion.NoEntryExpansion;
+import com.SirBlobman.combatlogx.api.expansion.noentry.NoEntryExpansion;
 import com.SirBlobman.combatlogx.expansion.compatibility.worldguard.CompatibilityWorldGuard;
 
 import org.bukkit.Bukkit;

@@ -1,6 +1,9 @@
 package com.SirBlobman.combatlogx.expansion.compatibility.factions.hook;
 
 import java.util.List;
+import java.util.logging.Logger;
+
+import com.SirBlobman.combatlogx.expansion.compatibility.factions.CompatibilityFactions;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -23,34 +26,47 @@ public abstract class FactionsHook {
     }
 
     private static FactionsHook FACTIONS_HOOK = null;
-    public static FactionsHook getFactionsHook() {
+    public static FactionsHook getFactionsHook(CompatibilityFactions expansion) {
         if(FACTIONS_HOOK != null) return FACTIONS_HOOK;
 
         PluginManager manager = Bukkit.getPluginManager();
+        Logger logger = expansion.getLogger();
+
         if(manager.isPluginEnabled("Factions")) {
             Plugin pluginFactions = manager.getPlugin("Factions");
             if(pluginFactions == null) return null;
 
             PluginDescriptionFile pdf = pluginFactions.getDescription();
             List<String> authorList = pdf.getAuthors();
+            String version = pdf.getVersion();
 
             if(authorList.contains("ProSavage")) {
                 FACTIONS_HOOK = new HookSavageFactions();
-                return getFactionsHook();
+                logger.info("Successfully hooked into SavageFactions v" + version);
+                return getFactionsHook(expansion);
             }
 
             if(authorList.contains("drtshock")) {
                 FACTIONS_HOOK = new HookFactionsUUID();
-                return getFactionsHook();
+                logger.info("Successfully hooked into FactionsUUID v" + version);
+                return getFactionsHook(expansion);
             }
 
             FACTIONS_HOOK = new HookMassiveFactions();
-            return getFactionsHook();
+            logger.info("Successfully hooked into Factions v" + version);
+            return getFactionsHook(expansion);
         }
 
         if(manager.isPluginEnabled("LegacyFactions")) {
+            Plugin pluginLegacyFactions = manager.getPlugin("LegacyFactions");
+            if(pluginLegacyFactions == null) return null;
+
+            PluginDescriptionFile pdf = pluginLegacyFactions.getDescription();
+            String version = pdf.getVersion();
+
             FACTIONS_HOOK = new HookLegacyFactions();
-            return getFactionsHook();
+            logger.info("Successfully hooked into LegacyFactions v" + version);
+            return getFactionsHook(expansion);
         }
 
         return null;

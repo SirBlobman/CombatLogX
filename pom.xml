@@ -45,13 +45,14 @@
         <!-- 'patch' will change when small changes are made to the plugin -->
         <!-- 'expansion' will change when an expansion is changed or updated -->
         <!-- ${build.number} is based on jenkins -->
-        <combatlogx.version>10.0.0.0.Beta4-${build.number}</combatlogx.version>
+        <combatlogx.version>10.0.0.0.Beta5-${build.number}</combatlogx.version>
     </properties>
 
     <modules>
         <!-- Dummy APIs -->
         <module>dummy-api/MassiveCore</module>
         <module>dummy-api/Factions</module>
+        <module>dummy-api/Residence</module>
         
         <!-- CombatLogX API-->
         <module>api</module>

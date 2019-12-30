@@ -8,7 +8,7 @@ import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.SirBlobman.combatlogx.api.event.PlayerTagEvent;
 import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
-import com.SirBlobman.combatlogx.api.expansion.NoEntryExpansion;
+import com.SirBlobman.combatlogx.api.expansion.noentry.NoEntryExpansion;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 
 import org.bukkit.Bukkit;

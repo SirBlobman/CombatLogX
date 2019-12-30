@@ -1,7 +1,7 @@
 package com.SirBlobman.combatlogx.expansion.compatibility.worldguard.hook;
 
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.expansion.NoEntryExpansion;
+import com.SirBlobman.combatlogx.api.expansion.noentry.NoEntryExpansion;
 import com.SirBlobman.combatlogx.expansion.compatibility.worldguard.listener.Listener_V7_0;
 
 import org.bukkit.Bukkit;

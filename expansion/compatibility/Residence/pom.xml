@@ -41,5 +41,13 @@
             <scope>provided</scope>
             <type>jar</type>
         </dependency>
+
+        <!-- Residence -->
+        <dependency>
+            <groupId>com.SirBlobman.combatlogx.dummy-api</groupId>
+            <artifactId>Residence</artifactId>
+            <version>4.8.8.2</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>

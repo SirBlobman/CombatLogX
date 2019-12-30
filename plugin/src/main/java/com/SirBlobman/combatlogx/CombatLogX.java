@@ -74,6 +74,7 @@ public class CombatLogX extends JavaPlugin implements ICombatLogX {
         broadcastEnableMessage();
 
         UpdateChecker.checkForUpdates(this);
+
     }
 
     @Override

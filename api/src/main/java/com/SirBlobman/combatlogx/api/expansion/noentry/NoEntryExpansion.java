@@ -1,4 +1,4 @@
-package com.SirBlobman.combatlogx.api.expansion;
+package com.SirBlobman.combatlogx.api.expansion.noentry;
 
 import java.util.List;
 import java.util.UUID;
@@ -6,7 +6,9 @@ import java.util.logging.Logger;
 
 import com.SirBlobman.api.utility.Util;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
+import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagType;
+import com.SirBlobman.combatlogx.api.expansion.Expansion;
+import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 
 import org.bukkit.Bukkit;
@@ -18,7 +20,6 @@ import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.util.Vector;
 
 public abstract class NoEntryExpansion extends Expansion {
-    public enum NoEntryMode {KILL, CANCEL, TELEPORT, KNOCKBACK, VULNERABLE, NOTHING}
     public NoEntryExpansion(ICombatLogX plugin) {
         super(plugin);
     }
@@ -37,6 +38,11 @@ public abstract class NoEntryExpansion extends Expansion {
     }
 
     @Override
+    public void onLoad() {
+        // Do Nothing
+    }
+
+    @Override
     public void onDisable() {
         // Do Nothing
     }
@@ -48,15 +54,20 @@ public abstract class NoEntryExpansion extends Expansion {
         UUID uuid = player.getUniqueId();
         if(noEntryMessageCooldownList.contains(uuid)) return;
 
+        NoEntryHandler handler = getNoEntryHandler();
+        TagType tagType = (enemy instanceof Player ? TagType.PLAYER : TagType.MOB);
+        String messagePath = handler.getNoEntryMessagePath(tagType);
+
         ICombatLogX plugin = getPlugin();
-        String message = plugin.getLanguageMessageColoredWithPrefix(getNoEntryMessage(enemy instanceof Player ? PlayerPreTagEvent.TagType.PLAYER : PlayerPreTagEvent.TagType.MOB));
+        String message = plugin.getLanguageMessageColoredWithPrefix(messagePath);
         plugin.sendMessage(player, message);
 
         noEntryMessageCooldownList.add(uuid);
 
-        long delay = (getNoEntryMessageCooldown() * 20L);
+        long cooldown = handler.getNoEntryMessageCooldown();
+        long delay = (cooldown * 20L);
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        scheduler.runTaskLaterAsynchronously(getPlugin().getPlugin(), () -> noEntryMessageCooldownList.remove(uuid), delay);
+        scheduler.runTaskLaterAsynchronously(plugin.getPlugin(), () -> noEntryMessageCooldownList.remove(uuid), delay);
     }
 
     public final void preventEntry(Cancellable e, Player player, Location fromLoc, Location toLoc) {
@@ -67,7 +78,8 @@ public abstract class NoEntryExpansion extends Expansion {
         sendNoEntryMessage(player, enemy);
 
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        NoEntryMode noEntryMode = getNoEntryMode();
+        NoEntryHandler handler = getNoEntryHandler();
+        NoEntryMode noEntryMode = handler.getNoEntryMode();
         switch(noEntryMode) {
             case KILL:
                 player.setHealth(0.0D);
@@ -109,17 +121,21 @@ public abstract class NoEntryExpansion extends Expansion {
 
         Vector subtract = fromVec.subtract(toVec);
         Vector normal = subtract.normalize();
-        Vector multiply = normal.multiply(getNoEntryKnockbackStrength());
+
+        NoEntryHandler handler = getNoEntryHandler();
+        double strength = handler.getNoEntryKnockbackStrength();
+        Vector multiply = normal.multiply(strength);
+
         return makeFinite(multiply);
     }
 
     private Vector makeFinite(Vector original) {
         if(original == null) return null;
 
-        double x = makeFinite(original.getX());
-        double y = makeFinite(original.getY());
-        double z = makeFinite(original.getZ());
-        return new Vector(x, y, z);
+        double ox = original.getX(), fx = makeFinite(ox);
+        double oy = original.getY(), fy = makeFinite(oy);
+        double oz = original.getZ(), fz = makeFinite(oz);
+        return new Vector(fx, fy, fz);
     }
 
     private double makeFinite(double original) {
@@ -131,9 +147,5 @@ public abstract class NoEntryExpansion extends Expansion {
 
     public abstract boolean canEnable();
     public abstract void onActualEnable();
-
-    public abstract double getNoEntryKnockbackStrength();
-    public abstract NoEntryMode getNoEntryMode();
-    public abstract String getNoEntryMessage(PlayerPreTagEvent.TagType tagType);
-    public abstract int getNoEntryMessageCooldown();
+    public abstract NoEntryHandler getNoEntryHandler();
 }
