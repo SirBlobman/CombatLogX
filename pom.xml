@@ -50,6 +50,7 @@
 
     <modules>
         <!-- Dummy APIs -->
+        <module>dummy-api/CrackShot</module>
         <module>dummy-api/MassiveCore</module>
         <module>dummy-api/Factions</module>
         <module>dummy-api/Residence</module>
@@ -71,6 +72,7 @@
 
         <!-- Compatibility Expansions -->
         <module>expansion/compatibility/Citizens</module>
+        <module>expansion/compatibility/CrackShot</module>
         <module>expansion/compatibility/PlaceholderAPI</module>
         <module>expansion/compatibility/MVdWPlaceholderAPI</module>
         <module>expansion/compatibility/Vanish</module>

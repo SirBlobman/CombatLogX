@@ -53,6 +53,7 @@
                                 
                                 <!-- Copy Compatibility Expansion JAR Files -->
                                 <copy file="${expansion.compatibility.dir}/Citizens/target/CitizensCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/Citizens Compatibility.jar"/>
+                                <copy file="${expansion.compatibility.dir}/CrackShot/target/CrackShotCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/CrackShot Compatibility.jar"/>
                                 <copy file="${expansion.compatibility.dir}/PlaceholderAPI/target/PlaceholderAPICompatibility-${project.version}.jar" tofile="${build.expansion.dir}/PlaceholderAPI Compatibility.jar"/>
                                 <copy file="${expansion.compatibility.dir}/MVdWPlaceholderAPI/target/MVdWPlaceholderAPICompatibility-${project.version}.jar" tofile="${build.expansion.dir}/MVdWPlaceholderAPI Compatibility.jar"/>
                                 <copy file="${expansion.compatibility.dir}/Vanish/target/VanishCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/Vanish Compatibility.jar"/>
