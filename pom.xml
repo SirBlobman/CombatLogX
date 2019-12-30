@@ -73,6 +73,7 @@
         <module>expansion/compatibility/Citizens</module>
         <module>expansion/compatibility/PlaceholderAPI</module>
         <module>expansion/compatibility/MVdWPlaceholderAPI</module>
+        <module>expansion/compatibility/Vanish</module>
 
         <!-- Region Compatibility Expansions -->
         <module>expansion/compatibility/Factions</module>

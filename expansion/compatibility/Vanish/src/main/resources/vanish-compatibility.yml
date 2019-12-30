@@ -1,0 +1,16 @@
+# Default Vanish Compatibility Configuration
+# Made by SirBlobman
+
+# Should vanished players bypass combat?
+# Setting this to true means they will not be tagged
+bypass-combat: true
+
+# If Essentials is enabled, should we check if players are vanished through it?
+check-essentials-vanish: true
+
+# If SuperVanish or PremiumVanish is enabled, should we check if players are vanished through it?
+check-super-vanish: true
+
+# Should we check player metadata for vanish tags?
+# (Some plugins, such as VanishNoPacket, use this option)
+check-bukkit-vanish: true

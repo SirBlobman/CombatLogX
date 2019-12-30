@@ -1,0 +1,79 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
+    
+    <parent>
+        <groupId>com.SirBlobman.combatlogx</groupId>
+        <artifactId>CombatLogX-parent</artifactId>
+        <version>10.0.0.0-SNAPSHOT</version>
+        <relativePath>../../../pom.xml</relativePath>
+    </parent>
+    
+    <groupId>com.SirBlobman.combatlogx.expansions</groupId>
+    <artifactId>VanishCompatibility</artifactId>
+    
+    <name>Vanish Compatibility Expansion</name>
+    <description>An expansion that adds compatibility with Essentials Vanish, SuperVanish, and PremiumVanish.</description>
+    
+    <repositories>
+        <!-- Spigot API Repository -->
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+        
+        <!-- EnderZone Repository -->
+        <repository>
+            <id>ender-zone</id>
+            <url>https://ci.ender.zone/plugin/repository/everything/</url>
+        </repository>
+        
+        <!-- CubeKrowd Repository -->
+        <repository>
+            <id>cubekrown-repo</id>
+            <url>https://mavenrepo.cubekrowd.net/artifactory/repo/</url>
+        </repository>
+    </repositories>
+    
+    
+    <dependencies>
+        <!-- Spigot API -->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>${spigot.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- CombatLogX Plugin -->
+        <dependency>
+            <groupId>com.SirBlobman.combatlogx</groupId>
+            <artifactId>CombatLogX-plugin</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <!-- EssentialsX -->
+        <dependency>
+            <groupId>net.ess3</groupId>
+            <artifactId>EssentialsX</artifactId>
+            <version>2.17.1</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.bukkit</groupId>
+                    <artifactId>bukkit</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <!-- SuperVanish -->
+        <!-- PremiumVanish uses the SuperVanish API -->
+        <dependency>
+            <groupId>de.myzelyam</groupId>
+            <artifactId>SuperVanish</artifactId>
+            <version>6.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+</project>
