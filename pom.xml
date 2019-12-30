@@ -53,6 +53,7 @@
         <module>dummy-api/MassiveCore</module>
         <module>dummy-api/Factions</module>
         <module>dummy-api/Residence</module>
+        <module>dummy-api/Towny</module>
         
         <!-- CombatLogX API-->
         <module>api</module>
