@@ -96,6 +96,10 @@ command-blocker:
   - "/spawn"
   - "/home"
 
+  # How many seconds do players have to wait after combat to execute blocked commands again?
+  # Default: 0 (no delay)
+  delay-after-combat: 0
+
 inventories:
   # Set this to true to close the player's inventory when they are tagged.
   # For some reason any open menu counts as an inventory (e.g. Chat, Pause Menu, etc...)
