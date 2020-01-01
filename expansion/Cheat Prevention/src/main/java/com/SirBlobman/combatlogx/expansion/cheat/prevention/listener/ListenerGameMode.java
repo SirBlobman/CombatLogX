@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.event.PlayerTagEvent;
+import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent.UntagReason;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 
@@ -64,5 +65,17 @@ public class ListenerGameMode implements Listener {
         player.setGameMode(gameMode);
         String message = this.plugin.getLanguageMessageColoredWithPrefix("cheat-prevention.game-mode.force-changed").replace("{game_mode}", gameMode.name());
         this.plugin.sendMessage(player, message);
+    }
+
+    @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
+    public void afterChangeGameMode(PlayerGameModeChangeEvent e) {
+        FileConfiguration config = this.expansion.getConfig("cheat-prevention.yml");
+        if(!config.getBoolean("game-mode.untag-on-change-game-mode")) return;
+
+        Player player = e.getPlayer();
+        ICombatManager manager = this.plugin.getCombatManager();
+        if(!manager.isInCombat(player)) return;
+
+        manager.untag(player, UntagReason.EXPIRE);
     }
 }

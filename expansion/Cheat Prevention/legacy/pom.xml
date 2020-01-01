@@ -49,7 +49,6 @@
             <artifactId>CombatLogX-plugin</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
-            <type>jar</type>
         </dependency>
     </dependencies>
 </project>

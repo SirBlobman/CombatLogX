@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
+import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent.UntagReason;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 
@@ -50,5 +51,17 @@ public class ListenerTeleport implements Listener {
         e.setCancelled(true);
         String message = this.plugin.getLanguageMessageColoredWithPrefix("cheat-prevention.teleportation.block-" + (cause == PlayerTeleportEvent.TeleportCause.ENDER_PEARL ? "pearl" : "other"));
         this.plugin.sendMessage(player, message);
+    }
+
+    @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
+    public void afterTeleport(PlayerTeleportEvent e) {
+        FileConfiguration config = this.expansion.getConfig("cheat-prevention.yml");
+        if(!config.getBoolean("teleportation.untag-on-teleport")) return;
+
+        Player player = e.getPlayer();
+        ICombatManager manager = this.plugin.getCombatManager();
+        if(!manager.isInCombat(player)) return;
+
+        manager.untag(player, UntagReason.EXPIRE);
     }
 }

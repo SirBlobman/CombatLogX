@@ -46,6 +46,12 @@ teleportation:
   # Default: false
   restart-timer-for-ender-pearl: false
 
+  # Set this to true if teleported players should be removed from combat
+  # Set this to false if they should keep their tag
+  #
+  # Default: false
+  untag-on-teleport: false
+
 flight:
   # Set this to true to prevent players from flying during combat
   # Set this to false to allow players to fly during combat
@@ -73,6 +79,12 @@ game-mode:
   #
   # Default: SURVIVAL
   game-mode: SURVIVAL
+
+  # Set this to true if players should be removed from combat when their game mode changes
+  # Set this to false if they should keep their tag
+  #
+  # Default: false
+  untag-on-change-game-mode: false
 
 command-blocker:
   # Set this to true if the 'command-list' is the list of allowed commands
