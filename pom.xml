@@ -10,25 +10,6 @@
     <description>This is the CombatLogX parent pom used to package the project.</description>
     <url>https://www.spigotmc.org/resources/31689/</url>
 
-    <distributionManagement>
-        <repository>
-            <id>codemc-releases</id>
-            <url>https://repo.codemc.io/repository/maven-releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>codemc-snapshots</id>
-            <url>https://repo.codemc.io/repository/maven-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
-
-    <repositories>
-        <!-- CodeMC Snapshots -->
-        <repository>
-            <id>codemc-snapshots</id>
-            <url>https://repo.codemc.io/repository/maven-snapshots/</url>
-        </repository>
-    </repositories>
-
     <properties>
         <java.version>1.8</java.version>
         <spigot.version>1.14.4-R0.1-SNAPSHOT</spigot.version>
@@ -45,16 +26,18 @@
         <!-- 'patch' will change when small changes are made to the plugin -->
         <!-- 'expansion' will change when an expansion is changed or updated -->
         <!-- ${build.number} is based on jenkins -->
-        <combatlogx.version>10.0.0.0.Beta5-${build.number}</combatlogx.version>
+        <combatlogx.version>10.0.0.0.Beta-${build.number}</combatlogx.version>
     </properties>
 
     <modules>
         <!-- Dummy APIs -->
         <module>dummy-api/CrackShot</module>
-        <module>dummy-api/MassiveCore</module>
-        <module>dummy-api/Factions</module>
+        <module>dummy-api/FabledSkyBlock</module>
         <module>dummy-api/Residence</module>
         <module>dummy-api/Towny</module>
+        
+        <module>dummy-api/MassiveCore</module>
+        <module>dummy-api/Factions</module>
         
         <!-- CombatLogX API-->
         <module>api</module>
@@ -66,6 +49,7 @@
         <module>expansion/Cheat Prevention/legacy</module>
         <module>expansion/Cheat Prevention</module>
         <module>expansion/Damage Tagger</module>
+        <module>expansion/Logger</module>
         <module>expansion/Newbie Helper</module>
         <module>expansion/Notifier</module>
         <module>expansion/Rewards</module>
@@ -75,6 +59,7 @@
         <module>expansion/compatibility/CrackShot</module>
         <module>expansion/compatibility/PlaceholderAPI</module>
         <module>expansion/compatibility/MVdWPlaceholderAPI</module>
+        <module>expansion/compatibility/SkyBlock</module>
         <module>expansion/compatibility/Vanish</module>
 
         <!-- Region Compatibility Expansions -->
@@ -94,6 +79,25 @@
         <!-- Final Builder -->
         <module>builder</module>
     </modules>
+
+    <distributionManagement>
+        <repository>
+            <id>codemc-releases</id>
+            <url>https://repo.codemc.io/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>codemc-snapshots</id>
+            <url>https://repo.codemc.io/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <repositories>
+        <!-- CodeMC Snapshots -->
+        <repository>
+            <id>codemc-snapshots</id>
+            <url>https://repo.codemc.io/repository/maven-snapshots/</url>
+        </repository>
+    </repositories>
 
     <build>
         <resources>

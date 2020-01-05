@@ -47,6 +47,7 @@
                                 <!-- Copy Main Expansion JAR Files -->
                                 <copy file="${expansion.dir}/Cheat Prevention/target/CheatPrevention-${project.version}.jar" tofile="${build.expansion.dir}/Cheat Prevention.jar"/>
                                 <copy file="${expansion.dir}/Damage Tagger/target/DamageTagger-${project.version}.jar" tofile="${build.expansion.dir}/Damage Tagger.jar"/>
+                                <copy file="${expansion.dir}/Logger/target/Logger-${project.version}.jar" tofile="${build.expansion.dir}/Logger.jar"/>
                                 <copy file="${expansion.dir}/Newbie Helper/target/NewbieHelper-${project.version}.jar" tofile="${build.expansion.dir}/Newbie Helper.jar"/>
                                 <copy file="${expansion.dir}/Notifier/target/Notifier-${project.version}.jar" tofile="${build.expansion.dir}/Notifier.jar"/>
                                 <copy file="${expansion.dir}/Rewards/target/Rewards-${project.version}.jar" tofile="${build.expansion.dir}/Rewards.jar"/>
@@ -56,6 +57,7 @@
                                 <copy file="${expansion.compatibility.dir}/CrackShot/target/CrackShotCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/CrackShot Compatibility.jar"/>
                                 <copy file="${expansion.compatibility.dir}/PlaceholderAPI/target/PlaceholderAPICompatibility-${project.version}.jar" tofile="${build.expansion.dir}/PlaceholderAPI Compatibility.jar"/>
                                 <copy file="${expansion.compatibility.dir}/MVdWPlaceholderAPI/target/MVdWPlaceholderAPICompatibility-${project.version}.jar" tofile="${build.expansion.dir}/MVdWPlaceholderAPI Compatibility.jar"/>
+                                <copy file="${expansion.compatibility.dir}/SkyBlock/target/SkyBlockCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/SkyBlock Compatibility.jar"/>
                                 <copy file="${expansion.compatibility.dir}/Vanish/target/VanishCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/Vanish Compatibility.jar"/>
                                 
                                 <!-- Copy Region Compatibility Expansion JAR Files -->

@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,10 +15,9 @@ import java.util.logging.Logger;
 import com.SirBlobman.api.utility.Util;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-
-import com.google.common.base.Charsets;
 
 /**
  * Expansion is an abstract class used by CombatLogX expansions
@@ -49,56 +50,93 @@ public abstract class Expansion {
         ICombatLogX plugin = getPlugin();
         Logger parent = plugin.getLogger();
 
-        Logger logger = Logger.getLogger(getName());
+        String expansionName = getName();
+        Logger logger = Logger.getLogger(expansionName);
+
         logger.setParent(parent);
         return logger;
     }
 
     public FileConfiguration getConfig(String fileName) {
-        FileConfiguration newConfig = fileNameToConfigMap.getOrDefault(fileName, null);
-        if(newConfig != null) return newConfig;
+        try {
+            File dataFolder = getDataFolder();
+            File file = new File(dataFolder, fileName);
 
-        reloadConfig(fileName);
-        return getConfig(fileName);
+            File realFile = file.getCanonicalFile();
+            String realName = realFile.getName();
+
+            FileConfiguration config = fileNameToConfigMap.getOrDefault(realName, null);
+            if(config != null) return config;
+
+            reloadConfig(fileName);
+            return getConfig(fileName);
+        } catch(IOException ex) {
+            Logger logger = getLogger();
+            logger.log(Level.SEVERE, "An error occurred while getting a config named '" + fileName + "'. An empty config will be returned.", ex);
+            return new YamlConfiguration();
+        }
     }
 
     public void reloadConfig(String fileName) {
-        File configFile = new File(getDataFolder(), fileName);
-        FileConfiguration newConfig = YamlConfiguration.loadConfiguration(configFile);
+        try {
+            File dataFolder = getDataFolder();
+            File file = new File(dataFolder, fileName);
 
-        final InputStream defConfigStream = this.plugin.getPlugin().getResource(fileName);
-        if (defConfigStream == null) return;
+            File realFile = file.getCanonicalFile();
+            String realName = realFile.getName();
 
-        newConfig.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(defConfigStream, Charsets.UTF_8)));
-        fileNameToConfigMap.put(fileName, newConfig);
+            YamlConfiguration config = new YamlConfiguration();
+            config.load(realFile);
+
+            InputStream jarStream = this.plugin.getPlugin().getResource(fileName);
+            if(jarStream != null) {
+                InputStreamReader reader = new InputStreamReader(jarStream, StandardCharsets.UTF_8);
+                YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(reader);
+                config.setDefaults(defaultConfig);
+            }
+
+            fileNameToConfigMap.put(realName, config);
+        } catch(IOException | InvalidConfigurationException ex) {
+            Logger logger = getLogger();
+            logger.log(Level.SEVERE, "An error ocurred while loading a config named '" + fileName + "'.", ex);
+        }
     }
 
     public void saveConfig(String fileName) {
-        File configFile = new File(getDataFolder(), fileName);
         try {
-            getConfig(fileName).save(configFile);
-        } catch (IOException ex) {
-            getLogger().log(Level.SEVERE, "Could not save config to " + configFile, ex);
+            File dataFolder = getDataFolder();
+            File file = new File(dataFolder, fileName);
+
+            File realFile = file.getCanonicalFile();
+
+            FileConfiguration config = getConfig(fileName);
+            config.save(realFile);
+        } catch(IOException ex) {
+            Logger logger = getLogger();
+            logger.log(Level.SEVERE, "An error ocurred while saving a config named '" + fileName + "'.", ex);
         }
     }
 
     public void saveDefaultConfig(String fileName) {
-        File configFile = new File(getDataFolder(), fileName);
-        if(configFile.exists()) return;
-
-        InputStream inputStream = this.plugin.getPlugin().getResource(fileName);
-        if(inputStream == null) {
-            Logger logger = getLogger();
-            logger.info("Could not find '" + fileName + "' in class path.");
-            return;
-        }
-
         try {
-            Path configPath = configFile.toPath();
-            Files.copy(inputStream, configPath);
+            File dataFolder = getDataFolder();
+            File file = new File(dataFolder, fileName);
+
+            File realFile = file.getCanonicalFile();
+            if(realFile.exists()) return;
+
+            InputStream jarStream = this.plugin.getPlugin().getResource(fileName);
+            if(jarStream == null) {
+                Logger logger = getLogger();
+                logger.warning("Could not find file '" + fileName + "' in jar.");
+                return;
+            }
+
+            Path path = realFile.toPath();
+            Files.copy(jarStream, path, StandardCopyOption.REPLACE_EXISTING);
         } catch(IOException ex) {
             Logger logger = getLogger();
-            logger.log(Level.SEVERE, "Failed to copy file '" + fileName + "' to classpath.", ex);
+            logger.log(Level.SEVERE, "An error ocurred while saving the default config for file '" + fileName + "'.", ex);
         }
     }
 
