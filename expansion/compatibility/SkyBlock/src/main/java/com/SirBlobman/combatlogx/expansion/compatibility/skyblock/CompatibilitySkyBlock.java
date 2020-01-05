@@ -20,12 +20,17 @@ public class CompatibilitySkyBlock extends Expansion {
 
     @Override
     public String getUnlocalizedName() {
-        return null;
+        return "CompatibilitySkyBlock";
+    }
+
+    @Override
+    public String getName() {
+        return "SkyBlock Compatibility";
     }
 
     @Override
     public String getVersion() {
-        return null;
+        return "15.0";
     }
 
     @Override
@@ -51,7 +56,7 @@ public class CompatibilitySkyBlock extends Expansion {
 
         SkyBlockHook hook = SkyBlockHook.getSkyBlockHook(this);
         if(hook == null) {
-            logger.info("A SkyBlock plugin could not be installed. If you believe this is an error please contact SirBlobman.");
+            logger.info("A SkyBlock plugin could not be detected. If you believe this is an error please contact SirBlobman.");
             logger.info("Automatically disabling...");
             ExpansionManager.unloadExpansion(this);
             return;
