@@ -56,7 +56,7 @@ public class ListenerLogger implements Listener {
         FileConfiguration config = this.expansion.getConfig("logger.yml");
         if(config == null) return true;
 
-        return config.getBoolean("log-options." + path);
+        return !config.getBoolean("log-options." + path);
     }
 
     private void appendLog(String message) {
