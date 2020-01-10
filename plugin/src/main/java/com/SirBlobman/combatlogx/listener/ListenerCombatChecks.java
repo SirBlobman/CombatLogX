@@ -115,7 +115,7 @@ public class ListenerCombatChecks implements Listener {
         if(enemy == null) return false;
 
         FileConfiguration config = this.plugin.getConfig("config.yml");
-        boolean mobsDisabled = config.getBoolean("combat.mobs.tag-players");
+        boolean mobsDisabled = !config.getBoolean("combat.mobs.tag-players");
         if(mobsDisabled && !(enemy instanceof Player)) return true;
 
         boolean whiteListMode = config.getBoolean("combat.mobs.whitelist-mode");
