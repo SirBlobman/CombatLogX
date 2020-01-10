@@ -15,7 +15,7 @@ public class GriefPreventionNoEntryHandler extends NoEntryHandler {
 
     @Override
     public String getConfigFileName() {
-        return "griefprevention-compatibility";
+        return "griefprevention-compatibility.yml";
     }
 
     @Override
