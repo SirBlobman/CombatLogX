@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-import com.SirBlobman.api.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.shaded.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 
 import org.bukkit.Bukkit;
