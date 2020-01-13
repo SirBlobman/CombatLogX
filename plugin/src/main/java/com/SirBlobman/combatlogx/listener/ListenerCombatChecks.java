@@ -22,6 +22,8 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 
 public class ListenerCombatChecks implements Listener {
     private final ICombatLogX plugin;
@@ -32,6 +34,7 @@ public class ListenerCombatChecks implements Listener {
     @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
     public void beforeTag(PlayerPreTagEvent e) {
         Player player = e.getPlayer();
+        
         if(isInDisabledWorld(player)) {
             e.setCancelled(true);
             return;
@@ -107,8 +110,9 @@ public class ListenerCombatChecks implements Listener {
         FileConfiguration config = this.plugin.getConfig("config.yml");
         String bypassPermission = config.getString("combat.bypass-permission");
         if(bypassPermission == null || bypassPermission.isEmpty()) return false;
-
-        return player.hasPermission(bypassPermission);
+        
+        Permission permission = new Permission(bypassPermission, "Bypass permission for CombatLogX.", PermissionDefault.FALSE);
+        return player.hasPermission(permission);
     }
 
     private boolean checkMobTypeDisabled(LivingEntity enemy) {

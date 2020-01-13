@@ -3,10 +3,10 @@ package com.SirBlobman.combatlogx.utility;
 import java.lang.reflect.Method;
 import java.util.*;
 
-import com.SirBlobman.api.nms.NMS_Handler;
-import com.SirBlobman.api.utility.Util;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.event.*;
+import com.SirBlobman.combatlogx.api.shaded.nms.NMS_Handler;
+import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 
 import org.bukkit.Bukkit;

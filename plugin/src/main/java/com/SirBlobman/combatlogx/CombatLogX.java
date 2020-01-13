@@ -4,19 +4,20 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
-import com.SirBlobman.api.SirBlobmanAPI;
-import com.SirBlobman.api.utility.MessageUtil;
-import com.SirBlobman.api.utility.Util;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
 import com.SirBlobman.combatlogx.api.listener.ICustomDeathListener;
+import com.SirBlobman.combatlogx.api.shaded.SirBlobmanAPI;
+import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
+import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 import com.SirBlobman.combatlogx.command.CommandCombatLogX;
 import com.SirBlobman.combatlogx.command.CommandCombatTimer;
 import com.SirBlobman.combatlogx.command.CustomCommand;
@@ -37,8 +38,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
-
-import com.google.common.base.Charsets;
 
 public class CombatLogX extends JavaPlugin implements ICombatLogX {
     private static final Map<String, FileConfiguration> fileNameToConfigMap = Util.newMap();
@@ -126,7 +125,7 @@ public class CombatLogX extends JavaPlugin implements ICombatLogX {
         final InputStream defConfigStream = getResource(fileName);
         if (defConfigStream == null) return;
 
-        newConfig.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(defConfigStream, Charsets.UTF_8)));
+        newConfig.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(defConfigStream, StandardCharsets.UTF_8)));
         fileNameToConfigMap.put(fileName, newConfig);
     }
 

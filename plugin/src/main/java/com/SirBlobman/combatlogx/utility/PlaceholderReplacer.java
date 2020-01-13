@@ -2,9 +2,9 @@ package com.SirBlobman.combatlogx.utility;
 
 import java.text.DecimalFormat;
 
-import com.SirBlobman.api.nms.NMS_Handler;
-import com.SirBlobman.api.utility.MessageUtil;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.shaded.nms.NMS_Handler;
+import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 
 import org.bukkit.entity.EntityType;

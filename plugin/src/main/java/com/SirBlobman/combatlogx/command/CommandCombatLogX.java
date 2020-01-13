@@ -5,14 +5,14 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import com.SirBlobman.api.nms.NMS_Handler;
-import com.SirBlobman.api.utility.MessageUtil;
-import com.SirBlobman.api.utility.Util;
 import com.SirBlobman.combatlogx.CombatLogX;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
+import com.SirBlobman.combatlogx.api.shaded.nms.NMS_Handler;
+import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
+import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import com.SirBlobman.combatlogx.utility.UpdateChecker;
 

@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
-import com.SirBlobman.api.utility.Util;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.listener.ICustomDeathListener;
+import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

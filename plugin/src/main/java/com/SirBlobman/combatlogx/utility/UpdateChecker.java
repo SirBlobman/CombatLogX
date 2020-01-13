@@ -10,8 +10,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.regex.Pattern;
 
-import com.SirBlobman.api.utility.MessageUtil;
 import com.SirBlobman.combatlogx.CombatLogX;
+import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
