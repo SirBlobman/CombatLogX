@@ -52,7 +52,10 @@ public class ListenerFlight implements Listener {
         if(!player.isFlying()) return;
 
         player.setFlying(false);
-        this.preventFallDamage.add(player.getUniqueId());
+        if(config.getBoolean("flight.force-disable-flight")) player.setAllowFlight(false);
+        
+        UUID uuid = player.getUniqueId();
+        this.preventFallDamage.add(uuid);
 
         String message = this.plugin.getLanguageMessageColoredWithPrefix("cheat-prevention.flight.force-disabled");
         this.plugin.sendMessage(player, message);

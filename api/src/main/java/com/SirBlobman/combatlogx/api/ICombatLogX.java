@@ -19,10 +19,10 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @author SirBlobman
  */
 public interface ICombatLogX {
-    public JavaPlugin getPlugin();
-    public Logger getLogger();
+    JavaPlugin getPlugin();
+    Logger getLogger();
 
-    public File getDataFolder();
+    File getDataFolder();
 
     /**
      * Register a command to CombatLogX
@@ -33,23 +33,24 @@ public interface ICombatLogX {
      * @param aliases The alias list of the command
      * @see CommandExecutor
      */
-    public void registerCommand(String commandName, CommandExecutor executor, String description, String usage, String... aliases);
+    void registerCommand(String commandName, CommandExecutor executor, String description, String usage, String... aliases);
 
-    public FileConfiguration getConfig(String fileName);
-    public void reloadConfig(String fileName);
-    public void saveConfig(String fileName);
-    public void saveDefaultConfig(String fileName);
+    FileConfiguration getConfig(String fileName);
+    void reloadConfig(String fileName);
+    void saveConfig(String fileName);
+    void saveDefaultConfig(String fileName);
 
-    public YamlConfiguration getDataFile(OfflinePlayer user);
-    public void saveDataFile(OfflinePlayer user, YamlConfiguration config);
+    YamlConfiguration getDataFile(OfflinePlayer user);
+    void saveDataFile(OfflinePlayer user, YamlConfiguration config);
 
-    public String getLanguageMessage(String path);
-    public String getLanguageMessageColored(String path);
-    public String getLanguageMessageColoredWithPrefix(String path);
+    String getLanguageMessage(String path);
+    String getLanguageMessageColored(String path);
+    String getLanguageMessageColoredWithPrefix(String path);
 
-    public ClassLoader getPluginClassLoader();
-    public ICombatManager getCombatManager();
-    public ICustomDeathListener getCustomDeathListener();
+    ClassLoader getPluginClassLoader();
+    ICombatManager getCombatManager();
+    ICustomDeathListener getCustomDeathListener();
 
-    public void sendMessage(CommandSender sender, String... messages);
+    void sendMessage(CommandSender sender, String... messages);
+    void printDebug(String message);
 }

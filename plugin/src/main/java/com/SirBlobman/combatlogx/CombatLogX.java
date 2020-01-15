@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
@@ -214,7 +215,18 @@ public class CombatLogX extends JavaPlugin implements ICombatLogX {
             sender.sendMessage(message);
         }
     }
-
+    
+    @Override
+    public void printDebug(String message) {
+        if(message == null || message.isEmpty()) return;
+        
+        FileConfiguration config = getConfig("config.yml");
+        if(!config.getBoolean("debug")) return;
+        
+        Logger logger = getLogger();
+        logger.info("[Debug] " + message);
+    }
+    
     private void forceRegisterCommand(String commandName, CommandExecutor executor, String description, String usage, String... aliases) {
         if(commandName == null || executor == null || description == null || usage == null || aliases == null) return;
 

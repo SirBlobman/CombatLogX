@@ -6,11 +6,11 @@ You can use it to create new expansions or to check stuff with your own plugin
 A lot of developers use maven to build projects more easily.  
 CodeMC was nice enough to sponsor a maven repository for CombatLogX
 
-**Repository: CodeMC Snapshots**
+**Repository: CodeMC Public**
 ```xml
 <repository>
-    <id>codemc-snapshots</id>
-    <url>https://repo.codemc.io/repository/maven-snapshots/</url>
+    <id>codemc-repo</id>
+    <url>https://repo.codemc.io/repository/maven-public/</url>
 </repository>
 ```
 

@@ -59,6 +59,12 @@ flight:
   # Default: true
   prevent-flying: true
 
+  # Set this to true to set the allowFlight flag to 'false' for the player when they enter into combat
+  # This may cause issues with some custom flight plugins so it is disabled by default
+  #
+  # Default: false
+  force-disable-flight: true
+
   # This option will prevent fall damage if a player lost their flight due to CombatLogX
   #
   # Default: true
