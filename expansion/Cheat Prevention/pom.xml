@@ -23,7 +23,6 @@
         </repository>
     </repositories>
     
-    
     <dependencies>
         <!-- Spigot API -->
         <dependency>

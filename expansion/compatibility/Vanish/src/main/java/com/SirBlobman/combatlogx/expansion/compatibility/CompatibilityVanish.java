@@ -70,7 +70,7 @@ public class CompatibilityVanish extends Expansion {
                 logger.info("Successfully hooked into Essentials v" + version);
             }
         }
-
+        
         saveDefaultConfig("vanish-compatibility.yml");
         manager.registerEvents(new ListenerVanish(this), plugin);
     }
