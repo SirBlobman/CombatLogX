@@ -1,5 +1,6 @@
 package com.SirBlobman.combatlogx.api.expansion.noentry;
 
+import java.lang.reflect.Method;
 import java.util.regex.Pattern;
 
 import com.SirBlobman.api.nms.NMS_Handler;
@@ -68,7 +69,15 @@ public abstract class NoEntryHandler {
         String materialString = getForceFieldMaterialString();
 
         int minorVersion = NMS_Handler.getMinorVersion();
-        if(minorVersion >= 13) return Material.matchMaterial(materialString, false);
+        if(minorVersion >= 13) {
+            try {
+                Class<?> classMaterial = Class.forName("org.bukkit.Material");
+                Method method_matchMaterial = classMaterial.getDeclaredMethod("matchMaterial", String.class, Boolean.TYPE);
+                return (Material) method_matchMaterial.invoke(null, materialString, false);
+            } catch(ReflectiveOperationException ex) {
+                return Material.matchMaterial(materialString);
+            }
+        }
 
         if(materialString.contains(":")) {
             String[] split = materialString.split(Pattern.quote(":"));
