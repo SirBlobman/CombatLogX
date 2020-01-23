@@ -40,8 +40,9 @@ public class BossBarHandler {
 
     public static void updateBossBar(Notifier expansion, Player player) {
         if(player == null || expansion == null) return;
-
         FileConfiguration bossbar = expansion.getConfig("bossbar.yml");
+        if(!bossbar.getBoolean("enabled")) return;
+        
         String message = MessageUtil.color(replacePlaceholders(expansion, player, bossbar.getString("message-timer")));
         String color = bossbar.getString("bar-color");
         String style = bossbar.getString("bar-style");
@@ -66,12 +67,15 @@ public class BossBarHandler {
         }
 
         FileConfiguration bossbar = expansion.getConfig("bossbar.yml");
-        String message = MessageUtil.color(bossbar.getString("message-ended"));
+        String message = bossbar.getString("message-ended");
+        if(message == null) message = "";
+        
+        String title = MessageUtil.color(message);
         String color = bossbar.getString("bar-color");
         String style = bossbar.getString("bar-style");
         double progress = 0.0D;
 
-        handler.sendNewBossBar(player, message, progress, color, style);
+        handler.sendNewBossBar(player, title, progress, color, style);
 
         BukkitScheduler scheduler = Bukkit.getScheduler();
         JavaPlugin plugin = expansion.getPlugin().getPlugin();

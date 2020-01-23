@@ -38,15 +38,14 @@ public final class ScoreboardHandler {
 
     public static void enableScoreboard(Notifier expansion, Player player) {
         if(expansion == null || player == null) return;
-        UUID uuid = player.getUniqueId();
-
         FileConfiguration config = expansion.getConfig("scoreboard.yml");
+        if(!config.getBoolean("enabled")) return;
+        
+        UUID uuid = player.getUniqueId();
         if(config.getBoolean("save-previous") && !previousScoreboardMap.containsKey(uuid)) {
             Scoreboard scoreboard = player.getScoreboard();
-            if(scoreboard != null) {
-                Objective objective = scoreboard.getObjective("combatlogx");
-                if(objective == null) previousScoreboardMap.put(uuid, scoreboard);
-            }
+            Objective objective = scoreboard.getObjective("combatlogx");
+            if(objective == null) previousScoreboardMap.put(uuid, scoreboard);
         }
 
         CustomScoreBoard custom = customScoreboardMap.getOrDefault(uuid, new CustomScoreBoard(expansion, player));
@@ -73,8 +72,10 @@ public final class ScoreboardHandler {
 
     public static void updateScoreboard(Notifier expansion, Player player) {
         if(expansion == null || player == null) return;
+        FileConfiguration config = expansion.getConfig("scoreboard.yml");
+        if(!config.getBoolean("enabled")) return;
+        
         UUID uuid = player.getUniqueId();
-
         CustomScoreBoard custom = customScoreboardMap.getOrDefault(uuid, null);
         if(custom == null) {
             enableScoreboard(expansion, player);

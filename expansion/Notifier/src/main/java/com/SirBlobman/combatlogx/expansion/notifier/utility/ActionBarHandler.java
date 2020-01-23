@@ -37,10 +37,10 @@ public final class ActionBarHandler {
 
     public static void updateActionBar(Notifier expansion, Player player) {
         if(player == null) return;
-
         FileConfiguration config = expansion.getConfig("actionbar.yml");
+        if(!config.getBoolean("enabled")) return;
+        
         String message = MessageUtil.color(replacePlaceholders(expansion, player, config.getString("message-timer")));
-
         NMS_Handler handler = NMS_Handler.getHandler();
         handler.sendActionBar(player, message);
     }
@@ -49,7 +49,9 @@ public final class ActionBarHandler {
         if(player == null) return;
 
         FileConfiguration config = expansion.getConfig("actionbar.yml");
-        String message = MessageUtil.color(config.getString("message-ended"));
+        String message = config.getString("message-ended");
+        if(message == null) message = "";
+        MessageUtil.color(message);
 
         NMS_Handler handler = NMS_Handler.getHandler();
         handler.sendActionBar(player, message);

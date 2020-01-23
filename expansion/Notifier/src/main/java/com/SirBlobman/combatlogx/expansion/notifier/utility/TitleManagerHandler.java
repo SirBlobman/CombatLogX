@@ -5,17 +5,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import com.SirBlobman.api.utility.MessageUtil;
+import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
 import com.SirBlobman.combatlogx.expansion.notifier.Notifier;
 
-import io.puharesource.mc.titlemanager.TitleManagerPlugin;
-import io.puharesource.mc.titlemanager.api.v2.TitleManagerAPI;
-import io.puharesource.mc.titlemanager.api.v2.animation.AnimationPart;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import io.puharesource.mc.titlemanager.TitleManagerPlugin;
+import io.puharesource.mc.titlemanager.api.v2.TitleManagerAPI;
+import io.puharesource.mc.titlemanager.api.v2.animation.AnimationPart;
 
 public final class TitleManagerHandler {
     private static TitleManagerAPI getAPI() {
