@@ -126,9 +126,6 @@ Good luck with your coding!
 **Example:** *Check if a Player is in Combat*
 ```java
 public boolean isInCombat(Player player) {
-    UUID uuid = UUID.fromString("5ba03c6c-ad4c-4475-8ec9-8bc8a15a9ebe");
-    Player player = Bukkit.getPlayer(uuid); /* SirBlobman */
-
     ICombatLogX plugin = (ICombatLogX) Bukkit.getPluginManager().getPlugin("CombatLogX"); /* Make sure to check CombatLogX is enabled first */
     ICombatManager combatManager = plugin.getCombatManager();
     return combatManager.isInCombat(player);
