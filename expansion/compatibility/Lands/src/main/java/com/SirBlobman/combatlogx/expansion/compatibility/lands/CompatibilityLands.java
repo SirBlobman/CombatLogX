@@ -34,7 +34,7 @@ public class CompatibilityLands extends NoEntryExpansion {
 
     @Override
     public String getVersion() {
-        return "15.0";
+        return "15.1";
     }
 
     @Override

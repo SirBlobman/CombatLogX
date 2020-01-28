@@ -8,15 +8,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.angeschossen.lands.api.integration.LandsIntegration;
-import me.angeschossen.lands.api.land.LandChunk;
+import me.angeschossen.lands.api.land.LandArea;
 import me.angeschossen.lands.api.role.enums.RoleSetting;
 
 public class HookLands {
-    private final CompatibilityLands expansion;
     private final ICombatLogX plugin;
     public HookLands(CompatibilityLands expansion) {
-        this.expansion = expansion;
-        this.plugin = this.expansion.getPlugin();
+        this.plugin = expansion.getPlugin();
     }
 
     private LandsIntegration integration;
@@ -35,10 +33,10 @@ public class HookLands {
     public boolean isSafeZone(Player player, Location location) {
         LandsIntegration api = getAPI();
         if(api == null) return false;
-
-        LandChunk chunk = api.getLandChunk(location);
-        if(chunk == null) return false;
-
-        return !chunk.canAction(player, RoleSetting.ATTACK_PLAYER, true);
+    
+        LandArea area = api.getArea(location);
+        if(area == null) return false;
+        
+        return !area.canSetting(player, RoleSetting.ATTACK_PLAYER, false);
     }
 }

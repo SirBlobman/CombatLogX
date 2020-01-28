@@ -24,7 +24,7 @@
 
         <!-- Jitpack -->
         <repository>
-            <id>jitpack.io</id>
+            <id>jitpack</id>
             <url>https://jitpack.io/</url>
         </repository>
     </repositories>
@@ -51,7 +51,7 @@
         <dependency>
             <groupId>com.github.Angeschossen</groupId>
             <artifactId>LandsAPI</artifactId>
-            <version>4.3.3.0</version>
+            <version>4.5.0.7</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
