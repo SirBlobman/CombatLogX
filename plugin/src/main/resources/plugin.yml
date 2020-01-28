@@ -7,11 +7,15 @@ version: "${bukkit.plugin.version}"
 author: "${bukkit.plugin.author}"
 
 softdepend:
+  - "ASkyBlock"
   - "AnimatedNames"
+  - "BentoBox"
   - "BossBarAPI"
+  - "BSkyBlock"
   - "Citizens"
   - "CrackShot"
   - "Essentials"
+  - "FabledSkyBlock"
   - "Factions"
   - "FactionsUUID"
   - "FeatherBoard"
@@ -29,6 +33,7 @@ softdepend:
   - "SuperVanish"
   - "TitleManager"
   - "Towny"
+  - "uSkyBlock"
   - "WorldEdit"
   - "WorldGuard"
 
