@@ -185,6 +185,8 @@ public abstract class ForceField implements Listener {
 
     public abstract boolean isSafe(Location location, Player player, PlayerPreTagEvent.TagType tagType);
     public abstract boolean isSafe(Location location, Player player);
+    
+    public abstract boolean isEnabled();
     public abstract boolean canBypass(Player player);
     public abstract Material getForceFieldMaterial();
     public abstract int getForceFieldMaterialData();
@@ -192,6 +194,8 @@ public abstract class ForceField implements Listener {
 
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
+        if(!isEnabled()) return;
+        
         Player player = e.getPlayer();
         UUID uuid = player.getUniqueId();
         fakeBlocks.remove(uuid);
@@ -199,6 +203,8 @@ public abstract class ForceField implements Listener {
 
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
+        if(!isEnabled()) return;
+        
         Player player = e.getPlayer();
         ICombatManager combatManager = this.plugin.getCombatManager();
         if(!combatManager.isInCombat(player)) return;
@@ -216,6 +222,8 @@ public abstract class ForceField implements Listener {
 
     @EventHandler
     public void onTag(PlayerTagEvent e) {
+        if(!isEnabled()) return;
+        
         Player player = e.getPlayer();
         Location playerLoc = player.getLocation();
         if(isSafe(playerLoc, player)) return;
@@ -229,6 +237,8 @@ public abstract class ForceField implements Listener {
 
     @EventHandler
     public void onUntag(PlayerUntagEvent e) {
+        if(!isEnabled()) return;
+        
         Player player = e.getPlayer();
         removeForceField(player);
     }

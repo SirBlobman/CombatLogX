@@ -43,6 +43,13 @@ public abstract class NoEntryHandler {
 
         return config.getInt("no-entry.message-cooldown", 30);
     }
+    
+    public boolean isForceFieldEnabled() {
+        String fileName = getConfigFileName();
+        FileConfiguration config = this.expansion.getConfig(fileName);
+    
+        return config.getBoolean("force-field.enabled");
+    }
 
     public String getForceFieldMaterialString() {
         String fileName = getConfigFileName();

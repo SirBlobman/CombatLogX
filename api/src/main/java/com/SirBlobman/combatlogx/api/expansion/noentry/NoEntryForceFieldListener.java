@@ -23,7 +23,12 @@ public class NoEntryForceFieldListener extends ForceField {
     public boolean isSafe(Location location, Player player) {
         return this.noEntryHandler.isSafeZone(player, location);
     }
-
+    
+    @Override
+    public boolean isEnabled() {
+        return this.noEntryHandler.isForceFieldEnabled();
+    }
+    
     @Override
     public boolean canBypass(Player player) {
         return this.noEntryHandler.canBypassForceField(player);
