@@ -3,8 +3,9 @@ package com.SirBlobman.combatlogx.expansion.notifier.utility;
 import java.util.List;
 import java.util.UUID;
 
-import com.SirBlobman.combatlogx.api.shaded.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.shaded.nms.NMS_Handler;
+import com.SirBlobman.combatlogx.api.shaded.nms.boss.bar.BossBarHandler;
 import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
 import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 import com.SirBlobman.combatlogx.expansion.notifier.Notifier;
@@ -16,7 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
-public class BossBarHandler {
+public class BossBarManager {
     private static final List<UUID> noBossBarList = Util.newList();
 
     public static void toggle(Player player) {
@@ -55,14 +56,17 @@ public class BossBarHandler {
         double progress = (timeLeft / timer);
 
         NMS_Handler handler = NMS_Handler.getHandler();
-        handler.sendNewBossBar(player, message, progress, color, style);
+        BossBarHandler bossBarHandler = handler.getBossBarHandler();
+        bossBarHandler.updateBossBar(player, message, progress, color, style);
     }
 
     public static void removeBossBar(Notifier expansion, Player player, boolean shutdown) {
         if(player == null || expansion == null) return;
         NMS_Handler handler = NMS_Handler.getHandler();
+        BossBarHandler bossBarHandler = handler.getBossBarHandler();
+        
         if(shutdown) {
-            handler.removeBossBar(player);
+            bossBarHandler.removeBossBar(player);
             return;
         }
 
@@ -75,11 +79,11 @@ public class BossBarHandler {
         String style = bossbar.getString("bar-style");
         double progress = 0.0D;
 
-        handler.sendNewBossBar(player, title, progress, color, style);
+        bossBarHandler.updateBossBar(player, title, progress, color, style);
 
         BukkitScheduler scheduler = Bukkit.getScheduler();
         JavaPlugin plugin = expansion.getPlugin().getPlugin();
-        scheduler.runTaskLater(plugin, () -> handler.removeBossBar(player), 20L);
+        scheduler.runTaskLater(plugin, () -> bossBarHandler.removeBossBar(player), 20L);
     }
 
     private static String replacePlaceholders(Notifier expansion, Player player, String string) {

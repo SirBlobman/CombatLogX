@@ -8,8 +8,9 @@ import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
+import com.SirBlobman.combatlogx.api.shaded.item.ItemUtil;
+import com.SirBlobman.combatlogx.api.shaded.nms.EntityHandler;
 import com.SirBlobman.combatlogx.api.shaded.nms.NMS_Handler;
-import com.SirBlobman.combatlogx.api.shaded.utility.ItemUtil;
 import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
@@ -274,14 +275,14 @@ public final class NPCManager {
         if(expansion == null || npc == null || player == null) return;
 
         Entity entity = npc.getEntity();
-        EntityType npcType = entity.getType();
-        if(!npcType.isAlive()) return;
+        if(!(entity instanceof LivingEntity)) return;
 
         LivingEntity living = (LivingEntity) entity;
         NMS_Handler handler = NMS_Handler.getHandler();
-
-        double maxHealth = Math.max(player.getHealth(), handler.getMaxHealth(player));
-        handler.setMaxHealth(living, maxHealth);
+        EntityHandler entityHandler = handler.getEntityHandler();
+    
+        double maxHealth = Math.max(player.getHealth(), entityHandler.getMaxHealth(player));
+        entityHandler.setMaxHealth(living, maxHealth);
 
         double health = player.getHealth();
         living.setHealth(health);

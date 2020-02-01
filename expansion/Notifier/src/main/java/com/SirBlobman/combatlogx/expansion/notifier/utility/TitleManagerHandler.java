@@ -50,7 +50,7 @@ public final class TitleManagerHandler {
             if(scoreboardTitle == null) scoreboardTitle = "";
 
             String scoreboardTitleColored = MessageUtil.color(scoreboardTitle);
-            List<String> scoreboardLines = MessageUtil.color(titleManagerConfig.getStringList("scoreboard.lines"));
+            List<String> scoreboardLines = MessageUtil.colorList(titleManagerConfig.getStringList("scoreboard.lines"));
             List<String> validScoreboardLines = scoreboardLines.subList(0, Math.min(scoreboardLines.size(), 16));
 
             List<AnimationPart> titleAnimated = api.toAnimationParts(scoreboardTitleColored);

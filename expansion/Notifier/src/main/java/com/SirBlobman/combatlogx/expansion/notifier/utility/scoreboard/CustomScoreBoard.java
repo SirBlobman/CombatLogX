@@ -41,7 +41,7 @@ public class CustomScoreBoard {
     private void createObjective() {
         FileConfiguration config = this.expansion.getConfig("scoreboard.yml");
         String scoreboardTitle = MessageUtil.color(config.getString("scoreboard-title"));
-        this.objective = NMS_Handler.getHandler().createScoreboardObjective(scoreboard, "combatlogx", "dummy", scoreboardTitle);
+        this.objective = NMS_Handler.getHandler().getScoreboardHandler().createObjective(this.scoreboard, "combatlogx", "dummy", scoreboardTitle);
         this.objective.setDisplaySlot(DisplaySlot.SIDEBAR);
     }
 

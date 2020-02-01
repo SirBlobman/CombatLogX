@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import com.SirBlobman.combatlogx.api.shaded.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.shaded.nms.PlayerHandler;
 import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
 import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
@@ -14,7 +15,7 @@ import com.SirBlobman.combatlogx.utility.PlaceholderReplacer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-public final class ActionBarHandler {
+public final class ActionBarManager {
     private static final List<UUID> noActionBarList = Util.newList();
     public static void toggle(Player player) {
         if(player == null) return;
@@ -42,7 +43,9 @@ public final class ActionBarHandler {
         
         String message = MessageUtil.color(replacePlaceholders(expansion, player, config.getString("message-timer")));
         NMS_Handler handler = NMS_Handler.getHandler();
-        handler.sendActionBar(player, message);
+    
+        PlayerHandler playerHandler = handler.getPlayerHandler();
+        playerHandler.sendActionBar(player, message);
     }
 
     public static void removeActionBar(Notifier expansion, Player player) {
@@ -54,7 +57,8 @@ public final class ActionBarHandler {
         MessageUtil.color(message);
 
         NMS_Handler handler = NMS_Handler.getHandler();
-        handler.sendActionBar(player, message);
+        PlayerHandler playerHandler = handler.getPlayerHandler();
+        playerHandler.sendActionBar(player, message);
     }
 
     private static String replacePlaceholders(Notifier expansion, Player player, String string) {

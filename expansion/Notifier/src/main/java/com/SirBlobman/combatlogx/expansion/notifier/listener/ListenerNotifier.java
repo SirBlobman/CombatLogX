@@ -4,8 +4,8 @@ import com.SirBlobman.combatlogx.api.event.PlayerCombatTimerChangeEvent;
 import com.SirBlobman.combatlogx.api.event.PlayerTagEvent;
 import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.expansion.notifier.Notifier;
-import com.SirBlobman.combatlogx.expansion.notifier.utility.ActionBarHandler;
-import com.SirBlobman.combatlogx.expansion.notifier.utility.BossBarHandler;
+import com.SirBlobman.combatlogx.expansion.notifier.utility.ActionBarManager;
+import com.SirBlobman.combatlogx.expansion.notifier.utility.BossBarManager;
 import com.SirBlobman.combatlogx.expansion.notifier.utility.MVdWHandler;
 import com.SirBlobman.combatlogx.expansion.notifier.utility.TitleManagerHandler;
 import com.SirBlobman.combatlogx.expansion.notifier.utility.scoreboard.ScoreboardHandler;
@@ -27,8 +27,8 @@ public class ListenerNotifier implements Listener {
     public void onTimerChange(PlayerCombatTimerChangeEvent e) {
         Player player = e.getPlayer();
         if(!ScoreboardHandler.isDisabled(player)) ScoreboardHandler.updateScoreboard(this.expansion, player);
-        if(!ActionBarHandler.isDisabled(player)) ActionBarHandler.updateActionBar(this.expansion, player);
-        if(!BossBarHandler.isDisabled(player)) BossBarHandler.updateBossBar(this.expansion, player);
+        if(!ActionBarManager.isDisabled(player)) ActionBarManager.updateActionBar(this.expansion, player);
+        if(!BossBarManager.isDisabled(player)) BossBarManager.updateBossBar(this.expansion, player);
     }
 
     @EventHandler(priority=EventPriority.MONITOR)
@@ -54,8 +54,8 @@ public class ListenerNotifier implements Listener {
         Player player = e.getPlayer();
         Runnable task = () -> {
             if(!ScoreboardHandler.isDisabled(player)) ScoreboardHandler.disableScoreboard(this.expansion, player);
-            if(!ActionBarHandler.isDisabled(player)) ActionBarHandler.removeActionBar(this.expansion, player);
-            if(!BossBarHandler.isDisabled(player)) BossBarHandler.removeBossBar(this.expansion, player, false);
+            if(!ActionBarManager.isDisabled(player)) ActionBarManager.removeActionBar(this.expansion, player);
+            if(!BossBarManager.isDisabled(player)) BossBarManager.removeBossBar(this.expansion, player, false);
 
             FileConfiguration config = this.expansion.getConfig("mvdw.yml");
             if(config.getBoolean("FeatherBoard.enabled")) {
