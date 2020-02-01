@@ -40,8 +40,7 @@
             <url>https://www.uskyblock.ovh/maven/uskyblock/</url>
         </repository>
     </repositories>
-    
-    
+
     <dependencies>
         <!-- Spigot API -->
         <dependency>
@@ -63,7 +62,7 @@
         <dependency>
             <groupId>world.bentobox</groupId>
             <artifactId>bentobox</artifactId>
-            <version>1.10.1-SNAPSHOT</version>
+            <version>1.11.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         
