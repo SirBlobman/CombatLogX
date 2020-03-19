@@ -3,15 +3,13 @@ package com.SirBlobman.combatlogx.expansion.mob.tagger.listener;
 import java.util.List;
 
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
+import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagReason;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagType;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import com.SirBlobman.combatlogx.expansion.mob.tagger.MobTagger;
 
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -20,6 +18,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
+import org.bukkit.projectiles.ProjectileSource;
 
 public class ListenerMobCombat implements Listener {
     private final MobTagger expansion;
@@ -29,7 +28,7 @@ public class ListenerMobCombat implements Listener {
     
     @EventHandler(priority= EventPriority.MONITOR, ignoreCancelled=true)
     public void onAttack(EntityDamageByEntityEvent e) {
-        Entity damager = e.getDamager();
+        Entity damager = linkPet(linkProjectile(e.getDamager()));
         Entity damaged = e.getEntity();
         
         if(!(damaged instanceof LivingEntity)) return;
@@ -37,21 +36,16 @@ public class ListenerMobCombat implements Listener {
         
         if(!(damager instanceof LivingEntity)) return;
         LivingEntity attacker = (LivingEntity) damager;
-        
+    
+        ICombatManager combatManager = this.expansion.getPlugin().getCombatManager();
         if(attacked instanceof Player && !(attacker instanceof Player)) {
             Player player = (Player) attacked;
-            PlayerPreTagEvent.TagReason tagReason = PlayerPreTagEvent.TagReason.ATTACKED;
-            
-            ICombatManager combatManager = this.expansion.getPlugin().getCombatManager();
-            combatManager.tag(player, attacker, TagType.MOB, tagReason);
+            combatManager.tag(player, attacker, TagType.MOB, TagReason.ATTACKED);
         }
         
         if(attacker instanceof Player && !(attacked instanceof Player)) {
             Player player = (Player) attacker;
-            PlayerPreTagEvent.TagReason tagReason = PlayerPreTagEvent.TagReason.ATTACKER;
-    
-            ICombatManager combatManager = this.expansion.getPlugin().getCombatManager();
-            combatManager.tag(player, attacked, TagType.MOB, tagReason);
+            combatManager.tag(player, attacked, TagType.MOB, TagReason.ATTACKER);
         }
     }
     
@@ -117,5 +111,35 @@ public class ListenerMobCombat implements Listener {
         }
         
         return SpawnReason.DEFAULT;
+    }
+    
+    private Entity linkProjectile(Entity original) {
+        if(original == null) return null;
+        
+        FileConfiguration config = this.expansion.getPlugin().getConfig("config.yml");
+        if(!config.getBoolean("link-projectiles")) return original;
+        
+        if(original instanceof Projectile) {
+            Projectile projectile = (Projectile) original;
+            ProjectileSource shooter = projectile.getShooter();
+            if(shooter instanceof Entity) return (Entity) shooter;
+        }
+        
+        return original;
+    }
+    
+    private Entity linkPet(Entity original) {
+        if(original == null) return null;
+        
+        FileConfiguration config = this.expansion.getPlugin().getConfig("config.yml");
+        if(!config.getBoolean("link-pets")) return original;
+        
+        if(original instanceof Tameable) {
+            Tameable pet = (Tameable) original;
+            AnimalTamer owner = pet.getOwner();
+            if(owner instanceof Entity) return (Entity) owner;
+        }
+        
+        return original;
     }
 }
