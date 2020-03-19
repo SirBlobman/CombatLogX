@@ -1,7 +1,8 @@
 package com.SirBlobman.combatlogx.listener;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
+import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagReason;
+import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagType;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 
 import org.bukkit.configuration.file.FileConfiguration;
@@ -52,29 +53,15 @@ public class ListenerAttack implements Listener {
     public void onAttack(EntityDamageByEntityEvent e) {
         Entity damager = linkPet(linkProjectile(e.getDamager()));
         Entity damaged = e.getEntity();
-
-        if(!(damaged instanceof LivingEntity)) return;
-        LivingEntity attacked = (LivingEntity) damaged;
-
-        if(!(damager instanceof LivingEntity)) return;
-        LivingEntity attacker = (LivingEntity) damager;
-
-        if(attacked instanceof Player) {
-            Player player = (Player) attacked;
-            PlayerPreTagEvent.TagType tagType = (attacker instanceof Player ? PlayerPreTagEvent.TagType.PLAYER : PlayerPreTagEvent.TagType.MOB);
-            PlayerPreTagEvent.TagReason tagReason = PlayerPreTagEvent.TagReason.ATTACKED;
-
-            ICombatManager combatManager = this.plugin.getCombatManager();
-            combatManager.tag(player, attacker, tagType, tagReason);
-        }
-
-        if(attacker instanceof Player) {
-            Player player = (Player) attacker;
-            PlayerPreTagEvent.TagType tagType = (attacked instanceof Player ? PlayerPreTagEvent.TagType.PLAYER : PlayerPreTagEvent.TagType.MOB);
-            PlayerPreTagEvent.TagReason tagReason = PlayerPreTagEvent.TagReason.ATTACKER;
-
-            ICombatManager combatManager = this.plugin.getCombatManager();
-            combatManager.tag(player, attacked, tagType, tagReason);
-        }
+    
+        if (!(damaged instanceof Player)) return;
+        Player attacked = (Player) damaged;
+    
+        if (!(damager instanceof Player)) return;
+        Player attacker = (Player) damager;
+    
+        ICombatManager combatManager = this.plugin.getCombatManager();
+        combatManager.tag(attacker, attacked, TagType.PLAYER, TagReason.ATTACKER);
+        combatManager.tag(attacked, attacker, TagType.PLAYER, TagReason.ATTACKED);
     }
 }

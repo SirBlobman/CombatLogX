@@ -84,23 +84,6 @@ combat:
   # Default: false
   self-combat: false
 
-  mobs:
-    # Should mobs be able to tag players?
-    #
-    # Default: false
-    tag-players: false
-
-    # If you set this to true, the mobs in the mob-list will be the only ones that can tag players.
-    # If you set this to false, the mobs in the mob-list will not be allowed to tag players.
-    # If 'tag-players' is set to false, all mobs will not be able to tag players
-    #
-    # Default: false
-    whitelist-mode: false
-
-    mob-list:
-      - "WITHER"
-      - "ARMOR_STAND"
-
 untag:
   # Should players be removed from combat when they die?
   #

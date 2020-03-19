@@ -48,11 +48,6 @@ public class ListenerCombatChecks implements Listener {
         LivingEntity enemy = e.getEnemy();
         if(enemy == null) return;
 
-        if(checkMobTypeDisabled(enemy)) {
-            e.setCancelled(true);
-            return;
-        }
-
         if(checkNoSelfCombat(player, enemy)) {
             e.setCancelled(true);
             // return;
@@ -113,29 +108,6 @@ public class ListenerCombatChecks implements Listener {
         
         Permission permission = new Permission(bypassPermission, "Bypass permission for CombatLogX.", PermissionDefault.FALSE);
         return player.hasPermission(permission);
-    }
-
-    private boolean checkMobTypeDisabled(LivingEntity enemy) {
-        if(enemy == null) return false;
-
-        FileConfiguration config = this.plugin.getConfig("config.yml");
-        boolean mobsDisabled = !config.getBoolean("combat.mobs.tag-players");
-        if(mobsDisabled && !(enemy instanceof Player)) return true;
-
-        boolean whiteListMode = config.getBoolean("combat.mobs.whitelist-mode");
-        List<String> mobTypeList = config.getStringList("combat.mobs.mob-list");
-
-        EntityType type = enemy.getType();
-        String mobType = type.name();
-        boolean contains = mobTypeList.contains(mobType);
-
-        /* Return Value Explanation:
-        whitelist, contains true: mob type enabled (true != true returns false)
-        whitelist, contains false: mob type disabled (true != false returns true)
-        blacklist, contains true: mob type disabled (false != true returns true)
-        blacklist, contains false: mob type enabled (false != false returns false)
-         */
-        return (whiteListMode != contains);
     }
 
     private boolean checkNoSelfCombat(Player player, LivingEntity enemy) {
