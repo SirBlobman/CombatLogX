@@ -48,6 +48,7 @@
                                 <copy file="${expansion.dir}/Cheat Prevention/target/CheatPrevention-${project.version}.jar" tofile="${build.expansion.dir}/Cheat Prevention.jar"/>
                                 <copy file="${expansion.dir}/Damage Tagger/target/DamageTagger-${project.version}.jar" tofile="${build.expansion.dir}/Damage Tagger.jar"/>
                                 <copy file="${expansion.dir}/Logger/target/Logger-${project.version}.jar" tofile="${build.expansion.dir}/Logger.jar"/>
+                                <copy file="${expansion.dir}/Mob Tagger/target/MobTagger-${project.version}.jar" tofile="${build.expansion.dir}/Mob Tagger.jar"/>
                                 <copy file="${expansion.dir}/Newbie Helper/target/NewbieHelper-${project.version}.jar" tofile="${build.expansion.dir}/Newbie Helper.jar"/>
                                 <copy file="${expansion.dir}/Notifier/target/Notifier-${project.version}.jar" tofile="${build.expansion.dir}/Notifier.jar"/>
                                 <copy file="${expansion.dir}/Rewards/target/Rewards-${project.version}.jar" tofile="${build.expansion.dir}/Rewards.jar"/>

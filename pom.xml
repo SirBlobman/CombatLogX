@@ -50,6 +50,7 @@
         <module>expansion/Cheat Prevention</module>
         <module>expansion/Damage Tagger</module>
         <module>expansion/Logger</module>
+        <module>expansion/Mob Tagger</module>
         <module>expansion/Newbie Helper</module>
         <module>expansion/Notifier</module>
         <module>expansion/Rewards</module>
