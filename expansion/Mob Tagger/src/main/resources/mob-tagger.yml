@@ -1,0 +1,16 @@
+# Mob Tagger Default Configuration File
+# Made by SirBlobman for v${bukkit.plugin.version}"
+
+# Should mobs tag players?
+tag-players: true
+
+# What types of mobs are allowed to tag players?
+# Add "*" to allow all mob types
+# Mob Type names can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
+mob-list:
+  - "*"
+
+# Which spawn reasons prevent mobs from tagging players?
+# https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/CreatureSpawnEvent.SpawnReason.html
+spawn-reason-list:
+  - SPAWNER
