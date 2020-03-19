@@ -93,26 +93,27 @@ game-mode:
   untag-on-change-game-mode: false
 
 command-blocker:
-  # Set this to true if the 'command-list' is the list of allowed commands
-  # Set this to false if the 'command-list' is the list of blocked commands
-  #
-  # Default: false
-  whitelist-mode: false
+  # This is a list of commands that are blocked
+  # Add "*" to this list to block all commands
+  # The allowed-commands list bypasses the blocked-commands list
+  # Both lists use startsWith as a check
+  blocked-commands:
+    - "/teleport"
+    - "/tpa"
+    - "/tpaccept"
+    - "/tpo"
+    - "/tpahere"
+    - "/fly"
+    - "/gamemode"
+    - "//wand"
+    - "/spawn"
+    - "/home"
 
-  # This is a list of commands
-  # If a plugin does not register commands properly, they may not be blocked
-  # Make sure to also put aliases here (e.g. "/etp")
-  command-list:
-  - "/teleport"
-  - "/tpa"
-  - "/tpaccept"
-  - "/tpo"
-  - "/tpahere"
-  - "/fly"
-  - "/gamemode"
-  - "//wand"
-  - "/spawn"
-  - "/home"
+  # This is a list of commands that are allowed
+  # Use this list to allow sub commands or unblock a command that is blocked due to startsWith (e.g. block "/tp" but allow "/tpa")
+  # Add "*" to this list to allow all commands and ignore the blocked list
+  allowed-commands:
+    - "/msg SirBlobman"
 
   # How many seconds do players have to wait after combat to execute blocked commands again?
   # Default: 0 (no delay)

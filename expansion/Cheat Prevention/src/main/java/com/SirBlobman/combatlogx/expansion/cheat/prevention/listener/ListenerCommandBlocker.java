@@ -81,7 +81,7 @@ public class ListenerCommandBlocker implements Listener {
 
         String command = e.getMessage();
         String actualCommand = convertCommand(command);
-        if(isAllowed(actualCommand)) return;
+        if(!isBlocked(actualCommand) || isAllowed(actualCommand)) return;
 
         e.setCancelled(true);
         String message = this.plugin.getLanguageMessageColoredWithPrefix("cheat-prevention.command-blocked").replace("{command}", actualCommand);
@@ -99,50 +99,28 @@ public class ListenerCommandBlocker implements Listener {
 
         return command;
     }
-
+    
+    private boolean isBlocked(String command) {
+        FileConfiguration config = this.expansion.getConfig("cheat-prevention.yml");
+        List<String> blockedCommandList = config.getStringList("command-blocker.blocked-commands");
+        return startsWithAny(command, blockedCommandList);
+    }
+    
     private boolean isAllowed(String command) {
         FileConfiguration config = this.expansion.getConfig("cheat-prevention.yml");
-        boolean isWhitelist = config.getBoolean("commands-blocker.whitelist-mode");
-
-        List<String> commandList = config.getStringList("command-blocker.command-list");
-        boolean contains = containsMatch(commandList, command);
-
-        /* Return Value Explanation:
-        whitelist, contains true: command allowed (true == true returns true)
-        whitelist, contains false: command blocked (true == false returns false)
-        blacklist, contains true: command blocked (false == true returns false)
-        blacklist, contains false: command allowed (false == false returns true)
-         */
-        return (isWhitelist == contains);
+        List<String> blockedCommandList = config.getStringList("command-blocker.allowed-commands");
+        return startsWithAny(command, blockedCommandList);
     }
-
-    /**
-     * Check if any of the items in the list are the same as or start with the query (case is ignored)
-     * @param list The list of items
-     * @param query The value to check
-     * @return true if a match was found, false otherwise
-     */
-    private boolean containsMatch(List<String> list, String query) {
-        return (containsIgnoreCase(list, query) || startsWithAnyIgnoreCase(list, query));
-    }
-
-    private boolean containsIgnoreCase(List<String> list, String query) {
-        if(list == null || query == null || query.isEmpty() || list.isEmpty()) return false;
-
-        return list.stream().anyMatch(query::equalsIgnoreCase);
-    }
-
-    private boolean startsWithAnyIgnoreCase(List<String> list, String query) {
-        if(list == null || query == null || query.isEmpty() || list.isEmpty()) return false;
-
-        String lowerQuery = query.toLowerCase();
-        for(String value : list) {
-            if(value == null || value.isEmpty()) continue;
-
-            String lowerValue = value.toLowerCase();
-            if(lowerQuery.startsWith(lowerValue)) return true;
+    
+    private boolean startsWithAny(String command, List<String> commandList) {
+        if(commandList.contains("*")) return true;
+        if(commandList.contains("/*")) return true;
+        
+        for(String value : commandList) {
+            if(!command.startsWith(value)) continue;
+            return true;
         }
-
+        
         return false;
     }
 }
