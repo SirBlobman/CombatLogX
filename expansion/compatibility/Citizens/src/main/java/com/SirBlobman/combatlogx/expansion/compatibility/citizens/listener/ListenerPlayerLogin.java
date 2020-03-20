@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -56,6 +57,22 @@ public class ListenerPlayerLogin implements Listener {
         };
         JavaPlugin plugin = this.plugin.getPlugin();
         Bukkit.getScheduler().runTaskLater(plugin, task, 1L);
+    }
+    
+    @EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
+    public void onDeath(PlayerDeathEvent e) {
+        Player player = e.getEntity();
+        if(player.hasMetadata("NPC")) return;
+    
+        YamlConfiguration dataFile = NPCManager.getData(player);
+        String deathMessage = dataFile.getString("citizens-compatibility.last-death-message");
+        if(deathMessage == null) return;
+        
+        e.setDeathMessage(null);
+        player.sendMessage(deathMessage);
+        
+        dataFile.set("citizens-compatibility.last-death-message", null);
+        NPCManager.saveData(player, dataFile);
     }
 
     private void punish(Player player) {
