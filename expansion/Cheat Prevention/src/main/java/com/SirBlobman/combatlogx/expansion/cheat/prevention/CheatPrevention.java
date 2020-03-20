@@ -65,6 +65,12 @@ public class CheatPrevention extends Expansion {
 
         // 1.13+ Riptide Enchantment
         if(minorVersion >= 13) manager.registerEvents(new ListenerRiptide(this), plugin);
+        
+        // Essentials Hook
+        if(manager.isPluginEnabled("Essentials")) {
+            ListenerEssentials listenerEssentials = new ListenerEssentials(this);
+            manager.registerEvents(listenerEssentials, plugin);
+        }
     }
 
     @Override

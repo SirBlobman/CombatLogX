@@ -27,7 +27,7 @@ public class ListenerFlight implements Listener {
         this.plugin = this.expansion.getPlugin();
     }
 
-    @EventHandler(priority=EventPriority.HIGH, ignoreCancelled=true)
+    @EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
     public void onToggleFlight(PlayerToggleFlightEvent e) {
         if(!e.isFlying()) return;
 
