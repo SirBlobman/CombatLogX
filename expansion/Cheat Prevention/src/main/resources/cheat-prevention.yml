@@ -63,7 +63,7 @@ flight:
   # This may cause issues with some custom flight plugins so it is disabled by default
   #
   # Default: false
-  force-disable-flight: true
+  force-disable-flight: false
 
   # This option will prevent fall damage if a player lost their flight due to CombatLogX
   #
