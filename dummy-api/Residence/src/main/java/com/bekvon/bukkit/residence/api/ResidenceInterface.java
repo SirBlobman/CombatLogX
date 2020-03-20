@@ -4,8 +4,6 @@ import org.bukkit.Location;
 
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 
-public class ResidenceInterface {
-    public ClaimedResidence getByLoc(Location location) {
-        throw new UnsupportedOperationException("Dummy API");
-    }
+public interface ResidenceInterface {
+    ClaimedResidence getByLoc(Location location);
 }
