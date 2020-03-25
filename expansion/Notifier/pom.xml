@@ -28,6 +28,12 @@
             <url>https://repo.codemc.io/repository/maven-snapshots/</url>
         </repository>
 
+        <!-- PlaceholderAPI Repository -->
+        <repository>
+            <id>placeholderapi</id>
+            <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
+
         <!-- MVdW Repository -->
         <repository>
             <id>mvdw-software</id>
@@ -60,11 +66,11 @@
             <type>jar</type>
         </dependency>
 
-        <!-- TitleManager API -->
+        <!-- PlaceholderAPI -->
         <dependency>
-            <groupId>io.puharesource.mc</groupId>
-            <artifactId>TitleManager</artifactId>
-            <version>2.0.0</version>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.10.4</version>
             <scope>provided</scope>
         </dependency>
 
@@ -74,6 +80,7 @@
             <artifactId>MVdWPlaceholderAPI</artifactId>
             <version>3.0.1-SNAPSHOT</version>
             <scope>provided</scope>
+
             <exclusions>
                 <exclusion>
                     <groupId>org.spigotmc</groupId>
@@ -84,6 +91,14 @@
                     <artifactId>MVdWUpdater</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <!-- TitleManager API -->
+        <dependency>
+            <groupId>io.puharesource.mc</groupId>
+            <artifactId>TitleManager</artifactId>
+            <version>2.0.0</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

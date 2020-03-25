@@ -9,11 +9,14 @@ import com.SirBlobman.combatlogx.api.shaded.nms.boss.bar.BossBarHandler;
 import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
 import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 import com.SirBlobman.combatlogx.expansion.notifier.Notifier;
+import com.SirBlobman.combatlogx.expansion.notifier.hook.HookMVdWPlaceholderAPI;
+import com.SirBlobman.combatlogx.expansion.notifier.hook.HookPlaceholderAPI;
 import com.SirBlobman.combatlogx.utility.PlaceholderReplacer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
@@ -89,6 +92,10 @@ public class BossBarManager {
     private static String replacePlaceholders(Notifier expansion, Player player, String string) {
         ICombatLogX plugin = expansion.getPlugin();
         if(player == null) return string;
+    
+        PluginManager manager = Bukkit.getPluginManager();
+        if(manager.isPluginEnabled("PlaceholderAPI")) string = HookPlaceholderAPI.replacePlaceholders(player, string);
+        if(manager.isPluginEnabled("MVdWPlaceholderAPI")) string = HookMVdWPlaceholderAPI.replacePlaceholders(player, string);
 
         String timeLeft = PlaceholderReplacer.getTimeLeftSeconds(plugin, player);
         String inCombat = PlaceholderReplacer.getInCombat(plugin, player);

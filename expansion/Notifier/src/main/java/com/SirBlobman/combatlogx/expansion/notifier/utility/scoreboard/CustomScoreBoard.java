@@ -3,21 +3,21 @@ package com.SirBlobman.combatlogx.expansion.notifier.utility.scoreboard;
 import java.util.List;
 import java.util.UUID;
 
-import com.SirBlobman.combatlogx.api.shaded.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.shaded.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
 import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 import com.SirBlobman.combatlogx.expansion.notifier.Notifier;
+import com.SirBlobman.combatlogx.expansion.notifier.hook.HookMVdWPlaceholderAPI;
+import com.SirBlobman.combatlogx.expansion.notifier.hook.HookPlaceholderAPI;
 import com.SirBlobman.combatlogx.utility.PlaceholderReplacer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.scoreboard.*;
 
 import org.apache.commons.lang.Validate;
 
@@ -32,7 +32,10 @@ public class CustomScoreBoard {
 
         this.expansion = expansion;
         this.playerId = player.getUniqueId();
-        this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+    
+        ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
+        if(scoreboardManager == null) throw new IllegalStateException("The scoreboard manager is null!");
+        this.scoreboard = scoreboardManager.getNewScoreboard();
 
         createObjective();
         initializeScoreboard();
@@ -59,10 +62,11 @@ public class CustomScoreBoard {
     public void disableScoreboard() {
         Player player = getPlayer();
         if(player == null) return;
-
-        Scoreboard mainScoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
-        if(mainScoreboard == null) return;
-
+    
+        ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
+        if(scoreboardManager == null) throw new IllegalStateException("The scoreboard manager is null!");
+        
+        Scoreboard mainScoreboard = scoreboardManager.getMainScoreboard();
         player.setScoreboard(mainScoreboard);
     }
 
@@ -134,6 +138,10 @@ public class CustomScoreBoard {
         ICombatLogX plugin = this.expansion.getPlugin();
         Player player = getPlayer();
         if(player == null) return string;
+    
+        PluginManager manager = Bukkit.getPluginManager();
+        if(manager.isPluginEnabled("PlaceholderAPI")) string = HookPlaceholderAPI.replacePlaceholders(player, string);
+        if(manager.isPluginEnabled("MVdWPlaceholderAPI")) string = HookMVdWPlaceholderAPI.replacePlaceholders(player, string);
 
         String timeLeft = PlaceholderReplacer.getTimeLeftSeconds(plugin, player);
         String inCombat = PlaceholderReplacer.getInCombat(plugin, player);

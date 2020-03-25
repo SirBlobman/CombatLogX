@@ -3,17 +3,21 @@ package com.SirBlobman.combatlogx.expansion.notifier.utility;
 import java.util.List;
 import java.util.UUID;
 
-import com.SirBlobman.combatlogx.api.shaded.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.shaded.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.api.shaded.nms.PlayerHandler;
 import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
 import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import com.SirBlobman.combatlogx.expansion.notifier.Notifier;
+import com.SirBlobman.combatlogx.expansion.notifier.hook.HookMVdWPlaceholderAPI;
+import com.SirBlobman.combatlogx.expansion.notifier.hook.HookPlaceholderAPI;
 import com.SirBlobman.combatlogx.utility.PlaceholderReplacer;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 
 public final class ActionBarManager {
     private static final List<UUID> noActionBarList = Util.newList();
@@ -64,6 +68,10 @@ public final class ActionBarManager {
     private static String replacePlaceholders(Notifier expansion, Player player, String string) {
         if(player == null) return string;
         ICombatLogX plugin = expansion.getPlugin();
+    
+        PluginManager manager = Bukkit.getPluginManager();
+        if(manager.isPluginEnabled("PlaceholderAPI")) string = HookPlaceholderAPI.replacePlaceholders(player, string);
+        if(manager.isPluginEnabled("MVdWPlaceholderAPI")) string = HookMVdWPlaceholderAPI.replacePlaceholders(player, string);
 
         String timeLeft = PlaceholderReplacer.getTimeLeftSeconds(plugin, player);
         String inCombat = PlaceholderReplacer.getInCombat(plugin, player);
