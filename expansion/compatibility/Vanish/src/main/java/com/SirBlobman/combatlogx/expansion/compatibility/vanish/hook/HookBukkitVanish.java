@@ -1,4 +1,4 @@
-package com.SirBlobman.combatlogx.expansion.compatibility.hook;
+package com.SirBlobman.combatlogx.expansion.compatibility.vanish.hook;
 
 import java.util.List;
 

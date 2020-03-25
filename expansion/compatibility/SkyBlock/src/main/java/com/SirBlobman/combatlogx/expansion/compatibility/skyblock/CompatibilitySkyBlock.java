@@ -11,26 +11,10 @@ import com.SirBlobman.combatlogx.expansion.compatibility.skyblock.listener.Liste
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class CompatibilitySkyBlock extends Expansion {
     public CompatibilitySkyBlock(ICombatLogX plugin) {
         super(plugin);
-    }
-
-    @Override
-    public String getUnlocalizedName() {
-        return "CompatibilitySkyBlock";
-    }
-
-    @Override
-    public String getName() {
-        return "SkyBlock Compatibility";
-    }
-
-    @Override
-    public String getVersion() {
-        return "15.0";
     }
 
     @Override
@@ -50,19 +34,22 @@ public class CompatibilitySkyBlock extends Expansion {
 
     @Override
     public void onEnable() {
-        Logger logger = getLogger();
-        JavaPlugin plugin = getPlugin().getPlugin();
+        ICombatLogX plugin = getPlugin();
+        ExpansionManager expansionManager = plugin.getExpansionManager();
+    
         PluginManager manager = Bukkit.getPluginManager();
-
+        Logger logger = getLogger();
+    
+    
         SkyBlockHook hook = SkyBlockHook.getSkyBlockHook(this);
         if(hook == null) {
             logger.info("A SkyBlock plugin could not be detected. If you believe this is an error please contact SirBlobman.");
             logger.info("Automatically disabling...");
-            ExpansionManager.unloadExpansion(this);
+            expansionManager.disableExpansion(this);
             return;
         }
 
         Listener listener = new ListenerSkyBlock(hook);
-        manager.registerEvents(listener, plugin);
+        expansionManager.registerListener(this, listener);
     }
 }

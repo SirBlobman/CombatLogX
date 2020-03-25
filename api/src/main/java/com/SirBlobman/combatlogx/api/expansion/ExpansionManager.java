@@ -133,6 +133,10 @@ public class ExpansionManager {
                 .collect(Collectors.toList());
     }
     
+    public List<Expansion> getAllExpansions() {
+        return new ArrayList<>(this.expansionList);
+    }
+    
     public ExpansionClassLoader getClassLoader(Expansion expansion) {
         return this.classLoaderMap.get(expansion);
     }
@@ -187,8 +191,8 @@ public class ExpansionManager {
         this.classLoaderMap.put(expansion, classLoader);
         
         try {
-            expansion.onLoad();
             expansion.setState(State.LOADED);
+            expansion.onLoad();
         } catch(Throwable ex) {
             Logger logger = this.plugin.getLogger();
             logger.log(Level.SEVERE, "An error occurred while loading an expansion", ex);
@@ -202,9 +206,9 @@ public class ExpansionManager {
             Logger logger = this.plugin.getLogger();
             String expansionName = expansion.getDescription().getFullName();
             logger.info("Enabling expansion '" + expansionName + "'...");
-            
-            expansion.onEnable();
+    
             expansion.setState(State.ENABLED);
+            expansion.onEnable();
         } catch(Throwable ex) {
             Logger logger = this.plugin.getLogger();
             logger.log(Level.SEVERE, "An error occurred while enabling an expansion.", ex);
@@ -212,7 +216,7 @@ public class ExpansionManager {
     }
     
     public void disableExpansion(Expansion expansion) {
-        if(expansion.getState() == State.DISABLED) return;
+        if(expansion.getState() != State.ENABLED) return;
         
         try {
             Logger logger = this.plugin.getLogger();
@@ -232,16 +236,13 @@ public class ExpansionManager {
     }
     
     private void sortExpansions() {
-        Comparator<Expansion> expansionComparator = new Comparator<Expansion>() {
-            @Override
-            public int compare(Expansion expansion1, Expansion expansion2) {
-                ExpansionDescription expansionDescription1 = expansion1.getDescription();
-                ExpansionDescription expansionDescription2 = expansion2.getDescription();
-                
-                String expansionName1 = expansionDescription1.getName();
-                String expansionName2 = expansionDescription2.getName();
-                return expansionName1.compareTo(expansionName2);
-            }
+        Comparator<Expansion> expansionComparator = (expansion1, expansion2) -> {
+            ExpansionDescription expansionDescription1 = expansion1.getDescription();
+            ExpansionDescription expansionDescription2 = expansion2.getDescription();
+            
+            String expansionName1 = expansionDescription1.getName();
+            String expansionName2 = expansionDescription2.getName();
+            return expansionName1.compareTo(expansionName2);
         };
         this.expansionList.sort(expansionComparator);
     }

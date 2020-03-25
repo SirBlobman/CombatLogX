@@ -14,21 +14,6 @@ public class MobTagger extends Expansion {
     }
     
     @Override
-    public String getUnlocalizedName() {
-        return "MobTagger";
-    }
-    
-    @Override
-    public String getName() {
-        return "Mob Tagger";
-    }
-    
-    @Override
-    public String getVersion() {
-        return "15.0";
-    }
-    
-    @Override
     public void onLoad() {
         saveDefaultConfig("mob-tagger.yml");
     }

@@ -1,0 +1,7 @@
+name: "CompatTowny"
+display-name: "Towny Compatibility"
+description: "An expansion that adds region and force field support to Towny."
+
+main: "com.SirBlobman.combatlogx.expansion.compatibility.towny.CompatibilityTowny"
+author: "SirBlobman"
+version: "15.0"

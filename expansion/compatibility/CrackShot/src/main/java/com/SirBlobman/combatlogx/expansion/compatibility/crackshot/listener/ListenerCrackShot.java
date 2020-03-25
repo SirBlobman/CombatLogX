@@ -1,10 +1,10 @@
-package com.SirBlobman.expansion.compatibility.crackshot.listener;
+package com.SirBlobman.combatlogx.expansion.compatibility.crackshot.listener;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagReason;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagType;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
-import com.SirBlobman.expansion.compatibility.crackshot.CompatibilityCrackShot;
+import com.SirBlobman.combatlogx.expansion.compatibility.crackshot.CompatibilityCrackShot;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;

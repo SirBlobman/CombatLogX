@@ -22,16 +22,6 @@ public class Rewards extends Expansion {
     }
 
     @Override
-    public String getUnlocalizedName() {
-        return "Rewards";
-    }
-
-    @Override
-    public String getVersion() {
-        return "15.0";
-    }
-
-    @Override
     public void onLoad() {
         saveDefaultConfig("rewards.yml");
         setupRewards();

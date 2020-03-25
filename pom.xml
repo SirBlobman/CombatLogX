@@ -58,8 +58,8 @@
         <!-- Compatibility Expansions -->
         <module>expansion/compatibility/Citizens</module>
         <module>expansion/compatibility/CrackShot</module>
-        <module>expansion/compatibility/PlaceholderAPI</module>
         <module>expansion/compatibility/MVdWPlaceholderAPI</module>
+        <module>expansion/compatibility/PlaceholderAPI</module>
         <module>expansion/compatibility/SkyBlock</module>
         <module>expansion/compatibility/Vanish</module>
 

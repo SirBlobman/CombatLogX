@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.utility.NPCManager;
 
@@ -23,12 +22,15 @@ import net.citizensnpcs.api.trait.TraitInfo;
 
 public class TraitCombatNPC extends Trait {
     public static TraitInfo traitInfo;
-    public static void onEnable() {
+    private static Expansion expansion;
+    public static void onEnable(Expansion exp) {
+        expansion = exp;
         traitInfo = TraitInfo.create(TraitCombatNPC.class);
         CitizensAPI.getTraitFactory().registerTrait(traitInfo);
     }
 
     public static void onDisable() {
+        
         NPCRegistry registry = CitizensAPI.getNPCRegistry();
         for(NPC npc : registry) {
             if(NPCManager.isInvalid(npc)) continue;
@@ -50,9 +52,7 @@ public class TraitCombatNPC extends Trait {
 
     public void setOwner(OfflinePlayer owner) {
         if(owner == null) return;
-
-        UUID uuid = owner.getUniqueId();
-        this.ownerUUID = uuid;
+        this.ownerUUID = owner.getUniqueId();
     }
 
     public Player getEnemy() {
@@ -61,19 +61,16 @@ public class TraitCombatNPC extends Trait {
 
     public void setEnemy(Player enemy) {
         if(enemy == null) return;
-
-        UUID uuid = enemy.getUniqueId();
-        this.enemyUUID = uuid;
+        this.enemyUUID = enemy.getUniqueId();
     }
 
-    public String getID() {
+    public String getId() {
         String npcName = this.npc.getName();
         int npcId = this.npc.getId();
         return (npcName + ":" + npcId);
     }
 
     public void extendTimeUntilRemove() {
-        Expansion expansion = ExpansionManager.getExpansion("CompatibilityCitizens");
         FileConfiguration config = expansion.getConfig("citizens-compatibility.yml");
         long survivalSeconds = config.getLong("npc-options.survival-seconds", 30L);
         this.ticksUntilRemove = (20L * survivalSeconds);
@@ -91,7 +88,6 @@ public class TraitCombatNPC extends Trait {
             return;
         }
 
-        Expansion expansion = ExpansionManager.getExpansion("CompatibilityCitizens");
         FileConfiguration config = expansion.getConfig("citizens-compatibility.yml");
         long survivalSeconds = config.getLong("npc-options.survival-seconds", 30L);
         if(survivalSeconds < 0) return;

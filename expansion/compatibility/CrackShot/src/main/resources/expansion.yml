@@ -1,0 +1,7 @@
+name: "CompatCrackShot"
+display-name: "CrackShot Compatibility"
+description: "An expansion that links weapons and explosives to players for combat."
+
+main: "com.SirBlobman.combatlogx.expansion.compatibility.crackshot.CompatibilityCrackShot"
+author: "SirBlobman"
+version: "15.0"

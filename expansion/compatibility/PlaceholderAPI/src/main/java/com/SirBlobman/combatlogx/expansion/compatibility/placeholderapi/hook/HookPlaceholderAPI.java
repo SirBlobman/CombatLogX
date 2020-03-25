@@ -38,7 +38,7 @@ public class HookPlaceholderAPI extends PlaceholderExpansion {
 
     @Override
     public String getVersion() {
-        return this.expansion.getVersion();
+        return this.expansion.getDescription().getVersion();
     }
 
     @Override

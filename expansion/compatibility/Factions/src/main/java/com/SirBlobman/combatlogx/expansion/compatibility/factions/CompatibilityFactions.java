@@ -18,60 +18,52 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class CompatibilityFactions extends NoEntryExpansion {
     private FactionsNoEntryHandler noEntryHandler;
+    private FactionsHook factionsHook;
     public CompatibilityFactions(ICombatLogX plugin) {
         super(plugin);
     }
 
     @Override
-    public String getUnlocalizedName() {
-        return "CompatibilityFactions";
-    }
-
-    @Override
-    public String getName() {
-        return "Factions Compatibility";
-    }
-
-    @Override
-    public String getVersion() {
-        return "15.0";
-    }
-
-    @Override
     public boolean canEnable() {
-        FactionsHook factionsHook = FactionsHook.getFactionsHook(this);
-        return (factionsHook != null);
+        this.factionsHook = FactionsHook.getFactionsHook(this);
+        if(this.factionsHook == null) {
+            Logger logger = getLogger();
+            logger.info("A Factions plugin could not be found. This expansion will be automatically disabled.");
+            return false;
+        }
+        
+        return true;
     }
 
     @Override
     public void onActualEnable() {
-        Logger logger = getLogger();
+        ICombatLogX plugin = getPlugin();
+        ExpansionManager expansionManager = plugin.getExpansionManager();
+    
         PluginManager manager = Bukkit.getPluginManager();
-        JavaPlugin plugin = getPlugin().getPlugin();
+        Logger logger = getLogger();
 
-        FactionsHook factionsHook = FactionsHook.getFactionsHook(this);
-        if(factionsHook == null) {
-            logger.info("A Factions plugin could not be found. This expansion will be automatically disabled.");
-            ExpansionManager.unloadExpansion(this);
-            return;
-        }
-
-        this.noEntryHandler = new FactionsNoEntryHandler(this, factionsHook);
+        this.noEntryHandler = new FactionsNoEntryHandler(this, this.factionsHook);
         saveDefaultConfig("factions-compatibility.yml");
 
         NoEntryListener listener = new NoEntryListener(this);
-        manager.registerEvents(listener, plugin);
+        expansionManager.registerListener(this, listener);
 
         Plugin pluginProtocolLib = manager.getPlugin("ProtocolLib");
         if(pluginProtocolLib != null) {
             NoEntryForceFieldListener forceFieldListener = new NoEntryForceFieldListener(this);
-            manager.registerEvents(forceFieldListener, plugin);
+            expansionManager.registerListener(this, forceFieldListener);
 
             String version = pluginProtocolLib.getDescription().getVersion();
             logger.info("Successfully hooked into ProtocolLib v" + version);
         }
     }
-
+    
+    @Override
+    public void onActualDisable() {
+        // Do Nothing
+    }
+    
     @Override
     public void reloadConfig() {
         reloadConfig("factions-compatibility.yml");

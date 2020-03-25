@@ -15,7 +15,6 @@ import com.SirBlobman.combatlogx.expansion.compatibility.worldguard.listener.Lis
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class CompatibilityWorldGuard extends NoEntryExpansion {
     private NoEntryHandler noEntryHandler;
@@ -24,29 +23,17 @@ public class CompatibilityWorldGuard extends NoEntryExpansion {
     }
 
     @Override
-    public String getUnlocalizedName() {
-        return "CompatibilityWorldGuard";
-    }
-
-    @Override
-    public String getName() {
-        return "WorldGuard Compatibility";
-    }
-
-    @Override
-    public String getVersion() {
-        return "15.0";
-    }
-
-    @Override
     public void onLoad() {
+        ICombatLogX plugin = getPlugin();
+        ExpansionManager expansionManager = plugin.getExpansionManager();
+    
         PluginManager manager = Bukkit.getPluginManager();
         Logger logger = getLogger();
 
         Plugin pluginWorldGuard = manager.getPlugin("WorldGuard");
         if(pluginWorldGuard == null) {
             logger.info("The WorldGuard plugin could not be found. This expansion will be automatically disabled.");
-            ExpansionManager.unloadExpansion(this);
+            expansionManager.disableExpansion(this);
             return;
         }
 
@@ -62,14 +49,16 @@ public class CompatibilityWorldGuard extends NoEntryExpansion {
 
     @Override
     public void onActualEnable() {
-        Logger logger = getLogger();
+        ICombatLogX plugin = getPlugin();
+        ExpansionManager expansionManager = plugin.getExpansionManager();
+    
         PluginManager manager = Bukkit.getPluginManager();
-        JavaPlugin plugin = getPlugin().getPlugin();
+        Logger logger = getLogger();
 
         Plugin pluginWorldGuard = manager.getPlugin("WorldGuard");
         if(pluginWorldGuard == null) {
             logger.info("The WorldGuard plugin could not be found. This expansion will be automatically disabled.");
-            ExpansionManager.unloadExpansion(this);
+            expansionManager.disableExpansion(this);
             return;
         }
 
@@ -80,23 +69,28 @@ public class CompatibilityWorldGuard extends NoEntryExpansion {
         this.noEntryHandler = new WorldGuardNoEntryHandler(this);
 
         ListenerWorldGuard listenerWorldGuard = new ListenerWorldGuard();
-        manager.registerEvents(listenerWorldGuard, plugin);
+        expansionManager.registerListener(this, listenerWorldGuard);
 
         NoEntryListener listener = new NoEntryListener(this);
-        manager.registerEvents(listener, plugin);
+        expansionManager.registerListener(this, listener);
 
         HookWorldGuard.registerListeners(this);
 
         Plugin pluginProtocolLib = manager.getPlugin("ProtocolLib");
         if(pluginProtocolLib != null) {
             NoEntryForceFieldListener forceFieldListener = new NoEntryForceFieldListener(this);
-            manager.registerEvents(forceFieldListener, plugin);
+            expansionManager.registerListener(this, forceFieldListener);
 
             String versionProtocolLib = pluginProtocolLib.getDescription().getVersion();
             logger.info("Successfully hooked into ProtocolLib v" + versionProtocolLib);
         }
     }
-
+    
+    @Override
+    public void onActualDisable() {
+        // Do Nothing
+    }
+    
     @Override
     public void reloadConfig() {
         reloadConfig("worldguard-compatibility.yml");

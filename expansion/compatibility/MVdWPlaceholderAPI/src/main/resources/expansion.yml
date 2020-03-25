@@ -1,0 +1,7 @@
+name: "CompatMVdWPlaceholderAPI"
+display-name: "MVdWPlaceholderAPI Compatibility"
+description: "A plugin that adds placeholders from CombatLogX to MVdWPlaceholderAPI"
+
+main: "com.SirBlobman.combatlogx.expansion.compatibility.mvdwplaceholderapi.CompatibilityMVdWPlaceholderAPI"
+author: "SirBlobman"
+version: "15.0"

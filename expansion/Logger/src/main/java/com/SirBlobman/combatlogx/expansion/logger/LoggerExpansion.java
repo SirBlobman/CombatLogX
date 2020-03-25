@@ -19,16 +19,6 @@ public class LoggerExpansion extends Expansion {
     }
 
     @Override
-    public String getUnlocalizedName() {
-        return "Logger";
-    }
-
-    @Override
-    public String getVersion() {
-        return "15.0";
-    }
-
-    @Override
     public void onLoad() {
         // Do Nothing
     }

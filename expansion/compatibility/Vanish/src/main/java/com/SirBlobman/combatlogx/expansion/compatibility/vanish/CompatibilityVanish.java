@@ -1,10 +1,10 @@
-package com.SirBlobman.combatlogx.expansion.compatibility;
+package com.SirBlobman.combatlogx.expansion.compatibility.vanish;
 
 import java.util.logging.Logger;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.expansion.compatibility.listener.ListenerVanish;
+import com.SirBlobman.combatlogx.expansion.compatibility.vanish.listener.ListenerVanish;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
@@ -14,21 +14,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class CompatibilityVanish extends Expansion {
     public CompatibilityVanish(ICombatLogX plugin) {
         super(plugin);
-    }
-
-    @Override
-    public String getUnlocalizedName() {
-        return "CompatibilityVanish";
-    }
-
-    @Override
-    public String getName() {
-        return "Vanish Compatibility";
-    }
-
-    @Override
-    public String getVersion() {
-        return "15.0";
     }
 
     @Override

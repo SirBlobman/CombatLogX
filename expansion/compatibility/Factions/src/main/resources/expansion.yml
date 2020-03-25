@@ -1,0 +1,7 @@
+name: "CompatFactions"
+display-name: "Factions Compatibility"
+description: "An expansion that adds region and force field support to Factions, FactionsUUID, SavageFactioms, or LegacyFactions."
+
+main: "com.SirBlobman.combatlogx.expansion.compatibility.factions.CompatibilityFactions"
+author: "SirBlobman"
+version: "15.0"

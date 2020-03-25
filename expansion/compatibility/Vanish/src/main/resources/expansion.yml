@@ -1,0 +1,7 @@
+name: "CompatVanish"
+display-name: "Vanish Compatibility"
+description: "An expansion that prevents players that are in vanish from being tagged."
+
+main: "com.SirBlobman.combatlogx.expansion.compatibility.vanish.CompatibilityVanish"
+author: "SirBlobman"
+version: "15.0"

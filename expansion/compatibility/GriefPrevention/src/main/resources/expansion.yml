@@ -1,0 +1,7 @@
+name: "CompatGriefPrevention"
+display-name: "GriefPrevention Compatibility"
+description: "An expansion that adds region and force field support to GriefPrevention."
+
+main: "com.SirBlobman.combatlogx.expansion.compatibility.griefprevention.CompatibilityGriefPrevention"
+author: "SirBlobman"
+version: "15.0"

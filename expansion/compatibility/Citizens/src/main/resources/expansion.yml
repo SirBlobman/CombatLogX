@@ -1,0 +1,7 @@
+name: "CompatCitizens"
+display-name: "Citizens Compatibility"
+description: "An expansion that enables NPCs in CombatLogX."
+
+main: "com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens"
+author: "SirBlobman"
+version: "15.0"

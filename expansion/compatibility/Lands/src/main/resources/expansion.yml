@@ -1,0 +1,7 @@
+name: "CompatLands"
+display-name: "Lands Compatibility"
+description: "An expansion that adds region and force field support to Lands."
+
+main: "com.SirBlobman.combatlogx.expansion.compatibility.lands.CompatibilityLands"
+author: "SirBlobman"
+version: "15.0"

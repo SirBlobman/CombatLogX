@@ -13,21 +13,6 @@ public class DamageTagger extends Expansion {
     }
 
     @Override
-    public String getUnlocalizedName() {
-        return "DamageTagger";
-    }
-
-    @Override
-    public String getName() {
-        return "Damage Tagger";
-    }
-
-    @Override
-    public String getVersion() {
-        return "15.0";
-    }
-
-    @Override
     public void onLoad() {
         saveDefaultConfig("damage-tagger.yml");
     }

@@ -32,8 +32,10 @@ import net.citizensnpcs.api.trait.trait.Equipment;
 import net.citizensnpcs.api.trait.trait.Owner;
 
 public final class NPCManager {
-    public static void onEnable() {
-        TraitCombatNPC.onEnable();
+    private static Expansion expansion;
+    public static void onEnable(Expansion exp) {
+        TraitCombatNPC.onEnable(exp);
+        expansion = exp;
     }
 
     public static void onDisable() {
@@ -47,16 +49,14 @@ public final class NPCManager {
 
     public static YamlConfiguration getData(OfflinePlayer player) {
         if(player == null) return null;
-
-        Expansion expansion = ExpansionManager.getExpansion("CompatibilityCitizens");
+        
         ICombatLogX plugin = expansion.getPlugin();
         return plugin.getDataFile(player);
     }
 
     public static void saveData(OfflinePlayer player, YamlConfiguration data) {
         if(player == null || data == null) return;
-
-        Expansion expansion = ExpansionManager.getExpansion("CompatibilityCitizens");
+        
         ICombatLogX plugin = expansion.getPlugin();
         plugin.saveDataFile(player, data);
     }
@@ -133,8 +133,7 @@ public final class NPCManager {
     @SuppressWarnings("unchecked")
     public static void loadInventory(Player player) {
         if(player == null) return;
-
-        Expansion expansion = ExpansionManager.getExpansion("CompatibilityCitizens");
+        
         FileConfiguration config = expansion.getConfig("citizens-compatibility.yml");
         if(!config.getBoolean("npc-options.store-inventory")) return;
 
@@ -167,8 +166,7 @@ public final class NPCManager {
     @SuppressWarnings("unchecked")
     public static void dropInventory(OfflinePlayer owner, NPC npc) {
         if(owner == null || npc == null || !npc.isSpawned()) return;
-
-        Expansion expansion = ExpansionManager.getExpansion("CompatibilityCitizens");
+        
         FileConfiguration config = expansion.getConfig("citizens-compatibility.yml");
         if(!config.getBoolean("npc-options.store-inventory")) return;
         if(npc.hasTrait(Equipment.class)) npc.removeTrait(Equipment.class);
@@ -204,8 +202,7 @@ public final class NPCManager {
 
     public static void loadTagStatus(Player player) {
         if(player == null) return;
-
-        Expansion expansion = ExpansionManager.getExpansion("CompatibilityCitizens");
+        
         FileConfiguration config = expansion.getConfig("citizens-compatibility.yml");
         if(!config.getBoolean("retag-player-on-login")) return;
 

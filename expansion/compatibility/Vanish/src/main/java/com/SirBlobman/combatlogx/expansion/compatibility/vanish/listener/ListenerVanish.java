@@ -1,10 +1,10 @@
-package com.SirBlobman.combatlogx.expansion.compatibility.listener;
+package com.SirBlobman.combatlogx.expansion.compatibility.vanish.listener;
 
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
-import com.SirBlobman.combatlogx.expansion.compatibility.CompatibilityVanish;
-import com.SirBlobman.combatlogx.expansion.compatibility.hook.HookBukkitVanish;
-import com.SirBlobman.combatlogx.expansion.compatibility.hook.HookEssentials;
-import com.SirBlobman.combatlogx.expansion.compatibility.hook.HookSuperVanish;
+import com.SirBlobman.combatlogx.expansion.compatibility.vanish.CompatibilityVanish;
+import com.SirBlobman.combatlogx.expansion.compatibility.vanish.hook.HookBukkitVanish;
+import com.SirBlobman.combatlogx.expansion.compatibility.vanish.hook.HookEssentials;
+import com.SirBlobman.combatlogx.expansion.compatibility.vanish.hook.HookSuperVanish;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;

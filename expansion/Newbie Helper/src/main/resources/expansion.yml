@@ -1,0 +1,7 @@
+name: "NewbieHelper"
+display-name: "Newbie Helper"
+description: "An expansion that protects new players from pvp."
+
+main: "com.SirBlobman.combatlogx.expansion.newbie.helper.NewbieHelper"
+author: "SirBlobman"
+version: "15.0"

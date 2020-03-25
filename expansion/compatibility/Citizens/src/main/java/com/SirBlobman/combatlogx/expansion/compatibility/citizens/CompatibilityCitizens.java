@@ -14,27 +14,11 @@ import com.SirBlobman.combatlogx.expansion.compatibility.citizens.utility.NPCMan
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class CompatibilityCitizens extends Expansion {
     private boolean successfulEnable = false;
     public CompatibilityCitizens(ICombatLogX plugin) {
         super(plugin);
-    }
-
-    @Override
-    public String getUnlocalizedName() {
-        return "CompatibilityCitizens";
-    }
-
-    @Override
-    public String getName() {
-        return "Citizens Compatibility";
-    }
-
-    @Override
-    public String getVersion() {
-        return "15.0";
     }
 
     @Override
@@ -44,19 +28,22 @@ public class CompatibilityCitizens extends Expansion {
 
     @Override
     public void onEnable() {
+        ICombatLogX plugin = getPlugin();
+        ExpansionManager expansionManager = plugin.getExpansionManager();
+        
         PluginManager manager = Bukkit.getPluginManager();
         Logger logger = getLogger();
 
         if(!manager.isPluginEnabled("Citizens")) {
             logger.info("The Citizens plugin could not be found. This expansion will be automatically disabled.");
-            ExpansionManager.unloadExpansion(this);
+            expansionManager.disableExpansion(this);
             return;
         }
 
         Plugin citizensPlugin = manager.getPlugin("Citizens");
         if(citizensPlugin == null) {
             logger.info("The Citizens plugin could not be found. This expansion will be automatically disabled.");
-            ExpansionManager.unloadExpansion(this);
+            expansionManager.disableExpansion(this);
             return;
         }
 
@@ -72,14 +59,12 @@ public class CompatibilityCitizens extends Expansion {
         }
 
         saveDefaultConfig("citizens-compatibility.yml");
-        NPCManager.onEnable();
+        NPCManager.onEnable(this);
 
-        JavaPlugin plugin = getPlugin().getPlugin();
-        manager.registerEvents(new ListenerCombat(this), plugin);
-        manager.registerEvents(new ListenerCreateNPC(this), plugin);
-        manager.registerEvents(new ListenerHandleNPC(this), plugin);
-        manager.registerEvents(new ListenerPlayerLogin(this), plugin);
-
+        expansionManager.registerListener(this, new ListenerCombat(this));
+        expansionManager.registerListener(this, new ListenerCreateNPC(this));
+        expansionManager.registerListener(this, new ListenerHandleNPC(this));
+        expansionManager.registerListener(this, new ListenerPlayerLogin(this));
         this.successfulEnable = true;
     }
 

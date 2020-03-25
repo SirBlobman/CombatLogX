@@ -14,27 +14,11 @@ import com.SirBlobman.combatlogx.expansion.compatibility.lands.hook.HookLands;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class CompatibilityLands extends NoEntryExpansion {
     private NoEntryHandler noEntryHandler;
     public CompatibilityLands(ICombatLogX plugin) {
         super(plugin);
-    }
-
-    @Override
-    public String getUnlocalizedName() {
-        return "CompatibilityLands";
-    }
-
-    @Override
-    public String getName() {
-        return "Lands Compatibility";
-    }
-
-    @Override
-    public String getVersion() {
-        return "15.1";
     }
 
     @Override
@@ -45,14 +29,16 @@ public class CompatibilityLands extends NoEntryExpansion {
 
     @Override
     public void onActualEnable() {
-        Logger logger = getLogger();
+        ICombatLogX plugin = getPlugin();
+        ExpansionManager expansionManager = plugin.getExpansionManager();
+    
         PluginManager manager = Bukkit.getPluginManager();
-        JavaPlugin plugin = getPlugin().getPlugin();
+        Logger logger = getLogger();
 
         Plugin pluginLands = manager.getPlugin("Lands");
         if(pluginLands == null) {
             logger.info("Could not find the Lands plugin. This expansion will be automatically disabled.");
-            ExpansionManager.unloadExpansion(this);
+            expansionManager.disableExpansion(this);
             return;
         }
 
@@ -64,18 +50,23 @@ public class CompatibilityLands extends NoEntryExpansion {
         this.noEntryHandler = new LandsNoEntryHandler(this, hook);
 
         NoEntryListener listener = new NoEntryListener(this);
-        manager.registerEvents(listener, plugin);
+        expansionManager.registerListener(this, listener);
 
         Plugin pluginProtocolLib = manager.getPlugin("ProtocolLib");
         if(pluginProtocolLib != null) {
             NoEntryForceFieldListener forceFieldListener = new NoEntryForceFieldListener(this);
-            manager.registerEvents(forceFieldListener, plugin);
+            expansionManager.registerListener(this, forceFieldListener);
 
             String versionProtocolLib = pluginProtocolLib.getDescription().getVersion();
             logger.info("Successfully hooked into ProtocolLib v" + versionProtocolLib);
         }
     }
-
+    
+    @Override
+    public void onActualDisable() {
+        // Do Nothing
+    }
+    
     @Override
     public void reloadConfig() {
         reloadConfig("lands-compatibility.yml");

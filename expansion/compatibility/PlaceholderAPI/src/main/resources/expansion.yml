@@ -1,0 +1,7 @@
+name: "CompatPlaceholderAPI"
+display-name: "PlaceholderAPI Compatibility"
+description: "A plugin that adds placeholders from CombatLogX to PlaceholderAPI"
+
+main: "com.SirBlobman.combatlogx.expansion.compatibility.placeholderapi.CompatibilityPlaceholderAPI"
+author: "SirBlobman"
+version: "15.0"

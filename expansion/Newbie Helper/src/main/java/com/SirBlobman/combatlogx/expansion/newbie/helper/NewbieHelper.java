@@ -16,21 +16,6 @@ public class NewbieHelper extends Expansion {
     }
 
     @Override
-    public String getUnlocalizedName() {
-        return "NewbieHelper";
-    }
-
-    @Override
-    public String getName() {
-        return "Newbie Helper";
-    }
-
-    @Override
-    public String getVersion() {
-        return "15.0";
-    }
-
-    @Override
     public void onLoad() {
         saveDefaultConfig("newbie-helper.yml");
     }

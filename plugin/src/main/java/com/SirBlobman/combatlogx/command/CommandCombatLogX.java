@@ -1,9 +1,6 @@
 package com.SirBlobman.combatlogx.command;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -35,15 +32,22 @@ public class CommandCombatLogX implements TabExecutor {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-        if(args.length < 1) return null;
-
-        String sub = args[0].toLowerCase();
         if(args.length == 1) {
+            String sub = args[0].toLowerCase();
             List<String> subCommandList = Util.newList("help", "reload", "version", "tag", "untag");
-            return subCommandList.stream().filter(sub::startsWith).collect(Collectors.toList());
+            return getMatching(subCommandList, sub);
+        }
+        
+        if(args.length == 2) {
+            String sub = args[0].toLowerCase();
+            if(sub.equals("version") || sub.equals("about") || sub.equals("ver")) {
+                List<String> expansionNameList = this.plugin.getExpansionManager().getAllExpansions().stream()
+                        .map(expansion -> expansion.getDescription().getName()).collect(Collectors.toList());
+                return getMatching(expansionNameList, args[1]);
+            }
         }
 
-        return Util.newList();
+        return Collections.emptyList();
     }
 
     @Override
@@ -77,6 +81,22 @@ public class CommandCombatLogX implements TabExecutor {
 
             default: return false;
         }
+    }
+    
+    private List<String> getMatching(List<String> valueList, String arg) {
+        if(valueList == null || valueList.isEmpty() || arg == null) return Collections.emptyList();
+        
+        String lowerArg = arg.toLowerCase();
+        List<String> matchList = new ArrayList<>();
+        
+        for(String value : valueList) {
+            String lowerValue = value.toLowerCase();
+            if(!lowerValue.startsWith(lowerArg)) continue;
+            
+            matchList.add(value);
+        }
+        
+        return matchList;
     }
 
     private boolean checkNoPermission(CommandSender sender, String permission) {
@@ -215,12 +235,12 @@ public class CommandCombatLogX implements TabExecutor {
         
         List<String> messageList = new ArrayList<>();
         messageList.add(MessageUtil.color("&6&lExpansion Information for &e" + expansionName));
-        messageList.add("&6&lState:&e " + state.name());
-        messageList.add("&6&lVersion:&e " + version);
+        messageList.add(MessageUtil.color("&6&lState:&e " + state.name()));
+        messageList.add(MessageUtil.color("&6&lVersion:&e " + version));
         
-        if(displayName != null) messageList.add("&6&lDisplay Name:&e " + displayName);
-        if(descriptionText != null) messageList.add("&6&lDescription:&e " + descriptionText);
-        if(!authorList.isEmpty()) messageList.add("&6&lAuthors:&e " + authorString);
+        if(displayName != null) messageList.add(MessageUtil.color("&6&lDisplay Name:&e " + displayName));
+        if(descriptionText != null) messageList.add(MessageUtil.color("&6&lDescription:&e " + descriptionText));
+        if(!authorList.isEmpty()) messageList.add(MessageUtil.color("&6&lAuthors:&e " + authorString));
         
         messageList.forEach(message -> this.plugin.sendMessage(sender, message));
         return true;
