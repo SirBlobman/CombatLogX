@@ -2,6 +2,7 @@ package com.SirBlobman.combatlogx.expansion.compatibility.worldguard.listener;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.noentry.NoEntryExpansion;
+import com.SirBlobman.combatlogx.api.expansion.noentry.NoEntryHandler;
 import com.SirBlobman.combatlogx.api.expansion.noentry.NoEntryMode;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 
@@ -21,7 +22,8 @@ public class Listener_V7_0 implements Listener {
 
     @EventHandler(priority=EventPriority.HIGHEST)
     public void onPreventPVP(DisallowedPVPEvent e) {
-        NoEntryMode mode = this.expansion.getNoEntryHandler().getNoEntryMode();
+        NoEntryHandler handler = this.expansion.getNoEntryHandler();
+        NoEntryMode mode = handler.getNoEntryMode();
         if(mode != NoEntryMode.VULNERABLE) return;
 
         ICombatLogX plugin = this.expansion.getPlugin();
