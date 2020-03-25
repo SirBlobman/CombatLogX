@@ -4,7 +4,6 @@ about: Did you find a glitch or bug? Click here to report it.
 title: ''
 labels: Bug
 assignees: ''
-
 ---
 
 **Describe the bug**
@@ -17,7 +16,7 @@ How can I see the issue for myself? Please explain how it happened.
 A clear and concise description of what you expected to happen.
 
 **Screenshots**
-If applicable, add screenshots to help explain your problem.
+If applicable, add screenshots or videos to help explain your problem.
 
 **Minecraft Version**
  - Do `/clx version` to find out
@@ -26,4 +25,4 @@ If applicable, add screenshots to help explain your problem.
  - Do `/clx version` to find out
 
 **Additional context**
-Add any other context about the problem here.
+Add any other information about the problem here.
