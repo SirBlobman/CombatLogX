@@ -1,4 +1,4 @@
-# Cheat Prevention Expansion
+# CombatLogX Expansion - Cheat Prevention
 The cheat prevention expansion allows you to prevent players from doing certain actions during combat.
 
 **Current Features:**
