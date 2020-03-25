@@ -183,7 +183,7 @@ public class CommandCombatLogX implements TabExecutor {
     }
 
     private void checkVersion(CommandSender sender) {
-        String pluginVersion = UpdateChecker.getPluginVersion(this.plugin);
+        String pluginVersion = this.plugin.getDescription().getVersion();
         String spigotVersion = UpdateChecker.getSpigotVersion(this.plugin);
 
         String[] message1 = colorMultiple(
