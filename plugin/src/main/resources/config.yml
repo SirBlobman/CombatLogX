@@ -106,6 +106,13 @@ punishments:
   # Default: false
   on-kick: false
 
+  # Which kick messages should be ignored for punishments?
+  # This option is ignored if `on-kick` is false
+  # The plugin uses a string contains check, so messages are case sensitive
+  on-kick-ignore-list:
+    - "kicked by SirBlobman"
+    - "troll"
+
   # Should players be punished if the combat timer expires?
   # You shouldn't need this option unless you're testing something
   #

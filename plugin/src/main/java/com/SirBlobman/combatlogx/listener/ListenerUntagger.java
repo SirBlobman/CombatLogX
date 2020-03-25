@@ -25,6 +25,9 @@ public class ListenerUntagger implements Listener {
 
     @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
     public void onKicked(PlayerKickEvent e) {
+        String kickReason = e.getReason();
+        if(isKickReasonIgnored(kickReason)) return;
+        
         Player player = e.getPlayer();
         ICombatManager combatManager = this.plugin.getCombatManager();
         combatManager.untag(player, PlayerUntagEvent.UntagReason.KICK);
@@ -93,5 +96,11 @@ public class ListenerUntagger implements Listener {
             CommandSender console = Bukkit.getConsoleSender();
             Bukkit.dispatchCommand(console, sudoCommand);
         }
+    }
+    
+    private boolean isKickReasonIgnored(String string) {
+        FileConfiguration config = this.plugin.getConfig("config.yml");
+        List<String> kickReasonIgnoreList = config.getStringList("punishments.on-kick-ignore-list");
+        return kickReasonIgnoreList.stream().anyMatch(string::contains);
     }
 }
