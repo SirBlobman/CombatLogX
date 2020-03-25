@@ -25,7 +25,7 @@ CodeMC was nice enough to sponsor a maven repository for CombatLogX
 ```
 
 ## Events
-A list of events with some examples is provided below
+A list of events and examples are provided below.
 ### com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent
 This event will be fired before a player gets tagged by CombatLogX  
 You can cancel it to prevent the player from being tagged.  
@@ -126,7 +126,8 @@ Good luck with your coding!
 **Example:** *Check if a Player is in Combat*
 ```java
 public boolean isInCombat(Player player) {
-    ICombatLogX plugin = (ICombatLogX) Bukkit.getPluginManager().getPlugin("CombatLogX"); /* Make sure to check CombatLogX is enabled first */
+    // Make sure to check that CombatLogX is enabled before using it for anything.
+    ICombatLogX plugin = (ICombatLogX) Bukkit.getPluginManager().getPlugin("CombatLogX");
     ICombatManager combatManager = plugin.getCombatManager();
     return combatManager.isInCombat(player);
 }
