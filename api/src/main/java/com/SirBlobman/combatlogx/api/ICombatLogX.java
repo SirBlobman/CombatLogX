@@ -3,6 +3,7 @@ package com.SirBlobman.combatlogx.api;
 import java.io.File;
 import java.util.logging.Logger;
 
+import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
 import com.SirBlobman.combatlogx.api.listener.ICustomDeathListener;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 
@@ -49,6 +50,7 @@ public interface ICombatLogX {
 
     ClassLoader getPluginClassLoader();
     ICombatManager getCombatManager();
+    ExpansionManager getExpansionManager();
     ICustomDeathListener getCustomDeathListener();
 
     void sendMessage(CommandSender sender, String... messages);

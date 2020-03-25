@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,10 +27,34 @@ import org.bukkit.configuration.file.YamlConfiguration;
  * @author SirBlobman
  */
 public abstract class Expansion {
-    private final Map<String, FileConfiguration> fileNameToConfigMap = Util.newMap();
+    public enum State {
+        ENABLED, DISABLED, LOADED, UNLOADED;
+    }
+    
+    private ExpansionDescription description;
+    private State state = State.UNLOADED;
+    private File dataFolder, file;
+    
     private final ICombatLogX plugin;
+    private final Map<String, FileConfiguration> fileNameToConfigMap = Util.newMap();
     public Expansion(ICombatLogX plugin) {
         this.plugin = plugin;
+    }
+    
+    final void setDataFolder(File dataFolder) {
+        this.dataFolder = dataFolder;
+    }
+    
+    final void setFile(File file) {
+        this.file = file;
+    }
+    
+    final void setDescription(ExpansionDescription description) {
+        this.description = description;
+    }
+    
+    final void setState(State state) {
+        this.state = state;
     }
 
     public final ICombatLogX getPlugin() {
@@ -36,28 +62,52 @@ public abstract class Expansion {
     }
 
     public final File getDataFolder() {
-        ICombatLogX plugin = getPlugin();
-        File dataFolder = plugin.getDataFolder();
-
-        File expansionsFolder = new File(dataFolder, "expansions");
-        File expansionFolder = new File(expansionsFolder, getUnlocalizedName());
-        expansionFolder.mkdirs();
-
-        return expansionFolder;
+        return this.dataFolder;
+    }
+    
+    public final File getFile() {
+        return this.file;
+    }
+    
+    public final State getState() {
+        return this.state;
+    }
+    
+    public final ExpansionDescription getDescription() {
+        return this.description;
     }
 
     public final Logger getLogger() {
         ICombatLogX plugin = getPlugin();
         Logger parent = plugin.getLogger();
 
-        String expansionName = getName();
+        ExpansionDescription description = getDescription();
+        String expansionName = description.getDisplayName();
         Logger logger = Logger.getLogger(expansionName);
 
         logger.setParent(parent);
         return logger;
     }
+    
+    public final InputStream getResource(String fileName) {
+        if(fileName == null) throw new IllegalArgumentException("fileName must not be null!");
+        
+        try {
+            Class<? extends Expansion> expansionClass = getClass();
+            ClassLoader classLoader = expansionClass.getClassLoader();
+            
+            URL url = classLoader.getResource(fileName);
+            if(url == null) return null;
+            
+            URLConnection connection = url.openConnection();
+            connection.setUseCaches(false);
+            return connection.getInputStream();
+        } catch(IOException ignored) {
+            return null;
+        }
+    }
 
-    public FileConfiguration getConfig(String fileName) {
+    public final FileConfiguration getConfig(String fileName) {
         try {
             File dataFolder = getDataFolder();
             File file = new File(dataFolder, fileName);
@@ -77,7 +127,7 @@ public abstract class Expansion {
         }
     }
 
-    public void reloadConfig(String fileName) {
+    public final void reloadConfig(String fileName) {
         try {
             File dataFolder = getDataFolder();
             File file = new File(dataFolder, fileName);
@@ -88,7 +138,7 @@ public abstract class Expansion {
             YamlConfiguration config = new YamlConfiguration();
             config.load(realFile);
 
-            InputStream jarStream = this.plugin.getPlugin().getResource(fileName);
+            InputStream jarStream = getResource(fileName);
             if(jarStream != null) {
                 InputStreamReader reader = new InputStreamReader(jarStream, StandardCharsets.UTF_8);
                 YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(reader);
@@ -102,12 +152,28 @@ public abstract class Expansion {
         }
     }
 
-    public void saveConfig(String fileName) {
+    public final void saveConfig(String fileName) {
         try {
             File dataFolder = getDataFolder();
             File file = new File(dataFolder, fileName);
 
             File realFile = file.getCanonicalFile();
+            File parentFile = realFile.getParentFile();
+            if(parentFile != null && !parentFile.exists()) {
+                boolean createParent = parentFile.mkdirs();
+                if(!createParent) {
+                    Logger logger = getLogger();
+                    logger.info("Could not create parent file for '" + fileName + "'.");
+                    return;
+                }
+            }
+    
+            boolean createFile = realFile.createNewFile();
+            if(!createFile) {
+                Logger logger = getLogger();
+                logger.info("Failed to create file '" + fileName + "'.");
+                return;
+            }
 
             FileConfiguration config = getConfig(fileName);
             config.save(realFile);
@@ -117,18 +183,35 @@ public abstract class Expansion {
         }
     }
 
-    public void saveDefaultConfig(String fileName) {
+    public final void saveDefaultConfig(String fileName) {
         try {
             File dataFolder = getDataFolder();
             File file = new File(dataFolder, fileName);
 
             File realFile = file.getCanonicalFile();
             if(realFile.exists()) return;
-
-            InputStream jarStream = this.plugin.getPlugin().getResource(fileName);
+    
+            InputStream jarStream = getResource(fileName);
             if(jarStream == null) {
                 Logger logger = getLogger();
                 logger.warning("Could not find file '" + fileName + "' in jar.");
+                return;
+            }
+            
+            File parentFile = realFile.getParentFile();
+            if(parentFile != null && !parentFile.exists()) {
+                boolean createParent = parentFile.mkdirs();
+                if(!createParent) {
+                    Logger logger = getLogger();
+                    logger.info("Could not create parent file for '" + fileName + "'.");
+                    return;
+                }
+            }
+            
+            boolean createFile = realFile.createNewFile();
+            if(!createFile) {
+                Logger logger = getLogger();
+                logger.info("Failed to create default file '" + fileName + "'.");
                 return;
             }
 
@@ -139,13 +222,6 @@ public abstract class Expansion {
             logger.log(Level.SEVERE, "An error ocurred while saving the default config for file '" + fileName + "'.", ex);
         }
     }
-
-    public String getName() {
-        return getUnlocalizedName();
-    }
-
-    public abstract String getUnlocalizedName();
-    public abstract String getVersion();
 
     public abstract void onLoad();
     public abstract void onEnable();

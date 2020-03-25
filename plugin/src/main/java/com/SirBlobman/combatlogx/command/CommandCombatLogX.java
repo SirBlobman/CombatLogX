@@ -1,7 +1,9 @@
 package com.SirBlobman.combatlogx.command;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -9,6 +11,8 @@ import com.SirBlobman.combatlogx.CombatLogX;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
+import com.SirBlobman.combatlogx.api.expansion.Expansion.State;
+import com.SirBlobman.combatlogx.api.expansion.ExpansionDescription;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
 import com.SirBlobman.combatlogx.api.shaded.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
@@ -50,7 +54,11 @@ public class CommandCombatLogX implements TabExecutor {
         String[] newArgs = args.length < 2 ? new String[0] : Arrays.copyOfRange(args, 1, args.length);
         switch(sub) {
             case "help": return helpCommand(sender);
-            case "version": return versionCommand(sender);
+            
+            case "about":
+            case "version":
+            case "ver":
+                return versionCommand(sender, newArgs);
 
             case "reload":
             case "reloadconfig":
@@ -114,7 +122,9 @@ public class CommandCombatLogX implements TabExecutor {
         try {
             this.plugin.reloadConfig("config.yml");
             this.plugin.reloadConfig("language.yml");
-            ExpansionManager.reloadConfigs();
+            
+            ExpansionManager expansionManager = this.plugin.getExpansionManager();
+            expansionManager.reloadExpansionConfigs();
         } catch(Exception ex) {
             String message1 = MessageUtil.color("&f&l[&6CombatLogX&f&l] &cAn error has occurred while loading your configurations. &cPlease check console for further details.");
             String message2 = MessageUtil.color("&f&l[&6CombatLogX&f&l[ &c&lError Message: &7" + ex.getMessage());
@@ -171,22 +181,56 @@ public class CommandCombatLogX implements TabExecutor {
         return true;
     }
 
-    private boolean versionCommand(CommandSender sender) {
+    private boolean versionCommand(CommandSender sender, String[] args) {
         if(checkNoPermission(sender, "combatlogx.command.combatlogx.version")) return true;
 
-        Runnable task = () -> checkVersion(sender);
-        this.plugin.sendMessage(sender, "Getting version information for CombatLogX...");
-
-        BukkitScheduler scheduler = Bukkit.getScheduler();
-        scheduler.runTaskAsynchronously(this.plugin, task);
+        if(args.length < 1) {
+            Runnable task = () -> checkVersion(sender);
+            this.plugin.sendMessage(sender, "Getting version information for CombatLogX...");
+    
+            BukkitScheduler scheduler = Bukkit.getScheduler();
+            scheduler.runTaskAsynchronously(this.plugin, task);
+            return true;
+        }
+    
+        String expansionName = args[0];
+        ExpansionManager expansionManager = this.plugin.getExpansionManager();
+    
+        Optional<Expansion> optionalExpansion = expansionManager.getExpansionByName(expansionName);
+        if(!optionalExpansion.isPresent()) {
+            sender.sendMessage("Could not find an expansion with the name '" + expansionName + "'.");
+            return true;
+        }
+        
+        Expansion expansion = optionalExpansion.get();
+        State state = expansion.getState();
+        ExpansionDescription description = expansion.getDescription();
+        
+        expansionName = description.getName();
+        String displayName = description.getDisplayName();
+        String version = description.getVersion();
+        String descriptionText = description.getDescription();
+        List<String> authorList = description.getAuthors();
+        String authorString = String.join(", ", authorList);
+        
+        List<String> messageList = new ArrayList<>();
+        messageList.add(MessageUtil.color("&6&lExpansion Information for &e" + expansionName));
+        messageList.add("&6&lState:&e " + state.name());
+        messageList.add("&6&lVersion:&e " + version);
+        
+        if(displayName != null) messageList.add("&6&lDisplay Name:&e " + displayName);
+        if(descriptionText != null) messageList.add("&6&lDescription:&e " + descriptionText);
+        if(!authorList.isEmpty()) messageList.add("&6&lAuthors:&e " + authorString);
+        
+        messageList.forEach(message -> this.plugin.sendMessage(sender, message));
         return true;
     }
-
+    
     private void checkVersion(CommandSender sender) {
         String pluginVersion = this.plugin.getDescription().getVersion();
         String spigotVersion = UpdateChecker.getSpigotVersion(this.plugin);
 
-        String[] message1 = colorMultiple(
+        String[] message = colorMultiple(
                 "&f",
                 "&f&lServer Version: &7" + Bukkit.getVersion(),
                 "&f&lBukkit Version: &7" + Bukkit.getBukkitVersion(),
@@ -200,9 +244,11 @@ public class CommandCombatLogX implements TabExecutor {
                 "&7&oGetting expansion versions...",
                 "&f"
         );
-        this.plugin.sendMessage(sender, message1);
-
-        List<Expansion> expansionList = ExpansionManager.getExpansions();
+        this.plugin.sendMessage(sender, message);
+        
+        ExpansionManager expansionManager = this.plugin.getExpansionManager();
+        List<Expansion> expansionList = expansionManager.getEnabledExpansions();
+        
         if(expansionList.isEmpty()) {
             String message2 = MessageUtil.color("  &f&lYou do not have any expansions installed.");
             this.plugin.sendMessage(sender, message2);
@@ -210,10 +256,11 @@ public class CommandCombatLogX implements TabExecutor {
         }
 
         for(Expansion expansion : expansionList) {
-            String expName = expansion.getName();
-            String expVersion = expansion.getVersion();
+            ExpansionDescription description = expansion.getDescription();
+            String name = description.getDisplayName();
+            String version = description.getVersion();
 
-            String message3 = MessageUtil.color("  &f&l" + expName + " &7v" + expVersion);
+            String message3 = MessageUtil.color("  &f&l" + name + " &7v" + version);
             this.plugin.sendMessage(sender, message3);
         }
     }

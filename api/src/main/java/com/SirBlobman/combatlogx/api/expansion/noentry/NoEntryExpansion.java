@@ -20,8 +20,14 @@ import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.util.Vector;
 
 public abstract class NoEntryExpansion extends Expansion {
+    private boolean actuallyEnabled = false;
     public NoEntryExpansion(ICombatLogX plugin) {
         super(plugin);
+    }
+    
+    @Override
+    public void onLoad() {
+        // Do Nothing
     }
 
     @Override
@@ -29,22 +35,23 @@ public abstract class NoEntryExpansion extends Expansion {
         if(!canEnable()) {
             Logger logger = getLogger();
             logger.info("Automatically disabling...");
-
-            ExpansionManager.unloadExpansion(this);
+            
+            ICombatLogX plugin = getPlugin();
+            ExpansionManager expansionManager = plugin.getExpansionManager();
+            expansionManager.disableExpansion(this);
             return;
         }
 
         onActualEnable();
+        this.actuallyEnabled = true;
     }
 
     @Override
-    public void onLoad() {
-        // Do Nothing
-    }
-
-    @Override
-    public void onDisable() {
-        // Do Nothing
+    public final void onDisable() {
+        if(!actuallyEnabled) return;
+        
+        onActualDisable();
+        this.actuallyEnabled = false;
     }
 
     private final List<UUID> noEntryMessageCooldownList = Util.newList();
@@ -147,5 +154,6 @@ public abstract class NoEntryExpansion extends Expansion {
 
     public abstract boolean canEnable();
     public abstract void onActualEnable();
+    public abstract void onActualDisable();
     public abstract NoEntryHandler getNoEntryHandler();
 }

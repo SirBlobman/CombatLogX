@@ -43,6 +43,7 @@ import org.bukkit.scheduler.BukkitScheduler;
 public class CombatLogX extends JavaPlugin implements ICombatLogX {
     private static final Map<String, FileConfiguration> fileNameToConfigMap = Util.newMap();
     private final CombatManager combatManager = new CombatManager(this);
+    private final ExpansionManager expansionManager = new ExpansionManager(this);
     private final ICustomDeathListener customDeathListener = new ListenerCustomDeath(this);
     private final SirBlobmanAPI api = new SirBlobmanAPI(this);
 
@@ -59,9 +60,11 @@ public class CombatLogX extends JavaPlugin implements ICombatLogX {
     public void onLoad() {
         saveDefaultConfig("config.yml");
         saveDefaultConfig("language.yml");
-
+        
+        ExpansionManager expansionManager = getExpansionManager();
+        expansionManager.loadExpansions();
+        
         broadcastLoadMessage();
-        ExpansionManager.loadExpansions(this);
     }
 
     @Override
@@ -69,23 +72,22 @@ public class CombatLogX extends JavaPlugin implements ICombatLogX {
         registerListeners();
         registerCommands();
         registerTasks();
-
-        ExpansionManager.enableExpansions(this);
+    
+        ExpansionManager expansionManager = getExpansionManager();
+        expansionManager.enableExpansions();
+        
         broadcastEnableMessage();
-
         UpdateChecker.checkForUpdates(this);
-
     }
 
     @Override
     public void onDisable() {
         untagAllPlayers();
-        ExpansionManager.disableExpansions();
+        
+        ExpansionManager expansionManager = getExpansionManager();
+        expansionManager.disableExpansions();
+        
         broadcastDisableMessage();
-    }
-
-    private void registerCommand(String commandName, CommandExecutor executor) {
-        registerCommand(commandName, executor, null, null);
     }
 
     @Override
@@ -201,6 +203,11 @@ public class CombatLogX extends JavaPlugin implements ICombatLogX {
     public CombatManager getCombatManager() {
         return this.combatManager;
     }
+    
+    @Override
+    public ExpansionManager getExpansionManager() {
+        return this.expansionManager;
+    }
 
     @Override
     public ICustomDeathListener getCustomDeathListener() {
@@ -239,6 +246,10 @@ public class CombatLogX extends JavaPlugin implements ICombatLogX {
             Listener listener = (Listener) executor;
             manager.registerEvents(listener, this);
         }
+    }
+    
+    private void registerCommand(String commandName, CommandExecutor executor) {
+        registerCommand(commandName, executor, null, null);
     }
 
     private void broadcastMessage(String message) {

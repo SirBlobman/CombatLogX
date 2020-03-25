@@ -27,7 +27,7 @@ public class CustomCommand extends Command implements Listener {
         return success;
     }
 
-    @EventHandler(priority= EventPriority.HIGHEST, ignoreCancelled=true)
+    @EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
     public void beforeCommand(PlayerCommandPreprocessEvent e) {
         Player player = e.getPlayer();
         String message = e.getMessage();

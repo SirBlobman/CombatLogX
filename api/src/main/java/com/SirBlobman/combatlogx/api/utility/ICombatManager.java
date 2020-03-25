@@ -10,17 +10,17 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 public interface ICombatManager {
-    public boolean tag(Player player, LivingEntity enemy, PlayerPreTagEvent.TagType tagType, PlayerPreTagEvent.TagReason tagReason);
-    public void untag(Player player, PlayerUntagEvent.UntagReason untagReason);
+    boolean tag(Player player, LivingEntity enemy, PlayerPreTagEvent.TagType tagType, PlayerPreTagEvent.TagReason tagReason);
+    void untag(Player player, PlayerUntagEvent.UntagReason untagReason);
 
-    public boolean isInCombat(Player player);
-    public List<Player> getPlayersInCombat();
-    public LivingEntity getEnemy(Player player);
-    public OfflinePlayer getByEnemy(LivingEntity enemy);
+    boolean isInCombat(Player player);
+    List<Player> getPlayersInCombat();
+    LivingEntity getEnemy(Player player);
+    OfflinePlayer getByEnemy(LivingEntity enemy);
 
-    public int getTimerSecondsLeft(Player player);
-    public long getTimerMillisLeft(Player player);
+    int getTimerSecondsLeft(Player player);
+    long getTimerMillisLeft(Player player);
 
-    public boolean punish(Player player, PlayerUntagEvent.UntagReason punishReason, LivingEntity previousEnemy);
-    public String getSudoCommand(Player player, LivingEntity enemy, String command);
+    boolean punish(Player player, PlayerUntagEvent.UntagReason punishReason, LivingEntity previousEnemy);
+    String getSudoCommand(Player player, LivingEntity enemy, String command);
 }

@@ -4,6 +4,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
 public interface ICustomDeathListener extends Listener {
-    public void add(Player player);
-    public void remove(Player player);
+    void add(Player player);
+    void remove(Player player);
 }
