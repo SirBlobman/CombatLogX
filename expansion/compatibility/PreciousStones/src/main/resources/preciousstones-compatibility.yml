@@ -1,0 +1,41 @@
+# Default PreciousStones Compatibility Config
+# Made by SirBlobman
+
+no-entry:
+  # How should CombatLogX prevent players from entering 'pvp: deny' or 'mob-combat: deny' regions?
+  # KNOCKBACK - Add some opposite velocity to the player so they are pushed backwards
+  # CANCEL - Cancel the player's move event
+  # NOTHING - Don't do anything, just let them in
+  # VULNERABLE - Let the player in, but remove their pvp protection
+  # KILL - Set the player's health to 0
+  # TELEPORT - Teleport the player to their enemy if they have one, or CANCEL if they don't have one.
+  #
+  # Default: KNOCKBACK
+  mode: KNOCKBACK
+
+  # How much should we multiply the velocity value if the 'mode' is KNOCKBACK?
+  #
+  # Default: 1.5
+  knockback-strength: 1.5
+
+  # How long should we wait before "no entry" messages (in seconds)
+  #
+  # Default: 30
+  message-cooldown: 30
+
+force-field:
+  # Even if this option is 'true', you still need to install ProtocolLib
+  # ProtocolLib can be found here: https://www.spigotmc.org/resources/1997/
+  enabled: true
+
+  # For 1.13+, use the correct material name
+  # for 1.8 and below, use the format 'material<:data>'
+  material: GLASS
+  # material: STAINED_GLASS:14
+
+  # What radius around the player should we check for forcefield areas
+  # Smaller values cause less lag but may allow players into the region
+  radius: 5
+
+  # What permission is needed to bypass the force field glass?
+  bypass-permission: "combatlogx.bypass.preciousstones.force.field"

@@ -65,6 +65,7 @@
                                 <copy file="${expansion.compatibility.dir}/Factions/target/FactionsCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/Factions Compatibility.jar"/>
                                 <copy file="${expansion.compatibility.dir}/GriefPrevention/target/GriefPreventionCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/GriefPrevention Compatibility.jar"/>
                                 <copy file="${expansion.compatibility.dir}/Lands/target/LandsCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/Lands Compatibility.jar"/>
+                                <copy file="${expansion.compatibility.dir}/PreciousStones/target/PreciousStonesCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/PreciousStones Compatibility.jar"/>
                                 <copy file="${expansion.compatibility.dir}/RedProtect/target/RedProtectCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/RedProtect Compatibility.jar"/>
                                 <copy file="${expansion.compatibility.dir}/Residence/target/ResidenceCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/Residence Compatibility.jar"/>
                                 <copy file="${expansion.compatibility.dir}/Towny/target/TownyCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/Towny Compatibility.jar"/>

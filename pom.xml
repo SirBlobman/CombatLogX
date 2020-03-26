@@ -33,6 +33,7 @@
         <!-- Dummy APIs -->
         <module>dummy-api/CrackShot</module>
         <module>dummy-api/FabledSkyBlock</module>
+        <module>dummy-api/PreciousStones</module>
         <module>dummy-api/Residence</module>
         <module>dummy-api/Towny</module>
         
@@ -67,6 +68,7 @@
         <module>expansion/compatibility/Factions</module>
         <module>expansion/compatibility/GriefPrevention</module>
         <module>expansion/compatibility/Lands</module>
+        <module>expansion/compatibility/PreciousStones</module>
         <module>expansion/compatibility/RedProtect</module>
         <module>expansion/compatibility/Residence</module>
         <module>expansion/compatibility/Towny</module>
