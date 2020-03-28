@@ -22,12 +22,6 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
 
-        <!-- Illyria Repository -->
-        <repository>
-            <id>illyria</id>
-            <url>https://nexus.illyria.io/repository/maven-public/</url>
-        </repository>
-
         <!-- Ender Zone Repository -->
         <repository>
             <id>ender-zone</id>
@@ -59,8 +53,7 @@
             <scope>provided</scope>
         </dependency>
 
-
-        <!-- MassiveCore Dummy API -->
+        <!-- MassiveCore -->
         <dependency>
             <groupId>com.SirBlobman.combatlogx.dummy-api</groupId>
             <artifactId>MassiveCore</artifactId>
@@ -68,19 +61,11 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- MassiveCore Factions Dummy API -->
+        <!-- MassiveCore Factions -->
         <dependency>
             <groupId>com.SirBlobman.combatlogx.dummy-api</groupId>
             <artifactId>Factions</artifactId>
             <version>2.14.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- SavageFactions -->
-        <dependency>
-            <groupId>com.massivecraft</groupId>
-            <artifactId>SavageFactions</artifactId>
-            <version>1.6.9.5-U0.2.1-RC-1.6.2-RC-2.5-RC-6</version>
             <scope>provided</scope>
         </dependency>
 

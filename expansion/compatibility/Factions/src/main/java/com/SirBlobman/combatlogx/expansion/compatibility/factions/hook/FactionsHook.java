@@ -40,13 +40,7 @@ public abstract class FactionsHook {
             List<String> authorList = pdf.getAuthors();
             String version = pdf.getVersion();
 
-            if(authorList.contains("ProSavage")) {
-                FACTIONS_HOOK = new HookSavageFactions();
-                logger.info("Successfully hooked into SavageFactions v" + version);
-                return getFactionsHook(expansion);
-            }
-
-            if(authorList.contains("drtshock")) {
+            if(version.startsWith("1.6.9.5-U") || authorList.contains("drtshock")) {
                 FACTIONS_HOOK = new HookFactionsUUID();
                 logger.info("Successfully hooked into FactionsUUID v" + version);
                 return getFactionsHook(expansion);
