@@ -206,9 +206,10 @@ public abstract class ForceField implements Listener {
         if(!isEnabled()) return;
         
         Player player = e.getPlayer();
+        if(canBypass(player)) return;
+        
         ICombatManager combatManager = this.plugin.getCombatManager();
         if(!combatManager.isInCombat(player)) return;
-        if(canBypass(player)) return;
 
         Location toLoc = e.getTo();
         Location fromLoc = e.getFrom();
@@ -225,6 +226,8 @@ public abstract class ForceField implements Listener {
         if(!isEnabled()) return;
         
         Player player = e.getPlayer();
+        if(canBypass(player)) return;
+        
         Location playerLoc = player.getLocation();
         if(isSafe(playerLoc, player)) return;
 
