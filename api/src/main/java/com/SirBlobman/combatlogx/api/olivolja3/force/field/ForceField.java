@@ -2,7 +2,7 @@ package com.SirBlobman.combatlogx.api.olivolja3.force.field;
 
 import java.util.*;
 
-import com.SirBlobman.api.nms.NMS_Handler;
+import com.SirBlobman.api.nms.VersionUtil;
 import com.SirBlobman.api.utility.Util;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
@@ -63,7 +63,7 @@ public abstract class ForceField implements Listener {
         Material type = getForceFieldMaterial();
         data.setType(type);
 
-        if(NMS_Handler.getMinorVersion() < 13) {
+        if(VersionUtil.getMinorVersion() < 13) {
             int typeData = getForceFieldMaterialData();
             data.setData(typeData);
         }
@@ -105,7 +105,7 @@ public abstract class ForceField implements Listener {
 
     @SuppressWarnings("deprecation")
     private void sendForceField(Player player, Location location) {
-        if(NMS_Handler.getMinorVersion() >= 13) {
+        if(VersionUtil.getMinorVersion() >= 13) {
             player.sendBlockChange(location, getForceFieldMaterial().createBlockData());
             return;
         }
@@ -116,7 +116,7 @@ public abstract class ForceField implements Listener {
     @SuppressWarnings("deprecation")
     private void resetBlock(Player player, Location location) {
         Block block = location.getBlock();
-        if(NMS_Handler.getMinorVersion() >= 13) {
+        if(VersionUtil.getMinorVersion() >= 13) {
             player.sendBlockChange(location, block.getBlockData());
             return;
         }

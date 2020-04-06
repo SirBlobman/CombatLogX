@@ -1,11 +1,19 @@
 package com.SirBlobman.combatlogx.utility;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.event.*;
-import com.SirBlobman.combatlogx.api.shaded.nms.NMS_Handler;
+import com.SirBlobman.combatlogx.api.shaded.nms.AbstractNMS;
+import com.SirBlobman.combatlogx.api.shaded.nms.EntityHandler;
+import com.SirBlobman.combatlogx.api.shaded.nms.MultiVersionHandler;
+import com.SirBlobman.combatlogx.api.shaded.nms.VersionUtil;
 import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 
@@ -232,19 +240,12 @@ public class CombatManager implements ICombatManager, Runnable {
 
     private String getEntityName(LivingEntity enemy) {
         if(enemy == null) return this.plugin.getLanguageMessage("errors.unknown-entity-name");
-
-        int minorVersion = NMS_Handler.getMinorVersion();
-        if(minorVersion <= 7) {
-            if(enemy instanceof Player) {
-                Player player = (Player) enemy;
-                return player.getName();
-            }
-
-            EntityType type = enemy.getType();
-            return type.name();
-        }
-
-        return enemy.getName();
+    
+        MultiVersionHandler<?> multiVersionHandler = this.plugin.getMultiVersionHandler();
+        AbstractNMS nmsHandler = multiVersionHandler.getInterface();
+        
+        EntityHandler entityHandler = nmsHandler.getEntityHandler();
+        return entityHandler.getName(enemy);
     }
 
     private void checkKill(Player player) {
@@ -274,45 +275,75 @@ public class CombatManager implements ICombatManager, Runnable {
             String sudoCommand = getSudoCommand(player, previousEnemy, punishCommand);
             if(sudoCommand.startsWith("[PLAYER]")) {
                 String command = sudoCommand.substring("[PLAYER]".length());
-                player.performCommand(command);
+                runAsPlayer(player, command);
                 continue;
             }
 
             if(sudoCommand.startsWith("[OP]")) {
                 String command = sudoCommand.substring("[OP]".length());
                 if(player.isOp()) {
-                    player.performCommand(command);
+                    runAsPlayer(player, command);
                     continue;
                 }
 
                 player.setOp(true);
-                player.performCommand(command);
+                runAsPlayer(player, command);
                 player.setOp(false);
 
                 continue;
             }
-
+            
+            runAsConsole(punishCommand);
+        }
+    }
+    
+    private void runAsPlayer(Player player, String command) {
+        try {
+            player.performCommand(command);
+        } catch(Throwable ex) {
+            Logger logger = this.plugin.getLogger();
+            logger.log(Level.SEVERE, "An error occurred while executing a command as a player:", ex);
+        }
+    }
+    
+    private void runAsConsole(String command) {
+        try {
             CommandSender console = Bukkit.getConsoleSender();
-            Bukkit.dispatchCommand(console, sudoCommand);
+            Bukkit.dispatchCommand(console, command);
+        } catch(Throwable ex) {
+            Logger logger = this.plugin.getLogger();
+            logger.log(Level.SEVERE, "An error occurred while executing a command as the console:", ex);
         }
     }
 
     private Entity getEntityByUUID(UUID uuid) {
         if(uuid == null) return null;
 
-        if(NMS_Handler.getMinorVersion() >= 12) {
-            return Bukkit.getEntity(uuid);
-        }
+        int minorVersion = VersionUtil.getMinorVersion();
+        if(minorVersion >= 12) return Bukkit.getEntity(uuid);
 
         List<World> worldList = Bukkit.getWorlds();
         for(World world : worldList) {
-            List<Entity> entityList = world.getEntities();
-            for(Entity entity : entityList) {
-                UUID entityId = entity.getUniqueId();
-                if(entityId.equals(uuid)) return entity;
-            }
+            Entity entity = getEntityByUUID(world, uuid);
+            if(entity == null) continue;
+            
+            return entity;
         }
 
+        return null;
+    }
+    
+    private Entity getEntityByUUID(World world, UUID uuid) {
+        if(world == null || uuid == null) return null;
+    
+        List<Entity> entityList = world.getEntities();
+        for(Entity entity : entityList) {
+            UUID entityId = entity.getUniqueId();
+            if(!uuid.equals(entityId)) continue;
+            
+            return entity;
+        }
+        
         return null;
     }
 }

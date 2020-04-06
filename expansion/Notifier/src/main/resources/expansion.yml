@@ -3,4 +3,4 @@ description: "An expansion that activates a scoreboard, boss bar, and action bar
 
 main: "com.SirBlobman.combatlogx.expansion.notifier.Notifier"
 author: "SirBlobman"
-version: "15.0"
+version: "15.1"

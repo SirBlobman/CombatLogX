@@ -11,7 +11,7 @@ import com.SirBlobman.combatlogx.api.expansion.Expansion;
 import com.SirBlobman.combatlogx.api.expansion.Expansion.State;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionDescription;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
-import com.SirBlobman.combatlogx.api.shaded.nms.NMS_Handler;
+import com.SirBlobman.combatlogx.api.shaded.nms.VersionUtil;
 import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
 import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
@@ -254,8 +254,8 @@ public class CommandCombatLogX implements TabExecutor {
                 "&f",
                 "&f&lServer Version: &7" + Bukkit.getVersion(),
                 "&f&lBukkit Version: &7" + Bukkit.getBukkitVersion(),
-                "&f&lMinecraft Version: &7" + NMS_Handler.getMinecraftVersion(),
-                "&f&lNMS Version: &7" + NMS_Handler.getNetMinecraftServerVersion(),
+                "&f&lMinecraft Version: &7" + VersionUtil.getMinecraftVersion(),
+                "&f&lNMS Version: &7" + VersionUtil.getNetMinecraftServerVersion(),
                 "&f",
                 "&f&lCombatLogX by SirBlobman",
                 "&f&lInstalled Version: &7v" + pluginVersion,

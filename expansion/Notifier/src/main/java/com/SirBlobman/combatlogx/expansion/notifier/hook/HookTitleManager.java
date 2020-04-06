@@ -1,4 +1,4 @@
-package com.SirBlobman.combatlogx.expansion.notifier.utility;
+package com.SirBlobman.combatlogx.expansion.notifier.hook;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -18,7 +18,7 @@ import io.puharesource.mc.titlemanager.TitleManagerPlugin;
 import io.puharesource.mc.titlemanager.api.v2.TitleManagerAPI;
 import io.puharesource.mc.titlemanager.api.v2.animation.AnimationPart;
 
-public final class TitleManagerHandler {
+public final class HookTitleManager {
     private static TitleManagerAPI getAPI() {
         PluginManager manager = Bukkit.getPluginManager();
         if(!manager.isPluginEnabled("TitleManager")) return null;

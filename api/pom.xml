@@ -36,21 +36,21 @@
     
     
     <dependencies>
-        <!-- SirBlobman API -->
-        <!-- https://www.github.com/SirBlobman/SirBlobmanAPI -->
-        <dependency>
-            <groupId>com.SirBlobman.api</groupId>
-            <artifactId>SirBlobmanAPI</artifactId>
-            <version>1.11-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-
         <!-- Spigot API -->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>${spigot.version}</version>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- SirBlobman API -->
+        <!-- https://www.github.com/SirBlobman/SirBlobmanAPI -->
+        <dependency>
+            <groupId>com.SirBlobman.api</groupId>
+            <artifactId>SirBlobmanAPI</artifactId>
+            <version>1.13-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
 
         <!-- ProtocolLib API -->

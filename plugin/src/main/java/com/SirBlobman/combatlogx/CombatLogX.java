@@ -17,6 +17,7 @@ import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
 import com.SirBlobman.combatlogx.api.listener.ICustomDeathListener;
 import com.SirBlobman.combatlogx.api.shaded.SirBlobmanAPI;
+import com.SirBlobman.combatlogx.api.shaded.nms.MultiVersionHandler;
 import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
 import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 import com.SirBlobman.combatlogx.command.CommandCombatLogX;
@@ -45,10 +46,12 @@ public class CombatLogX extends JavaPlugin implements ICombatLogX {
     private final CombatManager combatManager = new CombatManager(this);
     private final ExpansionManager expansionManager = new ExpansionManager(this);
     private final ICustomDeathListener customDeathListener = new ListenerCustomDeath(this);
-    private final SirBlobmanAPI api = new SirBlobmanAPI(this);
+    
+    private final SirBlobmanAPI sirBlobmanAPI = new SirBlobmanAPI(this);
+    private final MultiVersionHandler<CombatLogX> multiVersionHandler = new MultiVersionHandler<>(this);
 
     public SirBlobmanAPI getSirBlobmanAPI() {
-        return this.api;
+        return this.sirBlobmanAPI;
     }
 
     @Override
@@ -232,6 +235,11 @@ public class CombatLogX extends JavaPlugin implements ICombatLogX {
         
         Logger logger = getLogger();
         logger.info("[Debug] " + message);
+    }
+    
+    @Override
+    public MultiVersionHandler<CombatLogX> getMultiVersionHandler() {
+        return this.multiVersionHandler;
     }
     
     private void forceRegisterCommand(String commandName, CommandExecutor executor, String description, String usage, String... aliases) {

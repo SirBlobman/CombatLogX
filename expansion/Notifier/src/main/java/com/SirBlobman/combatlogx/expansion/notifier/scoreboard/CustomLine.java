@@ -1,4 +1,4 @@
-package com.SirBlobman.combatlogx.expansion.notifier.utility.scoreboard;
+package com.SirBlobman.combatlogx.expansion.notifier.scoreboard;
 
 import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.Team;

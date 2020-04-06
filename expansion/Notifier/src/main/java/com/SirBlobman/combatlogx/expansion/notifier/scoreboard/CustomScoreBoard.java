@@ -1,10 +1,14 @@
-package com.SirBlobman.combatlogx.expansion.notifier.utility.scoreboard;
+package com.SirBlobman.combatlogx.expansion.notifier.scoreboard;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.shaded.nms.NMS_Handler;
+import com.SirBlobman.combatlogx.api.shaded.nms.AbstractNMS;
+import com.SirBlobman.combatlogx.api.shaded.nms.MultiVersionHandler;
+import com.SirBlobman.combatlogx.api.shaded.nms.ScoreboardHandler;
+import com.SirBlobman.combatlogx.api.shaded.nms.VersionUtil;
 import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
 import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 import com.SirBlobman.combatlogx.expansion.notifier.Notifier;
@@ -28,14 +32,11 @@ public class CustomScoreBoard {
     private final Scoreboard scoreboard;
     private Objective objective;
     public CustomScoreBoard(Notifier expansion, Player player) {
-        Validate.notNull(player, "player must not be null!");
-
-        this.expansion = expansion;
-        this.playerId = player.getUniqueId();
+        this.expansion = Objects.requireNonNull(expansion, "expansion must not be null!");
+        this.playerId = Objects.requireNonNull(player, "player must not be null!").getUniqueId();
     
         ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
-        if(scoreboardManager == null) throw new IllegalStateException("The scoreboard manager is null!");
-        this.scoreboard = scoreboardManager.getNewScoreboard();
+        this.scoreboard = Objects.requireNonNull(scoreboardManager, "Bukkit's Scoreboard Manager is not available yet!").getNewScoreboard();
 
         createObjective();
         initializeScoreboard();
@@ -44,7 +45,13 @@ public class CustomScoreBoard {
     private void createObjective() {
         FileConfiguration config = this.expansion.getConfig("scoreboard.yml");
         String scoreboardTitle = MessageUtil.color(config.getString("scoreboard-title"));
-        this.objective = NMS_Handler.getHandler().getScoreboardHandler().createObjective(this.scoreboard, "combatlogx", "dummy", scoreboardTitle);
+        
+        ICombatLogX plugin = this.expansion.getPlugin();
+        MultiVersionHandler<?> multiVersionHandler = plugin.getMultiVersionHandler();
+        AbstractNMS nmsHandler = multiVersionHandler.getInterface();
+        ScoreboardHandler scoreboardHandler = nmsHandler.getScoreboardHandler();
+    
+        this.objective = scoreboardHandler.createObjective(this.scoreboard, "combatlogx", "dummy", scoreboardTitle);
         this.objective.setDisplaySlot(DisplaySlot.SIDEBAR);
     }
 
@@ -162,7 +169,7 @@ public class CustomScoreBoard {
     }
 
     private int getMaxLineLength() {
-        int minorVersion = NMS_Handler.getMinorVersion();
+        int minorVersion = VersionUtil.getMinorVersion();
         if(minorVersion <= 12) return 16;
         if(minorVersion <= 13) return 64;
 

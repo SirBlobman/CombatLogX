@@ -7,10 +7,11 @@ import java.util.logging.Logger;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
 import com.SirBlobman.combatlogx.api.shaded.item.ItemUtil;
+import com.SirBlobman.combatlogx.api.shaded.nms.AbstractNMS;
 import com.SirBlobman.combatlogx.api.shaded.nms.EntityHandler;
-import com.SirBlobman.combatlogx.api.shaded.nms.NMS_Handler;
+import com.SirBlobman.combatlogx.api.shaded.nms.MultiVersionHandler;
+import com.SirBlobman.combatlogx.api.shaded.nms.VersionUtil;
 import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
@@ -121,7 +122,7 @@ public final class NPCManager {
         List<ItemStack> contents = Util.newList(playerInv.getContents().clone());
         dataFile.set("citizens-compatibility.last-inventory", contents);
 
-        int minorVersion = NMS_Handler.getMinorVersion();
+        int minorVersion = VersionUtil.getMinorVersion();
         if(minorVersion <= 8) {
             List<ItemStack> armor = Util.newList(playerInv.getArmorContents().clone());
             dataFile.set("citizens-compatibility.last-armor", armor);
@@ -149,7 +150,7 @@ public final class NPCManager {
             playerInv.setContents(contentArray);
         }
 
-        int minorVersion = NMS_Handler.getMinorVersion();
+        int minorVersion = VersionUtil.getMinorVersion();
         if(minorVersion <= 8) {
             List<ItemStack> armorList = (List<ItemStack>) dataFile.getList("citizens-compatibility.last-arnor");
             dataFile.set("citizens-compatibility.last-armor", null);
@@ -188,7 +189,7 @@ public final class NPCManager {
             world.dropItemNaturally(location, item);
         }
 
-        int minorVersion = NMS_Handler.getMinorVersion();
+        int minorVersion = VersionUtil.getMinorVersion();
         if(minorVersion <= 8) {
             dataFile.set("citizens-compatibility.last-armor", null);
             for(ItemStack item : armorList) {
@@ -273,10 +274,12 @@ public final class NPCManager {
 
         Entity entity = npc.getEntity();
         if(!(entity instanceof LivingEntity)) return;
-
         LivingEntity living = (LivingEntity) entity;
-        NMS_Handler handler = NMS_Handler.getHandler();
-        EntityHandler entityHandler = handler.getEntityHandler();
+    
+        ICombatLogX plugin = expansion.getPlugin();
+        MultiVersionHandler<?> multiVersionHandler = plugin.getMultiVersionHandler();
+        AbstractNMS nmsHandler = multiVersionHandler.getInterface();
+        EntityHandler entityHandler = nmsHandler.getEntityHandler();
     
         double maxHealth = Math.max(player.getHealth(), entityHandler.getMaxHealth(player));
         entityHandler.setMaxHealth(living, maxHealth);
@@ -324,7 +327,7 @@ public final class NPCManager {
             equipment.set(Equipment.EquipmentSlot.LEGGINGS, leggings);
             equipment.set(Equipment.EquipmentSlot.BOOTS, boots);
 
-            int minorVersion = NMS_Handler.getMinorVersion();
+            int minorVersion = VersionUtil.getMinorVersion();
             if(minorVersion <= 8) {
                 @SuppressWarnings("deprecation")
                 ItemStack handItem = copyItem(playerInv.getItemInHand());

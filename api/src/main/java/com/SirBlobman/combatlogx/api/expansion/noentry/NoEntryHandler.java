@@ -3,7 +3,7 @@ package com.SirBlobman.combatlogx.api.expansion.noentry;
 import java.lang.reflect.Method;
 import java.util.regex.Pattern;
 
-import com.SirBlobman.api.nms.NMS_Handler;
+import com.SirBlobman.api.nms.VersionUtil;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagType;
 
 import org.bukkit.Location;
@@ -75,7 +75,7 @@ public abstract class NoEntryHandler {
     public Material getForceFieldMaterial() {
         String materialString = getForceFieldMaterialString();
 
-        int minorVersion = NMS_Handler.getMinorVersion();
+        int minorVersion = VersionUtil.getMinorVersion();
         if(minorVersion >= 13) {
             try {
                 Class<?> classMaterial = Class.forName("org.bukkit.Material");
@@ -97,7 +97,7 @@ public abstract class NoEntryHandler {
     public byte getForceFieldMaterialData() {
         String materialString = getForceFieldMaterialString();
 
-        int minorVersion = NMS_Handler.getMinorVersion();
+        int minorVersion = VersionUtil.getMinorVersion();
         if(minorVersion >= 13) return 0;
 
         if(materialString.contains(":")) {

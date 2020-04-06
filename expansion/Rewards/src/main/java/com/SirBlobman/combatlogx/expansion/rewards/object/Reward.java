@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.shaded.nms.NMS_Handler;
+import com.SirBlobman.combatlogx.api.shaded.nms.VersionUtil;
 import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 
 import org.bukkit.Bukkit;
@@ -94,7 +94,7 @@ public class Reward {
             return player.getName();
         }
 
-        if(NMS_Handler.getMinorVersion() <= 7) {
+        if(VersionUtil.getMinorVersion() <= 7) {
             EntityType type = enemy.getType();
             return type.name();
         }

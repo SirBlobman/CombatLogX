@@ -17,12 +17,13 @@ import com.SirBlobman.combatlogx.api.event.*;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagReason;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagType;
 import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent.UntagReason;
-import com.SirBlobman.combatlogx.api.shaded.nms.NMS_Handler;
+import com.SirBlobman.combatlogx.api.shaded.nms.AbstractNMS;
+import com.SirBlobman.combatlogx.api.shaded.nms.EntityHandler;
+import com.SirBlobman.combatlogx.api.shaded.nms.MultiVersionHandler;
 import com.SirBlobman.combatlogx.expansion.logger.LoggerExpansion;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -59,6 +60,7 @@ public class ListenerLogger implements Listener {
         return !config.getBoolean("log-options." + path);
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private void appendLog(String message) {
         try {
             File dataFolder = this.expansion.getDataFolder();
@@ -203,16 +205,11 @@ public class ListenerLogger implements Listener {
     private String getEntityName(Entity entity) {
         ICombatLogX plugin = this.expansion.getPlugin();
         if(entity == null) return plugin.getLanguageMessage("errors.unknown-entity-name");
-
-        if(entity instanceof Player) {
-            Player player = (Player) entity;
-            return player.getName();
-        }
-
-        int minorVersion = NMS_Handler.getMinorVersion();
-        if(minorVersion > 7) return entity.getName();
-
-        EntityType enemyType = entity.getType();
-        return enemyType.name();
+    
+        MultiVersionHandler<?> multiVersionHandler = plugin.getMultiVersionHandler();
+        AbstractNMS nmsHandler = multiVersionHandler.getInterface();
+        
+        EntityHandler entityHandler = nmsHandler.getEntityHandler();
+        return entityHandler.getName(entity);
     }
 }

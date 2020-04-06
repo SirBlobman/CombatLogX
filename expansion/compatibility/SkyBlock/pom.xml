@@ -28,6 +28,12 @@
             <url>https://repo.codemc.org/repository/maven-public/</url>
         </repository>
         
+        <!-- Songoda Public -->
+        <repository>
+            <id>songoda-public</id>
+            <url>https://repo.songoda.com/artifactory/public/</url>
+        </repository>
+        
         <!-- Tastybento Bintray -->
         <repository>
             <id>tastybento-bintray</id>
@@ -70,7 +76,7 @@
         <dependency>
             <groupId>world.bentobox</groupId>
             <artifactId>bskyblock</artifactId>
-            <version>1.12.0</version>
+            <version>1.11.2-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         
@@ -92,9 +98,9 @@
         
         <!-- FabledSkyBlock -->
         <dependency>
-            <groupId>com.SirBlobman.combatlogx.dummy-api</groupId>
-            <artifactId>FabledSkyBlock</artifactId>
-            <version>2.1.1</version>
+            <groupId>com.songoda</groupId>
+            <artifactId>fabledskyblock</artifactId>
+            <version>2.2.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

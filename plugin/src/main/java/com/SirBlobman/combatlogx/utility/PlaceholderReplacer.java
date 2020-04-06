@@ -3,11 +3,12 @@ package com.SirBlobman.combatlogx.utility;
 import java.text.DecimalFormat;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.shaded.nms.NMS_Handler;
+import com.SirBlobman.combatlogx.api.shaded.nms.AbstractNMS;
+import com.SirBlobman.combatlogx.api.shaded.nms.EntityHandler;
+import com.SirBlobman.combatlogx.api.shaded.nms.MultiVersionHandler;
 import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -38,18 +39,14 @@ public final class PlaceholderReplacer {
 
     public static String getEnemyName(ICombatLogX plugin, Player player) {
         ICombatManager manager = plugin.getCombatManager();
-        LivingEntity entity = manager.getEnemy(player);
-        if(entity == null) {
-            return plugin.getLanguageMessageColored("placeholders.unknown-enemy");
-        }
-
-        int minorVersion = NMS_Handler.getMinorVersion();
-        if(minorVersion <= 7) {
-            EntityType type = entity.getType();
-            return type.name();
-        }
-
-        return entity.getName();
+        LivingEntity enemy = manager.getEnemy(player);
+        if(enemy == null) plugin.getLanguageMessage("errors.unknown-entity-name");
+    
+        MultiVersionHandler<?> multiVersionHandler = plugin.getMultiVersionHandler();
+        AbstractNMS nmsHandler = multiVersionHandler.getInterface();
+    
+        EntityHandler entityHandler = nmsHandler.getEntityHandler();
+        return entityHandler.getName(enemy);
     }
 
     public static String getEnemyHealth(ICombatLogX plugin, Player player) {

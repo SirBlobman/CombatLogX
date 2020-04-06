@@ -1,8 +1,8 @@
 package com.SirBlobman.combatlogx.expansion.cheat.prevention;
 
-import com.SirBlobman.combatlogx.api.shaded.nms.NMS_Handler;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
+import com.SirBlobman.combatlogx.api.shaded.nms.VersionUtil;
 import com.SirBlobman.combatlogx.expansion.cheat.prevention.listener.*;
 
 import org.bukkit.Bukkit;
@@ -36,7 +36,7 @@ public class CheatPrevention extends Expansion {
         manager.registerEvents(new ListenerPotions(this), plugin);
         manager.registerEvents(new ListenerTeleport(this), plugin);
 
-        int minorVersion = NMS_Handler.getMinorVersion();
+        int minorVersion = VersionUtil.getMinorVersion();
 
         // 1.9+ Elytra
         if(minorVersion >= 9) manager.registerEvents(new ListenerElytra(this), plugin);

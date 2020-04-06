@@ -3,6 +3,7 @@ package com.SirBlobman.combatlogx.api;
 import java.io.File;
 import java.util.logging.Logger;
 
+import com.SirBlobman.api.nms.MultiVersionHandler;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
 import com.SirBlobman.combatlogx.api.listener.ICustomDeathListener;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
@@ -55,4 +56,6 @@ public interface ICombatLogX {
 
     void sendMessage(CommandSender sender, String... messages);
     void printDebug(String message);
+    
+    MultiVersionHandler<?> getMultiVersionHandler();
 }

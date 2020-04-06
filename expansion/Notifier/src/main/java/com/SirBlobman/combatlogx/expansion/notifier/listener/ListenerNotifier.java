@@ -4,11 +4,11 @@ import com.SirBlobman.combatlogx.api.event.PlayerCombatTimerChangeEvent;
 import com.SirBlobman.combatlogx.api.event.PlayerTagEvent;
 import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.expansion.notifier.Notifier;
-import com.SirBlobman.combatlogx.expansion.notifier.utility.ActionBarManager;
-import com.SirBlobman.combatlogx.expansion.notifier.utility.BossBarManager;
-import com.SirBlobman.combatlogx.expansion.notifier.utility.MVdWHandler;
-import com.SirBlobman.combatlogx.expansion.notifier.utility.TitleManagerHandler;
-import com.SirBlobman.combatlogx.expansion.notifier.utility.scoreboard.ScoreboardHandler;
+import com.SirBlobman.combatlogx.expansion.notifier.hook.HookMVdWPlaceholderAPI;
+import com.SirBlobman.combatlogx.expansion.notifier.hook.HookTitleManager;
+import com.SirBlobman.combatlogx.expansion.notifier.manager.ActionBarManager;
+import com.SirBlobman.combatlogx.expansion.notifier.manager.BossBarManager;
+import com.SirBlobman.combatlogx.expansion.notifier.manager.ScoreBoardManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -16,6 +16,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
 
 public class ListenerNotifier implements Listener {
     private final Notifier expansion;
@@ -23,53 +25,65 @@ public class ListenerNotifier implements Listener {
         this.expansion = expansion;
     }
 
-    @EventHandler(priority=EventPriority.MONITOR)
+    @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
     public void onTimerChange(PlayerCombatTimerChangeEvent e) {
+        ActionBarManager actionBarManager = this.expansion.getActionBarManager();
+        BossBarManager bossBarManager = this.expansion.getBossBarManager();
+        ScoreBoardManager scoreBoardManager = this.expansion.getScoreBoardManager();
+        
         Player player = e.getPlayer();
-        if(!ScoreboardHandler.isDisabled(player)) ScoreboardHandler.updateScoreboard(this.expansion, player);
-        if(!ActionBarManager.isDisabled(player)) ActionBarManager.updateActionBar(this.expansion, player);
-        if(!BossBarManager.isDisabled(player)) BossBarManager.updateBossBar(this.expansion, player);
+        actionBarManager.updateActionBar(player);
+        bossBarManager.updateBossBar(player);
+        scoreBoardManager.updateScoreboard(player);
     }
 
-    @EventHandler(priority=EventPriority.MONITOR)
+    @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
     public void onTag(PlayerTagEvent e) {
         Player player = e.getPlayer();
-
         FileConfiguration config = this.expansion.getConfig("mvdw.yml");
+        
         if(config.getBoolean("FeatherBoard.enabled")) {
             String trigger = config.getString("FeatherBoard.trigger");
-            MVdWHandler.enableTrigger("FeatherBoard", trigger, player);
+            HookMVdWPlaceholderAPI.enableTrigger("FeatherBoard", trigger, player);
         }
 
         if(config.getBoolean("AnimatedNames.enabled")) {
             String trigger = config.getString("AnimatedNames.trigger");
-            MVdWHandler.enableTrigger("AnimatedNames", trigger, player);
+            HookMVdWPlaceholderAPI.enableTrigger("AnimatedNames", trigger, player);
         }
 
-        TitleManagerHandler.disableScoreboard(this.expansion, player);
+        HookTitleManager.disableScoreboard(this.expansion, player);
     }
 
-    @EventHandler(priority=EventPriority.MONITOR)
+    @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
     public void onUntag(PlayerUntagEvent e) {
+        ActionBarManager actionBarManager = this.expansion.getActionBarManager();
+        BossBarManager bossBarManager = this.expansion.getBossBarManager();
+        ScoreBoardManager scoreBoardManager = this.expansion.getScoreBoardManager();
+        
         Player player = e.getPlayer();
+        JavaPlugin plugin = this.expansion.getPlugin().getPlugin();
+        FileConfiguration config = this.expansion.getConfig("mvdw.yml");
+        
         Runnable task = () -> {
-            if(!ScoreboardHandler.isDisabled(player)) ScoreboardHandler.disableScoreboard(this.expansion, player);
-            if(!ActionBarManager.isDisabled(player)) ActionBarManager.removeActionBar(this.expansion, player);
-            if(!BossBarManager.isDisabled(player)) BossBarManager.removeBossBar(this.expansion, player, false);
-
-            FileConfiguration config = this.expansion.getConfig("mvdw.yml");
+            actionBarManager.removeActionBar(player);
+            bossBarManager.removeBossBar(player, false);
+            scoreBoardManager.removeScoreboard(player);
+            
             if(config.getBoolean("FeatherBoard.enabled")) {
                 String trigger = config.getString("FeatherBoard.trigger");
-                MVdWHandler.disableTrigger("FeatherBoard", trigger, player);
+                HookMVdWPlaceholderAPI.disableTrigger("FeatherBoard", trigger, player);
             }
-
+    
             if(config.getBoolean("AnimatedNames.enabled")) {
                 String trigger = config.getString("AnimatedNames.trigger");
-                MVdWHandler.disableTrigger("AnimatedNames", trigger, player);
+                HookMVdWPlaceholderAPI.disableTrigger("AnimatedNames", trigger, player);
             }
-
-            TitleManagerHandler.restoreScoreboard(this.expansion, player);
+            
+            HookTitleManager.restoreScoreboard(this.expansion, player);
         };
-        Bukkit.getScheduler().runTaskLater(this.expansion.getPlugin().getPlugin(), task, 1L);
+        
+        BukkitScheduler scheduler = Bukkit.getScheduler();
+        scheduler.runTaskLater(plugin, task, 1L);
     }
 }
