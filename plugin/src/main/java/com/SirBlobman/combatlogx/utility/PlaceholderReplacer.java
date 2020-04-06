@@ -40,7 +40,7 @@ public final class PlaceholderReplacer {
     public static String getEnemyName(ICombatLogX plugin, Player player) {
         ICombatManager manager = plugin.getCombatManager();
         LivingEntity enemy = manager.getEnemy(player);
-        if(enemy == null) plugin.getLanguageMessage("errors.unknown-entity-name");
+        if(enemy == null) return plugin.getLanguageMessage("errors.unknown-entity-name");
     
         MultiVersionHandler<?> multiVersionHandler = plugin.getMultiVersionHandler();
         AbstractNMS nmsHandler = multiVersionHandler.getInterface();
@@ -52,9 +52,7 @@ public final class PlaceholderReplacer {
     public static String getEnemyHealth(ICombatLogX plugin, Player player) {
         ICombatManager manager = plugin.getCombatManager();
         LivingEntity entity = manager.getEnemy(player);
-        if(entity == null) {
-            return plugin.getLanguageMessageColored("placeholders.unknown-enemy");
-        }
+        if(entity == null) return plugin.getLanguageMessageColored("placeholders.unknown-enemy");
 
         double health = entity.getHealth();
         DecimalFormat format = new DecimalFormat("0.00");
@@ -64,9 +62,7 @@ public final class PlaceholderReplacer {
     public static String getEnemyHealthRounded(ICombatLogX plugin, Player player) {
         ICombatManager manager = plugin.getCombatManager();
         LivingEntity entity = manager.getEnemy(player);
-        if(entity == null) {
-            return plugin.getLanguageMessageColored("placeholders.unknown-enemy");
-        }
+        if(entity == null) return plugin.getLanguageMessageColored("placeholders.unknown-enemy");
 
         double health = entity.getHealth();
         long rounded = Math.round(health);
@@ -76,14 +72,12 @@ public final class PlaceholderReplacer {
     public static String getEnemyHearts(ICombatLogX plugin, Player player) {
         ICombatManager manager = plugin.getCombatManager();
         LivingEntity entity = manager.getEnemy(player);
-        if(entity == null) {
-            return plugin.getLanguageMessageColored("placeholders.unknown-enemy");
-        }
+        if(entity == null) return plugin.getLanguageMessageColored("placeholders.unknown-enemy");
 
         double health = entity.getHealth();
         double hearts = Math.ceil(health / 2.0D);
         long heartsLong = Double.valueOf(hearts).longValue();
-
+        
         StringBuilder builder = new StringBuilder("&4");
         String heartSymbol = "\u2764";
         while(heartsLong > 0) {

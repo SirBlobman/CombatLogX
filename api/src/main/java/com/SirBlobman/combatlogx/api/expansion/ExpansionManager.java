@@ -107,8 +107,8 @@ public class ExpansionManager {
     }
     
     public void reloadExpansionConfigs() {
-        List<Expansion> enableExpansionList = getEnabledExpansions();
-        expansionList.forEach(Expansion::reloadConfig);
+        List<Expansion> enabledExpansionList = getEnabledExpansions();
+        enabledExpansionList.forEach(Expansion::reloadConfig);
     }
     
     @SuppressWarnings("unchecked")

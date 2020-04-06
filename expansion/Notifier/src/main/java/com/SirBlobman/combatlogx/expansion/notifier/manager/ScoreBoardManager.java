@@ -99,7 +99,7 @@ public class ScoreBoardManager {
     }
     
     private boolean shouldSavePrevious() {
-        FileConfiguration config = this.expansion.getConfig("config.yml");
+        FileConfiguration config = this.expansion.getConfig("scoreboard.yml");
         return config.getBoolean("save-previous");
     }
 }

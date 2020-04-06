@@ -28,7 +28,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
  */
 public abstract class Expansion {
     public enum State {
-        ENABLED, DISABLED, LOADED, UNLOADED;
+        ENABLED, DISABLED, LOADED, UNLOADED
     }
     
     private ExpansionDescription description;
@@ -36,6 +36,7 @@ public abstract class Expansion {
     private File dataFolder, file;
     
     private final ICombatLogX plugin;
+    private ExpansionLogger logger;
     private final Map<String, FileConfiguration> fileNameToConfigMap = Util.newMap();
     public Expansion(ICombatLogX plugin) {
         this.plugin = plugin;
@@ -78,15 +79,8 @@ public abstract class Expansion {
     }
 
     public final Logger getLogger() {
-        ICombatLogX plugin = getPlugin();
-        Logger parent = plugin.getLogger();
-
-        ExpansionDescription description = getDescription();
-        String expansionName = description.getDisplayName();
-        Logger logger = Logger.getLogger(expansionName);
-
-        logger.setParent(parent);
-        return logger;
+        if(this.logger != null) return this.logger;
+        return (this.logger = new ExpansionLogger(this));
     }
     
     public final InputStream getResource(String fileName) {

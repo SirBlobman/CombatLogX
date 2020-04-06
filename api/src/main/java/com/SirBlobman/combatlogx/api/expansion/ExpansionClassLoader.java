@@ -24,7 +24,7 @@ class ExpansionClassLoader extends URLClassLoader {
         this.manager = manager;
         this.classes = new HashMap<>();
         
-        registerAddon(description, path);
+        registerExpansion(description, path);
     }
     
     @Override
@@ -63,7 +63,7 @@ class ExpansionClassLoader extends URLClassLoader {
         return this.classes.keySet();
     }
     
-    private void registerAddon(YamlConfiguration description, File path) {
+    private void registerExpansion(YamlConfiguration description, File path) {
         Class<?> mainClass;
         try {
             String mainClassName = description.getString("main");
