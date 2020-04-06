@@ -57,6 +57,15 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.1</version>
 
+                <configuration>
+                    <relocations>
+                        <relocation>
+                            <pattern>com.SirBlobman.api</pattern>
+                            <shadedPattern>com.SirBlobman.combatlogx.api.shaded</shadedPattern>
+                        </relocation>
+                    </relocations>
+                </configuration>
+
                 <executions>
                     <execution>
                         <phase>package</phase>

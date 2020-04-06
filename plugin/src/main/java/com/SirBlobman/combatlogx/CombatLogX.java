@@ -264,8 +264,8 @@ public class CombatLogX extends JavaPlugin implements ICombatLogX {
         if(message == null || message.isEmpty()) return;
         String color = MessageUtil.color(message);
 
-        CommandSender console = Bukkit.getConsoleSender();
-        console.sendMessage(color);
+        Logger logger = getLogger();
+        logger.info(color);
 
         Collection<? extends Player> playerList = Bukkit.getOnlinePlayers();
         for(Player player : playerList) player.sendMessage(color);

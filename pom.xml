@@ -95,10 +95,10 @@
     </distributionManagement>
 
     <repositories>
-        <!-- CodeMC Snapshots -->
+        <!-- CodeMC Public -->
         <repository>
             <id>codemc-snapshots</id>
-            <url>https://repo.codemc.io/repository/maven-snapshots/</url>
+            <url>https://repo.codemc.io/repository/maven-public/</url>
         </repository>
     </repositories>
 
