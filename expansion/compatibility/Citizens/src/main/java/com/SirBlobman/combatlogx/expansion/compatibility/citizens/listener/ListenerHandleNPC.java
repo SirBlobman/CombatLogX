@@ -97,7 +97,7 @@ public class ListenerHandleNPC implements Listener {
             if(deathMessage == null) return;
     
             YamlConfiguration dataFile = NPCManager.getData(owner);
-            dataFile.set("citizens-compatibility.last-death-message", deathEvent);
+            dataFile.set("citizens-compatibility.last-death-message", deathMessage);
             NPCManager.saveData(owner, dataFile);
         } catch(ReflectiveOperationException ex) {
             Logger logger = this.expansion.getLogger();
