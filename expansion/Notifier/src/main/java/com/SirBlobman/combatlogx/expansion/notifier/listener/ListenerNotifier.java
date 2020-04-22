@@ -5,7 +5,6 @@ import com.SirBlobman.combatlogx.api.event.PlayerTagEvent;
 import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.expansion.notifier.Notifier;
 import com.SirBlobman.combatlogx.expansion.notifier.hook.HookMVdWPlaceholderAPI;
-import com.SirBlobman.combatlogx.expansion.notifier.hook.HookTitleManager;
 import com.SirBlobman.combatlogx.expansion.notifier.manager.ActionBarManager;
 import com.SirBlobman.combatlogx.expansion.notifier.manager.BossBarManager;
 import com.SirBlobman.combatlogx.expansion.notifier.manager.ScoreBoardManager;
@@ -51,8 +50,6 @@ public class ListenerNotifier implements Listener {
             String trigger = config.getString("AnimatedNames.trigger");
             HookMVdWPlaceholderAPI.enableTrigger("AnimatedNames", trigger, player);
         }
-
-        HookTitleManager.disableScoreboard(this.expansion, player);
     }
 
     @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
@@ -79,8 +76,6 @@ public class ListenerNotifier implements Listener {
                 String trigger = config.getString("AnimatedNames.trigger");
                 HookMVdWPlaceholderAPI.disableTrigger("AnimatedNames", trigger, player);
             }
-            
-            HookTitleManager.restoreScoreboard(this.expansion, player);
         };
         
         BukkitScheduler scheduler = Bukkit.getScheduler();
