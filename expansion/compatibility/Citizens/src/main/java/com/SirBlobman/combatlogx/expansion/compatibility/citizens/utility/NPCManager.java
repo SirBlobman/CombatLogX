@@ -167,6 +167,11 @@ public final class NPCManager {
     @SuppressWarnings("unchecked")
     public static void dropInventory(OfflinePlayer owner, NPC npc) {
         if(owner == null || npc == null || !npc.isSpawned()) return;
+    
+        Entity entity = npc.getEntity();
+        Location location = entity.getLocation();
+        World world = location.getWorld();
+        if(world == null) return;
         
         FileConfiguration config = expansion.getConfig("citizens-compatibility.yml");
         if(!config.getBoolean("npc-options.store-inventory")) return;
@@ -174,27 +179,23 @@ public final class NPCManager {
 
         YamlConfiguration dataFile = getData(owner);
         List<ItemStack> contentList = (List<ItemStack>) dataFile.getList("citizens-compatibility.last-inventory");
-        List<ItemStack> armorList = (List<ItemStack>) dataFile.getList("citizens-compatibility.last-arnor");
-        if(contentList == null || armorList == null) return;
-        if(contentList.isEmpty() && armorList.isEmpty()) return;
-
-        Entity entity = npc.getEntity();
-        Location location = entity.getLocation();
-        World world = location.getWorld();
-        if(world == null) return;
-
-        dataFile.set("citizens-compatibility.last-inventory", null);
-        for(ItemStack item : contentList) {
-            if(ItemUtil.isAir(item)) continue;
-            world.dropItemNaturally(location, item);
-        }
-
-        int minorVersion = VersionUtil.getMinorVersion();
-        if(minorVersion <= 8) {
-            dataFile.set("citizens-compatibility.last-armor", null);
-            for(ItemStack item : armorList) {
+        if(contentList != null && !contentList.isEmpty()) {
+            dataFile.set("citizens-compatibility.last-inventory", null);
+            for(ItemStack item : contentList) {
                 if(ItemUtil.isAir(item)) continue;
                 world.dropItemNaturally(location, item);
+            }
+        }
+        
+        int minorVersion = VersionUtil.getMinorVersion();
+        if(minorVersion <= 8) {
+            List<ItemStack> armorList = (List<ItemStack>) dataFile.getList("citizens-compatibility.last-armor");
+            if(armorList != null && !armorList.isEmpty()) {
+                dataFile.set("citizens-compatibility.last-armor", null);
+                for(ItemStack item : armorList) {
+                    if(ItemUtil.isAir(item)) continue;
+                    world.dropItemNaturally(location, item);
+                }
             }
         }
 
