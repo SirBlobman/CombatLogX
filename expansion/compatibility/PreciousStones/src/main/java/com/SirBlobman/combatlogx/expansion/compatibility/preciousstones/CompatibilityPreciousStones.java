@@ -9,6 +9,7 @@ import com.SirBlobman.combatlogx.api.expansion.noentry.NoEntryForceFieldListener
 import com.SirBlobman.combatlogx.api.expansion.noentry.NoEntryHandler;
 import com.SirBlobman.combatlogx.api.expansion.noentry.NoEntryListener;
 import com.SirBlobman.combatlogx.expansion.compatibility.preciousstones.handler.PreciousStonesNoEntryHandler;
+import com.SirBlobman.combatlogx.expansion.compatibility.preciousstones.listener.ListenerFieldCreation;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
@@ -49,6 +50,9 @@ public class CompatibilityPreciousStones extends NoEntryExpansion {
         
         NoEntryListener listener = new NoEntryListener(this);
         expansionManager.registerListener(this, listener);
+    
+        ListenerFieldCreation listenerFieldCreation = new ListenerFieldCreation(this);
+        expansionManager.registerListener(this, listenerFieldCreation);
         
         Plugin pluginProtocolLib = manager.getPlugin("ProtocolLib");
         if(pluginProtocolLib != null) {

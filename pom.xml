@@ -33,7 +33,6 @@
         <!-- Dummy APIs -->
         <module>dummy-api/CrackShot</module>
         <module>dummy-api/FabledSkyBlock</module>
-        <module>dummy-api/PreciousStones</module>
         <module>dummy-api/Residence</module>
         <module>dummy-api/Towny</module>
         

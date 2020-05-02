@@ -12,14 +12,6 @@
     <name>CombatLogX Plugin</name>
     <artifactId>CombatLogX-plugin</artifactId>
     <description>This is the CombatLogX plugin code.</description>
-    
-    <repositories>
-        <!-- Spigot API Repository -->
-        <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-    </repositories>
 
     <properties>
         <bukkit.plugin.name>CombatLogX</bukkit.plugin.name>
@@ -30,6 +22,14 @@
         <bukkit.plugin.version>${combatlogx.version}</bukkit.plugin.version>
         <bukkit.plugin.author>SirBlobman</bukkit.plugin.author>
     </properties>
+    
+    <repositories>
+        <!-- Spigot API Repository -->
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+    </repositories>
     
     <dependencies>
         <!-- Spigot API -->

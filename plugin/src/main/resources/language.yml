@@ -166,6 +166,9 @@ residence-compatibility-no-entry: "&cYou are not allowed to enter that area duri
 
 towny-compatibility-no-entry: "&cYou are not allowed to enter that area during combat."
 
+preciousstones-compatibility-no-entry: "&cYou are not allowed to enter that area during combat."
+preciousstones-compatibility-no-field: "&cYou can't create a protection field during combat."
+
 worldguard-compatibility-no-entry:
   pvp: "&cYou are not allowed to enter a non-player-combat area during combat."
   mob: "&cYou are not allowed to enter a non-mob-combat area during combat."

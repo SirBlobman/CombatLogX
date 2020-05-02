@@ -21,6 +21,12 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+        
+        <!-- ElMakers Repository -->
+        <repository>
+            <id>elmakers-repo</id>
+            <url>http://maven.elmakers.com/repository/</url>
+        </repository>
     </repositories>
     
     
@@ -44,10 +50,9 @@
         
         <!-- PreciousStones -->
         <dependency>
-            <groupId>com.SirBlobman.combatlogx.dummy-api</groupId>
+            <groupId>net.sacredlabyrinth.Phaed</groupId>
             <artifactId>PreciousStones</artifactId>
-            <version>14.0</version>
-            <scope>provided</scope>
+            <version>15.0</version>
         </dependency>
     </dependencies>
 </project>
