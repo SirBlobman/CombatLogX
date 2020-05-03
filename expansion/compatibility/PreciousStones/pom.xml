@@ -53,6 +53,7 @@
             <groupId>net.sacredlabyrinth.Phaed</groupId>
             <artifactId>PreciousStones</artifactId>
             <version>15.0</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
