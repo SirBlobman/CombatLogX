@@ -10,10 +10,10 @@
     </parent>
     
     <groupId>com.SirBlobman.combatlogx.expansions</groupId>
-    <artifactId>CrackShotCompatibility</artifactId>
+    <artifactId>MythicMobsCompatibility</artifactId>
     
-    <name>CrackShot Compatibility Expansion</name>
-    <description>An expansion that adds compatibility with the CrackShot plugin.</description>
+    <name>MythicMobs Compatibility Expansion</name>
+    <description>An expansion that adds compatibility with the MythicMobs plugin.</description>
     
     <repositories>
         <!-- Spigot API Repository -->
@@ -22,8 +22,7 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
     </repositories>
-    
-    
+
     <dependencies>
         <!-- Spigot API -->
         <dependency>
@@ -41,11 +40,11 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- CrackShot Dummy API -->
+        <!-- MythicMobs Dummy API -->
         <dependency>
             <groupId>com.SirBlobman.combatlogx.dummy-api</groupId>
-            <artifactId>CrackShot</artifactId>
-            <version>0.98.9</version>
+            <artifactId>MythicMobs</artifactId>
+            <version>4.9.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

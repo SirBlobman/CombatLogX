@@ -58,6 +58,7 @@
                                 <copy file="${expansion.compatibility.dir}/CrackShot/target/CrackShotCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/CrackShot Compatibility.jar"/>
                                 <copy file="${expansion.compatibility.dir}/PlaceholderAPI/target/PlaceholderAPICompatibility-${project.version}.jar" tofile="${build.expansion.dir}/PlaceholderAPI Compatibility.jar"/>
                                 <copy file="${expansion.compatibility.dir}/MVdWPlaceholderAPI/target/MVdWPlaceholderAPICompatibility-${project.version}.jar" tofile="${build.expansion.dir}/MVdWPlaceholderAPI Compatibility.jar"/>
+                                <copy file="${expansion.compatibility.dir}/MythicMobs/target/MythicMobsCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/MythicMobs Compatibility.jar"/>
                                 <copy file="${expansion.compatibility.dir}/SkyBlock/target/SkyBlockCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/SkyBlock Compatibility.jar"/>
                                 <copy file="${expansion.compatibility.dir}/Vanish/target/VanishCompatibility-${project.version}.jar" tofile="${build.expansion.dir}/Vanish Compatibility.jar"/>
                                 

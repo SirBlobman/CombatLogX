@@ -1,3 +1,8 @@
+[URL='https://iceline-hosting.com/billing/aff.php?aff=90'][IMG]https://media.discordapp.net/attachments/667787270375473183/667790233441533952/banner.gif[/IMG][/URL]
+CombatLogX is sponsored by Iceline Hosting
+Use code "SIRBLOBMAN" to get 20% off your first month of Minecraft server hosting!
+
+
 [IMG]https://i.imgur.com/kq1mVEo.png[/IMG]
 Are your players logging out during combat? Do you want to prevent this or punish them?
 This is the plugin for you!
@@ -12,23 +17,23 @@ When a player logs out during combat, you can do the following things:
 [/LIST]
 
 [COLOR=#0000FF]CombatLogX is compatible with the following Spigot versions:[/COLOR]
-1.7.10, 1.8.8, 1.9.4, 1.10.2, 1.11.2, 1.12.2, 1.13.2, 1.14.4
+1.7.10, 1.8.8, 1.9.4, 1.10.2, 1.11.2, 1.12.2, 1.13.2, 1.14.4, 1.15.2
 
 [IMG]https://i.imgur.com/JJER6mM.png[/IMG]
-[B]Q: Why are players getting tagged by cactus / lava / fall damage / drowning / non-pvp damage?[/B]
-[B]A:[/B] Check your configuration for the NotCombatLogX Expansion at [ICODE]/plugins/CombatLogX/expansions/NotCombatLogX/not.yml[/ICODE]
+[B]Q: Why are players getting tagged by cactus / lava / fall damage / drowning / non-pvp damage?
+A:[/B] Check your configuration for the NotCombatLogX Expansion at [ICODE]/plugins/CombatLogX/expansions/NotCombatLogX/not.yml[/ICODE]
 
-[B]Q: How do I prevent people from running commands, flying, using elytra, etc...?[/B]
-[B]A:[/B] You have to install and configure the CheatPrevention expansion and configure the file at [ICODE]/plugins/CombatLogX/expansions/Cheat Prevention/cheat prevention.yml[/ICODE]
+[B]Q: How do I prevent people from running commands, flying, using elytra, etc...?
+A:[/B] You have to install and configure the CheatPrevention expansion and configure the file at [ICODE]/plugins/CombatLogX/expansions/Cheat Prevention/cheat prevention.yml[/ICODE]
 
-[B]Q: Why do I keep getting an error [U]Jar dooes not contain plugin.yml[/U]?[/B]
-[B]A:[/B] Expansions are not plugins, make sure you put them in [U]/plugins/CombatLogX/expansions/[/U].
+[B]Q: Why do I keep getting an error [U]Jar dooes not contain plugin.yml[/U]?
+A:[/B] Expansions are not plugins, make sure you put them in [U]/plugins/CombatLogX/expansions/[/U].
 
-[B]Q: Why are the placeholders not being replaced?[/B]
-[B]A:[/B] Make sure you installed the "Placeholder Compatibility" expansion.
+[B]Q: Why are the placeholders not being replaced?
+A:[/B] Make sure you installed the "Placeholder Compatibility" expansion.
 
-[B]Q: Why can't I see the BossBar in 1.8?[/B]
-[B]A:[/B] 1.8 is extremely outdated. If you still want to use the BossBar, you will need to install BossBarAPI.
+[B]Q: Why can't I see the BossBar in 1.8?
+A:[/B] 1.8 is extremely outdated. If you still want to use the BossBar, you will need to install BossBarAPI.
 
 [IMG]https://i.imgur.com/TwP7wVj.png[/IMG]
 [LIST=1]
