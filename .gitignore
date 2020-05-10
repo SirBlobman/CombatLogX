@@ -17,3 +17,4 @@ dependency-reduced-pom.xml
 
 # Other Files
 builder/build/
+*.bat

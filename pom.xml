@@ -85,10 +85,13 @@
     </modules>
 
     <distributionManagement>
+        <!-- CodeMC Releases -->
         <repository>
             <id>codemc-releases</id>
             <url>https://repo.codemc.io/repository/maven-releases/</url>
         </repository>
+        
+        <!-- CodeMC Snapshots -->
         <snapshotRepository>
             <id>codemc-snapshots</id>
             <url>https://repo.codemc.io/repository/maven-snapshots/</url>
@@ -104,6 +107,7 @@
     </repositories>
 
     <build>
+        <defaultGoal>clean install</defaultGoal>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
