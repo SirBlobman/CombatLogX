@@ -45,6 +45,19 @@
             <id>ultimate-skyblock</id>
             <url>https://www.uskyblock.ovh/maven/uskyblock/</url>
         </repository>
+        
+        <!-- Songoda Private -->
+        <!-- Disable downloading from this repository -->
+        <repository>
+            <id>private</id>
+            <url>https://repo.songoda.com/artifactory/private/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
     </repositories>
 
     <dependencies>

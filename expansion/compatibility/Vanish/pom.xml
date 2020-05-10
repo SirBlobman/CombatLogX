@@ -22,10 +22,10 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
 
-        <!-- CodeMC Snapshots -->
+        <!-- CodeMC Public -->
         <repository>
-            <id>codemc-snapshots</id>
-            <url>https://repo.codemc.io/repository/maven-snapshots/</url>
+            <id>codemc-public</id>
+            <url>https://repo.codemc.io/repository/maven-public/</url>
         </repository>
         
         <!-- EnderZone Repository -->
@@ -38,6 +38,9 @@
         <repository>
             <id>cubekrown-repo</id>
             <url>https://mavenrepo.cubekrowd.net/artifactory/repo/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
     </repositories>
     

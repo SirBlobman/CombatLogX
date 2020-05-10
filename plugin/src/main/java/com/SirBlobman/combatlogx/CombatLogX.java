@@ -17,6 +17,7 @@ import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
 import com.SirBlobman.combatlogx.api.listener.ICustomDeathListener;
 import com.SirBlobman.combatlogx.api.shaded.SirBlobmanAPI;
+import com.SirBlobman.combatlogx.api.shaded.configuration.PlayerDataManager;
 import com.SirBlobman.combatlogx.api.shaded.nms.MultiVersionHandler;
 import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
 import com.SirBlobman.combatlogx.api.shaded.utility.Util;
@@ -49,6 +50,7 @@ public class CombatLogX extends JavaPlugin implements ICombatLogX {
     
     private final SirBlobmanAPI sirBlobmanAPI = new SirBlobmanAPI(this);
     private final MultiVersionHandler<CombatLogX> multiVersionHandler = new MultiVersionHandler<>(this);
+    private final PlayerDataManager<CombatLogX> playerDataManager = new PlayerDataManager<>(this);
 
     public SirBlobmanAPI getSirBlobmanAPI() {
         return this.sirBlobmanAPI;
@@ -155,14 +157,14 @@ public class CombatLogX extends JavaPlugin implements ICombatLogX {
 
     @Override
     public YamlConfiguration getDataFile(OfflinePlayer user) {
-        SirBlobmanAPI api = getSirBlobmanAPI();
-        return api.getDataFile(user);
+        PlayerDataManager<CombatLogX> playerDataManager = getPlayerDataManager();
+        return playerDataManager.getData(user);
     }
 
     @Override
     public void saveDataFile(OfflinePlayer user, YamlConfiguration dataFile) {
-        SirBlobmanAPI api = getSirBlobmanAPI();
-        api.saveDataFile(user, dataFile);
+        PlayerDataManager<CombatLogX> playerDataManager = getPlayerDataManager();
+        playerDataManager.saveData(user);
     }
 
     @Override
@@ -240,6 +242,10 @@ public class CombatLogX extends JavaPlugin implements ICombatLogX {
     @Override
     public MultiVersionHandler<CombatLogX> getMultiVersionHandler() {
         return this.multiVersionHandler;
+    }
+    
+    public PlayerDataManager<CombatLogX> getPlayerDataManager() {
+        return this.playerDataManager;
     }
     
     private void forceRegisterCommand(String commandName, CommandExecutor executor, String description, String usage, String... aliases) {
