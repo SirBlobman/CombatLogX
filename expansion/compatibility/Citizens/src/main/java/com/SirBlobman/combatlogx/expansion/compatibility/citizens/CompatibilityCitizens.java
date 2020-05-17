@@ -24,7 +24,7 @@ public class CompatibilityCitizens extends Expansion {
     
     @Override
     public void onLoad() {
-        saveDefaultConfig("citizens-compatibility");
+        saveDefaultConfig("citizens-compatibility.yml");
     }
     
     @Override
