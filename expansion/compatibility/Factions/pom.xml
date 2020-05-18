@@ -33,6 +33,12 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io/</url>
         </repository>
+        
+        <!-- SavageLabs Repository -->
+        <repository>
+            <id>savagelabs</id>
+            <url>https://nexus.savagelabs.net/repository/maven-releases/</url>
+        </repository>
     </repositories>
     
     
@@ -74,6 +80,14 @@
             <groupId>com.massivecraft</groupId>
             <artifactId>Factions</artifactId>
             <version>1.6.9.5-U0.5.6</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <!-- FactionsX -->
+        <dependency>
+            <groupId>net.prosavage.factionsx</groupId>
+            <artifactId>FactionsX</artifactId>
+            <version>0.4.2-PATREON</version>
             <scope>provided</scope>
         </dependency>
 

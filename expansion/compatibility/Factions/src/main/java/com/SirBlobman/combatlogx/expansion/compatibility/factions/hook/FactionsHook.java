@@ -62,6 +62,18 @@ public abstract class FactionsHook {
             logger.info("Successfully hooked into LegacyFactions v" + version);
             return getFactionsHook(expansion);
         }
+        
+        if(manager.isPluginEnabled("FactionsX")) {
+            Plugin pluginFactionsX = manager.getPlugin("FactionsX");
+            if(pluginFactionsX == null) return null;
+            
+            PluginDescriptionFile pdf = pluginFactionsX.getDescription();
+            String version = pdf.getVersion();
+            
+            FACTIONS_HOOK = new HookFactionsX();
+            logger.info("Successfully hooked into FactionsX v" + version);
+            return getFactionsHook(expansion);
+        }
 
         return null;
     }
