@@ -1,5 +1,5 @@
 # Mob Tagger Default Configuration File
-# Made by SirBlobman for v${bukkit.plugin.version}"
+# Made by SirBlobman for v${bukkit.plugin.version}
 
 # Should mobs tag players?
 tag-players: true
