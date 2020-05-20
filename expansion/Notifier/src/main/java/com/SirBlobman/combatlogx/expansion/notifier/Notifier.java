@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
+import com.SirBlobman.combatlogx.expansion.notifier.command.CommandNotifier;
 import com.SirBlobman.combatlogx.expansion.notifier.hook.HookMVdWPlaceholderAPI;
 import com.SirBlobman.combatlogx.expansion.notifier.hook.HookPlaceholderAPI;
 import com.SirBlobman.combatlogx.expansion.notifier.listener.ListenerNotifier;
@@ -47,6 +48,9 @@ public class Notifier extends Expansion {
         
         PluginManager manager = Bukkit.getPluginManager();
         manager.registerEvents(new ListenerNotifier(this), plugin);
+    
+        CommandNotifier commandNotifier = new CommandNotifier(this);
+        combat.registerCommand("notifier", commandNotifier, "Toggle the boss bar, scoreboard, and action bar.", "/notifier bossbar/actionbar/scoreboard", "clx-toggle");
 
         hookIfEnabled("MVdWPlaceholderAPI");
         hookIfEnabled("PlaceholderAPI");
