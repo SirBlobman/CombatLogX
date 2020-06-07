@@ -31,56 +31,58 @@ public abstract class SkyBlockHook {
         PluginManager manager = Bukkit.getPluginManager();
         Logger logger = expansion.getLogger();
 
-        if(manager.isPluginEnabled("ASkyBlock")) {
-            Plugin plugin = manager.getPlugin("ASkyBlock");
-            if(plugin == null) return null;
-
-            PluginDescriptionFile description = plugin.getDescription();
-            String version = description.getVersion();
-
-            SKYBLOCK_HOOK = new HookASkyBlock();
-            logger.info("Successfully hooked into ASkyBlock v" + version);
-            return getSkyBlockHook(expansion);
-        }
-
         if(manager.isPluginEnabled("BentoBox")) {
             Plugin plugin = manager.getPlugin("BentoBox");
             if(plugin != null) {
                 PluginDescriptionFile description = plugin.getDescription();
                 String version = description.getVersion();
-
                 logger.info("Checking 'BentoBox v" + version + "' for BSkyBlock");
+                
                 if(HookBentoBox.hookIntoBSkyBlock(logger)) {
                     SKYBLOCK_HOOK = new HookBSkyBlock();
                     return getSkyBlockHook(expansion);
                 }
             }
         }
+    
+        if(manager.isPluginEnabled("ASkyBlock")) {
+            printHookInfo(expansion, "ASkyBlock");
+            SKYBLOCK_HOOK = new HookASkyBlock();
+            return getSkyBlockHook(expansion);
+        }
 
         if(manager.isPluginEnabled("FabledSkyBlock")) {
-            Plugin plugin = manager.getPlugin("FabledSkyBlock");
-            if(plugin == null) return null;
-
-            PluginDescriptionFile description = plugin.getDescription();
-            String version = description.getVersion();
-
+            printHookInfo(expansion, "FabledSkyBlock");
             SKYBLOCK_HOOK = new HookFabledSkyBlock();
-            logger.info("Successfully hooked into FabledSkyBlock v" + version);
+            return getSkyBlockHook(expansion);
+        }
+        
+        if(manager.isPluginEnabled("SuperiorSkyblock2")) {
+            printHookInfo(expansion, "SuperiorSkyblock2");
+            SKYBLOCK_HOOK = new HookSuperiorSkyBlock2();
             return getSkyBlockHook(expansion);
         }
 
         if(manager.isPluginEnabled("uSkyBlock")) {
-            Plugin plugin = manager.getPlugin("uSkyBlock");
-            if(plugin == null) return null;
-
-            PluginDescriptionFile description = plugin.getDescription();
-            String version = description.getVersion();
-
+            printHookInfo(expansion, "uSkyBlock");
             SKYBLOCK_HOOK = new HookUltimateSkyBlock();
-            logger.info("Successfully hooked into uSkyBlock v" + version);
             return getSkyBlockHook(expansion);
         }
 
         return null;
+    }
+    
+    private static void printHookInfo(CompatibilitySkyBlock expansion, String pluginName) {
+        PluginManager manager = Bukkit.getPluginManager();
+        if(!manager.isPluginEnabled(pluginName)) return;
+        
+        Plugin plugin = manager.getPlugin(pluginName);
+        if(plugin == null) return;
+    
+        PluginDescriptionFile description = plugin.getDescription();
+        String fullName = description.getFullName();
+        
+        Logger logger = expansion.getLogger();
+        logger.info("Successfully hooked into " + fullName);
     }
 }
