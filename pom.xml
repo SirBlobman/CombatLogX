@@ -36,9 +36,6 @@
         <module>dummy-api/MythicMobs</module>
         <module>dummy-api/Residence</module>
         <module>dummy-api/Towny</module>
-       
-        <module>dummy-api/MassiveCore</module>
-        <module>dummy-api/Factions</module>
         
         <!-- CombatLogX API-->
         <module>api</module>
