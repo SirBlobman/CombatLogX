@@ -2,8 +2,8 @@ package com.SirBlobman.combatlogx.expansion.compatibility.factions;
 
 import java.util.logging.Logger;
 
-import com.SirBlobman.api.hook.factions.FactionsHandler;
-import com.SirBlobman.api.hook.factions.HookFactions;
+import com.SirBlobman.combatlogx.api.shaded.hook.factions.FactionsHandler;
+import com.SirBlobman.combatlogx.api.shaded.hook.factions.HookFactions;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
 import com.SirBlobman.combatlogx.api.expansion.noentry.NoEntryExpansion;

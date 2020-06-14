@@ -1,6 +1,6 @@
 package com.SirBlobman.combatlogx.expansion.compatibility.factions.handler;
 
-import com.SirBlobman.api.hook.factions.HookFactions;
+import com.SirBlobman.combatlogx.api.shaded.hook.factions.HookFactions;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagType;
 import com.SirBlobman.combatlogx.api.expansion.noentry.NoEntryHandler;
 import com.SirBlobman.combatlogx.expansion.compatibility.factions.CompatibilityFactions;
