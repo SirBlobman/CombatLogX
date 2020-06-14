@@ -21,27 +21,8 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
-
-        <!-- Ender Zone Repository -->
-        <repository>
-            <id>ender-zone</id>
-            <url>https://ci.ender.zone/plugin/repository/everything/</url>
-        </repository>
-
-        <!-- Jitpack -->
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io/</url>
-        </repository>
-        
-        <!-- SavageLabs Repository -->
-        <repository>
-            <id>savagelabs</id>
-            <url>https://nexus.savagelabs.net/repository/maven-releases/</url>
-        </repository>
     </repositories>
-    
-    
+
     <dependencies>
         <!-- Spigot API -->
         <dependency>
@@ -56,46 +37,6 @@
             <groupId>com.SirBlobman.combatlogx</groupId>
             <artifactId>CombatLogX-plugin</artifactId>
             <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- MassiveCore -->
-        <dependency>
-            <groupId>com.SirBlobman.combatlogx.dummy-api</groupId>
-            <artifactId>MassiveCore</artifactId>
-            <version>2.14.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- MassiveCore Factions -->
-        <dependency>
-            <groupId>com.SirBlobman.combatlogx.dummy-api</groupId>
-            <artifactId>Factions</artifactId>
-            <version>2.14.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- FactionsUUID -->
-        <dependency>
-            <groupId>com.massivecraft</groupId>
-            <artifactId>Factions</artifactId>
-            <version>1.6.9.5-U0.5.6</version>
-            <scope>provided</scope>
-        </dependency>
-        
-        <!-- FactionsX -->
-        <dependency>
-            <groupId>net.prosavage.factionsx</groupId>
-            <artifactId>FactionsX</artifactId>
-            <version>0.4.2-PATREON</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- LegacyFactions -->
-        <dependency>
-            <groupId>com.github.redstone</groupId>
-            <artifactId>LegacyFactions</artifactId>
-            <version>v1.4.4</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

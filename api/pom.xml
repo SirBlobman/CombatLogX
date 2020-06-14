@@ -52,6 +52,25 @@
             <version>1.13-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
+        
+        <!-- SirBlobman API - Factions Hook -->
+        <dependency>
+            <groupId>com.SirBlobman.api.hook.factions</groupId>
+            <artifactId>handler-Factions</artifactId>
+            <version>1.13-SNAPSHOT</version>
+            <scope>compile</scope>
+
+            <exclusions>
+                <exclusion>
+                    <groupId>com.massivecraft.massivecore</groupId>
+                    <artifactId>MassiveCore</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.SirBlobman.api.dummy</groupId>
+                    <artifactId>Factions</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
         <!-- ProtocolLib API -->
         <dependency>
