@@ -25,6 +25,7 @@ public class TraitCombatLogX extends Trait {
     public TraitCombatLogX(CompatibilityCitizens expansion) {
         super("combatlogX");
         this.expansion = expansion;
+        extendLife();
     }
     
     @Override

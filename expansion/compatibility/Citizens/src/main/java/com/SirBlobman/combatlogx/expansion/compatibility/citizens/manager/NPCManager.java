@@ -3,6 +3,7 @@ package com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager;
 import java.lang.reflect.Constructor;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,10 +23,10 @@ import com.SirBlobman.combatlogx.expansion.compatibility.citizens.trait.TraitCom
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
-import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -35,6 +36,7 @@ import net.citizensnpcs.api.npc.NPCRegistry;
 import net.citizensnpcs.api.trait.TraitFactory;
 import net.citizensnpcs.api.trait.TraitInfo;
 import net.citizensnpcs.api.trait.trait.Equipment;
+import net.citizensnpcs.api.trait.trait.Equipment.EquipmentSlot;
 import net.citizensnpcs.api.trait.trait.Inventory;
 import net.citizensnpcs.api.trait.trait.Owner;
 
@@ -80,7 +82,7 @@ public class NPCManager {
         if(!npc.hasTrait(TraitCombatLogX.class)) return true;
         
         TraitCombatLogX traitCombatLogX = npc.getTrait(TraitCombatLogX.class);
-        return (traitCombatLogX.getOwner() != null);
+        return (traitCombatLogX.getOwner() == null);
     }
     
     public YamlConfiguration getData(OfflinePlayer player) {
@@ -158,36 +160,42 @@ public class NPCManager {
         setData(owner, config);
     }
     
-    public Location loadLocation(Player player) {
-        if(player == null) return null;
+    public void loadLocation(Player player) {
+        if(player == null) return;
         YamlConfiguration config = getData(player);
     
         Object object = config.get("citizens-compatibility.last-location", null);
-        if(!(object instanceof Location)) return null;
+        if(!(object instanceof Location)) return;
         
         Location location = (Location) object;
         player.teleport(location);
-    
-        config.set("citizens-compatibility.last-location", null);
-        setData(player, config);
-        return location;
     }
     
     public void saveInventory(Player player) {
         if(player == null) return;
-        YamlConfiguration config = getData(player);
+        YamlConfiguration data = getData(player);
     
         PlayerInventory playerInventory = player.getInventory();
         ItemStack[] contents = playerInventory.getContents().clone();
-        config.set("citizens-compatibility.last-inventory", contents);
+        int contentsLength = contents.length;
+        
+        for(int slot = 0; slot < contentsLength; slot++) {
+            ItemStack item = contents[slot];
+            data.set("citizens-compatibility.last-inventory." + slot, item);
+        }
         
         int minorVersion = VersionUtil.getMinorVersion();
         if(minorVersion < 9) {
             ItemStack[] armorContents = playerInventory.getArmorContents().clone();
-            config.set("citizens-compatibility.last-armor", armorContents);
+            int armorContentsLength = armorContents.length;
+            
+            for(int slot = 0; slot < armorContentsLength; slot++) {
+                ItemStack item = armorContents[slot];
+                data.set("citizens-compatibility.last-armor." + slot, item);
+            }
         }
         
-        setData(player, config);
+        setData(player, data);
     }
     
     public void loadInventory(Player player) {
@@ -200,55 +208,41 @@ public class NPCManager {
         PlayerInventory playerInventory = player.getInventory();
         playerInventory.clear();
     
-        List<?> inventoryList = config.getList("citizens-compatibility.last-inventory");
-        data.set("citizens-compatibility.last-inventory", null);
-        
-        if(inventoryList != null && !inventoryList.isEmpty()) {
-            int inventorySize = inventoryList.size();
-            for(int slot = 0; slot < inventorySize; slot++) {
-                Object object = inventoryList.get(slot);
-                if(object == null) {
-                    ItemStack air = ItemUtil.getAir();
-                    playerInventory.setItem(slot, air);
-                } else if(object instanceof ItemStack) {
-                    ItemStack item = (ItemStack) object;
-                    playerInventory.setItem(slot, item.clone());
-                }
+        ConfigurationSection inventorySection = data.getConfigurationSection("citizens-compatibility.last-inventory");
+        if(inventorySection != null) {
+            Set<String> slotKeys = inventorySection.getKeys(false);
+            for(String slotKey : slotKeys) {
+                try {
+                    int slot = Integer.parseInt(slotKey);
+                    ItemStack item = inventorySection.getItemStack(slotKey);
+                    item = (ItemUtil.isAir(item) ? ItemUtil.getAir() : item.clone());
+                    playerInventory.setItem(slot, item);
+                } catch(NumberFormatException ignored) {}
             }
         }
         
         int minorVersion = VersionUtil.getMinorVersion();
         if(minorVersion < 9) {
-            List<?> armorList = config.getList("citizens-compatibility.last-armor");
-            data.set("citizens-compatibility.last-armor", null);
-            
-            if(armorList != null && !armorList.isEmpty()) {
-                ItemStack[] armorContents  = playerInventory.getArmorContents();
-                int armorListSize = armorList.size();
-                int armorArraySize = armorContents.length;
-                
-                for(int slot = 0; slot < armorListSize && slot < armorArraySize; slot++) {
-                    Object object = armorList.get(slot);
-                    if(object == null) {
-                        armorContents[slot] = ItemUtil.getAir();
-                    } else if(object instanceof ItemStack) {
-                        ItemStack item = (ItemStack) object;
-                        armorContents[slot] = item.clone();
-                    }
+            ConfigurationSection armorSection = data.getConfigurationSection("citizens-compatibility.last-armor");
+            if(armorSection != null) {
+                ItemStack[] armorContents = playerInventory.getArmorContents();
+                Set<String> slotKeys = armorSection.getKeys(false);
+                for(String slotKey : slotKeys) {
+                    try {
+                        int slot = Integer.parseInt(slotKey);
+                        ItemStack item = armorSection.getItemStack(slotKey);
+                        armorContents[slot] = (ItemUtil.isAir(item) ? ItemUtil.getAir() : item.clone());
+                    } catch(NumberFormatException ignored) {}
                 }
-                
                 playerInventory.setArmorContents(armorContents);
             }
         }
         
         player.updateInventory();
-        setData(player, data);
     }
     
     public void dropInventory(NPC npc) {
         if(isInvalid(npc)) return;
-        if(!npc.isSpawned()) return;
-    
         FileConfiguration config = this.expansion.getConfig("citizens-compatibility.yml");
         if(!config.getBoolean("npc-options.store-inventory", true)) return;
         
@@ -256,43 +250,50 @@ public class NPCManager {
         OfflinePlayer owner = traitCombatLogX.getOwner();
         YamlConfiguration data = getData(owner);
         
-        Entity entity = npc.getEntity();
-        World world = entity.getWorld();
-        Location location = entity.getLocation();
+        Location location;
+        if(npc.isSpawned()) {
+            Entity entity = npc.getEntity();
+            location = entity.getLocation();
+        } else {
+            location = npc.getStoredLocation();
+        }
+        
+        if(location == null) return;
+        World world = location.getWorld();
+        if(world == null) return;
         
         if(npc.hasTrait(Equipment.class)) npc.removeTrait(Equipment.class);
         if(npc.hasTrait(Inventory.class)) npc.removeTrait(Inventory.class);
-        
-        List<?> inventoryList = config.getList("citizens-compatibility.last-inventory");
-        data.set("citizens-compatibility.last-inventory", null);
-        if(inventoryList != null && !inventoryList.isEmpty()) {
-            for(Object object : inventoryList) {
-                if(!(object instanceof ItemStack)) continue;
     
-                ItemStack item = (ItemStack) object;
-                if(ItemUtil.isAir(item)) continue;
-    
-                world.dropItemNaturally(location, item);
+        ConfigurationSection inventorySection = data.getConfigurationSection("citizens-compatibility.last-inventory");
+        if(inventorySection != null) {
+            Set<String> slotKeys = inventorySection.getKeys(false);
+            for(String slotKey : slotKeys) {
+                try {
+                    ItemStack item = inventorySection.getItemStack(slotKey);
+                    if(ItemUtil.isAir(item)) continue;
+                    world.dropItemNaturally(location, item.clone());
+                } catch(NumberFormatException ignored) {}
             }
         }
     
         int minorVersion = VersionUtil.getMinorVersion();
         if(minorVersion < 9) {
-            List<?> armorList = config.getList("citizens-compatibility.last-armor");
-            data.set("citizens-compatibility.last-armor", null);
-        
-            if(armorList != null && !armorList.isEmpty()) {
-                for (Object object : armorList) {
-                    if(!(object instanceof ItemStack)) continue;
-        
-                    ItemStack item = (ItemStack) object;
-                    if(ItemUtil.isAir(item)) continue;
-        
-                    world.dropItemNaturally(location, item);
+            ConfigurationSection armorSection = data.getConfigurationSection("citizens-compatibility.last-armor");
+            if(armorSection != null) {
+                Set<String> slotKeys = armorSection.getKeys(false);
+                for(String slotKey : slotKeys) {
+                    try {
+                        ItemStack item = armorSection.getItemStack(slotKey);
+                        if(ItemUtil.isAir(item)) continue;
+                        world.dropItemNaturally(location, item.clone());
+                    } catch(NumberFormatException ignored) {}
                 }
             }
         }
         
+        data.set("citizens-compatibility.last-inventory", null);
+        data.set("citizens-compatibility.last-armor", null);
         setData(owner, data);
     }
     
@@ -319,6 +320,8 @@ public class NPCManager {
         npc.removeTrait(Owner.class);
         
         TraitCombatLogX traitCombatLogX = npc.getTrait(TraitCombatLogX.class);
+        traitCombatLogX.extendLife();
+        
         traitCombatLogX.setOwner(player);
         if(enemy instanceof Player) {
             Player enemyPlayer = (Player) enemy;
@@ -359,7 +362,7 @@ public class NPCManager {
             if(owner == null) continue;
             
             UUID ownerId = owner.getUniqueId();
-            if(ownerId.equals(uuid)) return npc;
+            if(uuid.equals(ownerId)) return npc;
         }
         
         return null;
@@ -440,50 +443,39 @@ public class NPCManager {
         if(player == null || npc == null) return;
         PlayerInventory playerInventory = player.getInventory();
         
-        Entity entity = npc.getEntity();
-        if(!(entity instanceof LivingEntity)) return;
-        LivingEntity livingEntity = (LivingEntity) entity;
-    
-        EntityEquipment entityEquipment = livingEntity.getEquipment();
-        if(entityEquipment == null) return;
-        
-        ItemStack helmet = copyItem(playerInventory.getHelmet());
-        entityEquipment.setHelmet(helmet);
-        entityEquipment.setHelmetDropChance(0.0F);
-        
-        ItemStack chestplate = copyItem(playerInventory.getChestplate());
-        entityEquipment.setChestplate(chestplate);
-        entityEquipment.setChestplateDropChance(0.0F);
-        
-        ItemStack leggings = copyItem(playerInventory.getLeggings());
-        entityEquipment.setLeggings(leggings);
-        entityEquipment.setLeggingsDropChance(0.0F);
-        
-        ItemStack boots = copyItem(playerInventory.getBoots());
-        entityEquipment.setBoots(boots);
-        entityEquipment.setBootsDropChance(0.0F);
-        
-        int minorVersion = VersionUtil.getMinorVersion();
-        if(minorVersion < 9) {
-            ItemStack handItem = copyItem(playerInventory.getItemInHand());
-            entityEquipment.setItemInHand(handItem);
-            entityEquipment.setItemInHandDropChance(0.0F);
-        } else {
-            ItemStack mainHandItem = copyItem(playerInventory.getItemInMainHand());
-            ItemStack offHandItem = copyItem(playerInventory.getItemInOffHand());
+        try {
+            Equipment trait = npc.getTrait(Equipment.class);
             
-            entityEquipment.setItemInMainHand(mainHandItem);
-            entityEquipment.setItemInMainHandDropChance(0.0F);
+            ItemStack helmet = copyItem(playerInventory.getHelmet());
+            trait.set(EquipmentSlot.HELMET, helmet);
             
-            entityEquipment.setItemInOffHand(offHandItem);
-            entityEquipment.setItemInOffHandDropChance(0.0F);
-        }
+            ItemStack chestplate = copyItem(playerInventory.getChestplate());
+            trait.set(EquipmentSlot.CHESTPLATE, chestplate);
+            
+            ItemStack leggings = copyItem(playerInventory.getLeggings());
+            trait.set(EquipmentSlot.LEGGINGS, leggings);
+            
+            ItemStack boots = copyItem(playerInventory.getBoots());
+            trait.set(EquipmentSlot.BOOTS, boots);
+            
+            int minorVersion = VersionUtil.getMinorVersion();
+            if(minorVersion < 9) {
+                ItemStack handItem = copyItem(playerInventory.getItemInHand());
+                trait.set(EquipmentSlot.HAND, handItem);
+            } else {
+                ItemStack mainHandItem = copyItem(playerInventory.getItemInMainHand());
+                trait.set(EquipmentSlot.HAND, mainHandItem);
+                
+                ItemStack offHandItem = copyItem(playerInventory.getItemInOffHand());
+                trait.set(EquipmentSlot.OFF_HAND, offHandItem);
+            }
+        } catch(UnsupportedOperationException | IllegalArgumentException ignored) {}
         
         playerInventory.clear();
         player.updateInventory();
     }
     
     private ItemStack copyItem(ItemStack item) {
-        return (item == null ? ItemUtil.getAir() : item.clone());
+        return (ItemUtil.isAir(item) ? ItemUtil.getAir() : item.clone());
     }
 }

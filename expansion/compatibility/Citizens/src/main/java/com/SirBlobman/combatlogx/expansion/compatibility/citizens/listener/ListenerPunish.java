@@ -5,6 +5,7 @@ import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityC
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.NPCManager;
 
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -27,6 +28,10 @@ public class ListenerPunish implements Listener {
         LivingEntity enemy = e.getPreviousEnemy();
         
         NPCManager npcManager = this.expansion.getNPCManager();
+        YamlConfiguration data = npcManager.getData(player);
+        data.set("citizens-compatibility.punish-next-join", true);
+        
+        npcManager.setData(player, data);
         npcManager.createNPC(player, enemy);
     }
 }

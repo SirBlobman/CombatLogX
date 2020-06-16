@@ -79,6 +79,9 @@ public class ListenerDamageDeath implements Listener {
         DespawnReason despawnReason = e.getReason();
         if(despawnReason == DespawnReason.PENDING_RESPAWN) return;
         
+        Logger logger = this.expansion.getLogger();
+        logger.info("[Debug] Removing NPC for reason '" + despawnReason + "'.");
+        
         NPC npc = e.getNPC();
         NPCManager npcManager = this.expansion.getNPCManager();
         if(npcManager.isInvalid(npc)) return;

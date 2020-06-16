@@ -1,6 +1,7 @@
 package com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener;
 
 import java.util.UUID;
+import java.util.logging.Logger;
 
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.NPCManager;
@@ -36,7 +37,7 @@ public class ListenerLogin implements Listener {
         UUID uuid = e.getUniqueId();
         NPCManager npcManager = this.expansion.getNPCManager();
         NPC npc = npcManager.getNPC(uuid);
-        if(npcManager.isInvalid(npc)) return;
+        if(npc == null) return;
         
         String message = this.expansion.getPlugin().getLanguageMessageColored("citizens-join-deny");
         e.setKickMessage(message);
@@ -50,7 +51,7 @@ public class ListenerLogin implements Listener {
     
         NPCManager npcManager = this.expansion.getNPCManager();
         NPC npc = npcManager.getNPC(player);
-        if(!npcManager.isInvalid(npc)) npc.despawn(DespawnReason.PLUGIN);
+        if(npc != null) npc.despawn(DespawnReason.PLUGIN);
         
         Runnable task = () -> {
             punish(player);
@@ -69,13 +70,22 @@ public class ListenerLogin implements Listener {
         YamlConfiguration data = npcManager.getData(player);
         if(!data.getBoolean("citizens-compatibility.punish-next-join")) return;
         
-        npcManager.loadLocation(player);
-        npcManager.loadTagStatus(player);
+        Logger logger = this.expansion.getLogger();
+        logger.info("Player Data Config: " + data.saveToString());
         
+        npcManager.loadLocation(player);
         double health = npcManager.loadHealth(player);
-        if(health > 0.0D) npcManager.loadInventory(player);
+        
+        if(health > 0.0D) {
+            npcManager.loadInventory(player);
+            npcManager.loadTagStatus(player);
+        }
         
         data.set("citizens-compatibility.punish-next-join", false);
+        data.set("citizens-compatibility.last-location", null);
+        data.set("citizens-compatibility.last-health", null);
+        data.set("citizens-compatibility.last-inventory", null);
+        data.set("citizens-compatibility.last-armor", null);
         npcManager.setData(player, data);
     }
 }

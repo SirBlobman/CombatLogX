@@ -9,7 +9,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityResurrectEvent;
 
 public class ListenerCombat implements Listener {
     private final CompatibilityCitizens expansion;
