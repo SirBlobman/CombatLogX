@@ -34,7 +34,7 @@ public class ListenerRiptide implements Listener {
         if(!config.getBoolean("items.prevent-riptide")) return;
 
         ICombatManager combatManager = this.plugin.getCombatManager();
-        if(combatManager.isInCombat(player)) return;
+        if(!combatManager.isInCombat(player)) return;
 
         e.setCancelled(true);
         sendMessage(player);
