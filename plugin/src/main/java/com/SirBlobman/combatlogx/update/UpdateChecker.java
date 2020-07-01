@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import com.SirBlobman.combatlogx.CombatLogX;
-import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -141,51 +140,52 @@ public final class UpdateChecker extends BukkitRunnable {
     
     private void printUpdateError() {
         print(
-                "&8==============================================",
-                "&eCombatLogX Update Checker",
+                "==============================================",
+                "CombatLogX Update Checker",
                 " ",
-                "&cThere was an error checking for updates",
-                "&8=============================================="
+                "There was an error checking for updates",
+                "=============================================="
         );
     }
     
     private void printUpdateInfo() {
         print(
-                "&8==============================================",
-                "&eCombatLogX Update Checker",
+                "==============================================",
+                "CombatLogX Update Checker",
                 " ",
-                "&aThere is an update available!",
-                "&e&lLatest Version: &a" + this.spigotVersion,
-                "&e&lYour Version: &c" + this.pluginVersion,
-                "&eGet it here: &bhttps://www.spigotmc.org/resources/31689/",
+                "There is an update available!",
+                "Latest Version: " + this.spigotVersion,
+                "Your Version: " + this.pluginVersion,
+                " ",
+                "https://www.spigotmc.org/resources/31689/",
                 "&8=============================================="
         );
     }
     
     private void printBetaInfo() {
         print(
-                "&8==============================================",
-                "&eCombatLogX Update Checker",
+                "==============================================",
+                "CombatLogX Update Checker",
                 " ",
-                "&cYou are using a beta or bleeding-edge version.",
-                "&cThanks for testing CombatLogX!",
-                "&8=============================================="
+                "You are using a beta or bleeding-edge version.",
+                "Thanks for testing CombatLogX!",
+                "=============================================="
         );
     }
     
     private void printLatestInfo() {
         print(
-            "&8==============================================",
-            "&eCombatLogX Update Checker",
+            "==============================================",
+            "CombatLogX Update Checker",
             " ",
-            "&aYou are using the latest version!",
-            "&8=============================================="
+            "You are using the latest version!",
+            "=============================================="
         );
     }
     
     private void print(String... messageArray) {
         Logger logger = this.plugin.getLogger();
-        Arrays.stream(messageArray).map(MessageUtil::color).forEach(logger::info);
+        Arrays.stream(messageArray).forEach(logger::info);
     }
     
     private enum VersionPart {
