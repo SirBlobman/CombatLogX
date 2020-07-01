@@ -1,12 +1,15 @@
 package com.SirBlobman.combatlogx.expansion.rewards.object;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.shaded.nms.VersionUtil;
-import com.SirBlobman.combatlogx.api.shaded.utility.Util;
+import com.SirBlobman.combatlogx.api.shaded.nms.AbstractNMS;
+import com.SirBlobman.combatlogx.api.shaded.nms.EntityHandler;
+import com.SirBlobman.combatlogx.api.shaded.nms.MultiVersionHandler;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -20,9 +23,8 @@ public class Reward {
     private final int chance, maxChance;
     private final boolean mobWhitelist, worldWhitelist, randomCommand;
     private final List<String> mobTypeList, worldNameList, commandList;
-    public Reward(ICombatLogX plugin, int chance, int maxChance, boolean mobWhitelist, boolean worldWhitelist,
-                  boolean randomCommand, List<String> mobTypeList, List<String> worldNameList, List<String> commandList) {
-        this.plugin = plugin;
+    public Reward(ICombatLogX plugin, int chance, int maxChance, boolean mobWhitelist, boolean worldWhitelist, boolean randomCommand, List<String> mobTypeList, List<String> worldNameList, List<String> commandList) {
+        this.plugin = Objects.requireNonNull(plugin, "plugin must not be null!");
         this.chance = chance;
         this.maxChance = maxChance;
         this.mobWhitelist = mobWhitelist;
@@ -31,6 +33,32 @@ public class Reward {
         this.mobTypeList = mobTypeList;
         this.worldNameList = worldNameList;
         this.commandList = commandList;
+    }
+    
+    protected List<String> getCommands() {
+        return new ArrayList<>(this.commandList);
+    }
+    
+    protected List<String> getRandomCommand() {
+        List<String> commandList = getCommands();
+        int commandListSize = commandList.size();
+        
+        ThreadLocalRandom rng = ThreadLocalRandom.current();
+        int randomValue = rng.nextInt(commandListSize);
+        
+        String command = commandList.get(randomValue);
+        return Collections.singletonList(command);
+    }
+    
+    public void tryActivate(Player player, Entity enemy) {
+        if(canActivateReward(player, enemy)) executeCommands(player, enemy);
+    }
+    
+    protected boolean canActivateReward(Player player, Entity enemy) {
+        if(player == null || enemy == null) return false;
+        
+        World world = player.getWorld();
+        return (calculateChance() && isWorldAllowed(world) && isMobAllowed(enemy));
     }
 
     private boolean calculateChance() {
@@ -57,48 +85,28 @@ public class Reward {
     }
 
     private void executeCommands(Player player, Entity enemy) {
-        List<String> commandList = new ArrayList<>(this.commandList);
-        if(this.randomCommand) {
-            int commandListSize = commandList.size();
-            ThreadLocalRandom random = ThreadLocalRandom.current();
-            int randomValue = random.nextInt(commandListSize);
-            String randomCommand = commandList.get(randomValue);
-            commandList = Util.newList(randomCommand);
-        }
-
-        String playerName = player.getName();
-        String enemyName = getEnemyName(enemy);
-        String enemyType = enemy.getType().name();
         CommandSender console = Bukkit.getConsoleSender();
+        List<String> commandList = (this.randomCommand ? getRandomCommand() : getCommands());
         for(String command : commandList) {
-            command = command.replace("{player}", playerName).replace("{enemy-name}", enemyName).replace("{enemy-type}", enemyType);
-            Bukkit.dispatchCommand(console, command);
+            String realCommand = replacePlaceholders(player, enemy, command);
+            Bukkit.dispatchCommand(console, realCommand);
         }
-    }
-
-    private boolean canActivateReward(Player player, Entity enemy) {
-        if(player == null || enemy == null) return false;
-
-        World world = player.getWorld();
-        return (calculateChance() && isMobAllowed(enemy) && isWorldAllowed(world));
-    }
-
-    public void tryActivate(Player player, Entity enemy) {
-        if(canActivateReward(player, enemy)) executeCommands(player, enemy);
     }
 
     private String getEnemyName(Entity enemy) {
         if(enemy == null) return this.plugin.getLanguageMessage("errors.unknown-entity-name");
-        if(enemy instanceof Player) {
-            Player player = (Player) enemy;
-            return player.getName();
-        }
-
-        if(VersionUtil.getMinorVersion() <= 7) {
-            EntityType type = enemy.getType();
-            return type.name();
-        }
-
-        return enemy.getName();
+        MultiVersionHandler<?> multiVersionHandler = this.plugin.getMultiVersionHandler();
+        AbstractNMS nmsHandler = multiVersionHandler.getInterface();
+        EntityHandler entityHandler = nmsHandler.getEntityHandler();
+        return entityHandler.getName(enemy);
+    }
+    
+    private String replacePlaceholders(Player player, Entity enemy, String string) {
+        String playerName = player.getName();
+        String enemyName = getEnemyName(enemy);
+        String enemyType = enemy.getType().name();
+        return string.replace("{player}", playerName)
+                .replace("{enemy-name}", enemyName)
+                .replace("{enemy-type}", enemyType);
     }
 }

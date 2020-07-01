@@ -1,12 +1,12 @@
 package com.SirBlobman.combatlogx.expansion.rewards;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 import com.SirBlobman.combatlogx.expansion.rewards.listener.ListenerRewards;
 import com.SirBlobman.combatlogx.expansion.rewards.object.Reward;
 
@@ -17,8 +17,10 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Rewards extends Expansion {
+    private final List<Reward> rewardList;
     public Rewards(ICombatLogX plugin) {
         super(plugin);
+        this.rewardList = new ArrayList<>();
     }
 
     @Override
@@ -44,24 +46,21 @@ public class Rewards extends Expansion {
         reloadConfig("rewards.yml");
         setupRewards();
     }
-
-    private final List<Reward> rewardList = Util.newList();
+    
     public List<Reward> getAllRewards() {
-        return Util.newList(this.rewardList);
+        return new ArrayList<>(this.rewardList);
     }
 
     private void setupRewards() {
         this.rewardList.clear();
-
         FileConfiguration config = getConfig("rewards.yml");
         if(!config.isConfigurationSection("rewards")) return;
 
         ConfigurationSection sectionRewards = config.getConfigurationSection("rewards");
         if(sectionRewards == null) return;
 
-        Set<String> rewardIdSet = sectionRewards.getKeys(false);
-        for(String rewardId : rewardIdSet) {
-            if(!sectionRewards.isConfigurationSection(rewardId)) continue;
+        Set<String> rewardSet = sectionRewards.getKeys(false);
+        for(String rewardId : rewardSet) {
             ConfigurationSection rewardInfo = sectionRewards.getConfigurationSection(rewardId);
             if(rewardInfo == null) continue;
 
