@@ -15,7 +15,7 @@ import com.SirBlobman.combatlogx.api.shaded.nms.VersionUtil;
 import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
 import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
-import com.SirBlobman.combatlogx.utility.UpdateChecker;
+import com.SirBlobman.combatlogx.update.UpdateChecker;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -247,8 +247,9 @@ public class CommandCombatLogX implements TabExecutor {
     }
     
     private void checkVersion(CommandSender sender) {
-        String pluginVersion = this.plugin.getDescription().getVersion();
-        String spigotVersion = UpdateChecker.getSpigotVersion(this.plugin);
+        UpdateChecker updateChecker = this.plugin.getUpdateChecker();
+        String pluginVersion = updateChecker.getPluginVersion();
+        String spigotVersion = updateChecker.getSpigotVersion();
 
         String[] message = colorMultiple(
                 "&f",

@@ -1,14 +1,7 @@
 package com.SirBlobman.combatlogx;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -16,17 +9,16 @@ import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
 import com.SirBlobman.combatlogx.api.listener.ICustomDeathListener;
-import com.SirBlobman.combatlogx.api.shaded.SirBlobmanAPI;
+import com.SirBlobman.combatlogx.api.shaded.configuration.ConfigManager;
 import com.SirBlobman.combatlogx.api.shaded.configuration.PlayerDataManager;
-import com.SirBlobman.combatlogx.api.shaded.nms.MultiVersionHandler;
+import com.SirBlobman.combatlogx.api.shaded.plugin.SirBlobmanPlugin;
 import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
-import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 import com.SirBlobman.combatlogx.command.CommandCombatLogX;
 import com.SirBlobman.combatlogx.command.CommandCombatTimer;
 import com.SirBlobman.combatlogx.command.CustomCommand;
 import com.SirBlobman.combatlogx.listener.*;
-import com.SirBlobman.combatlogx.utility.CombatManager;
-import com.SirBlobman.combatlogx.utility.UpdateChecker;
+import com.SirBlobman.combatlogx.manager.CombatManager;
+import com.SirBlobman.combatlogx.update.UpdateChecker;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -37,23 +29,22 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
-public class CombatLogX extends JavaPlugin implements ICombatLogX {
-    private static final Map<String, FileConfiguration> fileNameToConfigMap = Util.newMap();
-    private final CombatManager combatManager = new CombatManager(this);
-    private final ExpansionManager expansionManager = new ExpansionManager(this);
-    private final ICustomDeathListener customDeathListener = new ListenerCustomDeath(this);
-    
-    private final SirBlobmanAPI sirBlobmanAPI = new SirBlobmanAPI(this);
-    private final MultiVersionHandler<CombatLogX> multiVersionHandler = new MultiVersionHandler<>(this);
-    private final PlayerDataManager<CombatLogX> playerDataManager = new PlayerDataManager<>(this);
+import org.bukkit.event.Listener;
 
-    public SirBlobmanAPI getSirBlobmanAPI() {
-        return this.sirBlobmanAPI;
+public class CombatLogX extends SirBlobmanPlugin<CombatLogX> implements ICombatLogX {
+    private final CombatManager combatManager;
+    private final ExpansionManager expansionManager;
+    private final ICustomDeathListener customDeathListener;
+    private final UpdateChecker updateChecker;
+    
+    public CombatLogX() {
+        this.combatManager = new CombatManager(this);
+        this.expansionManager = new ExpansionManager(this);
+        this.customDeathListener = new ListenerCustomDeath(this);
+        this.updateChecker = new UpdateChecker(this);
     }
 
     @Override
@@ -68,7 +59,6 @@ public class CombatLogX extends JavaPlugin implements ICombatLogX {
         
         ExpansionManager expansionManager = getExpansionManager();
         expansionManager.loadExpansions();
-        
         broadcastLoadMessage();
     }
 
@@ -80,9 +70,10 @@ public class CombatLogX extends JavaPlugin implements ICombatLogX {
     
         ExpansionManager expansionManager = getExpansionManager();
         expansionManager.enableExpansions();
-        
         broadcastEnableMessage();
-        UpdateChecker.checkForUpdates(this);
+    
+        UpdateChecker updateChecker = getUpdateChecker();
+        updateChecker.checkForUpdates();
     }
 
     @Override
@@ -118,83 +109,59 @@ public class CombatLogX extends JavaPlugin implements ICombatLogX {
 
     @Override
     public FileConfiguration getConfig(String fileName) {
-        FileConfiguration newConfig = fileNameToConfigMap.getOrDefault(fileName, null);
-        if(newConfig != null) return newConfig;
-
-        reloadConfig(fileName);
-        return getConfig(fileName);
+        ConfigManager<?> configManager = getConfigManager();
+        return configManager.getConfig(fileName);
     }
 
     @Override
     public void reloadConfig(String fileName) {
-        File configFile = new File(getDataFolder(), fileName);
-        FileConfiguration newConfig = YamlConfiguration.loadConfiguration(configFile);
-
-        final InputStream defConfigStream = getResource(fileName);
-        if (defConfigStream == null) return;
-
-        newConfig.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(defConfigStream, StandardCharsets.UTF_8)));
-        fileNameToConfigMap.put(fileName, newConfig);
+        ConfigManager<?> configManager = getConfigManager();
+        configManager.reloadConfig(fileName);
     }
 
     @Override
     public void saveConfig(String fileName) {
-        File configFile = new File(getDataFolder(), fileName);
-        try {
-            getConfig(fileName).save(configFile);
-        } catch (IOException ex) {
-            getLogger().log(Level.SEVERE, "Could not save config to " + configFile, ex);
-        }
+        ConfigManager<?> configManager = getConfigManager();
+        configManager.saveConfig(fileName);
     }
 
     @Override
     public void saveDefaultConfig(String fileName) {
-        File configFile = new File(getDataFolder(), fileName);
-        if (!configFile.exists()) {
-            saveResource(fileName, false);
-        }
+        ConfigManager<?> configManager = getConfigManager();
+        configManager.saveDefaultConfig(fileName);
     }
 
     @Override
     public YamlConfiguration getDataFile(OfflinePlayer user) {
-        PlayerDataManager<CombatLogX> playerDataManager = getPlayerDataManager();
+        PlayerDataManager<?> playerDataManager = getPlayerDataManager();
         return playerDataManager.getData(user);
     }
 
     @Override
     public void saveDataFile(OfflinePlayer user, YamlConfiguration dataFile) {
-        PlayerDataManager<CombatLogX> playerDataManager = getPlayerDataManager();
+        PlayerDataManager<?> playerDataManager = getPlayerDataManager();
         playerDataManager.saveData(user);
     }
 
     @Override
     public String getLanguageMessage(String path) {
-        FileConfiguration language = getConfig("language.yml");
-        if(language == null) return path;
-        if(language.isString(path)) return language.getString(path);
-        if(language.isList(path)) {
-            List<String> messageList = language.getStringList(path);
-            return String.join("\n", messageList);
-        }
-
-        return path;
+        ConfigManager<?> configManager = getConfigManager();
+        return configManager.getConfigMessage("language.yml", path, false);
     }
 
     @Override
     public String getLanguageMessageColored(String path) {
         String message = getLanguageMessage(path);
-        if(message == null || message.isEmpty()) return "";
-
         return MessageUtil.color(message);
     }
 
     @Override
     public String getLanguageMessageColoredWithPrefix(String path) {
+        String prefix = getLanguageMessage("prefixes.plugin");
+        if(prefix == null || prefix.isEmpty()) return getLanguageMessageColored(path);
+        
         String message = getLanguageMessage(path);
         if(message == null || message.isEmpty()) return "";
-
-        String prefix = getLanguageMessageColored("prefixes.plugin");
-        if(prefix == null || prefix.isEmpty()) return message;
 
         return MessageUtil.color(prefix + " " + message);
     }
@@ -239,13 +206,8 @@ public class CombatLogX extends JavaPlugin implements ICombatLogX {
         logger.info("[Debug] " + message);
     }
     
-    @Override
-    public MultiVersionHandler<CombatLogX> getMultiVersionHandler() {
-        return this.multiVersionHandler;
-    }
-    
-    public PlayerDataManager<CombatLogX> getPlayerDataManager() {
-        return this.playerDataManager;
+    public UpdateChecker getUpdateChecker() {
+        return this.updateChecker;
     }
     
     private void forceRegisterCommand(String commandName, CommandExecutor executor, String description, String usage, String... aliases) {

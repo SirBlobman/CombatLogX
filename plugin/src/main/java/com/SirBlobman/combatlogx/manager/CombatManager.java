@@ -1,4 +1,4 @@
-package com.SirBlobman.combatlogx.utility;
+package com.SirBlobman.combatlogx.manager;
 
 import java.lang.reflect.Method;
 import java.util.List;
