@@ -1,6 +1,9 @@
 # Default Settings Configuration for ${bukkit.plugin.name}
 # Made by SirBlobman for v${bukkit.plugin.version}
 
+# Please DO NOT change this value or your config may be corrupted
+generated-by-version: "${bukkit.plugin.version}"
+
 # Should extra messages be printed for certain tasks?
 # Only use this if you are having issues or you are asked to by SirBlobman
 #

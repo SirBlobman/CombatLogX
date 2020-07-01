@@ -18,6 +18,7 @@ import com.SirBlobman.combatlogx.command.CommandCombatTimer;
 import com.SirBlobman.combatlogx.command.CustomCommand;
 import com.SirBlobman.combatlogx.listener.*;
 import com.SirBlobman.combatlogx.manager.CombatManager;
+import com.SirBlobman.combatlogx.update.ConfigChecker;
 import com.SirBlobman.combatlogx.update.UpdateChecker;
 
 import org.bukkit.Bukkit;
@@ -54,8 +55,8 @@ public class CombatLogX extends SirBlobmanPlugin<CombatLogX> implements ICombatL
 
     @Override
     public void onLoad() {
-        saveDefaultConfig("config.yml");
-        saveDefaultConfig("language.yml");
+        ConfigChecker configChecker = new ConfigChecker(this);
+        configChecker.checkConfig();
         
         ExpansionManager expansionManager = getExpansionManager();
         expansionManager.loadExpansions();
