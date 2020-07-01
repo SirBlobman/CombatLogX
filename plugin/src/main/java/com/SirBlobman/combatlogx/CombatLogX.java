@@ -58,6 +58,9 @@ public class CombatLogX extends SirBlobmanPlugin<CombatLogX> implements ICombatL
         ConfigChecker configChecker = new ConfigChecker(this);
         configChecker.checkConfig();
         
+        saveDefaultConfig("config.yml");
+        saveDefaultConfig("language.yml");
+        
         ExpansionManager expansionManager = getExpansionManager();
         expansionManager.loadExpansions();
         broadcastLoadMessage();

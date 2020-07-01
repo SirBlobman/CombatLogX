@@ -19,8 +19,9 @@ public final class ConfigChecker {
     }
     
     public void checkConfig() {
-        this.plugin.saveDefaultConfig("config.yml");
-        this.plugin.saveDefaultConfig("language.yml");
+        File pluginFolder = this.plugin.getDataFolder();
+        File configFile = new File(pluginFolder, "config.yml");
+        if(!configFile.exists()) return;
         
         FileConfiguration config = this.plugin.getConfig("config.yml");
         String generatedByVersion = config.getString("generated-by-version");
@@ -29,9 +30,6 @@ public final class ConfigChecker {
         Logger logger = this.plugin.getLogger();
         logger.warning("Detected an old CombatLogX config, a backup will be created and your config will be reset!");
         createBackup();
-        
-        this.plugin.saveDefaultConfig("config.yml");
-        this.plugin.saveDefaultConfig("language.yml");
     }
     
     private void createBackup() {
