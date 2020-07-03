@@ -44,6 +44,7 @@ public class NoEntryListener implements Listener {
 
     @EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
     public void onMove(PlayerMoveEvent e) {
+        if(didNotMove(e)) return;
         ICombatLogX plugin = this.expansion.getPlugin();
         ICombatManager manager = plugin.getCombatManager();
 
@@ -82,5 +83,15 @@ public class NoEntryListener implements Listener {
 
         e.setCancelled(true);
         this.expansion.sendNoEntryMessage(player, enemy);
+    }
+    
+    private boolean didNotMove(PlayerMoveEvent e) {
+        Location fromLocation = e.getFrom();
+        Location toLocation = e.getTo();
+        if(toLocation == null) return true;
+    
+        int fromX = fromLocation.getBlockX(), fromY = fromLocation.getBlockY(), fromZ = fromLocation.getBlockZ();
+        int toX = toLocation.getBlockX(), toY = toLocation.getBlockY(), toZ = toLocation.getBlockZ();
+        return (fromX == toX && fromY == toY && fromZ == toZ);
     }
 }

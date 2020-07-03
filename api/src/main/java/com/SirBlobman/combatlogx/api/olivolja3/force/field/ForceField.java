@@ -3,7 +3,6 @@ package com.SirBlobman.combatlogx.api.olivolja3.force.field;
 import java.util.*;
 
 import com.SirBlobman.api.nms.VersionUtil;
-import com.SirBlobman.api.utility.Util;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.SirBlobman.combatlogx.api.event.PlayerTagEvent;
@@ -19,11 +18,12 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.PluginManager;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
@@ -31,13 +31,13 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.wrappers.WrappedBlockData;
 
 public abstract class ForceField implements Listener {
-    final Map<UUID, Set<Location>> fakeBlocks = Util.newMap();
-
     private final NoEntryExpansion expansion;
     private final ICombatLogX plugin;
+    final Map<UUID, Set<Location>> fakeBlockMap;
     public ForceField(NoEntryExpansion expansion) {
         this.expansion = expansion;
         this.plugin = this.expansion.getPlugin();
+        this.fakeBlockMap = new HashMap<>();
     }
 
     public final NoEntryExpansion getExpansion() {
@@ -125,7 +125,7 @@ public abstract class ForceField implements Listener {
     }
 
     public void clearData() {
-        fakeBlocks.clear();
+        fakeBlockMap.clear();
     }
 
     public void updateForceField(Player player) {
@@ -142,24 +142,24 @@ public abstract class ForceField implements Listener {
         Set<Location> area2 = new HashSet<>(area);
 
         UUID uuid = player.getUniqueId();
-        if(fakeBlocks.containsKey(uuid)) {
-            oldArea = fakeBlocks.get(uuid);
+        if(fakeBlockMap.containsKey(uuid)) {
+            oldArea = fakeBlockMap.get(uuid);
             area.removeAll(oldArea);
             oldArea.removeAll(area2);
         }
-        fakeBlocks.remove(uuid);
+        fakeBlockMap.remove(uuid);
 
         for(Location location : oldArea) resetBlock(player, location);
         for(Location location : area) sendForceField(player, location);
-        fakeBlocks.put(uuid, area2);
+        fakeBlockMap.put(uuid, area2);
     }
 
     public void removeForceField(Player player) {
         UUID uuid = player.getUniqueId();
-        if(!fakeBlocks.containsKey(uuid)) return;
+        if(!fakeBlockMap.containsKey(uuid)) return;
 
-        Set<Location> locations = new HashSet<>(fakeBlocks.get(uuid));
-        fakeBlocks.remove(uuid);
+        Set<Location> locations = new HashSet<>(fakeBlockMap.get(uuid));
+        fakeBlockMap.remove(uuid);
         for(Location location : locations) resetBlock(player, location);
     }
 
@@ -198,7 +198,7 @@ public abstract class ForceField implements Listener {
         
         Player player = e.getPlayer();
         UUID uuid = player.getUniqueId();
-        fakeBlocks.remove(uuid);
+        fakeBlockMap.remove(uuid);
     }
 
     @EventHandler
@@ -234,7 +234,7 @@ public abstract class ForceField implements Listener {
         UUID uuid = player.getUniqueId();
         Set<Location> area = getForceFieldArea(player, e.getEnemy());
 
-        fakeBlocks.put(uuid, area);
+        fakeBlockMap.put(uuid, area);
         for(Location location : area) sendForceField(player, location);
     }
 

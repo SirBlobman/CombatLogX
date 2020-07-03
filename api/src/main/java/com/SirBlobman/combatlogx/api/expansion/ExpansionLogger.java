@@ -7,7 +7,7 @@ import com.SirBlobman.combatlogx.api.ICombatLogX;
 
 public class ExpansionLogger extends Logger {
     public ExpansionLogger(Expansion expansion) {
-        super(expansion.getDescription().getDisplayName(), null);
+        super(expansion.getDescription().getName(), null);
         
         ICombatLogX combat = expansion.getPlugin();
         Logger parent = combat.getLogger();

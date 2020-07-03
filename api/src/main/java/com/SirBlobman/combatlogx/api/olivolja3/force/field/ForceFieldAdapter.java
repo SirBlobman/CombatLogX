@@ -38,7 +38,8 @@ public class ForceFieldAdapter extends PacketAdapter {
 
         WrapperPlayServerBlockChange block = new WrapperPlayServerBlockChange(packet);
         Location location = packet.getBlockPositionModifier().read(0).toLocation(world);
-        if(this.forceField.fakeBlocks.containsKey(uuid) && this.forceField.isSafe(location, player) && this.forceField.isSafeSurround(location, player) && ForceField.canPlace(location) && this.forceField.fakeBlocks.get(uuid).contains(location)) {
+        
+        if(this.forceField.fakeBlockMap.containsKey(uuid) && this.forceField.isSafe(location, player) && this.forceField.isSafeSurround(location, player) && ForceField.canPlace(location) && this.forceField.fakeBlockMap.get(uuid).contains(location)) {
             block.setBlockData(this.forceField.wrappedData(block.getBlockData()));
         }
     }
