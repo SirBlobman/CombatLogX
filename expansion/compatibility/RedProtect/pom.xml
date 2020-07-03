@@ -52,7 +52,7 @@
         <dependency>
             <groupId>br.net.fabiozumbi12.RedProtect</groupId>
             <artifactId>RedProtect-Core</artifactId>
-            <version>7.6.2</version>
+            <version>7.7.2</version>
             <scope>provided</scope>
         </dependency>
 
@@ -60,7 +60,7 @@
         <dependency>
             <groupId>br.net.fabiozumbi12.RedProtect</groupId>
             <artifactId>RedProtect-Spigot</artifactId>
-            <version>7.6.2</version>
+            <version>7.7.2</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
