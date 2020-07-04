@@ -35,7 +35,6 @@
         <module>dummy-api/FabledSkyBlock</module>
         <module>dummy-api/MythicMobs</module>
         <module>dummy-api/Residence</module>
-        <module>dummy-api/Towny</module>
         
         <!-- CombatLogX API-->
         <module>api</module>
