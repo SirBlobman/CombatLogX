@@ -21,6 +21,12 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+
+        <!-- JitPack Repository -->
+        <repository>
+            <id>jitpack</id>
+            <url>https://jitpack.io/</url>
+        </repository>
     </repositories>
     
     <dependencies>
@@ -42,9 +48,9 @@
 
         <!-- Towny -->
         <dependency>
-            <groupId>com.SirBlobman.combatlogx.dummy-api</groupId>
+            <groupId>com.github.TownyAdvanced</groupId>
             <artifactId>Towny</artifactId>
-            <version>0.95.2.0</version>
+            <version>0.96.2.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
