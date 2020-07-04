@@ -42,6 +42,6 @@ public final class HookTowny {
         if(townyWorld.isForcePVP()) return false;
         
         Town town = getTown(location);
-        return (town != null && town.isPVP());
+        return (town != null && !town.isPVP());
     }
 }
