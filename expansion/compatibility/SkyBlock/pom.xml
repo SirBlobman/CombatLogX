@@ -21,11 +21,11 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
-        
-        <!-- CodeMC Public -->
+
+        <!-- CodeMC Public Repository -->
         <repository>
-            <id>codemc-public</id>
-            <url>https://repo.codemc.org/repository/maven-public/</url>
+            <id>codemc-repo</id>
+            <url>https://repo.codemc.io/repository/maven-public/</url>
         </repository>
 
         <!-- JitPack Repository -->

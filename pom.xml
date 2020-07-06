@@ -94,16 +94,9 @@
         </snapshotRepository>
     </distributionManagement>
 
-    <repositories>
-        <!-- CodeMC Public -->
-        <repository>
-            <id>codemc-public</id>
-            <url>https://repo.codemc.io/repository/maven-public/</url>
-        </repository>
-    </repositories>
-
     <build>
         <defaultGoal>clean install</defaultGoal>
+        
         <resources>
             <resource>
                 <directory>src/main/resources</directory>

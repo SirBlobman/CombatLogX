@@ -22,6 +22,12 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
 
+        <!-- CodeMC Public Repository -->
+        <repository>
+            <id>codemc-repo</id>
+            <url>https://repo.codemc.io/repository/maven-public/</url>
+        </repository>
+
         <!-- PlaceholderAPI Repository -->
         <repository>
             <id>placeholderapi</id>
