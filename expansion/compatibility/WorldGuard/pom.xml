@@ -23,7 +23,6 @@
         </repository>
     </repositories>
     
-    
     <dependencies>
         <!-- Spigot API -->
         <dependency>
@@ -41,19 +40,23 @@
             <scope>provided</scope>
         </dependency>
         
-        <!-- WorldGuard Versions Compatibility -->
+        <!-- WorldGuard 6.1 Compatibility -->
         <dependency>
             <groupId>com.SirBlobman.combatlogx.expansions</groupId>
             <artifactId>WorldGuardCompatibility-6.1</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        
+        <!-- WorldGuard 6.2 Compatibility -->
         <dependency>
             <groupId>com.SirBlobman.combatlogx.expansions</groupId>
             <artifactId>WorldGuardCompatibility-6.2</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        
+        <!-- WorldGuard 7.0 Compatibility -->
         <dependency>
             <groupId>com.SirBlobman.combatlogx.expansions</groupId>
             <artifactId>WorldGuardCompatibility-7.0</artifactId>
@@ -68,7 +71,18 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.1</version>
+                <version>3.2.2</version>
+                
+                <configuration>
+                    <filters>
+                        <filter>
+                            <artifact>*</artifact>
+                            <excludes>
+                                <exclude>META-INF/*</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
+                </configuration>
                 
                 <executions>
                     <execution>

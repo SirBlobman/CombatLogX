@@ -59,24 +59,13 @@
             <artifactId>handler-Factions</artifactId>
             <version>1.13-SNAPSHOT</version>
             <scope>compile</scope>
-
-            <exclusions>
-                <exclusion>
-                    <groupId>com.massivecraft.massivecore</groupId>
-                    <artifactId>MassiveCore</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.SirBlobman.api.dummy</groupId>
-                    <artifactId>Factions</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <!-- ProtocolLib API -->
         <dependency>
             <groupId>com.comphenix.protocol</groupId>
-            <artifactId>ProtocolLib-API</artifactId>
-            <version>4.4.0</version>
+            <artifactId>ProtocolLib</artifactId>
+            <version>4.5.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -87,7 +76,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.1</version>
+                <version>3.2.2</version>
                 
                 <configuration>
                     <relocations>
@@ -96,6 +85,15 @@
                             <shadedPattern>com.SirBlobman.combatlogx.api.shaded</shadedPattern>
                         </relocation>
                     </relocations>
+
+                    <filters>
+                        <filter>
+                            <artifact>*</artifact>
+                            <excludes>
+                                <exclude>META-INF/*</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
                 </configuration>
                 
                 <executions>
