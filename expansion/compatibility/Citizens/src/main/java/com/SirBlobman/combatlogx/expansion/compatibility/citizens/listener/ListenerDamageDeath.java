@@ -85,7 +85,7 @@ public class ListenerDamageDeath implements Listener {
         NPC npc = e.getNPC();
         NPCManager npcManager = this.expansion.getNPCManager();
         if(npcManager.isInvalid(npc)) return;
-    
+        
         TraitCombatLogX traitCombatLogX = npc.getTrait(TraitCombatLogX.class);
         OfflinePlayer owner = traitCombatLogX.getOwner();
         if(owner == null) return;
@@ -97,17 +97,17 @@ public class ListenerDamageDeath implements Listener {
         YamlConfiguration data = npcManager.getData(owner);
         data.set("citizens-compatibility.punish-next-join", true);
         npcManager.setData(owner, data);
-    
+        
         JavaPlugin plugin = this.expansion.getPlugin().getPlugin();
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        scheduler.runTaskLater(plugin, npc::destroy, 1L);
+        scheduler.runTaskLater(plugin, (Runnable) npc::destroy, 1L);
     }
     
     private void checkForDeathMessage(NPCDeathEvent e) {
         NPC npc = e.getNPC();
         NPCManager npcManager = this.expansion.getNPCManager();
         if(npcManager.isInvalid(npc)) return;
-    
+        
         TraitCombatLogX traitCombatLogX = npc.getTrait(TraitCombatLogX.class);
         OfflinePlayer owner = traitCombatLogX.getOwner();
         if(owner == null) return;
@@ -123,7 +123,7 @@ public class ListenerDamageDeath implements Listener {
             PlayerDeathEvent playerDeathEvent = (PlayerDeathEvent) object_event;
             String deathMessage = playerDeathEvent.getDeathMessage();
             if(deathMessage == null) return;
-    
+            
             YamlConfiguration data = npcManager.getData(owner);
             data.set("citizens-compatibility.last-death-message", deathMessage);
             npcManager.setData(owner, data);

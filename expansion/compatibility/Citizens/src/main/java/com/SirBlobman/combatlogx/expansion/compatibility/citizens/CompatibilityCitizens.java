@@ -83,7 +83,7 @@ public class CompatibilityCitizens extends Expansion {
         
         Plugin plugin = manager.getPlugin("Citizens");
         if(plugin == null) return true;
-    
+        
         PluginDescriptionFile description = plugin.getDescription();
         String fullName = description.getFullName();
         
@@ -95,13 +95,13 @@ public class CompatibilityCitizens extends Expansion {
     private boolean checkForSentinel() {
         PluginManager manager = Bukkit.getPluginManager();
         if(!manager.isPluginEnabled("Sentinel")) return false;
-    
+        
         Plugin plugin = manager.getPlugin("Sentinel");
         if(plugin == null) return false;
-    
+        
         PluginDescriptionFile description = plugin.getDescription();
         String fullName = description.getFullName();
-    
+        
         Logger logger = getLogger();
         logger.info("Successfully hooked into " + fullName);
         return true;

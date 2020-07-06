@@ -28,10 +28,10 @@ public class ListenerResurrect implements Listener {
         
         LivingEntity entity = e.getEntity();
         if(!entity.hasMetadata("NPC")) return;
-    
+        
         NPCRegistry npcRegistry = CitizensAPI.getNPCRegistry();
         NPC npc = npcRegistry.getNPC(entity);
-    
+        
         NPCManager npcManager = this.expansion.getNPCManager();
         if(npcManager.isInvalid(npc)) return;
         

@@ -48,7 +48,7 @@ public class ListenerLogin implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
         player.setCanPickupItems(false);
-    
+        
         NPCManager npcManager = this.expansion.getNPCManager();
         NPC npc = npcManager.getNPC(player);
         if(npc != null) npc.despawn(DespawnReason.PLUGIN);
@@ -57,7 +57,7 @@ public class ListenerLogin implements Listener {
             punish(player);
             player.setCanPickupItems(true);
         };
-    
+        
         JavaPlugin plugin = this.expansion.getPlugin().getPlugin();
         BukkitScheduler scheduler = Bukkit.getScheduler();
         scheduler.runTaskLater(plugin, task, 1L);
@@ -65,7 +65,7 @@ public class ListenerLogin implements Listener {
     
     private void punish(Player player) {
         if(player == null) return;
-    
+        
         NPCManager npcManager = this.expansion.getNPCManager();
         YamlConfiguration data = npcManager.getData(player);
         if(!data.getBoolean("citizens-compatibility.punish-next-join")) return;

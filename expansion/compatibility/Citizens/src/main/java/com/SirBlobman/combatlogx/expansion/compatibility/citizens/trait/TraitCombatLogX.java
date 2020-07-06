@@ -49,7 +49,7 @@ public class TraitCombatLogX extends Trait {
             NPC npc = getNPC();
             npc.despawn(DespawnReason.PLUGIN);
         };
-    
+        
         JavaPlugin javaPlugin = plugin.getPlugin();
         BukkitScheduler scheduler = Bukkit.getScheduler();
         scheduler.runTaskLater(javaPlugin, task, 1L);

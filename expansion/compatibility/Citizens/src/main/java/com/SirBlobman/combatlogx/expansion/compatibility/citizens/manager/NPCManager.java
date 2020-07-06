@@ -55,7 +55,7 @@ public class NPCManager {
             
             this.traitInfo = constructor.newInstance(TraitCombatLogX.class);
             this.traitInfo.withSupplier(() -> new TraitCombatLogX(this.expansion));
-    
+            
             TraitFactory traitFactory = CitizensAPI.getTraitFactory();
             traitFactory.registerTrait(traitInfo);
         } catch(ReflectiveOperationException ex) {
@@ -87,7 +87,7 @@ public class NPCManager {
     
     public YamlConfiguration getData(OfflinePlayer player) {
         if(player == null) return new YamlConfiguration();
-    
+        
         ICombatLogX plugin = this.expansion.getPlugin();
         return plugin.getDataFile(player);
     }
@@ -110,7 +110,7 @@ public class NPCManager {
             if(entity instanceof LivingEntity) {
                 LivingEntity livingEntity = (LivingEntity) entity;
                 double health = livingEntity.getHealth();
-    
+                
                 config.set("citizens-compatibility.last-health", health);
                 setData(owner, config);
                 return;
@@ -132,7 +132,7 @@ public class NPCManager {
         MultiVersionHandler<?> multiVersionHandler = plugin.getMultiVersionHandler();
         AbstractNMS nmsHandler = multiVersionHandler.getInterface();
         EntityHandler entityHandler = nmsHandler.getEntityHandler();
-    
+        
         double maxHealth = entityHandler.getMaxHealth(player);
         double value = Math.min(health, maxHealth);
         player.setHealth(value);
@@ -146,7 +146,7 @@ public class NPCManager {
         if(isInvalid(npc)) return;
         TraitCombatLogX traitCombatLogX = npc.getTrait(TraitCombatLogX.class);
         OfflinePlayer owner = traitCombatLogX.getOwner();
-    
+        
         YamlConfiguration config = getData(owner);
         if(npc.isSpawned()) {
             Entity entity = npc.getEntity();
@@ -163,7 +163,7 @@ public class NPCManager {
     public void loadLocation(Player player) {
         if(player == null) return;
         YamlConfiguration config = getData(player);
-    
+        
         Object object = config.get("citizens-compatibility.last-location", null);
         if(!(object instanceof Location)) return;
         
@@ -174,7 +174,7 @@ public class NPCManager {
     public void saveInventory(Player player) {
         if(player == null) return;
         YamlConfiguration data = getData(player);
-    
+        
         PlayerInventory playerInventory = player.getInventory();
         ItemStack[] contents = playerInventory.getContents().clone();
         int contentsLength = contents.length;
@@ -201,13 +201,13 @@ public class NPCManager {
     public void loadInventory(Player player) {
         if(player == null) return;
         YamlConfiguration data = getData(player);
-    
+        
         FileConfiguration config = this.expansion.getConfig("citizens-compatibility.yml");
         if(!config.getBoolean("npc-options.store-inventory", true)) return;
         
         PlayerInventory playerInventory = player.getInventory();
         playerInventory.clear();
-    
+        
         ConfigurationSection inventorySection = data.getConfigurationSection("citizens-compatibility.last-inventory");
         if(inventorySection != null) {
             Set<String> slotKeys = inventorySection.getKeys(false);
@@ -264,7 +264,7 @@ public class NPCManager {
         
         if(npc.hasTrait(Equipment.class)) npc.removeTrait(Equipment.class);
         if(npc.hasTrait(Inventory.class)) npc.removeTrait(Inventory.class);
-    
+        
         ConfigurationSection inventorySection = data.getConfigurationSection("citizens-compatibility.last-inventory");
         if(inventorySection != null) {
             Set<String> slotKeys = inventorySection.getKeys(false);
@@ -276,7 +276,7 @@ public class NPCManager {
                 } catch(NumberFormatException ignored) {}
             }
         }
-    
+        
         int minorVersion = VersionUtil.getMinorVersion();
         if(minorVersion < 9) {
             ConfigurationSection armorSection = data.getConfigurationSection("citizens-compatibility.last-armor");
@@ -299,10 +299,10 @@ public class NPCManager {
     
     public void loadTagStatus(Player player) {
         if(player == null) return;
-    
+        
         FileConfiguration config = this.expansion.getConfig("citizens-compatibility.yml");
         if(!config.getBoolean("retag-player-on-login", true)) return;
-    
+        
         ICombatLogX plugin = this.expansion.getPlugin();
         ICombatManager combatManager = plugin.getCombatManager();
         combatManager.tag(player, null, TagType.UNKNOWN, TagReason.UNKNOWN);
@@ -335,7 +335,7 @@ public class NPCManager {
             return;
         }
         setOptions(npc, player);
-    
+        
         SentinelManager sentinelManager = this.expansion.getSentinelManager();
         FileConfiguration config = this.expansion.getConfig("citizens-compatibility.yml");
         if(sentinelManager != null && config.getBoolean("sentinel-options.enable-sentinel", true)) {
@@ -385,7 +385,7 @@ public class NPCManager {
     
     private void setOptions(NPC npc, Player player) {
         if(npc == null || player == null) return;
-    
+        
         FileConfiguration config = this.expansion.getConfig("citizens-compatibility.yml");
         if(config.getBoolean("npc-options.store-inventory", true)) {
             saveInventory(player);
@@ -427,7 +427,7 @@ public class NPCManager {
         Entity entity = npc.getEntity();
         if(!(entity instanceof LivingEntity)) return;
         LivingEntity livingEntity = (LivingEntity) entity;
-    
+        
         List<Entity> nearbyEntityList = livingEntity.getNearbyEntities(16.0D, 16.0D, 16.0D);
         for(Entity nearby : nearbyEntityList) {
             if(nearby instanceof Player) continue;

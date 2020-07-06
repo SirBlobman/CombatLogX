@@ -24,7 +24,7 @@ public class SentinelManager {
     
     protected void setOptions(NPC npc, Player player, LivingEntity enemy) {
         if(npc == null || player == null) return;
-    
+        
         SentinelTrait sentinelTrait = npc.getTrait(SentinelTrait.class);
         sentinelTrait.setInvincible(false);
         sentinelTrait.respawnTime = -1L;
@@ -41,7 +41,7 @@ public class SentinelManager {
         
         UUID uuid = enemy.getUniqueId();
         String uuidString = uuid.toString();
-    
+        
         SentinelTargetLabel label = new SentinelTargetLabel("uuid:" + uuidString);
         label.addToList(trait.allTargets);
     }

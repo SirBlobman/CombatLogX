@@ -20,7 +20,7 @@ public class ListenerCombat implements Listener {
     public void beforeTag(PlayerPreTagEvent e) {
         FileConfiguration config = this.expansion.getConfig("citizens-compatibility.yml");
         if(config.getBoolean("npc-tagging", false)) return;
-    
+        
         LivingEntity enemy = e.getEnemy();
         if(enemy == null || !enemy.hasMetadata("NPC")) return;
         
