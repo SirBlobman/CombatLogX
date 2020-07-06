@@ -20,40 +20,40 @@ public class CompatibilityPlaceholderAPI extends Expansion {
     public void onEnable() {
         ICombatLogX plugin = getPlugin();
         ExpansionManager expansionManager = plugin.getExpansionManager();
-    
+        
         PluginManager manager = Bukkit.getPluginManager();
         Logger logger = getLogger();
-
+        
         if(!manager.isPluginEnabled("PlaceholderAPI")) {
             logger.info("The PlaceholderAPI plugin could not be found. This expansion will be automatically disabled.");
             expansionManager.disableExpansion(this);
             return;
         }
-
+        
         Plugin pluginPlaceholderAPI = manager.getPlugin("PlaceholderAPI");
         if(pluginPlaceholderAPI == null) {
             logger.info("The PlaceholderAPI plugin could not be found. This expansion will be automatically disabled.");
             expansionManager.disableExpansion(this);
             return;
         }
-
+        
         String versionPlaceholderAPI = pluginPlaceholderAPI.getDescription().getVersion();
         logger.info("Successfully hooked into PlaceholderAPI v" + versionPlaceholderAPI);
 
         HookPlaceholderAPI hookPlaceholderAPI = new HookPlaceholderAPI(this);
         hookPlaceholderAPI.register();
     }
-
+    
     @Override
     public void onLoad() {
         // Do Nothing
     }
-
+    
     @Override
     public void onDisable() {
         // Do Nothing
     }
-
+    
     @Override
     public void reloadConfig() {
         // Do Nothing
