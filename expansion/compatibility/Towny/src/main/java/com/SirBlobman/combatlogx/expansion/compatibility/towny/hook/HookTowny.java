@@ -37,9 +37,11 @@ public final class HookTowny {
     }
 
     public static boolean isSafeZone(Location location) {
+        TownyAPI api = getAPI();
+        if(api.isWarTime()) return false;
+        
         TownyWorld townyWorld = getTownWorld(location);
-        if(townyWorld == null) return false;
-        if(townyWorld.isForcePVP()) return false;
+        if(townyWorld == null || townyWorld.isForcePVP()) return false;
         
         Town town = getTown(location);
         return (town != null && !town.isPVP());
