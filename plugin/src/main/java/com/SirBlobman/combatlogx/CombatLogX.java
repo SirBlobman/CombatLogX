@@ -282,7 +282,7 @@ public class CombatLogX extends SirBlobmanPlugin<CombatLogX> implements ICombatL
         manager.registerEvents(new ListenerCombatChecks(this), this);
         manager.registerEvents(new ListenerPunishChecks(this), this);
         manager.registerEvents(new ListenerUntagger(this), this);
-        manager.registerEvents(customDeathListener, this);
+        manager.registerEvents(this.customDeathListener, this);
     }
 
     private void registerCommands() {
@@ -291,9 +291,8 @@ public class CombatLogX extends SirBlobmanPlugin<CombatLogX> implements ICombatL
     }
 
     private void registerTasks() {
-        BukkitScheduler scheduler = Bukkit.getScheduler();
-
         CombatManager combatManager = getCombatManager();
+        BukkitScheduler scheduler = Bukkit.getScheduler();
         scheduler.runTaskTimer(this, combatManager, 0L, 10L);
     }
 }
