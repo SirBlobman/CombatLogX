@@ -51,21 +51,6 @@
             <id>jitpack</id>
             <url>https://jitpack.io/</url>
         </repository>
-        
-        <!-- Songoda Private -->
-        <!-- Disable downloading from this repository -->
-        <!--
-        <repository>
-            <id>private</id>
-            <url>https://repo.songoda.com/artifactory/private/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        -->
     </repositories>
 
     <dependencies>
@@ -109,12 +94,19 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- FabledSkyBlock -->
+        <!-- Fabled SkyBlock -->
         <dependency>
             <groupId>com.songoda</groupId>
             <artifactId>skyblock</artifactId>
             <version>2.2.13</version>
             <scope>provided</scope>
+
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- SuperiorSkyblock2 API -->
