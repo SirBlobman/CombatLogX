@@ -16,31 +16,28 @@ public class CompatibilitySkyBlock extends Expansion {
     public CompatibilitySkyBlock(ICombatLogX plugin) {
         super(plugin);
     }
-
+    
     @Override
     public void onLoad() {
         // Do Nothing
     }
-
+    
     @Override
     public void onDisable() {
         // Do Nothing
     }
-
+    
     @Override
     public void reloadConfig() {
         // Do Nothing
     }
-
+    
     @Override
     public void onEnable() {
         ICombatLogX plugin = getPlugin();
         ExpansionManager expansionManager = plugin.getExpansionManager();
-    
-        PluginManager manager = Bukkit.getPluginManager();
         Logger logger = getLogger();
-    
-    
+        
         SkyBlockHook hook = SkyBlockHook.getSkyBlockHook(this);
         if(hook == null) {
             logger.info("A SkyBlock plugin could not be detected. If you believe this is an error please contact SirBlobman.");
@@ -48,7 +45,7 @@ public class CompatibilitySkyBlock extends Expansion {
             expansionManager.disableExpansion(this);
             return;
         }
-
+        
         Listener listener = new ListenerSkyBlock(hook);
         expansionManager.registerListener(this, listener);
     }

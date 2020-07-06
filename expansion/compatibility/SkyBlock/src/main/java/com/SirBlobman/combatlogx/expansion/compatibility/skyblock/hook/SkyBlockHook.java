@@ -16,21 +16,21 @@ public abstract class SkyBlockHook {
     public abstract boolean doesTeamMatch(Player player1, Player player2);
     public abstract Object getIslandFor(Player player);
     public abstract Object getIslandAt(Location location);
-
+    
     public Object getIslandAt(Entity entity) {
         if(entity == null) return null;
-
+        
         Location location = entity.getLocation();
         return getIslandAt(location);
     }
-
+    
     private static SkyBlockHook SKYBLOCK_HOOK = null;
     public static SkyBlockHook getSkyBlockHook(CompatibilitySkyBlock expansion) {
         if(SKYBLOCK_HOOK != null) return SKYBLOCK_HOOK;
-
+        
         PluginManager manager = Bukkit.getPluginManager();
         Logger logger = expansion.getLogger();
-
+        
         if(manager.isPluginEnabled("BentoBox")) {
             Plugin plugin = manager.getPlugin("BentoBox");
             if(plugin != null) {
@@ -44,13 +44,13 @@ public abstract class SkyBlockHook {
                 }
             }
         }
-    
+        
         if(manager.isPluginEnabled("ASkyBlock")) {
             printHookInfo(expansion, "ASkyBlock");
             SKYBLOCK_HOOK = new HookASkyBlock();
             return getSkyBlockHook(expansion);
         }
-
+        
         if(manager.isPluginEnabled("FabledSkyBlock")) {
             printHookInfo(expansion, "FabledSkyBlock");
             SKYBLOCK_HOOK = new HookFabledSkyBlock();
@@ -62,13 +62,13 @@ public abstract class SkyBlockHook {
             SKYBLOCK_HOOK = new HookSuperiorSkyBlock2();
             return getSkyBlockHook(expansion);
         }
-
+        
         if(manager.isPluginEnabled("uSkyBlock")) {
             printHookInfo(expansion, "uSkyBlock");
             SKYBLOCK_HOOK = new HookUltimateSkyBlock();
             return getSkyBlockHook(expansion);
         }
-
+        
         return null;
     }
     
@@ -78,7 +78,7 @@ public abstract class SkyBlockHook {
         
         Plugin plugin = manager.getPlugin(pluginName);
         if(plugin == null) return;
-    
+        
         PluginDescriptionFile description = plugin.getDescription();
         String fullName = description.getFullName();
         

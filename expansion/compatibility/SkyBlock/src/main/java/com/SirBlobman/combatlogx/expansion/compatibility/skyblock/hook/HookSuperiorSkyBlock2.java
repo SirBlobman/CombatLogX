@@ -22,19 +22,19 @@ public class HookSuperiorSkyBlock2 extends SkyBlockHook {
         
         Island island = getIslandFor(player1);
         if(island == null) return false;
-
+        
         List<SuperiorPlayer> memberList = island.getIslandMembers(true);
         SuperiorPlayer superiorPlayer = SuperiorSkyblockAPI.getPlayer(player2);
         return memberList.contains(superiorPlayer);
     }
-
+    
     @Override
     public Island getIslandFor(Player player) {
         if(player == null) return null;
         SuperiorPlayer superiorPlayer = SuperiorSkyblockAPI.getPlayer(player);
         return superiorPlayer.getIsland();
     }
-
+    
     @Override
     public Island getIslandAt(Location location) {
         if(location == null) return null;

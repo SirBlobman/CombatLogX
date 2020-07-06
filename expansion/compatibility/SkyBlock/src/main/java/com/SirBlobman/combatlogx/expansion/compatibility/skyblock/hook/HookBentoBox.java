@@ -17,18 +17,18 @@ public final class HookBentoBox {
             logger.info("Could not find BSkyBlock in BentoBox.");
             return false;
         }
-
+        
         AddonDescription description = bSkyBlock.getDescription();
         String version = description.getVersion();
-
+        
         logger.info("Successfully hooked into BSkyBlock v" + version);
         return true;
     }
-
+    
     public static Addon getBSkyBlock() {
         BentoBox bentoBox = JavaPlugin.getPlugin(BentoBox.class);
         AddonsManager manager = bentoBox.getAddonsManager();
-
+        
         Optional<Addon> addon = manager.getAddonByName("BentoBox");
         return addon.orElse(null);
     }

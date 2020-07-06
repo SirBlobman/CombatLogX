@@ -27,12 +27,6 @@
             <id>codemc-repo</id>
             <url>https://repo.codemc.io/repository/maven-public/</url>
         </repository>
-
-        <!-- JitPack Repository -->
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io/</url>
-        </repository>
         
         <!-- Songoda Public -->
         <repository>
@@ -48,12 +42,19 @@
         
         <!-- Ultimate SkyBlock Repository -->
         <repository>
-            <id>ultimate-skyblock</id>
+            <id>uskyblock-repo</id>
             <url>https://www.uskyblock.ovh/maven/uskyblock/</url>
+        </repository>
+
+        <!-- JitPack Repository -->
+        <repository>
+            <id>jitpack</id>
+            <url>https://jitpack.io/</url>
         </repository>
         
         <!-- Songoda Private -->
         <!-- Disable downloading from this repository -->
+        <!--
         <repository>
             <id>private</id>
             <url>https://repo.songoda.com/artifactory/private/</url>
@@ -64,6 +65,7 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+        -->
     </repositories>
 
     <dependencies>
@@ -87,7 +89,7 @@
         <dependency>
             <groupId>world.bentobox</groupId>
             <artifactId>bentobox</artifactId>
-            <version>1.12.0</version>
+            <version>1.13.1</version>
             <scope>provided</scope>
         </dependency>
         
@@ -95,7 +97,7 @@
         <dependency>
             <groupId>world.bentobox</groupId>
             <artifactId>bskyblock</artifactId>
-            <version>1.11.2-SNAPSHOT</version>
+            <version>1.13.1</version>
             <scope>provided</scope>
         </dependency>
         
@@ -110,8 +112,8 @@
         <!-- FabledSkyBlock -->
         <dependency>
             <groupId>com.songoda</groupId>
-            <artifactId>fabledskyblock</artifactId>
-            <version>2.2.1</version>
+            <artifactId>skyblock</artifactId>
+            <version>2.2.13</version>
             <scope>provided</scope>
         </dependency>
 

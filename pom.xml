@@ -32,7 +32,6 @@
     <modules>
         <!-- Dummy APIs -->
         <module>dummy-api/CrackShot</module>
-        <module>dummy-api/FabledSkyBlock</module>
         <module>dummy-api/MythicMobs</module>
         <module>dummy-api/Residence</module>
         
