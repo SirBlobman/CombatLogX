@@ -15,7 +15,6 @@ public final class HookRedProtect {
     public static boolean isSafeZone(Location location) {
         RedProtectAPI api = getAPI();
         Region region = api.getRegion(location);
-
-        return !region.getFlagBool("pvp");
+        return (region != null && !region.getFlagBool("pvp"));
     }
 }
