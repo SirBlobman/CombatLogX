@@ -40,9 +40,18 @@ public class CombatManager implements ICombatManager, Runnable {
 
     @Override
     public boolean tag(Player player, LivingEntity enemy, PlayerPreTagEvent.TagType tagType, PlayerPreTagEvent.TagReason tagReason) {
-        if(player == null || tagType == null || tagReason == null) return false;
-        if(failsPreTagEvent(player, enemy, tagType, tagReason)) return false;
+        if(player == null || tagType == null || tagReason == null) {
+            this.plugin.printDebug("null cannot be tagged!");
+            return false;
+        }
+        
+        if(failsPreTagEvent(player, enemy, tagType, tagReason)) {
+            this.plugin.printDebug("The PlayerPreTagEvent was cancelled.");
+            return false;
+        }
+        
         boolean wasInCombat = isInCombat(player);
+        this.plugin.printDebug(" Was In Combat: " + wasInCombat);
 
         FileConfiguration config = this.plugin.getConfig("config.yml");
         long systemMillis = System.currentTimeMillis();
@@ -68,7 +77,8 @@ public class CombatManager implements ICombatManager, Runnable {
 
         if(enemy == null) uuidToEnemy.putIfAbsent(uuid, null);
         else uuidToEnemy.put(uuid, enemy.getUniqueId());
-
+        
+        this.plugin.printDebug("Successfully put player '" + player.getName() + "' into combat.");
         return true;
     }
 

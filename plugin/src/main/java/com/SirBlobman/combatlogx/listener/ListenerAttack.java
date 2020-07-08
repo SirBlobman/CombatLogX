@@ -51,15 +51,24 @@ public class ListenerAttack implements Listener {
 
     @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
     public void onAttack(EntityDamageByEntityEvent e) {
+        this.plugin.printDebug("Detected EntityDamageByEntityEvent...");
+        
         Entity damager = linkPet(linkProjectile(e.getDamager()));
         Entity damaged = e.getEntity();
     
-        if (!(damaged instanceof Player)) return;
+        if (!(damaged instanceof Player)) {
+            this.plugin.printDebug("  Damaged entity is not a player.");
+            return;
+        }
         Player attacked = (Player) damaged;
     
-        if (!(damager instanceof Player)) return;
+        if (!(damager instanceof Player)) {
+            this.plugin.printDebug("  Attacker entity is not a player.");
+            return;
+        }
         Player attacker = (Player) damager;
-    
+        
+        this.plugin.printDebug("  Both entities are a player, attempting to tag.");
         ICombatManager combatManager = this.plugin.getCombatManager();
         combatManager.tag(attacker, attacked, TagType.PLAYER, TagReason.ATTACKER);
         combatManager.tag(attacked, attacker, TagType.PLAYER, TagReason.ATTACKED);
