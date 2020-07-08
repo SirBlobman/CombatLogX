@@ -24,7 +24,13 @@ public class CompatibilityPreciousStones extends NoEntryExpansion {
     @Override
     public boolean canEnable() {
         PluginManager manager = Bukkit.getPluginManager();
-        return manager.isPluginEnabled("PreciousStones");
+        if(!manager.isPluginEnabled("PreciousStones")) {
+            Logger logger = getLogger();
+            logger.info("Could not find the PreciousStones plugin. This expansion will be automatically disabled.");
+            return false;
+        }
+        
+        return true;
     }
     
     @Override
@@ -43,7 +49,7 @@ public class CompatibilityPreciousStones extends NoEntryExpansion {
         }
         
         String versionPreciousStones = pluginPreciousStones.getDescription().getVersion();
-        logger.info("Successfully hooked into Residence v" + versionPreciousStones);
+        logger.info("Successfully hooked into PreciousStones v" + versionPreciousStones);
         
         saveDefaultConfig("preciousstones-compatibility.yml");
         this.noEntryHandler = new PreciousStonesNoEntryHandler(this);
