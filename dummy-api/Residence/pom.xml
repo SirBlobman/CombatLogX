@@ -11,7 +11,7 @@
     
     <groupId>com.SirBlobman.combatlogx.dummy-api</groupId>
     <artifactId>Residence</artifactId>
-    <version>4.8.8.2</version>
+    <version>4.9.1.1</version>
     
     <name>Dummy API - Residence</name>
     <description>A copy of the Residence API but with all necessary methods replaced UnsupportedOperationExceptions</description>
