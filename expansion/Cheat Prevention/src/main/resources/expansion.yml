@@ -4,4 +4,4 @@ description: "An expansion to prevent players from escaping combat too easily."
 
 main: "com.SirBlobman.combatlogx.expansion.cheat.prevention.CheatPrevention"
 author: "SirBlobman"
-version: "15.0"
+version: "15.1"

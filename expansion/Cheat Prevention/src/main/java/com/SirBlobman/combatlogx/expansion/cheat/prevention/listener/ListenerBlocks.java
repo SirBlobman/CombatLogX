@@ -10,6 +10,8 @@ import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -37,6 +39,10 @@ public class ListenerBlocks implements Listener {
         Player player = e.getPlayer();
         ICombatManager combatManager = this.plugin.getCombatManager();
         if(!combatManager.isInCombat(player)) return;
+        
+        Block block = e.getBlock();
+        Material blockType = block.getType();
+        if(canBreak(blockType)) return;
 
         e.setCancelled(true);
         sendMessageWithCooldown(player, "cheat-prevention.blocks.no-breaking");
@@ -50,6 +56,10 @@ public class ListenerBlocks implements Listener {
         Player player = e.getPlayer();
         ICombatManager combatManager = this.plugin.getCombatManager();
         if(!combatManager.isInCombat(player)) return;
+    
+        Block block = e.getBlock();
+        Material blockType = block.getType();
+        if(canPlace(blockType)) return;
 
         e.setCancelled(true);
         sendMessageWithCooldown(player, "cheat-prevention.blocks.no-placing");
@@ -99,5 +109,23 @@ public class ListenerBlocks implements Listener {
         UUID uuid = player.getUniqueId();
         messageCooldownList.remove(uuid);
         messagePathToCooldownList.put(path, messageCooldownList);
+    }
+    
+    private boolean canBreak(Material blockType) {
+        FileConfiguration config = this.expansion.getConfig("cheat-prevention.yml");
+        List<String> noBreakList = config.getStringList("blocks.prevent-breaking-list");
+        if(noBreakList.contains("*")) return false;
+        
+        String blockTypeName = blockType.name();
+        return !noBreakList.contains(blockTypeName);
+    }
+    
+    private boolean canPlace(Material blockType) {
+        FileConfiguration config = this.expansion.getConfig("cheat-prevention.yml");
+        List<String> noPlaceList = config.getStringList("blocks.prevent-placing-list");
+        if(noPlaceList.contains("*")) return false;
+        
+        String blockTypeName = blockType.name();
+        return !noPlaceList.contains(blockTypeName);
     }
 }

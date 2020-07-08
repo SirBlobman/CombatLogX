@@ -138,12 +138,28 @@ blocks:
   #
   # Default: true
   prevent-breaking: true
+  
+  # This is a list of blocks that should be prevented from breaking
+  # Spigot Material List: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+  # This defaults to prevent all block breaking
+  # Default:
+  #   - "*"
+  prevent-breaking-list:
+    - "*"
 
   # Set this to true to prevent players from placing blocks during combat
   # Set this to false to allow players to break blocks
   #
   # Default: true
   prevent-placing: true
+  
+  # This is a list of blocks that should be prevented from placing
+  # Spigot Material List: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+  # This defaults to prevent all block placing
+  # Default:
+  #   - "*"
+  prevent-placing-list:
+    - "*"
 
   # Set this to true to prevent players from right-clicking blocks during combat
   # Set this t false to allow players to right-click blocks
