@@ -52,7 +52,7 @@ public class ListenerMobCombat implements Listener {
     @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
     public void beforeTag(PlayerPreTagEvent e) {
         LivingEntity enemy = e.getEnemy();
-        if(enemy == null) return;
+        if(enemy == null || enemy instanceof Player) return;
     
         if(checkMobTypeDisabled(enemy)) {
             e.setCancelled(true);
@@ -74,18 +74,16 @@ public class ListenerMobCombat implements Listener {
     }
     
     private boolean checkMobTypeDisabled(LivingEntity enemy) {
-        if(enemy == null) return false;
-        
         FileConfiguration config = this.expansion.getConfig("mob-tagger.yml");
         boolean mobsDisabled = !config.getBoolean("tag-players");
-        if(mobsDisabled && !(enemy instanceof Player)) return true;
+        if(mobsDisabled) return true;
     
         List<String> mobTypeList = config.getStringList("mob-list");
         if(mobTypeList.contains("*")) return false;
     
-        EntityType type = enemy.getType();
-        String mobType = type.name();
-        return !mobTypeList.contains(mobType);
+        EntityType enemyType = enemy.getType();
+        String enemyTypeName = enemyType.name();
+        return !mobTypeList.contains(enemyTypeName);
     }
     
     private boolean checkMobSpawnReasonDisabled(LivingEntity enemy) {
