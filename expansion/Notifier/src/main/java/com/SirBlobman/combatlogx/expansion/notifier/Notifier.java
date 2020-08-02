@@ -3,6 +3,13 @@ package com.SirBlobman.combatlogx.expansion.notifier;
 import java.util.Collection;
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
+
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
 import com.SirBlobman.combatlogx.expansion.notifier.command.CommandNotifier;
@@ -13,13 +20,6 @@ import com.SirBlobman.combatlogx.expansion.notifier.manager.ActionBarManager;
 import com.SirBlobman.combatlogx.expansion.notifier.manager.BossBarManager;
 import com.SirBlobman.combatlogx.expansion.notifier.manager.ScoreBoardManager;
 import com.SirBlobman.combatlogx.utility.PlaceholderReplacer;
-
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class Notifier extends Expansion {
     private final ActionBarManager actionBarManager;
@@ -38,7 +38,6 @@ public class Notifier extends Expansion {
         saveDefaultConfig("bossbar.yml");
         saveDefaultConfig("scoreboard.yml");
         saveDefaultConfig("mvdw.yml");
-        saveDefaultConfig("title-manager.yml");
     }
 
     @Override
@@ -77,7 +76,6 @@ public class Notifier extends Expansion {
         reloadConfig("bossbar.yml");
         reloadConfig("scoreboard.yml");
         reloadConfig("mvdw.yml");
-        reloadConfig("title-manager.yml");
     }
     
     public ActionBarManager getActionBarManager() {
