@@ -183,24 +183,26 @@ public class CombatManager implements ICombatManager, Runnable {
 
     @Override
     public String getSudoCommand(Player player, LivingEntity enemy, String command) {
-        command = command.replace("{player}", player.getName()).replace("{enemy}", getEntityName(enemy));
+        String playerName = player.getName();
+        String enemyName = getEntityName(enemy);
+        String newCommand = command.replace("{player}", playerName).replace("{enemy}", enemyName);
 
         try {
             PluginManager manager = Bukkit.getPluginManager();
             if(manager.isPluginEnabled("PlaceholderAPI")) {
                 Class<?> class_PlaceholderAPI = Class.forName("me.clip.placeholderapi.PlaceholderAPI");
                 Method method_setPlaceholders = class_PlaceholderAPI.getDeclaredMethod("setPlaceholders", OfflinePlayer.class, String.class);
-                command = (String) method_setPlaceholders.invoke(null, player, command);
+                newCommand = (String) method_setPlaceholders.invoke(null, player, command);
             }
 
             if(manager.isPluginEnabled("MVdWPlaceholderAPI")) {
                 Class<?> class_PlaceholderAPI = Class.forName("be.maximvdw.placeholderapi.PlaceholderAPI");
                 Method method_replacePlaceholders = class_PlaceholderAPI.getDeclaredMethod("replacePlaceholders", OfflinePlayer.class, String.class);
-                command = (String) method_replacePlaceholders.invoke(null, player, command);
+                newCommand = (String) method_replacePlaceholders.invoke(null, player, command);
             }
         } catch(ReflectiveOperationException ignored) {}
 
-        return command;
+        return newCommand;
     }
 
     @Override
@@ -303,7 +305,7 @@ public class CombatManager implements ICombatManager, Runnable {
                 continue;
             }
             
-            runAsConsole(punishCommand);
+            runAsConsole(sudoCommand);
         }
     }
     
