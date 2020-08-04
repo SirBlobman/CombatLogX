@@ -4,20 +4,22 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
+import org.bukkit.util.Vector;
+
 import com.SirBlobman.api.utility.Util;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagType;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
-import org.bukkit.scheduler.BukkitScheduler;
-import org.bukkit.util.Vector;
+import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
 
 public abstract class NoEntryExpansion extends Expansion {
     private boolean actuallyEnabled = false;
@@ -66,15 +68,18 @@ public abstract class NoEntryExpansion extends Expansion {
         String messagePath = handler.getNoEntryMessagePath(tagType);
 
         ICombatLogX plugin = getPlugin();
-        String message = plugin.getLanguageMessageColoredWithPrefix(messagePath);
-        plugin.sendMessage(player, message);
+        ILanguageManager languageManager = plugin.getLanguageManager();
+        String message = languageManager.getMessageColoredWithPrefix(messagePath);
+        languageManager.sendMessage(player, message);
 
-        noEntryMessageCooldownList.add(uuid);
-
+        this.noEntryMessageCooldownList.add(uuid);
         long cooldown = handler.getNoEntryMessageCooldown();
         long delay = (cooldown * 20L);
+    
+        JavaPlugin javaPlugin = plugin.getPlugin();
+        Runnable task = () -> this.noEntryMessageCooldownList.remove(uuid);
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        scheduler.runTaskLaterAsynchronously(plugin.getPlugin(), () -> noEntryMessageCooldownList.remove(uuid), delay);
+        scheduler.runTaskLaterAsynchronously(javaPlugin, task, delay);
     }
 
     public final void preventEntry(Cancellable e, Player player, Location fromLoc, Location toLoc) {
@@ -148,7 +153,6 @@ public abstract class NoEntryExpansion extends Expansion {
     private double makeFinite(double original) {
         if(Double.isNaN(original)) return 0.0D;
         if(Double.isInfinite(original)) return (original < 0.0D ? -1.0D : 1.0D);
-
         return original;
     }
 
