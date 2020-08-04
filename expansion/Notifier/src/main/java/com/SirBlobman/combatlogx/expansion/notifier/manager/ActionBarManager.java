@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.shaded.nms.AbstractNMS;
 import com.SirBlobman.combatlogx.api.shaded.nms.MultiVersionHandler;
@@ -11,9 +14,6 @@ import com.SirBlobman.combatlogx.api.shaded.nms.PlayerHandler;
 import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import com.SirBlobman.combatlogx.expansion.notifier.Notifier;
-
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 
 public class ActionBarManager {
     private final Notifier expansion;
@@ -78,10 +78,8 @@ public class ActionBarManager {
         String timerMessageFormat = config.getString("message-timer");
         if(timerMessageFormat == null) return "";
     
-        String barsLeft = getBarsLeft(expansion, player);
-        String barsRight = getBarsRight(expansion, player);
-        
-        String message = timerMessageFormat.replace("{bars_left}", barsLeft).replace("{bars_right}", barsRight);
+        String barsString = getBarsPlaceholder(expansion, player);
+        String message = timerMessageFormat.replace("{bars}", barsString);
         return MessageUtil.color(this.expansion.replacePlaceholders(player, message));
     }
     
@@ -93,38 +91,44 @@ public class ActionBarManager {
         return MessageUtil.color(this.expansion.replacePlaceholders(player, endedMessageFormat));
     }
     
-    private String getBarsLeft(Notifier expansion, Player player) {
-        ICombatLogX plugin = expansion.getPlugin();
-        FileConfiguration pluginConfig = plugin.getConfig("config.yml");
-        int timer = pluginConfig.getInt("combat.timer");
-        
+    private String getBarsPlaceholder(Notifier expansion, Player player) {
+        ICombatLogX plugin = this.expansion.getPlugin();
         ICombatManager manager = plugin.getCombatManager();
-        int timeLeft = manager.getTimerSecondsLeft(player);
-        int right = (timer - timeLeft);
-        int left = (timer - right);
+        double timeLeft = manager.getTimerSecondsLeft(player);
         
         FileConfiguration config = expansion.getConfig("actionbar.yml");
-        String barsLeftColor = config.getString("bars-left-color");
-        StringBuilder builder = new StringBuilder(barsLeftColor == null ? "" : barsLeftColor);
-        for(int i = 0; i < left; i++) builder.append("|");
+        String barsLeftColor = config.getString("bar-options.left-color");
+        String barsRightColor = config.getString("bar-options.right-color");
+        String barsLeftSymbol = config.getString("bar-options.left-symbol");
+        String barsRightSymbol = config.getString("bar-options.right-symbol");
+        int scale = config.getInt("bar-options.scale");
         
-        return MessageUtil.color(builder.toString());
+        double maxTimer = getMaxTimer(player);
+        double progress = (timeLeft / maxTimer);
+        long leftBarsCount = Math.round(scale * progress);
+        long rightBarsCount = (scale - leftBarsCount);
+        
+        StringBuilder builder = new StringBuilder(barsLeftColor);
+        while(leftBarsCount > 0) {
+            leftBarsCount--;
+            builder.append(barsLeftSymbol);
+        }
+        
+        if(rightBarsCount > 0) {
+            builder.append(barsRightColor);
+            while(rightBarsCount > 0) {
+                rightBarsCount--;
+                builder.append(barsRightSymbol);
+            }
+        }
+        
+        String barsString = builder.toString();
+        return MessageUtil.color(barsString);
     }
     
-    private String getBarsRight(Notifier expansion, Player player) {
-        ICombatLogX plugin = expansion.getPlugin();
-        FileConfiguration pluginConfig = plugin.getConfig("config.yml");
-        int timer = pluginConfig.getInt("combat.timer");
-        
-        ICombatManager manager = plugin.getCombatManager();
-        int timeLeft = manager.getTimerSecondsLeft(player);
-        int right = (timer - timeLeft);
-        
-        FileConfiguration config = expansion.getConfig("actionbar.yml");
-        String barsRightColor = config.getString("bars-right-color");
-        StringBuilder builder = new StringBuilder(barsRightColor == null ? "" : barsRightColor);
-        for(int i = 0; i < right; i++) builder.append("|");
-    
-        return MessageUtil.color(builder.toString());
+    private int getMaxTimer(Player player) {
+        ICombatLogX plugin = this.expansion.getPlugin();
+        FileConfiguration config = plugin.getConfig("config.yml");
+        return config.getInt("combat.timer", 15);
     }
 }

@@ -6,9 +6,26 @@
 enabled: true
 
 # This is the message format for the action bar
-message-timer: "&6&lCombat &7\u00BB &f{bars_left}{bars_right} &f{time_left} seconds."
+message-timer: "&6&lCombat &7\u00BB &f{bars} &f{time_left} seconds."
 message-ended: "&6&lCombat &7\u00BB &fYou are no longer in combat."
 
-# These are the color codes for the {bars_left} and {bars_right} placeholders
-bars-left-color: "&a"
-bars-right-color: "&c"
+# These are the options for the {bars_left} and {bars_right} placeholders
+bar-options:
+  # Scale is the amount of symbols for the entire bar
+  scale: 15
+  
+  # Left Color is the color code for the {bars_left} placeholder
+  left-color: "&a"
+  
+  # Left Symbol is the symbol used for the {bars_left} placeholder
+  # Unicode is supported, but must be converted.
+  # Example: "/u00A7"
+  left-symbol: "|"
+  
+  # Right Color is the color code for the {bars_left} placeholder
+  right-color: "&c"
+  
+  # Right Symbol is the symbol used for the {bars_left} placeholder
+  # Unicode is supported, but must be converted.
+  # Example: "/u00A7"
+  right-symbol: "|"
