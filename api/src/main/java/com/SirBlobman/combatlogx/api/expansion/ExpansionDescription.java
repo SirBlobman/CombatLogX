@@ -3,8 +3,7 @@ package com.SirBlobman.combatlogx.api.expansion;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import com.SirBlobman.combatlogx.api.utility.Validate;
+import java.util.Objects;
 
 public class ExpansionDescription {
     private final String name, displayName, description, mainClass, version;
@@ -55,9 +54,9 @@ public class ExpansionDescription {
         private List<String> authorList;
         
         public Builder(String mainClassName, String unlocalizedName, String version) {
-            this.mainClassName = Validate.notNull(mainClassName, "mainClassName must not be null!");
-            this.unlocalizedName = Validate.notNull(unlocalizedName, "unlocalizedName must not be null!");
-            this.version = Validate.notNull(version, "version must not be null!");
+            this.mainClassName = Objects.requireNonNull(mainClassName, "mainClassName must not be null!");
+            this.unlocalizedName = Objects.requireNonNull(unlocalizedName, "unlocalizedName must not be null!");
+            this.version = Objects.requireNonNull(version, "version must not be null!");
         }
         
         public Builder setDisplayName(String displayName) {
