@@ -8,15 +8,6 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.event.*;
-import com.SirBlobman.combatlogx.api.shaded.nms.AbstractNMS;
-import com.SirBlobman.combatlogx.api.shaded.nms.EntityHandler;
-import com.SirBlobman.combatlogx.api.shaded.nms.MultiVersionHandler;
-import com.SirBlobman.combatlogx.api.shaded.nms.VersionUtil;
-import com.SirBlobman.combatlogx.api.shaded.utility.Util;
-import com.SirBlobman.combatlogx.api.utility.ICombatManager;
-
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
@@ -28,6 +19,15 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
+
+import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.event.*;
+import com.SirBlobman.combatlogx.api.shaded.nms.AbstractNMS;
+import com.SirBlobman.combatlogx.api.shaded.nms.EntityHandler;
+import com.SirBlobman.combatlogx.api.shaded.nms.MultiVersionHandler;
+import com.SirBlobman.combatlogx.api.shaded.nms.VersionUtil;
+import com.SirBlobman.combatlogx.api.shaded.utility.Util;
+import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 
 public class CombatManager implements ICombatManager, Runnable {
     private final ICombatLogX plugin;
@@ -154,8 +154,9 @@ public class CombatManager implements ICombatManager, Runnable {
     public int getTimerSecondsLeft(Player player) {
         if(!isInCombat(player)) return -1;
 
-        long millisLeft = getTimerMillisLeft(player);
-        return (int) (millisLeft / 1000);
+        double millisLeft = getTimerMillisLeft(player);
+        double secondsLeft = (millisLeft / 1_000.0D);
+        return (int) Math.ceil(secondsLeft);
     }
 
     @Override
