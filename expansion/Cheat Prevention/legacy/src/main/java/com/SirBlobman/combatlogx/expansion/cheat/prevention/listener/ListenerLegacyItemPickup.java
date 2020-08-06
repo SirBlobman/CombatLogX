@@ -3,11 +3,6 @@ package com.SirBlobman.combatlogx.expansion.cheat.prevention.listener;
 import java.util.List;
 import java.util.UUID;
 
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.shaded.utility.Util;
-import com.SirBlobman.combatlogx.api.utility.ICombatManager;
-
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -15,7 +10,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
+
+import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.expansion.Expansion;
+import com.SirBlobman.combatlogx.api.shaded.utility.Util;
+import com.SirBlobman.combatlogx.api.utility.ICombatManager;
+import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
 
 public class ListenerLegacyItemPickup implements Listener {
     private final Expansion expansion;
@@ -25,7 +27,7 @@ public class ListenerLegacyItemPickup implements Listener {
         this.plugin = this.expansion.getPlugin();
     }
 
-    @EventHandler(priority= EventPriority.HIGH, ignoreCancelled=true)
+    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
     public void onPickupItem(PlayerPickupItemEvent e) {
         FileConfiguration config = this.expansion.getConfig("cheat-prevention.yml");
         if(!config.getBoolean("items.prevent-item-pickup")) return;
@@ -44,16 +46,19 @@ public class ListenerLegacyItemPickup implements Listener {
 
         UUID uuid = player.getUniqueId();
         if(messageCooldownList.contains(uuid)) return;
-
-        String message = this.plugin.getLanguageMessageColoredWithPrefix("cheat-prevention.items.no-pickup");
-        this.plugin.sendMessage(player, message);
         messageCooldownList.add(uuid);
 
-        BukkitScheduler scheduler = Bukkit.getScheduler();
-        Runnable task = () -> messageCooldownList.remove(uuid);
+        ILanguageManager languageManager = this.plugin.getLanguageManager();
+        String message = languageManager.getMessageColoredWithPrefix("cheat-prevention.items.no-pickup");
+        languageManager.sendMessage(player, message);
 
+        JavaPlugin plugin = this.plugin.getPlugin();
         FileConfiguration config = this.expansion.getConfig("cheat-prevention.yml");
-        long messageCooldown = 20L * config.getLong("message-cooldown");
-        scheduler.runTaskLater(this.plugin.getPlugin(), task, messageCooldown);
+        long messageCooldown = config.getLong("message-cooldown");
+        long messageDelay = (messageCooldown * 20L);
+
+        Runnable task = () -> messageCooldownList.remove(uuid);
+        BukkitScheduler scheduler = Bukkit.getScheduler();
+        scheduler.runTaskLater(plugin, task, messageDelay);
     }
 }

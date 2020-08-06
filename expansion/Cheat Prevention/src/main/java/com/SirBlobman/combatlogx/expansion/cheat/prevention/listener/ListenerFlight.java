@@ -1,76 +1,73 @@
 package com.SirBlobman.combatlogx.expansion.cheat.prevention.listener;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.event.PlayerTagEvent;
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.shaded.utility.Util;
-import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 
-public class ListenerFlight implements Listener {
-    private final Expansion expansion;
-    private final ICombatLogX plugin;
-    private final List<UUID> preventFallDamage = Util.newList();
-    public ListenerFlight(Expansion expansion) {
-        this.expansion = expansion;
-        this.plugin = this.expansion.getPlugin();
+import com.SirBlobman.combatlogx.api.event.PlayerTagEvent;
+import com.SirBlobman.combatlogx.expansion.cheat.prevention.CheatPrevention;
+
+public class ListenerFlight extends CheatPreventionListener {
+    private final List<UUID> preventFallDamage;
+    public ListenerFlight(CheatPrevention expansion) {
+        super(expansion);
+        this.preventFallDamage = new ArrayList<>();
+    }
+
+    @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
+    public void onTag(PlayerTagEvent e) {
+        Player player = e.getPlayer();
+        if(!player.isFlying()) return;
+
+        FileConfiguration config = getConfig();
+        if(!config.getBoolean("flight.prevent-flying")) return;
+
+        if(config.getBoolean("flight.force-disable-flight")) player.setAllowFlight(false);
+        player.setFlying(false);
+
+        if(config.getBoolean("flight.prevent-fall-damage")) {
+            UUID uuid = player.getUniqueId();
+            this.preventFallDamage.add(uuid);
+        }
+
+        String message = getMessage("cheat-prevention.flight.force-disabled");
+        sendMessage(player, message);
     }
 
     @EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
     public void onToggleFlight(PlayerToggleFlightEvent e) {
         if(!e.isFlying()) return;
 
-        FileConfiguration config = this.expansion.getConfig("cheat-prevention.yml");
+        FileConfiguration config = getConfig();
         if(!config.getBoolean("flight.prevent-flying")) return;
 
         Player player = e.getPlayer();
-        ICombatManager manager = this.plugin.getCombatManager();
-        if(!manager.isInCombat(player)) return;
+        if(!isInCombat(player)) return;
 
         e.setCancelled(true);
-        String message = this.plugin.getLanguageMessageColoredWithPrefix("cheat-prevention.flight.no-flying");
-        this.plugin.sendMessage(player, message);
-    }
-
-    @EventHandler(priority=EventPriority.HIGH, ignoreCancelled=true)
-    public void onTag(PlayerTagEvent e) {
-        FileConfiguration config = this.expansion.getConfig("cheat-prevention.yml");
-        if(!config.getBoolean("flight.prevent-flying")) return;
-
-        Player player = e.getPlayer();
-        if(!player.isFlying()) return;
-
-        player.setFlying(false);
-        if(config.getBoolean("flight.force-disable-flight")) player.setAllowFlight(false);
-        
-        UUID uuid = player.getUniqueId();
-        this.preventFallDamage.add(uuid);
-
-        String message = this.plugin.getLanguageMessageColoredWithPrefix("cheat-prevention.flight.force-disabled");
-        this.plugin.sendMessage(player, message);
+        String message = getMessage("cheat-prevention.flight.no-flying");
+        sendMessage(player, message);
     }
 
     @EventHandler(priority=EventPriority.HIGH, ignoreCancelled=true)
     public void onDamage(EntityDamageEvent e) {
-        EntityDamageEvent.DamageCause cause = e.getCause();
-        if(cause != EntityDamageEvent.DamageCause.FALL) return;
-
-        FileConfiguration config = this.expansion.getConfig("cheat-prevention.yml");
-        if(!config.getBoolean("flight.prevent-fall-damage")) return;
+        DamageCause damageCause = e.getCause();
+        if(damageCause != DamageCause.FALL) return;
 
         Entity entity = e.getEntity();
         if(!(entity instanceof Player)) return;
+
+        FileConfiguration config = getConfig();
+        if(!config.getBoolean("flight.prevent-fall-damage")) return;
     
         Player player = (Player) entity;
         UUID uuid = player.getUniqueId();

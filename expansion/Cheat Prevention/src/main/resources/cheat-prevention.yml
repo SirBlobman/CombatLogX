@@ -38,8 +38,9 @@ teleportation:
   #
   # Tip: The 'PLUGIN' cause may be required here to fix issues with region protection plugins
   allowed-cause-list:
-  - "ENDER_PEARL"
-  - "PLUGIN"
+    - "UNKNOWN"
+    - "ENDER_PEARL"
+    - "PLUGIN"
 
   # If an ender pearl was shot and the ENDER_PEARL cause is allowed, should the player's tag timer be reset?
   #

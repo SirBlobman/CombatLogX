@@ -1,39 +1,32 @@
 package com.SirBlobman.combatlogx.expansion.cheat.prevention.listener;
 
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.utility.ICombatManager;
-
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityResurrectEvent;
 
-public class ListenerTotemOfUndying implements Listener {
-    private final Expansion expansion;
-    private final ICombatLogX plugin;
-    public ListenerTotemOfUndying(Expansion expansion) {
-        this.expansion = expansion;
-        this.plugin = expansion.getPlugin();
+import com.SirBlobman.combatlogx.expansion.cheat.prevention.CheatPrevention;
+
+public class ListenerTotemOfUndying extends CheatPreventionListener {
+    public ListenerTotemOfUndying(CheatPrevention expansion) {
+        super(expansion);
     }
 
-    @EventHandler(priority=EventPriority.HIGH, ignoreCancelled=true)
+    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
     public void onResurrect(EntityResurrectEvent e) {
-        FileConfiguration config = this.expansion.getConfig("cheat-prevention.yml");
-        if(!config.getBoolean("items.prevent-totem-usage")) return;
-
-        Entity entity = e.getEntity();
+        LivingEntity entity = e.getEntity();
         if(!(entity instanceof Player)) return;
 
+        FileConfiguration config = getConfig();
+        if(!config.getBoolean("items.prevent-totem-usage")) return;
+
         Player player = (Player) entity;
-        ICombatManager combatManager = this.plugin.getCombatManager();
-        if(!combatManager.isInCombat(player)) return;
+        if(!isInCombat(player)) return;
 
         e.setCancelled(true);
-        String message = this.plugin.getLanguageMessageColoredWithPrefix("cheat-prevention.no-totem");
-        this.plugin.sendMessage(player, message);
+        String message = getMessage("cheat-prevention.no-totem");
+        sendMessage(player, message);
     }
 }

@@ -2,66 +2,69 @@ package com.SirBlobman.combatlogx.expansion.cheat.prevention.listener;
 
 import java.util.List;
 
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
-import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent.UntagReason;
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.utility.ICombatManager;
-
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
-public class ListenerTeleport implements Listener {
-    private final Expansion expansion;
-    private final ICombatLogX plugin;
-    public ListenerTeleport(Expansion expansion) {
-        this.expansion = expansion;
-        this.plugin = this.expansion.getPlugin();
+import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagReason;
+import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagType;
+import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent.UntagReason;
+import com.SirBlobman.combatlogx.api.utility.ICombatManager;
+import com.SirBlobman.combatlogx.expansion.cheat.prevention.CheatPrevention;
+
+public class ListenerTeleport extends CheatPreventionListener {
+    public ListenerTeleport(CheatPrevention expansion) {
+        super(expansion);
     }
 
-    private boolean isAllowed(PlayerTeleportEvent.TeleportCause cause) {
-        FileConfiguration config = this.expansion.getConfig("cheat-prevention.yml");
-        List<String> allowedCauseList = config.getStringList("teleportation.allowed-cause-list");
-
-        String causeName = cause.name();
-        return allowedCauseList.contains(causeName);
-    }
-
-    @EventHandler(priority=EventPriority.HIGH, ignoreCancelled=true)
+    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
     public void onTeleport(PlayerTeleportEvent e) {
-        FileConfiguration config = this.expansion.getConfig("cheat-prevention.yml");
+        FileConfiguration config = getConfig();
         if(!config.getBoolean("teleportation.prevent-teleport")) return;
 
         Player player = e.getPlayer();
-        ICombatManager manager = this.plugin.getCombatManager();
-        if(!manager.isInCombat(player)) return;
+        if(!isInCombat(player)) return;
 
-        PlayerTeleportEvent.TeleportCause cause = e.getCause();
-        if(isAllowed(cause)) {
-            if(cause == PlayerTeleportEvent.TeleportCause.ENDER_PEARL && config.getBoolean("teleportation.restart-timer-for-ender-pearl")) {
-                manager.tag(player, null, PlayerPreTagEvent.TagType.UNKNOWN, PlayerPreTagEvent.TagReason.UNKNOWN);
+        TeleportCause teleportCause = e.getCause();
+        if(isAllowed(teleportCause)) {
+            boolean restartTimer = config.getBoolean("teleportation.restart-timer-for-ender-pearl");
+            if(restartTimer && teleportCause == TeleportCause.ENDER_PEARL) {
+                ICombatLogX plugin = getPlugin();
+                ICombatManager combatManager = plugin.getCombatManager();
+                combatManager.tag(player, null, TagType.UNKNOWN, TagReason.UNKNOWN);
             }
+
             return;
         }
 
         e.setCancelled(true);
-        String message = this.plugin.getLanguageMessageColoredWithPrefix("cheat-prevention.teleportation.block-" + (cause == PlayerTeleportEvent.TeleportCause.ENDER_PEARL ? "pearl" : "other"));
-        this.plugin.sendMessage(player, message);
+        String path = (teleportCause == TeleportCause.ENDER_PEARL ? "pearl" : "other");
+        String message = getMessage("cheat-prevention.teleportation.block." + path);
+        sendMessage(player, message);
     }
 
     @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
     public void afterTeleport(PlayerTeleportEvent e) {
-        FileConfiguration config = this.expansion.getConfig("cheat-prevention.yml");
+        FileConfiguration config = getConfig();
         if(!config.getBoolean("teleportation.untag-on-teleport")) return;
 
         Player player = e.getPlayer();
-        ICombatManager manager = this.plugin.getCombatManager();
-        if(!manager.isInCombat(player)) return;
+        if(!isInCombat(player)) return;
 
-        manager.untag(player, UntagReason.EXPIRE);
+        ICombatLogX plugin = getPlugin();
+        ICombatManager combatManager = plugin.getCombatManager();
+        combatManager.untag(player, UntagReason.EXPIRE);
+    }
+
+    private boolean isAllowed(TeleportCause cause) {
+        FileConfiguration config = getConfig();
+        List<String> allowedCauseList = config.getStringList("teleportation.allowed-cause-list");
+
+        String causeName = cause.name();
+        return allowedCauseList.contains(causeName);
     }
 }

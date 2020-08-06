@@ -6,26 +6,21 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
-import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent.UntagReason;
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.utility.ICombatManager;
-
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-public class ListenerCommandBlocker implements Listener {
-    private final Expansion expansion;
-    private final ICombatLogX plugin;
-    private final Map<UUID, Long> cooldownMap = new HashMap<>();
-    public ListenerCommandBlocker(Expansion expansion) {
-        this.expansion = expansion;
-        this.plugin = expansion.getPlugin();
+import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
+import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent.UntagReason;
+import com.SirBlobman.combatlogx.expansion.cheat.prevention.CheatPrevention;
+
+public class ListenerCommandBlocker extends CheatPreventionListener {
+    private final Map<UUID, Long> cooldownMap;
+    public ListenerCommandBlocker(CheatPrevention expansion) {
+        super(expansion);
+        this.cooldownMap = new HashMap<>();
     }
 
     private boolean isInCooldown(Player player) {
@@ -45,7 +40,7 @@ public class ListenerCommandBlocker implements Listener {
     private void addCooldown(Player player) {
         if(player == null) return;
 
-        FileConfiguration config = this.expansion.getConfig("cheat-prevention.yml");
+        FileConfiguration config = getConfig();
         long cooldownSeconds = config.getLong("command-blocker.delay-after-combat");
         if(cooldownSeconds <= 0) return;
 
@@ -74,48 +69,43 @@ public class ListenerCommandBlocker implements Listener {
     }
 
     @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
-    public void beforeCommand(PlayerCommandPreprocessEvent e) {
+    public void beforeCommandLowest(PlayerCommandPreprocessEvent e) {
         Player player = e.getPlayer();
-        ICombatManager combatManager = this.plugin.getCombatManager();
-        if(!combatManager.isInCombat(player) && !isInCooldown(player)) return;
+        if(!isInCombat(player) && !isInCooldown(player)) return;
 
         String command = e.getMessage();
         String actualCommand = convertCommand(command);
         if(!isBlocked(actualCommand) || isAllowed(actualCommand)) return;
 
         e.setCancelled(true);
-        String message = this.plugin.getLanguageMessageColoredWithPrefix("cheat-prevention.command-blocked").replace("{command}", actualCommand);
-        this.plugin.sendMessage(player, message);
+        String message = getMessage("cheat-prevention.command-blocked").replace("{command}", actualCommand);
+        sendMessage(player, message);
     }
 
     @EventHandler(priority=EventPriority.HIGH, ignoreCancelled=true)
-    public void beforeCommand2(PlayerCommandPreprocessEvent e) {
-        beforeCommand(e);
+    public void beforeCommandHigh(PlayerCommandPreprocessEvent e) {
+        beforeCommandLowest(e);
     }
 
     private String convertCommand(String command) {
         if(command == null || command.isEmpty()) return "";
-        if(!command.startsWith("/")) command = "/" + command;
-
-        return command;
+        return (command.startsWith("/") ? command : ("/" + command));
     }
     
     private boolean isBlocked(String command) {
-        FileConfiguration config = this.expansion.getConfig("cheat-prevention.yml");
+        FileConfiguration config = getConfig();
         List<String> blockedCommandList = config.getStringList("command-blocker.blocked-commands");
         return startsWithAny(command, blockedCommandList);
     }
     
     private boolean isAllowed(String command) {
-        FileConfiguration config = this.expansion.getConfig("cheat-prevention.yml");
+        FileConfiguration config = getConfig();
         List<String> blockedCommandList = config.getStringList("command-blocker.allowed-commands");
         return startsWithAny(command, blockedCommandList);
     }
     
     private boolean startsWithAny(String command, List<String> commandList) {
-        if(commandList.contains("*")) return true;
-        if(commandList.contains("/*")) return true;
-        
+        if(commandList.contains("*") || commandList.contains("/*")) return true;
         for(String value : commandList) {
             if(!command.startsWith(value)) continue;
             return true;
