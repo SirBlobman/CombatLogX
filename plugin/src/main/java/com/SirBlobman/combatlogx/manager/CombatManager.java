@@ -3,7 +3,6 @@ package com.SirBlobman.combatlogx.manager;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,12 +21,14 @@ import org.bukkit.plugin.PluginManager;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.event.*;
+import com.SirBlobman.combatlogx.api.listener.ICustomDeathListener;
 import com.SirBlobman.combatlogx.api.shaded.nms.AbstractNMS;
 import com.SirBlobman.combatlogx.api.shaded.nms.EntityHandler;
 import com.SirBlobman.combatlogx.api.shaded.nms.MultiVersionHandler;
 import com.SirBlobman.combatlogx.api.shaded.nms.VersionUtil;
 import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
+import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
 
 public class CombatManager implements ICombatManager, Runnable {
     private final ICombatLogX plugin;
@@ -229,30 +230,34 @@ public class CombatManager implements ICombatManager, Runnable {
 
     private void sendTagMessage(Player player, LivingEntity enemy, PlayerPreTagEvent.TagType tagType, PlayerPreTagEvent.TagReason tagReason) {
         if(tagType == PlayerPreTagEvent.TagType.UNKNOWN || tagReason == PlayerPreTagEvent.TagReason.UNKNOWN) {
-            String message = this.plugin.getLanguageMessageColored("tag-messages.unknown");
-            this.plugin.sendMessage(player, message);
+            ILanguageManager languageManager = this.plugin.getLanguageManager();
+            String message = languageManager.getMessageColored("tag-messages.unknown");
+            languageManager.sendMessage(player, message);
         }
 
         String enemyType = (enemy == null ? EntityType.UNKNOWN.name() : enemy.getType().name());
         String enemyName = getEntityName(enemy);
 
         if(tagType == PlayerPreTagEvent.TagType.MOB) {
-            String messagePath = "tag-messages." + (tagReason == PlayerPreTagEvent.TagReason.ATTACKER ? "attacker.of-" : "attacked.by-") + "mob";
-
-            String message = this.plugin.getLanguageMessageColored(messagePath).replace("{mob_type}", enemyType).replace("{name}", enemyName);
-            this.plugin.sendMessage(player, message);
+            ILanguageManager languageManager = this.plugin.getLanguageManager();
+            String messagePath = ("tag-messages.attacke" + (tagReason == PlayerPreTagEvent.TagReason.ATTACKER ? "r.of" : "d.by") + "-mob");
+            String message = languageManager.getMessageColored(messagePath).replace("{mob_type}", enemyType).replace("{name}", enemyName);
+            languageManager.sendMessage(player, message);
         }
 
         if(tagType == PlayerPreTagEvent.TagType.PLAYER) {
-            String messagePath = "tag-messages." + (tagReason == PlayerPreTagEvent.TagReason.ATTACKER ? "attacker.of-" : "attacked.by-") + "player";
-
-            String message = this.plugin.getLanguageMessageColored(messagePath).replace("{mob_type}", enemyType).replace("{name}", enemyName);
-            this.plugin.sendMessage(player, message);
+            ILanguageManager languageManager = this.plugin.getLanguageManager();
+            String messagePath = ("tag-messages.attacke" + (tagReason == PlayerPreTagEvent.TagReason.ATTACKER ? "r.of" : "d.by") + "-player");
+            String message = languageManager.getMessageColored(messagePath).replace("{mob_type}", enemyName).replace("{name}", enemyName);
+            languageManager.sendMessage(player, message);
         }
     }
 
     private String getEntityName(LivingEntity enemy) {
-        if(enemy == null) return this.plugin.getLanguageMessage("errors.unknown-entity-name");
+        if(enemy == null) {
+            ILanguageManager languageManager = this.plugin.getLanguageManager();
+            return languageManager.getMessage("errors.unknown-entity-name");
+        }
     
         MultiVersionHandler<?> multiVersionHandler = this.plugin.getMultiVersionHandler();
         AbstractNMS nmsHandler = multiVersionHandler.getInterface();
@@ -260,29 +265,30 @@ public class CombatManager implements ICombatManager, Runnable {
         EntityHandler entityHandler = nmsHandler.getEntityHandler();
         return entityHandler.getName(enemy);
     }
-
+    
     private void checkKill(Player player) {
-        FileConfiguration config = this.plugin.getConfig("config.yml");
-        String killOption = Optional.ofNullable(config.getString("punishments.kill-time")).orElse("QUIT");
-
+        YamlConfiguration config = this.plugin.getConfig("config.yml");
+        String killOption = config.getString("punishments.kill-time");
+        if(killOption == null) killOption = "QUIT";
+        
         if(killOption.equals("QUIT")) {
             player.setHealth(0.0D);
-            this.plugin.getCustomDeathListener().add(player);
+            ICustomDeathListener customDeathListener = this.plugin.getCustomDeathListener();
+            customDeathListener.add(player);
             return;
         }
-
-        if(killOption.equals("KILL")) {
-            YamlConfiguration playerData = this.plugin.getDataFile(player);
-            playerData.set("kill-on-join", true);
-            this.plugin.saveDataFile(player, playerData);
-            // return;
+        
+        if(killOption.equals("JOIN")) {
+            YamlConfiguration data = this.plugin.getDataFile(player);
+            data.set("kill-on-join", true);
+            this.plugin.saveDataFile(player);
         }
-
-        // NEVER or unknown option means do nothing
+        
+        // NEVER options means don't do anything
     }
 
     private void runPunishCommands(Player player, LivingEntity previousEnemy) {
-        FileConfiguration config = this.plugin.getConfig("config.yml");
+        YamlConfiguration config = this.plugin.getConfig("config.yml");
         List<String> punishCommandList = config.getStringList("punishments.punish-command-list");
         for(String punishCommand : punishCommandList) {
             String sudoCommand = getSudoCommand(player, previousEnemy, punishCommand);

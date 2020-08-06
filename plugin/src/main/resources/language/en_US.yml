@@ -155,17 +155,11 @@ newbie-helper:
 citizens-join-deny: "&cAs punishment for logging out during combat, you are not allowed to join until your clone is killed or removed."
 
 factions-compatibility-no-entry: "&cYou are not allowed to enter that area during combat."
-
 griefprevention-compatibility-no-entry: "&cYou are not allowed to enter claims during combat."
-
 lands-compatibility-no-entry: "&cYou are not allowed to enter that area during combat."
-
 redprotect-compatibility-no-entry: "&cYou are not allowed to enter that area during combat."
-
 residence-compatibility-no-entry: "&cYou are not allowed to enter that area during combat."
-
 towny-compatibility-no-entry: "&cYou are not allowed to enter that area during combat."
-
 preciousstones-compatibility-no-entry: "&cYou are not allowed to enter that area during combat."
 preciousstones-compatibility-no-field: "&cYou can't create a protection field during combat."
 

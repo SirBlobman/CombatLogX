@@ -2,10 +2,6 @@ package com.SirBlobman.combatlogx.listener;
 
 import java.util.List;
 
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
-import com.SirBlobman.combatlogx.api.utility.ICombatManager;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -16,6 +12,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+
+import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
+import com.SirBlobman.combatlogx.api.utility.ICombatManager;
+import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
 
 public class ListenerUntagger implements Listener {
     private final ICombatLogX plugin;
@@ -54,14 +55,16 @@ public class ListenerUntagger implements Listener {
 
     private void sendUntagMessage(Player player, PlayerUntagEvent.UntagReason untagReason) {
         if(untagReason == PlayerUntagEvent.UntagReason.EXPIRE) {
-            String message = this.plugin.getLanguageMessageColoredWithPrefix("combat-timer.expire");
-            this.plugin.sendMessage(player, message);
+            ILanguageManager languageManager = this.plugin.getLanguageManager();
+            String message = languageManager.getMessageColoredWithPrefix("combat-timer.expire");
+            languageManager.sendMessage(player, message);
             return;
         }
 
         if(untagReason == PlayerUntagEvent.UntagReason.EXPIRE_ENEMY_DEATH) {
-            String message = this.plugin.getLanguageMessageColoredWithPrefix("combat-timer.enemy-death");
-            this.plugin.sendMessage(player, message);
+            ILanguageManager languageManager = this.plugin.getLanguageManager();
+            String message = languageManager.getMessageColoredWithPrefix("combat-timer.enemy-death");
+            languageManager.sendMessage(player, message);
         }
     }
 

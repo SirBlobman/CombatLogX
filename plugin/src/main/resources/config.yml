@@ -4,6 +4,11 @@
 # Please DO NOT change this value or your config may be corrupted
 generated-by-version: "${bukkit.plugin.version}"
 
+# What is the name of the language file for CombatLogX?
+# If the file does not exist, the default will be used
+# Default: en_US
+language: "en_US"
+
 # Should extra messages be printed for certain tasks?
 # Only use this if you are having issues or you are asked to by SirBlobman
 #

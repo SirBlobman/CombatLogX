@@ -1,8 +1,17 @@
 package com.SirBlobman.combatlogx.command;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import com.SirBlobman.combatlogx.CombatLogX;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
@@ -15,14 +24,9 @@ import com.SirBlobman.combatlogx.api.shaded.nms.VersionUtil;
 import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
 import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
+import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
+import com.SirBlobman.combatlogx.manager.LanguageManager;
 import com.SirBlobman.combatlogx.update.UpdateChecker;
-
-import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabExecutor;
-import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitScheduler;
 
 public class CommandCombatLogX implements TabExecutor {
     private final CombatLogX plugin;
@@ -101,17 +105,19 @@ public class CommandCombatLogX implements TabExecutor {
 
     private boolean checkNoPermission(CommandSender sender, String permission) {
         if(sender.hasPermission(permission)) return false;
-
-        String message = this.plugin.getLanguageMessageColoredWithPrefix("errors.no-permission").replace("{permission}", permission);
-        this.plugin.sendMessage(sender, message);
+        
+        ILanguageManager languageManager = this.plugin.getLanguageManager();
+        String message = languageManager.getMessageColoredWithPrefix("errors.no-permission").replace("{permission}", permission);
+        languageManager.sendMessage(sender, message);
         return true;
     }
 
     private Player getTarget(CommandSender sender, String targetName) {
         Player target = Bukkit.getPlayer(targetName);
         if(target == null) {
-            String message = this.plugin.getLanguageMessageColoredWithPrefix("errors.invalid-target").replace("{target}", targetName);
-            this.plugin.sendMessage(sender, message);
+            ILanguageManager languageManager = this.plugin.getLanguageManager();
+            String message = languageManager.getMessageColoredWithPrefix("errors.invalid-target").replace("{target}", targetName);
+            languageManager.sendMessage(sender, message);
             return null;
         }
         return target;
@@ -128,11 +134,14 @@ public class CommandCombatLogX implements TabExecutor {
 
     private boolean helpCommand(CommandSender sender) {
         if(checkNoPermission(sender, "combatlogx.command.combatlogx.help")) return true;
+        
+        ILanguageManager languageManager = this.plugin.getLanguageManager();
+        String helpMessage = languageManager.getMessageColored("commands.combatlogx.help-message-list");
 
-        String helpMessage = this.plugin.getLanguageMessageColored("commands.combatlogx.help-message-list");
-        String[] message = helpMessage.split(Pattern.quote("\n"));
+        String newLine = Pattern.quote("\n");
+        String[] message = helpMessage.split(newLine);
 
-        this.plugin.sendMessage(sender, message);
+        languageManager.sendMessage(sender, message);
         return true;
     }
 
@@ -146,16 +155,21 @@ public class CommandCombatLogX implements TabExecutor {
             ExpansionManager expansionManager = this.plugin.getExpansionManager();
             expansionManager.reloadExpansionConfigs();
         } catch(Exception ex) {
+            String exMessage = ex.getMessage();
             String message1 = MessageUtil.color("&f&l[&6CombatLogX&f&l] &cAn error has occurred while loading your configurations. &cPlease check console for further details.");
-            String message2 = MessageUtil.color("&f&l[&6CombatLogX&f&l[ &c&lError Message: &7" + ex.getMessage());
-
-            this.plugin.sendMessage(sender, message1, message2);
-            ex.printStackTrace();
+            String message2 = MessageUtil.color("&f&l[&6CombatLogX&f&l[ &c&lError Message: &7" + exMessage);
+    
+            LanguageManager languageManager = this.plugin.getLanguageManager();
+            languageManager.sendMessage(sender, message1, message2);
+            
+            Logger logger = this.plugin.getLogger();
+            logger.log(Level.WARNING, "An error occurred while reloading the config files:", ex);
             return true;
         }
-
-        String message = this.plugin.getLanguageMessageColoredWithPrefix("commands.combatlogx.reloaded");
-        this.plugin.sendMessage(sender, message);
+    
+        LanguageManager languageManager = this.plugin.getLanguageManager();
+        String message = languageManager.getMessageColoredWithPrefix("commands.combatlogx.reloaded");
+        languageManager.sendMessage(sender, message);
         return true;
     }
 
@@ -170,11 +184,11 @@ public class CommandCombatLogX implements TabExecutor {
 
         ICombatManager combatManager = this.plugin.getCombatManager();
         boolean isTagged = combatManager.tag(target, null, PlayerPreTagEvent.TagType.UNKNOWN, PlayerPreTagEvent.TagReason.UNKNOWN);
-
+    
+        LanguageManager languageManager = this.plugin.getLanguageManager();
         String messagePath = "commands.combatlogx." + (isTagged ? "tag-player" : "tag-player-fail");
-        String message = this.plugin.getLanguageMessageColoredWithPrefix(messagePath).replace("{target}", targetName);
-
-        this.plugin.sendMessage(sender, message);
+        String message = languageManager.getMessageColoredWithPrefix(messagePath).replace("{target}", targetName);
+        languageManager.sendMessage(sender, message);
         return true;
     }
 
@@ -189,15 +203,16 @@ public class CommandCombatLogX implements TabExecutor {
 
         ICombatManager combatManager = this.plugin.getCombatManager();
         if(!combatManager.isInCombat(target)) {
-            String message = this.plugin.getLanguageMessageColoredWithPrefix("errors.target-not-in-combat").replace("{target}", targetName);
-            this.plugin.sendMessage(sender, message);
+            LanguageManager languageManager = this.plugin.getLanguageManager();
+            String message = languageManager.getMessageColoredWithPrefix("errors.target-not-in-combat").replace("{target}", targetName);
+            languageManager.sendMessage(sender, message);
             return true;
         }
-
         combatManager.untag(target, PlayerUntagEvent.UntagReason.EXPIRE);
-        String message = this.plugin.getLanguageMessageColoredWithPrefix("commands.combatlogx.untag-player").replace("{target}", targetName);
-
-        this.plugin.sendMessage(sender, message);
+        
+        LanguageManager languageManager = this.plugin.getLanguageManager();
+        String message = languageManager.getMessageColoredWithPrefix("commands.combatlogx.untag-player").replace("{target}", targetName);
+        languageManager.sendMessage(sender, message);
         return true;
     }
 
@@ -205,9 +220,10 @@ public class CommandCombatLogX implements TabExecutor {
         if(checkNoPermission(sender, "combatlogx.command.combatlogx.version")) return true;
 
         if(args.length < 1) {
-            Runnable task = () -> checkVersion(sender);
-            this.plugin.sendMessage(sender, "Getting version information for CombatLogX...");
+            LanguageManager languageManager = this.plugin.getLanguageManager();
+            languageManager.sendMessage(sender, "Getting version information for CombatLogX...");
     
+            Runnable task = () -> checkVersion(sender);
             BukkitScheduler scheduler = Bukkit.getScheduler();
             scheduler.runTaskAsynchronously(this.plugin, task);
             return true;
@@ -242,7 +258,9 @@ public class CommandCombatLogX implements TabExecutor {
         if(descriptionText != null) messageList.add(MessageUtil.color("&6&lDescription:&e " + descriptionText));
         if(!authorList.isEmpty()) messageList.add(MessageUtil.color("&6&lAuthors:&e " + authorString));
         
-        messageList.forEach(message -> this.plugin.sendMessage(sender, message));
+        String[] messageArray = messageList.toArray(new String[0]);
+        LanguageManager languageManager = this.plugin.getLanguageManager();
+        languageManager.sendMessage(sender, messageArray);
         return true;
     }
     
@@ -250,8 +268,9 @@ public class CommandCombatLogX implements TabExecutor {
         UpdateChecker updateChecker = this.plugin.getUpdateChecker();
         String pluginVersion = updateChecker.getPluginVersion();
         String spigotVersion = updateChecker.getSpigotVersion();
-
-        String[] message = colorMultiple(
+        
+        LanguageManager languageManager = this.plugin.getLanguageManager();
+        String[] messageArray = colorMultiple(
                 "&f",
                 "&f&lServer Version: &7" + Bukkit.getVersion(),
                 "&f&lBukkit Version: &7" + Bukkit.getBukkitVersion(),
@@ -265,14 +284,14 @@ public class CommandCombatLogX implements TabExecutor {
                 "&7&oGetting expansion versions...",
                 "&f"
         );
-        this.plugin.sendMessage(sender, message);
+        languageManager.sendMessage(sender, messageArray);
         
         ExpansionManager expansionManager = this.plugin.getExpansionManager();
         List<Expansion> expansionList = expansionManager.getEnabledExpansions();
         
         if(expansionList.isEmpty()) {
-            String message2 = MessageUtil.color("  &f&lYou do not have any expansions installed.");
-            this.plugin.sendMessage(sender, message2);
+            String message = MessageUtil.color("  &f&lYou do not have any expansions installed.");
+            languageManager.sendMessage(sender, message);
             return;
         }
 
@@ -281,8 +300,8 @@ public class CommandCombatLogX implements TabExecutor {
             String name = description.getDisplayName();
             String version = description.getVersion();
 
-            String message3 = MessageUtil.color("  &f&l" + name + " &7v" + version);
-            this.plugin.sendMessage(sender, message3);
+            String message = MessageUtil.color("  &f&l" + name + " &7v" + version);
+            languageManager.sendMessage(sender, message);
         }
     }
 }
