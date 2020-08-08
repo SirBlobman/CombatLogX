@@ -1,15 +1,16 @@
 package com.SirBlobman.combatlogx.expansion.notifier.command;
 
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.expansion.notifier.Notifier;
-import com.SirBlobman.combatlogx.expansion.notifier.manager.ActionBarManager;
-import com.SirBlobman.combatlogx.expansion.notifier.manager.BossBarManager;
-import com.SirBlobman.combatlogx.expansion.notifier.manager.ScoreBoardManager;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
+import com.SirBlobman.combatlogx.expansion.notifier.Notifier;
+import com.SirBlobman.combatlogx.expansion.notifier.manager.ActionBarManager;
+import com.SirBlobman.combatlogx.expansion.notifier.manager.BossBarManager;
+import com.SirBlobman.combatlogx.expansion.notifier.manager.ScoreBoardManager;
 
 public class CommandNotifier implements CommandExecutor {
     private final Notifier expansion;
@@ -18,13 +19,15 @@ public class CommandNotifier implements CommandExecutor {
     }
     
     @Override
+    @SuppressWarnings("NullableProblems")
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(args.length < 1) return false;
         
         if(!(sender instanceof Player)) {
             ICombatLogX plugin = this.expansion.getPlugin();
-            String message = plugin.getLanguageMessageColoredWithPrefix("errors.not-player");
-            plugin.sendMessage(sender, message);
+            ILanguageManager languageManager = plugin.getLanguageManager();
+            String message = languageManager.getMessageColoredWithPrefix("errors.not-player");
+            languageManager.sendMessage(sender, message);
             return true;
         }
         
