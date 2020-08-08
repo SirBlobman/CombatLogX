@@ -1,12 +1,13 @@
 package com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager;
 
+import java.util.Objects;
 import java.util.UUID;
-
-import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
 
 import net.citizensnpcs.api.npc.NPC;
 import org.mcmonkey.sentinel.SentinelTrait;
@@ -15,7 +16,7 @@ import org.mcmonkey.sentinel.targeting.SentinelTargetLabel;
 public class SentinelManager {
     private final CompatibilityCitizens expansion;
     public SentinelManager(CompatibilityCitizens expansion) {
-        this.expansion = expansion;
+        this.expansion = Objects.requireNonNull(expansion, "expansion must not be null!");
     }
     
     public void onEnable() {

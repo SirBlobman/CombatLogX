@@ -1,14 +1,13 @@
 package com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener;
 
-import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
-import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
-
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
-
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+
+import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
 
 public class ListenerCombat implements Listener {
     private final CompatibilityCitizens expansion;

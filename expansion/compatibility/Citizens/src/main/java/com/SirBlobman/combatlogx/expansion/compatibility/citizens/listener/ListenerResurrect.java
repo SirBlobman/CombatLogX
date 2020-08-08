@@ -1,15 +1,14 @@
 package com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener;
 
-import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
-import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.NPCManager;
-
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
-
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityResurrectEvent;
+
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.NPCManager;
 
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;

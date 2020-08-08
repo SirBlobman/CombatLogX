@@ -4,22 +4,21 @@ import java.lang.reflect.Field;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
-import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.NPCManager;
-import com.SirBlobman.combatlogx.expansion.compatibility.citizens.trait.TraitCombatLogX;
-
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
-
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
+
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.NPCManager;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.trait.TraitCombatLogX;
 
 import net.citizensnpcs.api.event.DespawnReason;
 import net.citizensnpcs.api.event.NPCDamageByEntityEvent;
@@ -58,7 +57,7 @@ public class ListenerDamageDeath implements Listener {
         player.sendMessage(deathMessage);
         
         data.set("citizens-compatibility.last-death-message", null);
-        npcManager.setData(player, data);
+        npcManager.setData(player);
     }
     
     @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
@@ -93,7 +92,7 @@ public class ListenerDamageDeath implements Listener {
         
         YamlConfiguration data = npcManager.getData(owner);
         data.set("citizens-compatibility.punish-next-join", true);
-        npcManager.setData(owner, data);
+        npcManager.setData(owner);
         
         JavaPlugin plugin = this.expansion.getPlugin().getPlugin();
         BukkitScheduler scheduler = Bukkit.getScheduler();
@@ -123,7 +122,7 @@ public class ListenerDamageDeath implements Listener {
             
             YamlConfiguration data = npcManager.getData(owner);
             data.set("citizens-compatibility.last-death-message", deathMessage);
-            npcManager.setData(owner, data);
+            npcManager.setData(owner);
         } catch(ReflectiveOperationException ex) {
             Logger logger = this.expansion.getLogger();
             logger.log(Level.WARNING, "An error occurred while checking an NPCDeathEvent:", ex);

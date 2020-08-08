@@ -1,10 +1,7 @@
 package com.SirBlobman.combatlogx.expansion.compatibility.citizens.trait;
 
+import java.util.Objects;
 import java.util.UUID;
-
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.utility.ICombatManager;
-import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -12,6 +9,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
+
+import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.utility.ICombatManager;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
 
 import net.citizensnpcs.api.event.DespawnReason;
 import net.citizensnpcs.api.npc.NPC;
@@ -24,7 +25,7 @@ public class TraitCombatLogX extends Trait {
     private final CompatibilityCitizens expansion;
     public TraitCombatLogX(CompatibilityCitizens expansion) {
         super("combatlogX");
-        this.expansion = expansion;
+        this.expansion = Objects.requireNonNull(expansion, "expansion must not be null!");
         extendLife();
     }
     

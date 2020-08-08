@@ -8,6 +8,16 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.*;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagReason;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagType;
@@ -19,16 +29,6 @@ import com.SirBlobman.combatlogx.api.shaded.nms.VersionUtil;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.trait.TraitCombatLogX;
-
-import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.World;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.*;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
@@ -42,9 +42,10 @@ import net.citizensnpcs.api.trait.trait.Owner;
 
 public class NPCManager {
     private final CompatibilityCitizens expansion;
-    private TraitInfo traitInfo = null;
+    private TraitInfo traitInfo;
     public NPCManager(CompatibilityCitizens expansion) {
         this.expansion = Objects.requireNonNull(expansion, "expansion must not be null!");
+        this.traitInfo = null;
     }
     
     public void registerTrait() {
@@ -87,16 +88,14 @@ public class NPCManager {
     
     public YamlConfiguration getData(OfflinePlayer player) {
         if(player == null) return new YamlConfiguration();
-        
         ICombatLogX plugin = this.expansion.getPlugin();
         return plugin.getDataFile(player);
     }
     
-    public void setData(OfflinePlayer player, YamlConfiguration config) {
-        if(player == null || config == null) return;
-        
+    public void setData(OfflinePlayer player) {
+        if(player == null) return;
         ICombatLogX plugin = this.expansion.getPlugin();
-        plugin.saveDataFile(player, config);
+        plugin.saveDataFile(player);
     }
     
     public void saveHealth(NPC npc) {
@@ -112,13 +111,13 @@ public class NPCManager {
                 double health = livingEntity.getHealth();
                 
                 config.set("citizens-compatibility.last-health", health);
-                setData(owner, config);
+                setData(owner);
                 return;
             }
         }
     
         config.set("citizens-compatibility.last-health", 0.0D);
-        setData(owner, config);
+        setData(owner);
     }
     
     public double loadHealth(Player player) {
@@ -138,7 +137,7 @@ public class NPCManager {
         player.setHealth(value);
         
         config.set("citizens-compatibility.last-health", null);
-        setData(player, config);
+        setData(player);
         return value;
     }
     
@@ -157,7 +156,7 @@ public class NPCManager {
             config.set("citizens-compatibility.last-location", location);
         }
         
-        setData(owner, config);
+        setData(owner);
     }
     
     public void loadLocation(Player player) {
@@ -195,7 +194,7 @@ public class NPCManager {
             }
         }
         
-        setData(player, data);
+        setData(player);
     }
     
     public void loadInventory(Player player) {
@@ -294,7 +293,7 @@ public class NPCManager {
         
         data.set("citizens-compatibility.last-inventory", null);
         data.set("citizens-compatibility.last-armor", null);
-        setData(owner, data);
+        setData(owner);
     }
     
     public void loadTagStatus(Player player) {

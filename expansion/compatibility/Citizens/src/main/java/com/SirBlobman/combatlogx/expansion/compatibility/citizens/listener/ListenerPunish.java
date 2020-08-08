@@ -1,17 +1,16 @@
 package com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener;
 
-import com.SirBlobman.combatlogx.api.event.PlayerPunishEvent;
-import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
-import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.NPCManager;
-
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+
+import com.SirBlobman.combatlogx.api.event.PlayerPunishEvent;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.NPCManager;
 
 public class ListenerPunish implements Listener {
     private final CompatibilityCitizens expansion;
@@ -31,7 +30,7 @@ public class ListenerPunish implements Listener {
         YamlConfiguration data = npcManager.getData(player);
         data.set("citizens-compatibility.punish-next-join", true);
         
-        npcManager.setData(player, data);
+        npcManager.setData(player);
         npcManager.createNPC(player, enemy);
     }
 }

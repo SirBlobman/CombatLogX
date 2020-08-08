@@ -2,6 +2,11 @@ package com.SirBlobman.combatlogx.expansion.compatibility.citizens;
 
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.PluginManager;
+
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
@@ -9,11 +14,6 @@ import com.SirBlobman.combatlogx.api.shaded.nms.VersionUtil;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener.*;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.NPCManager;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.SentinelManager;
-
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.PluginManager;
 
 public class CompatibilityCitizens extends Expansion {
     private NPCManager npcManager = null;
@@ -25,6 +25,11 @@ public class CompatibilityCitizens extends Expansion {
     @Override
     public void onLoad() {
         saveDefaultConfig("citizens-compatibility.yml");
+    }
+
+    @Override
+    public void reloadConfig() {
+        reloadConfig("citizens-compatibility.yml");
     }
     
     @Override
@@ -52,9 +57,9 @@ public class CompatibilityCitizens extends Expansion {
         expansionManager.registerListener(this, new ListenerDamageDeath(this));
         expansionManager.registerListener(this, new ListenerLogin(this));
         expansionManager.registerListener(this, new ListenerPunish(this));
-        int minorVersion = VersionUtil.getMinorVersion();
-        
+
         // 1.11+ Totem of Undying
+        int minorVersion = VersionUtil.getMinorVersion();
         if(minorVersion >= 11) expansionManager.registerListener(this, new ListenerResurrect(this));
     }
     
@@ -62,11 +67,6 @@ public class CompatibilityCitizens extends Expansion {
     public void onDisable() {
         if(this.npcManager == null) return;
         this.npcManager.onDisable();
-    }
-    
-    @Override
-    public void reloadConfig() {
-        reloadConfig("citizens-compatibility.yml");
     }
     
     public NPCManager getNPCManager() {

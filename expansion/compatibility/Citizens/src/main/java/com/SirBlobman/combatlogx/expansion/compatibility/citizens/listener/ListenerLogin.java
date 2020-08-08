@@ -3,22 +3,22 @@ package com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
-import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.NPCManager;
-
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
-
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
+
+import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.NPCManager;
 
 import net.citizensnpcs.api.event.DespawnReason;
 import net.citizensnpcs.api.npc.NPC;
@@ -38,8 +38,9 @@ public class ListenerLogin implements Listener {
         NPCManager npcManager = this.expansion.getNPCManager();
         NPC npc = npcManager.getNPC(uuid);
         if(npc == null) return;
-        
-        String message = this.expansion.getPlugin().getLanguageMessageColored("citizens-join-deny");
+
+        ILanguageManager languageManager = this.expansion.getPlugin().getLanguageManager();
+        String message = languageManager.getMessageColored("citizens-join-deny");
         e.setKickMessage(message);
         e.setLoginResult(Result.KICK_OTHER);
     }
@@ -86,6 +87,6 @@ public class ListenerLogin implements Listener {
         data.set("citizens-compatibility.last-health", null);
         data.set("citizens-compatibility.last-inventory", null);
         data.set("citizens-compatibility.last-armor", null);
-        npcManager.setData(player, data);
+        npcManager.setData(player);
     }
 }
