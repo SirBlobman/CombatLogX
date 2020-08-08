@@ -25,7 +25,7 @@ public final class LanguageManager implements ILanguageManager {
         
         File pluginFolder = this.plugin.getDataFolder();
         File languageFolder = new File(pluginFolder, "language");
-        File languageFile = new File(languageFolder, languageName + ".lang.yml");
+        File languageFile = new File(languageFolder, languageName + ".yml");
         return (languageFile.exists() ? languageName : "en_US");
     }
     

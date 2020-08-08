@@ -2,6 +2,10 @@ package com.SirBlobman.combatlogx.expansion.compatibility.worldguard;
 
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
+
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
 import com.SirBlobman.combatlogx.api.expansion.noentry.NoEntryExpansion;
@@ -11,10 +15,6 @@ import com.SirBlobman.combatlogx.api.expansion.noentry.NoEntryListener;
 import com.SirBlobman.combatlogx.expansion.compatibility.worldguard.handler.WorldGuardNoEntryHandler;
 import com.SirBlobman.combatlogx.expansion.compatibility.worldguard.hook.HookWorldGuard;
 import com.SirBlobman.combatlogx.expansion.compatibility.worldguard.listener.ListenerWorldGuard;
-
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 
 public class CompatibilityWorldGuard extends NoEntryExpansion {
     private NoEntryHandler noEntryHandler;
@@ -68,7 +68,7 @@ public class CompatibilityWorldGuard extends NoEntryExpansion {
         saveDefaultConfig("worldguard-compatibility.yml");
         this.noEntryHandler = new WorldGuardNoEntryHandler(this);
 
-        ListenerWorldGuard listenerWorldGuard = new ListenerWorldGuard();
+        ListenerWorldGuard listenerWorldGuard = new ListenerWorldGuard(this);
         expansionManager.registerListener(this, listenerWorldGuard);
 
         NoEntryListener listener = new NoEntryListener(this);

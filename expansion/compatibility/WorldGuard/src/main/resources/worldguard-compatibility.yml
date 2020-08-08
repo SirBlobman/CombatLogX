@@ -1,6 +1,9 @@
 # Default WorldGuard Compatibility Config
 # Made by SirBlobman
 
+allow-tag-in-safezone: false
+allow-retag-in-safezone: true
+
 no-entry:
   # How should CombatLogX prevent players from entering 'pvp: deny' or 'mob-combat: deny' regions?
   # KNOCKBACK - Add some opposite velocity to the player so they are pushed backwards
