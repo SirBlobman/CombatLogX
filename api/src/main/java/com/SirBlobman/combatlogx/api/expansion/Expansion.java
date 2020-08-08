@@ -14,12 +14,16 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.SirBlobman.api.utility.Util;
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.PluginManager;
+
+import com.SirBlobman.api.utility.Util;
+import com.SirBlobman.combatlogx.api.ICombatLogX;
 
 /**
  * Expansion is an abstract class used by CombatLogX expansions
@@ -215,6 +219,20 @@ public abstract class Expansion {
             Logger logger = getLogger();
             logger.log(Level.SEVERE, "An error ocurred while saving the default config for file '" + fileName + "'.", ex);
         }
+    }
+
+    public final void printHookInfo(String pluginName) {
+        PluginManager manager = Bukkit.getPluginManager();
+        if(!manager.isPluginEnabled(pluginName)) return;
+
+        Plugin plugin = manager.getPlugin(pluginName);
+        if(plugin == null) return;
+
+        PluginDescriptionFile description = plugin.getDescription();
+        String fullName = description.getFullName();
+
+        Logger logger = getLogger();
+        logger.info("Successfully hooked into plugin '" + fullName + "'.");
     }
 
     public abstract void onLoad();

@@ -1,0 +1,83 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
+    
+    <parent>
+        <groupId>com.SirBlobman.combatlogx</groupId>
+        <artifactId>CombatLogX-parent</artifactId>
+        <version>10.0.0.0-SNAPSHOT</version>
+        <relativePath>../../../pom.xml</relativePath>
+    </parent>
+    
+    <groupId>com.SirBlobman.combatlogx.expansions</groupId>
+    <artifactId>DisguiseCompatibility</artifactId>
+    
+    <name>Disguise Compatibility Expansion</name>
+    <description>An expansion that adds compatibility with LibsDisguises and iDisguise</description>
+    
+    <repositories>
+        <!-- Spigot API Repository -->
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+
+        <!-- CodeMC Public Repository -->
+        <repository>
+            <id>codemc-public</id>
+            <url>https://repo.codemc.io/repository/maven-public/</url>
+        </repository>
+
+        <!-- MD-5 Public Repository -->
+        <repository>
+            <id>md_5-public</id>
+            <url>https://repo.md-5.net/content/groups/public/</url>
+        </repository>
+
+        <!-- robinrether Repository -->
+        <repository>
+            <id>robinrether-repo</id>
+            <url>https://repo.robingrether.de/</url>
+        </repository>
+    </repositories>
+    
+    <dependencies>
+        <!-- Spigot API -->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>${spigot.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- CombatLogX API -->
+        <dependency>
+            <groupId>com.SirBlobman.combatlogx</groupId>
+            <artifactId>CombatLogX-api</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Lib's Disguises-->
+        <dependency>
+            <groupId>LibsDisguises</groupId>
+            <artifactId>LibsDisguises</artifactId>
+            <version>10.0.15</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.spigotmc</groupId>
+                    <artifactId>spigot</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- iDisguise API -->
+        <dependency>
+            <groupId>de.robingrether.idisguise</groupId>
+            <artifactId>idisguise-core</artifactId>
+            <version>5.8.2</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+</project>

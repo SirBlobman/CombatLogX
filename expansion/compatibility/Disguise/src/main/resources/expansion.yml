@@ -1,0 +1,7 @@
+name: "CompatDisguise"
+display-name: "Disguise Compatibility"
+description: "An expansion that undisguises players when they go into combat."
+
+main: "com.SirBlobman.expansion.compatibility.disguise.CompatibilityDisguise"
+author: "SirBlobman"
+version: "15.0"
