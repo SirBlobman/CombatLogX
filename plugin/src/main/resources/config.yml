@@ -6,7 +6,7 @@ generated-by-version: "${bukkit.plugin.version}"
 
 # What is the name of the language file for CombatLogX?
 # If the file does not exist, the default will be used
-# Default: en_US
+# Default: "en_US"
 language: "en_US"
 
 # Should extra messages be printed for certain tasks?
