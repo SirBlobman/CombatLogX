@@ -1,8 +1,5 @@
 package com.SirBlobman.combatlogx.expansion.newbie.helper.listener;
 
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.expansion.newbie.helper.NewbieHelper;
-
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
@@ -12,12 +9,42 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
+import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
+import com.SirBlobman.combatlogx.expansion.newbie.helper.NewbieHelper;
+
 public class ListenerPVP implements Listener {
-    private NewbieHelper expansion;
-    private ICombatLogX plugin;
+    private final NewbieHelper expansion;
+    private final ICombatLogX plugin;
     public ListenerPVP(NewbieHelper expansion) {
         this.expansion = expansion;
         this.plugin = this.expansion.getPlugin();
+    }
+
+    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+    public void onEntityCombat(EntityDamageByEntityEvent e) {
+        Entity ded = e.getEntity();
+        if (!(ded instanceof Player)) return;
+
+        Entity der = linkPet(linkProjectile(e.getDamager()));
+        if (!(der instanceof Player)) return;
+
+        Player damaged = (Player) ded;
+        Player damager = (Player) der;
+        ILanguageManager languageManager = this.plugin.getLanguageManager();
+
+        if(!isPVPEnabled(damaged)) {
+            e.setCancelled(true);
+            String message = languageManager.getMessageColoredWithPrefix("newbie-helper.no-pvp.other");
+            languageManager.sendMessage(damager, message);
+            return;
+        }
+
+        if(!isPVPEnabled(damager)) {
+            e.setCancelled(true);
+            String message = languageManager.getMessageColoredWithPrefix("newbie-helper.no-pvp.self");
+            languageManager.sendMessage(damager, message);
+        }
     }
 
     public void disablePVP(Player player) {
@@ -25,7 +52,7 @@ public class ListenerPVP implements Listener {
 
         YamlConfiguration playerData = this.plugin.getDataFile(player);
         playerData.set("pvp", false);
-        this.plugin.saveDataFile(player, playerData);
+        this.plugin.saveDataFile(player);
     }
 
     public void enablePVP(Player player) {
@@ -33,7 +60,7 @@ public class ListenerPVP implements Listener {
 
         YamlConfiguration playerData = this.plugin.getDataFile(player);
         playerData.set("pvp", true);
-        this.plugin.saveDataFile(player, playerData);
+        this.plugin.saveDataFile(player);
     }
 
     public boolean isPVPEnabled(Player player) {
@@ -61,31 +88,5 @@ public class ListenerPVP implements Listener {
         Tameable pet = (Tameable) entity;
         AnimalTamer owner = pet.getOwner();
         return (owner instanceof Entity ? (Entity) owner : entity);
-    }
-
-    @EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
-    public void onEntityCombat(EntityDamageByEntityEvent e) {
-        Entity ded = e.getEntity();
-        if (!(ded instanceof Player)) return;
-
-        Entity der = linkPet(linkProjectile(e.getDamager()));
-        if (!(der instanceof Player)) return;
-
-        Player damaged = (Player) ded;
-        Player damager = (Player) der;
-
-        if(!isPVPEnabled(damaged)) {
-            e.setCancelled(true);
-            String message = this.plugin.getLanguageMessageColoredWithPrefix("newbie-helper.no-pvp.other");
-            damager.sendMessage(message);
-            return;
-        }
-
-        if(!isPVPEnabled(damager)) {
-            e.setCancelled(true);
-            String message = this.plugin.getLanguageMessageColoredWithPrefix("newbie-helper.no-pvp.self");
-            damager.sendMessage(message);
-            // return;
-        }
     }
 }
