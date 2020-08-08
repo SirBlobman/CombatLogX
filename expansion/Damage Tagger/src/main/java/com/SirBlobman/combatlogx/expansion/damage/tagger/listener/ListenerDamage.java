@@ -14,7 +14,8 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.projectiles.ProjectileSource;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
+import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagReason;
+import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagType;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
 import com.SirBlobman.combatlogx.expansion.damage.tagger.DamageTagger;
@@ -41,7 +42,7 @@ public class ListenerDamage implements Listener {
         ILanguageManager languageManager = this.plugin.getLanguageManager();
         boolean wasInCombat = combatManager.isInCombat(player);
 
-        boolean tagged = combatManager.tag(player, null, PlayerPreTagEvent.TagType.UNKNOWN, PlayerPreTagEvent.TagReason.UNKNOWN);
+        boolean tagged = combatManager.tag(player, null, TagType.UNKNOWN, TagReason.UNKNOWN);
         if(!wasInCombat && tagged) {
             String message = getTagMessage(damageCause);
             languageManager.sendMessage(player, message);
@@ -64,14 +65,14 @@ public class ListenerDamage implements Listener {
         return false;
     }
 
-    private boolean doesNotTagPlayer(EntityDamageEvent.DamageCause cause) {
-        if(cause == null) return true;
+    private boolean doesNotTagPlayer(DamageCause damageCause) {
+        if(damageCause == null) return true;
 
         FileConfiguration config = this.expansion.getConfig("damage-tagger.yml");
         boolean allDamage = config.getBoolean("all-damage");
         if(allDamage) return false;
 
-        String causeName = cause.name().toLowerCase().replace("_", "-");
+        String causeName = damageCause.name().toLowerCase().replace("_", "-");
         String configPath = "damage-type." + causeName;
         return !config.getBoolean(configPath, false);
     }
