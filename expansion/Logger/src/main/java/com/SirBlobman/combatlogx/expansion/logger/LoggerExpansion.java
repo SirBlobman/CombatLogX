@@ -5,13 +5,14 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
+
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
 import com.SirBlobman.combatlogx.expansion.logger.listener.ListenerLogger;
-
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class LoggerExpansion extends Expansion {
     public LoggerExpansion(ICombatLogX plugin) {
@@ -20,26 +21,27 @@ public class LoggerExpansion extends Expansion {
 
     @Override
     public void onLoad() {
-        // Do Nothing
-    }
-
-    @Override
-    public void onDisable() {
-        // Do Nothing
-    }
-
-    @Override
-    public void onEnable() {
         saveDefaultConfig("logger.yml");
-
-        ListenerLogger listener = new ListenerLogger(this);
-        JavaPlugin plugin = getPlugin().getPlugin();
-        Bukkit.getPluginManager().registerEvents(listener, plugin);
     }
 
     @Override
     public void reloadConfig() {
         reloadConfig("logger.yml");
+    }
+
+    @Override
+    public void onEnable() {
+        ICombatLogX plugin = getPlugin();
+        JavaPlugin javaPlugin = plugin.getPlugin();
+        ListenerLogger listener = new ListenerLogger(this);
+
+        PluginManager manager = Bukkit.getPluginManager();
+        manager.registerEvents(listener, javaPlugin);
+    }
+
+    @Override
+    public void onDisable() {
+        // Do Nothing
     }
 
     private static final Pattern FILENAME_REGEX = Pattern.compile("[^\\w.\\-]");

@@ -3,4 +3,4 @@ description: "An expansion used to log events to a file."
 
 main: "com.SirBlobman.combatlogx.expansion.logger.LoggerExpansion"
 author: "SirBlobman"
-version: "15.0"
+version: "15.1"

@@ -9,18 +9,9 @@ import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.event.*;
-import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagReason;
-import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagType;
-import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent.UntagReason;
-import com.SirBlobman.combatlogx.api.shaded.nms.AbstractNMS;
-import com.SirBlobman.combatlogx.api.shaded.nms.EntityHandler;
-import com.SirBlobman.combatlogx.api.shaded.nms.MultiVersionHandler;
-import com.SirBlobman.combatlogx.expansion.logger.LoggerExpansion;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
@@ -31,51 +22,21 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
+import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.event.*;
+import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagReason;
+import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagType;
+import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent.UntagReason;
+import com.SirBlobman.combatlogx.api.shaded.nms.AbstractNMS;
+import com.SirBlobman.combatlogx.api.shaded.nms.EntityHandler;
+import com.SirBlobman.combatlogx.api.shaded.nms.MultiVersionHandler;
+import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
+import com.SirBlobman.combatlogx.expansion.logger.LoggerExpansion;
+
 public class ListenerLogger implements Listener {
     private final LoggerExpansion expansion;
     public ListenerLogger(LoggerExpansion expansion) {
         this.expansion = expansion;
-    }
-
-    private String getLoggerFormat(String path) {
-        FileConfiguration config = this.expansion.getConfig("logger.yml");
-        if(config == null) return null;
-
-        String prefixFormat = config.getString("log-entry-options.prefix-format");
-        if(prefixFormat == null) prefixFormat = "[MMMM dd, YYYY HH:mm:ss.SSSa zzz] ";
-
-        SimpleDateFormat format = new SimpleDateFormat(prefixFormat);
-        String prefix = format.format(new Date(System.currentTimeMillis()));
-
-        String messageFormat = config.getString("log-entry-options." + path);
-        if(messageFormat == null) messageFormat = "";
-
-        return (prefix + messageFormat);
-    }
-
-    private boolean isDisabled(String path) {
-        FileConfiguration config = this.expansion.getConfig("logger.yml");
-        if(config == null) return true;
-
-        return !config.getBoolean("log-options." + path);
-    }
-
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    private void appendLog(String message) {
-        try {
-            File dataFolder = this.expansion.getDataFolder();
-            if(!dataFolder.exists()) dataFolder.mkdirs();
-
-            String fileName = this.expansion.getLogFileName();
-            File file = new File(dataFolder, fileName);
-            if(!file.exists()) file.createNewFile();
-
-            Path path = file.toPath();
-            Files.write(path, Collections.singleton(message), StandardCharsets.UTF_8, StandardOpenOption.APPEND);
-        } catch(IOException ex) {
-            Logger logger = this.expansion.getLogger();
-            logger.log(Level.SEVERE, "An error occurred while trying to append to the log file.", ex);
-        }
     }
 
     @EventHandler(priority=EventPriority.MONITOR)
@@ -204,12 +165,54 @@ public class ListenerLogger implements Listener {
 
     private String getEntityName(Entity entity) {
         ICombatLogX plugin = this.expansion.getPlugin();
-        if(entity == null) return plugin.getLanguageMessage("errors.unknown-entity-name");
+        ILanguageManager languageManager = plugin.getLanguageManager();
+        if(entity == null) return languageManager.getMessage("errors.unknown-entity-name");
     
         MultiVersionHandler<?> multiVersionHandler = plugin.getMultiVersionHandler();
         AbstractNMS nmsHandler = multiVersionHandler.getInterface();
-        
         EntityHandler entityHandler = nmsHandler.getEntityHandler();
         return entityHandler.getName(entity);
+    }
+
+    private String getLoggerFormat(String path) {
+        FileConfiguration config = this.expansion.getConfig("logger.yml");
+        if(config == null) return null;
+
+        String prefixFormat = config.getString("log-entry-options.prefix-format");
+        if(prefixFormat == null) prefixFormat = "[MMMM dd, YYYY HH:mm:ss.SSSa zzz] ";
+
+        SimpleDateFormat format = new SimpleDateFormat(prefixFormat);
+        String prefix = format.format(new Date(System.currentTimeMillis()));
+
+        String messageFormat = config.getString("log-entry-options." + path);
+        if(messageFormat == null) messageFormat = "";
+
+        return (prefix + messageFormat);
+    }
+
+    private boolean isDisabled(String path) {
+        FileConfiguration config = this.expansion.getConfig("logger.yml");
+        if(config == null) return true;
+
+        return !config.getBoolean("log-options." + path);
+    }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    private void appendLog(String message) {
+        try {
+            File dataFolder = this.expansion.getDataFolder();
+            if(!dataFolder.exists()) dataFolder.mkdirs();
+
+            String fileName = this.expansion.getLogFileName();
+            File logFile = new File(dataFolder, fileName);
+            if(!logFile.exists()) logFile.createNewFile();
+
+            Path path = logFile.toPath();
+            Set<String> messageList = Collections.singleton(message);
+            Files.write(path, messageList, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
+        } catch(IOException ex) {
+            Logger logger = this.expansion.getLogger();
+            logger.log(Level.SEVERE, "An error occurred while trying to append to the log file.", ex);
+        }
     }
 }
