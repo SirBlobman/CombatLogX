@@ -4,4 +4,4 @@ description: "A plugin to tag players for non-combat damage types."
 
 main: "com.SirBlobman.combatlogx.expansion.damage.tagger.DamageTagger"
 author: "SirBlobman"
-version: "15.0"
+version: "15.1"
