@@ -5,16 +5,16 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.expansion.rewards.listener.ListenerRewards;
-import com.SirBlobman.combatlogx.expansion.rewards.object.Reward;
-
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.expansion.Expansion;
+import com.SirBlobman.combatlogx.expansion.rewards.listener.ListenerRewards;
+import com.SirBlobman.combatlogx.expansion.rewards.object.Reward;
 
 public class Rewards extends Expansion {
     private final List<Reward> rewardList;
@@ -30,21 +30,24 @@ public class Rewards extends Expansion {
     }
 
     @Override
+    public void reloadConfig() {
+        reloadConfig("rewards.yml");
+        setupRewards();
+    }
+
+    @Override
     public void onEnable() {
+        ICombatLogX plugin = getPlugin();
+        JavaPlugin javaPlugin = plugin.getPlugin();
+        ListenerRewards listener = new ListenerRewards(this);
+
         PluginManager manager = Bukkit.getPluginManager();
-        JavaPlugin plugin = getPlugin().getPlugin();
-        manager.registerEvents(new ListenerRewards(this), plugin);
+        manager.registerEvents(listener, javaPlugin);
     }
 
     @Override
     public void onDisable() {
         // Do Nothing
-    }
-
-    @Override
-    public void reloadConfig() {
-        reloadConfig("rewards.yml");
-        setupRewards();
     }
     
     public List<Reward> getAllRewards() {
