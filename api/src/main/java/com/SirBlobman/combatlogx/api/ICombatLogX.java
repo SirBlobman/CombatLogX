@@ -52,6 +52,9 @@ public interface ICombatLogX {
     void registerCommand(String commandName, CommandExecutor executor, String description, String usage, String... aliasArray);
     
     default void printDebug(String... messageArray) {
+        YamlConfiguration config = getConfig("config.yml");
+        if(!config.getBoolean("debug")) return;
+
         Logger logger = getLogger();
         for(String message : messageArray) {
             if(message == null) continue;
