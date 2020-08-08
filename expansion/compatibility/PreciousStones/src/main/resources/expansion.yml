@@ -3,5 +3,5 @@ display-name: "PreciousStones Compatibility"
 description: "An expansion that adds region and force field support to PreciousStones."
 
 main: "com.SirBlobman.combatlogx.expansion.compatibility.preciousstones.CompatibilityPreciousStones"
-version: "15.0"
+version: "15.1"
 author: "SirBlobman"

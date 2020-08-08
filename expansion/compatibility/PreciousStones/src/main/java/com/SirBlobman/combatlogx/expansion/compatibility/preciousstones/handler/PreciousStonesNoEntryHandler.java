@@ -1,12 +1,12 @@
 package com.SirBlobman.combatlogx.expansion.compatibility.preciousstones.handler;
 
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagType;
 import com.SirBlobman.combatlogx.api.expansion.noentry.NoEntryHandler;
 import com.SirBlobman.combatlogx.expansion.compatibility.preciousstones.CompatibilityPreciousStones;
 import com.SirBlobman.combatlogx.expansion.compatibility.preciousstones.hook.HookPreciousStones;
-
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
 public class PreciousStonesNoEntryHandler extends NoEntryHandler {
     public PreciousStonesNoEntryHandler(CompatibilityPreciousStones expansion) {

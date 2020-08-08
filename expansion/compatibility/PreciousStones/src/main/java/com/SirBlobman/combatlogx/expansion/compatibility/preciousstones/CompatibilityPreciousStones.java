@@ -2,6 +2,10 @@ package com.SirBlobman.combatlogx.expansion.compatibility.preciousstones;
 
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
+
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
 import com.SirBlobman.combatlogx.api.expansion.noentry.NoEntryExpansion;
@@ -11,14 +15,16 @@ import com.SirBlobman.combatlogx.api.expansion.noentry.NoEntryListener;
 import com.SirBlobman.combatlogx.expansion.compatibility.preciousstones.handler.PreciousStonesNoEntryHandler;
 import com.SirBlobman.combatlogx.expansion.compatibility.preciousstones.listener.ListenerFieldCreation;
 
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
-
 public class CompatibilityPreciousStones extends NoEntryExpansion {
     private NoEntryHandler noEntryHandler;
     public CompatibilityPreciousStones(ICombatLogX plugin) {
         super(plugin);
+        this.noEntryHandler = null;
+    }
+
+    @Override
+    public void reloadConfig() {
+        reloadConfig("preciousstones-compatibility.yml");
     }
     
     @Override
@@ -73,11 +79,6 @@ public class CompatibilityPreciousStones extends NoEntryExpansion {
     @Override
     public void onActualDisable() {
         // Do Nothing
-    }
-    
-    @Override
-    public void reloadConfig() {
-        reloadConfig("preciousstones-compatibility.yml");
     }
     
     @Override
