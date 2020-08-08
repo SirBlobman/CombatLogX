@@ -1,6 +1,5 @@
 package com.SirBlobman.combatlogx.manager;
 
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -187,24 +186,10 @@ public class CombatManager implements ICombatManager, Runnable {
     public String getSudoCommand(Player player, LivingEntity enemy, String command) {
         String playerName = player.getName();
         String enemyName = getEntityName(enemy);
-        String newCommand = command.replace("{player}", playerName).replace("{enemy}", enemyName);
-
-        try {
-            PluginManager manager = Bukkit.getPluginManager();
-            if(manager.isPluginEnabled("PlaceholderAPI")) {
-                Class<?> class_PlaceholderAPI = Class.forName("me.clip.placeholderapi.PlaceholderAPI");
-                Method method_setPlaceholders = class_PlaceholderAPI.getDeclaredMethod("setPlaceholders", OfflinePlayer.class, String.class);
-                newCommand = (String) method_setPlaceholders.invoke(null, player, command);
-            }
-
-            if(manager.isPluginEnabled("MVdWPlaceholderAPI")) {
-                Class<?> class_PlaceholderAPI = Class.forName("be.maximvdw.placeholderapi.PlaceholderAPI");
-                Method method_replacePlaceholders = class_PlaceholderAPI.getDeclaredMethod("replacePlaceholders", OfflinePlayer.class, String.class);
-                newCommand = (String) method_replacePlaceholders.invoke(null, player, command);
-            }
-        } catch(ReflectiveOperationException ignored) {}
-
-        return newCommand;
+        command = command.replace("{player}", playerName).replace("{enemy}", enemyName);
+        command = replacePAPI(player, command);
+        command = replaceMVdW(player, command);
+        return command;
     }
 
     @Override
@@ -364,5 +349,17 @@ public class CombatManager implements ICombatManager, Runnable {
         }
         
         return null;
+    }
+
+    private String replacePAPI(Player player, String string) {
+        PluginManager manager = Bukkit.getPluginManager();
+        if(!manager.isPluginEnabled("PlaceholderAPI")) return string;
+        return me.clip.placeholderapi.PlaceholderAPI.setPlaceholders(player, string);
+    }
+
+    private String replaceMVdW(Player player, String string) {
+        PluginManager manager = Bukkit.getPluginManager();
+        if(!manager.isPluginEnabled("MVdWPlaceholderAPI")) return string;
+        return be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(player, string);
     }
 }
