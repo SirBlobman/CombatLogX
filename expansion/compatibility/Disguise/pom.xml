@@ -37,7 +37,7 @@
         <!-- robinrether Repository -->
         <repository>
             <id>robinrether-repo</id>
-            <url>https://repo.robingrether.de/</url>
+            <url>https://www.robingrether.de/mc/repo/</url>
         </repository>
     </repositories>
     
