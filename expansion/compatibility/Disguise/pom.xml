@@ -53,7 +53,7 @@
         <!-- CombatLogX API -->
         <dependency>
             <groupId>com.SirBlobman.combatlogx</groupId>
-            <artifactId>CombatLogX-api</artifactId>
+            <artifactId>CombatLogX-API</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
