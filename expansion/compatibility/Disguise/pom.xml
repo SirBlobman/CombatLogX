@@ -24,7 +24,7 @@
 
         <!-- CodeMC Public Repository -->
         <repository>
-            <id>codemc-public</id>
+            <id>codemc-repo</id>
             <url>https://repo.codemc.io/repository/maven-public/</url>
         </repository>
 
