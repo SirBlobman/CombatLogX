@@ -56,15 +56,12 @@ public class ListenerUntagger implements Listener {
     private void sendUntagMessage(Player player, PlayerUntagEvent.UntagReason untagReason) {
         if(untagReason == PlayerUntagEvent.UntagReason.EXPIRE) {
             ILanguageManager languageManager = this.plugin.getLanguageManager();
-            String message = languageManager.getMessageColoredWithPrefix("combat-timer.expire");
-            languageManager.sendMessage(player, message);
-            return;
+            languageManager.sendLocalizedMessage(player, "combat-timer.expire");
         }
 
         if(untagReason == PlayerUntagEvent.UntagReason.EXPIRE_ENEMY_DEATH) {
             ILanguageManager languageManager = this.plugin.getLanguageManager();
-            String message = languageManager.getMessageColoredWithPrefix("combat-timer.enemy-death");
-            languageManager.sendMessage(player, message);
+            languageManager.sendLocalizedMessage(player, "combat-timer.enemy-death");
         }
     }
 

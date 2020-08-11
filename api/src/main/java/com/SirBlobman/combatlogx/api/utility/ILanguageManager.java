@@ -1,12 +1,14 @@
 package com.SirBlobman.combatlogx.api.utility;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import com.SirBlobman.api.utility.MessageUtil;
 
 public interface ILanguageManager {
     String getLanguage();
     String getMessage(String key);
+    void sendLocalizedMessage(Player player, String key, Replacer... replacerArray);
     
     default String getMessageColored(String key) {
         String message = getMessage(key);

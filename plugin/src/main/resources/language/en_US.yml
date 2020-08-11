@@ -53,7 +53,7 @@ commands:
     - "  &f&l/combatlogx untag <player>&7: Force a player out of combat."
     - "&f"
 
-  combattimer:
+  combat-timer:
     time-left:
       self: "&aYou have &c{time} seconds&a remaining."
       other: "&f{target} &ahas &c{time} seconds&a remaining."

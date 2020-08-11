@@ -2,8 +2,6 @@ package com.SirBlobman.combatlogx.command;
 
 import java.util.Arrays;
 
-import com.SirBlobman.combatlogx.api.shaded.utility.Util;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,6 +10,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+
+import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 
 public class CustomCommand extends Command implements Listener {
     private final CommandExecutor executor;

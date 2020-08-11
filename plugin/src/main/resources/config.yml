@@ -6,8 +6,17 @@ generated-by-version: "${bukkit.plugin.version}"
 
 # What is the name of the language file for CombatLogX?
 # If the file does not exist, the default will be used
-# Default: "en_US"
-language: "en_US"
+# File Location: /plugins/CombatLogX/language/<choice>.yml
+#
+# Default: "en_us"
+language: "en_us"
+
+# This option only works correctly in Spigot 1.12.2+
+# Should the plugin try to make the messages the same language that was selected by the player?
+# (Unknown or undetectable languages will use the language configured above)
+#
+# Default: true
+per-player-locale: true
 
 # Should extra messages be printed for certain tasks?
 # Only use this if you are having issues or you are asked to by SirBlobman
