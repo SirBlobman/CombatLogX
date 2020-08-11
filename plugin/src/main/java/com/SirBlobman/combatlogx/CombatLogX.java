@@ -60,7 +60,7 @@ public class CombatLogX extends SirBlobmanPlugin<CombatLogX> implements ICombatL
         configChecker.checkConfig();
         
         saveDefaultConfig("config.yml");
-        saveDefaultConfig("language/en_US.yml");
+        saveDefaultConfig("language/en_us.yml");
         
         ExpansionManager expansionManager = getExpansionManager();
         expansionManager.loadExpansions();
@@ -252,8 +252,8 @@ public class CombatLogX extends SirBlobmanPlugin<CombatLogX> implements ICombatL
     }
 
     private void registerCommands() {
-        registerCommand("combatlogx", new CommandCombatLogX(this));
-        registerCommand("combattimer", new CommandCombatTimer(this));
+        registerCommand(CommandCombatLogX.class);
+        registerCommand(CommandCombatTimer.class);
     }
 
     private void registerTasks() {

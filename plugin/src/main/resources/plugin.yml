@@ -52,10 +52,11 @@ commands:
       - "clx"
       - "ctx"
 
-  combattimer:
+  combat-timer:
     description: "Check how much time you have left in combat."
     usage: "/<command> [player]"
     aliases:
+      - "combattimer"
       - "combattime"
       - "ctime"
       - "clt"

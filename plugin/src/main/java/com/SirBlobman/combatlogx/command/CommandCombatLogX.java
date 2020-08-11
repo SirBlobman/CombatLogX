@@ -7,9 +7,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
 
@@ -20,34 +18,34 @@ import com.SirBlobman.combatlogx.api.expansion.Expansion;
 import com.SirBlobman.combatlogx.api.expansion.Expansion.State;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionDescription;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
+import com.SirBlobman.combatlogx.api.shaded.command.CustomCommand;
 import com.SirBlobman.combatlogx.api.shaded.nms.VersionUtil;
 import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
-import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
+import com.SirBlobman.combatlogx.api.utility.Replacer;
 import com.SirBlobman.combatlogx.manager.LanguageManager;
 import com.SirBlobman.combatlogx.update.UpdateChecker;
 
-public class CommandCombatLogX implements TabExecutor {
-    private final CombatLogX plugin;
+public class CommandCombatLogX extends CustomCommand<CombatLogX> {
     public CommandCombatLogX(CombatLogX plugin) {
-        this.plugin = plugin;
+        super(plugin, "combatlogx");
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+    public List<String> onTabComplete(CommandSender sender, String[] args) {
         if(args.length == 1) {
-            String sub = args[0].toLowerCase();
-            List<String> subCommandList = Util.newList("help", "reload", "version", "tag", "untag");
-            return getMatching(subCommandList, sub);
+            List<String> valueList = Arrays.asList("help", "reload", "version", "tag", "untag", "about");
+            return getMatching(valueList, args[0]);
         }
-        
+
         if(args.length == 2) {
-            String sub = args[0].toLowerCase();
-            if(sub.equals("version") || sub.equals("about") || sub.equals("ver")) {
-                List<String> expansionNameList = this.plugin.getExpansionManager().getAllExpansions().stream()
-                        .map(expansion -> expansion.getDescription().getName()).collect(Collectors.toList());
-                return getMatching(expansionNameList, args[1]);
+            List<String> subList = Arrays.asList("version", "about", "ver");
+            if(subList.contains(args[0].toLowerCase())) {
+                ExpansionManager expansionManager = this.plugin.getExpansionManager();
+                List<Expansion> expansionList = expansionManager.getAllExpansions();
+                List<String> valueList = expansionList.stream().map(expansion -> expansion.getDescription().getName()).collect(Collectors.toList());
+                return getMatching(valueList, args[1]);
             }
         }
 
@@ -55,13 +53,15 @@ public class CommandCombatLogX implements TabExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(CommandSender sender, String[] args) {
         if(args.length < 1) return false;
 
         String sub = args[0].toLowerCase();
         String[] newArgs = args.length < 2 ? new String[0] : Arrays.copyOfRange(args, 1, args.length);
         switch(sub) {
-            case "help": return helpCommand(sender);
+            case "help":
+            case "?":
+                return helpCommand(sender);
             
             case "about":
             case "version":
@@ -83,53 +83,10 @@ public class CommandCombatLogX implements TabExecutor {
             case "remove":
                 return untagPlayerCommand(sender, newArgs);
 
-            default: return false;
+            default: break;
         }
-    }
-    
-    private List<String> getMatching(List<String> valueList, String arg) {
-        if(valueList == null || valueList.isEmpty() || arg == null) return Collections.emptyList();
-        
-        String lowerArg = arg.toLowerCase();
-        List<String> matchList = new ArrayList<>();
-        
-        for(String value : valueList) {
-            String lowerValue = value.toLowerCase();
-            if(!lowerValue.startsWith(lowerArg)) continue;
-            
-            matchList.add(value);
-        }
-        
-        return matchList;
-    }
 
-    private boolean checkNoPermission(CommandSender sender, String permission) {
-        if(sender.hasPermission(permission)) return false;
-        
-        ILanguageManager languageManager = this.plugin.getLanguageManager();
-        String message = languageManager.getMessageColoredWithPrefix("errors.no-permission").replace("{permission}", permission);
-        languageManager.sendMessage(sender, message);
-        return true;
-    }
-
-    private Player getTarget(CommandSender sender, String targetName) {
-        Player target = Bukkit.getPlayer(targetName);
-        if(target == null) {
-            ILanguageManager languageManager = this.plugin.getLanguageManager();
-            String message = languageManager.getMessageColoredWithPrefix("errors.invalid-target").replace("{target}", targetName);
-            languageManager.sendMessage(sender, message);
-            return null;
-        }
-        return target;
-    }
-
-    private String[] colorMultiple(String... messages) {
-        String[] colored = new String[messages.length];
-        for(int i = 0; i < messages.length; i++) {
-            String string = messages[i];
-            colored[i] = MessageUtil.color(string);
-        }
-        return colored;
+        return false;
     }
 
     private boolean helpCommand(CommandSender sender) {
@@ -151,7 +108,6 @@ public class CommandCombatLogX implements TabExecutor {
         try {
             this.plugin.reloadConfig("config.yml");
             this.plugin.reloadConfig("language.yml");
-            
             ExpansionManager expansionManager = this.plugin.getExpansionManager();
             expansionManager.reloadExpansionConfigs();
         } catch(Exception ex) {
@@ -166,59 +122,48 @@ public class CommandCombatLogX implements TabExecutor {
             logger.log(Level.WARNING, "An error occurred while reloading the config files:", ex);
             return true;
         }
-    
-        LanguageManager languageManager = this.plugin.getLanguageManager();
-        String message = languageManager.getMessageColoredWithPrefix("commands.combatlogx.reloaded");
-        languageManager.sendMessage(sender, message);
+
+        sendMessage(sender, "commands.combatlogx.reloaded");
         return true;
     }
 
     private boolean tagPlayerCommand(CommandSender sender, String[] args) {
-        if(checkNoPermission(sender, "combatlogx.command.combatlogx.tag")) return true;
         if(args.length < 1) return false;
+        if(checkNoPermission(sender, "combatlogx.command.combatlogx.tag")) return true;
 
-        String targetName = args[0];
-        Player target = getTarget(sender, targetName);
+        Player target = getCustomTarget(sender, args[0]);
         if(target == null) return true;
-        targetName = target.getName();
+        String targetName = target.getName();
 
         ICombatManager combatManager = this.plugin.getCombatManager();
         boolean isTagged = combatManager.tag(target, null, PlayerPreTagEvent.TagType.UNKNOWN, PlayerPreTagEvent.TagReason.UNKNOWN);
-    
-        LanguageManager languageManager = this.plugin.getLanguageManager();
+
         String messagePath = "commands.combatlogx." + (isTagged ? "tag-player" : "tag-player-fail");
-        String message = languageManager.getMessageColoredWithPrefix(messagePath).replace("{target}", targetName);
-        languageManager.sendMessage(sender, message);
+        sendMessage(sender, messagePath, message -> message.replace("{target}", targetName));
         return true;
     }
 
     private boolean untagPlayerCommand(CommandSender sender, String[] args) {
-        if(checkNoPermission(sender, "combatlogx.command.combatlogx.untag")) return true;
         if(args.length < 1) return false;
+        if(checkNoPermission(sender, "combatlogx.command.combatlogx.untag")) return true;
 
-        String targetName = args[0];
-        Player target = getTarget(sender, targetName);
+        Player target = getCustomTarget(sender, args[0]);
         if(target == null) return true;
-        targetName = target.getName();
+        String targetName = target.getName();
 
         ICombatManager combatManager = this.plugin.getCombatManager();
         if(!combatManager.isInCombat(target)) {
-            LanguageManager languageManager = this.plugin.getLanguageManager();
-            String message = languageManager.getMessageColoredWithPrefix("errors.target-not-in-combat").replace("{target}", targetName);
-            languageManager.sendMessage(sender, message);
+            sendMessage(sender, "errors.target-not-in-combat", message -> message.replace("{target}", targetName));
             return true;
         }
+
         combatManager.untag(target, PlayerUntagEvent.UntagReason.EXPIRE);
-        
-        LanguageManager languageManager = this.plugin.getLanguageManager();
-        String message = languageManager.getMessageColoredWithPrefix("commands.combatlogx.untag-player").replace("{target}", targetName);
-        languageManager.sendMessage(sender, message);
+        sendMessage(sender, "commands.combatlogx.untag-player", message -> message.replace("{target}", targetName));
         return true;
     }
 
     private boolean versionCommand(CommandSender sender, String[] args) {
         if(checkNoPermission(sender, "combatlogx.command.combatlogx.version")) return true;
-
         if(args.length < 1) {
             LanguageManager languageManager = this.plugin.getLanguageManager();
             languageManager.sendMessage(sender, "Getting version information for CombatLogX...");
@@ -270,8 +215,7 @@ public class CommandCombatLogX implements TabExecutor {
         String spigotVersion = updateChecker.getSpigotVersion();
         
         LanguageManager languageManager = this.plugin.getLanguageManager();
-        String[] messageArray = colorMultiple(
-                "&f",
+        String[] messageArray = MessageUtil.colorArray("&f",
                 "&f&lServer Version: &7" + Bukkit.getVersion(),
                 "&f&lBukkit Version: &7" + Bukkit.getBukkitVersion(),
                 "&f&lMinecraft Version: &7" + VersionUtil.getMinecraftVersion(),
@@ -303,5 +247,33 @@ public class CommandCombatLogX implements TabExecutor {
             String message = MessageUtil.color("  &f&l" + name + " &7v" + version);
             languageManager.sendMessage(sender, message);
         }
+    }
+
+    private void sendMessage(CommandSender sender, String key, Replacer... replacerArray) {
+        ILanguageManager languageManager = this.plugin.getLanguageManager();
+        if(sender instanceof Player) {
+            Player player = (Player) sender;
+            languageManager.sendLocalizedMessage(player, key, replacerArray);
+            return;
+        }
+
+        String message = languageManager.getMessageColoredWithPrefix(key);
+        for(Replacer replacer : replacerArray) message = replacer.replace(message);
+        languageManager.sendMessage(sender, message);
+    }
+
+    private boolean checkNoPermission(CommandSender sender, String permission) {
+        if(sender.hasPermission(permission)) return false;
+        sendMessage(sender, "errors.no-permission", message -> message.replace("{permission}", permission));
+        return true;
+    }
+
+    private Player getCustomTarget(CommandSender sender, String targetName) {
+        Player target = Bukkit.getPlayer(targetName);
+        if(target == null) {
+            sendMessage(sender, "errors.invalid-target", message -> message.replace("{target}", targetName));
+            return null;
+        }
+        return target;
     }
 }
