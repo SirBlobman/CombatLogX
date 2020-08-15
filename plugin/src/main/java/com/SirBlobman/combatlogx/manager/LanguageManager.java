@@ -1,9 +1,11 @@
 package com.SirBlobman.combatlogx.manager;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -52,6 +54,21 @@ public final class LanguageManager implements ILanguageManager {
         }
 
         player.sendMessage(replace);
+    }
+    
+    public void reloadConfig() {
+        String languageName = getLanguage();
+        String fileName = ("language/" + languageName + ".yml");
+    
+        ConfigManager<?> configManager = this.plugin.getConfigManager();
+        configManager.reloadConfig(fileName);
+    
+        Collection<? extends Player> onlinePlayerList = Bukkit.getOnlinePlayers();
+        for(Player player : onlinePlayerList) {
+            String localeName = getLocale(player);
+            String localeFile = ("language/" + localeName + ".yml");
+            configManager.reloadConfig(localeFile);
+        }
     }
 
     private String getMessage(String fileName, String key) {

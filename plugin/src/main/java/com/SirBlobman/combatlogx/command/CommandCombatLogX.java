@@ -107,7 +107,10 @@ public class CommandCombatLogX extends CustomCommand<CombatLogX> {
 
         try {
             this.plugin.reloadConfig("config.yml");
-            this.plugin.reloadConfig("language.yml");
+    
+            LanguageManager languageManager = this.plugin.getLanguageManager();
+            languageManager.reloadConfig();
+    
             ExpansionManager expansionManager = this.plugin.getExpansionManager();
             expansionManager.reloadExpansionConfigs();
         } catch(Exception ex) {

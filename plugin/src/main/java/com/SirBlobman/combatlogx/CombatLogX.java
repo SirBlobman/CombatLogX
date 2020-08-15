@@ -179,12 +179,11 @@ public class CombatLogX extends SirBlobmanPlugin<CombatLogX> implements ICombatL
     
     private void forceRegisterCommand(String commandName, CommandExecutor executor, String description, String usage, String... aliases) {
         if(commandName == null || executor == null || description == null || usage == null || aliases == null) return;
-
         PluginManager manager = Bukkit.getPluginManager();
-
+        
         CustomCommand command = new CustomCommand(commandName, executor, description, usage, aliases);
         manager.registerEvents(command, this);
-
+        
         if(executor instanceof Listener) {
             Listener listener = (Listener) executor;
             manager.registerEvents(listener, this);
