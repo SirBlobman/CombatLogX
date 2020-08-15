@@ -25,12 +25,12 @@ public final class LanguageManager implements ILanguageManager {
         ConfigManager<?> configManager = this.plugin.getConfigManager();
         YamlConfiguration config = configManager.getConfig("config.yml");
         String languageName = config.getString("language");
-        if(languageName == null) return "en_US";
+        if(languageName == null) return "en_us";
         
         File pluginFolder = this.plugin.getDataFolder();
         File languageFolder = new File(pluginFolder, "language");
         File languageFile = new File(languageFolder, languageName + ".yml");
-        return (languageFile.exists() ? languageName : "en_US");
+        return (languageFile.exists() ? languageName : "en_us");
     }
     
     @Override
