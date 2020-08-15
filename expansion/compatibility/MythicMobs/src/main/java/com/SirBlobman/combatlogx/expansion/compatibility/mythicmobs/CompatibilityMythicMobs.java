@@ -2,15 +2,14 @@ package com.SirBlobman.combatlogx.expansion.compatibility.mythicmobs;
 
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
+
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
 import com.SirBlobman.combatlogx.expansion.compatibility.mythicmobs.listener.ListenerMythicMobs;
-
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.PluginManager;
 
 public class CompatibilityMythicMobs extends Expansion {
     public CompatibilityMythicMobs(ICombatLogX plugin) {

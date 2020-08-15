@@ -4,22 +4,21 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagReason;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagType;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import com.SirBlobman.combatlogx.expansion.compatibility.mythicmobs.CompatibilityMythicMobs;
-
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
@@ -40,8 +39,15 @@ public class ListenerMythicMobs implements Listener {
         String mobName = getMythicMobName(enemy);
         if(mobName == null) return;
         
+        printDebug("Detected Mythic Mob '" + mobName + "' in PlayerPreTagEvent:");
         boolean preventTag = shouldPreventTag(mobName);
-        if(preventTag) e.setCancelled(true);
+        
+        if(preventTag) {
+            printDebug("Mob is in tag prevention list, cancelling PlayerPreTagEvent.");
+            e.setCancelled(true);
+        }
+        
+        printDebug("Mob is not in tag prevention list, ignoring...");
     }
     
     @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
@@ -60,14 +66,14 @@ public class ListenerMythicMobs implements Listener {
         }
     }
     
-    private void checkForceTag(Player player, Entity entity, TagReason reason) {
-        String mobName = getMythicMobName(entity);
+    private void checkForceTag(Player player, Entity enemy, TagReason reason) {
+        String mobName = getMythicMobName(enemy);
         if(mobName == null || !shouldForceTag(mobName)) return;
         
         ICombatManager combatManager = this.plugin.getCombatManager();
-        if(entity instanceof LivingEntity) {
-            LivingEntity enemy = (LivingEntity) entity;
-            combatManager.tag(player, enemy, TagType.MOB, reason);
+        if(enemy instanceof LivingEntity) {
+            LivingEntity livingEnemy = (LivingEntity) enemy;
+            combatManager.tag(player, livingEnemy, TagType.MOB, reason);
             return;
         }
         
@@ -98,8 +104,19 @@ public class ListenerMythicMobs implements Listener {
     }
     
     private boolean shouldForceTag(String mobName) {
+        printDebug("Checking mob name '" + mobName + "' for force tag...");
         FileConfiguration config = this.plugin.getConfig("mythicmobs-compatibility.yml");
         List<String> forceTagMobNameList = config.getStringList("force-tag-mob-types");
-        return forceTagMobNameList.contains(mobName);
+        
+        boolean forceTag = forceTagMobNameList.contains(mobName);
+        printDebug("Force Tag: " + forceTag);
+        return forceTag;
+    }
+    
+    private void printDebug(String... messageArray) {
+        for(String message : messageArray) {
+            String realMessage = ("[MythicMobs Compatibility] " + message);
+            this.plugin.printDebug(realMessage);
+        }
     }
 }

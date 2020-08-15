@@ -4,4 +4,4 @@ description: "An expansion that lets you set entities from MythicMobs to tag pla
 
 main: "com.SirBlobman.combatlogx.expansion.compatibility.mythicmobs.CompatibilityMythicMobs"
 author: "SirBlobman"
-version: "15.0"
+version: "15.1"
