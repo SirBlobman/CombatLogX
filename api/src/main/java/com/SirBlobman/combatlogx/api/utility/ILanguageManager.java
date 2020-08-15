@@ -20,7 +20,9 @@ public interface ILanguageManager {
         String message = getMessageColored(key);
         if(message == null || message.isEmpty()) return "";
         
-        String prefix = getMessageColored("prefixes-plugin");
+        String prefix = getMessageColored("prefixes.plugin");
+        if(prefix == null || prefix.isEmpty()) return message;
+        
         return (prefix + " " + message);
     }
     
