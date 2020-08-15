@@ -70,11 +70,14 @@ public final class LanguageManager implements ILanguageManager {
     private String getLocale(Player player) {
         int minorVersion = VersionUtil.getMinorVersion();
         if(minorVersion < 12) return getLanguage();
-
         String languageName = player.getLocale();
+        
         File pluginFolder = this.plugin.getDataFolder();
         File languageFolder = new File(pluginFolder, "language");
         File languageFile = new File(languageFolder, languageName + ".yml");
-        return (languageFile.exists() ? languageName : getLanguage());
+        if(languageFile.exists()) return languageName;
+        
+        this.plugin.printDebug("Could not find language file '" + languageName + ".yml' for player. Using default language from config.yml...");
+        return getLanguage();
     }
 }
