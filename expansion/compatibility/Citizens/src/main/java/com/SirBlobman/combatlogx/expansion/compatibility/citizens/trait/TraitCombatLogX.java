@@ -24,7 +24,7 @@ public class TraitCombatLogX extends Trait {
     
     private final CompatibilityCitizens expansion;
     public TraitCombatLogX(CompatibilityCitizens expansion) {
-        super("combatlogX");
+        super("combatlogx");
         this.expansion = Objects.requireNonNull(expansion, "expansion must not be null!");
         extendLife();
     }
