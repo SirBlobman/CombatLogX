@@ -78,7 +78,7 @@ untag-sudo-command-list:
 link-pets: true
 
 # Set this to true to link arrows, potions, snowballs, eggs, and other projectiles that can be shot by entities.
-# This will only link the shootr if they are the attacker
+# This will only link the shooter if they are the attacker
 #
 # Default: true
 link-projectiles: true
