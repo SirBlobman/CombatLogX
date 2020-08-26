@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitScheduler;
+
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.shaded.nms.AbstractNMS;
 import com.SirBlobman.combatlogx.api.shaded.nms.MultiVersionHandler;
@@ -12,11 +17,6 @@ import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import com.SirBlobman.combatlogx.expansion.notifier.Notifier;
 
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitScheduler;
-
 public class BossBarManager {
     private final Notifier expansion;
     private final List<UUID> disabledList;
@@ -24,18 +24,23 @@ public class BossBarManager {
         this.expansion = expansion;
         this.disabledList = new ArrayList<>();
     }
-    
-    public void toggleBossBar(Player player) {
-        if(player == null) return;
+
+    /**
+     * @param player The player to toggle the boss bar for
+     * @return true if the boss bar was toggled ON, false if the boss bar was toggled OFF
+     */
+    public boolean toggleBossBar(Player player) {
+        if(player == null) return false;
         
         UUID uuid = player.getUniqueId();
         if(this.disabledList.contains(uuid)) {
             this.disabledList.remove(uuid);
-            return;
+            return true;
         }
         
         removeBossBar(player, true);
         this.disabledList.add(uuid);
+        return false;
     }
     
     public boolean isDisabled(Player player) {

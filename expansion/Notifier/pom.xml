@@ -72,11 +72,10 @@
             <artifactId>MVdWPlaceholderAPI</artifactId>
             <version>3.1.1-SNAPSHOT</version>
             <scope>provided</scope>
-
             <exclusions>
                 <exclusion>
-                    <groupId>be.maximvdw</groupId>
-                    <artifactId>MVdWUpdater</artifactId>
+                    <groupId>org.spigotmc</groupId>
+                    <artifactId>spigot</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>

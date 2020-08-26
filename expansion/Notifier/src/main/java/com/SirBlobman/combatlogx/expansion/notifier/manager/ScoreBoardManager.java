@@ -2,13 +2,13 @@ package com.SirBlobman.combatlogx.expansion.notifier.manager;
 
 import java.util.*;
 
-import com.SirBlobman.combatlogx.expansion.notifier.Notifier;
-import com.SirBlobman.combatlogx.expansion.notifier.scoreboard.CustomScoreBoard;
-
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+
+import com.SirBlobman.combatlogx.expansion.notifier.Notifier;
+import com.SirBlobman.combatlogx.expansion.notifier.scoreboard.CustomScoreBoard;
 
 public class ScoreBoardManager {
     private final Notifier expansion;
@@ -21,18 +21,24 @@ public class ScoreBoardManager {
         this.previousScoreboardMap = new HashMap<>();
         this.disabledList = new ArrayList<>();
     }
-    
-    public void toggleScoreboard(Player player) {
-        if(player == null) return;
+
+
+    /**
+     * @param player The player to toggle the scoreboard for
+     * @return true if the scoreboard was toggled ON, false if the scoreboard was toggled OFF
+     */
+    public boolean toggleScoreboard(Player player) {
+        if(player == null) return false;
         
         UUID uuid = player.getUniqueId();
         if(this.disabledList.contains(uuid)) {
             this.disabledList.remove(uuid);
-            return;
+            return true;
         }
     
         removeScoreboard(player);
         this.disabledList.add(uuid);
+        return false;
     }
     
     public boolean isDisabled(Player player) {

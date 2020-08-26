@@ -28,6 +28,8 @@ placeholders:
     idling: "&aIdle"
     in-combat: "&aYes"
     not-in-combat: "&cNo"
+    option-enable: "&aON"
+    option-disable: "&cOFF"
 
 errors:
   unknown-entity-name: "Unknown Entity"
@@ -151,6 +153,11 @@ newbie-helper:
     format: "&a{target}&7 has PvP set to {settings}"
     enabled: "&aON"
     disabled: "&cOFF"
+
+notifier:
+  toggle-bossbar: "&7&lBoss Bar: {status}"
+  toggle-actionbar: "&7&lAction Bar: {status}"
+  toggle-scoreboard: "&7Scoreboard: {status}"
 
 citizens-join-deny: "&cAs punishment for logging out during combat, you are not allowed to join until your clone is killed or removed."
 

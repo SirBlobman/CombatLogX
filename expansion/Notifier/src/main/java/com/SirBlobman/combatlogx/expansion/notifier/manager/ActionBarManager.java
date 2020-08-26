@@ -22,17 +22,22 @@ public class ActionBarManager {
         this.expansion = expansion;
         this.disabledList = new ArrayList<>();
     }
-    
-    public void toggleActionBar(Player player) {
-        if(player == null) return;
+
+    /**
+     * @param player The player to toggle the action bar for
+     * @return true if the action bar was toggled ON, false if the action bar was toggled OFF
+     */
+    public boolean toggleActionBar(Player player) {
+        if(player == null) return false;
         
         UUID uuid = player.getUniqueId();
         if(this.disabledList.contains(uuid)) {
             this.disabledList.remove(uuid);
-            return;
+            return true;
         }
         
         this.disabledList.add(uuid);
+        return false;
     }
     
     public boolean isDisabled(Player player) {

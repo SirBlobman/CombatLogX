@@ -43,11 +43,15 @@ public final class LanguageManager implements ILanguageManager {
     }
 
     @Override
-    public void sendLocalizedMessage(Player player, String key, Replacer... replacerArray) {
+    public String getLocalizedMessage(Player player, String key) {
         String localeName = getLocale(player);
         String fileName = ("language/" + localeName + ".yml");
-        String message = getMessage(fileName, key);
+        return getMessage(fileName, key);
+    }
 
+    @Override
+    public void sendLocalizedMessage(Player player, String key, Replacer... replacerArray) {
+        String message = getLocalizedMessage(player, key);
         String replace = MessageUtil.color(message);
         for(Replacer replacer : replacerArray) {
             replace = replacer.replace(replace);

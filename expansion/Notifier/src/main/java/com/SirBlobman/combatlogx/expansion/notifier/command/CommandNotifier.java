@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
 import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
 import com.SirBlobman.combatlogx.expansion.notifier.Notifier;
 import com.SirBlobman.combatlogx.expansion.notifier.manager.ActionBarManager;
@@ -32,24 +33,36 @@ public class CommandNotifier implements CommandExecutor {
         }
         
         Player player = (Player) sender;
+        ICombatLogX plugin = this.expansion.getPlugin();
+        ILanguageManager languageManager = plugin.getLanguageManager();
+
+        String permission = "combatlogx.notifier.toggle";
+        if(!sender.hasPermission(permission)) {
+            languageManager.sendLocalizedMessage(player, "errors.no-permission", message -> message.replace("{permission}", permission));
+            return true;
+        }
+
         String sub = args[0].toLowerCase();
         switch(sub) {
             case "bossbar":
             case "boss-bar":
                 BossBarManager bossBarManager = this.expansion.getBossBarManager();
-                bossBarManager.toggleBossBar(player);
+                boolean statusBossBar = bossBarManager.toggleBossBar(player);
+                sendToggleMessage(player, "bossbar", statusBossBar);
                 return true;
                 
             case "scoreboard":
             case "score-board":
                 ScoreBoardManager scoreBoardManager = this.expansion.getScoreBoardManager();
-                scoreBoardManager.toggleScoreboard(player);
+                boolean statusScoreBoard = scoreBoardManager.toggleScoreboard(player);
+                sendToggleMessage(player, "scoreboard", statusScoreBoard);
                 return true;
                 
             case "actionbar":
             case "action-bar":
                 ActionBarManager actionBarManager = this.expansion.getActionBarManager();
-                actionBarManager.toggleActionBar(player);
+                boolean statusActionBar = actionBarManager.toggleActionBar(player);
+                sendToggleMessage(player, "actionbar", statusActionBar);
                 return true;
                 
             default: break;
@@ -57,5 +70,20 @@ public class CommandNotifier implements CommandExecutor {
         
         player.sendMessage("/notifier boss-bar/score-board/action-bar");
         return true;
+    }
+
+    private void sendToggleMessage(Player player, String type, boolean status) {
+        ICombatLogX plugin = this.expansion.getPlugin();
+        ILanguageManager languageManager = plugin.getLanguageManager();
+
+        String messageFormat = languageManager.getLocalizedMessage(player, "notifier.toggle-" + type);
+        if(messageFormat == null) return;
+
+        String statusString = languageManager.getLocalizedMessage(player, "placeholders.status.option-" + (status ? "enabled" : "disabled"));
+        if(statusString == null) statusString = Boolean.toString(status);
+        String message = messageFormat.replace("{status}", statusString);
+
+        String color = MessageUtil.color(message);
+        languageManager.sendMessage(player, color);
     }
 }
