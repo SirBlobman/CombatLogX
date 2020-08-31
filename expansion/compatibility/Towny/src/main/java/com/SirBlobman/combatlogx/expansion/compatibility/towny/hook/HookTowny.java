@@ -1,5 +1,6 @@
 package com.SirBlobman.combatlogx.expansion.compatibility.towny.hook;
 
+import com.palmergames.bukkit.towny.war.flagwar.FlagWar;
 import org.bukkit.Location;
 
 import com.palmergames.bukkit.towny.TownyAPI;
@@ -45,6 +46,7 @@ public final class HookTowny {
         
         Town town = getTown(location);
         if (town == null || town.isPVP()) return false;
+        if (FlagWar.isUnderAttack(town)) return false;
 
         TownBlock townBlock = TownyAPI.getInstance().getTownBlock(location);
         return (townBlock != null && !townBlock.getPermissions().pvp);
