@@ -9,7 +9,7 @@ enabled: true
 message-timer: "&6&lCombat &7\u00BB &f{bars} &f{time_left} seconds."
 message-ended: "&6&lCombat &7\u00BB &fYou are no longer in combat."
 
-# These are the options for the {bars_left} and {bars_right} placeholders
+# These are the options for the {bars} placeholder
 bar-options:
   # Scale is the amount of symbols for the entire bar
   scale: 15
