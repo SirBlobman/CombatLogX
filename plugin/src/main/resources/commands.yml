@@ -1,0 +1,31 @@
+# All commands in this configuration have some prefixes available
+# [PLAYER] - Run the command as the player
+# [OP] - Run the command as the player, but with "Server Operator" permissions (NOT recommended)
+# If you do not put a prefix, the command will be executed by the server console
+
+# If you want to remove all commands from a list, set it to []
+# Example:
+# disabled-command-list: []
+
+
+# This is a list of commands that will be executed whenever a player is tagged.
+# Valid Placeholders:
+# {player} - The name of the player that was tagged
+# {enemy} - The name of the enemy that tagged the player (may be unknown)
+tag-command-list:
+  - "msg {player} You are now in combat! Do not log out."
+  - "[PLAYER]say I am in combat!"
+  -
+# This is a list of commands that will be executed whenever a player is untagged.
+# Valid Placeholders:
+# {player} - The name of the player that was untagged
+# {enemy} - The name of the last known enemy that tagged the player (may be unknown)
+untag-command-list:
+  - "msg {player} You are no longer in combat!"
+  - "[PLAYER]say I am no longer in combat!"
+
+# This is a list of commands that will be used to punish players that log out during combat
+# Valid Placeholders:
+# {player} - The name of the player that is being punished
+punish-command-list:
+  - "warn {player} You logged out during combat! -s"

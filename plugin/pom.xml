@@ -1,0 +1,134 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
+
+    <parent>
+        <groupId>com.SirBlobman.combatlogx</groupId>
+        <artifactId>parent</artifactId>
+        <version>10.0.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>plugin</artifactId>
+    <name>CombatLogX Plugin</name>
+    <description>The plugin module for CombatLogX</description>
+
+    <properties>
+        <bukkit.plugin.name>CombatLogX</bukkit.plugin.name>
+        <bukkit.plugin.prefix>CombatLogX</bukkit.plugin.prefix>
+        <bukkit.plugin.description>A modular combat tagging plugin.</bukkit.plugin.description>
+
+        <bukkit.plugin.main>com.SirBlobman.combatlogx.CombatPlugin</bukkit.plugin.main>
+        <bukkit.plugin.version>${combatlogx.version}</bukkit.plugin.version>
+        <bukkit.plugin.author>SirBlobman</bukkit.plugin.author>
+    </properties>
+
+    <repositories>
+        <!-- SpigotMC Repository -->
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+
+        <!-- PlaceholderAPI Repository -->
+        <repository>
+            <id>placeholderapi</id>
+            <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
+
+        <!-- MVdW Repository -->
+        <repository>
+            <id>mvdw-software</id>
+            <url>http://repo.mvdw-software.com/content/groups/public/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- Spigot API -->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>${spigot.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- CombatLogX API -->
+        <dependency>
+            <groupId>com.SirBlobman.combatlogx</groupId>
+            <artifactId>api</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- Zip Archive Tool -->
+        <dependency>
+            <groupId>org.zeroturnaround</groupId>
+            <artifactId>zt-zip</artifactId>
+            <version>1.14</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- PlaceholderAPI -->
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.10.9</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- MVdWPlaceholderAPI -->
+        <dependency>
+            <groupId>be.maximvdw</groupId>
+            <artifactId>MVdWPlaceholderAPI</artifactId>
+            <version>3.1.1-SNAPSHOT</version>
+            <scope>provided</scope>
+
+            <exclusions>
+                <exclusion>
+                    <groupId>org.spigotmc</groupId>
+                    <artifactId>spigot</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+
+                <configuration>
+                    <shadeSourcesContent>true</shadeSourcesContent>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+
+                    <artifactSet>
+                        <includes>
+                            <include>com.SirBlobman.combatlogx:api</include>
+                            <include>org.zeroturnaround:zt-zip</include>
+                        </includes>
+                    </artifactSet>
+
+                    <filters>
+                        <filter>
+                            <artifact>*</artifact>
+                            <excludes>
+                                <exclude>META-INF/MANIFEST.MF</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

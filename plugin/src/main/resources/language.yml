@@ -1,0 +1,4 @@
+# What is the default language that will be used if a language cannot be detected?
+# Sometimes players have custom resource pack languages, or the server does not check player locales
+# Default: en_us
+default-locale: "en_us"

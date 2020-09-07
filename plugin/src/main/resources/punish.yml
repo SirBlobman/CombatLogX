@@ -1,0 +1,33 @@
+# Should players be punished if they disconnect during combat?
+# Default: true
+on-disconnect: true
+
+# Should players be punished if they are kicked from the server?
+# Default: false
+on-kick: false
+
+# Should players be punished if their combat timer expires?
+# This option is not recommended unless you are testing something.
+# Default: false
+on-expire: false
+
+# Which kick reasons should not punish players?
+kick-ignore-list:
+  - "troll"
+  - "kicked by SirBlobman"
+
+# When should a player be killed by CombatLogX?
+# Valid Options: QUIT, JOIN, NEVER
+# Default: QUIT
+kill-time: QUIT
+
+# A list of custom death messages to use when CombatLogX kills a player.
+# If you don't want any custom messages, set this to an empty list
+# Example:
+# custom-death-message-list: []
+custom-death-message-list:
+  - "{player} was killed for logging out during combat."
+  - "{player} instantly died due to logging out during combat."
+
+
+# The punish-command-list is now in 'commands.yml'

@@ -1,0 +1,66 @@
+# DO NOT change this value or your config may be corrupted
+generated-by-version: "${combatlogx.version}"
+
+# Should debug messages be sent to the console?
+# This option is not really useful unless you are reporting a bug
+# Default: false
+debug: false
+
+# Should the plugin be allowed to check for updates?
+# Default: true
+update-checker: true
+
+# These are toggles for the different broadcast messages
+broadcast:
+  on-load: true
+  on-enable: true
+  on-disable: true
+
+# This is a list of worlds that players should not be tagged in.
+# World names are case sensitive. "world" is not the same as "WoRlD"
+# Make sure you are not using the world aliases from Multiverse
+disabled-world-list:
+  - "disabled_world_1"
+  - "DiSaBlEd_WoRlD_2"
+
+# Should tameable entities be linked to their owners? (e.g. Wolf, Horse)
+# This will only link the attacker, not the entity that was attacked.
+# Default: true
+link-pets: true
+
+# Should projectile entities be linked to the entity that shot them? (e.g. Skeleton)
+# This will only link the attacker, not the entity that was attacked.
+# Default: true
+link-projectiles: true
+
+timer:
+  # This is the type of timer that CombatLogX will use
+  # GLOBAL: Every player will be tagged for the length of the 'default-timer' value
+  # PERMISSION: Each player will be tagged for a different amount of time based on a permission
+  #             Permission Format: "combatlogx.timer.<seconds>"
+  #             Permission Example: combatlogx.timer.30
+  # Default: GLOBAL
+  type: GLOBAL
+
+  # This is the default amount of time that players will be tagged (in seconds).
+  # This value will be used if the timer type is GLOBAL or if a permission cannot be detected.
+  # Default: 10
+  default-timer: 10
+
+# Which permission will be added to players to prevent them from being tagged?
+# This permission is NOT given to OPs by default
+# If you set this value to "", bypass will be disabled
+# Default: "combatlogx.bypass"
+bypass-permission: "combatlogx.bypass"
+
+# Should players be allowed to tag themselves with their own projectiles?
+# Default: false
+self-combat: false
+
+# Should players be removed from combat when they die?
+# Default: true
+untag-on-death: true
+
+# Should players be removed from combat when their enemy dies/explodes?
+# Default: true
+untag-on-enemy-death: true

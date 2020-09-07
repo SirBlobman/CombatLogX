@@ -1,0 +1,109 @@
+name: "${bukkit.plugin.name}"
+prefix: "${bukkit.plugin.prefix}"
+description: "${bukkit.plugin.description}"
+website: "https://www.spigotmc.org/resources/31689/"
+
+main: "${bukkit.plugin.main}"
+version: "${bukkit.plugin.version}"
+api-version: "1.13"
+load: POSTWORLD
+
+authors:
+  - "SirBlobman"
+
+depend:
+  - "ProtocolLib"
+  - "SirBlobmanCore"
+
+softdepend:
+  - "ASkyBlock"
+  - "AnimatedNames"
+  - "BSkyBlock"
+  - "BentoBox"
+  - "BossBarAPI"
+  - "Citizens"
+  - "CrackShot"
+  - "Essentials"
+  - "FabledSkyBlock"
+  - "Factions"
+  - "FactionsUUID"
+  - "FeatherBoard"
+  - "GriefPrevention"
+  - "Lands"
+  - "LegacyFactions"
+  - "MVdWPlaceholderAPI"
+  - "PlaceholderAPI"
+  - "PreciousStones"
+  - "PremiumVanish"
+  - "ProtectionStones"
+  - "RedProtect"
+  - "Residence"
+  - "SavageFactions"
+  - "Sentinel"
+  - "SuperVanish"
+  - "SuperiorSkyblock2"
+  - "TitleManager"
+  - "Towny"
+  - "WorldEdit"
+  - "WorldGuard"
+  - "uSkyBlock"
+
+commands:
+  combatlogx:
+    description: "Main command for CombatLogX."
+    permission: "combatlogx.command.combatlogx"
+    usage: "/<command> help"
+    aliases:
+      - "combatlog"
+      - "combattagx"
+      - "combattag"
+      - "clx"
+      - "ctx"
+
+  combat-timer:
+    description: "Check how much time you have left in combat."
+    permission: "combatlogx.command.combat-timer"
+    usage: "/<command> [player]"
+    aliases:
+      - "combattimer"
+      - "combattime"
+      - "ctime"
+      - "clt"
+      - "ct"
+
+permissions:
+  combatlogx.bypass:
+    description: "Default bypass permission if not configured."
+    default: false
+
+  combatlogx.bypass.force.field:
+    description: "Default force-field bypass permission if not configured."
+    default: false
+
+  combatlogx.command.combatlogx:
+    description: "Access to the '/combatlogx' command."
+    default: op
+
+  combatlogx.command.combatlogx.about:
+    description: "Access to the '/combatlogx about' command."
+    default: op
+
+  combatlogx.command.combatlogx.help:
+    description: "Access to the '/combatlogx help' command."
+    default: op
+
+  combatlogx.command.combatlogx.reload:
+    description: "Access to the '/combatlogx reload' command."
+    default: op
+
+  combatlogx.command.combatlogx.tag:
+    description: "Access to the '/combatlogx tag' command."
+    default: op
+
+  combatlogx.command.combatlogx.untag:
+    description: "Access to the '/combatlogx tag' command."
+    default: op
+
+  combatlogx.command.combatlogx.version:
+    description: "Access to the '/combatlogx version' command."
+    default: op

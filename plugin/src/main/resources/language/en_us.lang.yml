@@ -1,0 +1,173 @@
+# CombatLogX English (US) Localization File
+# DO NOT remove any entries from this file
+# DO NOT set any messages to null
+
+# If you want to disable a message, set it to an empty string
+# example-disabled-message: ""
+
+prefix: "&f&l[&6CombatLogX&f&l]&r"
+decimal-format: "0.00"
+
+broadcast:
+  on-load: "&a&lCombatLogX was loaded successfully."
+  on-enable: "&a&lCombatLogX was enabled successfully."
+  on-disable: "&c&lCombatLogX was disabled successfully."
+
+placeholder:
+  time-left-zero: "0"
+  unknown-enemy: "Unknown"
+  status:
+    fighting: "&cFighting"
+    idle: "&aIdle"
+    in-combat: "&aYes"
+    not-in-combat: "&cNo"
+  toggle:
+    enabled: "&aON"
+    disabled: "&cOFF"
+
+combat-timer:
+  expire: "&aYou are no longer in combat."
+  enemy-death: "&aYou are no longer in combat because your enemy died."
+
+error:
+  player-only: "&cOnly players can execute this command."
+  invalid-target: "&7{target}&c is not online or does not exist."
+  no-permission: "&cMissing Permission: &7{permission}"
+  target-not-in-combat: "&7{target}&c is not in combat."
+  self-not-in-combat: "&cYou are not in combat."
+  unknown-expansion: "&7{target}&c is not an expansion or is not installed."
+
+command:
+  combatlogx:
+    help-message-list:
+      - "&f"
+      - "&6&lCombatLogX Command Help:"
+      - "  &f&l/combatlogx help&7: View this help page."
+      - "  &f&l/combatlogx reload&7: Reload the config.yml, language.yml, and all expansion config files."
+      - "  &f&l/combatlogx version&7: Check your version of CombatLogX."
+      - "  &f&l/combatlogx about <expansion>&7: Check information about an expansion."
+      - "  &f&l/combatlogx tag <player>&7: Force a player into combat."
+      - "  &f&l/combatlogx untag <player>&7: Force a player out of combat."
+      - "&f"
+
+    reload-success:
+      - "&aSuccessfully reloaded all configuration files from CombatLogX."
+      - "&aSuccessfully reloaded all configuration files from CombatLogX expansions."
+
+    tag-player: "&aSuccessfully forced player &7{target}&a into combat."
+    tag-failure: "&7{target}&c could not be placed into combat. (Maybe they have a bypass?)"
+    untag-player: "&aSuccessfully forced player &7{target}&a out of combat."
+
+  combat-timer:
+    time-left-self: "&aYou have &7{time_left} seconds&a remaining."
+    time-left-other: "&7{target}&a has &7{time_left} seconds&a remaining."
+
+tagged:
+  unknown: "&cYou are now in combat! Do not log out."
+  attacked:
+    player: "&cYou are being attacked by &f{enemy}&c. Do not log out!"
+    mob: "&cYou are being attacked by a(n) &f{mob_type}&c. Do not log out!"
+  attacker:
+    player: "&cYou are attacking &f{enemy}&c. Do not log out!"
+    mob: "&cYou are attacking a(n) &f{mob_type}&c. Do not log out!"
+
+expansion:
+  cheat-prevention:
+    command-blocked: "&cYou do not have access to &a{command}&c during combat."
+    no-riptide: "&cThe riptide enchantment is disabled during combat."
+    no-totem: "&cYou are not allowed to use totems of undying during combat."
+    no-entity-interaction: "&cYou are not allowed to use that mob during combat."
+    no-chat: "&cYou are not allowed to send chat messages during combat."
+
+    game-mode:
+      force-changed: "&cYour game-mode was changed to &f{game_mode}&c."
+      no-changing: "&cYou are not allowed to switch game-modes during combat."
+
+    flight:
+      force-disabled: "&cYour ability to fly was removed."
+      no-flying: "&cYou are not allowed to fly during combat."
+
+    elytra:
+      force-disabled: "&cYour elytra was disabled."
+      no-gliding: "&cYou are not allowed to use elytra during combat."
+
+    teleportation:
+      block-pearl: "&cYou are not allowed to use ender pearls during combat."
+      block-other: "&cYou are not allowed to teleport during combat."
+
+    inventory:
+      force-closed: "&cYour inventory was closed."
+      no-opening: "&cYou are not allowed to open inventories during combat."
+
+    blocks:
+      no-breaking: "&cYou are not allowed to break blocks during combat."
+      no-placing: "&cYou are not allowed to place blocks during combat."
+      no-interaction: "&cYou are not allowed to use blocks during combat."
+
+    items:
+      no-pickup: "&cYou are not allowed to pick up items during combat."
+      no-dropping: "&cYou are not allowed to drop items during combat."
+
+  damage-tagger:
+    unknown-damage: "&cYou took damage! Do not log out!"
+    damage-type:
+      contact: "&cYou were pricked by a cactus. Do not log out!"
+      suffocation: "&cYou are suffocating in a wall. Do not log out!"
+      fall: "&cYou took fall damage. Do not log out!"
+      fire: "&cYou walked into fire. Do not log out!"
+      fire-tick: "&cYou are burning. Do not log out!"
+      lava: "&cYou are boiling in lava. Do not log out!"
+      drowning: "&cYou are drowning. Do not log out!"
+      block-explosion: "&cYou were damaged by an explosion. Do not log out!"
+      lightning: "&cThou hast been smitten! Do not log out!"
+      starvation: "&cYou are too hungry. Do not log out!"
+      poison: "&cYou took poison damage. Do not log out!"
+      magic: "&cSomeone threw a potion at you. Do not log out!"
+      wither: "&cYou are withering away. Do not log out!"
+      falling-block: "&cA block fell on you. Do not log out!"
+      custom: "&cYou took custom damage. Do not log out!"
+      fly-into-wall: "&cYou experienced kinetic energy. Do not log out!"
+      hot-floor: "&cThe floor is lava! Do not log out!"
+      cramming: "&cYou are being squished. Do not log out!"
+
+  newbie-helper:
+    status:
+      protected: "&aProtected"
+      not-protected: "&cNot Protected"
+    pvptoggle:
+      enabled: "&7&lPvP: &aEnabled"
+      disabled: "&7&lPvP: &cDisabled"
+      admin-enabled: "&7You set the pvp of &e{target}&7 to &aEnabled"
+      admin-disabled: "&7You set the pvp of &e{target}&7 to &cDisabled"
+    no-pvp:
+      self: "&cYou are not allowed to hit that player while your PvP is disabled."
+      other: "&cThat player has PvP disabled."
+      protected: "&cThat player is protected, you are not allowed to attack them yet!"
+    protection-disabled:
+      attacker: "&cYou attacked someone, your newbie protection is now disabled."
+      expired: "&cYour newbie protection has expired."
+    check:
+      format: "&a{target}&7 has PvP set to {settings}"
+      enabled: "&aON"
+      disabled: "&cOFF"
+
+  toggle-bossbar: "&7&lBoss Bar: {status}"
+  toggle-actionbar: "&7&lAction Bar: {status}"
+  toggle-scoreboard: "&7Scoreboard: {status}"
+
+  citizens-join-deny: "&cAs punishment for logging out during combat, you are not allowed to join until your clone is killed or removed."
+  preciousstones-compatibility-no-field: "&cYou can't create a protection field during combat."
+  disguise-compatibility-remove-disguise: "&cYour disguise was removed."
+
+  factions-compatibility-no-entry: "&cYou are not allowed to enter that area during combat."
+  griefprevention-compatibility-no-entry: "&cYou are not allowed to enter claims during combat."
+  lands-compatibility-no-entry: "&cYou are not allowed to enter that area during combat."
+  redprotect-compatibility-no-entry: "&cYou are not allowed to enter that area during combat."
+  residence-compatibility-no-entry: "&cYou are not allowed to enter that area during combat."
+  towny-compatibility-no-entry: "&cYou are not allowed to enter that area during combat."
+  preciousstones-compatibility-no-entry: "&cYou are not allowed to enter that area during combat."
+  protectionstones-compatibility-no-entry: "&cYou are not allowed to enter that area during combat."
+
+  worldguard-compatibility-no-entry:
+    pvp: "&cYou are not allowed to enter a non-player-combat area during combat."
+    mob: "&cYou are not allowed to enter a non-mob-combat area during combat."
