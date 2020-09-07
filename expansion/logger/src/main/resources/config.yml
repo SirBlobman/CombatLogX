@@ -1,0 +1,36 @@
+# Default Configuration for the Logger Expansion
+# Made by SirBlobman
+
+log-file-info:
+  # The log file will be placed in "/plugins/CombatLogX/expansion/Logger/<file name>-<extra>.<extension>"
+  # Any characters that don't match the following regex will be replaced by _
+  # [\w.\-]
+  file-name: "logger"
+
+  # This is the date format for the <extra> part of the file name
+  # Check here for formatting details: https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html
+  file-extra-format: "yyyy.MM.dd"
+
+  # The file will always be in the UTF-8 TXT format, this is just the file name extension
+  file-extension: "log"
+
+log-options:
+  log-entity-damage-event: true
+  log-pretag: true
+  log-tag: true
+  log-retag: true
+  log-untag: true
+  log-punish: true
+
+log-entry-options:
+  # Default Format Example: [January 04, 2019 01:08:29.232PM EST]
+  prefix-format: "[MMMM dd, YYYY HH:mm:ss.SSSa zzz] "
+
+  # All valid placeholders are written in the default examples for each event type
+  # Only those placeholders can be used
+  entity-damage-event-format: "EntityDamageByEntityEvent was triggered by damaged {damaged_type} {damaged_name}, damager {damager_type} {damager_name} and cancelled {was_cancelled}."
+  pretag-format: "PlayerPreTagEvent was triggered on {player_name} by {enemy_name} with type {tag_type}, reason {tag_reason}, and cancelled {was_cancelled}."
+  tag-format: "PlayerTagEvent was triggered on {player_name} by {enemy_name} with type {tag_type} and reason {tag_reason}."
+  retag-format: "PlayerReTagEvent was triggered on {player_name} by {enemy_name} with type {tag_type} and reason {tag_reason}."
+  untag-format: "PlayerUntagEvent was triggered on {player_name} with reason {untag_reason} and expire set to {was_expire}."
+  punish-format: "PlayerPunishEvent was triggered on {player_name} with reason {punish_reason} and cancelled {was_cancelled}."

@@ -1,0 +1,250 @@
+package combatlogx.expansion.logger.listener;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+
+import com.SirBlobman.api.language.LanguageManager;
+import com.SirBlobman.api.nms.EntityHandler;
+import com.SirBlobman.api.nms.MultiVersionHandler;
+import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.event.*;
+import com.SirBlobman.combatlogx.api.expansion.Expansion;
+import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
+import com.SirBlobman.combatlogx.api.expansion.ExpansionListener;
+import com.SirBlobman.combatlogx.api.object.TagReason;
+import com.SirBlobman.combatlogx.api.object.TagType;
+import com.SirBlobman.combatlogx.api.object.UntagReason;
+
+import combatlogx.expansion.logger.LoggerExpansion;
+
+public final class ListenerLogger extends ExpansionListener {
+    private final Pattern fileNameRegex;
+    public ListenerLogger(LoggerExpansion expansion) {
+        super(expansion);
+        this.fileNameRegex = Pattern.compile("[^\\w.\\-]");
+    }
+
+    @EventHandler(priority=EventPriority.MONITOR)
+    public void beforeTag(PlayerPreTagEvent e) {
+        if(isDisabled("log-pretag")) return;
+        Player player = e.getPlayer();
+        LivingEntity enemy = e.getEnemy();
+        TagReason tagReason = e.getTagReason();
+        TagType tagType = e.getTagType();
+
+        String format = getLoggerFormat("pretag-format");
+        String playerName = player.getName();
+        String enemyName = getEntityName(enemy);
+        String tagReasonName = tagReason.name();
+        String tagTypeName = tagType.name();
+        String cancelledString = Boolean.toString(e.isCancelled());
+
+        String message = format.replace("{player}", playerName).replace("{enemy}", enemyName)
+                .replace("{tag_reason}", tagReasonName).replace("{tag_type}", tagTypeName)
+                .replace("{was_cancelled}", cancelledString);
+        appendLog(message);
+    }
+
+    @EventHandler(priority=EventPriority.MONITOR)
+    public void onTag(PlayerTagEvent e) {
+        if(isDisabled("log-tag")) return;
+        Player player = e.getPlayer();
+        LivingEntity enemy = e.getEnemy();
+        TagReason tagReason = e.getTagReason();
+        TagType tagType = e.getTagType();
+
+        String format = getLoggerFormat("tag-format");
+        String playerName = player.getName();
+        String enemyName = getEntityName(enemy);
+        String tagReasonName = tagReason.name();
+        String tagTypeName = tagType.name();
+
+        String message = format.replace("{player}", playerName).replace("{enemy}", enemyName)
+                .replace("{tag_reason}", tagReasonName).replace("{tag_type}", tagTypeName);
+        appendLog(message);
+    }
+
+    @EventHandler(priority=EventPriority.MONITOR)
+    public void onReTag(PlayerReTagEvent e) {
+        if(isDisabled("log-retag")) return;
+        Player player = e.getPlayer();
+        LivingEntity enemy = e.getEnemy();
+        TagReason tagReason = e.getTagReason();
+        TagType tagType = e.getTagType();
+
+        String format = getLoggerFormat("retag-format");
+        String playerName = player.getName();
+        String enemyName = getEntityName(enemy);
+        String tagReasonName = tagReason.name();
+        String tagTypeName = tagType.name();
+        String cancelledString = Boolean.toString(e.isCancelled());
+
+        String message = format.replace("{player}", playerName).replace("{enemy}", enemyName)
+                .replace("{tag_reason}", tagReasonName).replace("{tag_type}", tagTypeName)
+                .replace("{was_cancelled}", cancelledString);
+        appendLog(message);
+    }
+
+    @EventHandler(priority=EventPriority.MONITOR)
+    public void onUntag(PlayerUntagEvent e) {
+        if(isDisabled("log-untag")) return;
+        Player player = e.getPlayer();
+        LivingEntity enemy = e.getPreviousEnemy();
+        UntagReason untagReason = e.getUntagReason();
+        boolean isExpire = untagReason.isExpire();
+
+        String format = getLoggerFormat("untag-format");
+        String playerName = player.getName();
+        String enemyName = getEntityName(enemy);
+        String untagReasonName = untagReason.name();
+        String expireString = Boolean.toString(isExpire);
+
+        String message = format.replace("{player}", playerName).replace("{enemy}", enemyName)
+                .replace("{untag_reason}", untagReasonName).replace("{was_expire}", expireString);
+        appendLog(message);
+    }
+
+    @EventHandler(priority=EventPriority.MONITOR)
+    public void onPunish(PlayerPunishEvent e) {
+        if(isDisabled("log-punish")) return;
+        Player player = e.getPlayer();
+        LivingEntity enemy = e.getPreviousEnemy();
+        UntagReason untagReason = e.getPunishReason();
+
+        String format = getLoggerFormat("untag-format");
+        String playerName = player.getName();
+        String enemyName = getEntityName(enemy);
+        String untagReasonName = untagReason.name();
+        String cancelledString = Boolean.toString(e.isCancelled());
+
+        String message = format.replace("{player}", playerName).replace("{enemy}", enemyName)
+                .replace("{punish_reason}", untagReasonName).replace("{was_cancelled}", cancelledString);
+        appendLog(message);
+    }
+
+    @EventHandler(priority=EventPriority.MONITOR)
+    public void onDamage(EntityDamageByEntityEvent e) {
+        if(isDisabled("log-entity-damage-event")) return;
+        Entity damaged = e.getEntity();
+        Entity damager = e.getDamager();
+
+        String damagedType = damaged.getType().name();
+        String damagedName = getEntityName(damaged);
+        String damagerType = damager.getType().name();
+        String damagerName = getEntityName(damager);
+        String wasCancelled = Boolean.toString(e.isCancelled());
+
+        String format = getLoggerFormat("entity-damage-event-format");
+        String message = format.replace("{damaged_type}", damagedType)
+                .replace("{damaged_name}", damagedName).replace("{damager_type}", damagerType)
+                .replace("{damager_name}", damagerName).replace("{was_cancelled}", wasCancelled);
+        appendLog(message);
+    }
+
+    private boolean isDisabled(String path) {
+        Expansion expansion = getExpansion();
+        ExpansionConfigurationManager configurationManager = expansion.getConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("config.yml");
+        return !configuration.getBoolean("log-options." + path);
+    }
+
+    private String getEntityName(Entity entity) {
+        if(entity == null) {
+            CommandSender console = Bukkit.getConsoleSender();
+            LanguageManager languageManager = getLanguageManager();
+            return languageManager.getMessage(console, "placeholder.unknown-enemy");
+        }
+
+        ICombatLogX combatLogX = getCombatLogX();
+        MultiVersionHandler multiVersionHandler = combatLogX.getMultiVersionHandler();
+        EntityHandler entityHandler = multiVersionHandler.getEntityHandler();
+        return entityHandler.getName(entity);
+    }
+
+    private String getLoggerFormat(String path) {
+        Expansion expansion = getExpansion();
+        ExpansionConfigurationManager configurationManager = expansion.getConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("config.yml");
+
+        String prefixFormat = configuration.getString("log-entry-options.prefix-format");
+        if(prefixFormat == null) prefixFormat = "[MMMM dd, YYYY HH:mm:ss.SSSa zzz] ";
+
+        SimpleDateFormat format = new SimpleDateFormat(prefixFormat);
+        String prefix = format.format(new Date(System.currentTimeMillis()));
+
+        String messageFormat = configuration.getString("log-entry-options." + path);
+        if(messageFormat == null) messageFormat = "";
+
+        return (prefix + messageFormat);
+    }
+
+    private String getLogFileName() {
+        Expansion expansion = getExpansion();
+        ExpansionConfigurationManager configurationManager = expansion.getConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("config.yml");
+
+        String fileNameOption = configuration.getString("log-file-info.file-name");
+        if(fileNameOption == null) fileNameOption = "logger";
+
+        String fileExtraFormatOption = configuration.getString("log-file-info.file-extra.format");
+        if(fileExtraFormatOption == null) fileExtraFormatOption = "yyyy.MM.dd";
+
+        String fileExtensionOption = configuration.getString("log-file-info.file-extension");
+        if(fileExtensionOption == null) fileExtensionOption = "log";
+
+        SimpleDateFormat format = new SimpleDateFormat(fileExtraFormatOption);
+        Date currentDate = new Date(System.currentTimeMillis());
+        String fileNameExtra = format.format(currentDate);
+
+        String preFileName = (fileNameOption + "-" + fileNameExtra + "." + fileExtensionOption);
+        Matcher matcher = this.fileNameRegex.matcher(preFileName);
+        return matcher.replaceAll("_");
+    }
+
+    private void appendLog(String... messageArray) {
+        Expansion expansion = getExpansion();
+        Logger logger = expansion.getLogger();
+        try {
+            File dataFolder = expansion.getDataFolder();
+            if(!dataFolder.exists() && !dataFolder.mkdirs()) {
+                logger.warning("Could not create expansion folder!");
+                return;
+            }
+
+            String logFileName = getLogFileName();
+            File logFile = new File(dataFolder, logFileName);
+            if(!logFile.exists() && !logFile.createNewFile()) {
+                logger.warning("Could not create log file!");
+                return;
+            }
+
+            Path logPath = logFile.toPath();
+            List<String> messageList = Arrays.asList(messageArray);
+            Files.write(logPath, messageList, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
+        } catch(IOException ex) {
+            logger.log(Level.WARNING, "An error occurred while appending a message to a log file:", ex);
+        }
+    }
+}

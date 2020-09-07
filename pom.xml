@@ -37,6 +37,7 @@
     <modules>
         <module>api</module>
         <module>plugin</module>
+        <module>expansion</module>
     </modules>
 
     <build>

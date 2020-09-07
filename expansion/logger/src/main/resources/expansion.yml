@@ -1,0 +1,6 @@
+name: "Logger"
+description: "${project.description}"
+
+main: "combatlogx.expansion.logger.LoggerExpansion"
+version: "16.0"
+author: "SirBlobman"
