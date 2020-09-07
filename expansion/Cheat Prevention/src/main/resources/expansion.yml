@@ -1,7 +1,0 @@
-name: "CheatPrevention"
-display-name: "Cheat Prevention"
-description: "An expansion to prevent players from escaping combat too easily."
-
-main: "com.SirBlobman.combatlogx.expansion.cheat.prevention.CheatPrevention"
-author: "SirBlobman"
-version: "15.2"

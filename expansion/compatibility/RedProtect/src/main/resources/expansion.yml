@@ -1,7 +1,0 @@
-name: "CompatRedProtect"
-display-name: "RedProtect Compatibility"
-description: "An expansion that adds region and force field support to RedProtect."
-
-main: "com.SirBlobman.combatlogx.expansion.compatibility.redprotect.CompatibilityRedProtect"
-author: "SirBlobman"
-version: "15.0"

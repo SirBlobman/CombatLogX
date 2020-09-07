@@ -1,7 +1,0 @@
-name: "CompatMythicMobs"
-display-name: "MythicMobs Compatibility"
-description: "An expansion that lets you set entities from MythicMobs to tag players or to prevent them from tagging players."
-
-main: "com.SirBlobman.combatlogx.expansion.compatibility.mythicmobs.CompatibilityMythicMobs"
-author: "SirBlobman"
-version: "15.1"

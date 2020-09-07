@@ -1,7 +1,0 @@
-name: "CompatWorldGuard"
-display-name: "WorldGuard Compatibility"
-description: "An expansion that adds region and force field support to WorldGuard."
-
-main: "com.SirBlobman.combatlogx.expansion.compatibility.worldguard.CompatibilityWorldGuard"
-author: "SirBlobman"
-version: "15.1"

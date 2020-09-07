@@ -1,7 +1,0 @@
-name: "CompatResidence"
-display-name: "Residence Compatibility"
-description: "An expansion that adds region and force field support to Residence."
-
-main: "com.SirBlobman.combatlogx.expansion.compatibility.residence.CompatibilityResidence"
-author: "SirBlobman"
-version: "15.0"

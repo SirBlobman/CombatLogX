@@ -1,5 +1,13 @@
+# Mac OSX
+.DS_Store
+
 # Java
 *.class
+*.jar
+
+# IntelliJ IDEA
+.idea/
+*.iml
 
 # Eclipse IDE
 .settings/
@@ -7,17 +15,9 @@ bin/
 .classpath
 .project
 
-# IntelliJ IDEA
-.idea/
-*.iml
-
 # Maven
 target/
 dependency-reduced-pom.xml
 
 # Other Files
-builder/build/
-*.bat
-
-# Mac OSX
-.DS_Store
+build/

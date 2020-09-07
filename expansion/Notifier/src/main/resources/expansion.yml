@@ -1,6 +1,0 @@
-name: "Notifier"
-description: "An expansion that activates a scoreboard, boss bar, and action bar during combat."
-
-main: "com.SirBlobman.combatlogx.expansion.notifier.Notifier"
-author: "SirBlobman"
-version: "15.4"
