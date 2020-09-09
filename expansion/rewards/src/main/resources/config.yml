@@ -1,0 +1,60 @@
+rewards:
+  # 'exampleOne' is the ID for this reward.
+  # You can use letters (A-Z and a-z) and numbers (0-9) for the id, but not symbols.
+  # Every ID should be different, but you can have as many as you want.
+  exampleOne:
+    # Chance is calculated using RNG (Java ThreadLocalRandom)
+    # The value checked is a percent that comes from the value of (chance / max-chance)
+    # This example will give a (5/1000) or a 0.5% chance of this reward occurring.
+    chance: 5
+    max-chance: 1000
+
+    # If you set this to true, the mobs in the mob-list will activate rewards
+    # If you set this to false, all mobs will activate rewards except the ones in the list
+    mob-whitelist: true
+
+    # PLAYER is technically a mob
+    mob-list:
+      - PLAYER
+      - CREEPER
+
+    # If you set this to true, only the worlds in the list will activate this reward
+    # If you set this to false, All worlds will activate this reward except the ones in the list
+    world-whitelist: true
+
+    # A list of worlds
+    # World names are case sensitive, "wOrLd" is not the same as "world"
+    world-list:
+      - "world"
+      - "world_nether"
+      - "world_the_end"
+
+    # Set this to true if a single command should be chosen randomly instead of running all commands
+    random-command: false
+
+    # A list of commands to execute when the reward chance is successful
+    # Valid Placeholders:
+    # - {player} - the player who killed the entity that triggered this reward
+    # - {enemy} - The name of the entity that was killed. (e.g. SirBlobman)
+    # - {enemy_type} - The type of the entity that was killed. (e.g. PLAYER)
+    commands:
+      - "give {player} diamond 1"
+      - "msg {player} You won a diamond for killing {enemy}"
+      - "msg {player} Kill more {enemy_type} for a 0.5% chance of a diamond."
+
+  exampleTwo:
+    # Some rewards can have requirements.
+    requirements:
+      # This example requirement ensures that the enemy killed has $500 in their Vault economy account
+      # Requirements may exclude mobs if they require a player, even if mobs are included in the list
+      # The only available requirement at this time is 'economy'.
+      economyExampleOne:
+        type: economy
+        check-enemy: true
+        amount: 500.0
+    chance: 1
+    max-chance: 2
+    random-command: false
+    commands:
+      - "eco take {enemy} 500"
+      - "eco give {player} 500"

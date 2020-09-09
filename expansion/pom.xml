@@ -16,16 +16,21 @@
     <description>This is the parent POM for the CombatLogX expansion modules.</description>
 
     <modules>
+        <!-- Normal Expansions -->
         <module>damage-tagger</module>
         <module>logger</module>
         <module>mob-tagger</module>
         <module>newbie-helper</module>
+        <module>rewards</module>
+
+        <!-- Notifier -->
         <!--
         <module>boss-bar</module>
         <module>action-bar</module>
         <module>scoreboard</module>
-        <module>rewards</module>
         -->
+
+        <!-- Expansions with modules -->
         <module>cheat-prevention</module>
         <module>compatibility</module>
     </modules>

@@ -6,17 +6,24 @@
         <groupId>com.SirBlobman.combatlogx.expansion</groupId>
         <artifactId>expansion-parent</artifactId>
         <version>10.0.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>newbie-helper</artifactId>
-    <name>Expansion: Newbie Helper</name>
-    <description>An expansion for CombatLogX that prevents new players from being attacked.</description>
+    <artifactId>rewards</artifactId>
+    <name>Expansion: Rewards</name>
+    <description>An expansion for CombatLogX that gives rewards to players for killing other players and mobs.</description>
 
     <repositories>
         <!-- SpigotMC Repository -->
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+
+        <!-- JitPack Repository -->
+        <repository>
+            <id>jitpack</id>
+            <url>https://jitpack.io/</url>
         </repository>
     </repositories>
 
@@ -36,9 +43,17 @@
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Vault API -->
+        <dependency>
+            <groupId>com.github.MilkBowl</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>1.7</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
-        <finalName>Newbie Helper</finalName>
+        <finalName>Rewards</finalName>
     </build>
 </project>
