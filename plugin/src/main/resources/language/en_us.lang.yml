@@ -131,14 +131,9 @@ expansion:
       cramming: "&cYou are being squished. Do not log out!"
 
   newbie-helper:
-    status:
-      protected: "&aProtected"
-      not-protected: "&cNot Protected"
-    pvptoggle:
-      enabled: "&7&lPvP: &aEnabled"
-      disabled: "&7&lPvP: &cDisabled"
-      admin-enabled: "&7You set the pvp of &e{target}&7 to &aEnabled"
-      admin-disabled: "&7You set the pvp of &e{target}&7 to &cDisabled"
+    togglepvp:
+      self: "&7PVP: {status}"
+      admin: "&7You changed the pvp of &e{target}&7 to {status}&7."
     no-pvp:
       self: "&cYou are not allowed to hit that player while your PvP is disabled."
       other: "&cThat player has PvP disabled."
@@ -146,10 +141,10 @@ expansion:
     protection-disabled:
       attacker: "&cYou attacked someone, your newbie protection is now disabled."
       expired: "&cYour newbie protection has expired."
-    check:
-      format: "&a{target}&7 has PvP set to {settings}"
-      enabled: "&aON"
-      disabled: "&cOFF"
+    check-format:
+      - "&f&lInformation for &7{target}&f&l:"
+      - "&f&lProtection: &7{protected}"
+      - "&f&lPvP: &7{pvp}"
 
   toggle-bossbar: "&7&lBoss Bar: {status}"
   toggle-actionbar: "&7&lAction Bar: {status}"

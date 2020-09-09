@@ -10,27 +10,13 @@
     </parent>
 
     <artifactId>cheat-prevention-parent</artifactId>
-    <name>CombatLogX Cheat Prevention Parent</name>
+    <name>Expansion: Cheat Prevention Parent POM</name>
     <description>This is the parent POM for all the Cheat Prevention expansions.</description>
 
     <modules>
         <!--
-        <module>block-break</module>
-        <module>block-interact</module>
-        <module>block-place</module>
-        <module>chat</module>
-        <module>command</module>
-        <module>elytra</module>
-        <module>entity-interaction</module>
-        <module>flight</module>
-        <module>game-mode</module>
-        <module>inventory</module>
-        <module>pickup-legacy</module>
-        <module>pickup</module>
-        <module>potions</module>
-        <module>riptide</module>
-        <module>teleport</module>
-        <module>totem</module>
+        <module>legacy</module>
+        <module>expansion</module>
         -->
     </modules>
 </project>

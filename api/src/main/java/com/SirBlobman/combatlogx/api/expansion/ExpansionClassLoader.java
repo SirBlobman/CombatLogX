@@ -105,6 +105,9 @@ class ExpansionClassLoader extends URLClassLoader {
         if(version == null) throw new IllegalStateException("'version' is required in expansion.yml");
 
         String displayName = config.getString("display-name", null);
+        if(displayName == null) displayName = config.getString("prefix", null);
+        if(displayName == null) displayName = unlocalizedName;
+
         String description = config.getString("description", null);
         List<String> authorList = config.getStringList("authors");
 

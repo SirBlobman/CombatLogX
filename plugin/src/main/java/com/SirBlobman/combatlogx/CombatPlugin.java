@@ -20,6 +20,7 @@ import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
 import com.SirBlobman.combatlogx.api.object.UntagReason;
 import com.SirBlobman.combatlogx.command.CommandCombatLogX;
 import com.SirBlobman.combatlogx.command.CommandCombatTimer;
+import com.SirBlobman.combatlogx.command.CommandTogglePVP;
 import com.SirBlobman.combatlogx.configuration.ConfigurationChecker;
 import com.SirBlobman.combatlogx.listener.*;
 import com.SirBlobman.combatlogx.manager.CombatManager;
@@ -75,6 +76,7 @@ public final class CombatPlugin extends JavaPlugin implements ICombatLogX {
 
         new CommandCombatLogX(this).register();
         new CommandCombatTimer(this).register();
+        new CommandTogglePVP(this).register();
 
         CombatTimerTask combatTimerTask = new CombatTimerTask(this);
         combatTimerTask.start();

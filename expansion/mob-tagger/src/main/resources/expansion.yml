@@ -1,0 +1,7 @@
+name: "MobTagger"
+prefix: "Mob Tagger"
+description: "${project.description}"
+
+main: "combatlogx.expansion.mob.tagger.MobTaggerExpansion"
+version: "16.0"
+author: "SirBlobman"

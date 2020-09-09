@@ -1,0 +1,11 @@
+# Should new players be protected from attacks by other players?
+# Default: true
+new-player-protection: true
+
+# Should new player protection be removed from a player if they attack someone?
+# Default: true
+remove-protection-on-attack: true
+
+# How long does protection last on a player (in milliseconds)?
+# Default: 30,000 (30 seconds)
+protection-time: 30000

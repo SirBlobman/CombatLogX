@@ -12,21 +12,21 @@
     <groupId>com.SirBlobman.combatlogx.expansion</groupId>
     <artifactId>expansion-parent</artifactId>
 
-    <name>CombatLogX Expansion Parent POM</name>
+    <name>Expansion: Parent POM</name>
     <description>This is the parent POM for the CombatLogX expansion modules.</description>
 
     <modules>
-        <module>cheat-prevention</module>
         <module>damage-tagger</module>
         <module>logger</module>
-        <!--
         <module>mob-tagger</module>
         <module>newbie-helper</module>
+        <!--
         <module>boss-bar</module>
         <module>action-bar</module>
         <module>scoreboard</module>
         <module>rewards</module>
         -->
+        <module>cheat-prevention</module>
         <module>compatibility</module>
     </modules>
 </project>

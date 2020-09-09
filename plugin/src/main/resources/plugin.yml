@@ -70,6 +70,17 @@ commands:
       - "clt"
       - "ct"
 
+  togglepvp:
+    description: "Enable or disable PVP for a player."
+    permission: "combatlogx.command.togglepvp"
+    usage: |-
+      /<command> check
+      /<command> on/off
+      /<command> admin on/off <player>
+    aliases:
+      - "pvptoggle"
+      - "pvp"
+
 permissions:
   combatlogx.bypass:
     description: "Default bypass permission if not configured."
@@ -81,6 +92,14 @@ permissions:
 
   combatlogx.command.combatlogx:
     description: "Access to the '/combatlogx' command."
+    default: op
+
+  combatlogx.command.togglepvp:
+    description: "Access to the '/togglepvp' command."
+    default: true
+
+  combatlogx.command.togglepvp.admin:
+    description: "Access to the '/togglepvp admin' command."
     default: op
 
   combatlogx.command.combatlogx.about:

@@ -12,7 +12,7 @@
     <groupId>com.SirBlobman.combatlogx.expansion.compatibility</groupId>
     <artifactId>compatibility-parent</artifactId>
 
-    <name>CombatLogX Compatibility Expansion Parent POM</name>
+    <name>Expansion: Compatibility Parent POM</name>
     <description>This is the parent POM for the CombatLogX compatibility expansion modules.</description>
 
     <modules>

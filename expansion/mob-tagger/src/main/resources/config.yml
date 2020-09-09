@@ -1,0 +1,15 @@
+# Information:
+# If you don't want mobs to tag players, remove this expansion
+
+# This is a list of mobs that should tag players.
+# Use "*" to allow all mob types
+# You can find a list of valid mob types on the Spigot javadocs:
+# https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
+mob-list:
+  - "*"
+
+# Which spawn reasons prevent mobs from tagging players?
+# You can find a list of spawn reasons on the Spigot javadocs:
+# https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/CreatureSpawnEvent.SpawnReason.html
+spawn-reason-list:
+  - SPAWNER
