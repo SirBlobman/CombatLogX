@@ -148,7 +148,7 @@ punishments:
   # Disabled: custom-death-messages: []
   custom-death-messages:
     - "{name} was killed for logging out during combat."
-    - "{name} instantly died due to logging our during combat."
+    - "{name} instantly died due to logging out during combat."
 
   # This is a list of commands that will be executed on the player that logged out.
   # Set this to an empty list to not run any commands
