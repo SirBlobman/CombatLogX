@@ -28,6 +28,7 @@
         <!-- Copy Notifier Expansions -->
         <copy file="${expansion.dir}/action-bar/target/Action Bar.jar" todir="${build.expansion.dir}"/>
         <copy file="${expansion.dir}/boss-bar/target/Boss Bar.jar" todir="${build.expansion.dir}"/>
+        <copy file="${expansion.dir}/scoreboard/target/Scoreboard.jar" todir="${build.expansion.dir}"/>
 
         <!-- Create ZIP File -->
         <zip basedir="${build.dir}" destfile="${build.dir}/CombatLogX-${combatlogx.version}.zip"/>
