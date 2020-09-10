@@ -31,6 +31,6 @@
         <copy file="${expansion.dir}/scoreboard/target/Scoreboard.jar" todir="${build.expansion.dir}"/>
 
         <!-- Create ZIP File -->
-        <zip basedir="${build.dir}" destfile="${build.dir}/CombatLogX-${combatlogx.version}.zip"/>
+        <zip level="9" basedir="${build.dir}" destfile="${build.dir}/CombatLogX-${combatlogx.version}.zip"/>
     </target>
 </project>
