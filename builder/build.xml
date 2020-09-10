@@ -18,17 +18,24 @@
         <!-- Copy Plugin -->
         <copy file="${plugin.target.dir}/CombatLogX.jar" todir="${build.dir}"/>
 
-        <!-- Copy Normal Expansions -->
-        <copy file="${expansion.dir}/damage-tagger/target/Damage Tagger.jar" todir="${build.expansion.dir}"/>
-        <copy file="${expansion.dir}/logger/target/Logger.jar" todir="${build.expansion.dir}"/>
-        <copy file="${expansion.dir}/mob-tagger/target/Mob Tagger.jar" todir="${build.expansion.dir}"/>
-        <copy file="${expansion.dir}/newbie-helper/target/Newbie Helper.jar" todir="${build.expansion.dir}"/>
-        <copy file="${expansion.dir}/rewards/target/Rewards.jar" todir="${build.expansion.dir}"/>
+        <!-- Copy Expansions -->
+        <copy todir="${build.expansion.dir}">
+            <resources>
+                <!-- Normal Expansions -->
+                <file file="${expansion.dir}/damage-tagger/target/Damage Tagger.jar"/>
+                <file file="${expansion.dir}/logger/target/Logger.jar"/>
+                <file file="${expansion.dir}/mob-tagger/target/Mob Tagger.jar"/>
+                <file file="${expansion.dir}/newbie-helper/target/Newbie Helper.jar"/>
+                <file file="${expansion.dir}/rewards/target/Rewards.jar"/>
 
-        <!-- Copy Notifier Expansions -->
-        <copy file="${expansion.dir}/action-bar/target/Action Bar.jar" todir="${build.expansion.dir}"/>
-        <copy file="${expansion.dir}/boss-bar/target/Boss Bar.jar" todir="${build.expansion.dir}"/>
-        <copy file="${expansion.dir}/scoreboard/target/Scoreboard.jar" todir="${build.expansion.dir}"/>
+                <!-- Notifier Expansions -->
+                <file file="${expansion.dir}/action-bar/target/Action Bar.jar"/>
+                <file file="${expansion.dir}/boss-bar/target/Boss Bar.jar"/>
+                <file file="${expansion.dir}/scoreboard/target/Scoreboard.jar"/>
+
+                <!-- Compatibility Expansions -->
+            </resources>
+        </copy>
 
         <!-- Create ZIP File -->
         <zip level="9" basedir="${build.dir}" destfile="${build.dir}/CombatLogX-${combatlogx.version}.zip"/>
