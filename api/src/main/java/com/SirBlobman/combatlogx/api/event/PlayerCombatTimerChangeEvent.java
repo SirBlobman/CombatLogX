@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
  * This can be used to update scoreboards/action bars/boss bars/etc...
  * @author SirBlobman
  */
-public class PlayerCombatTimerChangeEvent extends CustomPlayerEvent {
+public class PlayerCombatTimerChangeEvent extends CustomPlayerEventAsync {
     public PlayerCombatTimerChangeEvent(Player player) {
         super(player);
     }

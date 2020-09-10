@@ -1,0 +1,7 @@
+name: "BossBar"
+prefix: "Boss Bar"
+description: "${project.description}"
+
+main: "combatlogx.expansion.boss.bar.BossBarExpansion"
+version: "16.0"
+author: "SirBlobman"

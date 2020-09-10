@@ -1,6 +1,7 @@
 package com.SirBlobman.combatlogx.configuration;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,13 +27,27 @@ public final class ConfigurationChecker {
                 return;
             }
 
+            FilenameFilter ymlOnly = (folder, fileName) -> fileName.endsWith(".yml");
+            File[] yamlFileArray = dataFolder.listFiles(ymlOnly);
+            if(yamlFileArray == null || yamlFileArray.length == 0) {
+                Logger logger = this.plugin.getLogger();
+                logger.info("Configuration does not exist yet, no major changes necessary.");
+                return;
+            }
+
+            File configFile = new File(dataFolder, "config.yml");
+            if(!configFile.exists()) {
+                Logger logger = this.plugin.getLogger();
+                logger.info("Configuration does not exist yet, no major changes necessary.");
+                return;
+            }
+
             File punishConfigFile = new File(dataFolder, "punish.yml");
             if(!punishConfigFile.exists()) {
                 makeBackup();
                 return;
             }
 
-            File configFile = new File(dataFolder, "config.yml");
             YamlConfiguration configuration = new YamlConfiguration();
             configuration.load(configFile);
 

@@ -1,0 +1,6 @@
+name: "Scoreboard"
+description: "${project.description}"
+
+main: "combatlogx.expansion.scoreboard.ScoreboardExpansion"
+version: "16.0"
+author: "SirBlobman"

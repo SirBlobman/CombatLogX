@@ -5,10 +5,12 @@ import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import com.SirBlobman.api.command.Command;
 import com.SirBlobman.api.configuration.ConfigurationManager;
+import com.SirBlobman.api.configuration.PlayerDataManager;
 import com.SirBlobman.api.language.LanguageManager;
 import com.SirBlobman.api.language.Replacer;
 import com.SirBlobman.api.update.UpdateChecker;
@@ -39,15 +41,28 @@ public class CommandCombatLogX extends Command {
     @Override
     public List<String> onTabComplete(CommandSender sender, String[] args) {
         if(args.length == 1) {
-            List<String> valueList = Arrays.asList("help", "reload", "version", "tag", "untag", "about");
+            List<String> valueList = Arrays.asList("help", "reload", "version", "tag", "toggle", "untag", "about");
             return getMatching(valueList, args[0]);
         }
 
-        if(args.length == 2 && args[0].toLowerCase().equals("about")) {
-            ExpansionManager expansionManager = this.plugin.getExpansionManager();
-            List<Expansion> expansionList = expansionManager.getAllExpansions();
-            List<String> valueList = expansionList.stream().map(Expansion::getName).collect(Collectors.toList());
-            return getMatching(valueList, args[1]);
+        if(args.length == 2) {
+            String sub = args[0].toLowerCase();
+            if(sub.equals("about")) {
+                ExpansionManager expansionManager = this.plugin.getExpansionManager();
+                List<Expansion> expansionList = expansionManager.getAllExpansions();
+                List<String> valueList = expansionList.stream().map(Expansion::getName).collect(Collectors.toList());
+                return getMatching(valueList, args[1]);
+            }
+
+            if(sub.equals("toggle")) {
+                List<String> valueList = Arrays.asList("bossbar", "actionbar", "scoreboard");
+                return getMatching(valueList, args[1]);
+            }
+
+            if(sub.equals("tag") || sub.equals("untag")) {
+                Set<String> valueSet = getOnlinePlayerNames();
+                return getMatching(valueSet, args[1]);
+            }
         }
 
         return Collections.emptyList();
@@ -76,6 +91,9 @@ public class CommandCombatLogX extends Command {
             case "add":
             case "forcetag":
                 return tagCommand(sender, newArgs);
+
+            case "toggle":
+                return toggleCommand(sender, newArgs);
 
             case "untag":
             case "remove":
@@ -126,6 +144,7 @@ public class CommandCombatLogX extends Command {
         messageList.add("&f");
         messageList.add("&f&lDescription: &7" + description);
         messageList.add("&f&lAuthors: &7" + authorsString);
+        messageList = MessageUtility.colorList(messageList);
 
         messageList.forEach(sender::sendMessage);
         return true;
@@ -229,5 +248,51 @@ public class CommandCombatLogX extends Command {
         List<String> finalMessage = MessageUtility.colorList(messageList);
         finalMessage.forEach(sender::sendMessage);
         return true;
+    }
+
+    private boolean toggleCommand(CommandSender sender, String[] args) {
+        if(args.length < 1) return false;
+        if(!checkPermission(sender, "combatlogx.command.combatlogx.toggle", true)) return true;
+        if(!(sender instanceof Player)) {
+            sendMessageOrDefault(sender, "error.player-only", "", null, true);
+            return true;
+        }
+
+        Player player = (Player) sender;
+        String sub = args[0].toLowerCase();
+        if(sub.equals("bossbar")) {
+            toggleValue(player, "bossbar");
+            return true;
+        }
+
+        if(sub.equals("actionbar")) {
+            toggleValue(player, "actionbar");
+            return true;
+        }
+
+        if(sub.equals("scoreboard")) {
+            toggleValue(player, "scoreboard");
+            return true;
+        }
+
+        return false;
+    }
+
+    private void toggleValue(Player player, String value) {
+        PlayerDataManager playerDataManager = this.plugin.getPlayerDataManager();
+        LanguageManager languageManager = getLanguageManager();
+
+        YamlConfiguration configuration = playerDataManager.get(player);
+        boolean currentValue = configuration.getBoolean(value, true);
+        configuration.set(value, !currentValue);
+        playerDataManager.save(player);
+
+        boolean status = configuration.getBoolean(value, true);
+        String statusPath = ("placeholder.toggle." + (status ? "enabled" : "disabled"));
+        String statusString = languageManager.getMessageColored(player, statusPath);
+        Replacer replacer = message -> message.replace("{status}", statusString);
+
+        String messagePath = ("expansion.toggle-" + value);
+        languageManager.sendMessage(player, messagePath, replacer, true);
     }
 }

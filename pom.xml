@@ -38,6 +38,7 @@
         <module>api</module>
         <module>plugin</module>
         <module>expansion</module>
+        <module>builder</module>
     </modules>
 
     <build>

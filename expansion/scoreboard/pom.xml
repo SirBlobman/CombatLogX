@@ -9,17 +9,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>mob-tagger</artifactId>
-    <name>Expansion: Mob Tagger</name>
-    <description>An expansion for CombatLogX that tags players when they are in combat with mobs.</description>
-
-    <repositories>
-        <!-- SpigotMC Repository -->
-        <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-    </repositories>
+    <artifactId>scoreboard</artifactId>
+    <name>Expansion: Scoreboard</name>
+    <description>An expansion for CombatLogX that shows a scoreboard to players in combat.</description>
 
     <dependencies>
         <!-- Spigot API -->
@@ -40,6 +32,6 @@
     </dependencies>
 
     <build>
-        <finalName>Mob Tagger</finalName>
+        <finalName>Scoreboard</finalName>
     </build>
 </project>

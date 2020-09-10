@@ -9,9 +9,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>mob-tagger</artifactId>
-    <name>Expansion: Mob Tagger</name>
-    <description>An expansion for CombatLogX that tags players when they are in combat with mobs.</description>
+    <artifactId>boss-bar</artifactId>
+    <name>Expansion: Boss Bar</name>
+    <description>An expansion for CombatLogX that shows a boss bar to players in combat.</description>
 
     <repositories>
         <!-- SpigotMC Repository -->
@@ -40,6 +40,6 @@
     </dependencies>
 
     <build>
-        <finalName>Mob Tagger</finalName>
+        <finalName>Boss Bar</finalName>
     </build>
 </project>

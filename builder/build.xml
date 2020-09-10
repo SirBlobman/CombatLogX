@@ -1,0 +1,35 @@
+<project name="CombatLogX" default="build" basedir=".">
+    <property name="build.dir" location="./build"/>
+    <property name="parent.dir" location=".."/>
+
+    <property name="build.expansion.dir" location="${build.dir}/CombatLogX/expansions"/>
+    <property name="plugin.target.dir" location="${parent.dir}/plugin/target"/>
+    <property name="expansion.dir" location="${parent.dir}/expansion"/>
+    <property name="expansion.compatibility.dir" location="${expansion.dir}/compatibility"/>
+
+    <target name="build">
+        <!-- Delete Previous Build Directory -->
+        <delete dir="${build.dir}"/>
+
+        <!-- Create Build Directories -->
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${build.expansion.dir}"/>
+
+        <!-- Copy Plugin -->
+        <copy file="${plugin.target.dir}/CombatLogX.jar" todir="${build.dir}"/>
+
+        <!-- Copy Normal Expansions -->
+        <copy file="${expansion.dir}/damage-tagger/target/Damage Tagger.jar" todir="${build.expansion.dir}"/>
+        <copy file="${expansion.dir}/logger/target/Logger.jar" todir="${build.expansion.dir}"/>
+        <copy file="${expansion.dir}/mob-tagger/target/Mob Tagger.jar" todir="${build.expansion.dir}"/>
+        <copy file="${expansion.dir}/newbie-helper/target/Newbie Helper.jar" todir="${build.expansion.dir}"/>
+        <copy file="${expansion.dir}/rewards/target/Rewards.jar" todir="${build.expansion.dir}"/>
+
+        <!-- Copy Notifier Expansions -->
+        <copy file="${expansion.dir}/action-bar/target/Action Bar.jar" todir="${build.expansion.dir}"/>
+        <copy file="${expansion.dir}/boss-bar/target/Boss Bar.jar" todir="${build.expansion.dir}"/>
+
+        <!-- Create ZIP File -->
+        <zip basedir="${build.dir}" destfile="${build.dir}/CombatLogX-${combatlogx.version}.zip"/>
+    </target>
+</project>

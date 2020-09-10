@@ -43,11 +43,7 @@ public final class CombatManager implements ICombatManager {
 
     @Override
     public boolean tag(Player player, LivingEntity enemy, TagType tagType, TagReason tagReason) {
-        ConfigurationManager configurationManager = this.plugin.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        String timerTypeString = configuration.getString("timer.type");
-        TimerType timerType = TimerType.parse(timerTypeString);
-        int timerSeconds = (timerType == TimerType.PERMISSION ? getPermissionTimerSeconds(player) : getGlobalTimerSeconds());
+        int timerSeconds = getMaxTimerSeconds(player);
         long timerMillis = (timerSeconds * 1_000L);
 
         long systemMillis = System.currentTimeMillis();
@@ -168,6 +164,16 @@ public final class CombatManager implements ICombatManager {
         double millisLeft = getTimerLeftMillis(player);
         double secondsLeft = (millisLeft / 1_000.0D);
         return (int) Math.ceil(secondsLeft);
+    }
+
+    @Override
+    public int getMaxTimerSeconds(Player player) {
+        ConfigurationManager configurationManager = this.plugin.getConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("config.yml");
+        String timerTypeString = configuration.getString("timer.type");
+
+        TimerType timerType = TimerType.parse(timerTypeString);
+        return (timerType == TimerType.PERMISSION ? getPermissionTimerSeconds(player) : getGlobalTimerSeconds());
     }
 
     @Override
@@ -341,7 +347,7 @@ public final class CombatManager implements ICombatManager {
         String tagTypeString = tagType.name().toLowerCase();
 
         String languagePath = ("tagged." + tagReasonString + "." + tagTypeString);
-        Replacer replacer = message -> message.replace("{enemy}", enemyName).replace("{mob-type}", enemyType);
+        Replacer replacer = message -> message.replace("{enemy}", enemyName).replace("{mob_type}", enemyType);
         languageManager.sendMessage(player, languagePath, replacer, true);
     }
 }

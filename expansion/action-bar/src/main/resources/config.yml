@@ -1,0 +1,26 @@
+# Information:
+# Remove this expansion to disable the action bar.
+
+# These are message formatting options for the action bar.
+# Valid 'timer' placeholders: {time_left}, {time_left_decimal}, {bars}
+timer: "&6&lCombat &7\u00BB &f{bars} &f{time_left_decimal} seconds."
+ended: "&6&lCombat &7\u00BB &fYou are no longer in combat."
+
+# Scale is the amount of symbols for the entire bar
+scale: 15
+
+# Left Color is the color code for the left part of the {bars} placeholder
+left-color: "&a"
+
+# Left Symbol is the symbol used for the left part of the {bars} placeholder
+# Unicode is supported, but must be converted.
+# Example: "/u00A7"
+left-symbol: "|"
+
+# Right Color is the color code for the right part of the {bars} placeholder
+right-color: "&c"
+
+# Right Symbol is the symbol used for the right part of the {bars} placeholder
+# Unicode is supported, but must be converted.
+# Example: "/u00A7"
+right-symbol: "|"

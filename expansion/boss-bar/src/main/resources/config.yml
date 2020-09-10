@@ -1,0 +1,13 @@
+# Information:
+# Remove this expansion to disable the boss bar.
+
+# Color and Style are only available in 1.9+
+# You can find a list of colors here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarColor.html
+# You can find a list of styles here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarStyle.html
+bar-color: YELLOW
+bar-style: SOLID
+
+# These are message formatting options for the boss bar.
+# Valid 'timer' placeholders: {time_left}, {time_left_decimal}
+timer: "&6&lCombat &7\u00BB &c{time_left_decimal} seconds."
+ended: "&6&lCombat &7\u00BB &aYou are no longer in combat."

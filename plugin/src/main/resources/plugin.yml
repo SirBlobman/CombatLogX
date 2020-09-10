@@ -90,16 +90,20 @@ permissions:
     description: "Default force-field bypass permission if not configured."
     default: false
 
-  combatlogx.command.combatlogx:
-    description: "Access to the '/combatlogx' command."
-    default: op
-
   combatlogx.command.togglepvp:
     description: "Access to the '/togglepvp' command."
     default: true
 
   combatlogx.command.togglepvp.admin:
     description: "Access to the '/togglepvp admin' command."
+    default: op
+
+  combatlogx.command.combatlogx:
+    description: "Access to the '/combatlogx' command."
+    default: op
+
+  combatlogx.command.combatlogx.toggle:
+    description: "Access to the '/combatlogx toggle' command."
     default: op
 
   combatlogx.command.combatlogx.about:

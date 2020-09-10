@@ -23,12 +23,10 @@
         <module>newbie-helper</module>
         <module>rewards</module>
 
-        <!-- Notifier -->
-        <!--
-        <module>boss-bar</module>
+        <!-- Notifier Expansions -->
         <module>action-bar</module>
+        <module>boss-bar</module>
         <module>scoreboard</module>
-        -->
 
         <!-- Expansions with modules -->
         <module>cheat-prevention</module>

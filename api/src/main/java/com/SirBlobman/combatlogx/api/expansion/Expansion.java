@@ -1,9 +1,14 @@
 package com.SirBlobman.combatlogx.api.expansion;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -26,13 +31,12 @@ public abstract class Expansion {
     private ExpansionDescription description;
 
     private final ICombatLogX plugin;
-    private final ExpansionLogger logger;
+    private ExpansionLogger logger;
     private final ExpansionConfigurationManager configurationManager;
     private final List<Listener> listenerList;
     public Expansion(ICombatLogX plugin) {
         this.plugin = Validate.notNull(plugin, "plugin must not be null!");
         this.configurationManager = new ExpansionConfigurationManager(this);
-        this.logger = new ExpansionLogger(this);
         this.listenerList = new ArrayList<>();
 
         this.state = State.UNLOADED;
@@ -74,6 +78,10 @@ public abstract class Expansion {
     }
 
     public final Logger getLogger() {
+        if(this.logger == null) {
+            this.logger = new ExpansionLogger(this);
+        }
+
         return this.logger;
     }
 
@@ -107,9 +115,17 @@ public abstract class Expansion {
         Validate.notEmpty(name, "name cannot be null or empty!");
         try {
             Class<? extends Expansion> thisClass = getClass();
-            ClassLoader classLoader = thisClass.getClassLoader();
-            return classLoader.getResourceAsStream("/" + name);
-        } catch(Exception ignored) {
+            URLClassLoader classLoader = (URLClassLoader) thisClass.getClassLoader();
+
+            URL url = classLoader.findResource(name);
+            if(url == null) return null;
+
+            URLConnection connection = url.openConnection();
+            connection.setUseCaches(false);
+            return connection.getInputStream();
+        } catch(IOException ex) {
+            Logger logger = getLogger();
+            logger.log(Level.WARNING, "Failed to get resource '" + name + "':", ex);
             return null;
         }
     }

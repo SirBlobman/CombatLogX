@@ -210,8 +210,8 @@ public final class ExpansionManager {
             String fullName = description.getFullName();
             logger.info("Enabling expansion '" + fullName + "'...");
 
-            expansion.onEnable();
             expansion.setState(State.ENABLED);
+            expansion.onEnable();
         } catch(Exception ex) {
             logger.log(Level.SEVERE, "An error occurred while enabling an expansion:", ex);
         }

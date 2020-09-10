@@ -89,6 +89,7 @@ public final class ListenerDamage extends ExpansionListener {
         YamlConfiguration configuration = configurationManager.get("config.yml");
 
         List<String> mobList = configuration.getStringList("mob-list");
+        if(mobList.contains("*")) return false;
         return !mobList.contains(entityTypeName);
     }
 

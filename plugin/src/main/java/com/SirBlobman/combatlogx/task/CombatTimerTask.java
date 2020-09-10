@@ -6,10 +6,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import com.SirBlobman.api.utility.Validate;
 import com.SirBlobman.combatlogx.CombatPlugin;
 import com.SirBlobman.combatlogx.api.event.PlayerCombatTimerChangeEvent;
+import com.SirBlobman.combatlogx.api.object.UntagReason;
 import com.SirBlobman.combatlogx.manager.CombatManager;
 
 public final class CombatTimerTask extends BukkitRunnable {
@@ -26,12 +28,28 @@ public final class CombatTimerTask extends BukkitRunnable {
     public void run() {
         CombatManager combatManager = this.plugin.getCombatManager();
         List<Player> playerList = combatManager.getPlayersInCombat();
-        playerList.forEach(this::triggerEvent);
+        for(Player player : playerList) {
+            triggerEvent(player);
+
+            long timerLeftMillis = combatManager.getTimerLeftMillis(player);
+            if(timerLeftMillis <= 0) untag(player);
+        }
     }
 
     private void triggerEvent(Player player) {
         PluginManager pluginManager = Bukkit.getPluginManager();
         PlayerCombatTimerChangeEvent event = new PlayerCombatTimerChangeEvent(player);
         pluginManager.callEvent(event);
+    }
+
+    private void untag(Player player) {
+        Runnable task = () -> syncUntag(player);
+        BukkitScheduler scheduler = Bukkit.getScheduler();
+        scheduler.scheduleSyncDelayedTask(this.plugin, task);
+    }
+
+    private void syncUntag(Player player) {
+        CombatManager combatManager = this.plugin.getCombatManager();
+        combatManager.untag(player, UntagReason.EXPIRE);
     }
 }
