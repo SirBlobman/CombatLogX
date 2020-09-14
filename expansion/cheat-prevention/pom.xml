@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.SirBlobman.combatlogx.expansion</groupId>
         <artifactId>expansion-parent</artifactId>
-        <version>10.0.0.0-SNAPSHOT</version>
+        <version>11.0.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -14,9 +14,7 @@
     <description>This is the parent POM for all the Cheat Prevention expansions.</description>
 
     <modules>
-        <!--
         <module>legacy</module>
         <module>expansion</module>
-        -->
     </modules>
 </project>

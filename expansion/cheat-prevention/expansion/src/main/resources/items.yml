@@ -1,0 +1,14 @@
+# Should players be prevented from dropping items during combat?
+# Default: true
+prevent-drop: true
+
+# Should players be prevented from picking up items during combat?
+# Default: false
+prevent-pickup: true
+
+# Should players be prevented from using Elytra during combat?
+prevent-elytra: true
+
+# Should players be prevented from using Totems of Undying during combat?
+# Default: false
+prevent-totem: false

@@ -1,17 +1,22 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <packaging>jar</packaging>
+    <version>11.0.0.0-SNAPSHOT</version>
 
     <parent>
         <groupId>com.SirBlobman.combatlogx.expansion</groupId>
-        <artifactId>expansion-parent</artifactId>
+        <artifactId>cheat-prevention-parent</artifactId>
         <version>11.0.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>mob-tagger</artifactId>
-    <name>Expansion: Mob Tagger</name>
-    <description>An expansion for CombatLogX that tags players when they are in combat with mobs.</description>
+    <groupId>com.SirBlobman.combatlogx.expansion.cheat.prevention</groupId>
+    <artifactId>legacy</artifactId>
+    <name>Expansion: Cheat Prevention Legacy</name>
+    <description>A legacy module for the Cheat Prevention expansion.</description>
+
+    <properties>
+        <spigot.version>1.8.8-R0.1-SNAPSHOT</spigot.version>
+    </properties>
 
     <repositories>
         <!-- SpigotMC Repository -->
@@ -38,8 +43,4 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <finalName>Mob Tagger</finalName>
-    </build>
 </project>

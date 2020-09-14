@@ -101,9 +101,9 @@ expansion:
       no-opening: "&cYou are not allowed to open inventories during combat."
 
     blocks:
-      no-breaking: "&cYou are not allowed to break blocks during combat."
-      no-placing: "&cYou are not allowed to place blocks during combat."
-      no-interaction: "&cYou are not allowed to use blocks during combat."
+      prevent-breaking: "&cYou are not allowed to break blocks during combat."
+      prevent-placing: "&cYou are not allowed to place blocks during combat."
+      prevent-interaction: "&cYou are not allowed to use blocks during combat."
 
     items:
       no-pickup: "&cYou are not allowed to pick up items during combat."

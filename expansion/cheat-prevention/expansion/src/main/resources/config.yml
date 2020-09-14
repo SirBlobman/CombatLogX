@@ -1,0 +1,3 @@
+# How long should the expansion wait before sending the same message again?
+# Default: 30 (seconds)
+message-cooldown: 30

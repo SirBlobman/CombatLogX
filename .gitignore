@@ -1,5 +1,6 @@
 # Mac OSX
 .DS_Store
+._.DS_Store
 
 # Java
 *.class

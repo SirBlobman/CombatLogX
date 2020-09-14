@@ -1,0 +1,7 @@
+name: "CheatPrevention"
+prefix: "Cheat Prevention"
+description: "${project.description}"
+
+main: "combatlogx.expansion.cheat.prevention.CheatPreventionExpansion"
+version: "16.0"
+author: "SirBlobman"

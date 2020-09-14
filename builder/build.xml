@@ -27,6 +27,7 @@
                 <file file="${expansion.dir}/mob-tagger/target/Mob Tagger.jar"/>
                 <file file="${expansion.dir}/newbie-helper/target/Newbie Helper.jar"/>
                 <file file="${expansion.dir}/rewards/target/Rewards.jar"/>
+                <file file="${expansion.dir}/cheat-prevention/expansion/target/Cheat Prevention.jar"/>
 
                 <!-- Notifier Expansions -->
                 <file file="${expansion.dir}/action-bar/target/Action Bar.jar"/>
