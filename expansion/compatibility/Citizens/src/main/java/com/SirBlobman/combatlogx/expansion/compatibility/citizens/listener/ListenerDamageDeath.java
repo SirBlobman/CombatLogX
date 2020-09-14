@@ -81,8 +81,8 @@ public class ListenerDamageDeath implements Listener {
         NPC npc = e.getNPC();
         NPCManager npcManager = this.expansion.getNPCManager();
         if(npcManager.isInvalid(npc)) return;
-        
-        TraitCombatLogX traitCombatLogX = npc.getTrait(TraitCombatLogX.class);
+
+        TraitCombatLogX traitCombatLogX = npc.getTraitNullable(TraitCombatLogX.class);
         OfflinePlayer owner = traitCombatLogX.getOwner();
         if(owner == null) return;
         

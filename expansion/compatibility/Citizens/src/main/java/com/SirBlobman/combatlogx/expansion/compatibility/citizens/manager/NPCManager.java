@@ -1,10 +1,7 @@
 package com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager;
 
 import java.lang.reflect.Constructor;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -66,12 +63,27 @@ public class NPCManager {
     }
     
     public void onDisable() {
+        List<NPC> destroyList = new ArrayList<>();
         NPCRegistry npcRegistry = CitizensAPI.getNPCRegistry();
         for(NPC npc : npcRegistry) {
             if(isInvalid(npc)) continue;
+            destroyList.add(npc);
+        }
+
+        for(NPC npc : destroyList) {
+            TraitCombatLogX traitCombatLogX = npc.getTraitNullable(TraitCombatLogX.class);
+            OfflinePlayer owner = traitCombatLogX.getOwner();
+            if(owner == null) return;
+
+            saveHealth(npc);
+            saveLocation(npc);
+
+            YamlConfiguration data = getData(owner);
+            data.set("citizens-compatibility.punish-next-join", true);
+            setData(owner);
             npc.destroy();
         }
-        
+
         if(this.traitInfo != null) {
             TraitFactory traitFactory = CitizensAPI.getTraitFactory();
             traitFactory.deregisterTrait(traitInfo);
@@ -82,8 +94,8 @@ public class NPCManager {
         if(npc == null) return true;
         if(!npc.hasTrait(TraitCombatLogX.class)) return true;
         
-        TraitCombatLogX traitCombatLogX = npc.getTrait(TraitCombatLogX.class);
-        return (traitCombatLogX.getOwner() == null);
+        TraitCombatLogX traitCombatLogX = npc.getTraitNullable(TraitCombatLogX.class);
+        return (traitCombatLogX != null && traitCombatLogX.getOwner() == null);
     }
     
     public YamlConfiguration getData(OfflinePlayer player) {
@@ -100,7 +112,7 @@ public class NPCManager {
     
     public void saveHealth(NPC npc) {
         if(isInvalid(npc)) return;
-        TraitCombatLogX traitCombatLogX = npc.getTrait(TraitCombatLogX.class);
+        TraitCombatLogX traitCombatLogX = npc.getTraitNullable(TraitCombatLogX.class);
         OfflinePlayer owner = traitCombatLogX.getOwner();
         
         YamlConfiguration config = getData(owner);
@@ -143,7 +155,7 @@ public class NPCManager {
     
     public void saveLocation(NPC npc) {
         if(isInvalid(npc)) return;
-        TraitCombatLogX traitCombatLogX = npc.getTrait(TraitCombatLogX.class);
+        TraitCombatLogX traitCombatLogX = npc.getTraitNullable(TraitCombatLogX.class);
         OfflinePlayer owner = traitCombatLogX.getOwner();
         
         YamlConfiguration config = getData(owner);
@@ -245,7 +257,7 @@ public class NPCManager {
         FileConfiguration config = this.expansion.getConfig("citizens-compatibility.yml");
         if(!config.getBoolean("npc-options.store-inventory", true)) return;
         
-        TraitCombatLogX traitCombatLogX = npc.getTrait(TraitCombatLogX.class);
+        TraitCombatLogX traitCombatLogX = npc.getTraitNullable(TraitCombatLogX.class);
         OfflinePlayer owner = traitCombatLogX.getOwner();
         YamlConfiguration data = getData(owner);
         
@@ -318,7 +330,7 @@ public class NPCManager {
         NPC npc = npcRegistry.createNPC(bukkitType, playerName);
         npc.removeTrait(Owner.class);
         
-        TraitCombatLogX traitCombatLogX = npc.getTrait(TraitCombatLogX.class);
+        TraitCombatLogX traitCombatLogX = npc.getTraitNullable(TraitCombatLogX.class);
         traitCombatLogX.extendLife();
         
         traitCombatLogX.setOwner(player);
@@ -356,7 +368,7 @@ public class NPCManager {
         for(NPC npc : npcRegistry) {
             if(isInvalid(npc)) continue;
             
-            TraitCombatLogX traitCombatLogX = npc.getTrait(TraitCombatLogX.class);
+            TraitCombatLogX traitCombatLogX = npc.getTraitNullable(TraitCombatLogX.class);
             OfflinePlayer owner = traitCombatLogX.getOwner();
             if(owner == null) continue;
             

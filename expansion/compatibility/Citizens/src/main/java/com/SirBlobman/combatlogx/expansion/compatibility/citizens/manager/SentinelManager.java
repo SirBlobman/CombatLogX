@@ -26,7 +26,7 @@ public class SentinelManager {
     protected void setOptions(NPC npc, Player player, LivingEntity enemy) {
         if(npc == null || player == null) return;
         
-        SentinelTrait sentinelTrait = npc.getTrait(SentinelTrait.class);
+        SentinelTrait sentinelTrait = npc.getOrAddTrait(SentinelTrait.class);
         sentinelTrait.setInvincible(false);
         sentinelTrait.respawnTime = -1L;
         
