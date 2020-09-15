@@ -1,0 +1,21 @@
+[SIZE=7][B]CombatLogX 10.0.0.0 Release[/B][/SIZE]
+If you are updating from 9.9.4.0 or a lower version, please read the entire change log!
+
+[B]CombatLogX:[/B]
+[LIST]
+[*] The entire API and expansion system was recoded to improve resource usage and efficiency.
+[*] The configuration system was completely changed. There is a detector system for old config version but it is recommended to create a backup and delete all old CombatLogX files.
+[*] Updated the overview page
+[*] Added support for 1.16.3
+[/LIST]
+
+[SIZE=6][B]Expansions:[/B][/SIZE]
+All expansions were updated. Please delete all files from the old CombatLogX version.
+[B]Major Changes:[/B]
+[LIST]
+[*] NotCombatLogX was renamed to Damage Tagger to prevent confusion with the name.
+[*] The mob configuration options were moved into the Mob Tagger expansion.
+[*] Notifier: TitleManager support was removed as the plugin now provides its own compatibility with CombatLogX
+[*] The Logger expansion was created, more information about it on the wiki page.
+[*] A lot of compatibility expansions were created, removed, or modified.
+[/LIST]

@@ -1,0 +1,100 @@
+[SIZE=7][B]CombatLogX:[/B][/SIZE]
+[B]Description:[/B] CombatLogX is a pvp-based plugin that punishes players for logging out during combat.
+[B]Resource Link:[/B] [URL='https://www.spigotmc.org/resources/31689']SpigotMC - CombatLogX[/URL]
+[B]Source Link:[/B] [URL='https://www.github.com/SirBlobman/CombatLogX/']GitHub - CombatLogX[/URL]
+[B]Author:[/B] [URL='https://www.spigotmc.org/members/73161/']SpigotMC - SirBlobman[/URL]
+
+[SIZE=6][B]Feature Expansions:[/B][/SIZE]
+[SIZE=5][B]Cheat Prevention:[/B][/SIZE]
+The cheat prevention expansion prevents players from doing certain actions during combat.
+
+[B]Current Features:[/B]
+[LIST]
+[*]Prevent players from picking up items while they are tagged.
+[*]Prevent players from bringing potion effects into combat.
+[*]Prevent players from sending chat messages during combat.
+[*]Prevent players from interacting with entities during combat.
+[*]Prevent players from teleporting during combat and allow certain types of teleportation.
+[*]Restart the combat timer when a player throws an ender pearl.
+[*]Prevent players from flying or using elytra during combat and restore their flight once combat ends.
+[*]Force players into a gamemode when they are tagged and prevent them from switching gamemodes.
+[*]Prevent players from executing commands during combat.
+[*]Close a player's inventory when they are tagged and prevent them from opening other inventories.
+[*]Prevent players from breaking, placing, or interacting with blocks during combat.
+[*]Prevent players from dropping items during combat.
+[*]Prevent players from using riptide or totems of undying during combat.
+[/LIST]
+
+
+[SIZE=5][B]Damage Tagger:[/B][/SIZE]
+This expansion was previously known as [I]NotCombatLogX[/I]
+The damage tagger expansion tags players for non-combat damage types.
+All damage types are configurable in the [ICODE]/plugins/CombatLogX/expansions/DamageTagger/damage-tagger.yml[/ICODE] file.
+
+[B]Non-Combat Damage Examples:[/B]
+[LIST]
+[*]CONTACT (cactus or berry bush)
+[*]SUFFOCATION (buried in sand or teleported into a wall)
+[*]FALL (falling from a high place)
+[*]FIRE (touching fire)
+[*]FIRE_TICK (being on fire due to lava or fire)
+[*]LAVA (touching or swimming in lava)
+[*]DROWNING (staying under water for too long)
+[*]BLOCK-EXPLOSION (explosions created by custom plugins (not tnt or creepers))
+[*]STARVATION (running out of food)
+[*]POISON (poison potion damage from witches or custom plugins)
+[*]MAGIC (harming potion or custom plugins)
+[*]WITHER (damage from the wither effect causes by skulls or custom plugins)
+[*]FALLING_BLOCK (taking damage from a falling block, such as an anvil)
+[*]CUSTOM (damage created by custom plugins or features)
+[*]FLY_INTO_WALL (slamming into a wall while using elytra)
+[*]HOT_FLOOR (standing on magma blocks)
+[*]CRAMMING (being in an area with too many entities)
+[/LIST]
+
+
+[SIZE=5][B]Logger:[/B][/SIZE]
+The logger expansion is used to log combat events to a file.
+The following information can be logged by this expansion:
+[LIST]
+[*]EntityDamageByEntityEvent entity types, entity names, and cancelled boolean.
+[*]PlayerPreTagEvent player name, enemy name, tag type, tag reason, and cancelled boolean.
+[*]PlayerReTagEvent player name, enemy name, tag type, and tag reason.
+[*]PlayerUntagEvent player name, reason, and expiration boolean.
+[*]PlayerPunishEvent player name, reason, and cancelled boolean.
+[/LIST]
+
+
+[SIZE=5][B]Mob Tagger:[/B][/SIZE]
+The mob tagger expansion tags players when they get into combat with non-player entities.
+[B]Expansion Features:[/B]
+[LIST]
+[*]Allow mobs to tag players into combat.
+[*]Prevent certain types of mobs from tagging players.
+[*]Prevent mobs spawned for certain reasons from tagging players. (e.g. spawners)
+[/LIST]
+
+
+[SIZE=5][B]Newbie Helper:[/B][/SIZE]
+The newbie helper expansion helps new players against veteran players or trolls.
+[B]Features:[/B]
+[LIST]
+[*]Prevent new players from being attacked for a configurable amount of time.
+[*]Remove protection from newbies when they attack someone.
+[*]A command to toggle your ability to PVP.
+[/LIST]
+
+
+[SIZE=5][B]Notifier:[/B][/SIZE]
+The notifier expansion displays action bars, boss bars, and scoreboards to players while they are in combat.
+This expansion also sends an MVdWPlaceholderAPI trigger for FeatherBoard and AnimatedNames.
+The MVdWPlaceholderAPI trigger is disabled once the player is untagged.
+
+
+[SIZE=5][B]Rewards:[/B][/SIZE]
+The rewards expansion gives players rewards for killing mobs and other players.
+You can configure custom commands to execute and disable rewards in certain worlds.
+
+
+[SIZE=6][B]Compatibility Expansions:[/B][/SIZE]
+[I]Coming Soon![/I]
