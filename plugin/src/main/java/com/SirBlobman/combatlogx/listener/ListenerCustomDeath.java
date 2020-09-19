@@ -4,10 +4,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.listener.ICustomDeathListener;
-import com.SirBlobman.combatlogx.api.shaded.utility.Util;
-
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -15,6 +11,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+
+import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.listener.ICustomDeathListener;
+import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 
 public class ListenerCustomDeath implements ICustomDeathListener {
     private final List<UUID> customDeathList = Util.newList();
@@ -47,6 +47,8 @@ public class ListenerCustomDeath implements ICustomDeathListener {
 
         add(player);
         player.setHealth(0.0D);
+        playerData.set("kill-on-join", false);
+        this.plugin.saveDataFile(player);
     }
 
     @EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)

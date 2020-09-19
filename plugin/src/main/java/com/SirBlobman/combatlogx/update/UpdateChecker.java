@@ -12,11 +12,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
-import com.SirBlobman.combatlogx.CombatLogX;
-
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import com.SirBlobman.combatlogx.CombatLogX;
 
 public final class UpdateChecker extends BukkitRunnable {
     private final CombatLogX plugin;
@@ -63,9 +63,9 @@ public final class UpdateChecker extends BukkitRunnable {
                 printUpdateInfo();
                 return;
             }
-            
-            printLatestInfo();
         }
+
+        printLatestInfo();
     }
     
     public void checkForUpdates() {
