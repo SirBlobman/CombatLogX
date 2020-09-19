@@ -1,5 +1,15 @@
 package com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager;
 
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.npc.NPCRegistry;
+import net.citizensnpcs.api.trait.TraitFactory;
+import net.citizensnpcs.api.trait.TraitInfo;
+import net.citizensnpcs.api.trait.trait.Equipment;
+import net.citizensnpcs.api.trait.trait.Equipment.EquipmentSlot;
+import net.citizensnpcs.api.trait.trait.Inventory;
+import net.citizensnpcs.api.trait.trait.Owner;
+
 import java.lang.reflect.Constructor;
 import java.util.*;
 import java.util.logging.Level;
@@ -26,16 +36,6 @@ import com.SirBlobman.combatlogx.api.shaded.nms.VersionUtil;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.trait.TraitCombatLogX;
-
-import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.npc.NPC;
-import net.citizensnpcs.api.npc.NPCRegistry;
-import net.citizensnpcs.api.trait.TraitFactory;
-import net.citizensnpcs.api.trait.TraitInfo;
-import net.citizensnpcs.api.trait.trait.Equipment;
-import net.citizensnpcs.api.trait.trait.Equipment.EquipmentSlot;
-import net.citizensnpcs.api.trait.trait.Inventory;
-import net.citizensnpcs.api.trait.trait.Owner;
 
 public class NPCManager {
     private final CompatibilityCitizens expansion;
@@ -330,7 +330,7 @@ public class NPCManager {
         NPC npc = npcRegistry.createNPC(bukkitType, playerName);
         npc.removeTrait(Owner.class);
         
-        TraitCombatLogX traitCombatLogX = npc.getTraitNullable(TraitCombatLogX.class);
+        TraitCombatLogX traitCombatLogX = npc.getOrAddTrait(TraitCombatLogX.class);
         traitCombatLogX.extendLife();
         
         traitCombatLogX.setOwner(player);

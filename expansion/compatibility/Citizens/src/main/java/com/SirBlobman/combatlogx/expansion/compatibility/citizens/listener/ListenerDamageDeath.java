@@ -1,5 +1,11 @@
 package com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener;
 
+import net.citizensnpcs.api.event.DespawnReason;
+import net.citizensnpcs.api.event.NPCDamageByEntityEvent;
+import net.citizensnpcs.api.event.NPCDeathEvent;
+import net.citizensnpcs.api.event.NPCDespawnEvent;
+import net.citizensnpcs.api.npc.NPC;
+
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,12 +25,6 @@ import org.bukkit.scheduler.BukkitScheduler;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.NPCManager;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.trait.TraitCombatLogX;
-
-import net.citizensnpcs.api.event.DespawnReason;
-import net.citizensnpcs.api.event.NPCDamageByEntityEvent;
-import net.citizensnpcs.api.event.NPCDeathEvent;
-import net.citizensnpcs.api.event.NPCDespawnEvent;
-import net.citizensnpcs.api.npc.NPC;
 
 public class ListenerDamageDeath implements Listener {
     private final CompatibilityCitizens expansion;
@@ -69,7 +69,7 @@ public class ListenerDamageDeath implements Listener {
         NPCManager npcManager = this.expansion.getNPCManager();
         if(npcManager.isInvalid(npc)) return;
         
-        TraitCombatLogX traitCombatLogX = npc.getTrait(TraitCombatLogX.class);
+        TraitCombatLogX traitCombatLogX = npc.getTraitNullable(TraitCombatLogX.class);
         traitCombatLogX.extendLife();
     }
     
@@ -104,7 +104,7 @@ public class ListenerDamageDeath implements Listener {
         NPCManager npcManager = this.expansion.getNPCManager();
         if(npcManager.isInvalid(npc)) return;
         
-        TraitCombatLogX traitCombatLogX = npc.getTrait(TraitCombatLogX.class);
+        TraitCombatLogX traitCombatLogX = npc.getTraitNullable(TraitCombatLogX.class);
         OfflinePlayer owner = traitCombatLogX.getOwner();
         if(owner == null) return;
         
