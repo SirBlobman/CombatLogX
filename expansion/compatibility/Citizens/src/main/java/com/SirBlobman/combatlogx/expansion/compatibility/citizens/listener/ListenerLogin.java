@@ -1,7 +1,9 @@
 package com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener;
 
+import net.citizensnpcs.api.event.DespawnReason;
+import net.citizensnpcs.api.npc.NPC;
+
 import java.util.UUID;
-import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -19,9 +21,6 @@ import org.bukkit.scheduler.BukkitScheduler;
 import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.NPCManager;
-
-import net.citizensnpcs.api.event.DespawnReason;
-import net.citizensnpcs.api.npc.NPC;
 
 public class ListenerLogin implements Listener {
     private final CompatibilityCitizens expansion;
@@ -70,9 +69,6 @@ public class ListenerLogin implements Listener {
         NPCManager npcManager = this.expansion.getNPCManager();
         YamlConfiguration data = npcManager.getData(player);
         if(!data.getBoolean("citizens-compatibility.punish-next-join")) return;
-        
-        Logger logger = this.expansion.getLogger();
-        logger.info("Player Data Config: " + data.saveToString());
         
         npcManager.loadLocation(player);
         double health = npcManager.loadHealth(player);
