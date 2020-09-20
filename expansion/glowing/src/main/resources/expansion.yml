@@ -1,0 +1,6 @@
+name: "Glowing"
+description: "${project.description}"
+
+main: "combatlogx.expansion.glowing.GlowingExpansion"
+version: "16.0"
+author: "SirBlobman"

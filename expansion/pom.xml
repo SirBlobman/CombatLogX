@@ -27,6 +27,7 @@
         <module>action-bar</module>
         <module>boss-bar</module>
         <module>scoreboard</module>
+        <module>glowing</module>
 
         <!-- Expansions with modules -->
         <module>cheat-prevention</module>

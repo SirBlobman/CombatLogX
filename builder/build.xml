@@ -33,6 +33,7 @@
                 <file file="${expansion.dir}/action-bar/target/Action Bar.jar"/>
                 <file file="${expansion.dir}/boss-bar/target/Boss Bar.jar"/>
                 <file file="${expansion.dir}/scoreboard/target/Scoreboard.jar"/>
+                <file file="${expansion.dir}/glowing/target/Glowing.jar"/>
 
                 <!-- Compatibility Expansions -->
             </resources>
