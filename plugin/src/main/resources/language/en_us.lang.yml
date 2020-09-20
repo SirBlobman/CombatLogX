@@ -81,8 +81,8 @@ expansion:
     no-chat: "&cYou are not allowed to send chat messages during combat."
 
     game-mode:
-      force-changed: "&cYour game-mode was changed to &f{game_mode}&c."
-      no-changing: "&cYou are not allowed to switch game-modes during combat."
+      force-switch: "&cYour game-mode was changed to &f{game_mode}&c."
+      no-switch: "&cYou are not allowed to switch game-modes during combat."
 
     flight:
       force-disabled: "&cYour ability to fly was removed."

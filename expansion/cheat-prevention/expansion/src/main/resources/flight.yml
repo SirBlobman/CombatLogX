@@ -1,0 +1,13 @@
+# Should players be prevented from flying during combat?
+# Default: true
+prevent-flying: true
+
+# If a players flight is deactivated by CombatLogX, should the plugin prevent them from taking fall damage?
+# The fall damage prevention only works once after flight is disabled.
+# Default: true
+prevent-fall-damage: true
+
+# Should the 'allow-flight' flag be set to false on a player?
+# This may prevent toggle spam but players won't be able to fly after combat ends.
+# Default: false
+force-disable-flight: false

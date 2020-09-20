@@ -1,0 +1,8 @@
+# This is a list of potion effects that will be removed when a player is tagged.
+# You can find a list of valid potion types in the link below:
+# https://hub.spigotmc.org/javadocs/spigot/org/bukkit/potion/PotionEffectType.html
+# You can unblock all potion effects by setting the value of this list to []
+# Example: 'blocked-potion-type-list: []'
+blocked-potion-type-list:
+  - INCREASE_DAMAGE
+  - INVISIBILITY

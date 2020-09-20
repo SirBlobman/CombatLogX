@@ -1,0 +1,16 @@
+# Should players be prevented from changing game modes during combat?
+# Default: true
+prevent-switching: true
+
+# If 'prevent-switching' is false, should players be untagged when they change modes?
+# Default: false
+untag-on-switch: false
+
+# Should players be forced into a specific game mode when they get into combat?
+# Default: false
+force-switch: false
+
+# If 'force-switch' is enabled, which mode should be used?
+# Valid options can be found in the link below:
+# https://hub.spigotmc.org/javadocs/spigot/org/bukkit/GameMode.html
+force-mode: SURVIVAL

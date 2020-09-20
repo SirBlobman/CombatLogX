@@ -1,2 +1,3 @@
 # Should players be prevented from typing in chat during combat?
+# Default: false
 disable-chat: false

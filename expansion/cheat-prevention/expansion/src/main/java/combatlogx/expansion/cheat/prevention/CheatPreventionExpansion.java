@@ -15,9 +15,17 @@ public final class CheatPreventionExpansion extends Expansion {
     @Override
     public void onLoad() {
         ExpansionConfigurationManager configurationManager = getConfigurationManager();
-        configurationManager.saveDefault("config.yml");
         configurationManager.saveDefault("blocks.yml");
+        configurationManager.saveDefault("chat.yml");
+        configurationManager.saveDefault("commands.yml");
+        configurationManager.saveDefault("config.yml");
+        configurationManager.saveDefault("entities.yml");
+        configurationManager.saveDefault("flight.yml");
+        configurationManager.saveDefault("game-mode.yml");
+        configurationManager.saveDefault("inventories.yml");
         configurationManager.saveDefault("items.yml");
+        configurationManager.saveDefault("potions.yml");
+        configurationManager.saveDefault("teleportation.yml");
     }
 
     @Override
@@ -25,14 +33,12 @@ public final class CheatPreventionExpansion extends Expansion {
         new ListenerBlocks(this).register();
         new ListenerChat(this).register();
         new ListenerCommands(this).register();
-        /*
         new ListenerEntities(this).register();
         new ListenerFlight(this).register();
         new ListenerGameMode(this).register();
         new ListenerInventories(this).register();
         new ListenerPotions(this).register();
-        new ListenerTeleport(this).register();
-         */
+        // new ListenerTeleport(this).register();
 
         // 1.9: Elytra
         int minorVersion = VersionUtility.getMinorVersion();
@@ -57,8 +63,16 @@ public final class CheatPreventionExpansion extends Expansion {
     @Override
     public void reloadConfig() {
         ExpansionConfigurationManager configurationManager = getConfigurationManager();
-        configurationManager.reload("config.yml");
         configurationManager.reload("blocks.yml");
+        configurationManager.reload("chat.yml");
+        configurationManager.reload("commands.yml");
+        configurationManager.reload("config.yml");
+        configurationManager.reload("entities.yml");
         configurationManager.reload("items.yml");
+        configurationManager.reload("inventories.yml");
+        configurationManager.reload("flight.yml");
+        configurationManager.reload("game-mode.yml");
+        configurationManager.reload("potions.yml");
+        configurationManager.reload("teleportation.yml");
     }
 }

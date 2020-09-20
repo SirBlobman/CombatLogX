@@ -1,0 +1,3 @@
+# Should players be prevented from right-clicking entities during combat?
+# Default: false
+prevent-interaction: false

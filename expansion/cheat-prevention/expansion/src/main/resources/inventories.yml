@@ -1,0 +1,7 @@
+# Should open inventories be force-closed when a player gets into combat?
+# Default: true
+close: true
+
+# Should players be prevented from opening inventories while they are tagged?
+# Default: true
+prevent-opening: true
