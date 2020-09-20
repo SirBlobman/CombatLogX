@@ -4,4 +4,4 @@ description: "An expansion that prevents team members from tagging each other."
 
 main: "com.SirBlobman.combatlogx.expansion.compatibility.skyblock.CompatibilitySkyBlock"
 author: "SirBlobman"
-version: "15.2"
+version: "15.3"

@@ -74,7 +74,7 @@
         <dependency>
             <groupId>world.bentobox</groupId>
             <artifactId>bentobox</artifactId>
-            <version>1.13.1</version>
+            <version>1.15.0</version>
             <scope>provided</scope>
         </dependency>
         
@@ -82,7 +82,7 @@
         <dependency>
             <groupId>world.bentobox</groupId>
             <artifactId>bskyblock</artifactId>
-            <version>1.13.1</version>
+            <version>1.14.0</version>
             <scope>provided</scope>
         </dependency>
         

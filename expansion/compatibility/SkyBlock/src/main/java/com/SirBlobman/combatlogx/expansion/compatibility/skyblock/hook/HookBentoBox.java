@@ -1,14 +1,14 @@
 package com.SirBlobman.combatlogx.expansion.compatibility.skyblock.hook;
 
-import java.util.Optional;
-import java.util.logging.Logger;
-
-import org.bukkit.plugin.java.JavaPlugin;
-
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.addons.Addon;
 import world.bentobox.bentobox.api.addons.AddonDescription;
 import world.bentobox.bentobox.managers.AddonsManager;
+
+import java.util.Optional;
+import java.util.logging.Logger;
+
+import org.bukkit.plugin.java.JavaPlugin;
 
 public final class HookBentoBox {
     public static boolean hookIntoBSkyBlock(Logger logger) {
@@ -29,7 +29,7 @@ public final class HookBentoBox {
         BentoBox bentoBox = JavaPlugin.getPlugin(BentoBox.class);
         AddonsManager manager = bentoBox.getAddonsManager();
         
-        Optional<Addon> addon = manager.getAddonByName("BentoBox");
+        Optional<Addon> addon = manager.getAddonByName("BSkyBlock");
         return addon.orElse(null);
     }
 }
