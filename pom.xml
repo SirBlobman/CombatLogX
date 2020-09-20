@@ -12,7 +12,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <spigot.version>1.16.2-R0.1-SNAPSHOT</spigot.version>
+        <spigot.version>1.16.3-R0.1-SNAPSHOT</spigot.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -26,7 +26,7 @@
         <!-- 'patch' will change when small changes are made to the plugin -->
         <!-- 'expansion' will change when an expansion is changed or updated -->
         <!-- ${build.number} is based on jenkins -->
-        <combatlogx.version>10.1.0.0</combatlogx.version>
+        <combatlogx.version>10.2.0.0.Beta-${build.number}</combatlogx.version>
     </properties>
 
     <modules>
