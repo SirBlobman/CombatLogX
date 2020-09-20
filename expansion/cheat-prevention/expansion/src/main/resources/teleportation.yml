@@ -1,0 +1,19 @@
+# Should players be prevented from teleporting away during combat?
+# Default: true
+prevent-teleportation: true
+
+# Are there any reasons that a teleport should not be cancelled?
+# You can find a list of valid values in the link below:
+# https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/event/player/PlayerTeleportEvent.TeleportCause.html
+allowed-teleport-cause-list:
+  - PLUGIN # Some plugins don't like when CombatLogX cancels their teleports
+  - UNKNOWN # Allowing 'UNKNOWN' may fix some glitches with region protection plugins
+  - ENDER_PEARL # Most servers think that ender pearls are fair game during combat.
+
+# Should ender pearls cause a player's timer to reset during combat?
+# Default: false
+ender-pearl-retag: false
+
+# If a player teleports away, should their tag be removed?
+# Default: false
+untag: false

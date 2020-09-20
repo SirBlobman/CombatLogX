@@ -1,5 +1,7 @@
 package combatlogx.expansion.cheat.prevention.listener;
 
+import combatlogx.expansion.cheat.prevention.CheatPreventionExpansion;
+
 import java.util.List;
 
 import org.bukkit.Material;
@@ -8,14 +10,13 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
-
-import combatlogx.expansion.cheat.prevention.CheatPreventionExpansion;
 
 public final class ListenerBlocks extends CheatPreventionListener {
     public ListenerBlocks(CheatPreventionExpansion expansion) {
@@ -24,6 +25,9 @@ public final class ListenerBlocks extends CheatPreventionListener {
 
     @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
     public void onInteract(PlayerInteractEvent e) {
+        Action action = e.getAction();
+        if(action != Action.RIGHT_CLICK_BLOCK && action != Action.LEFT_CLICK_BLOCK) return;
+
         Player player = e.getPlayer();
         if(!isInCombat(player)) return;
         if(canInteract()) return;

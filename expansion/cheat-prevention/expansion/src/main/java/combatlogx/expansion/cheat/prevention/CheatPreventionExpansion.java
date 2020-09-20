@@ -33,26 +33,27 @@ public final class CheatPreventionExpansion extends Expansion {
         new ListenerBlocks(this).register();
         new ListenerChat(this).register();
         new ListenerCommands(this).register();
+        new ListenerDrop(this).register();
         new ListenerEntities(this).register();
         new ListenerFlight(this).register();
         new ListenerGameMode(this).register();
         new ListenerInventories(this).register();
         new ListenerPotions(this).register();
-        // new ListenerTeleport(this).register();
+        new ListenerTeleport(this).register();
 
         // 1.9: Elytra
         int minorVersion = VersionUtility.getMinorVersion();
-        // if(minorVersion >= 9) new ListenerElytra(this).register();
+        if(minorVersion >= 9) new ListenerElytra(this).register();
 
         // 1.11: Totem of Undying
-        // if(minorVersion >= 11) new ListenerTotem(this).register();
+        if(minorVersion >= 11) new ListenerTotem(this).register();
 
         // 1.12: PlayerPickupItemEvent --> EntityPickupItemEvent
         CheatPreventionListener listenerItemPickup = (minorVersion < 12 ? new ListenerLegacyItemPickup(this) : new ListenerModernItemPickup(this));
         listenerItemPickup.register();
 
         // 1.13: Riptide Enchantment
-        // if(minorVersion >= 13) new ListenerRiptide(this).register();
+        if(minorVersion >= 13) new ListenerRiptide(this).register();
     }
 
     @Override

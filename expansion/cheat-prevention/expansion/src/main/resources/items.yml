@@ -13,3 +13,7 @@ prevent-elytra: true
 # Should players be prevented from using Totems of Undying during combat?
 # Default: false
 prevent-totem: false
+
+# Should players be prevented from using tridents with the riptide enchantment during combat?
+# Default: false
+prevent-riptide: false
