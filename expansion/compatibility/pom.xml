@@ -16,8 +16,8 @@
     <description>This is the parent POM for the CombatLogX compatibility expansion modules.</description>
 
     <modules>
-        <!--
         <module>ASkyBlock</module>
+        <!--
         <module>BSkyBlock</module>
         <module>Citizens</module>
         <module>CrackShot</module>

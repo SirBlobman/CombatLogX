@@ -1,7 +1,5 @@
 package com.SirBlobman.combatlogx.configuration;
 
-import org.zeroturnaround.zip.ZipUtil;
-
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.logging.Level;
@@ -11,6 +9,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.SirBlobman.api.utility.Validate;
 import com.SirBlobman.combatlogx.CombatPlugin;
+
+import org.zeroturnaround.zip.ZipUtil;
 
 public final class ConfigurationChecker {
     private final CombatPlugin plugin;

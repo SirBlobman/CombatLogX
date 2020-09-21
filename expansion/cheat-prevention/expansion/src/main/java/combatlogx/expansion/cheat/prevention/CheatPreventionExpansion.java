@@ -1,11 +1,11 @@
 package combatlogx.expansion.cheat.prevention;
 
-import combatlogx.expansion.cheat.prevention.listener.*;
-
 import com.SirBlobman.api.utility.VersionUtility;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
+
+import combatlogx.expansion.cheat.prevention.listener.*;
 
 public final class CheatPreventionExpansion extends Expansion {
     public CheatPreventionExpansion(ICombatLogX plugin) {

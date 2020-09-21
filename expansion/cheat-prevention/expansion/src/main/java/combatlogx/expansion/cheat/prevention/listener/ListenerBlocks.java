@@ -1,7 +1,5 @@
 package combatlogx.expansion.cheat.prevention.listener;
 
-import combatlogx.expansion.cheat.prevention.CheatPreventionExpansion;
-
 import java.util.List;
 
 import org.bukkit.Material;
@@ -17,6 +15,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
+
+import combatlogx.expansion.cheat.prevention.CheatPreventionExpansion;
 
 public final class ListenerBlocks extends CheatPreventionListener {
     public ListenerBlocks(CheatPreventionExpansion expansion) {

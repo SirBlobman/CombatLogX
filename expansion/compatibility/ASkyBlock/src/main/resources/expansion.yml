@@ -1,0 +1,7 @@
+name: "CompatASkyBlock"
+prefix: "ASkyBlock Compatibility"
+description: "${project.description}"
+
+main: "combatlogx.expansion.compatibility.askyblock.ASkyBlockExpansion"
+version: "16.0"
+author: "SirBlobman"
