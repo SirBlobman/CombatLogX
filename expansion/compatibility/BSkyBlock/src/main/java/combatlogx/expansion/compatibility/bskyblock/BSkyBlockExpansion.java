@@ -1,13 +1,14 @@
-package combatlogx.expansion.compatibility.askyblock;
+package combatlogx.expansion.compatibility.bskyblock;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
 
-import combatlogx.expansion.compatibility.askyblock.listener.ListenerASkyBlock;
+import combatlogx.expansion.compatibility.bskyblock.hook.HookBentoBox;
+import combatlogx.expansion.compatibility.bskyblock.listener.ListenerBSkyBlock;
 
-public final class ASkyBlockExpansion extends Expansion {
-    public ASkyBlockExpansion(ICombatLogX plugin) {
+public final class BSkyBlockExpansion extends Expansion {
+    public BSkyBlockExpansion(ICombatLogX plugin) {
         super(plugin);
     }
 
@@ -18,14 +19,21 @@ public final class ASkyBlockExpansion extends Expansion {
 
     @Override
     public void onEnable() {
-        if(!checkDependency("ASkyBlock", true)) {
+        if(!checkDependency("BentoBox", true)) {
             ICombatLogX plugin = getPlugin();
             ExpansionManager expansionManager = plugin.getExpansionManager();
             expansionManager.disableExpansion(this);
             return;
         }
 
-        new ListenerASkyBlock(this).register();
+        if(!HookBentoBox.findBSkyBlock(this)) {
+            ICombatLogX plugin = getPlugin();
+            ExpansionManager expansionManager = plugin.getExpansionManager();
+            expansionManager.disableExpansion(this);
+            return;
+        }
+
+        new ListenerBSkyBlock(this).register();
     }
 
     @Override

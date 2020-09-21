@@ -1,0 +1,67 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
+
+    <parent>
+        <groupId>com.SirBlobman.combatlogx.expansion.compatibility</groupId>
+        <artifactId>compatibility-parent</artifactId>
+        <version>11.0.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>BSkyBlock</artifactId>
+    <name>Compatibility Expansion: BSkyBlock</name>
+    <description>An expansion for CombatLogX that adds compatibility with the BentoBox BSkyBlock addon.</description>
+
+    <repositories>
+        <!-- SpigotMC Repository -->
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+
+        <!-- CodeMC Public Repository -->
+        <repository>
+            <id>codemc-public</id>
+            <url>https://repo.codemc.io/repository/maven-public/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- Spigot API -->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>${spigot.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- CombatLogX API -->
+        <dependency>
+            <groupId>com.SirBlobman.combatlogx</groupId>
+            <artifactId>api</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- BentoBox -->
+        <dependency>
+            <groupId>world.bentobox</groupId>
+            <artifactId>bentobox</artifactId>
+            <version>1.15.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- BentoBox BSkyBlock -->
+        <dependency>
+            <groupId>world.bentobox</groupId>
+            <artifactId>bskyblock</artifactId>
+            <version>1.14.0</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>BSkyBlock Compatibility</finalName>
+    </build>
+</project>

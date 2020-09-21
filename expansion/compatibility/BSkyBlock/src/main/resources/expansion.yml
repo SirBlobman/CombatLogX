@@ -1,0 +1,7 @@
+name: "CompatBSkyBlock"
+prefix: "BSkyBlock Compatibility"
+description: "${project.description}"
+
+main: "combatlogx.expansion.compatibility.bskyblock.BSkyBlockExpansion"
+version: "16.0"
+author: "SirBlobman"

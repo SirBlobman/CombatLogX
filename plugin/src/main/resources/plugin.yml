@@ -18,7 +18,6 @@ depend:
 softdepend:
   - "ASkyBlock"
   - "AnimatedNames"
-  - "BSkyBlock"
   - "BentoBox"
   - "BossBarAPI"
   - "Citizens"
@@ -26,7 +25,6 @@ softdepend:
   - "Essentials"
   - "FabledSkyBlock"
   - "Factions"
-  - "FactionsUUID"
   - "FeatherBoard"
   - "GriefPrevention"
   - "Lands"
