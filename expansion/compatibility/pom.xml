@@ -16,20 +16,10 @@
     <description>This is the parent POM for the CombatLogX compatibility expansion modules.</description>
 
     <modules>
-        <!-- SkyBlock Compatibility -->
-        <module>ASkyBlock</module>
-        <module>BSkyBlock</module>
-        <module>FabledSkyBlock</module>
-        <module>SuperiorSkyblock2</module>
-        <module>uSkyBlock</module>
-
+        <module>CrackShot</module>
         <!--
         <module>Citizens</module>
-        <module>CrackShot</module>
         <module>Essentials</module>
-        <module>Factions</module>
-        <module>FactionsUUID</module>
-        <module>FactionsX</module>
         <module>GriefPrevention</module>
         <module>Lands</module>
         <module>LegacyFactions</module>
@@ -47,5 +37,20 @@
         <module>WorldGuard</module>
         <module>iDisguise</module>
         -->
+
+        <!-- Factions Compatibility -->
+        <!--
+        <module>Factions</module>
+        <module>FactionsUUID</module>
+        <module>FactionsX</module>
+        <module>SaberFactions</module>
+        -->
+
+        <!-- SkyBlock Compatibility -->
+        <module>ASkyBlock</module>
+        <module>BSkyBlock</module>
+        <module>FabledSkyBlock</module>
+        <module>SuperiorSkyblock2</module>
+        <module>uSkyBlock</module>
     </modules>
 </project>

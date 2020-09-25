@@ -1,0 +1,7 @@
+name: "CompatCrackShot"
+prefix: "CrackShot Compatibility"
+description: "${project.description}"
+
+main: "combatlogx.expansion.compatibility.crackshot.CrackShotExpansion"
+version: "16.0"
+author: "SirBlobman"

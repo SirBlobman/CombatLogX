@@ -1,0 +1,19 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>com.SirBlobman.combatlogx</groupId>
+        <artifactId>parent</artifactId>
+        <version>11.0.0.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.SirBlobman.combatlogx.dummy</groupId>
+    <artifactId>dummy-parent</artifactId>
+    <name>Dummy: Parent POM</name>
+    <description>The parent POM for all the dummy modules that don't have a proper maven repository.</description>
+
+    <modules>
+        <module>CrackShot</module>
+    </modules>
+</project>
