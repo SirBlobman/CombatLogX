@@ -1,0 +1,7 @@
+name: "CompatuSkyBlock"
+prefix: "uSkyBlock Compatibility"
+description: "${project.description}"
+
+main: "combatlogx.expansion.compatibility.uskyblock.uSkyBlockExpansion"
+version: "16.0"
+author: "SirBlobman"

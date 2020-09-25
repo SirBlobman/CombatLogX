@@ -1,0 +1,7 @@
+name: "CompatFabledSkyBlock"
+prefix: "FabledSkyBlock Compatibility"
+description: "${project.description}"
+
+main: "combatlogx.expansion.compatibility.fabled.skyblock.FabledSkyBlockExpansion"
+version: "16.0"
+author: "SirBlobman"

@@ -16,20 +16,23 @@
     <description>This is the parent POM for the CombatLogX compatibility expansion modules.</description>
 
     <modules>
+        <!-- SkyBlock Compatibility -->
         <module>ASkyBlock</module>
         <module>BSkyBlock</module>
+        <module>FabledSkyBlock</module>
+        <module>SuperiorSkyblock2</module>
+        <module>uSkyBlock</module>
+
         <!--
         <module>Citizens</module>
         <module>CrackShot</module>
         <module>Essentials</module>
-        <module>FabledSkyBlock</module>
         <module>Factions</module>
         <module>FactionsUUID</module>
         <module>FactionsX</module>
-        <module>LegacyFactions</module>
         <module>GriefPrevention</module>
-        <module>iDisguise</module>
         <module>Lands</module>
+        <module>LegacyFactions</module>
         <module>LibsDisguises</module>
         <module>MVdWPlaceholderAPI</module>
         <module>MythicMobs</module>
@@ -38,12 +41,11 @@
         <module>ProtectionStones</module>
         <module>RedProtect</module>
         <module>Residence</module>
-        <module>Towny</module>
-        <module>SuperiorSkyblock</module>
         <module>SuperVanish</module>
-        <module>uSkyBlock</module>
+        <module>Towny</module>
         <module>VanishNoPacket</module>
         <module>WorldGuard</module>
+        <module>iDisguise</module>
         -->
     </modules>
 </project>
