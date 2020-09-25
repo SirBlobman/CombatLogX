@@ -80,10 +80,11 @@ public final class ExpansionManager {
             return;
         }
 
+        loadedExpansionList.sort(Comparator.comparing(Expansion::getName));
         loadedExpansionList.forEach(this::enableExpansion);
+
         List<Expansion> enabledExpansionList = getEnabledExpansions();
         int expansionListSize = enabledExpansionList.size();
-
         String message = ("Successfully enabled " + expansionListSize + " expansion" + (expansionListSize == 1 ? "" : "s") + ".");
         logger.info(message);
     }
@@ -134,6 +135,7 @@ public final class ExpansionManager {
         List<Expansion> expansionList = getAllExpansions();
         return expansionList.stream()
                 .filter(expansion -> expansion.getState() == State.ENABLED)
+                .sorted(Comparator.comparing(Expansion::getName))
                 .collect(Collectors.toList());
     }
 
