@@ -8,9 +8,11 @@ import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
 
 public abstract class RegionExpansion extends Expansion {
     private boolean enabledSuccessfully;
+    private final RegionForceField regionForceField;
     public RegionExpansion(ICombatLogX plugin) {
         super(plugin);
         this.enabledSuccessfully = false;
+        this.regionForceField = new RegionForceField(this);
     }
 
     @Override
@@ -30,8 +32,8 @@ public abstract class RegionExpansion extends Expansion {
             return;
         }
 
-        RegionForceField regionForceField = new RegionForceField(this);
-        registerListener(regionForceField);
+        this.regionForceField.registerProtocol();
+        registerListener(this.regionForceField);
 
         this.enabledSuccessfully = true;
         afterEnable();
@@ -40,6 +42,7 @@ public abstract class RegionExpansion extends Expansion {
     @Override
     public final void onDisable() {
         if(!this.enabledSuccessfully) return;
+        this.regionForceField.unregisterProtocol();
 
         afterDisable();
         this.enabledSuccessfully = false;

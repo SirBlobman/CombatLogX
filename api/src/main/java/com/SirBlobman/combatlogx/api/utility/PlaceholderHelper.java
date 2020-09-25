@@ -51,7 +51,7 @@ public final class PlaceholderHelper {
     public static String getEnemyName(ICombatLogX plugin, Player player) {
         ICombatManager combatManager = plugin.getCombatManager();
         LivingEntity enemy = combatManager.getEnemy(player);
-        if(enemy == null) return getUnkownEnemy(plugin, player);
+        if(enemy == null) return getUnknownEnemy(plugin, player);
 
         MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
         EntityHandler entityHandler = multiVersionHandler.getEntityHandler();
@@ -61,7 +61,7 @@ public final class PlaceholderHelper {
     public static String getEnemyHealth(ICombatLogX plugin, Player player) {
         ICombatManager combatManager = plugin.getCombatManager();
         LivingEntity enemy = combatManager.getEnemy(player);
-        if(enemy == null) return getUnkownEnemy(plugin, player);
+        if(enemy == null) return getUnknownEnemy(plugin, player);
 
         double enemyHealth = enemy.getHealth();
         DecimalFormat decimalFormat = getDecimalFormat(plugin, player);
@@ -71,7 +71,7 @@ public final class PlaceholderHelper {
     public static String getEnemyHealthRounded(ICombatLogX plugin, Player player) {
         ICombatManager combatManager = plugin.getCombatManager();
         LivingEntity enemy = combatManager.getEnemy(player);
-        if(enemy == null) return getUnkownEnemy(plugin, player);
+        if(enemy == null) return getUnknownEnemy(plugin, player);
 
         double enemyHealth = enemy.getHealth();
         long enemyHealthRounded = Math.round(enemyHealth);
@@ -81,7 +81,7 @@ public final class PlaceholderHelper {
     public static String getEnemyHearts(ICombatLogX plugin, Player player) {
         ICombatManager combatManager = plugin.getCombatManager();
         LivingEntity enemy = combatManager.getEnemy(player);
-        if(enemy == null) return getUnkownEnemy(plugin, player);
+        if(enemy == null) return getUnknownEnemy(plugin, player);
 
         double enemyHealth = enemy.getHealth();
         double enemyHearts = (enemyHealth / 2.0D);
@@ -95,14 +95,14 @@ public final class PlaceholderHelper {
         return MessageUtility.color("&4" + hearts);
     }
 
-    private static DecimalFormat getDecimalFormat(ICombatLogX plugin, Player player) {
+    public static String getUnknownEnemy(ICombatLogX plugin, Player player) {
+        LanguageManager languageManager = plugin.getLanguageManager();
+        return languageManager.getMessageColored(player, "placeholder.unknown-enemy");
+    }
+
+    public static DecimalFormat getDecimalFormat(ICombatLogX plugin, Player player) {
         LanguageManager languageManager = plugin.getLanguageManager();
         String decimalFormatString = languageManager.getMessage(player, "decimal-format");
         return new DecimalFormat(decimalFormatString);
-    }
-
-    private static String getUnkownEnemy(ICombatLogX plugin, Player player) {
-        LanguageManager languageManager = plugin.getLanguageManager();
-        return languageManager.getMessageColored(player, "placeholder.unknown-enemy");
     }
 }
