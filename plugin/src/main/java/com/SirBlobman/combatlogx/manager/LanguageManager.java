@@ -52,12 +52,14 @@ public final class LanguageManager implements ILanguageManager {
     @Override
     public void sendLocalizedMessage(Player player, String key, Replacer... replacerArray) {
         String message = getLocalizedMessage(player, key);
+        if(message.isEmpty()) return;
+
         String replace = MessageUtil.color(message);
         for(Replacer replacer : replacerArray) {
             replace = replacer.replace(replace);
         }
 
-        player.sendMessage(replace);
+        if(!replace.isEmpty()) player.sendMessage(replace);
     }
     
     public void reloadConfig() {
