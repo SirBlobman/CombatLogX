@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
  *
  * @author SirBlobman
  */
-public class PlayerCombatTimerChangeEvent extends CustomPlayerEvent {
+public class PlayerCombatTimerChangeEvent extends AsyncCustomPlayerEvent {
     private final int timeLeft;
     public PlayerCombatTimerChangeEvent(Player player, int timeLeft) {
         super(player);

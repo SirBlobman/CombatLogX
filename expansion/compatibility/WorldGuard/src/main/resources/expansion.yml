@@ -4,4 +4,4 @@ description: "An expansion that adds region and force field support to WorldGuar
 
 main: "com.SirBlobman.combatlogx.expansion.compatibility.worldguard.CompatibilityWorldGuard"
 author: "SirBlobman"
-version: "15.1"
+version: "15.2"

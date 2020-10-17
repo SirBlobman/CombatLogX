@@ -1,13 +1,8 @@
 package com.SirBlobman.combatlogx.expansion.notifier.listener;
 
-import com.SirBlobman.combatlogx.api.event.PlayerCombatTimerChangeEvent;
-import com.SirBlobman.combatlogx.api.event.PlayerTagEvent;
-import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
-import com.SirBlobman.combatlogx.expansion.notifier.Notifier;
-import com.SirBlobman.combatlogx.expansion.notifier.hook.HookMVdWPlaceholderAPI;
-import com.SirBlobman.combatlogx.expansion.notifier.manager.ActionBarManager;
-import com.SirBlobman.combatlogx.expansion.notifier.manager.BossBarManager;
-import com.SirBlobman.combatlogx.expansion.notifier.manager.ScoreBoardManager;
+import java.util.concurrent.Callable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -17,6 +12,15 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
+
+import com.SirBlobman.combatlogx.api.event.PlayerCombatTimerChangeEvent;
+import com.SirBlobman.combatlogx.api.event.PlayerTagEvent;
+import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
+import com.SirBlobman.combatlogx.expansion.notifier.Notifier;
+import com.SirBlobman.combatlogx.expansion.notifier.hook.HookMVdWPlaceholderAPI;
+import com.SirBlobman.combatlogx.expansion.notifier.manager.ActionBarManager;
+import com.SirBlobman.combatlogx.expansion.notifier.manager.BossBarManager;
+import com.SirBlobman.combatlogx.expansion.notifier.manager.ScoreBoardManager;
 
 public class ListenerNotifier implements Listener {
     private final Notifier expansion;
@@ -28,12 +32,25 @@ public class ListenerNotifier implements Listener {
     public void onTimerChange(PlayerCombatTimerChangeEvent e) {
         ActionBarManager actionBarManager = this.expansion.getActionBarManager();
         BossBarManager bossBarManager = this.expansion.getBossBarManager();
-        ScoreBoardManager scoreBoardManager = this.expansion.getScoreBoardManager();
         
         Player player = e.getPlayer();
         actionBarManager.updateActionBar(player);
         bossBarManager.updateBossBar(player);
-        scoreBoardManager.updateScoreboard(player);
+
+        try {
+            JavaPlugin plugin = this.expansion.getPlugin().getPlugin();
+            Callable<Void> method = () -> {
+                ScoreBoardManager scoreBoardManager = this.expansion.getScoreBoardManager();
+                scoreBoardManager.updateScoreboard(player);
+                return null;
+            };
+
+            BukkitScheduler scheduler = Bukkit.getScheduler();
+            scheduler.callSyncMethod(plugin, method).get();
+        } catch(Exception ex) {
+            Logger logger = this.expansion.getLogger();
+            logger.log(Level.WARNING, "An error occurred while updating the scoreboard:", ex);
+        }
     }
 
     @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)

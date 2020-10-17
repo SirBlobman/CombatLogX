@@ -16,7 +16,6 @@ softdepend:
   - "AnimatedNames"
   - "BentoBox"
   - "BossBarAPI"
-  - "BSkyBlock"
   - "Citizens"
   - "CrackShot"
   - "Essentials"

@@ -17,6 +17,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.event.*;
@@ -200,8 +201,12 @@ public class CombatManager implements ICombatManager, Runnable {
             int timeLeft = getTimerSecondsLeft(player);
             if(timeLeft <= 0) untag(player, PlayerUntagEvent.UntagReason.EXPIRE);
 
-            PlayerCombatTimerChangeEvent event = new PlayerCombatTimerChangeEvent(player, timeLeft);
-            manager.callEvent(event);
+            Runnable task = () -> {
+                PlayerCombatTimerChangeEvent event = new PlayerCombatTimerChangeEvent(player, timeLeft);
+                manager.callEvent(event);
+            };
+            BukkitScheduler scheduler = Bukkit.getScheduler();
+            scheduler.runTaskAsynchronously(this.plugin.getPlugin(), task);
         }
     }
 
