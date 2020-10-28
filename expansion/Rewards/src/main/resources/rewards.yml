@@ -7,7 +7,7 @@ rewards:
   reward1:
     # What is the chance of this reward being executed
     # Chance is a percent value calculated by <chance>/<max-chance>
-    # So if you set chance to 5 and max-chance to 1000, the chance will be 5/1000 or 0.005%
+    # So if you set chance to 5 and max-chance to 1000, the chance will be 5/1000 or 0.5%
     chance: 5
     max-chance: 1000
 

@@ -2,9 +2,6 @@ package com.SirBlobman.combatlogx.utility;
 
 import java.text.DecimalFormat;
 
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.shaded.nms.AbstractNMS;
 import com.SirBlobman.combatlogx.api.shaded.nms.EntityHandler;
@@ -12,6 +9,9 @@ import com.SirBlobman.combatlogx.api.shaded.nms.MultiVersionHandler;
 import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
+
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 
 public final class PlaceholderReplacer {
     public static String getTimeLeftSeconds(ICombatLogX plugin, Player player) {

@@ -4,15 +4,6 @@ import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
-
 import com.SirBlobman.combatlogx.api.event.PlayerCombatTimerChangeEvent;
 import com.SirBlobman.combatlogx.api.event.PlayerTagEvent;
 import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
@@ -22,6 +13,15 @@ import com.SirBlobman.combatlogx.expansion.notifier.manager.ActionBarManager;
 import com.SirBlobman.combatlogx.expansion.notifier.manager.BossBarManager;
 import com.SirBlobman.combatlogx.expansion.notifier.manager.ScoreBoardManager;
 
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
+
 public class ListenerNotifier implements Listener {
     private final Notifier expansion;
     public ListenerNotifier(Notifier expansion) {
@@ -30,10 +30,9 @@ public class ListenerNotifier implements Listener {
 
     @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
     public void onTimerChange(PlayerCombatTimerChangeEvent e) {
+        Player player = e.getPlayer();
         ActionBarManager actionBarManager = this.expansion.getActionBarManager();
         BossBarManager bossBarManager = this.expansion.getBossBarManager();
-        
-        Player player = e.getPlayer();
         actionBarManager.updateActionBar(player);
         bossBarManager.updateBossBar(player);
 

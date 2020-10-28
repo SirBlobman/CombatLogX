@@ -1,23 +1,8 @@
 package com.SirBlobman.combatlogx.manager;
 
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.World;
-import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.event.*;
@@ -25,19 +10,29 @@ import com.SirBlobman.combatlogx.api.listener.ICustomDeathListener;
 import com.SirBlobman.combatlogx.api.shaded.nms.AbstractNMS;
 import com.SirBlobman.combatlogx.api.shaded.nms.EntityHandler;
 import com.SirBlobman.combatlogx.api.shaded.nms.MultiVersionHandler;
-import com.SirBlobman.combatlogx.api.shaded.nms.VersionUtil;
-import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
 
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.scheduler.BukkitScheduler;
+
 public class CombatManager implements ICombatManager, Runnable {
     private final ICombatLogX plugin;
+    private final Map<UUID, Long> expireTimeMap;
+    private final Map<UUID, LivingEntity> enemyMap;
     public CombatManager(ICombatLogX plugin) {
         this.plugin = plugin;
+        this.expireTimeMap = new HashMap<>();
+        this.enemyMap = new HashMap<>();
     }
-
-    private static final Map<UUID, Long> uuidToExpireTime = Util.newMap();
-    private static final Map<UUID, UUID> uuidToEnemy = Util.newMap();
 
     @Override
     public boolean tag(Player player, LivingEntity enemy, PlayerPreTagEvent.TagType tagType, PlayerPreTagEvent.TagReason tagReason) {
@@ -74,10 +69,10 @@ public class CombatManager implements ICombatManager, Runnable {
         }
 
         UUID uuid = player.getUniqueId();
-        uuidToExpireTime.put(uuid, endMillis);
+        expireTimeMap.put(uuid, endMillis);
 
-        if(enemy == null) uuidToEnemy.putIfAbsent(uuid, null);
-        else uuidToEnemy.put(uuid, enemy.getUniqueId());
+        if(enemy == null) this.enemyMap.putIfAbsent(uuid, null);
+        else this.enemyMap.put(uuid, enemy);
         
         this.plugin.printDebug("Successfully put player '" + player.getName() + "' into combat.");
         return true;
@@ -88,12 +83,9 @@ public class CombatManager implements ICombatManager, Runnable {
         if(player == null | untagReason == null || !isInCombat(player)) return;
 
         UUID uuid = player.getUniqueId();
-        uuidToExpireTime.remove(uuid);
+        this.expireTimeMap.remove(uuid);
 
-        UUID previousEnemyId = uuidToEnemy.remove(uuid);
-        Entity previousEnemyEntity = (previousEnemyId != null ? getEntityByUUID(previousEnemyId) : null);
-        LivingEntity previousEnemy = (previousEnemyEntity instanceof LivingEntity ? (LivingEntity) previousEnemyEntity : null);
-
+        LivingEntity previousEnemy = this.enemyMap.remove(uuid);
         PlayerUntagEvent untagEvent = new PlayerUntagEvent(player, untagReason, previousEnemy);
 
         PluginManager manager = Bukkit.getPluginManager();
@@ -105,21 +97,22 @@ public class CombatManager implements ICombatManager, Runnable {
         if(player == null) return false;
 
         UUID uuid = player.getUniqueId();
-        return uuidToExpireTime.containsKey(uuid);
+        return this.expireTimeMap.containsKey(uuid);
     }
 
     @Override
     public List<Player> getPlayersInCombat() {
-        List<Player> playerList = Util.newList();
+        List<Player> playerList = new ArrayList<>();
+        Set<UUID> uuidSet = new HashSet<>(this.expireTimeMap.keySet());
 
-        List<UUID> uuidList = Util.newList(uuidToExpireTime.keySet());
-        for(UUID uuid : uuidList) {
+        for(UUID uuid : uuidSet) {
             Player player = Bukkit.getPlayer(uuid);
-            if(player == null) {
-                uuidToExpireTime.remove(uuid);
+            if(player != null) {
+                playerList.add(player);
                 continue;
             }
-            playerList.add(player);
+
+            this.expireTimeMap.remove(uuid);
         }
 
         return playerList;
@@ -130,9 +123,7 @@ public class CombatManager implements ICombatManager, Runnable {
         if(player == null) return null;
 
         UUID uuid = player.getUniqueId();
-        UUID enemyId = uuidToEnemy.getOrDefault(uuid, null);
-        Entity enemyEntity = (enemyId != null ? getEntityByUUID(enemyId) : null);
-        return (enemyEntity instanceof LivingEntity ? (LivingEntity) enemyEntity : null);
+        return this.enemyMap.getOrDefault(uuid, null);
     }
 
     @Override
@@ -140,9 +131,18 @@ public class CombatManager implements ICombatManager, Runnable {
         if(enemy == null) return null;
 
         UUID enemyId = enemy.getUniqueId();
-        for(Map.Entry<UUID, UUID> entry : uuidToEnemy.entrySet()) {
-            UUID linkedEnemyId = entry.getValue();
-            if(!enemyId.equals(linkedEnemyId)) continue;
+        Set<Map.Entry<UUID, LivingEntity>> entrySet = new HashSet<>(this.enemyMap.entrySet());
+
+        for(Map.Entry<UUID, LivingEntity> entry : entrySet) {
+            LivingEntity valueEnemy = entry.getValue();
+            if(valueEnemy.isDead()) {
+                UUID key = entry.getKey();
+                this.enemyMap.remove(key);
+                continue;
+            }
+
+            UUID valueEnemyId = valueEnemy.getUniqueId();
+            if(!valueEnemyId.equals(enemyId)) continue;
 
             UUID playerId = entry.getKey();
             return Bukkit.getOfflinePlayer(playerId);
@@ -165,7 +165,7 @@ public class CombatManager implements ICombatManager, Runnable {
         if(!isInCombat(player)) return -1;
 
         UUID uuid = player.getUniqueId();
-        long combatEnds = uuidToExpireTime.get(uuid);
+        long combatEnds = expireTimeMap.get(uuid);
         long systemMillis = System.currentTimeMillis();
         return (combatEnds - systemMillis);
     }
@@ -323,37 +323,6 @@ public class CombatManager implements ICombatManager, Runnable {
             Logger logger = this.plugin.getLogger();
             logger.log(Level.SEVERE, "An error occurred while executing a command as the console:", ex);
         }
-    }
-
-    private Entity getEntityByUUID(UUID uuid) {
-        if(uuid == null) return null;
-
-        int minorVersion = VersionUtil.getMinorVersion();
-        if(minorVersion >= 12) return Bukkit.getEntity(uuid);
-
-        List<World> worldList = Bukkit.getWorlds();
-        for(World world : worldList) {
-            Entity entity = getEntityByUUID(world, uuid);
-            if(entity == null) continue;
-            
-            return entity;
-        }
-
-        return null;
-    }
-    
-    private Entity getEntityByUUID(World world, UUID uuid) {
-        if(world == null || uuid == null) return null;
-    
-        List<Entity> entityList = world.getEntities();
-        for(Entity entity : entityList) {
-            UUID entityId = entity.getUniqueId();
-            if(!uuid.equals(entityId)) continue;
-            
-            return entity;
-        }
-        
-        return null;
     }
 
     private String replacePAPI(Player player, String string) {
