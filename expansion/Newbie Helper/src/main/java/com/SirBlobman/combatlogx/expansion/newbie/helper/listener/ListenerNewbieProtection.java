@@ -1,5 +1,9 @@
 package com.SirBlobman.combatlogx.expansion.newbie.helper.listener;
 
+import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.expansion.Expansion;
+import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
+
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
@@ -8,10 +12,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.projectiles.ProjectileSource;
-
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
 
 public class ListenerNewbieProtection implements Listener {
     private final Expansion expansion;
@@ -48,7 +48,7 @@ public class ListenerNewbieProtection implements Listener {
     }
 
     private boolean isProtected(Player player) {
-        if(player == null) return false;
+        if(player == null || player.hasMetadata("NPC")) return false;
         long firstJoinMillis = player.getFirstPlayed();
         if(firstJoinMillis == 0) return false;
 
@@ -67,6 +67,7 @@ public class ListenerNewbieProtection implements Listener {
             dataFile.set("newbie-helper.protected", true);
             this.plugin.saveDataFile(player);
         }
+        
         return dataFile.getBoolean("newbie-helper.protected");
     }
 
