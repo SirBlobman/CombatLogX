@@ -90,13 +90,15 @@ public class ListenerCombatChecks implements Listener {
 
     private boolean isInDisabledWorld(Player player) {
         if(player == null) return false;
-
         World world = player.getWorld();
         String worldName = world.getName();
 
         FileConfiguration config = this.plugin.getConfig("config.yml");
         List<String> disabledWorldList = config.getStringList("disabled-worlds");
-        return disabledWorldList.contains(worldName);
+
+        boolean whitelist = config.getBoolean("disabled-worlds-is-whitelist");
+        boolean contains = disabledWorldList.contains(worldName);
+        return (whitelist != contains);
     }
 
     private boolean canBypass(Player player) {

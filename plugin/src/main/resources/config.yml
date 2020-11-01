@@ -52,11 +52,17 @@ disabled-worlds:
   - "disabled_world_1"
   - "DiSaBlEd_WoRlD_2"
 
+# Set this to true to use the 'disabled-worlds' as a whitelist.
+# Default: false
+disabled-worlds-is-whitelist: false
+
 # This is a list of commands that will be executed whenever a player is tagged.
 # Commands will run in console by default
 # Available Prefixes:
 # [PLAYER] - run the command as the player that was tagged
 # [OP] - run the command as the player that was tagged, but with "Server Operator" permissions (not recommended)
+# Set this list to empty to disable the commands
+# e.g. "combat-sudo-command-list: []"
 combat-sudo-command-list:
   - "tell {player} you are now in combat."
   - "[PLAYER]say I am now in combat."
@@ -66,6 +72,8 @@ combat-sudo-command-list:
 # Available Prefixes:
 # [PLAYER] - run the command as the player that was tagged
 # [OP] - run the command as the player that was tagged, but with "Server Operator" permissions (not recommended)
+# Set this list to empty to disable the commands
+# e.g. "untag-sudo-command-list: []"
 untag-sudo-command-list:
   - "tell {player} you are no longer in combat!"
   - "[PLAYER]say I am no longer in combat."
