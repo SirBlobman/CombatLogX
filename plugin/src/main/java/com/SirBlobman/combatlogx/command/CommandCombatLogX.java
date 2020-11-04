@@ -3,11 +3,6 @@ package com.SirBlobman.combatlogx.command;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-
 import com.SirBlobman.api.command.Command;
 import com.SirBlobman.api.configuration.ConfigurationManager;
 import com.SirBlobman.api.configuration.PlayerDataManager;
@@ -25,6 +20,16 @@ import com.SirBlobman.combatlogx.api.object.TagReason;
 import com.SirBlobman.combatlogx.api.object.TagType;
 import com.SirBlobman.combatlogx.api.object.UntagReason;
 import com.SirBlobman.combatlogx.manager.CombatManager;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.PluginManager;
 
 public class CommandCombatLogX extends Command {
     private final CombatPlugin plugin;
@@ -226,8 +231,24 @@ public class CommandCombatLogX extends Command {
         messageList.add("Minecraft Version: &7" + VersionUtility.getMinecraftVersion());
         messageList.add("NMS Version: &7" + VersionUtility.getNetMinecraftServerVersion());
         messageList.add("&f");
-        messageList.add("&f&lCombatLogX by SirBlobman");
+        messageList.add("&f&lDependency Information:");
 
+        PluginManager pluginManager = Bukkit.getPluginManager();
+        PluginDescriptionFile description = this.plugin.getDescription();
+        List<String> dependencyList = new ArrayList<>(description.getDepend());
+        dependencyList.addAll(description.getSoftDepend());
+
+        for(String dependencyName : dependencyList) {
+            Plugin plugin = pluginManager.getPlugin(dependencyName);
+            if(plugin == null) continue;
+
+            PluginDescriptionFile pluginDescription = plugin.getDescription();
+            String fullName = pluginDescription.getFullName();
+            messageList.add("&f&l- &7" + fullName);
+        }
+
+        messageList.add("&f");
+        messageList.add("&f&lCombatLogX by SirBlobman");
         UpdateChecker updateChecker = this.plugin.getUpdateChecker();
         String pluginVersion = updateChecker.getPluginVersion();
         String spigotVersion = updateChecker.getSpigotVersion();
@@ -247,6 +268,8 @@ public class CommandCombatLogX extends Command {
 
         List<String> finalMessage = MessageUtility.colorList(messageList);
         finalMessage.forEach(sender::sendMessage);
+
+        if(!(sender instanceof ConsoleCommandSender)) sender.sendMessage(ChatColor.RED + "This command works better in the server console.");
         return true;
     }
 
