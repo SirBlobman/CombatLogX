@@ -3,15 +3,15 @@ package com.SirBlobman.combatlogx.api.utility;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-
 import com.SirBlobman.api.language.LanguageManager;
 import com.SirBlobman.api.nms.EntityHandler;
 import com.SirBlobman.api.nms.MultiVersionHandler;
 import com.SirBlobman.api.utility.MessageUtility;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.ICombatManager;
+
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 
 public final class PlaceholderHelper {
     public static String getTimeLeft(ICombatLogX plugin, Player player) {
@@ -86,6 +86,7 @@ public final class PlaceholderHelper {
         double enemyHealth = enemy.getHealth();
         double enemyHearts = (enemyHealth / 2.0D);
         int enemyHeartsRounded = (int) Math.round(enemyHearts);
+        if(enemyHeartsRounded > 10) return Integer.toString(enemyHeartsRounded);
 
         char heartSymbol = '\u2764';
         char[] charArray = new char[enemyHeartsRounded];

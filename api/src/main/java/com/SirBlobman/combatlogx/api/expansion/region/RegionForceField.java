@@ -29,7 +29,7 @@ public class RegionForceField extends ForceFieldListener {
     public boolean isSafe(Location location, Player player, TagType tagType) {
         RegionExpansion expansion = getExpansion();
         RegionHandler regionHandler = expansion.getRegionHandler();
-        return regionHandler.isSafeZone(location, tagType);
+        return regionHandler.isSafeZone(player, location, tagType);
     }
 
     @Override

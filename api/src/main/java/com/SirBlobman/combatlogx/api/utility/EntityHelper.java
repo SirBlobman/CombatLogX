@@ -22,4 +22,9 @@ public final class EntityHelper {
         ProjectileSource shooter = projectile.getShooter();
         return (shooter instanceof Entity ? (Entity) shooter : original);
     }
+
+    public static boolean isNPC(Entity original) {
+        if(original == null) return false;
+        return original.hasMetadata("NPC");
+    }
 }

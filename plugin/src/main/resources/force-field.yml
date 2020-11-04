@@ -1,4 +1,5 @@
 # Should force fields be enabled around non-pvp areas?
+# This does require at least one region compatibility expansion.
 # Default: true
 enabled: true
 

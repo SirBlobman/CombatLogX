@@ -1,14 +1,17 @@
 package com.SirBlobman.combatlogx.api.object;
 
+import java.util.EnumSet;
+import java.util.Set;
+
 public enum UntagReason {
     /** The player waited patiently until they were no longer in combat */
-    EXPIRE(true),
+    EXPIRE,
 
     /** The player died and the config option was enabled to untag them */
-    SELF_DEATH(true),
+    SELF_DEATH,
 
     /** The player's enemy died and the config option was enabled to untag them */
-    ENEMY_DEATH(true),
+    ENEMY_DEATH,
 
     /** The player disconnected from the server */
     QUIT,
@@ -16,16 +19,8 @@ public enum UntagReason {
     /** The player was kicked by a plugin or timed out */
     KICK;
 
-    private final boolean isExpire;
-    UntagReason(boolean isExpire) {
-        this.isExpire = isExpire;
-    }
-
-    UntagReason() {
-        this(false);
-    }
-
+    private static final Set<UntagReason> expireSet = EnumSet.of(EXPIRE, SELF_DEATH, ENEMY_DEATH);
     public boolean isExpire() {
-        return this.isExpire;
+        return expireSet.contains(this);
     }
 }

@@ -1,0 +1,53 @@
+# Should this expansion prevent other punishments from executing? (e.g. kill, commands, etc...)
+# This prevents issues such as killing AND spawning an NPC
+# Default: true
+prevent-punishments: true
+
+# Should this expansion prevent a player from logging in if they have an NPC active?
+# This means they will have to wait until it is killed or despawned.
+# Default: false
+prevent-login: false
+
+# Which entity type should be used to create NPCs?
+# You can find a list of valid EntityTypes in the link below:
+# https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
+# Default: PLAYER
+mob-type: PLAYER
+
+# Should we take the player's inventory and put it into the NPC?
+# This will prevent items from being dropped unless the NPC is killed.
+# Items will be taken when the NPC is spawned and restored to the player once they log back in.
+# Armor and held items will be placed in the correct slots.
+# Default: true
+store-inventory: true
+
+# Should we store the NPC's last location?
+# The player will be teleported to that location once they log bck in.
+# Default: true
+store-location: true
+
+# Should nearby mobs target combat NPCs?
+# Default: true
+mob-target: true
+
+# How close do mobs need to be to force-target an NPC?
+# Set this to 0 to disable this feature.
+# Default: 10
+mob-target-radius: 10
+
+# How long do combat NPCs last if they are not attacked by mobs or players?
+# NPC survival time is in seconds.
+# Default: 30
+survival-time: 30
+
+# Should an NPC stay alive until their last known enemy is out of combat?
+# Default: false
+stay-until-enemy-escape: false
+
+# Should the survival time on an NPC reset every time they are hit?
+# Default: false
+stay-until-no-damage: false
+
+# Should combat NPCs be prevented from using totems of undying?
+# Default: true
+prevent-resurrect: true

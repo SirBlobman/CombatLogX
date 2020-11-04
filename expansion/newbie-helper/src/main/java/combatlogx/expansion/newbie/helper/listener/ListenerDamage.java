@@ -1,18 +1,18 @@
 package combatlogx.expansion.newbie.helper.listener;
 
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-
 import com.SirBlobman.api.configuration.ConfigurationManager;
 import com.SirBlobman.api.language.LanguageManager;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionListener;
 import com.SirBlobman.combatlogx.api.utility.EntityHelper;
+
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import combatlogx.expansion.newbie.helper.NewbieHelperExpansion;
 import combatlogx.expansion.newbie.helper.manager.PVPManager;
@@ -25,8 +25,40 @@ public final class ListenerDamage extends ExpansionListener {
         this.expansion = expansion;
     }
 
-    @EventHandler(priority= EventPriority.MONITOR, ignoreCancelled=true)
-    public void onDamage(EntityDamageByEntityEvent e) {
+    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+    public void onDamageByMob(EntityDamageByEntityEvent e) {
+        Entity damaged = e.getEntity();
+        if(!(damaged instanceof Player)) return;
+        Player player = (Player) damaged;
+
+        Entity damager = getDamager(e);
+        if(damager instanceof Player) return;
+
+        ProtectionManager protectionManager = this.expansion.getProtectionManager();
+        if(!protectionManager.isProtected(player)) return;
+        e.setCancelled(true);
+    }
+
+    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+    public void onDamageMob(EntityDamageByEntityEvent e) {
+        Entity damaged = e.getEntity();
+        if(damaged instanceof Player) return;
+
+        Entity damager = getDamager(e);
+        if(!(damager instanceof Player)) return;
+        Player player = (Player) damager;
+
+        ProtectionManager protectionManager = this.expansion.getProtectionManager();
+        LanguageManager languageManager = getLanguageManager();
+
+        if(protectionManager.isProtected(player) && checkRemoveProtectionOnAttack()) {
+            protectionManager.setProtected(player, false);
+            languageManager.sendMessage(player, "expansion.newbie-helper.protection-disabled.attacker", null, true);
+        }
+    }
+
+    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+    public void onDamageByPlayer(EntityDamageByEntityEvent e) {
         Entity damaged = e.getEntity();
         if(!(damaged instanceof Player)) return;
         Player attacked = (Player) damaged;

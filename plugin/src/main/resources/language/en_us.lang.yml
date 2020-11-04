@@ -5,6 +5,10 @@
 # If you want to disable a message, set it to an empty string
 # example-disabled-message: ""
 
+# If you want to add support for a language, please create the file using the localization code
+# and make a pull request on GitHub
+# https://github.com/SirBlobman/CombatLogX/
+
 prefix: "&f&l[&6CombatLogX&f&l]&r"
 decimal-format: "0.00"
 
@@ -22,6 +26,9 @@ placeholder:
     in-combat: "&aYes"
     not-in-combat: "&cNo"
   toggle:
+    enabled: "&aON"
+    disabled: "&cOFF"
+  pvp-status:
     enabled: "&aON"
     disabled: "&cOFF"
 

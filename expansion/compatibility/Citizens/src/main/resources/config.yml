@@ -1,0 +1,9 @@
+# Should players be tagged by NPCs?
+# Default: false
+npc-tagging: false
+
+# Should we use the Sentinel plugin to create combat NPCs?
+# Requires Sentinel, which can be found at the link below:
+# https://www.spigotmc.org/resources/22017/
+# Default: true
+enable-sentinel: true

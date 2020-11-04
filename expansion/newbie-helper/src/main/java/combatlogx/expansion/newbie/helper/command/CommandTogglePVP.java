@@ -2,12 +2,12 @@ package combatlogx.expansion.newbie.helper.command;
 
 import java.util.*;
 
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import com.SirBlobman.api.command.Command;
 import com.SirBlobman.api.language.LanguageManager;
 import com.SirBlobman.api.language.Replacer;
+
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import combatlogx.expansion.newbie.helper.NewbieHelperExpansion;
 import combatlogx.expansion.newbie.helper.manager.PVPManager;
@@ -29,9 +29,7 @@ public final class CommandTogglePVP extends Command {
     public List<String> onTabComplete(CommandSender sender, String[] args) {
         if(args.length == 1) {
             List<String> valueList = new ArrayList<>();
-            valueList.add("check");
-            valueList.add("on");
-            valueList.add("off");
+            Collections.addAll(valueList, "check", "on", "off");
             if(sender.hasPermission("combatlogx.command.togglepvp.admin")) valueList.add("admin");
             return getMatching(valueList, args[0]);
         }

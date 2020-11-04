@@ -1,0 +1,4 @@
+# true: Combat NPCs will attack their enemy first.
+# false: Combat NPCs will only attack if they are attacked first.
+# Default: false
+attack-first: false

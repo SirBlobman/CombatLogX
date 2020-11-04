@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -16,6 +17,7 @@ import org.bukkit.util.Vector;
 import com.SirBlobman.api.utility.Validate;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.ICombatManager;
+import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 import com.SirBlobman.combatlogx.api.object.NoEntryMode;
 import com.SirBlobman.combatlogx.api.object.TagType;
 
@@ -25,6 +27,10 @@ public abstract class RegionHandler {
     public RegionHandler(RegionExpansion expansion) {
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
         this.cooldownList = new ArrayList<>();
+    }
+
+    public final RegionExpansion getExpansion() {
+        return this.expansion;
     }
 
     public final void sendEntryDeniedMessage(Player player, LivingEntity enemy) {
@@ -90,6 +96,22 @@ public abstract class RegionHandler {
         }
     }
 
+    public final long getEntryDeniedMessageCooldown() {
+        YamlConfiguration configuration = getConfiguration();
+        return configuration.getLong("message-cooldown");
+    }
+
+    public final NoEntryMode getNoEntryMode() {
+        YamlConfiguration configuration = getConfiguration();
+        String noEntryModeName = configuration.getString("no-entry-mode");
+        return NoEntryMode.parse(noEntryModeName);
+    }
+
+    public final double getKnockbackStrength() {
+        YamlConfiguration configuration = getConfiguration();
+        return configuration.getDouble("knockback-strength");
+    }
+
     private void knockbackPlayer(Player player, Location fromLocation, Location toLocation) {
         if(player == null || fromLocation == null || toLocation == null) return;
         Vector velocity = getKnockback(fromLocation, toLocation);
@@ -125,11 +147,12 @@ public abstract class RegionHandler {
         return original;
     }
 
+    private YamlConfiguration getConfiguration() {
+        RegionExpansion expansion = getExpansion();
+        ExpansionConfigurationManager configurationManager = expansion.getConfigurationManager();
+        return configurationManager.get("config.yml");
+    }
+
     public abstract String getEntryDeniedMessagePath(TagType tagType);
-    public abstract long getEntryDeniedMessageCooldown();
-
-    public abstract NoEntryMode getNoEntryMode();
-    public abstract double getKnockbackStrength();
-
-    public abstract boolean isSafeZone(Location location, TagType tagType);
+    public abstract boolean isSafeZone(Player player, Location location, TagType tagType);
 }

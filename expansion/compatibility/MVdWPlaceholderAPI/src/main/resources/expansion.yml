@@ -1,0 +1,7 @@
+name: "CompatMVdWPlaceholderAPI"
+prefix: "MVdWPlaceholderAPI Compatibility"
+description: "${project.description}"
+
+main: "combatlogx.expansion.compatibility.mvdwplaceholderapi.MVdWPlaceholderAPIExpansion"
+version: "16.0"
+author: "SirBlobman"

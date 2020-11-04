@@ -36,6 +36,7 @@
                 <file file="${expansion.dir}/glowing/target/Glowing.jar"/>
 
                 <!-- Compatibility Expansions -->
+                <file file="${expansion.compatibility.dir}/Citizens/target/Citizens Compatibility.jar"/>
                 <file file="${expansion.compatibility.dir}/CrackShot/target/CrackShot Compatibility.jar"/>
 
                 <!-- SkyBlock Compatibility Expansions -->
@@ -46,6 +47,13 @@
                 <file file="${expansion.compatibility.dir}/uSkyBlock/target/uSkyBlock Compatibility.jar"/>
 
                 <!-- Factions Compatibility Expansions -->
+
+                <!-- PlaceholderAPI Compatibility Expansions -->
+                <file file="${expansion.compatibility.dir}/MVdWPlaceholderAPI/target/MVdWPlaceholderAPI Compatibility.jar"/>
+                <file file="${expansion.compatibility.dir}/PlaceholderAPI/target/PlaceholderAPI Compatibility.jar"/>
+
+                <!-- Region Compatibility Expansions -->
+                <file file="${expansion.compatibility.dir}/Lands/target/Lands Compatibility.jar"/>
             </resources>
         </copy>
 

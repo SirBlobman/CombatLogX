@@ -37,10 +37,12 @@
         </repository>
 
         <!-- MVdW Repository -->
+        <!-- Temporarily disabled, repo is not working
         <repository>
             <id>mvdw-software</id>
             <url>http://repo.mvdw-software.com/content/groups/public/</url>
         </repository>
+        -->
     </repositories>
 
     <dependencies>
@@ -82,11 +84,10 @@
             <artifactId>MVdWPlaceholderAPI</artifactId>
             <version>3.1.1-SNAPSHOT</version>
             <scope>provided</scope>
-
             <exclusions>
                 <exclusion>
-                    <groupId>org.spigotmc</groupId>
-                    <artifactId>spigot</artifactId>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -94,7 +95,6 @@
 
     <build>
         <finalName>CombatLogX</finalName>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -116,7 +116,7 @@
                         <filter>
                             <artifact>*</artifact>
                             <excludes>
-                                <exclude>META-INF/MANIFEST.MF</exclude>
+                                <exclude>META-INF/*</exclude>
                             </excludes>
                         </filter>
                     </filters>

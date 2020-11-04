@@ -1,0 +1,7 @@
+name: "CompatPlaceholderAPI"
+prefix: "PlaceholderAPI Compatibility"
+description: "${project.description}"
+
+main: "combatlogx.expansion.compatibility.placeholderapi.PlaceholderAPIExpansion"
+version: "16.0"
+author: "SirBlobman"

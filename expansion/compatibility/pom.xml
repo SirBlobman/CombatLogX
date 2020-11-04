@@ -17,25 +17,15 @@
 
     <modules>
         <module>CrackShot</module>
-        <!--
         <module>Citizens</module>
-        <module>Essentials</module>
-        <module>GriefPrevention</module>
-        <module>Lands</module>
-        <module>LegacyFactions</module>
-        <module>LibsDisguises</module>
-        <module>MVdWPlaceholderAPI</module>
+        <!--
         <module>MythicMobs</module>
-        <module>PlaceholderAPI</module>
-        <module>PreciousStones</module>
-        <module>ProtectionStones</module>
-        <module>RedProtect</module>
-        <module>Residence</module>
-        <module>SuperVanish</module>
-        <module>Towny</module>
-        <module>VanishNoPacket</module>
-        <module>WorldGuard</module>
+        -->
+
+        <!-- Disguise Compatibility -->
+        <!--
         <module>iDisguise</module>
+        <module>LibsDisguises</module>
         -->
 
         <!-- Factions Compatibility -->
@@ -43,7 +33,26 @@
         <module>Factions</module>
         <module>FactionsUUID</module>
         <module>FactionsX</module>
+        <module>LegacyFactions</module>
         <module>SaberFactions</module>
+        -->
+
+        <!-- Placeholder Compatibility -->
+        <module>MVdWPlaceholderAPI</module>
+        <module>PlaceholderAPI</module>
+
+        <!-- Region Compatibility -->
+        <!--
+        <module>GriefPrevention</module>
+        -->
+        <module>Lands</module>
+        <!--
+        <module>PreciousStones</module>
+        <module>ProtectionStones</module>
+        <module>RedProtect</module>
+        <module>Residence</module>
+        <module>Towny</module>
+        <module>WorldGuard</module>
         -->
 
         <!-- SkyBlock Compatibility -->
@@ -52,5 +61,12 @@
         <module>FabledSkyBlock</module>
         <module>SuperiorSkyblock2</module>
         <module>uSkyBlock</module>
+
+        <!-- Vanish Compatibility -->
+        <!--
+        <module>Essentials</module>
+        <module>SuperVanish</module>
+        <module>VanishNoPacket</module>
+        -->
     </modules>
 </project>

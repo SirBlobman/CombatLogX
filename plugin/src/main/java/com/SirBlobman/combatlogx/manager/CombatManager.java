@@ -6,16 +6,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.permissions.PermissionAttachmentInfo;
-import org.bukkit.plugin.PluginManager;
-
 import com.SirBlobman.api.configuration.ConfigurationManager;
 import com.SirBlobman.api.language.LanguageManager;
 import com.SirBlobman.api.language.Replacer;
@@ -30,6 +20,16 @@ import com.SirBlobman.combatlogx.api.object.TagType;
 import com.SirBlobman.combatlogx.api.object.TimerType;
 import com.SirBlobman.combatlogx.api.object.UntagReason;
 import com.SirBlobman.combatlogx.listener.ListenerDeath;
+
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachmentInfo;
+import org.bukkit.plugin.PluginManager;
 
 public final class CombatManager implements ICombatManager {
     private final CombatPlugin plugin;
@@ -56,6 +56,7 @@ public final class CombatManager implements ICombatManager {
         Validate.notNull(player, "player must not be null!");
         Validate.notNull(tagType, "tagType must not be null!");
         Validate.notNull(tagReason, "tagReason must not be null!");
+        if(player.hasMetadata("NPC")) return false;
 
         if(failsPreTagEvent(player, enemy, tagType, tagReason)) {
             this.plugin.printDebug("The PlayerPreTagEvent was cancelled.");

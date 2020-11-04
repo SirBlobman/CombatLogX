@@ -1,13 +1,13 @@
 package combatlogx.expansion.newbie.helper.manager;
 
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-
 import com.SirBlobman.api.configuration.PlayerDataManager;
 import com.SirBlobman.api.language.LanguageManager;
 import com.SirBlobman.api.utility.Validate;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
+
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import combatlogx.expansion.newbie.helper.NewbieHelperExpansion;
 
@@ -18,6 +18,9 @@ public final class ProtectionManager {
     }
 
     public void setProtected(Player player, boolean protect) {
+        Validate.notNull(player, "player must not be null!");
+        if(player.hasMetadata("NPC")) return;
+
         ICombatLogX plugin = this.expansion.getPlugin();
         PlayerDataManager playerDataManager = plugin.getPlayerDataManager();
         YamlConfiguration configuration = playerDataManager.get(player);
@@ -36,6 +39,9 @@ public final class ProtectionManager {
     }
 
     public boolean isProtected(Player player) {
+        Validate.notNull(player, "player must not be null!");
+        if(player.hasMetadata("NPC")) return false;
+
         ICombatLogX plugin = this.expansion.getPlugin();
         PlayerDataManager playerDataManager = plugin.getPlayerDataManager();
         YamlConfiguration configuration = playerDataManager.get(player);

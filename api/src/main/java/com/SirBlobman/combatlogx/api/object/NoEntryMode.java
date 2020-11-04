@@ -8,12 +8,12 @@ public enum NoEntryMode {
     TELEPORT_TO_ENEMY,
     KNOCKBACK_PLAYER;
 
-    public NoEntryMode parse(String string) {
+    public static NoEntryMode parse(String string) {
         try {
             String value = string.toUpperCase();
             return valueOf(value);
         } catch(IllegalArgumentException | NullPointerException ex) {
-            return null;
+            return DISABLED;
         }
     }
 }

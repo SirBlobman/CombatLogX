@@ -2,6 +2,9 @@ package com.SirBlobman.combatlogx.api.expansion.region;
 
 import java.util.logging.Logger;
 
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import com.SirBlobman.api.configuration.ConfigurationManager;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
@@ -16,24 +19,26 @@ public abstract class RegionExpansion extends Expansion {
     }
 
     @Override
-    public void onLoad() {
-        // Do Nothing
-    }
-
-    @Override
     public final void onEnable() {
+        ICombatLogX plugin = getPlugin();
         if(!checkDependencies()) {
             Logger logger = getLogger();
             logger.info("Some dependencies for this expansion are missing!");
 
-            ICombatLogX plugin = getPlugin();
             ExpansionManager expansionManager = plugin.getExpansionManager();
             expansionManager.disableExpansion(this);
             return;
         }
 
-        this.regionForceField.registerProtocol();
-        registerListener(this.regionForceField);
+        ConfigurationManager configurationManager = plugin.getConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("force-field.yml");
+        if(configuration.getBoolean("enabled")) {
+            this.regionForceField.registerProtocol();
+            registerListener(this.regionForceField);
+        }
+
+        RegionMoveListener regionMoveListener = new RegionMoveListener(this);
+        regionMoveListener.register();
 
         this.enabledSuccessfully = true;
         afterEnable();
@@ -48,9 +53,26 @@ public abstract class RegionExpansion extends Expansion {
         this.enabledSuccessfully = false;
     }
 
+    @Override
+    public void onLoad() {
+        // Do Nothing
+    }
+
+    /**
+     * This method can be overridden if you need to do something when the expansion is enabled.
+     */
+    public void afterEnable() {
+        // Do Nothing
+    }
+
+    /**
+     * This method can be overridden if you need to do something when the expansion is disabled.
+     */
+    public void afterDisable() {
+        // Do Nothing
+    }
+
     public abstract boolean checkDependencies();
-    public abstract void afterEnable();
-    public abstract void afterDisable();
 
     public abstract RegionHandler getRegionHandler();
 }

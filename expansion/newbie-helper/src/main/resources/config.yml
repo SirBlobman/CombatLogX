@@ -9,3 +9,7 @@ remove-protection-on-attack: true
 # How long does protection last on a player (in milliseconds)?
 # Default: 30,000 (30 seconds)
 protection-time: 30000
+
+# Should new players also be protected from mob attacks?
+# Default: true
+mob-protection: false
