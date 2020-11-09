@@ -30,6 +30,9 @@ public class ListenerNotifier implements Listener {
 
     @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
     public void onTimerChange(PlayerCombatTimerChangeEvent e) {
+        int secondsLeft = e.getSecondsLeft();
+        if(secondsLeft <= 0) return;
+
         Player player = e.getPlayer();
         ActionBarManager actionBarManager = this.expansion.getActionBarManager();
         BossBarManager bossBarManager = this.expansion.getBossBarManager();
@@ -65,6 +68,25 @@ public class ListenerNotifier implements Listener {
         if(config.getBoolean("AnimatedNames.enabled")) {
             String trigger = config.getString("AnimatedNames.trigger");
             HookMVdWPlaceholderAPI.enableTrigger("AnimatedNames", trigger, player);
+        }
+
+        try {
+            JavaPlugin plugin = this.expansion.getPlugin().getPlugin();
+            Runnable task = () -> {
+                ScoreBoardManager scoreBoardManager = this.expansion.getScoreBoardManager();
+                ActionBarManager actionBarManager = this.expansion.getActionBarManager();
+                BossBarManager bossBarManager = this.expansion.getBossBarManager();
+
+                actionBarManager.updateActionBar(player);
+                bossBarManager.updateBossBar(player);
+                scoreBoardManager.updateScoreboard(player);
+            };
+
+            BukkitScheduler scheduler = Bukkit.getScheduler();
+            scheduler.scheduleSyncDelayedTask(plugin, task, 1L);
+        } catch(Exception ex) {
+            Logger logger = this.expansion.getLogger();
+            logger.log(Level.WARNING, "An error occurred while updating the scoreboard:", ex);
         }
     }
 

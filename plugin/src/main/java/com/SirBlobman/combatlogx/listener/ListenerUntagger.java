@@ -4,6 +4,13 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.SirBlobman.combatlogx.CombatLogX;
+import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
+import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent.UntagReason;
+import com.SirBlobman.combatlogx.api.utility.ICombatManager;
+import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
+import com.SirBlobman.combatlogx.manager.CombatManager;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -14,13 +21,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-
-import com.SirBlobman.combatlogx.CombatLogX;
-import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
-import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent.UntagReason;
-import com.SirBlobman.combatlogx.api.utility.ICombatManager;
-import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
-import com.SirBlobman.combatlogx.manager.CombatManager;
 
 public class ListenerUntagger implements Listener {
     private final CombatLogX plugin;
@@ -58,15 +58,11 @@ public class ListenerUntagger implements Listener {
     }
 
     private void sendUntagMessage(Player player, PlayerUntagEvent.UntagReason untagReason) {
-        if(untagReason == PlayerUntagEvent.UntagReason.EXPIRE) {
-            ILanguageManager languageManager = this.plugin.getLanguageManager();
-            languageManager.sendLocalizedMessage(player, "combat-timer.expire");
-        }
+        String messagePath = (untagReason == UntagReason.EXPIRE ? "combat-timer.expire" : (untagReason == UntagReason.EXPIRE_ENEMY_DEATH ? "combat-timer.enemy-death" : null));
+        if(messagePath == null) return;
 
-        if(untagReason == PlayerUntagEvent.UntagReason.EXPIRE_ENEMY_DEATH) {
-            ILanguageManager languageManager = this.plugin.getLanguageManager();
-            languageManager.sendLocalizedMessage(player, "combat-timer.enemy-death");
-        }
+        ILanguageManager languageManager = this.plugin.getLanguageManager();
+        languageManager.sendLocalizedMessage(player, messagePath);
     }
 
     private void runUntagCommands(Player player) {
