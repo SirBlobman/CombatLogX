@@ -47,6 +47,7 @@
                 <file file="${expansion.compatibility.dir}/uSkyBlock/target/uSkyBlock Compatibility.jar"/>
 
                 <!-- Factions Compatibility Expansions -->
+                <file file="${expansion.compatibility.dir}/FactionsX/target/FactionsX Compatibility.jar"/>
 
                 <!-- PlaceholderAPI Compatibility Expansions -->
                 <file file="${expansion.compatibility.dir}/MVdWPlaceholderAPI/target/MVdWPlaceholderAPI Compatibility.jar"/>

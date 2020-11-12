@@ -9,9 +9,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>MVdWPlaceholderAPI</artifactId>
-    <name>Compatibility Expansion: MVdWPlaceholderAPI</name>
-    <description>An expansion for CombatLogX that adds placeholders to plugins that use MVdWPlaceholderAPI.</description>
+    <artifactId>FactionsX</artifactId>
+    <name>Compatibility Expansion: FactionsX</name>
+    <description>An expansion for CombatLogX that detects non-pvp areas from the FactionsX plugin.</description>
 
     <repositories>
         <!-- SpigotMC Repository -->
@@ -20,10 +20,13 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
 
-        <!-- CodeMC Public Repository -->
+        <!-- SavageLabs Releases -->
         <repository>
-            <id>codemc-public</id>
-            <url>https://repo.codemc.io/repository/maven-public/</url>
+            <id>savagelabs</id>
+            <url>https://nexus.savagelabs.net/repository/maven-releases/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
     </repositories>
 
@@ -44,30 +47,16 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- CombatLogX Expansion: Newbie Helper -->
+        <!-- FactionsX -->
         <dependency>
-            <groupId>com.SirBlobman.combatlogx.expansion</groupId>
-            <artifactId>newbie-helper</artifactId>
-            <version>${project.version}</version>
+            <groupId>net.prosavage.factionsx</groupId>
+            <artifactId>FactionsX</artifactId>
+            <version>1.0.8-RC</version>
             <scope>provided</scope>
-        </dependency>
-
-        <!-- MVdWPlaceholderAPI -->
-        <dependency>
-            <groupId>be.maximvdw</groupId>
-            <artifactId>MVdWPlaceholderAPI</artifactId>
-            <version>3.1.1-SNAPSHOT</version>
-            <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 
     <build>
-        <finalName>MVdWPlaceholderAPI Compatibility</finalName>
+        <finalName>FactionsX Compatibility</finalName>
     </build>
 </project>

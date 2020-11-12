@@ -1,0 +1,7 @@
+name: "CompatFactionsX"
+prefix: "FactionsX Compatibility"
+description: "${project.description}"
+
+main: "combatlogx.expansion.compatibility.region.factionsx.FactionsXExpansion"
+version: "16.0"
+author: "SirBlobman"

@@ -2,12 +2,13 @@ package com.SirBlobman.combatlogx.api.expansion.region;
 
 import java.util.logging.Logger;
 
-import org.bukkit.configuration.file.YamlConfiguration;
-
 import com.SirBlobman.api.configuration.ConfigurationManager;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
+import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
+
+import org.bukkit.configuration.file.YamlConfiguration;
 
 public abstract class RegionExpansion extends Expansion {
     private boolean enabledSuccessfully;
@@ -55,7 +56,14 @@ public abstract class RegionExpansion extends Expansion {
 
     @Override
     public void onLoad() {
-        // Do Nothing
+        ExpansionConfigurationManager configurationManager = getConfigurationManager();
+        configurationManager.saveDefault("config.yml");
+    }
+
+    @Override
+    public void reloadConfig() {
+        ExpansionConfigurationManager configurationManager = getConfigurationManager();
+        configurationManager.reload("config.yml");
     }
 
     /**

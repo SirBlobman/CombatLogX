@@ -4,6 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.SirBlobman.api.utility.Validate;
+import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.ICombatManager;
+import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
+import com.SirBlobman.combatlogx.api.object.NoEntryMode;
+import com.SirBlobman.combatlogx.api.object.TagType;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -13,13 +20,6 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.util.Vector;
-
-import com.SirBlobman.api.utility.Validate;
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.ICombatManager;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
-import com.SirBlobman.combatlogx.api.object.NoEntryMode;
-import com.SirBlobman.combatlogx.api.object.TagType;
 
 public abstract class RegionHandler {
     private final RegionExpansion expansion;
@@ -58,10 +58,9 @@ public abstract class RegionHandler {
 
     public final void preventEntry(Cancellable e, Player player, Location fromLocation, Location toLocation) {
         if(player == null) return;
-        UUID uuid = player.getUniqueId();
-
         ICombatLogX plugin = this.expansion.getPlugin();
         JavaPlugin javaPlugin = plugin.getPlugin();
+
         ICombatManager combatManager = plugin.getCombatManager();
         if(!combatManager.isInCombat(player)) return;
 

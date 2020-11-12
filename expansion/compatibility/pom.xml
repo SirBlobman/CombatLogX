@@ -32,7 +32,9 @@
         <!--
         <module>Factions</module>
         <module>FactionsUUID</module>
+        -->
         <module>FactionsX</module>
+        <!--
         <module>LegacyFactions</module>
         <module>SaberFactions</module>
         -->
