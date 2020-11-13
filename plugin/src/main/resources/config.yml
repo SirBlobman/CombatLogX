@@ -48,9 +48,7 @@ broadcast:
 # This is a list of worlds that CombatLogX will not tag players in
 # World names are case sensitive. "world" is not the same as "WoRlD"
 # Make sure you are not using the world aliases from Multiverse
-disabled-worlds:
-  - "disabled_world_1"
-  - "DiSaBlEd_WoRlD_2"
+disabled-worlds: []
 
 # Set this to true to use the 'disabled-worlds' as a whitelist.
 # Default: false
@@ -63,9 +61,7 @@ disabled-worlds-is-whitelist: false
 # [OP] - run the command as the player that was tagged, but with "Server Operator" permissions (not recommended)
 # Set this list to empty to disable the commands
 # e.g. "combat-sudo-command-list: []"
-combat-sudo-command-list:
-  - "tell {player} you are now in combat."
-  - "[PLAYER]say I am now in combat."
+combat-sudo-command-list: []
 
 # This is a list of commands that will be executed whenever a player is untagged
 # Commands will be run in console by default
@@ -74,9 +70,7 @@ combat-sudo-command-list:
 # [OP] - run the command as the player that was tagged, but with "Server Operator" permissions (not recommended)
 # Set this list to empty to disable the commands
 # e.g. "untag-sudo-command-list: []"
-untag-sudo-command-list:
-  - "tell {player} you are no longer in combat!"
-  - "[PLAYER]say I am no longer in combat."
+untag-sudo-command-list: []
 
 
 # Set this to true to link wolves, cats, parrots, and other pets to the entity that owns them.
@@ -166,5 +160,4 @@ punishments:
   # [OP] - run the command as the player that was tagged, but with "Server Operator" permissions (not recommended)
   #
   # Disabled: punish-command-list: []
-  punish-command-list:
-    - "warn {player} logging out during combat -s"
+  punish-command-list: []

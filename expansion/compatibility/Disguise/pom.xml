@@ -32,12 +32,18 @@
         <repository>
             <id>md_5-public</id>
             <url>https://repo.md-5.net/content/groups/public/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
 
         <!-- robinrether Repository -->
         <repository>
             <id>robinrether-repo</id>
             <url>https://www.robingrether.de/mc/repo/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
     </repositories>
     
