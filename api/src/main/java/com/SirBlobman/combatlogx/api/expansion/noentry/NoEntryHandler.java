@@ -10,6 +10,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 
 public abstract class NoEntryHandler {
     private final NoEntryExpansion expansion;
@@ -113,9 +115,10 @@ public abstract class NoEntryHandler {
     }
 
     public boolean canBypassForceField(Player player) {
-        String permission = getForceFieldBypassPermission();
-        if(permission == null || permission.isEmpty()) return false;
+        String permissionName = getForceFieldBypassPermission();
+        if(permissionName == null || permissionName.isEmpty()) return false;
 
+        Permission permission = new Permission(permissionName, "Force Field Bypass Permission", PermissionDefault.FALSE);
         return player.hasPermission(permission);
     }
 

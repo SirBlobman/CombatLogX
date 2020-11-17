@@ -2,13 +2,13 @@ package com.SirBlobman.combatlogx.expansion.notifier.manager;
 
 import java.util.*;
 
+import com.SirBlobman.combatlogx.expansion.notifier.Notifier;
+import com.SirBlobman.combatlogx.expansion.notifier.scoreboard.CustomScoreBoard;
+
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
-
-import com.SirBlobman.combatlogx.expansion.notifier.Notifier;
-import com.SirBlobman.combatlogx.expansion.notifier.scoreboard.CustomScoreBoard;
 
 public class ScoreBoardManager {
     private final Notifier expansion;
@@ -73,7 +73,7 @@ public class ScoreBoardManager {
         
         customScoreBoard.disableScoreboard();
         if(shouldSavePrevious() && this.previousScoreboardMap.containsKey(uuid)) {
-            Scoreboard previousScoreboard = this.previousScoreboardMap.get(uuid);
+            Scoreboard previousScoreboard = this.previousScoreboardMap.remove(uuid);
             if(previousScoreboard == null) return;
             
             Objective objective = previousScoreboard.getObjective("combatlogx");
