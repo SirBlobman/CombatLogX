@@ -24,3 +24,11 @@ If you want to create expansions or learn how to use the CombatLogX API, please 
 ## Support
 Support is provided by creating a new issue, or by chatting with the Support Team on my discord.  
 **Discord Link:** <https://discord.gg/XMq2agT>
+
+## Compilation Instructions
+1. Download the SirBlobmanAPI 1.13-SNAPSHOT code from the following repository:
+https://github.com/SirBlobman/SirBlobmanAPI/tree/old/1.13-SNAPSHOT
+2. Run the following in a terminal or command prompt: `mvn clean install`
+3. Download the CombatLogX code from this repository.
+4. Run the following in a terminal or command prompt: `mvn clean install`
+5. You can find the `CombatLogX.zip` in the `builder/build` folder.
