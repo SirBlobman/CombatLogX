@@ -1,17 +1,16 @@
 package com.SirBlobman.combatlogx.api.expansion.noentry;
 
-import java.lang.reflect.Method;
-import java.util.regex.Pattern;
-
 import com.SirBlobman.api.nms.VersionUtil;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagType;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
+
+import java.lang.reflect.Method;
+import java.util.regex.Pattern;
 
 public abstract class NoEntryHandler {
     private final NoEntryExpansion expansion;
@@ -45,11 +44,11 @@ public abstract class NoEntryHandler {
 
         return config.getInt("no-entry.message-cooldown", 30);
     }
-    
+
     public boolean isForceFieldEnabled() {
         String fileName = getConfigFileName();
         FileConfiguration config = this.expansion.getConfig(fileName);
-    
+
         return config.getBoolean("force-field.enabled");
     }
 
@@ -72,6 +71,13 @@ public abstract class NoEntryHandler {
         FileConfiguration config = this.expansion.getConfig(fileName);
 
         return config.getString("force-field.bypass-permission", "combatlogx.bypass.force.field");
+    }
+
+    public boolean isSafeMode() {
+        String fileName = getConfigFileName();
+        FileConfiguration config = this.expansion.getConfig(fileName);
+
+        return !config.getBoolean("force-field.unsafe", false);
     }
 
     public Material getForceFieldMaterial() {

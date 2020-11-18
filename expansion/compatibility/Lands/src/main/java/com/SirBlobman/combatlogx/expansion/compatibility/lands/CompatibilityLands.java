@@ -16,6 +16,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
 public class CompatibilityLands extends NoEntryExpansion {
+    private NoEntryForceFieldListener forceFieldListener;
     private NoEntryHandler noEntryHandler;
     public CompatibilityLands(ICombatLogX plugin) {
         super(plugin);
@@ -54,7 +55,7 @@ public class CompatibilityLands extends NoEntryExpansion {
 
         Plugin pluginProtocolLib = manager.getPlugin("ProtocolLib");
         if(pluginProtocolLib != null) {
-            NoEntryForceFieldListener forceFieldListener = new NoEntryForceFieldListener(this);
+            forceFieldListener = new NoEntryForceFieldListener(this);
             expansionManager.registerListener(this, forceFieldListener);
 
             String versionProtocolLib = pluginProtocolLib.getDescription().getVersion();
@@ -64,7 +65,8 @@ public class CompatibilityLands extends NoEntryExpansion {
     
     @Override
     public void onActualDisable() {
-        // Do Nothing
+        if(forceFieldListener != null)
+            forceFieldListener.unregisterProtocol();
     }
     
     @Override

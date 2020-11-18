@@ -42,3 +42,6 @@ force-field:
 
   # What permission is needed to bypass the force field glass?
   bypass-permission: "combatlogx.bypass.preciousstones.force.field"
+
+  # Should CombatLogX run the force-field async. This is unsafe but may result in much better performance. Use at own risk!
+  unsafe: false
