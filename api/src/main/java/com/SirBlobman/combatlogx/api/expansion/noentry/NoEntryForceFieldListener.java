@@ -2,7 +2,6 @@ package com.SirBlobman.combatlogx.api.expansion.noentry;
 
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagType;
 import com.SirBlobman.combatlogx.api.olivolja3.force.field.ForceField;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -23,12 +22,12 @@ public class NoEntryForceFieldListener extends ForceField {
     public boolean isSafe(Location location, Player player) {
         return this.noEntryHandler.isSafeZone(player, location);
     }
-    
+
     @Override
     public boolean isEnabled() {
         return this.noEntryHandler.isForceFieldEnabled();
     }
-    
+
     @Override
     public boolean canBypass(Player player) {
         return this.noEntryHandler.canBypassForceField(player);
@@ -48,4 +47,9 @@ public class NoEntryForceFieldListener extends ForceField {
     public int getForceFieldRadius() {
         return this.noEntryHandler.getForceFieldRadius();
     }
+
+    @Override
+    public boolean isSafeMode() { return this.noEntryHandler.isSafeMode(); }
+
+
 }

@@ -17,6 +17,7 @@ import com.SirBlobman.combatlogx.expansion.compatibility.worldguard.hook.HookWor
 import com.SirBlobman.combatlogx.expansion.compatibility.worldguard.listener.ListenerWorldGuard;
 
 public class CompatibilityWorldGuard extends NoEntryExpansion {
+    private NoEntryForceFieldListener forceFieldListener;
     private NoEntryHandler noEntryHandler;
     public CompatibilityWorldGuard(ICombatLogX plugin) {
         super(plugin);
@@ -78,7 +79,7 @@ public class CompatibilityWorldGuard extends NoEntryExpansion {
 
         Plugin pluginProtocolLib = manager.getPlugin("ProtocolLib");
         if(pluginProtocolLib != null) {
-            NoEntryForceFieldListener forceFieldListener = new NoEntryForceFieldListener(this);
+            forceFieldListener = new NoEntryForceFieldListener(this);
             expansionManager.registerListener(this, forceFieldListener);
 
             String versionProtocolLib = pluginProtocolLib.getDescription().getVersion();
@@ -88,7 +89,8 @@ public class CompatibilityWorldGuard extends NoEntryExpansion {
     
     @Override
     public void onActualDisable() {
-        // Do Nothing
+        if(forceFieldListener != null)
+            forceFieldListener.unregisterProtocol();
     }
     
     @Override

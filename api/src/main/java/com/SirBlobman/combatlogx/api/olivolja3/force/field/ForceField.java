@@ -1,7 +1,5 @@
 package com.SirBlobman.combatlogx.api.olivolja3.force.field;
 
-import java.util.*;
-
 import com.SirBlobman.api.nms.VersionUtil;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
@@ -9,7 +7,9 @@ import com.SirBlobman.combatlogx.api.event.PlayerTagEvent;
 import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.api.expansion.noentry.NoEntryExpansion;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
-
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.PacketAdapter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -18,26 +18,43 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.PluginManager;
-
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.plugin.PluginManager;
 
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.wrappers.WrappedBlockData;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public abstract class ForceField implements Listener {
+
+    final Map<UUID, Set<Location>> fakeBlockMap;
+    private final ExecutorService forceFieldExecutor = Executors.newSingleThreadExecutor();
     private final NoEntryExpansion expansion;
     private final ICombatLogX plugin;
-    final Map<UUID, Set<Location>> fakeBlockMap;
+
     public ForceField(NoEntryExpansion expansion) {
         this.expansion = expansion;
         this.plugin = this.expansion.getPlugin();
-        this.fakeBlockMap = new HashMap<>();
+        this.fakeBlockMap = new ConcurrentHashMap<>();
+
+        ProtocolManager manager = ProtocolLibrary.getProtocolManager();
+        PacketAdapter adapter = new ForceFieldAdapter(this);
+        manager.addPacketListener(adapter);
+    }
+
+    static boolean canPlace(Location location) {
+        if(location.getY() > 256) return false;
+        Block block = location.getBlock();
+        Material type = block.getType();
+        return (type == Material.AIR || !type.isSolid());
     }
 
     public final NoEntryExpansion getExpansion() {
@@ -50,25 +67,6 @@ public abstract class ForceField implements Listener {
 
         ProtocolManager manager = ProtocolLibrary.getProtocolManager();
         manager.removePacketListeners(this.plugin.getPlugin());
-    }
-
-    public void registerProtocol() {
-        ProtocolManager manager = ProtocolLibrary.getProtocolManager();
-        PacketAdapter adapter = new ForceFieldAdapter(this);
-        manager.addPacketListener(adapter);
-    }
-
-    @SuppressWarnings("deprecation")
-    WrappedBlockData wrappedData(WrappedBlockData data) {
-        Material type = getForceFieldMaterial();
-        data.setType(type);
-
-        if(VersionUtil.getMinorVersion() < 13) {
-            int typeData = getForceFieldMaterialData();
-            data.setData(typeData);
-        }
-
-        return data;
     }
 
     private Set<Location> getForceFieldArea(Player player, LivingEntity enemy) {
@@ -104,7 +102,7 @@ public abstract class ForceField implements Listener {
     }
 
     @SuppressWarnings("deprecation")
-    private void sendForceField(Player player, Location location) {
+    protected void sendForceField(Player player, Location location) {
         if(VersionUtil.getMinorVersion() >= 13) {
             player.sendBlockChange(location, getForceFieldMaterial().createBlockData());
             return;
@@ -128,33 +126,39 @@ public abstract class ForceField implements Listener {
         fakeBlockMap.clear();
     }
 
-    public void updateForceField(Player player) {
+    private void safeForceField(Player player) {
         ICombatManager combatManager = this.plugin.getCombatManager();
-        if(!combatManager.isInCombat(player)) return;
-
-        Location playerLoc = player.getLocation();
-        if(isSafe(playerLoc, player)) return;
-
-        LivingEntity enemy = combatManager.getEnemy(player);
-
         Set<Location> oldArea = new HashSet<>();
-        Set<Location> area = getForceFieldArea(player, enemy);
-        Set<Location> area2 = new HashSet<>(area);
+        Set<Location> newArea = getForceFieldArea(player, combatManager.getEnemy(player));
+        Set<Location> fullArea = new HashSet<>(newArea);
 
         UUID uuid = player.getUniqueId();
         if(fakeBlockMap.containsKey(uuid)) {
             oldArea = fakeBlockMap.get(uuid);
-            area.removeAll(oldArea);
-            oldArea.removeAll(area2);
+            newArea.removeAll(oldArea);
+            oldArea.removeAll(fullArea);
         }
-        fakeBlockMap.remove(uuid);
-
+        fakeBlockMap.put(uuid, fullArea);
+        for(Location location : newArea) sendForceField(player, location);
         for(Location location : oldArea) resetBlock(player, location);
-        for(Location location : area) sendForceField(player, location);
-        fakeBlockMap.put(uuid, area2);
+    }
+
+    public void updateForceField(Player player) {
+        ICombatManager combatManager = this.plugin.getCombatManager();
+        if(!combatManager.isInCombat(player)) return;
+        Location playerLoc = player.getLocation();
+        if(isSafe(playerLoc, player)) return;
+
+        if(isSafeMode()) safeForceField(player);
+        else forceFieldExecutor.submit(() -> safeForceField(player));
     }
 
     public void removeForceField(Player player) {
+        if(isSafeMode()) safeRemoveForceField(player);
+        else forceFieldExecutor.submit(() -> safeRemoveForceField(player));
+    }
+
+    private void safeRemoveForceField(Player player) {
         UUID uuid = player.getUniqueId();
         if(!fakeBlockMap.containsKey(uuid)) return;
 
@@ -163,15 +167,11 @@ public abstract class ForceField implements Listener {
         for(Location location : locations) resetBlock(player, location);
     }
 
-    static boolean canPlace(Location location) {
-        Block block = location.getBlock();
-        Material type = block.getType();
-        return (type == Material.AIR || !type.isSolid());
-    }
-
     private boolean isSafeSurround(Location location, Player player, PlayerPreTagEvent.TagType tagType) {
         Set<BlockFace> faces = new HashSet<>(Arrays.asList(BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.WEST, BlockFace.EAST));
-        for(BlockFace face : faces) { if(!isSafe(location.getBlock().getRelative(face).getLocation(), player, tagType)) return true; }
+        for(BlockFace face : faces) {
+            if(!isSafe(location.getBlock().getRelative(face).getLocation(), player, tagType)) return true;
+        }
         return false;
     }
 
@@ -184,18 +184,25 @@ public abstract class ForceField implements Listener {
     }
 
     public abstract boolean isSafe(Location location, Player player, PlayerPreTagEvent.TagType tagType);
+
     public abstract boolean isSafe(Location location, Player player);
-    
+
     public abstract boolean isEnabled();
+
     public abstract boolean canBypass(Player player);
+
     public abstract Material getForceFieldMaterial();
+
     public abstract int getForceFieldMaterialData();
+
     public abstract int getForceFieldRadius();
+
+    public abstract boolean isSafeMode();
 
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
         if(!isEnabled()) return;
-        
+
         Player player = e.getPlayer();
         UUID uuid = player.getUniqueId();
         fakeBlockMap.remove(uuid);
@@ -204,10 +211,10 @@ public abstract class ForceField implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
         if(!isEnabled()) return;
-        
+
         Player player = e.getPlayer();
         if(canBypass(player)) return;
-        
+
         ICombatManager combatManager = this.plugin.getCombatManager();
         if(!combatManager.isInCombat(player)) return;
 
@@ -224,24 +231,20 @@ public abstract class ForceField implements Listener {
     @EventHandler
     public void onTag(PlayerTagEvent e) {
         if(!isEnabled()) return;
-        
+
         Player player = e.getPlayer();
         if(canBypass(player)) return;
-        
+
         Location playerLoc = player.getLocation();
         if(isSafe(playerLoc, player)) return;
 
-        UUID uuid = player.getUniqueId();
-        Set<Location> area = getForceFieldArea(player, e.getEnemy());
-
-        fakeBlockMap.put(uuid, area);
-        for(Location location : area) sendForceField(player, location);
+        updateForceField(player);
     }
 
     @EventHandler
     public void onUntag(PlayerUntagEvent e) {
         if(!isEnabled()) return;
-        
+
         Player player = e.getPlayer();
         removeForceField(player);
     }

@@ -15,6 +15,7 @@ import com.SirBlobman.combatlogx.api.expansion.noentry.NoEntryListener;
 import com.SirBlobman.combatlogx.expansion.compatibility.griefprevention.handler.GriefPreventionNoEntryHandler;
 
 public class CompatibilityGriefPrevention extends NoEntryExpansion {
+    private NoEntryForceFieldListener forceFieldListener;
     private NoEntryHandler noEntryHandler;
     public CompatibilityGriefPrevention(ICombatLogX plugin) {
         super(plugin);
@@ -50,7 +51,7 @@ public class CompatibilityGriefPrevention extends NoEntryExpansion {
         PluginManager manager = Bukkit.getPluginManager();
         Plugin pluginProtocolLib = manager.getPlugin("ProtocolLib");
         if(pluginProtocolLib != null) {
-            NoEntryForceFieldListener forceFieldListener = new NoEntryForceFieldListener(this);
+            forceFieldListener = new NoEntryForceFieldListener(this);
             expansionManager.registerListener(this, forceFieldListener);
 
             String versionProtocolLib = pluginProtocolLib.getDescription().getVersion();
@@ -60,7 +61,8 @@ public class CompatibilityGriefPrevention extends NoEntryExpansion {
     
     @Override
     public void onActualDisable() {
-        // Do Nothing
+        if(forceFieldListener != null)
+            forceFieldListener.unregisterProtocol();
     }
     
     @Override
