@@ -1,0 +1,15 @@
+# Hook Configuration for Notifier
+#
+# If you want to use FeatherBoard/AnimatedNames, you have to set up your own configs
+# CombatLogX will only send the triggers
+
+FeatherBoard:
+  enabled: false
+  trigger: "combatlogx"
+
+AnimatedNames:
+  enabled: false
+  trigger: "combatlogx"
+
+AnimatedScoreboard:
+  enabled: false

@@ -3,13 +3,6 @@ package com.SirBlobman.combatlogx.expansion.notifier;
 import java.util.Collection;
 import java.util.logging.Logger;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
 import com.SirBlobman.combatlogx.expansion.notifier.command.CommandNotifier;
@@ -20,6 +13,13 @@ import com.SirBlobman.combatlogx.expansion.notifier.manager.ActionBarManager;
 import com.SirBlobman.combatlogx.expansion.notifier.manager.BossBarManager;
 import com.SirBlobman.combatlogx.expansion.notifier.manager.ScoreBoardManager;
 import com.SirBlobman.combatlogx.utility.PlaceholderReplacer;
+
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class Notifier extends Expansion {
     private final ActionBarManager actionBarManager;
@@ -37,7 +37,7 @@ public class Notifier extends Expansion {
         saveDefaultConfig("actionbar.yml");
         saveDefaultConfig("bossbar.yml");
         saveDefaultConfig("scoreboard.yml");
-        saveDefaultConfig("mvdw.yml");
+        saveDefaultConfig("hook.yml");
     }
 
     @Override
@@ -51,9 +51,9 @@ public class Notifier extends Expansion {
         CommandNotifier commandNotifier = new CommandNotifier(this);
         combat.registerCommand("notifier", commandNotifier, "Toggle the boss bar, scoreboard, and action bar.", "/notifier bossbar/actionbar/scoreboard", "clx-toggle");
 
+        hookIfEnabled("AnimatedScoreboard");
         hookIfEnabled("MVdWPlaceholderAPI");
         hookIfEnabled("PlaceholderAPI");
-        hookIfEnabled("TitleManager");
     }
 
     @Override
@@ -75,7 +75,7 @@ public class Notifier extends Expansion {
         reloadConfig("actionbar.yml");
         reloadConfig("bossbar.yml");
         reloadConfig("scoreboard.yml");
-        reloadConfig("mvdw.yml");
+        reloadConfig("hook.yml");
     }
     
     public ActionBarManager getActionBarManager() {

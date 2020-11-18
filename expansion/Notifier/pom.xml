@@ -81,5 +81,14 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <!-- AnimatedScoreboard -->
+        <!-- Requires local installation or Dummy API -->
+        <dependency>
+            <groupId>com.SirBlobman.combatlogx.dummy-api</groupId>
+            <artifactId>AnimatedScoreboard</artifactId>
+            <version>0.2.1</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>

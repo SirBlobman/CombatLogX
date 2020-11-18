@@ -8,6 +8,7 @@ import com.SirBlobman.combatlogx.api.event.PlayerCombatTimerChangeEvent;
 import com.SirBlobman.combatlogx.api.event.PlayerTagEvent;
 import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.expansion.notifier.Notifier;
+import com.SirBlobman.combatlogx.expansion.notifier.hook.HookAnimatedScoreboard;
 import com.SirBlobman.combatlogx.expansion.notifier.hook.HookMVdWPlaceholderAPI;
 import com.SirBlobman.combatlogx.expansion.notifier.manager.ActionBarManager;
 import com.SirBlobman.combatlogx.expansion.notifier.manager.BossBarManager;
@@ -58,7 +59,7 @@ public class ListenerNotifier implements Listener {
     @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
     public void onTag(PlayerTagEvent e) {
         Player player = e.getPlayer();
-        FileConfiguration config = this.expansion.getConfig("mvdw.yml");
+        FileConfiguration config = this.expansion.getConfig("hook.yml");
         
         if(config.getBoolean("FeatherBoard.enabled")) {
             String trigger = config.getString("FeatherBoard.trigger");
@@ -68,6 +69,10 @@ public class ListenerNotifier implements Listener {
         if(config.getBoolean("AnimatedNames.enabled")) {
             String trigger = config.getString("AnimatedNames.trigger");
             HookMVdWPlaceholderAPI.enableTrigger("AnimatedNames", trigger, player);
+        }
+
+        if(config.getBoolean("AnimatedScoreboard.enabled")) {
+            HookAnimatedScoreboard.disable(player);
         }
 
         try {
@@ -98,7 +103,7 @@ public class ListenerNotifier implements Listener {
         
         Player player = e.getPlayer();
         JavaPlugin plugin = this.expansion.getPlugin().getPlugin();
-        FileConfiguration config = this.expansion.getConfig("mvdw.yml");
+        FileConfiguration config = this.expansion.getConfig("hook.yml");
         
         Runnable task = () -> {
             actionBarManager.removeActionBar(player);
@@ -113,6 +118,10 @@ public class ListenerNotifier implements Listener {
             if(config.getBoolean("AnimatedNames.enabled")) {
                 String trigger = config.getString("AnimatedNames.trigger");
                 HookMVdWPlaceholderAPI.disableTrigger("AnimatedNames", trigger, player);
+            }
+
+            if(config.getBoolean("AnimatedScoreboard.enabled")) {
+                HookAnimatedScoreboard.enable(player);
             }
         };
         
