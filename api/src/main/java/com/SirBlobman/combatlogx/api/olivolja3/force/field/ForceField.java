@@ -128,8 +128,12 @@ public abstract class ForceField implements Listener {
 
     private void safeForceField(Player player) {
         ICombatManager combatManager = this.plugin.getCombatManager();
+        safeForceField(player, combatManager.getEnemy(player));
+    }
+
+    private void safeForceField(Player player, LivingEntity enemy) {
         Set<Location> oldArea = new HashSet<>();
-        Set<Location> newArea = getForceFieldArea(player, combatManager.getEnemy(player));
+        Set<Location> newArea = getForceFieldArea(player, enemy);
         Set<Location> fullArea = new HashSet<>(newArea);
 
         UUID uuid = player.getUniqueId();
@@ -238,7 +242,8 @@ public abstract class ForceField implements Listener {
         Location playerLoc = player.getLocation();
         if(isSafe(playerLoc, player)) return;
 
-        updateForceField(player);
+        if(isSafeMode()) safeForceField(player, e.getEnemy());
+        else forceFieldExecutor.submit(() -> safeForceField(player, e.getEnemy()));
     }
 
     @EventHandler
