@@ -1,23 +1,28 @@
 package com.SirBlobman.combatlogx.expansion.compatibility.citizens;
 
-import java.util.logging.Logger;
-
+import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.expansion.Expansion;
+import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
+import com.SirBlobman.combatlogx.api.shaded.nms.VersionUtil;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener.ListenerCombat;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener.ListenerDamageDeath;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener.ListenerLogin;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener.ListenerPunish;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener.ListenerResurrect;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.NPCManager;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.SentinelManager;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.enemystorage.EnemyStorageManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
-import com.SirBlobman.combatlogx.api.shaded.nms.VersionUtil;
-import com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener.*;
-import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.NPCManager;
-import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.SentinelManager;
+import java.util.logging.Logger;
 
 public class CompatibilityCitizens extends Expansion {
     private NPCManager npcManager = null;
     private SentinelManager sentinelManager = null;
+    private EnemyStorageManager enemyStorageManager = null;
     public CompatibilityCitizens(ICombatLogX plugin) {
         super(plugin);
     }
@@ -44,6 +49,8 @@ public class CompatibilityCitizens extends Expansion {
             expansionManager.disableExpansion(this);
             return;
         }
+
+        this.enemyStorageManager = new EnemyStorageManager();
         
         this.npcManager = new NPCManager(this);
         this.npcManager.registerTrait();
@@ -76,7 +83,11 @@ public class CompatibilityCitizens extends Expansion {
     public SentinelManager getSentinelManager() {
         return this.sentinelManager;
     }
-    
+
+    public EnemyStorageManager getEnemyStorageManager() {
+        return this.enemyStorageManager;
+    }
+
     private boolean checkForCitizens() {
         PluginManager manager = Bukkit.getPluginManager();
         if(!manager.isPluginEnabled("Citizens")) return true;
