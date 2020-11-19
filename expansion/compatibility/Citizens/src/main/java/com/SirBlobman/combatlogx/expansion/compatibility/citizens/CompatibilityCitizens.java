@@ -7,6 +7,7 @@ import com.SirBlobman.combatlogx.api.shaded.nms.VersionUtil;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener.ListenerCombat;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener.ListenerDamageDeath;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener.ListenerLogin;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener.ListenerNPCMove;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener.ListenerPunish;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener.ListenerResurrect;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.NPCManager;
@@ -23,6 +24,7 @@ public class CompatibilityCitizens extends Expansion {
     private NPCManager npcManager = null;
     private SentinelManager sentinelManager = null;
     private EnemyStorageManager enemyStorageManager = null;
+    public ListenerNPCMove npcMoveListener = null;
     public CompatibilityCitizens(ICombatLogX plugin) {
         super(plugin);
     }
@@ -64,6 +66,7 @@ public class CompatibilityCitizens extends Expansion {
         expansionManager.registerListener(this, new ListenerDamageDeath(this));
         expansionManager.registerListener(this, new ListenerLogin(this));
         expansionManager.registerListener(this, new ListenerPunish(this));
+        npcMoveListener = new ListenerNPCMove(this);
 
         // 1.11+ Totem of Undying
         int minorVersion = VersionUtil.getMinorVersion();

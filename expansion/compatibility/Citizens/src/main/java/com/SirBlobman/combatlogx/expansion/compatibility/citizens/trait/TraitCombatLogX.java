@@ -88,4 +88,14 @@ public class TraitCombatLogX extends Trait {
         FileConfiguration config = this.expansion.getConfig("citizens-compatibility.yml");
         return config.getBoolean("npc-options.stay-until-enemy-escape", false);
     }
+
+    @Override
+    public void onRemove() {
+        this.expansion.npcMoveListener.unregisterNPC(npc);
+    }
+
+    @Override
+    public void onSpawn() {
+        this.expansion.npcMoveListener.registerNPC(npc);
+    }
 }
