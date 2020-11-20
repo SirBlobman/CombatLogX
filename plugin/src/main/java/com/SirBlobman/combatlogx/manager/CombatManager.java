@@ -135,7 +135,7 @@ public class CombatManager implements ICombatManager, Runnable {
 
         for(Map.Entry<UUID, LivingEntity> entry : entrySet) {
             LivingEntity valueEnemy = entry.getValue();
-            if(valueEnemy == null || valueEnemy.isDead()) {
+            if(valueEnemy == null) {
                 UUID key = entry.getKey();
                 this.enemyMap.remove(key);
                 continue;
