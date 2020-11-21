@@ -1,30 +1,5 @@
 package com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager;
 
-import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.npc.NPC;
-import net.citizensnpcs.api.npc.NPCRegistry;
-import net.citizensnpcs.api.trait.TraitFactory;
-import net.citizensnpcs.api.trait.TraitInfo;
-import net.citizensnpcs.api.trait.trait.Equipment;
-import net.citizensnpcs.api.trait.trait.Equipment.EquipmentSlot;
-import net.citizensnpcs.api.trait.trait.Inventory;
-import net.citizensnpcs.api.trait.trait.Owner;
-
-import java.lang.reflect.Constructor;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.World;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.*;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagReason;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagType;
@@ -35,7 +10,41 @@ import com.SirBlobman.combatlogx.api.shaded.nms.MultiVersionHandler;
 import com.SirBlobman.combatlogx.api.shaded.nms.VersionUtil;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.enemystorage.EnemyStorageManager;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.enemystorage.StoredEnemy;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.trait.TraitCombatLogX;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.npc.NPCRegistry;
+import net.citizensnpcs.api.trait.TraitFactory;
+import net.citizensnpcs.api.trait.TraitInfo;
+import net.citizensnpcs.api.trait.trait.Equipment;
+import net.citizensnpcs.api.trait.trait.Equipment.EquipmentSlot;
+import net.citizensnpcs.api.trait.trait.Inventory;
+import net.citizensnpcs.api.trait.trait.Owner;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Monster;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class NPCManager {
     private final CompatibilityCitizens expansion;
@@ -316,7 +325,27 @@ public class NPCManager {
         
         ICombatLogX plugin = this.expansion.getPlugin();
         ICombatManager combatManager = plugin.getCombatManager();
-        combatManager.tag(player, null, TagType.UNKNOWN, TagReason.UNKNOWN);
+        EnemyStorageManager enemyStorageManager = this.expansion.getEnemyStorageManager();
+        StoredEnemy storedEnemy = enemyStorageManager.get(player.getUniqueId());
+        LivingEntity enemy = null;
+        TagType tagType = TagType.UNKNOWN;
+        if(storedEnemy != null) {
+            if(storedEnemy.getEnemyType() == StoredEnemy.EnemyType.MOB) {
+                List<LivingEntity> livingEntities = player.getWorld().getLivingEntities();
+                for(LivingEntity entity : livingEntities) {
+                    if(entity != null && entity.getUniqueId().equals(storedEnemy.getEnemyUUID())) {
+                        tagType = TagType.MOB;
+                        enemy = entity;
+                        break;
+                    }
+                }
+            } else {
+                enemy = Bukkit.getPlayer(storedEnemy.getEnemyUUID());
+                tagType = TagType.PLAYER;
+            }
+        }
+        enemyStorageManager.remove(player.getUniqueId());
+        combatManager.tag(player, enemy, tagType, TagReason.UNKNOWN);
     }
     
     public void createNPC(Player player, LivingEntity enemy) {

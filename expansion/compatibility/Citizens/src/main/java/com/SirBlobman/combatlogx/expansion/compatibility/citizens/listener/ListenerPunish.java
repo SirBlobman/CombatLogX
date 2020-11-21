@@ -32,5 +32,8 @@ public class ListenerPunish implements Listener {
         
         npcManager.setData(player);
         npcManager.createNPC(player, enemy);
+
+        if(config.getBoolean("retag-player-on-login", true))
+            this.expansion.getEnemyStorageManager().store(player.getUniqueId(), e.getPreviousEnemy());
     }
 }
