@@ -50,9 +50,6 @@ public class ForceFieldAdapter extends PacketAdapter {
             if(type == EnumWrappers.PlayerDigType.STOP_DESTROY_BLOCK || (player.getGameMode() == GameMode.CREATIVE && type == EnumWrappers.PlayerDigType.START_DESTROY_BLOCK))
                 this.forceField.sendForceField(player, location);
         }
-
-        //Possible fix for false flags with some AntiCheats
-        e.setCancelled(true);
     }
 
     @Override
