@@ -37,12 +37,10 @@
         </repository>
 
         <!-- MVdW Repository -->
-        <!-- Temporarily disabled, repo is not working
         <repository>
             <id>mvdw-software</id>
             <url>http://repo.mvdw-software.com/content/groups/public/</url>
         </repository>
-        -->
     </repositories>
 
     <dependencies>
@@ -86,8 +84,8 @@
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
+                    <groupId>org.spigotmc</groupId>
+                    <artifactId>spigot</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>

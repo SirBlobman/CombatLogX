@@ -154,7 +154,7 @@ public abstract class Expansion {
     protected final boolean checkDependency(String pluginName, boolean checkEnabled, String versionStartsWith) {
         if(!checkDependency(pluginName, checkEnabled)) return false;
         PluginManager pluginManager = Bukkit.getPluginManager();
-        Logger logger = getLogger();;
+        Logger logger = getLogger();
 
         Plugin plugin = pluginManager.getPlugin(pluginName);
         if(plugin == null) return false;
