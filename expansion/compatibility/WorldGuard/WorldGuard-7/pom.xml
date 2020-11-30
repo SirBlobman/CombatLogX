@@ -6,12 +6,12 @@
         <groupId>com.SirBlobman.combatlogx.expansion.compatibility</groupId>
         <artifactId>compatibility-parent</artifactId>
         <version>11.0.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>uSkyBlock</artifactId>
-    <name>Compatibility Expansion: uSkyBlock</name>
-    <description>An expansion for CombatLogX that adds compatibility with the uSkyBlock plugin.</description>
+    <artifactId>WorldGuard-7</artifactId>
+    <name>Compatibility Expansion: WorldGuard v7</name>
+    <description>An expansion for CombatLogX that detects non-pvp areas from the WorldGuard plugin.</description>
 
     <repositories>
         <!-- SpigotMC Repository -->
@@ -20,13 +20,10 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
 
-        <!-- uSkyBlock Repository -->
+        <!-- sk89q Repository -->
         <repository>
-            <id>uskyblock</id>
-            <url>https://www.uskyblock.ovh/maven/uskyblock/</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
+            <id>sk89q-repo</id>
+            <url>https://maven.enginehub.org/repo/</url>
         </repository>
     </repositories>
 
@@ -47,16 +44,22 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- uSkyBlock API -->
+        <!-- WorldGuard Legacy 7 -->
         <dependency>
-            <groupId>com.github.rlf</groupId>
-            <artifactId>uSkyBlock-API</artifactId>
-            <version>2.8.9</version>
+            <groupId>com.sk89q.worldguard</groupId>
+            <artifactId>worldguard-legacy</artifactId>
+            <version>7.0.0-SNAPSHOT</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.bukkit</groupId>
+                    <artifactId>bukkit</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
     <build>
-        <finalName>uSkyBlock Compatibility</finalName>
+        <finalName>WorldGuard7 Compatibility</finalName>
     </build>
 </project>

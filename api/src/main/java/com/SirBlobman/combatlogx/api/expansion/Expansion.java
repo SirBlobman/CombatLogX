@@ -11,15 +11,15 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.SirBlobman.api.utility.Validate;
+import com.SirBlobman.combatlogx.api.ICombatLogX;
+
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import com.SirBlobman.api.utility.Validate;
-import com.SirBlobman.combatlogx.api.ICombatLogX;
 
 public abstract class Expansion {
     public enum State {
@@ -148,6 +148,24 @@ public abstract class Expansion {
         PluginDescriptionFile description = plugin.getDescription();
         String fullName = description.getFullName();
         logger.info("Successfully found a dependency: " + fullName);
+        return true;
+    }
+
+    protected final boolean checkDependency(String pluginName, boolean checkEnabled, String versionStartsWith) {
+        if(!checkDependency(pluginName, checkEnabled)) return false;
+        PluginManager pluginManager = Bukkit.getPluginManager();
+        Logger logger = getLogger();;
+
+        Plugin plugin = pluginManager.getPlugin(pluginName);
+        if(plugin == null) return false;
+
+        PluginDescriptionFile description = plugin.getDescription();
+        String version = description.getVersion();
+        if(!version.startsWith(versionStartsWith)) {
+            logger.info("Dependency '" + pluginName + "' is not the correct version!");
+            return false;
+        }
+
         return true;
     }
 

@@ -4,13 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.*;
-
 import com.SirBlobman.api.nms.MultiVersionHandler;
 import com.SirBlobman.api.nms.scoreboard.ScoreboardHandler;
 import com.SirBlobman.api.utility.MessageUtility;
@@ -20,6 +13,13 @@ import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.ICombatManager;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 import com.SirBlobman.combatlogx.api.utility.PlaceholderHelper;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.*;
 
 import combatlogx.expansion.scoreboard.ScoreboardExpansion;
 
@@ -76,7 +76,7 @@ public final class CustomScoreboard {
 
         int line = 16;
         for(int i = 0; i < 16; i++) {
-            if(i > lineListSize) {
+            if(i >= lineListSize) {
                 removeLine(i);
                 continue;
             }

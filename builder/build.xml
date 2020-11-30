@@ -54,7 +54,10 @@
                 <file file="${expansion.compatibility.dir}/PlaceholderAPI/target/PlaceholderAPI Compatibility.jar"/>
 
                 <!-- Region Compatibility Expansions -->
+                <file file="${expansion.compatibility.dir}/GriefDefender/target/GriefDefender Compatibility.jar"/>
                 <file file="${expansion.compatibility.dir}/Lands/target/Lands Compatibility.jar"/>
+                <file file="${expansion.compatibility.dir}/WorldGuard/WorldGuard-6/target/WorldGuard6 Compatibility.jar"/>
+                <file file="${expansion.compatibility.dir}/WorldGuard/WorldGuard-7/target/WorldGuard7 Compatibility.jar"/>
             </resources>
         </copy>
 

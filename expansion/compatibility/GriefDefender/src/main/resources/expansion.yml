@@ -1,0 +1,7 @@
+name: "CompatGriefDefender"
+prefix: "GriefDefender Compatibility"
+description: "${project.description}"
+
+main: "combatlogx.expansion.compatibility.region.grief.defender.GriefDefenderExpansion"
+version: "16.0"
+author: "SirBlobman"

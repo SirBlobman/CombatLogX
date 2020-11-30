@@ -44,6 +44,7 @@
         <module>PlaceholderAPI</module>
 
         <!-- Region Compatibility -->
+        <module>GriefDefender</module>
         <!--
         <module>GriefPrevention</module>
         -->
@@ -54,8 +55,8 @@
         <module>RedProtect</module>
         <module>Residence</module>
         <module>Towny</module>
-        <module>WorldGuard</module>
         -->
+        <module>WorldGuard</module>
 
         <!-- SkyBlock Compatibility -->
         <module>ASkyBlock</module>

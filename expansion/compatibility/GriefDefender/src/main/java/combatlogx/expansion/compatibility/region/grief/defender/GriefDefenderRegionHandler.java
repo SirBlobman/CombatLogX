@@ -1,0 +1,65 @@
+package combatlogx.expansion.compatibility.region.grief.defender;
+
+import java.util.Collections;
+import java.util.Set;
+import java.util.UUID;
+
+import com.SirBlobman.combatlogx.api.expansion.region.RegionHandler;
+import com.SirBlobman.combatlogx.api.object.TagType;
+
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
+
+import com.google.common.reflect.TypeToken;
+import com.griefdefender.api.Core;
+import com.griefdefender.api.GriefDefender;
+import com.griefdefender.api.Tristate;
+import com.griefdefender.api.User;
+import com.griefdefender.api.claim.Claim;
+import com.griefdefender.api.claim.ClaimManager;
+import com.griefdefender.api.permission.Context;
+import com.griefdefender.api.permission.option.Options;
+
+@SuppressWarnings("UnstableApiUsage")
+public final class GriefDefenderRegionHandler extends RegionHandler {
+    public GriefDefenderRegionHandler(GriefDefenderExpansion expansion) {
+        super(expansion);
+    }
+
+    @Override
+    public String getEntryDeniedMessagePath(TagType tagType) {
+        return "expansion.griefdefender-compatibility-no-entry";
+    }
+
+    @Override
+    public boolean isSafeZone(Player player, Location location, TagType tagType) {
+        if(tagType == TagType.UNKNOWN) return false;
+
+        Claim claim = getClaimAt(location);
+        if(claim == null) return false;
+
+        UUID uuid = player.getUniqueId();
+        Core core = GriefDefender.getCore();
+        User user = core.getUser(uuid);
+
+        TypeToken<Tristate> tristateTypeToken = TypeToken.of(Tristate.class);
+        Set<Context> contexts = Collections.emptySet();
+        Tristate activeOptionValue = claim.getActiveOptionValue(tristateTypeToken, Options.PVP, user, contexts);
+        return (activeOptionValue != Tristate.TRUE);
+    }
+
+    private Claim getClaimAt(Location location) {
+        World world = location.getWorld();
+        if(world == null) return null;
+
+        UUID worldId = world.getUID();
+        int x = location.getBlockX();
+        int y = location.getBlockY();
+        int z = location.getBlockZ();
+
+        Core core = GriefDefender.getCore();
+        ClaimManager claimManager = core.getClaimManager(worldId);
+        return claimManager.getClaimAt(x, y, z);
+    }
+}
