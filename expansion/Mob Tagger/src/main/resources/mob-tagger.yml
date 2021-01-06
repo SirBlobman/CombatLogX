@@ -9,6 +9,9 @@ tag-players: true
 # Mob Type names can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
 mob-list:
   - "*"
+  
+# Should the mob list be a block list instead of an allow list?
+mob-list-inverted: false
 
 # Which spawn reasons prevent mobs from tagging players?
 # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/CreatureSpawnEvent.SpawnReason.html

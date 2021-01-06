@@ -66,7 +66,7 @@ public class CommandCombatTimer extends CustomCommand<CombatLogX> {
 
         int timeLeft = combatManager.getTimerSecondsLeft(target);
         String timeLeftString = Integer.toString(timeLeft);
-        sendMessage(sender, "errors.combat-timer.time-left.other", message -> message.replace("{target}", targetName).replace("{time}", timeLeftString));
+        sendMessage(sender, "commands.combat-timer.time-left.other", message -> message.replace("{target}", targetName).replace("{time}", timeLeftString));
     }
 
     private void sendMessage(CommandSender sender, String key, Replacer... replacerArray) {

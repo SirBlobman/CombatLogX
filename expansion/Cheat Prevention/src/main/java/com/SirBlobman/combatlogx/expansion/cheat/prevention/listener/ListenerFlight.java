@@ -1,7 +1,7 @@
 package com.SirBlobman.combatlogx.expansion.cheat.prevention.listener;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.configuration.file.FileConfiguration;
@@ -13,40 +13,48 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 
+import com.SirBlobman.combatlogx.api.event.PlayerReTagEvent;
 import com.SirBlobman.combatlogx.api.event.PlayerTagEvent;
+import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.expansion.cheat.prevention.CheatPrevention;
 
 public class ListenerFlight extends CheatPreventionListener {
-    private final List<UUID> preventFallDamage;
+    private final Set<UUID> preventFallDamage;
+    private final Set<UUID> reEnableSet;
     public ListenerFlight(CheatPrevention expansion) {
         super(expansion);
-        this.preventFallDamage = new ArrayList<>();
+        this.preventFallDamage = new HashSet<>();
+        this.reEnableSet = new HashSet<>();
     }
 
     @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
     public void onTag(PlayerTagEvent e) {
         Player player = e.getPlayer();
-        if(!player.isFlying()) return;
-
-        FileConfiguration config = getConfig();
-        if(!config.getBoolean("flight.prevent-flying")) return;
-
-        if(config.getBoolean("flight.force-disable-flight")) player.setAllowFlight(false);
-        player.setFlying(false);
-
-        if(config.getBoolean("flight.prevent-fall-damage")) {
-            UUID uuid = player.getUniqueId();
-            this.preventFallDamage.add(uuid);
-        }
-
-        String message = getMessage("cheat-prevention.flight.force-disabled");
-        sendMessage(player, message);
+        checkFlight(player);
     }
 
-    @EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
+    @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
+    public void onReTag(PlayerReTagEvent e) {
+        Player player = e.getPlayer();
+        checkFlight(player);
+    }
+
+    @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
+    public void onUntag(PlayerUntagEvent e) {
+        FileConfiguration config = getConfig();
+        if(!config.getBoolean("flight.re-enable-flight")) return;
+
+        Player player = e.getPlayer();
+        UUID uuid = player.getUniqueId();
+        if(this.reEnableSet.contains(uuid)) {
+            player.setAllowFlight(true);
+            this.reEnableSet.remove(uuid);
+        }
+    }
+
+    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
     public void onToggleFlight(PlayerToggleFlightEvent e) {
         if(!e.isFlying()) return;
-
         FileConfiguration config = getConfig();
         if(!config.getBoolean("flight.prevent-flying")) return;
 
@@ -58,7 +66,7 @@ public class ListenerFlight extends CheatPreventionListener {
         sendMessage(player, message);
     }
 
-    @EventHandler(priority=EventPriority.HIGH, ignoreCancelled=true)
+    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
     public void onDamage(EntityDamageEvent e) {
         DamageCause damageCause = e.getCause();
         if(damageCause != DamageCause.FALL) return;
@@ -75,5 +83,23 @@ public class ListenerFlight extends CheatPreventionListener {
         
         e.setCancelled(true);
         this.preventFallDamage.remove(uuid);
+    }
+
+    private void checkFlight(Player player) {
+        FileConfiguration config = getConfig();
+        if(!config.getBoolean("flight.prevent-flying")) return;
+
+        if(!player.getAllowFlight()) return;
+        UUID uuid = player.getUniqueId();
+        this.reEnableSet.add(uuid);
+
+        player.setFlying(false);
+        player.setAllowFlight(false);
+        if(config.getBoolean("flight.prevent-fall-damage")) {
+            this.preventFallDamage.add(uuid);
+        }
+
+        String message = getMessage("cheat-prevention.flight.force-disabled");
+        sendMessage(player, message);
     }
 }

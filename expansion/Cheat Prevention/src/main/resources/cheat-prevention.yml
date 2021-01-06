@@ -60,11 +60,11 @@ flight:
   # Default: true
   prevent-flying: true
 
-  # Set this to true to set the allowFlight flag to 'false' for the player when they enter into combat
-  # This may cause issues with some custom flight plugins so it is disabled by default
-  #
-  # Default: false
-  force-disable-flight: false
+  # Set this to 'true' to set the 'allow-flight' flag back to true when a player is out of combat.
+  # Set this to 'false' to make players re-enable their own flight abilities.
+  # Flight will only be re-enabled if flight was detected before combat.
+  # This option may cause issues with limited/timed flight plugins.
+  re-enable-flight: true
 
   # This option will prevent fall damage if a player lost their flight due to CombatLogX
   #

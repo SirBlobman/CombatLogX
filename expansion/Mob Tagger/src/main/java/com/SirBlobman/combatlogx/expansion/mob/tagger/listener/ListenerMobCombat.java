@@ -77,13 +77,16 @@ public class ListenerMobCombat implements Listener {
         FileConfiguration config = this.expansion.getConfig("mob-tagger.yml");
         boolean mobsDisabled = !config.getBoolean("tag-players");
         if(mobsDisabled) return true;
-    
-        List<String> mobTypeList = config.getStringList("mob-list");
-        if(mobTypeList.contains("*")) return false;
-    
+
         EntityType enemyType = enemy.getType();
         String enemyTypeName = enemyType.name();
-        return !mobTypeList.contains(enemyTypeName);
+        List<String> mobTypeList = config.getStringList("mob-list");
+
+        boolean mobListInverted = config.getBoolean("mob-list-inverted");
+        boolean containsAll = mobTypeList.contains("*");
+        boolean containsEnemy = mobTypeList.contains(enemyTypeName);
+        if(mobListInverted) return (containsAll || containsEnemy);
+        return (!containsAll && !containsEnemy);
     }
     
     private boolean checkMobSpawnReasonDisabled(LivingEntity enemy) {
