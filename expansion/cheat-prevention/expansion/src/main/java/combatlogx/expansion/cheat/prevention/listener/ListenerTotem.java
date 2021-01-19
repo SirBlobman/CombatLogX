@@ -7,8 +7,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityResurrectEvent;
 
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
+import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 
 public final class ListenerTotem extends CheatPreventionListener {
     public ListenerTotem(Expansion expansion) {

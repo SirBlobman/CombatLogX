@@ -10,13 +10,13 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.ICombatManager;
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
-import com.SirBlobman.combatlogx.api.object.TagReason;
-import com.SirBlobman.combatlogx.api.object.TagType;
-import com.SirBlobman.combatlogx.api.object.UntagReason;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.ICombatManager;
+import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
+import com.github.sirblobman.combatlogx.api.object.TagReason;
+import com.github.sirblobman.combatlogx.api.object.TagType;
+import com.github.sirblobman.combatlogx.api.object.UntagReason;
 
 public final class ListenerTeleport extends CheatPreventionListener {
     public ListenerTeleport(Expansion expansion) {

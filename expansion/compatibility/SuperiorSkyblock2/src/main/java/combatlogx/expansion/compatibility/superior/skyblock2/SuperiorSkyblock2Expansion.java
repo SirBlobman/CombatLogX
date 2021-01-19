@@ -1,8 +1,8 @@
 package combatlogx.expansion.compatibility.superior.skyblock2;
 
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
 import combatlogx.expansion.compatibility.superior.skyblock2.listener.ListenerSuperiorSkyblock2;
 

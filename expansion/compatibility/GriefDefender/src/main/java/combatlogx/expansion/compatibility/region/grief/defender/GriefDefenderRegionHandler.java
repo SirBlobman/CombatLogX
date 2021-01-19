@@ -4,12 +4,12 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.UUID;
 
-import com.SirBlobman.combatlogx.api.expansion.region.RegionHandler;
-import com.SirBlobman.combatlogx.api.object.TagType;
-
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+
+import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
+import com.github.sirblobman.combatlogx.api.object.TagType;
 
 import com.google.common.reflect.TypeToken;
 import com.griefdefender.api.Core;

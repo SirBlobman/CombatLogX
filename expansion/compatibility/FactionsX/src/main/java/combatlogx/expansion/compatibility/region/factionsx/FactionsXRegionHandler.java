@@ -1,11 +1,13 @@
 package combatlogx.expansion.compatibility.region.factionsx;
 
-import com.SirBlobman.combatlogx.api.expansion.region.RegionHandler;
-import com.SirBlobman.combatlogx.api.object.TagType;
-
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
+import com.github.sirblobman.combatlogx.api.object.TagType;
+
+import net.prosavage.factionsx.core.Faction;
 import net.prosavage.factionsx.manager.GridManager;
 
 public class FactionsXRegionHandler extends RegionHandler {
@@ -20,6 +22,10 @@ public class FactionsXRegionHandler extends RegionHandler {
 
     @Override
     public boolean isSafeZone(Player player, Location location, TagType tagType) {
-        return (tagType == TagType.PLAYER && GridManager.INSTANCE.getFactionAt(location.getChunk()).isSafezone());
+        if(tagType != TagType.PLAYER) return false;
+
+        Chunk chunk = location.getChunk();
+        Faction faction = GridManager.INSTANCE.getFactionAt(chunk);
+        return faction.isSafezone();
     }
 }

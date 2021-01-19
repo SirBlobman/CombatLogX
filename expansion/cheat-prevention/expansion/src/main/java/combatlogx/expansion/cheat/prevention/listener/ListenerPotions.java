@@ -10,9 +10,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.potion.PotionEffectType;
 
-import com.SirBlobman.combatlogx.api.event.PlayerTagEvent;
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
+import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
+import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 
 public final class ListenerPotions extends CheatPreventionListener {
     public ListenerPotions(Expansion expansion) {

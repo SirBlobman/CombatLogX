@@ -10,15 +10,15 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
-import com.SirBlobman.api.language.LanguageManager;
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.ICombatManager;
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionListener;
-import com.SirBlobman.combatlogx.api.object.TagReason;
-import com.SirBlobman.combatlogx.api.object.TagType;
-import com.SirBlobman.combatlogx.api.utility.EntityHelper;
+import com.github.sirblobman.api.language.LanguageManager;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.ICombatManager;
+import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
+import com.github.sirblobman.combatlogx.api.object.TagReason;
+import com.github.sirblobman.combatlogx.api.object.TagType;
+import com.github.sirblobman.combatlogx.api.utility.EntityHelper;
 
 import combatlogx.expansion.damage.tagger.DamageTaggerExpansion;
 

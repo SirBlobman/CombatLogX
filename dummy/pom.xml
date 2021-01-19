@@ -3,17 +3,19 @@
     <packaging>pom</packaging>
 
     <parent>
-        <groupId>com.SirBlobman.combatlogx</groupId>
+        <groupId>com.github.sirblobman.combatlogx</groupId>
         <artifactId>parent</artifactId>
         <version>11.0.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>com.SirBlobman.combatlogx.dummy</groupId>
+    <groupId>com.github.sirblobman.combatlogx.dummy</groupId>
     <artifactId>dummy-parent</artifactId>
     <name>Dummy: Parent POM</name>
     <description>The parent POM for all the dummy modules that don't have a proper maven repository.</description>
 
     <modules>
         <module>CrackShot</module>
+        <module>GriefDefender</module>
     </modules>
 </project>

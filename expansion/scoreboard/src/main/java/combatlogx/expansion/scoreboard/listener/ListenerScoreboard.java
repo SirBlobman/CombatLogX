@@ -4,9 +4,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
-import com.SirBlobman.combatlogx.api.event.PlayerCombatTimerChangeEvent;
-import com.SirBlobman.combatlogx.api.event.PlayerTagEvent;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionListener;
+import com.github.sirblobman.combatlogx.api.event.PlayerCombatTimerChangeEvent;
+import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 import combatlogx.expansion.scoreboard.ScoreboardExpansion;
 import combatlogx.expansion.scoreboard.manager.ScoreboardManager;

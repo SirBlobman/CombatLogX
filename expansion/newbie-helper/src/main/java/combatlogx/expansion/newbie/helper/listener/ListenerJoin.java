@@ -5,7 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import com.SirBlobman.combatlogx.api.expansion.ExpansionListener;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 import combatlogx.expansion.newbie.helper.NewbieHelperExpansion;
 import combatlogx.expansion.newbie.helper.manager.ProtectionManager;

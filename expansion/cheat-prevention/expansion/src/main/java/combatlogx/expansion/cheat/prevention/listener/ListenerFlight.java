@@ -13,9 +13,9 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 
-import com.SirBlobman.combatlogx.api.event.PlayerTagEvent;
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
+import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
+import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 
 public final class ListenerFlight extends CheatPreventionListener {
     private final Set<UUID> noFallDamageSet;

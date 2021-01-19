@@ -1,8 +1,8 @@
 package combatlogx.expansion.scoreboard;
 
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 
 import combatlogx.expansion.scoreboard.listener.ListenerScoreboard;
 import combatlogx.expansion.scoreboard.manager.ScoreboardManager;

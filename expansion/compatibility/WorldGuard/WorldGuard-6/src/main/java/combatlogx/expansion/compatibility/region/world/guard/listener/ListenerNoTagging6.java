@@ -1,7 +1,7 @@
 package combatlogx.expansion.compatibility.region.world.guard.listener;
 
-import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionListener;
+import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 import org.bukkit.Location;
 import org.bukkit.World;

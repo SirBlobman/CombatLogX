@@ -1,14 +1,14 @@
 package combatlogx.expansion.compatibility.region.world.guard.listener;
 
-import com.SirBlobman.api.utility.Validate;
-import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionListener;
-
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+
+import com.github.sirblobman.api.utility.Validate;
+import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.math.BlockVector3;

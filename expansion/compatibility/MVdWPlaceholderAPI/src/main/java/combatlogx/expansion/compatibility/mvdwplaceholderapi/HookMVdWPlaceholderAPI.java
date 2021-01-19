@@ -4,15 +4,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import com.SirBlobman.api.language.LanguageManager;
-import com.SirBlobman.api.utility.Validate;
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.expansion.Expansion.State;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
-
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.github.sirblobman.api.language.LanguageManager;
+import com.github.sirblobman.api.utility.Validate;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.Expansion.State;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
 import be.maximvdw.placeholderapi.PlaceholderAPI;
 import be.maximvdw.placeholderapi.PlaceholderReplaceEvent;
@@ -21,7 +21,13 @@ import combatlogx.expansion.newbie.helper.NewbieHelperExpansion;
 import combatlogx.expansion.newbie.helper.manager.PVPManager;
 import combatlogx.expansion.newbie.helper.manager.ProtectionManager;
 
-import static com.SirBlobman.combatlogx.api.utility.PlaceholderHelper.*;
+import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyHealth;
+import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyHealthRounded;
+import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyHearts;
+import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyName;
+import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getInCombat;
+import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getStatus;
+import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getTimeLeft;
 
 public final class HookMVdWPlaceholderAPI implements PlaceholderReplacer {
     private final MVdWPlaceholderAPIExpansion expansion;

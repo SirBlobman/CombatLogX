@@ -11,11 +11,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-import com.SirBlobman.api.language.Replacer;
-import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
-import com.SirBlobman.combatlogx.api.object.UntagReason;
+import com.github.sirblobman.api.language.Replacer;
+import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
+import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
+import com.github.sirblobman.combatlogx.api.object.UntagReason;
 
 public final class ListenerCommands extends CheatPreventionListener {
     private final Map<UUID, Long> cooldownMap;

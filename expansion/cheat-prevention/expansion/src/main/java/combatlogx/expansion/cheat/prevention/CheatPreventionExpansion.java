@@ -1,11 +1,26 @@
 package combatlogx.expansion.cheat.prevention;
 
-import com.SirBlobman.api.utility.VersionUtility;
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
+import com.github.sirblobman.api.utility.VersionUtility;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 
-import combatlogx.expansion.cheat.prevention.listener.*;
+import combatlogx.expansion.cheat.prevention.listener.CheatPreventionListener;
+import combatlogx.expansion.cheat.prevention.listener.ListenerBlocks;
+import combatlogx.expansion.cheat.prevention.listener.ListenerChat;
+import combatlogx.expansion.cheat.prevention.listener.ListenerCommands;
+import combatlogx.expansion.cheat.prevention.listener.ListenerDrop;
+import combatlogx.expansion.cheat.prevention.listener.ListenerElytra;
+import combatlogx.expansion.cheat.prevention.listener.ListenerEntities;
+import combatlogx.expansion.cheat.prevention.listener.ListenerFlight;
+import combatlogx.expansion.cheat.prevention.listener.ListenerGameMode;
+import combatlogx.expansion.cheat.prevention.listener.ListenerInventories;
+import combatlogx.expansion.cheat.prevention.listener.ListenerLegacyItemPickup;
+import combatlogx.expansion.cheat.prevention.listener.ListenerModernItemPickup;
+import combatlogx.expansion.cheat.prevention.listener.ListenerPotions;
+import combatlogx.expansion.cheat.prevention.listener.ListenerRiptide;
+import combatlogx.expansion.cheat.prevention.listener.ListenerTeleport;
+import combatlogx.expansion.cheat.prevention.listener.ListenerTotem;
 
 public final class CheatPreventionExpansion extends Expansion {
     public CheatPreventionExpansion(ICombatLogX plugin) {

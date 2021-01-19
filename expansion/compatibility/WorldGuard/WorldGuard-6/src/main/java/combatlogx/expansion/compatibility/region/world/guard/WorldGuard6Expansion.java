@@ -1,8 +1,8 @@
 package combatlogx.expansion.compatibility.region.world.guard;
 
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.expansion.region.RegionExpansion;
-import com.SirBlobman.combatlogx.api.expansion.region.RegionHandler;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
+import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 
 public final class WorldGuard6Expansion extends RegionExpansion {
     private RegionHandler regionHandler;

@@ -2,13 +2,6 @@ package combatlogx.expansion.compatibility.citizens.listener;
 
 import java.util.UUID;
 
-import com.SirBlobman.api.language.LanguageManager;
-import com.SirBlobman.api.nms.EntityHandler;
-import com.SirBlobman.api.nms.MultiVersionHandler;
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionListener;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -24,6 +17,13 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
+
+import com.github.sirblobman.api.language.LanguageManager;
+import com.github.sirblobman.api.nms.EntityHandler;
+import com.github.sirblobman.api.nms.MultiVersionHandler;
+import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
 import combatlogx.expansion.compatibility.citizens.manager.CombatNpcManager;

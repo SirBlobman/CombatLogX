@@ -3,7 +3,7 @@ package combatlogx.expansion.scoreboard.scoreboard;
 import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.Team;
 
-import com.SirBlobman.api.utility.Validate;
+import com.github.sirblobman.api.utility.Validate;
 
 public final class CustomLine {
     private final ChatColor chatColor;

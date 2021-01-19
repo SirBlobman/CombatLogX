@@ -1,8 +1,8 @@
 package combatlogx.expansion.newbie.helper;
 
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 
 import combatlogx.expansion.newbie.helper.command.CommandTogglePVP;
 import combatlogx.expansion.newbie.helper.listener.ListenerDamage;

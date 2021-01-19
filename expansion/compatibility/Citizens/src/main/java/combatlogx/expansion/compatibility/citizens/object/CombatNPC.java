@@ -2,17 +2,17 @@ package combatlogx.expansion.compatibility.citizens.object;
 
 import java.util.UUID;
 
-import com.SirBlobman.api.utility.Validate;
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.ICombatManager;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
-
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import com.github.sirblobman.api.utility.Validate;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.ICombatManager;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
 import combatlogx.expansion.compatibility.citizens.manager.CombatNpcManager;

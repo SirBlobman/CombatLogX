@@ -5,18 +5,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
-import com.SirBlobman.api.configuration.PlayerDataManager;
-import com.SirBlobman.api.nms.bossbar.BossBarHandler;
-import com.SirBlobman.api.utility.MessageUtility;
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.ICombatManager;
-import com.SirBlobman.combatlogx.api.event.PlayerCombatTimerChangeEvent;
-import com.SirBlobman.combatlogx.api.event.PlayerTagEvent;
-import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionListener;
-import com.SirBlobman.combatlogx.api.utility.PlaceholderHelper;
+import com.github.sirblobman.api.configuration.PlayerDataManager;
+import com.github.sirblobman.api.nms.bossbar.BossBarHandler;
+import com.github.sirblobman.api.utility.MessageUtility;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.ICombatManager;
+import com.github.sirblobman.combatlogx.api.event.PlayerCombatTimerChangeEvent;
+import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
+import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
+import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
+import com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper;
 
 import combatlogx.expansion.boss.bar.BossBarExpansion;
 

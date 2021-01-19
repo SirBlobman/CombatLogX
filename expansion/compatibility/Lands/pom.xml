@@ -3,7 +3,7 @@
     <packaging>jar</packaging>
 
     <parent>
-        <groupId>com.SirBlobman.combatlogx.expansion.compatibility</groupId>
+        <groupId>com.github.sirblobman.combatlogx.expansion.compatibility</groupId>
         <artifactId>compatibility-parent</artifactId>
         <version>11.0.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
@@ -38,7 +38,7 @@
 
         <!-- CombatLogX API -->
         <dependency>
-            <groupId>com.SirBlobman.combatlogx</groupId>
+            <groupId>com.github.sirblobman.combatlogx</groupId>
             <artifactId>api</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
@@ -48,7 +48,7 @@
         <dependency>
             <groupId>com.github.Angeschossen</groupId>
             <artifactId>LandsAPI</artifactId>
-            <version>4.9.4</version>
+            <version>5.0.5</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

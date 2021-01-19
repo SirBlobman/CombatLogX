@@ -1,18 +1,12 @@
 package combatlogx.expansion.compatibility.citizens.manager;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-
-import com.SirBlobman.api.configuration.PlayerDataManager;
-import com.SirBlobman.api.nms.EntityHandler;
-import com.SirBlobman.api.nms.MultiVersionHandler;
-import com.SirBlobman.api.utility.ItemUtility;
-import com.SirBlobman.api.utility.Validate;
-import com.SirBlobman.api.utility.VersionUtility;
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.ICombatManager;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -20,10 +14,24 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Monster;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.PluginManager;
+
+import com.github.sirblobman.api.configuration.PlayerDataManager;
+import com.github.sirblobman.api.nms.EntityHandler;
+import com.github.sirblobman.api.nms.MultiVersionHandler;
+import com.github.sirblobman.api.utility.ItemUtility;
+import com.github.sirblobman.api.utility.Validate;
+import com.github.sirblobman.api.utility.VersionUtility;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.ICombatManager;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
 import combatlogx.expansion.compatibility.citizens.object.CombatNPC;

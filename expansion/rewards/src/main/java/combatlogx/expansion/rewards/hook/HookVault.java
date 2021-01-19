@@ -9,7 +9,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicesManager;
 
-import com.SirBlobman.api.utility.Validate;
+import com.github.sirblobman.api.utility.Validate;
 
 import combatlogx.expansion.rewards.RewardExpansion;
 import net.milkbowl.vault.economy.Economy;

@@ -16,16 +16,16 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.SirBlobman.api.configuration.ConfigurationManager;
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.ICombatManager;
-import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionListener;
-import com.SirBlobman.combatlogx.api.object.TagReason;
-import com.SirBlobman.combatlogx.api.object.TagType;
-import com.SirBlobman.combatlogx.api.utility.EntityHelper;
+import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.ICombatManager;
+import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
+import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
+import com.github.sirblobman.combatlogx.api.object.TagReason;
+import com.github.sirblobman.combatlogx.api.object.TagType;
+import com.github.sirblobman.combatlogx.api.utility.EntityHelper;
 
 import combatlogx.expansion.mob.tagger.MobTaggerExpansion;
 

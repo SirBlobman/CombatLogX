@@ -4,22 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.SirBlobman.api.nms.MultiVersionHandler;
-import com.SirBlobman.api.nms.scoreboard.ScoreboardHandler;
-import com.SirBlobman.api.utility.MessageUtility;
-import com.SirBlobman.api.utility.Validate;
-import com.SirBlobman.api.utility.VersionUtility;
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.ICombatManager;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
-import com.SirBlobman.combatlogx.api.utility.PlaceholderHelper;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.*;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Score;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
+
+import com.github.sirblobman.api.nms.MultiVersionHandler;
+import com.github.sirblobman.api.nms.scoreboard.ScoreboardHandler;
+import com.github.sirblobman.api.utility.MessageUtility;
+import com.github.sirblobman.api.utility.Validate;
+import com.github.sirblobman.api.utility.VersionUtility;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.ICombatManager;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
+import com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper;
 
 import combatlogx.expansion.scoreboard.ScoreboardExpansion;
 

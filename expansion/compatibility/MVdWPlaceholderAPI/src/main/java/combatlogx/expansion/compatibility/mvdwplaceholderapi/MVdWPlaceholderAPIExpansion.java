@@ -1,8 +1,8 @@
 package combatlogx.expansion.compatibility.mvdwplaceholderapi;
 
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
 public final class MVdWPlaceholderAPIExpansion extends Expansion {
     public MVdWPlaceholderAPIExpansion(ICombatLogX plugin) {

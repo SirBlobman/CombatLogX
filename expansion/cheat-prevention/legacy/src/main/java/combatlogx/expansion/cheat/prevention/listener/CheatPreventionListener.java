@@ -7,13 +7,13 @@ import java.util.UUID;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import com.SirBlobman.api.language.LanguageManager;
-import com.SirBlobman.api.language.Replacer;
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.ICombatManager;
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionListener;
+import com.github.sirblobman.api.language.LanguageManager;
+import com.github.sirblobman.api.language.Replacer;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.ICombatManager;
+import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 public abstract class CheatPreventionListener extends ExpansionListener {
     private final Map<UUID, Map<String, Long>> messageCooldownMap;

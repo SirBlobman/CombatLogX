@@ -14,10 +14,10 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import com.SirBlobman.api.nms.EntityHandler;
-import com.SirBlobman.api.nms.MultiVersionHandler;
-import com.SirBlobman.api.utility.Validate;
-import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.api.nms.EntityHandler;
+import com.github.sirblobman.api.nms.MultiVersionHandler;
+import com.github.sirblobman.api.utility.Validate;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
 
 import combatlogx.expansion.rewards.RewardExpansion;
 import combatlogx.expansion.rewards.requirement.Requirement;

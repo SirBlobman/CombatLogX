@@ -1,8 +1,8 @@
 package combatlogx.expansion.compatibility.region.grief.defender;
 
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.expansion.region.RegionExpansion;
-import com.SirBlobman.combatlogx.api.expansion.region.RegionHandler;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
+import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 
 public final class GriefDefenderExpansion extends RegionExpansion {
     private RegionHandler regionHandler;

@@ -1,12 +1,12 @@
 package combatlogx.expansion.compatibility.region.world.guard;
 
-import com.SirBlobman.api.utility.Validate;
-import com.SirBlobman.combatlogx.api.expansion.region.RegionHandler;
-import com.SirBlobman.combatlogx.api.object.TagType;
-
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+
+import com.github.sirblobman.api.utility.Validate;
+import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
+import com.github.sirblobman.combatlogx.api.object.TagType;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.math.BlockVector3;

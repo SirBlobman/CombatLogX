@@ -1,18 +1,18 @@
 package combatlogx.expansion.newbie.helper.listener;
 
-import com.SirBlobman.api.configuration.ConfigurationManager;
-import com.SirBlobman.api.language.LanguageManager;
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionListener;
-import com.SirBlobman.combatlogx.api.utility.EntityHelper;
-
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+
+import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.language.LanguageManager;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
+import com.github.sirblobman.combatlogx.api.utility.EntityHelper;
 
 import combatlogx.expansion.newbie.helper.NewbieHelperExpansion;
 import combatlogx.expansion.newbie.helper.manager.PVPManager;

@@ -25,17 +25,21 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-import com.SirBlobman.api.language.LanguageManager;
-import com.SirBlobman.api.nms.EntityHandler;
-import com.SirBlobman.api.nms.MultiVersionHandler;
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.event.*;
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionListener;
-import com.SirBlobman.combatlogx.api.object.TagReason;
-import com.SirBlobman.combatlogx.api.object.TagType;
-import com.SirBlobman.combatlogx.api.object.UntagReason;
+import com.github.sirblobman.api.language.LanguageManager;
+import com.github.sirblobman.api.nms.EntityHandler;
+import com.github.sirblobman.api.nms.MultiVersionHandler;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
+import com.github.sirblobman.combatlogx.api.event.PlayerPunishEvent;
+import com.github.sirblobman.combatlogx.api.event.PlayerReTagEvent;
+import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
+import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
+import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
+import com.github.sirblobman.combatlogx.api.object.TagReason;
+import com.github.sirblobman.combatlogx.api.object.TagType;
+import com.github.sirblobman.combatlogx.api.object.UntagReason;
 
 import combatlogx.expansion.logger.LoggerExpansion;
 

@@ -1,8 +1,8 @@
 package combatlogx.expansion.compatibility.bskyblock;
 
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
 import combatlogx.expansion.compatibility.bskyblock.hook.HookBentoBox;
 import combatlogx.expansion.compatibility.bskyblock.listener.ListenerBSkyBlock;

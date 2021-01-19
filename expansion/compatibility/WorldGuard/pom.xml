@@ -3,12 +3,12 @@
     <packaging>pom</packaging>
 
     <parent>
-        <groupId>com.SirBlobman.combatlogx.expansion.compatibility</groupId>
+        <groupId>com.github.sirblobman.combatlogx.expansion.compatibility</groupId>
         <artifactId>compatibility-parent</artifactId>
         <version>11.0.0.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.SirBlobman.combatlogx.expansion.compatibility.WorldGuard</groupId>
+    <groupId>com.github.sirblobman.combatlogx.expansion.compatibility.WorldGuard</groupId>
     <artifactId>WorldGuard-parent</artifactId>
     <name>Compatibility Expansion: WorldGuard Parent</name>
     <description>The parent POM for both WorldGuard expansions (v6 and v7).</description>

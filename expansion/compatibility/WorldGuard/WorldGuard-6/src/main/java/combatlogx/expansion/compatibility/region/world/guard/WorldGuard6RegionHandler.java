@@ -1,7 +1,7 @@
 package combatlogx.expansion.compatibility.region.world.guard;
 
-import com.SirBlobman.combatlogx.api.expansion.region.RegionHandler;
-import com.SirBlobman.combatlogx.api.object.TagType;
+import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
+import com.github.sirblobman.combatlogx.api.object.TagType;
 
 import org.bukkit.Location;
 import org.bukkit.World;

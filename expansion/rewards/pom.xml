@@ -3,7 +3,7 @@
     <packaging>jar</packaging>
 
     <parent>
-        <groupId>com.SirBlobman.combatlogx.expansion</groupId>
+        <groupId>com.github.sirblobman.combatlogx.expansion</groupId>
         <artifactId>expansion-parent</artifactId>
         <version>11.0.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
@@ -20,10 +20,10 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
 
-        <!-- JitPack Repository -->
+        <!-- CodeMC Public Repository -->
         <repository>
-            <id>jitpack</id>
-            <url>https://jitpack.io/</url>
+            <id>codemc-public</id>
+            <url>https://repo.codemc.io/repository/maven-public/</url>
         </repository>
     </repositories>
 
@@ -38,7 +38,7 @@
 
         <!-- CombatLogX API -->
         <dependency>
-            <groupId>com.SirBlobman.combatlogx</groupId>
+            <groupId>com.github.sirblobman.combatlogx</groupId>
             <artifactId>api</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
@@ -46,7 +46,7 @@
 
         <!-- Vault API -->
         <dependency>
-            <groupId>com.github.MilkBowl</groupId>
+            <groupId>net.milkbowl.vault</groupId>
             <artifactId>VaultAPI</artifactId>
             <version>1.7</version>
             <scope>provided</scope>

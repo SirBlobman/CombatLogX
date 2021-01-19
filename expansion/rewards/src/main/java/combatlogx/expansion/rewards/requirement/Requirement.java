@@ -3,7 +3,7 @@ package combatlogx.expansion.rewards.requirement;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import com.SirBlobman.api.utility.Validate;
+import com.github.sirblobman.api.utility.Validate;
 
 import combatlogx.expansion.rewards.RewardExpansion;
 

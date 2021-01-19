@@ -1,8 +1,8 @@
 package combatlogx.expansion.compatibility.region.factionsx;
 
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.expansion.region.RegionExpansion;
-import com.SirBlobman.combatlogx.api.expansion.region.RegionHandler;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
+import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 
 public final class FactionsXExpansion extends RegionExpansion {
     private RegionHandler regionHandler;

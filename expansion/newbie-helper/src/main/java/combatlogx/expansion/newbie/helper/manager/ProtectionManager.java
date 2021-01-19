@@ -1,13 +1,13 @@
 package combatlogx.expansion.newbie.helper.manager;
 
-import com.SirBlobman.api.configuration.PlayerDataManager;
-import com.SirBlobman.api.language.LanguageManager;
-import com.SirBlobman.api.utility.Validate;
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
-
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+
+import com.github.sirblobman.api.configuration.PlayerDataManager;
+import com.github.sirblobman.api.language.LanguageManager;
+import com.github.sirblobman.api.utility.Validate;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 
 import combatlogx.expansion.newbie.helper.NewbieHelperExpansion;
 

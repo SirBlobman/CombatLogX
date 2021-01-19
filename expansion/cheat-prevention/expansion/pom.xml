@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.SirBlobman.combatlogx.expansion</groupId>
+        <groupId>com.github.sirblobman.combatlogx.expansion</groupId>
         <artifactId>cheat-prevention-parent</artifactId>
         <version>11.0.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
@@ -31,15 +31,15 @@
 
         <!-- CombatLogX API -->
         <dependency>
-            <groupId>com.SirBlobman.combatlogx</groupId>
+            <groupId>com.github.sirblobman.combatlogx</groupId>
             <artifactId>api</artifactId>
-            <version>${project.version}</version>
+            <version>11.0.0.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
         <!-- Cheat Prevention Legacy -->
         <dependency>
-            <groupId>com.SirBlobman.combatlogx.expansion.cheat.prevention</groupId>
+            <groupId>com.github.sirblobman.combatlogx.expansion.cheat.prevention</groupId>
             <artifactId>legacy</artifactId>
             <version>11.0.0.0-SNAPSHOT</version>
             <scope>compile</scope>

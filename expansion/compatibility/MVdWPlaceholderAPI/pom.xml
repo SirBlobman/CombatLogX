@@ -3,7 +3,7 @@
     <packaging>jar</packaging>
 
     <parent>
-        <groupId>com.SirBlobman.combatlogx.expansion.compatibility</groupId>
+        <groupId>com.github.sirblobman.combatlogx.expansion.compatibility</groupId>
         <artifactId>compatibility-parent</artifactId>
         <version>11.0.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
@@ -44,7 +44,7 @@
 
         <!-- CombatLogX API -->
         <dependency>
-            <groupId>com.SirBlobman.combatlogx</groupId>
+            <groupId>com.github.sirblobman.combatlogx</groupId>
             <artifactId>api</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
@@ -52,7 +52,7 @@
 
         <!-- CombatLogX Expansion: Newbie Helper -->
         <dependency>
-            <groupId>com.SirBlobman.combatlogx.expansion</groupId>
+            <groupId>com.github.sirblobman.combatlogx.expansion</groupId>
             <artifactId>newbie-helper</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>

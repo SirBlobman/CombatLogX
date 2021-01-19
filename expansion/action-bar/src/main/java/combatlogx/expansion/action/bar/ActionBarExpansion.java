@@ -2,11 +2,11 @@ package combatlogx.expansion.action.bar;
 
 import java.util.logging.Logger;
 
-import com.SirBlobman.api.utility.VersionUtility;
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionConfigurationManager;
-import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
+import com.github.sirblobman.api.utility.VersionUtility;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
 import combatlogx.expansion.action.bar.listener.ListenerActionBar;
 

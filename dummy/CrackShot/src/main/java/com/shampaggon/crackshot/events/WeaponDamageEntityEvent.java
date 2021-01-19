@@ -5,6 +5,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+import org.jetbrains.annotations.NotNull;
+
 public class WeaponDamageEntityEvent extends Event {
     public Player getPlayer() {
         throw new UnsupportedOperationException("Dummy Method");
@@ -15,6 +17,7 @@ public class WeaponDamageEntityEvent extends Event {
     }
 
     @Override
+    @NotNull
     public HandlerList getHandlers() {
         throw new UnsupportedOperationException("Dummy Method");
     }
