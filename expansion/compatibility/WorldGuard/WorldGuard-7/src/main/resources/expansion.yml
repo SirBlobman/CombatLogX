@@ -1,7 +1,0 @@
-name: "CompatWorldGuard7"
-prefix: "WorldGuard v7 Compatibility"
-description: "${project.description}"
-
-main: "combatlogx.expansion.compatibility.region.world.guard.WorldGuard7Expansion"
-version: "16.0"
-author: "SirBlobman"

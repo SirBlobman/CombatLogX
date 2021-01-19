@@ -1,7 +1,0 @@
-name: "CompatWorldGuard6"
-prefix: "WorldGuard v6 Compatibility"
-description: "${project.description}"
-
-main: "combatlogx.expansion.compatibility.region.world.guard.WorldGuard6Expansion"
-version: "16.0"
-author: "SirBlobman"

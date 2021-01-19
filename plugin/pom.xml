@@ -105,16 +105,22 @@
 
                     <artifactSet>
                         <includes>
-                            <include>com.SirBlobman.combatlogx:api</include>
+                            <include>com.github.sirblobman.combatlogx:api</include>
                             <include>org.zeroturnaround:zt-zip</include>
                         </includes>
                     </artifactSet>
 
                     <filters>
                         <filter>
-                            <artifact>*</artifact>
+                            <artifact>org.zeroturnaround:zt-zip</artifact>
                             <excludes>
-                                <exclude>META-INF/*</exclude>
+                                <exclude>META-INF/MANIFEST.MF</exclude>
+                            </excludes>
+                        </filter>
+                        <filter>
+                            <artifact>com.github.sirblobman.combatlogx:api</artifact>
+                            <excludes>
+                                <exclude>META-INF/MANIFEST.MF</exclude>
                             </excludes>
                         </filter>
                     </filters>

@@ -61,7 +61,7 @@
 
                     <artifactSet>
                         <includes>
-                            <include>com.SirBlobman.combatlogx.expansion.cheat.prevention:legacy</include>
+                            <include>com.github.sirblobman.combatlogx.expansion.cheat.prevention:legacy</include>
                         </includes>
                     </artifactSet>
 
