@@ -45,7 +45,7 @@ public final class HookTowny {
         if(townyWorld == null || townyWorld.isForcePVP()) return false;
         
         Town town = getTown(location);
-        if (town == null || town.isPVP()) return false;
+        if (town == null || town.isPVP() || town.isAdminEnabledPVP()) return false;
         if (FlagWar.isUnderAttack(town)) return false;
 
         TownBlock townBlock = TownyAPI.getInstance().getTownBlock(location);
