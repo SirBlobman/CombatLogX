@@ -9,12 +9,14 @@ import org.codemc.worldguardwrapper.flag.IWrappedFlag;
 import org.codemc.worldguardwrapper.flag.WrappedState;
 
 public final class HookWorldGuard {
+    public static IWrappedFlag<WrappedState> UNKNOWN_COMBAT = null;
     public static IWrappedFlag<WrappedState> PLAYER_COMBAT = null;
     public static IWrappedFlag<WrappedState> MOB_COMBAT = null;
     public static IWrappedFlag<Boolean> NO_TAGGING = null;
     public static void registerFlags(WorldGuardExpansion expansion) {
         try {
             WorldGuardWrapper instance = WorldGuardWrapper.getInstance();
+            UNKNOWN_COMBAT = instance.registerFlag("unknown-combat", WrappedState.class, WrappedState.ALLOW).orElse(null);
             PLAYER_COMBAT = instance.registerFlag("player-combat", WrappedState.class, WrappedState.ALLOW).orElse(null);
             MOB_COMBAT = instance.registerFlag("mob-combat", WrappedState.class, WrappedState.ALLOW).orElse(null);
             NO_TAGGING = instance.registerFlag("no-tagging", Boolean.TYPE, false).orElse(null);

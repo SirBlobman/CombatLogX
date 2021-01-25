@@ -26,10 +26,8 @@ public final class WorldGuardRegionHandler extends RegionHandler {
 
     @Override
     public boolean isSafeZone(Player player, Location location, TagType tagType) {
-        if(tagType == TagType.UNKNOWN) return false;
-
         WorldGuardWrapper instance = WorldGuardWrapper.getInstance();
-        IWrappedFlag<WrappedState> flag = (tagType == TagType.PLAYER ? HookWorldGuard.PLAYER_COMBAT : HookWorldGuard.MOB_COMBAT);
+        IWrappedFlag<WrappedState> flag = getFlag(tagType);
 
         Optional<WrappedState> optionalState = instance.queryFlag(player, location, flag);
         if(optionalState.isPresent()) {
@@ -38,5 +36,16 @@ public final class WorldGuardRegionHandler extends RegionHandler {
         }
 
         return false;
+    }
+
+    private IWrappedFlag<WrappedState> getFlag(TagType tagType) {
+        switch(tagType) {
+            case PLAYER: return HookWorldGuard.PLAYER_COMBAT;
+            case MOB: return HookWorldGuard.MOB_COMBAT;
+            case UNKNOWN: return HookWorldGuard.UNKNOWN_COMBAT;
+            default: break;
+        }
+
+        return null;
     }
 }
