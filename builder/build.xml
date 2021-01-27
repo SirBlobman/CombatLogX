@@ -43,7 +43,8 @@
                 <file file="${expansion.compatibility.dir}/ASkyBlock/target/ASkyBlock Compatibility.jar"/>
                 <file file="${expansion.compatibility.dir}/BSkyBlock/target/BSkyBlock Compatibility.jar"/>
                 <file file="${expansion.compatibility.dir}/FabledSkyBlock/target/FabledSkyBlock Compatibility.jar"/>
-                <file file="${expansion.compatibility.dir}/SuperiorSkyblock2/target/SuperiorSkyblock2 Compatibility.jar"/>
+                <file file="${expansion.compatibility.dir}/IridiumSkyBlock/target/IridiumSkyblock Compatibility.jar"/>
+                <file file="${expansion.compatibility.dir}/SuperiorSkyblock/target/SuperiorSkyblock Compatibility.jar"/>
                 <file file="${expansion.compatibility.dir}/uSkyBlock/target/uSkyBlock Compatibility.jar"/>
 
                 <!-- Factions Compatibility Expansions -->

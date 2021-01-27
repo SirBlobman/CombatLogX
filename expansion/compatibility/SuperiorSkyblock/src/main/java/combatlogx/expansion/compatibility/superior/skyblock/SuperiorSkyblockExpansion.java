@@ -1,13 +1,13 @@
-package combatlogx.expansion.compatibility.superior.skyblock2;
+package combatlogx.expansion.compatibility.superior.skyblock;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
-import combatlogx.expansion.compatibility.superior.skyblock2.listener.ListenerSuperiorSkyblock2;
+import combatlogx.expansion.compatibility.superior.skyblock.listener.ListenerSuperiorSkyblock;
 
-public class SuperiorSkyblock2Expansion extends Expansion {
-    public SuperiorSkyblock2Expansion(ICombatLogX plugin) {
+public class SuperiorSkyblockExpansion extends Expansion {
+    public SuperiorSkyblockExpansion(ICombatLogX plugin) {
         super(plugin);
     }
 
@@ -25,7 +25,7 @@ public class SuperiorSkyblock2Expansion extends Expansion {
             return;
         }
 
-        new ListenerSuperiorSkyblock2(this).register();
+        new ListenerSuperiorSkyblock(this).register();
     }
 
     @Override

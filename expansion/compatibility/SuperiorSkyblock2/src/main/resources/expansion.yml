@@ -1,7 +1,0 @@
-name: "CompatSuperiorSkyblock2"
-prefix: "SuperiorSkyblock2 Compatibility"
-description: "${project.description}"
-
-main: "combatlogx.expansion.compatibility.superior.skyblock2.SuperiorSkyblock2Expansion"
-version: "16.0"
-author: "SirBlobman"

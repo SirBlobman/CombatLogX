@@ -17,5 +17,6 @@
     <modules>
         <module>CrackShot</module>
         <module>GriefDefender</module>
+        <module>Lands</module>
     </modules>
 </project>

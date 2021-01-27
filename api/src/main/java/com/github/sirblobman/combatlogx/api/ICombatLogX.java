@@ -8,11 +8,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
 public interface ICombatLogX {
     JavaPlugin getPlugin();

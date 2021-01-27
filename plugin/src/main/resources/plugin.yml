@@ -27,6 +27,7 @@ softdepend:
   - "Factions"
   - "FeatherBoard"
   - "GriefPrevention"
+  - "IridiumSkyblock"
   - "Lands"
   - "LegacyFactions"
   - "MVdWPlaceholderAPI"

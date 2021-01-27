@@ -9,15 +9,21 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>Lands</artifactId>
-    <name>Compatibility Expansion: Lands</name>
-    <description>An expansion for CombatLogX that detects non-pvp areas from the Lands plugin.</description>
+    <artifactId>SuperiorSkyblock</artifactId>
+    <name>Compatibility Expansion: SuperiorSkyblock</name>
+    <description>An expansion for CombatLogX that adds compatibility with the SuperiorSkyblock plugin.</description>
 
     <repositories>
         <!-- SpigotMC Repository -->
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+
+        <!-- BG-Software Repository -->
+        <repository>
+            <id>bg-software</id>
+            <url>https://repo.bg-software.com/repository/api/</url>
         </repository>
     </repositories>
 
@@ -38,17 +44,16 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Lands API -->
-        <!-- Requires local installation or dummy API -->
+        <!-- SuperiorSkyblock API -->
         <dependency>
-            <groupId>com.github.sirblobman.combatlogx.dummy</groupId>
-            <artifactId>dummy-Lands</artifactId>
-            <version>5.0.5</version>
+            <groupId>com.bgsoftware</groupId>
+            <artifactId>SuperiorSkyblockAPI</artifactId>
+            <version>latest</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
 
     <build>
-        <finalName>Lands Compatibility</finalName>
+        <finalName>SuperiorSkyblock Compatibility</finalName>
     </build>
 </project>

@@ -1,8 +1,6 @@
-package combatlogx.expansion.compatibility.superior.skyblock2.listener;
+package combatlogx.expansion.compatibility.iridium.skyblock.listener;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -13,12 +11,12 @@ import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
-import com.bgsoftware.superiorskyblock.api.SuperiorSkyblockAPI;
-import com.bgsoftware.superiorskyblock.api.island.Island;
-import com.bgsoftware.superiorskyblock.api.wrappers.SuperiorPlayer;
+import com.iridium.iridiumskyblock.Island;
+import com.iridium.iridiumskyblock.User;
+import com.iridium.iridiumskyblock.managers.UserManager;
 
-public class ListenerSuperiorSkyblock2 extends ExpansionListener {
-    public ListenerSuperiorSkyblock2(Expansion expansion) {
+public final class ListenerIridiumSkyblock extends ExpansionListener {
+    public ListenerIridiumSkyblock(Expansion expansion) {
         super(expansion);
     }
 
@@ -34,8 +32,9 @@ public class ListenerSuperiorSkyblock2 extends ExpansionListener {
 
     private Island getIsland(Player player) {
         if(player == null) return null;
-        SuperiorPlayer superiorPlayer = SuperiorSkyblockAPI.getPlayer(player);
-        return superiorPlayer.getIsland();
+        UUID uuid = player.getUniqueId();
+        User user = UserManager.getUser(uuid);
+        return (user == null ? null : user.getIsland());
     }
 
     private boolean doesTeamMatch(Player player1, Player player2) {
@@ -43,11 +42,11 @@ public class ListenerSuperiorSkyblock2 extends ExpansionListener {
         UUID uuid2 = player2.getUniqueId();
         if(uuid1.equals(uuid2)) return true;
 
-        Island island = getIsland(player1);
-        if(island == null) return false;
+        Island island1 = getIsland(player1);
+        if(island1 == null) return false;
 
-        List<SuperiorPlayer> islandPlayerList = island.getIslandMembers(true);
-        List<UUID> islandMemberList = islandPlayerList.stream().map(SuperiorPlayer::getUniqueId).collect(Collectors.toList());
-        return islandMemberList.contains(uuid2);
+        Island island2 = getIsland(player2);
+        if(island2 == null) return false;
+        return (island1.id == island2.id);
     }
 }

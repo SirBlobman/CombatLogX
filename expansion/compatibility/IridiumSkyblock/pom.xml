@@ -9,9 +9,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>SuperiorSkyblock2</artifactId>
-    <name>Compatibility Expansion: SuperiorSkyblock2</name>
-    <description>An expansion for CombatLogX that adds compatibility with the SuperiorSkyblock2 plugin.</description>
+    <artifactId>IridiumSkyblock</artifactId>
+    <name>Compatibility Expansion: IridiumSkyBlock</name>
+    <description>An expansion for CombatLogX that adds compatibility with the IridiumSkyblock plugin.</description>
 
     <repositories>
         <!-- SpigotMC Repository -->
@@ -20,10 +20,10 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
 
-        <!-- JitPack Repository -->
+        <!-- SavageLabs Repository -->
         <repository>
-            <id>jitpack</id>
-            <url>https://jitpack.io/</url>
+            <id>savagelabs</id>
+            <url>https://nexus.savagelabs.net/repository/maven-releases/</url>
         </repository>
     </repositories>
 
@@ -44,16 +44,16 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- SuperiorSkyblock2 API -->
+        <!-- Iridium SkyBlock -->
         <dependency>
-            <groupId>com.github.OmerBenGera</groupId>
-            <artifactId>SuperiorSkyblockAPI</artifactId>
-            <version>b15</version>
+            <groupId>com.iridium</groupId>
+            <artifactId>IridiumSkyblock</artifactId>
+            <version>2.6.5</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
 
     <build>
-        <finalName>SuperiorSkyblock2 Compatibility</finalName>
+        <finalName>IridiumSkyblock Compatibility</finalName>
     </build>
 </project>
