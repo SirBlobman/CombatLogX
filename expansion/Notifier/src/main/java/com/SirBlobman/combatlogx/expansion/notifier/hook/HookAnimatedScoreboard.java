@@ -23,7 +23,7 @@ public final class HookAnimatedScoreboard {
 
     public static void disable(Player player) {
         ScoreboardPlayer scoreboardPlayer = getPlayer(player);
-        if(!scoreboardPlayer.hasScoreboard()) return;
+        if(scoreboardPlayer == null || !scoreboardPlayer.hasScoreboard()) return;
 
         UUID uuid = player.getUniqueId();
         scoreboardPlayer.disableScoreboard();
@@ -35,6 +35,7 @@ public final class HookAnimatedScoreboard {
         if(!scoreboardSet.contains(uuid)) return;
 
         ScoreboardPlayer scoreboardPlayer = getPlayer(player);
+        if(scoreboardPlayer == null) return;
         scoreboardPlayer.enableScoreboard();
         scoreboardSet.remove(uuid);
     }
