@@ -1,5 +1,5 @@
 [SIZE=5][B]Supported Spigot Versions:[/B][/SIZE]
-1.8.8, 1.9.4, 1.10.2, 1.11.2, 1.12.2, 1.13.2, 1.14.4, 1.15.2, 1.16.3
+1.8.8, 1.9.4, 1.10.2, 1.11.2, 1.12.2, 1.13.2, 1.14.4, 1.15.2, 1.16.5
 
 [SIZE=5][B][COLOR=#FF0000]Description:[/COLOR][/B][/SIZE]
 CombatLogX is a pvp-based plugin that punishes players for logging out during combat.
@@ -9,39 +9,40 @@ CombatLogX also has a lot of expansions that are used to add extra features and 
 [SIZE=5][B][COLOR=#FF0000]Expansions:[/COLOR][/B][/SIZE]
 CombatLogX uses expansions to load extra features and keep the main plugin from getting bloated with content.
 If you want to find out more information about each expansion, click the link to the wiki page that is provided below:
-[URL="https://www.spigotmc.org/wiki/combatlogx/"]SpigotMC - CombatLogX Wiki[/URL]
+[URL='https://www.spigotmc.org/wiki/combatlogx/']SpigotMC - CombatLogX Wiki[/URL]
 
 [SIZE=5][B][COLOR=#FF0000]Installation Guide:[/COLOR][/B][/SIZE]
 CombatLogX has different installation steps than other plugins, please read this guide before trying to add the plugin to your server!
 [LIST=1]
-[*] Download the [ICODE]CombatLogX.zip[/ICODE] file into a folder on your computer.
-[*] Extract the contents of the the [ICODE]CombatLogX.zip[/ICODE] file into the folder that you created in step 1.
-[*] Open the [ICODE]expansions[/ICODE] folder that is inside of the folder you created in step 1 and delete any expansions that you do not want to install.
-[*] Upload the entire contents of the folder you created in step 1 into the [ICODE]/plugins[/ICODE] folder of your server.
-[*] Start your server to generate all the configuration files for CombatLogX.
-[*] Stop your server.
-[*] Modify the configuration files that were generated in the [ICODE]/plugins/CombatLogX/[/ICODE] folder of your server.
-[*] Modify the configuration files for any expansions that you have installed in the [ICODE]/plugins/CombatLogX/expansions/[/ICODE] folder of your server.
-[*] Start your server again. CombatLogX should be working correctly now. If you need help please join the Discord using the link below or post in the discussion tab.
+[*]Download the [ICODE]CombatLogX.zip[/ICODE] file.
+[*]Stop your server.
+[*]Extract the contents of the the [ICODE]CombatLogX.zip[/ICODE] file into the [ICODE]/plugins/[/ICODE] folder of your server.
+[*]Start your server to generate the config files.
+[*]Stop your server and configure the files to the settings that you want. You can also remove some of the expansion jar files if you will not be using them.
+[*]Start your server and enjoy the plugin!
 [/LIST]
 
 [SIZE=5][B][COLOR=#FF0000]CombatLogX Beta:[/COLOR][/B][/SIZE]
-CombatLogX has a beta version available. This version is a developer build and may contain bugs or issues. 
+CombatLogX has a beta version available. This version is a developer build and may contain bugs or issues.
 If you would like to test the latest version or help with issues, you can download it through the link below:
-[URL="https://ci.codemc.io/job/SirBlobman/job/CombatLogX/"]CodeMC - CombatLogX Beta[/URL]
+[URL='https://ci.codemc.io/job/SirBlobman/job/CombatLogX/']CodeMC - CombatLogX Beta[/URL]
 
 [SIZE=5][B][COLOR=#FF0000]Source Code / Developer API:[/COLOR][/B][/SIZE]
 CombatLogX is an open source project licensed with GPL 3.0. You can find the source code and API in the links below:
-[URL="https://www.github.com/SirBlobman/CombatLogX/"]GitHub - CombatLogX Source[/URL]
-[URL="https://www.github.com/SirBlobman/CombatLogX/blob/master/api/README.MD"]GitHub - CombatLogX API README[/URL]
+[URL='https://www.github.com/SirBlobman/CombatLogX/']GitHub - CombatLogX Source[/URL]
+[URL='https://www.github.com/SirBlobman/CombatLogX/blob/master/api/README.MD']GitHub - CombatLogX API README[/URL]
 
 [SIZE=5][B][COLOR=#FF0000]Help and Support:[/COLOR][/B][/SIZE]
-If you need help with CombatLogX, there are multiple ways to contact me. 
+If you need help with CombatLogX, there are multiple ways to contact me.
 If you wish to stay on SpigotMC, you can post a message on the discussion page or send me a direct message.
 You can also post an issue on the GitHub page for this project.
 However, The fastest way to get support is through my Discord server. You can join by clicking the image below:
-[URL="https://discord.gg/XMq2agT"][IMG=""]https://discordapp.com/assets/fc0b01fe10a0b8c602fb0106d8189d9b.png[/IMG][/URL]
+[URL='https://discord.gg/XMq2agT'][IMG]https://discordapp.com/assets/fc0b01fe10a0b8c602fb0106d8189d9b.png[/IMG][/URL]
+
+[SIZE=5][B][COLOR=#FF0000]Sponsorships[/COLOR][/B][/SIZE]
+My projects are sponsored by Iceline Hosting. Click the banner to get awesome deals on server hosting!
+[URL='https://iceline-hosting.com/billing/aff.php?aff=90'][IMG]https://cdn.discordapp.com/attachments/715691697320886293/759923620511481906/728-raw.gif[/IMG][/URL]
 
 [SIZE=5][B][COLOR=#FF0000]Extra Information:[/COLOR][/B][/SIZE]
-Please do not use a review to leave bug reports or errors. I am not able to help you through a review. 
+Please do not use a review to leave bug reports or errors. I am not able to help you through a review.
 If you need help please use the contact methods provided above.
