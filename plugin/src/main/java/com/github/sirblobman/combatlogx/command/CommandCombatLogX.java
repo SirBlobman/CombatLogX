@@ -36,6 +36,8 @@ import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 import com.github.sirblobman.combatlogx.manager.CombatManager;
 
+import org.jetbrains.annotations.NotNull;
+
 public class CommandCombatLogX extends Command {
     private final CombatPlugin plugin;
     public CommandCombatLogX(CombatPlugin plugin) {
@@ -44,6 +46,7 @@ public class CommandCombatLogX extends Command {
     }
 
     @Override
+    @NotNull
     public LanguageManager getLanguageManager() {
         return this.plugin.getLanguageManager();
     }
@@ -174,14 +177,14 @@ public class CommandCombatLogX extends Command {
         configurationManager.reload("commands.yml");
         configurationManager.reload("force-field.yml");
         configurationManager.reload("punish.yml");
-
         configurationManager.reload("language.yml");
-        configurationManager.reload("language/en_us.lang.yml");
+
+        LanguageManager languageManager = this.plugin.getLanguageManager();
+        languageManager.reloadLocales();
 
         ExpansionManager expansionManager = this.plugin.getExpansionManager();
         expansionManager.reloadConfigs();
 
-        LanguageManager languageManager = getLanguageManager();
         languageManager.sendMessage(sender, "command.combatlogx.reload-success", null, true);
         return true;
     }

@@ -1,0 +1,176 @@
+# Polish Language Configuration for CombatLogX
+# Made by szumielxd for v11.0.0.0
+#
+# Do not set any messages to 'false' or 'null'
+# Do not delete any message entries from this file
+# You can set any message to "" to prevent it from being sent
+#
+# Missing entries will be inherited from the 'default-locale' file in language.yml
+
+prefix: "&f&l[&6CombatLogX&f&l]&r"
+
+broadcast:
+  on-load: "&a&lPomy\u015Blnie za\u0142adowano CombatLogX."
+  on-enable: "&a&lCombatLogX jest teraz w\u0142\u0105czony."
+  on-disable: "&c&lCombatLogX jest teraz wy\u0142\u0105czony."
+
+placeholder:
+  time-left-zero: "0"
+  unknown-enemy: "Nieznany"
+  status:
+    fighting: "&cWalczy"
+    idling: "&aCzeka"
+    in-combat: "&aTak"
+    not-in-combat: "&cNie"
+  toggle:
+    enabled: "&aW\u0142\u0105czono"
+    disabled: "&cWy\u0142\u0105czono"
+  pvp-status:
+    enabled: "&aW\u0142\u0105czono"
+    disabled: "&cWy\u0142\u0105czono"
+
+combat-timer:
+  expire: "&aJu\u017C nie jeste\u015B w trakcie walki."
+  enemy-death: "&aTw\u00F3j przeciwnik nie \u017Cyje."
+
+error:
+  player-only: "&c&oNie \u017Cartuj \u017Ce jeste\u015B graczem..."
+  invalid-target: "&c&oNie mo\u017Cna odnale\u015B\u0107 &a{target}&c&o."
+  no-permission: "&c&oNie, nie wolno :c"
+  target-not-in-combat: "&a{target}&c&o nie walczy."
+  self-not-in-combat: "&c&oNie jeste\u015B w trakcie potyczki."
+
+command:
+  combatlogx:
+    help-message-list:
+      - "&f"
+      - "&6&lMenu pomocy CombatLogX:"
+      - "  &f&l/combatlogx help&7: Zobacz t\u0105 stron\u0119 pomocy."
+      - "  &f&l/combatlogx reload&7: Prze\u0142aduj config.yml, language.yml oraz pliki konfiguracyjne wszystkich rozszerze\u0144."
+      - "  &f&l/combatlogx version&7: Sprawd\u017A twoj\u0105 wersj\u0119 CombatLogX."
+      - "  &f&l/combatlogx tag <player>&7: Zmu\u015B gracza do walki."
+      - "  &f&l/combatlogx untag <player>&7: Zmu\u015B gracza do opuszczenia walki."
+      - "&f"
+
+    reload-success:
+      - "&aPomy\u015Blnie prze\u0142adowano wszystkie pliki konfiguracyjne dla CombatLogX i jego rozszerze\u0144."
+
+    tag-player: "&aZmusi\u0142e\u015B &f{target}&a do bycia w trakcie walki. To mo\u017Ce powodowa\u0107 b\u0142\u0119dy."
+    tag-failure: "&c&oNie mo\u017Cna zmusi\u0107 &a{target}&c&odo walki."
+    untag-player: "&aZmusi\u0142e\u015B &f{target}&a do przerwania walki. This To mo\u017Ce powodowa\u0107 b\u0142\u0119dy."
+
+  combat-timer:
+    time-left-self: "&aPozosta\u0142o Ci &c{time_left} sek&a."
+    time-left-other: "&f{target} &ama &c{time_left} sek&a do ko\u0144ca waki."
+
+tagged:
+  unknown: "&cJeste\u015B w trakcie walki. Nie wylogowywuj si\u0119!"
+  attacked:
+    player: "&cZosta\u0142e\u015B zaatakowany przez &f{name}&c. Nie wylogowywuj si\u0119!"
+    mob: "&cZosta\u0142e\u015B zaatakowany przez &f{mob_type}&c. Nie wylogowywuj si\u0119!"
+  attacker:
+    player: "&cZaatakowa\u0142e\u015B &f{name}&c. Nie wylogowywuj si\u0119!"
+    mob: "&cZaatakowa\u0142e\u015B &f{mob_type}&c. Nie wylogowywuj si\u0119!"
+
+# Messages after this point are only for Expansions
+
+expansion:
+  cheat-prevention:
+    command-blocked: "&cKomenda &a{command}&c jest zablokowana w trakcie walki."
+    no-riptide: "&cZakl\u0119cie torpedy jest wy\u0142\u0105czone w trakcie walki."
+    no-totem: "&cNie mo\u017Cesz u\u017Cywa\u0107 totemu nie\u015Bmiertelno\u015Bci w trakcie walki."
+    no-entity-interaction: "&cNie mo\u017Cesz u\u017Cywa\u0107 tego stworzenia w trakcie walki."
+    no-chat: "&cNie mo\u017Cesz u\u017Cywa\u0107 czatu w trakcie walki."
+
+    game-mode:
+      force-changed: "&cTw\u00F3j tryb gry zosta\u0142 zmieniony na &f{game_mode}&c."
+      no-changing: "&cNie mo\u017Cesz zmienia\u0107 trybu gry w trakcie walki."
+
+    flight:
+      force-disabled: "&cTwoja mo\u017Cliwo\u015B\u0107 latania zosta\u0142a usuni\u0119ta."
+      no-flying: "&cNie mo\u017Cesz lata\u0107 w trakcie walki."
+
+    elytra:
+      force-disabled: "&cTwoja elytra zosta\u0142a wy\u0142\u0105czona."
+      no-gliding: "&cNie mo\u017Cesz u\u017Cywa\u0107 elytry w trakcie walki."
+
+    teleportation:
+      block-pearl: "&cNie mo\u017Cesz u\u017Cywa\u0107 pere\u0142 kresu w trakcie walki."
+      block-other: "&cNie mo\u017Cesz si\u0119 teleportowa\u0107 w trakcie walki."
+
+    inventory:
+      force-closed: "&cTw\u00F3j ekwipunek zosta\u0142 zamkni\u0119ty."
+      no-opening: "&cNie mo\u017Cesz u\u017Cywa\u0107 ekwipunku w trakcie walki."
+
+    blocks:
+      no-breaking: "&cNie mo\u017Cesz niszczy\u0107 blok\u00F3w w trakcie walki."
+      no-placing: "&cNie mo\u017Cesz stawia\u0107 blok\u00F3w w trakcie walki."
+      no-interaction: "&cnie mozesz u\u017Cywa\u0107 blok\u00F3w w trakcie walki."
+
+    items:
+      no-pickup: "&cNie mozesz podnosi\u0107 przedmiot\u00F3w w trakcie walki."
+      no-dropping: "&cNie mozesz upuszcza\u0107 przedmiot\u00F3w w trakcie walki."
+
+  damage-tagger:
+    unknown-damage: "&cOtrzyma\u0142e\u015B obra\u017Cenia! Nie wylogowywuj si\u0119!"
+    damage-type:
+      contact: "&cUku\u0142e\u015B si\u0119 przy pomocy kaktusa. Nie wylogowywuj si\u0119!"
+      suffocation: "&cP\u0142ywasz w \u015Bcianie. Nie wylogowywuj si\u0119!"
+      fall: "&cGrawitacja Ci\u0119 zaatakowa\u0142a. Nie wylogowywuj si\u0119!"
+      fire: "&cWskoczy\u0142e\u015B w ogie\u0144. Nie wylogowywuj si\u0119!"
+      fire-tick: "&cZw\u0119glasz si\u0119 p\u0142omieniami. Nie wylogowywuj si\u0119!"
+      lava: "&cGotujesz si\u0119 w lawie. Nie wylogowywuj si\u0119!"
+      drowning: "&cToniesz. Nie wylogowywuj si\u0119!"
+      block-explosion: "&cWybuch\u0142e\u015B. Nie wylogowywuj si\u0119!"
+      lightning: "&cUderzy\u0142 ci\u0119 piorun! Nie wylogowywuj si\u0119!"
+      starvation: "&cJeste\u015B zbyt g\u0142odny. Nie wylogowywuj si\u0119!"
+      poison: "&cJeste\u015B otruty. Nie wylogowywuj si\u0119!"
+      magic: "&cKto\u015B rzuci\u0142 w Ciebie mikstur\u0119. Nie wylogowywuj si\u0119!"
+      wither: "&cWysychasz. Nie wylogowywuj si\u0119!"
+      falling-block: "&cSpad\u0142 na ciebie blok. Nie wylogowywuj si\u0119!"
+      custom: "&cOtrzyma\u0142e\u015B niestandardowe obra\u017Cenie. Nie wylogowywuj si\u0119!"
+      fly-into-wall: "&cDo\u015Bwiadczy\u0142e\u015B energii kinetycznej. Nie wylogowywuj si\u0119!"
+      hot-floor: "&cPod\u0142oga to lawa! Nie wylogowywuj si\u0119!"
+      cramming: "&cZosta\u0142e\u015B zgnieciony. Nie wylogowywuj si\u0119!"
+
+  newbie-helper:
+    status:
+      protected: "&aChroniony"
+      not-protected: "&cNiechroniony"
+    pvptoggle:
+      enabled: "&7&lPvP: &aW\u0142\u0105czono"
+      disabled: "&7&lPvP: &cWy\u0142\u0105czono"
+      admin-enabled: "&7Ustawi\u0142e\u015B status pvp dla &e{target}&7 na &aW\u0142\u0105czono"
+      admin-disabled: "&7Ustawi\u0142e\u015B status pvp dla &e{target}&7 na &cWy\u0142\u0105czono"
+    no-pvp:
+      self: "&cNie mozesz bi\u0107 innych kiedy Twoje PvP jest wy\u0142\u0105czone."
+      other: "&cTen gracz ma wy\u0142\u0105czone PvP."
+      protected: "&cTen gracz jest chroniony, nie mo\u017Cesz go atakowa\u0107...  jeszcze..."
+    protection-disabled:
+      attacker: "&cZaatakowa\u0142e\u015B kogo\u015B, twoja ochrona dla nowych zosta\u0142a wy\u0142\u0105czona."
+      expired: "&cTwoja ochrona dla nowych wygas\u0142a."
+    check:
+      format: "&a{target}&7 ma status PvP ustawiony na {settings}"
+      enabled: "&aW\u0142\u0105czono"
+      disabled: "&cWy\u0142\u0105czono"
+
+  notifier:
+    toggle-bossbar: "&7&lBoss Bar: {status}"
+    toggle-actionbar: "&7&lAction Bar: {status}"
+    toggle-scoreboard: "&7Scoreboard: {status}"
+
+  citizens-join-deny: "&cZa kar\u0119 za wylogowanie si\u0119 w trakcie walki, nie mo\u017Cesz wej\u015B\u0107 na serwer zanim Tw\u00F3j klon nie zostanie zabity lub usuni\u0119ty."
+
+  factions-compatibility-no-entry: "&cNie mo\u017Cesz wej\u015B\u0107 na ten obszar w trakcie walki."
+  griefprevention-compatibility-no-entry: "&cNie mo\u017Cesz wej\u015B\u0107 na ten obszar w trakcie walki."
+  lands-compatibility-no-entry: "&cNie mo\u017Cesz wej\u015B\u0107 na ten obszar w trakcie walki."
+  redprotect-compatibility-no-entry: "&cNie mo\u017Cesz wej\u015B\u0107 na ten obszar w trakcie walki."
+  residence-compatibility-no-entry: "&cNie mo\u017Cesz wej\u015B\u0107 na ten obszar w trakcie walki."
+  towny-compatibility-no-entry: "&cNie mo\u017Cesz wej\u015B\u0107 na ten obszar w trakcie walki."
+  preciousstones-compatibility-no-entry: "&cNie mo\u017Cesz wej\u015B\u0107 na t\u0105 stref\u0119 w trakcie walki."
+  preciousstones-compatibility-no-field: "&cNie mo\u017Cesz stworzy\u0107 strefy ochronnej w trakcie walki."
+  disguise-compatibility-remove-disguise: "&cTwoje przebranie zosta\u0142o usuni\u0119te."
+
+  worldguard-compatibility-no-entry:
+    pvp: "&cNie mo\u017Cesz wej\u015B\u0107 na stref\u0119 bez PvP w trakcie walki."
+    mob: "&cNie mo\u017Cesz wej\u015B\u0107 na stref\u0119 bez PvE w trakcie walki."

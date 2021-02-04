@@ -60,6 +60,7 @@ command:
 
     reload-success:
       - "&aSuccessfully reloaded all configuration files from CombatLogX."
+      - "&aSuccessfully reloaded all language files from CombatLogX."
       - "&aSuccessfully reloaded all configuration files from CombatLogX expansions."
 
     tag-player: "&aSuccessfully forced player &7{target}&a into combat."

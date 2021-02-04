@@ -8,13 +8,11 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
-import com.github.sirblobman.api.core.CorePlugin;
+import com.github.sirblobman.api.core.plugin.ConfigurablePlugin;
 import com.github.sirblobman.api.language.LanguageManager;
-import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.api.update.UpdateChecker;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
@@ -31,18 +29,12 @@ import com.github.sirblobman.combatlogx.listener.ListenerUntag;
 import com.github.sirblobman.combatlogx.manager.CombatManager;
 import com.github.sirblobman.combatlogx.task.CombatTimerTask;
 
-public final class CombatPlugin extends JavaPlugin implements ICombatLogX {
-    private final ConfigurationManager configurationManager;
-    private final PlayerDataManager playerDataManager;
-    private final LanguageManager languageManager;
+public final class CombatPlugin extends ConfigurablePlugin implements ICombatLogX {
     private final CombatManager combatManager;
     private final ExpansionManager expansionManager;
     private final ListenerDeath listenerDeath;
     private final UpdateChecker updateChecker;
     public CombatPlugin() {
-        this.configurationManager = new ConfigurationManager(this);
-        this.playerDataManager = new PlayerDataManager(this);
-        this.languageManager = new LanguageManager(this, this.configurationManager);
         this.expansionManager = new ExpansionManager(this);
         this.combatManager = new CombatManager(this);
         this.listenerDeath = new ListenerDeath(this);
@@ -59,9 +51,10 @@ public final class CombatPlugin extends JavaPlugin implements ICombatLogX {
         configurationManager.saveDefault("commands.yml");
         configurationManager.saveDefault("force-field.yml");
         configurationManager.saveDefault("punish.yml");
-
         configurationManager.saveDefault("language.yml");
-        configurationManager.saveDefault("language/en_us.lang.yml");
+
+        LanguageManager languageManager = getLanguageManager();
+        languageManager.saveDefaultLocales();
 
         ExpansionManager expansionManager = getExpansionManager();
         expansionManager.loadExpansions();
@@ -148,27 +141,6 @@ public final class CombatPlugin extends JavaPlugin implements ICombatLogX {
     public void saveData(OfflinePlayer player) {
         PlayerDataManager playerDataManager = getPlayerDataManager();
         playerDataManager.save(player);
-    }
-
-    @Override
-    public MultiVersionHandler getMultiVersionHandler() {
-        CorePlugin corePlugin = JavaPlugin.getPlugin(CorePlugin.class);
-        return corePlugin.getMultiVersionHandler();
-    }
-
-    @Override
-    public ConfigurationManager getConfigurationManager() {
-        return this.configurationManager;
-    }
-
-    @Override
-    public PlayerDataManager getPlayerDataManager() {
-        return this.playerDataManager;
-    }
-
-    @Override
-    public LanguageManager getLanguageManager() {
-        return this.languageManager;
     }
 
     @Override
