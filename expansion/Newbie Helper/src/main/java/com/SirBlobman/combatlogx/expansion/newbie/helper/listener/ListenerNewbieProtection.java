@@ -1,17 +1,21 @@
 package com.SirBlobman.combatlogx.expansion.newbie.helper.listener;
 
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
-
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.*;
+import org.bukkit.entity.AnimalTamer;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Tameable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.projectiles.ProjectileSource;
+
+import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.expansion.Expansion;
+import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
 
 public class ListenerNewbieProtection implements Listener {
     private final Expansion expansion;
@@ -43,7 +47,11 @@ public class ListenerNewbieProtection implements Listener {
         if(isProtected(damager)) {
             String message = languageManager.getMessageColoredWithPrefix("newbie-helper.protection-disabled.attacker");
             languageManager.sendMessage(damager, message);
-            removeProtection(damager);
+
+            FileConfiguration configuration = this.expansion.getConfig("newbie-helper.yml");
+            if(configuration.getBoolean("newbie-protection.remove-protection-on-attack")) {
+                removeProtection(damager);
+            }
         }
     }
 

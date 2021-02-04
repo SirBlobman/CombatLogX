@@ -4,4 +4,4 @@ description: "An expansion that protects new players from pvp."
 
 main: "com.SirBlobman.combatlogx.expansion.newbie.helper.NewbieHelper"
 author: "SirBlobman"
-version: "15.2"
+version: "15.3"
