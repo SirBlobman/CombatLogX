@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
+import com.SirBlobman.combatlogx.expansion.rewards.Rewards;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -112,7 +113,7 @@ public class Reward {
         String enemyName = getEnemyName(enemy);
         String enemyType = enemy.getType().name();
 
-        if(plugin.getPlugin().getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+        if(Rewards.usePlaceholderAPI) {
             string = PlaceholderAPI.setPlaceholders(player, string);
         }
 
