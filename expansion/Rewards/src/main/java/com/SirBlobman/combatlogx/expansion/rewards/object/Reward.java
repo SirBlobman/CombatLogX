@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -110,6 +111,11 @@ public class Reward {
         String playerName = player.getName();
         String enemyName = getEnemyName(enemy);
         String enemyType = enemy.getType().name();
+
+        if(plugin.getPlugin().getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            string = PlaceholderAPI.setPlaceholders(player, string);
+        }
+
         return string.replace("{player}", playerName)
                 .replace("{enemy-name}", enemyName)
                 .replace("{enemy-type}", enemyType);
