@@ -51,6 +51,10 @@ public class ListenerNewbieProtection implements Listener {
                 String message = languageManager.getMessageColoredWithPrefix("newbie-helper.protection-disabled.attacker");
                 languageManager.sendMessage(damager, message);
                 removeProtection(damager);
+            } else {
+                e.setCancelled(true);
+                String message = languageManager.getMessageColoredWithPrefix("newbie-helper.no-pvp.protected-self");
+                languageManager.sendMessage(damager, message);
             }
         }
     }
