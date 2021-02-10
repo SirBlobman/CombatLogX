@@ -1,5 +1,6 @@
 package com.SirBlobman.combatlogx.expansion.newbie.helper.listener;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.AnimalTamer;
@@ -45,12 +46,15 @@ public class ListenerNewbieProtection implements Listener {
         }
 
         if(isProtected(damager)) {
-            String message = languageManager.getMessageColoredWithPrefix("newbie-helper.protection-disabled.attacker");
-            languageManager.sendMessage(damager, message);
-
             FileConfiguration configuration = this.expansion.getConfig("newbie-helper.yml");
             if(configuration.getBoolean("newbie-protection.remove-protection-on-attack")) {
+                String message = languageManager.getMessageColoredWithPrefix("newbie-helper.protection-disabled.attacker");
+                languageManager.sendMessage(damager, message);
                 removeProtection(damager);
+            } else {
+                e.setCancelled(true);
+                String message = languageManager.getMessageColoredWithPrefix("newbie-helper.no-pvp.protected-self");
+                languageManager.sendMessage(damager, message);
             }
         }
     }

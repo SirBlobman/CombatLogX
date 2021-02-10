@@ -18,6 +18,7 @@ import com.SirBlobman.combatlogx.expansion.rewards.object.Reward;
 
 public class Rewards extends Expansion {
     private final List<Reward> rewardList;
+    public static boolean usePlaceholderAPI = false;
     public Rewards(ICombatLogX plugin) {
         super(plugin);
         this.rewardList = new ArrayList<>();
@@ -39,8 +40,8 @@ public class Rewards extends Expansion {
     public void onEnable() {
         ICombatLogX plugin = getPlugin();
         JavaPlugin javaPlugin = plugin.getPlugin();
+        usePlaceholderAPI = javaPlugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI");
         ListenerRewards listener = new ListenerRewards(this);
-
         PluginManager manager = Bukkit.getPluginManager();
         manager.registerEvents(listener, javaPlugin);
     }
