@@ -51,7 +51,7 @@ public final class ListenerDamage extends ExpansionListener {
         ProtectionManager protectionManager = this.expansion.getProtectionManager();
         LanguageManager languageManager = getLanguageManager();
 
-        if(protectionManager.isProtected(player) && checkRemoveProtectionOnAttack()) {
+        if(protectionManager.isProtected(player) && shouldRemoveProtectionOnAttack()) {
             protectionManager.setProtected(player, false);
             languageManager.sendMessage(player, "expansion.newbie-helper.protection-disabled.attacker", null, true);
         }
@@ -89,9 +89,11 @@ public final class ListenerDamage extends ExpansionListener {
             return;
         }
 
-        if(protectionManager.isProtected(attacker) && checkRemoveProtectionOnAttack()) {
-            protectionManager.setProtected(attacker, false);
-            languageManager.sendMessage(attacker, "expansion.newbie-helper.protection-disabled.attacker", null, true);
+        if(protectionManager.isProtected(attacker)) {
+            if(shouldRemoveProtectionOnAttack()) {
+                protectionManager.setProtected(attacker, false);
+                languageManager.sendMessage(attacker, "expansion.newbie-helper.protection-disabled.attacker", null, true);
+            }
         }
     }
 
@@ -106,9 +108,9 @@ public final class ListenerDamage extends ExpansionListener {
         return damager;
     }
 
-    private boolean checkRemoveProtectionOnAttack() {
+    private boolean shouldRemoveProtectionOnAttack() {
         ExpansionConfigurationManager configurationManager = this.expansion.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-        return configuration.getBoolean("remove-protection-on-attack");
+        return configuration.getBoolean("remove-protection-on-attack", true);
     }
 }

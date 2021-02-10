@@ -1,0 +1,53 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
+
+    <parent>
+        <groupId>com.github.sirblobman.combatlogx.expansion.compatibility</groupId>
+        <artifactId>compatibility-parent</artifactId>
+        <version>11.0.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>KingdomsX</artifactId>
+    <name>Compatibility: KingdomsX</name>
+    <description>An expansion for CombatLogX that detects non-pvp areas from the KingdomsX plugin.</description>
+
+    <repositories>
+        <!-- SpigotMC Repository -->
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- Spigot API -->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>${spigot.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- CombatLogX API -->
+        <dependency>
+            <groupId>com.github.sirblobman.combatlogx</groupId>
+            <artifactId>api</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- KingdomsX -->
+        <dependency>
+            <groupId>com.github.cryptomorin</groupId>
+            <artifactId>kingdoms</artifactId>
+            <version>1.10.14.1</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>KingdomsX Compatibility</finalName>
+    </build>
+</project>

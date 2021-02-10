@@ -11,9 +11,12 @@
 
     <groupId>com.github.sirblobman.combatlogx.expansion</groupId>
     <artifactId>expansion-parent</artifactId>
-
     <name>Expansion: Parent POM</name>
     <description>This is the parent POM for the CombatLogX expansion modules.</description>
+
+    <properties>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
 
     <modules>
         <!-- Normal Expansions -->

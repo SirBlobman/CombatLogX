@@ -14,6 +14,10 @@
     <name>Dummy: Parent POM</name>
     <description>The parent POM for all the dummy modules that don't have a proper maven repository.</description>
 
+    <properties>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
+
     <modules>
         <module>CrackShot</module>
         <module>GriefDefender</module>

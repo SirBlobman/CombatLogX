@@ -13,6 +13,10 @@
     <name>CombatLogX ZIP Builder</name>
     <description>A module responsible for creating the final CombatLogX.zip file.</description>
 
+    <properties>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
