@@ -8,6 +8,7 @@
 # Missing entries will be inherited from the 'default-locale' file in language.yml
 
 prefix: "&f&l[&6CombatLogX&f&l]&r"
+decimal-format: "0.00"
 
 broadcast:
   on-load: "&a&lPomy\u015Blnie za\u0142adowano CombatLogX."
@@ -39,6 +40,7 @@ error:
   no-permission: "&c&oNie, nie wolno :c"
   target-not-in-combat: "&a{target}&c&o nie walczy."
   self-not-in-combat: "&c&oNie jeste\u015B w trakcie potyczki."
+  unknown-expansion: "&7{target}&c nie jest rozszerzeniem lub nie jest zainstalowane."
 
 command:
   combatlogx:
@@ -47,13 +49,17 @@ command:
       - "&6&lMenu pomocy CombatLogX:"
       - "  &f&l/combatlogx help&7: Zobacz t\u0105 stron\u0119 pomocy."
       - "  &f&l/combatlogx reload&7: Prze\u0142aduj config.yml, language.yml oraz pliki konfiguracyjne wszystkich rozszerze\u0144."
-      - "  &f&l/combatlogx version&7: Sprawd\u017A twoj\u0105 wersj\u0119 CombatLogX."
+	  - "  &f&l/combatlogx about <expansion>&7: Sprawd\u017A informacje o wybranym rozszerzeniu."
       - "  &f&l/combatlogx tag <player>&7: Zmu\u015B gracza do walki."
+	  - "  &f&l/combatlogx toggle bossbar/actionbar/scoreboard&7: W\u0142\u0105cz/wy\u0142\u0105cz wybrany typ powiadomienia."
       - "  &f&l/combatlogx untag <player>&7: Zmu\u015B gracza do opuszczenia walki."
+	  - "  &f&l/combatlogx version&7: Sprawd\u017A twoj\u0105 wersj\u0119 CombatLogX."
       - "&f"
 
     reload-success:
-      - "&aPomy\u015Blnie prze\u0142adowano wszystkie pliki konfiguracyjne dla CombatLogX i jego rozszerze\u0144."
+	  - "&aPomy\u015Blnie prze\u0142adowano wszystkie pliki konfiguracyjne z pluginu CombatLogX"
+	  - "&aPomy\u015Blnie prze\u0142adowano wszystkie pliki j\u0119zykowe z pluginu CombatLogX"
+	  - "&aPomy\u015Blnie prze\u0142adowano wszystkie pliki konfiguracyjne z rozszerze\u0144 CombatLogX"
 
     tag-player: "&aZmusi\u0142e\u015B &f{target}&a do bycia w trakcie walki. To mo\u017Ce powodowa\u0107 b\u0142\u0119dy."
     tag-failure: "&c&oNie mo\u017Cna zmusi\u0107 &a{target}&c&odo walki."
@@ -134,33 +140,29 @@ expansion:
       cramming: "&cZosta\u0142e\u015B zgnieciony. Nie wylogowywuj si\u0119!"
 
   newbie-helper:
-    status:
-      protected: "&aChroniony"
-      not-protected: "&cNiechroniony"
-    pvptoggle:
-      enabled: "&7&lPvP: &aW\u0142\u0105czono"
-      disabled: "&7&lPvP: &cWy\u0142\u0105czono"
-      admin-enabled: "&7Ustawi\u0142e\u015B status pvp dla &e{target}&7 na &aW\u0142\u0105czono"
-      admin-disabled: "&7Ustawi\u0142e\u015B status pvp dla &e{target}&7 na &cWy\u0142\u0105czono"
-    no-pvp:
+    togglepvp:
+      self: "&7PVP: {status}"
+	  admin: "&7Ustawi\u0142e\u015B status pvp dla &e{target}&7 na {status}&7."
+	no-pvp:
       self: "&cNie mozesz bi\u0107 innych kiedy Twoje PvP jest wy\u0142\u0105czone."
       other: "&cTen gracz ma wy\u0142\u0105czone PvP."
       protected: "&cTen gracz jest chroniony, nie mo\u017Cesz go atakowa\u0107...  jeszcze..."
-    protection-disabled:
+	protection-disabled:
       attacker: "&cZaatakowa\u0142e\u015B kogo\u015B, twoja ochrona dla nowych zosta\u0142a wy\u0142\u0105czona."
       expired: "&cTwoja ochrona dla nowych wygas\u0142a."
-    check:
-      format: "&a{target}&7 ma status PvP ustawiony na {settings}"
-      enabled: "&aW\u0142\u0105czono"
-      disabled: "&cWy\u0142\u0105czono"
+	check-format:
+      - "&f&lInformacje dla &7{target}&f&l:"
+      - "&f&lOchrona: &7{protected}"
+      - "&f&lPvP: &7{pvp}"
 
-  notifier:
-    toggle-bossbar: "&7&lBoss Bar: {status}"
-    toggle-actionbar: "&7&lAction Bar: {status}"
-    toggle-scoreboard: "&7Scoreboard: {status}"
+  toggle-bossbar: "&7&lBoss Bar: {status}"
+  toggle-actionbar: "&7&lAction Bar: {status}"
+  toggle-scoreboard: "&7Scoreboard: {status}"
 
   citizens-join-deny: "&cZa kar\u0119 za wylogowanie si\u0119 w trakcie walki, nie mo\u017Cesz wej\u015B\u0107 na serwer zanim Tw\u00F3j klon nie zostanie zabity lub usuni\u0119ty."
-
+  preciousstones-compatibility-no-field: "&cNie mo\u017Cesz stworzy\u0107 strefy ochronnej w trakcie walki."
+  disguise-compatibility-remove-disguise: "&cTwoje przebranie zosta\u0142o usuni\u0119te."
+  
   factions-compatibility-no-entry: "&cNie mo\u017Cesz wej\u015B\u0107 na ten obszar w trakcie walki."
   griefprevention-compatibility-no-entry: "&cNie mo\u017Cesz wej\u015B\u0107 na ten obszar w trakcie walki."
   lands-compatibility-no-entry: "&cNie mo\u017Cesz wej\u015B\u0107 na ten obszar w trakcie walki."
@@ -168,8 +170,9 @@ expansion:
   residence-compatibility-no-entry: "&cNie mo\u017Cesz wej\u015B\u0107 na ten obszar w trakcie walki."
   towny-compatibility-no-entry: "&cNie mo\u017Cesz wej\u015B\u0107 na ten obszar w trakcie walki."
   preciousstones-compatibility-no-entry: "&cNie mo\u017Cesz wej\u015B\u0107 na t\u0105 stref\u0119 w trakcie walki."
-  preciousstones-compatibility-no-field: "&cNie mo\u017Cesz stworzy\u0107 strefy ochronnej w trakcie walki."
-  disguise-compatibility-remove-disguise: "&cTwoje przebranie zosta\u0142o usuni\u0119te."
+  protectionstones-compatibility-no-entry: "&cNie mo\u017Cesz wej\u015B\u0107 na t\u0105 stref\u0119 w trakcie walki."
+  
+  
 
   worldguard-compatibility-no-entry:
     pvp: "&cNie mo\u017Cesz wej\u015B\u0107 na stref\u0119 bez PvP w trakcie walki."
