@@ -22,6 +22,7 @@
         <!-- Normal Expansions -->
         <module>damage-tagger</module>
         <module>logger</module>
+        <module>loot-protection</module>
         <module>mob-tagger</module>
         <module>newbie-helper</module>
         <module>rewards</module>

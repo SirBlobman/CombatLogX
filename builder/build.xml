@@ -24,6 +24,7 @@
                 <!-- Normal Expansions -->
                 <file file="${expansion.dir}/damage-tagger/target/Damage Tagger.jar"/>
                 <file file="${expansion.dir}/logger/target/Logger.jar"/>
+                <file file="${expansion.dir}/loot-protection/target/Loot Protection.jar"/>
                 <file file="${expansion.dir}/mob-tagger/target/Mob Tagger.jar"/>
                 <file file="${expansion.dir}/newbie-helper/target/Newbie Helper.jar"/>
                 <file file="${expansion.dir}/rewards/target/Rewards.jar"/>
