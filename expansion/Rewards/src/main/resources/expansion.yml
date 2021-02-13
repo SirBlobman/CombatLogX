@@ -3,4 +3,4 @@ description: "An expansion that executes commands when you kill players and mobs
 
 main: "com.SirBlobman.combatlogx.expansion.rewards.Rewards"
 author: "SirBlobman"
-version: "15.1"
+version: "15.2"
