@@ -1,9 +1,6 @@
 package com.SirBlobman.combatlogx.expansion.cheat.prevention.listener;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import org.bukkit.configuration.file.FileConfiguration;
@@ -74,7 +71,7 @@ public class ListenerCommandBlocker extends CheatPreventionListener {
         if(!isInCombat(player) && !isInCooldown(player)) return;
 
         String command = e.getMessage();
-        String actualCommand = convertCommand(command);
+        String actualCommand = convertCommand(command).toLowerCase();
         if(!isBlocked(actualCommand) || isAllowed(actualCommand)) return;
 
         e.setCancelled(true);
@@ -107,7 +104,7 @@ public class ListenerCommandBlocker extends CheatPreventionListener {
     private boolean startsWithAny(String command, List<String> commandList) {
         if(commandList.contains("*") || commandList.contains("/*")) return true;
         for(String value : commandList) {
-            if(!command.startsWith(value)) continue;
+            if(!command.startsWith(value.toLowerCase())) continue;
             return true;
         }
         
