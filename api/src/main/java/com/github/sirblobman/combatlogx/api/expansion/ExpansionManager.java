@@ -74,6 +74,7 @@ public final class ExpansionManager {
         for(File file : fileArray) {
             if(file.isDirectory()) continue;
             loadExpansion(file);
+            logger.info(" ");
         }
 
         List<Expansion> expansionList = sortExpansions(getLoadedExpansions());
@@ -94,8 +95,11 @@ public final class ExpansionManager {
             return;
         }
 
-        loadedExpansionList.sort(Comparator.comparing(Expansion::getName));
-        loadedExpansionList.forEach(this::enableExpansion);
+        sortExpansions(loadedExpansionList);
+        for(Expansion expansion : loadedExpansionList) {
+            enableExpansion(expansion);
+            logger.info(" ");
+        }
 
         List<Expansion> enabledExpansionList = getEnabledExpansions();
         int expansionListSize = enabledExpansionList.size();
@@ -111,15 +115,17 @@ public final class ExpansionManager {
         List<Expansion> enabledExpansionList = getEnabledExpansions();
         if(enabledExpansionList.isEmpty()) {
             logger.info("There were no expansions to disable.");
-            return;
         } else {
-            enabledExpansionList.forEach(this::disableExpansion);
-            logger.info("Successfully disabled all expansions.");
+            for(Expansion expansion : enabledExpansionList) {
+                disableExpansion(expansion);
+                logger.info(" ");
+            }
         }
 
         this.expansionMap.clear();
         this.classNameMap.clear();
         this.expansionClassLoaderMap.clear();
+        logger.info("Successfully disabled all expansions.");
     }
 
     public void reloadConfigs() {
@@ -225,6 +231,10 @@ public final class ExpansionManager {
         this.expansionClassLoaderMap.put(expansion, expansionClassLoader);
 
         try {
+            ExpansionDescription description = expansion.getDescription();
+            String fullName = description.getFullName();
+            logger.info("Loading expansion '" + fullName + "'...");
+
             expansion.onLoad();
             expansion.setState(State.LOADED);
         } catch(Exception ex) {
@@ -275,7 +285,7 @@ public final class ExpansionManager {
         }
     }
 
-    private List<Expansion> sortExpansions(List<Expansion> original) {;
+    private List<Expansion> sortExpansions(List<Expansion> original) {
         original.sort(new ExpansionComparator());
         return original;
     }
