@@ -1,0 +1,179 @@
+﻿# Spanish (Spain) Language Configuration for CombatLogX
+# Made by loothillRw for v10.3.8.3
+#
+# Do not set any messages to 'false' or 'null'
+# Do not delete any message entries from this file
+# You can set any message to "" to prevent it from being sent
+#
+# Missing entries will be inherited from the 'default-locale' file in language.yml
+
+prefixes:
+  plugin: "&f&l[&6CombatLogX&f&l]&r"
+  expansion: "&f&l[&6CombatLogX &7- &b{expansion}&f&l]&r"
+
+broadcasts:
+  on-load: "&a&lCombatLogX cargado correctamente."
+  on-enable: "&a&lCombatLogX ahora está activo."
+  on-disable: "&c&lCombatLogX ahora está deshabilitado."
+
+expansion-logging:
+  loading: "Cargando expansión '{name} v{version}'..."
+  loaded: "Correctamente cargado {amount} expansion{s}."
+  enabling: "Activando expansión '{name} v{version}'..."
+  enabled: "Correctamente Activado {amount} expansoon{s}."
+
+placeholders:
+  time-left-zero: "0"
+  unknown-enemy: "Desconocido"
+  status:
+    fighting: "&cCombate"
+    idling: "&aInactivo"
+    in-combat: "&aCombate activo"
+    not-in-combat: "&cFuera de combate"
+    option-enable: "&aActivado"
+    option-disable: "&cDesactivado"
+
+errors:
+  unknown-entity-name: "Entidad desconocida"
+  no-permission: "&c&oNo tienes permisos para &a{permission}&c&o ."
+  not-player: "&c&oNo eres un jugador."
+  invalid-target: "&c&oObjetivo inválido &a{target}&c&o."
+  target-not-in-combat: "&a{target}&c&o no está en combate."
+  self-not-in-combat: "&c&oNo estás en combate."
+
+commands:
+  combatlogx:
+    reloaded: "&aToda la configuración ha de CombatLogX ha sido cargada correctamente junto a sus expansiones."
+    tag-player: "&aAhora estás en combate con&f{target}&a. Esto puede causar problemas."
+    tag-player-fail: "&c&oNo se pudo marcar a &a{target}&c&o."
+    untag-player: "&aYa no estás en combate con &f{target}&a. Esto puede causar problemas."
+    help-message-list:
+    - "&f"
+    - "&6&lCombatLogX Command Help:"
+    - "  &f&l/combatlogx help&7: Ver ayuda de está página."
+    - "  &f&l/combatlogx reload&7: Recargar la configuración de config.yml, language.yml, y todas la configuraciones de las expansiones."
+    - "  &f&l/combatlogx version&7: Revisa tu versión de CombatLogX."
+    - "  &f&l/combatlogx tag <player>&7: jugador en combate."
+    - "  &f&l/combatlogx untag <player>&7: jugador fuera de combate."
+    - "&f"
+
+  combat-timer:
+    time-left:
+      self: "&aTienes &c{time} segundos&a restantes."
+      other: "&f{target} &aTiene &c{time} segundos&a restantes."
+
+combat-timer:
+  expire: "&aEstás fuera de combate."
+  enemy-death: "&aTu enemigo está muerto."
+
+tag-messages:
+  unknown: "&cAhora estás en combate. No te desconectes!"
+  attacked:
+    by-player: "&cEstás siendo atacado por &f{name}&c. No te desconectes!"
+    by-mob: "&cEstas siendo atacado por a(n) &f{mob_type}&c. No te desconectes!"
+  attacker:
+    of-player: "&cEstás atacando a &f{name}&c. No te desconectes!"
+    of-mob: "&cEstas atacando a un (n) &f{mob_type}&c. DNo te desconectes!"
+
+# Messages after this point are only for Expansions
+
+cheat-prevention:
+  command-blocked: "&cNo tienes acceso a este comando &a{command}&c mientras estás en combate."
+  no-riptide: "&cEl encatamiento de Propulsón Acuática está desactivado mientras estás en combate."
+  no-totem: "&cNo tienes permitido utilizar totems mientras estás en combate."
+  no-entity-interaction: "&cNo tienes permitido interactura con esta entidad mientras estás en combate."
+  no-chat: "&cNo tienes permitido enviar mensajes durante el combate."
+
+  game-mode:
+    force-changed: "&cTu modo de juego ha sido cambiado a &f{game_mode}&c."
+    no-changing: "&cNo tienes permitido cambiar de modo durante el combate."
+
+  flight:
+    force-disabled: "&cTu habilidad de volar ha sido desactivada."
+    no-flying: "&cNo tienes permitido volar durante el combate."
+
+  elytra:
+    force-disabled: "&cTu Elytras ha sido desactivada."
+    no-gliding: "&cYNo tienes permitido utilizar Elytras durante el combate."
+
+  teleportation:
+    block-pearl: "&cNo tienes permitido utilizar perlas durante el combate."
+    block-other: "&cYNo tienes permitido teletransportarte durante el combate."
+
+  inventory:
+    force-closed: "&cTu inventario ha sido cerrado."
+    no-opening: "&cNo tienes permitido abrir el inventario durante el combate."
+
+  blocks:
+    no-breaking: "&cNo tienes permitido romper bloques durante el combate."
+    no-placing: "&cYNo tienes permitido construir durante el combate."
+    no-interaction: "&cNo tienes permitido utilizar bloques durante el combate."
+
+  items:
+    no-pickup: "&cNo tienes permitido tomar items durante el combate."
+    no-dropping: "&cNo tienes permitido tirar items durante el combate."
+
+damage-tagger:
+  unknown-damage: "&Sufriste daño! No te desconectes!"
+  damage-type:
+    contact: "&cFuiste pinchado por un cactus. No te desconectes!"
+    suffocation: "&Te estás sofocando. No te desconectes!"
+    fall: "&cTe has hecho daño por caída. No te desconectes!"
+    fire: "&cCaminaste hacia el fuego. No te desconectes!"
+    fire-tick: "&cTe estás quemando. No te desconectes!"
+    lava: "&cEstás hirviendo en la lava. No te desconectes!"
+    drowning: "&cTe estás ahogando. No te desconectes!"
+    block-explosion: "&cHas sido dañado por una explosión. No te desconectes!"
+    lightning: "&cHas sido atacado! No te desconectes!"
+    starvation: "&cTienes demasiada hambre. No te desconectes!"
+    poison: "&cTe han envenenado. No te desconectes!"
+    magic: "&cAlguien te ha lanzado una poción. No te desconectes!"
+    wither: "&cTe estás marchitando. No te desconectes!"
+    falling-block: "&cUn bloque ha caído sobre ti. No te desconectes!"
+    custom: "&cRecibste daño personalizado. No te desconectes!"
+    fly-into-wall: "&cHas experimentado una energía cinética. No te desconectes
+    hot-floor: "&cEl suelo es lava! No te desconectes!"
+    cramming: "&cEstás siendo aplastado. No te desconectes!"
+
+newbie-helper:
+  status:
+    protected: "&aProtegido"
+    not-protected: "&cDesprotegido"
+  pvptoggle:
+    enabled: "&7&lPvP: &aActivado"
+    disabled: "&7&lPvP: &cDesactivado"
+    admin-enabled: "&7Has activado el pvp de &e{target}&7"
+    admin-disabled: "&7Has desactivado el pvp de &e{target}&7"
+  no-pvp:
+    self: "&cNo tienes permitido golpear a los demás mientras tu PvP este desactivado."
+    other: "&cEste jugador tiene el PvP desactivado."
+    protected: "&cEse jugador está protegido, no tienes permitido atacarlo aun!"
+    protected-self: "&cEstas protegido, no puedes atacar aún!"
+  protection-disabled:
+    attacker: "&cHas atacado a alguien, tu protección de novato ha sido desactivada."
+    expired: "&cTu protección de novato ha expirado."
+  check:
+    format: "&a{target}&7 tiene PvP establecido en {settings}"
+    enabled: "&aActivado"
+    disabled: "&cDesactivado"
+
+notifier:
+  toggle-bossbar: "&7&lBarra de Jeve: {status}"
+  toggle-actionbar: "&7&lBarra de acciones: {status}"
+  toggle-scoreboard: "&7Marcador: {status}"
+
+citizens-join-deny: "&cComo castigo por desconectarte en combate, No tienes pertmidio unirte hasta que tu clon haya sido asesinado o eliminado."
+
+factions-compatibility-no-entry: "&cNo tienes pertmido entrar a está faccion mientras estás en combate."
+griefprevention-compatibility-no-entry: "&cNo tienes permitido entrar a este claim mientras estás en combate."
+lands-compatibility-no-entry: "&cNo tienes permitido entrar a está area mientras estás en combate."
+redprotect-compatibility-no-entry: "&cNo tienes permitido entrar a está area mientras estás en combate."
+residence-compatibility-no-entry: "&cNo tienes permitido entrar a está area mientras estás en combate."
+towny-compatibility-no-entry: "&cNo tienes permitido entrar a está area mientras estás en combate."
+preciousstones-compatibility-no-entry: "&cNo tienes permitido entrar a está area mientras estás en combate."
+preciousstones-compatibility-no-field: "&cNo tienes permitido crear tierras protegidas mientras estás en combate."
+disguise-compatibility-remove-disguise: "&cTu disfraz ha sido removido."
+
+worldguard-compatibility-no-entry:
+  pvp: "&cNo tienes permitido entrar a áreas de no PvP mientras estás en combate."
+  mob: "&cNo tines permitido entrar a áreas de combate con Mobs mientras estás en combate."
