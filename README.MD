@@ -3,6 +3,8 @@ CombatLogX is a plugin made for the Spigot server software.
 It has many combat-related features to add to your server.  
 One of the main features of this plugin are the Expansions, which are like modules that allow you to add different things and change how the plugin works.
 
+If you are looking for the source for the current version on Spigot (10.3.8.3), please check the "old/10.0.0.0" branch.
+
 ## Main Features
 * Custom expansions that change how the plugin works
 * Tag players when they attack other players
