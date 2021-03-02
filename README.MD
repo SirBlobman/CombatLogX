@@ -19,6 +19,8 @@ The build status is displayed below:
 If you want to find out more about the expansions, please visit this page:  
 <https://www.spigotmc.org/wiki/combatlogx/>
 
+You can also open the README files in each expansion folder.
+
 ## Developer API
 If you want to create expansions or learn how to use the CombatLogX API, please visit this page:
 <https://github.com/SirBlobman/CombatLogX/blob/master/api/README.MD>
