@@ -5,10 +5,11 @@ Compatibility expansions add features to CombatLogX based on the plugin that the
 | Plugin | Compatibility Type |
 | ------ | ------------------ |
 | ASkyBlock, BSkyBlock, FabledSkyBlock, IridiumSkyblock, SuperiorSkyblock, uSkyBlock | Island team members cannot tag each other into combat. |
-| Factions, FactionsX, FactionsUUID, FactionsUUID-Legacy, KingdomsX, Lands, GriefDefender, GriefPrevention, WorldGuard | Safe Zone and non-pvp region force-field / no-entry compatibility. |
-| CrackShot | Weapons will be linked to the player that activates them. |
-| Citizens | A combat NPC will be spawned when a player leaves instead of the other punishments. |
+| Factions, FactionsX, FactionsUUID, FactionsUUID-Legacy, LegacyFactions, KingdomsX, Lands, GriefDefender, GriefPrevention, PreciousStones, ProtectionStones, RedProtect, Residence, Towny, UltimateClaims, WorldGuard | Safe Zone and non-pvp region force-field / no-entry compatibility. |
 | PlaceholderAPI, MVdWPlaceholderAPI | Placeholders will be registered to these plugins. |
+| iDisguise, Essentials, LibsDisguises | Players in vanish cannot tag players and cannot be tagged. |
+| CrackShot | Weapons will be linked to the player that activates them. |
+| Citizens | An NPC will be spawned when a player leaves during combat. |
 
 ## Placeholder List
 Surround with `%%` for PlaceholderAPI or `{}` for MVdWPlaceholderAPI.
