@@ -29,13 +29,13 @@ public final class FactionsExpansion extends RegionExpansion {
 
         PluginManager pluginManager = Bukkit.getPluginManager();
         Plugin pluginFactions = pluginManager.getPlugin("Factions");
-        if(pluginFactions == null) return false;
-
-        PluginDescriptionFile description = pluginFactions.getDescription();
-        List<String> depend = description.getDepend();
-        if(depend.contains("MassiveCore")) {
-            logger.info("The Factions plugin passed the check.");
-            return true;
+        if(pluginFactions != null) {
+            PluginDescriptionFile description = pluginFactions.getDescription();
+            List<String> depend = description.getDepend();
+            if(depend.contains("MassiveCore")) {
+                logger.info("The Factions plugin passed the check.");
+                return true;
+            }
         }
 
         logger.warning("The Factions plugin does not match the type of plugin supported by this expansion.");
