@@ -1,0 +1,63 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
+
+    <parent>
+        <groupId>com.github.sirblobman.combatlogx.expansion.compatibility</groupId>
+        <artifactId>compatibility-parent</artifactId>
+        <version>11.0.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>Factions</artifactId>
+    <name>Compatibility Expansion: MassiveCore Factions</name>
+    <description>An expansion for CombatLogX that detects non-pvp areas from the MassiveCore Factions plugin.</description>
+
+    <repositories>
+        <!-- SpigotMC Repository -->
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- Spigot API -->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>${spigot.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- CombatLogX API -->
+        <dependency>
+            <groupId>com.github.sirblobman.combatlogx</groupId>
+            <artifactId>api</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- MassiveCore -->
+        <!-- Requires local installation or dummy API -->
+        <dependency>
+            <groupId>com.github.sirblobman.combatlogx.dummy</groupId>
+            <artifactId>dummy-MassiveCore</artifactId>
+            <version>2.14.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Factions -->
+        <!-- Requires local installation or dummy API -->
+        <dependency>
+            <groupId>com.github.sirblobman.combatlogx.dummy</groupId>
+            <artifactId>dummy-Factions</artifactId>
+            <version>2.14.0</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>Factions Compatibility</finalName>
+    </build>
+</project>

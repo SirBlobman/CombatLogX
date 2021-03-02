@@ -29,8 +29,8 @@
         -->
 
         <!-- Factions Compatibility -->
-        <!--
         <module>Factions</module>
+        <!--
         <module>FactionsUUID</module>
         <module>FactionsUUID-Legacy</module>
         -->

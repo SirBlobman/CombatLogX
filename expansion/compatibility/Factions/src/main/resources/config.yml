@@ -1,0 +1,19 @@
+# How should CombatLogX prevent players from entering non-pvp areas?
+# Valid Modes:
+#  DISABLED - Don't do anything, just let them in
+#  KNOCKBACK_PLAYER - Add some opposite velocity to the player so they are pushed backwards
+#  CANCEL_EVENT - Cancel the player's move event
+#  VULNERABLE - Let the player in, but remove their pvp protection
+#  KILL_PLAYER - Set the player's health to 0
+#  TELEPORT_TO_ENEMY - Teleport the player to their enemy if they have one, or CANCEL if they don't have one.
+# Default: KNOCKBACK_PLAYER
+no-entry-mode: "KNOCKBACK_PLAYER"
+
+# This value is only used if 'no-entry-mode' is KNOCKBACK_PLAYER
+# How much should the backwards velocity be multiplied by?
+# Default: 1.5
+knockback-strength: 1.5
+
+# How much time (in seconds) should the plugin wait before sending another 'no-entry' message?
+# Default: 30
+message-cooldown: 30
