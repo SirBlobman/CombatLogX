@@ -42,6 +42,6 @@ public final class KingdomsXRegionHandler extends RegionHandler {
             }
         }
 
-        return true;
+        return false;
     }
 }

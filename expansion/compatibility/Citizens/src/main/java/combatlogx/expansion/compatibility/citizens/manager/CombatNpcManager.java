@@ -366,8 +366,10 @@ public final class CombatNpcManager {
         try {
             if(entityTypeName == null) throw new IllegalStateException();
             String value = entityTypeName.toUpperCase();
+
             EntityType entityType = EntityType.valueOf(value);
             if(!entityType.isAlive()) throw new IllegalStateException();
+
             return entityType;
         } catch(Exception ex) {
             Logger logger = this.expansion.getLogger();
