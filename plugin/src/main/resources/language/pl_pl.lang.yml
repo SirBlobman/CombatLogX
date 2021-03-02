@@ -49,17 +49,17 @@ command:
       - "&6&lMenu pomocy CombatLogX:"
       - "  &f&l/combatlogx help&7: Zobacz t\u0105 stron\u0119 pomocy."
       - "  &f&l/combatlogx reload&7: Prze\u0142aduj config.yml, language.yml oraz pliki konfiguracyjne wszystkich rozszerze\u0144."
-	  - "  &f&l/combatlogx about <expansion>&7: Sprawd\u017A informacje o wybranym rozszerzeniu."
+      - "  &f&l/combatlogx about <expansion>&7: Sprawd\u017A informacje o wybranym rozszerzeniu."
       - "  &f&l/combatlogx tag <player>&7: Zmu\u015B gracza do walki."
-	  - "  &f&l/combatlogx toggle bossbar/actionbar/scoreboard&7: W\u0142\u0105cz/wy\u0142\u0105cz wybrany typ powiadomienia."
+      - "  &f&l/combatlogx toggle bossbar/actionbar/scoreboard&7: W\u0142\u0105cz/wy\u0142\u0105cz wybrany typ powiadomienia."
       - "  &f&l/combatlogx untag <player>&7: Zmu\u015B gracza do opuszczenia walki."
-	  - "  &f&l/combatlogx version&7: Sprawd\u017A twoj\u0105 wersj\u0119 CombatLogX."
+      - "  &f&l/combatlogx version&7: Sprawd\u017A twoj\u0105 wersj\u0119 CombatLogX."
       - "&f"
 
     reload-success:
-	  - "&aPomy\u015Blnie prze\u0142adowano wszystkie pliki konfiguracyjne z pluginu CombatLogX"
-	  - "&aPomy\u015Blnie prze\u0142adowano wszystkie pliki j\u0119zykowe z pluginu CombatLogX"
-	  - "&aPomy\u015Blnie prze\u0142adowano wszystkie pliki konfiguracyjne z rozszerze\u0144 CombatLogX"
+      - "&aPomy\u015Blnie prze\u0142adowano wszystkie pliki konfiguracyjne z pluginu CombatLogX"
+      - "&aPomy\u015Blnie prze\u0142adowano wszystkie pliki j\u0119zykowe z pluginu CombatLogX"
+      - "&aPomy\u015Blnie prze\u0142adowano wszystkie pliki konfiguracyjne z rozszerze\u0144 CombatLogX"
 
     tag-player: "&aZmusi\u0142e\u015B &f{target}&a do bycia w trakcie walki. To mo\u017Ce powodowa\u0107 b\u0142\u0119dy."
     tag-failure: "&c&oNie mo\u017Cna zmusi\u0107 &a{target}&c&odo walki."
@@ -142,15 +142,15 @@ expansion:
   newbie-helper:
     togglepvp:
       self: "&7PVP: {status}"
-	  admin: "&7Ustawi\u0142e\u015B status pvp dla &e{target}&7 na {status}&7."
-	no-pvp:
+      admin: "&7Ustawi\u0142e\u015B status pvp dla &e{target}&7 na {status}&7."
+    no-pvp:
       self: "&cNie mozesz bi\u0107 innych kiedy Twoje PvP jest wy\u0142\u0105czone."
       other: "&cTen gracz ma wy\u0142\u0105czone PvP."
       protected: "&cTen gracz jest chroniony, nie mo\u017Cesz go atakowa\u0107...  jeszcze..."
-	protection-disabled:
+    protection-disabled:
       attacker: "&cZaatakowa\u0142e\u015B kogo\u015B, twoja ochrona dla nowych zosta\u0142a wy\u0142\u0105czona."
       expired: "&cTwoja ochrona dla nowych wygas\u0142a."
-	check-format:
+    check-format:
       - "&f&lInformacje dla &7{target}&f&l:"
       - "&f&lOchrona: &7{protected}"
       - "&f&lPvP: &7{pvp}"
