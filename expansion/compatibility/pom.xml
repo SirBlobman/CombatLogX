@@ -32,11 +32,11 @@
         <!--
         <module>Factions</module>
         <module>FactionsUUID</module>
+        <module>FactionsUUID-Legacy</module>
         -->
         <module>FactionsX</module>
         <!--
         <module>LegacyFactions</module>
-        <module>SaberFactions</module>
         -->
 
         <!-- Placeholder Compatibility -->

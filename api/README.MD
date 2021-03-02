@@ -22,9 +22,9 @@ CodeMC was nice enough to sponsor a maven repository for CombatLogX.
 <dependencies>
     <!-- CombatLogX API -->
     <dependency>
-        <groupId>com.SirBlobman.combatlogx</groupId>
+        <groupId>com.github.sirblobman.combatlogx</groupId>
         <artifactId>api</artifactId>
-        <version>10.0.0.0-SNAPSHOT</version>
+        <version>11.0.0.0-SNAPSHOT</version>
         <scope>provided</scope>
     </dependency>
 </dependencies>
