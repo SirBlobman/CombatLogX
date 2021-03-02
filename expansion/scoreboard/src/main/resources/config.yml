@@ -6,6 +6,9 @@
 # Otherwise, the main scoreboard will be restored instead
 save-previous: true
 
+# How often (in ticks) should the scoreboard update?
+update-period: 5
+
 # This is the scoreboard title
 # Make sure to follow your Spigot version's character limit
 title: "&6&lCombatLogX"

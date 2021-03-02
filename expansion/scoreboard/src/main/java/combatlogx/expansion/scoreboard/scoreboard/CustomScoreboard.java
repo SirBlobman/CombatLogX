@@ -78,15 +78,15 @@ public final class CustomScoreboard {
         List<String> lineList = getLines();
         int lineListSize = lineList.size();
 
-        int line = 16;
-        for(int i = 0; i < 16; i++) {
-            if(i >= lineListSize) {
-                removeLine(i);
+        for(int line = 16; line > 0; line--) {
+            int index = (16 - line);
+            if(index >= lineListSize) {
+                removeLine(line);
                 continue;
             }
 
-            String value = lineList.get(i);
-            setLine(line--, value);
+            String value = lineList.get(index);
+            setLine(line, value);
         }
     }
 
@@ -94,6 +94,7 @@ public final class CustomScoreboard {
         ScoreboardExpansion expansion = getExpansion();
         ExpansionConfigurationManager configurationManager = expansion.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
+
         String title = configuration.getString("title");
         String titleColored = MessageUtility.color(title);
 
@@ -108,7 +109,12 @@ public final class CustomScoreboard {
 
     private void initializeScoreboard() {
         Scoreboard scoreboard = getScoreboard();
-        ChatColor[] chatColorArray = ChatColor.values();
+        ChatColor[] chatColorArray = {
+                ChatColor.BLACK, ChatColor.DARK_BLUE, ChatColor.DARK_GREEN, ChatColor.DARK_AQUA, ChatColor.DARK_RED,
+                ChatColor.DARK_PURPLE, ChatColor.GOLD, ChatColor.GRAY, ChatColor.DARK_GRAY, ChatColor.BLUE,
+                ChatColor.GREEN, ChatColor.AQUA, ChatColor.RED, ChatColor.LIGHT_PURPLE, ChatColor.YELLOW,
+                ChatColor.WHITE
+        };
         int chatColorArrayLength = chatColorArray.length;
 
         for(int i = 0; i < chatColorArrayLength; i++) {
@@ -119,13 +125,13 @@ public final class CustomScoreboard {
             Team team = scoreboard.registerNewTeam(teamName);
             team.addEntry(chatColorString);
 
-            CustomLine customLine = new CustomLine(chatColor, team, i);
+            CustomLine customLine = new CustomLine(chatColor, team, i + 1);
             this.customLineList.add(customLine);
         }
     }
 
     private CustomLine getLine(int line) {
-        return this.customLineList.stream().filter(customLine -> customLine.getLine() == line).findFirst().orElse(null);
+        return this.customLineList.get(line - 1);
     }
 
     private void setLine(int line, String value) {
@@ -134,7 +140,7 @@ public final class CustomScoreboard {
 
         ChatColor chatColor = customLine.getChatColor();
         String chatColorString = chatColor.toString();
-        Score score = objective.getScore(chatColorString);
+        Score score = this.objective.getScore(chatColorString);
         score.setScore(line);
 
         int lengthLimit = getLineLengthLimit();
@@ -170,7 +176,7 @@ public final class CustomScoreboard {
 
     private int getLineLengthLimit() {
         int minorVersion = VersionUtility.getMinorVersion();
-        if(minorVersion >= 13) return 64;
+        if(minorVersion > 12) return 64;
         return 16;
     }
 
@@ -178,7 +184,9 @@ public final class CustomScoreboard {
         ScoreboardExpansion expansion = getExpansion();
         ExpansionConfigurationManager configurationManager = expansion.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-        return configuration.getStringList("lines").stream().map(this::replacePlaceholders).collect(Collectors.toList());
+
+        List<String> lineList = configuration.getStringList("lines");
+        return lineList.stream().map(this::replacePlaceholders).collect(Collectors.toList());
     }
 
     private String replacePlaceholders(String string) {

@@ -73,7 +73,6 @@ public final class ScoreboardManager {
             if(customScoreboard == null) return;
         }
 
-        customScoreboard.enableScoreboard();
         customScoreboard.updateScoreboard();
     }
 
@@ -99,6 +98,8 @@ public final class ScoreboardManager {
 
         ScoreboardExpansion expansion = getExpansion();
         CustomScoreboard customScoreboard = new CustomScoreboard(expansion, player);
+        customScoreboard.enableScoreboard();
+
         this.combatScoreboardMap.put(uuid, customScoreboard);
         return customScoreboard;
     }

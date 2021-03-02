@@ -4,14 +4,16 @@ import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 
-import combatlogx.expansion.scoreboard.listener.ListenerScoreboard;
 import combatlogx.expansion.scoreboard.manager.ScoreboardManager;
+import combatlogx.expansion.scoreboard.task.TaskScoreboardUpdate;
 
 public class ScoreboardExpansion extends Expansion {
     private final ScoreboardManager scoreboardManager;
+    private final TaskScoreboardUpdate taskScoreboardUpdate;
     public ScoreboardExpansion(ICombatLogX plugin) {
         super(plugin);
         this.scoreboardManager = new ScoreboardManager(this);
+        this.taskScoreboardUpdate = new TaskScoreboardUpdate(this);
     }
 
     @Override
@@ -22,11 +24,12 @@ public class ScoreboardExpansion extends Expansion {
 
     @Override
     public void onEnable() {
-        new ListenerScoreboard(this).register();
+        this.taskScoreboardUpdate.register();
     }
 
     @Override
     public void onDisable() {
+        this.taskScoreboardUpdate.cancel();
         ScoreboardManager scoreboardManager = getScoreboardManager();
         scoreboardManager.removeAll();
     }
