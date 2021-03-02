@@ -13,6 +13,7 @@ public final class HookWorldGuard {
     public static IWrappedFlag<WrappedState> PLAYER_COMBAT = null;
     public static IWrappedFlag<WrappedState> MOB_COMBAT = null;
     public static IWrappedFlag<Boolean> NO_TAGGING = null;
+
     public static void registerFlags(WorldGuardExpansion expansion) {
         try {
             WorldGuardWrapper instance = WorldGuardWrapper.getInstance();

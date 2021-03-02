@@ -28,6 +28,7 @@ public final class WorldGuardRegionHandler extends RegionHandler {
     public boolean isSafeZone(Player player, Location location, TagType tagType) {
         WorldGuardWrapper instance = WorldGuardWrapper.getInstance();
         IWrappedFlag<WrappedState> flag = getFlag(tagType);
+        if(flag == null) return false;
 
         Optional<WrappedState> optionalState = instance.queryFlag(player, location, flag);
         if(optionalState.isPresent()) {
