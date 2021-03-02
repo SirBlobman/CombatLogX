@@ -15,7 +15,7 @@
 tag-command-list:
   - "msg {player} You are now in combat! Do not log out."
   - "[PLAYER]say I am in combat!"
-  -
+
 # This is a list of commands that will be executed whenever a player is untagged.
 # Valid Placeholders:
 # {player} - The name of the player that was untagged
