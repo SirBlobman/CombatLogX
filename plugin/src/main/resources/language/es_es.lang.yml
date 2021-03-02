@@ -131,7 +131,7 @@ damage-tagger:
     wither: "&cTe estás marchitando. No te desconectes!"
     falling-block: "&cUn bloque ha caído sobre ti. No te desconectes!"
     custom: "&cRecibste daño personalizado. No te desconectes!"
-    fly-into-wall: "&cHas experimentado una energía cinética. No te desconectes
+    fly-into-wall: "&cHas experimentado una energía cinética. No te desconectes"
     hot-floor: "&cEl suelo es lava! No te desconectes!"
     cramming: "&cEstás siendo aplastado. No te desconectes!"
 
