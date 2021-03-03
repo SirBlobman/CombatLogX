@@ -24,6 +24,9 @@
         <repository>
             <id>savagelabs</id>
             <url>https://nexus.savagelabs.net/repository/maven-releases/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
     </repositories>
 
