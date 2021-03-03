@@ -143,8 +143,18 @@ public final class Reward {
         List<String> commandList = getCommands();
         for(String command : commandList) {
             String realCommand = command.replace("{player}", playerName).replace("{enemy}", enemyName).replace("{enemy_type}", enemyType);
+            if(this.expansion.usePlaceholderAPI()) realCommand = replacePlaceholderAPI(player, realCommand);
+            if(this.expansion.useMVdWPlaceholderAPI()) realCommand = replaceMVdWPlaceholderAPI(player, realCommand);
             runCommand(realCommand);
         }
+    }
+
+    private String replacePlaceholderAPI(Player player, String string) {
+        return me.clip.placeholderapi.PlaceholderAPI.setPlaceholders(player, string);
+    }
+
+    private String replaceMVdWPlaceholderAPI(Player player, String string) {
+        return be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(player, string);
     }
 
     private String getEntityName(LivingEntity entity) {

@@ -1,5 +1,9 @@
 package combatlogx.expansion.rewards;
 
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.PluginManager;
+
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
@@ -65,5 +69,29 @@ public final class RewardExpansion extends Expansion {
 
     public HookVault getVaultHook() {
         return this.hookVault;
+    }
+
+    public boolean usePlaceholderAPI() {
+        ExpansionConfigurationManager configurationManager = getConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("config.yml");
+        boolean usePlaceholderAPI = configuration.getBoolean("hooks.placeholderapi");
+        if(usePlaceholderAPI) {
+            PluginManager pluginManager = Bukkit.getPluginManager();
+            return pluginManager.isPluginEnabled("PlaceholderAPI");
+        }
+
+        return false;
+    }
+
+    public boolean useMVdWPlaceholderAPI() {
+        ExpansionConfigurationManager configurationManager = getConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("config.yml");
+        boolean useMVdWPlaceholderAPI = configuration.getBoolean("hooks.mvdwplaceholderapi");
+        if(useMVdWPlaceholderAPI) {
+            PluginManager pluginManager = Bukkit.getPluginManager();
+            return pluginManager.isPluginEnabled("MVdWPlaceholderAPI");
+        }
+
+        return false;
     }
 }
