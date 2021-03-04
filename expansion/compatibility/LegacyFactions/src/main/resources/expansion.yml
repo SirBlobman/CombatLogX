@@ -1,0 +1,7 @@
+name: "CompatLegacyFactions"
+prefix: "LegacyFactions Compatibility"
+description: "${project.description}"
+
+main: "combatlogx.expansion.compatibility.region.legacy.factions.LegacyFactionsExpansion"
+version: "16.0"
+author: "SirBlobman"

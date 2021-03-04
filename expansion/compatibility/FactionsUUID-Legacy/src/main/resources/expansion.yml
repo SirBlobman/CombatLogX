@@ -1,0 +1,7 @@
+name: "CompatFactionsUUIDLegacy"
+prefix: "FactionsUUID Legacy Compatibility"
+description: "${project.description}"
+
+main: "combatlogx.expansion.compatibility.region.factions.uuid.legacy.FactionsUUIDLegacyExpansion"
+version: "16.0"
+author: "SirBlobman"

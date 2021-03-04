@@ -30,14 +30,10 @@
 
         <!-- Factions Compatibility -->
         <module>Factions</module>
-        <!--
         <module>FactionsUUID</module>
         <module>FactionsUUID-Legacy</module>
-        -->
         <module>FactionsX</module>
-        <!--
         <module>LegacyFactions</module>
-        -->
 
         <!-- Placeholder Compatibility -->
         <module>MVdWPlaceholderAPI</module>

@@ -22,6 +22,7 @@
         <module>CrackShot</module>
         <module>GriefDefender</module>
         <module>Lands</module>
+        <module>LegacyFactions</module>
 
         <!-- MassiveCore + Factions -->
         <module>MassiveCore</module>

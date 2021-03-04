@@ -10,5 +10,6 @@ dummy UnsupportedOperationException.
 | CrackShot | No maven repository available. |
 | GriefDefender | I prefer not to use the JitPack repository. |
 | Lands | I prefer not to use the JitPack repository. |
+| LegacyFactions | I prefer not to use the JitPack repository. |
 | MassiveCore | No maven repository available. |
 | Factions | No maven repository available. |

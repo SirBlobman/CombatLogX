@@ -50,7 +50,10 @@
 
                 <!-- Factions Compatibility Expansions -->
                 <file file="${expansion.compatibility.dir}/Factions/target/Factions Compatibility.jar"/>
+                <file file="${expansion.compatibility.dir}/FactionsUUID/target/FactionsUUID Compatibility.jar"/>
+                <file file="${expansion.compatibility.dir}/FactionsUUID-Legacy/target/FactionsUUID Legacy Compatibility.jar"/>
                 <file file="${expansion.compatibility.dir}/FactionsX/target/FactionsX Compatibility.jar"/>
+                <file file="${expansion.compatibility.dir}/LegacyFactions/target/LegacyFactions Compatibility.jar"/>
 
                 <!-- PlaceholderAPI Compatibility Expansions -->
                 <file file="${expansion.compatibility.dir}/MVdWPlaceholderAPI/target/MVdWPlaceholderAPI Compatibility.jar"/>
