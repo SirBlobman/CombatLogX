@@ -61,6 +61,7 @@
 
                 <!-- Region Compatibility Expansions -->
                 <file file="${expansion.compatibility.dir}/GriefDefender/target/GriefDefender Compatibility.jar"/>
+                <file file="${expansion.compatibility.dir}/GriefPrevention/target/GriefPrevention Compatibility.jar"/>
                 <file file="${expansion.compatibility.dir}/KingdomsX/target/KingdomsX Compatibility.jar"/>
                 <file file="${expansion.compatibility.dir}/Lands/target/Lands Compatibility.jar"/>
                 <file file="${expansion.compatibility.dir}/WorldGuard/target/WorldGuard Compatibility.jar"/>

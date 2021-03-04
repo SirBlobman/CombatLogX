@@ -41,9 +41,7 @@
 
         <!-- Region Compatibility -->
         <module>GriefDefender</module>
-        <!--
         <module>GriefPrevention</module>
-        -->
         <module>KingdomsX</module>
         <module>Lands</module>
         <!--
