@@ -33,6 +33,15 @@ link-pets: true
 # Default: true
 link-projectiles: true
 
+# Which projectiles will be ignored in the 'link-projectiles' option?
+# If 'link-projectiles' is false, all projectiles will be ignored.
+# You can find a list of valid projectile types on the Spigot javadocs:
+# https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
+ignored-projectiles:
+  - SNOWBALL
+  - EGG
+  - ENDER_PEARL
+
 timer:
   # This is the type of timer that CombatLogX will use
   # GLOBAL: Every player will be tagged for the length of the 'default-timer' value

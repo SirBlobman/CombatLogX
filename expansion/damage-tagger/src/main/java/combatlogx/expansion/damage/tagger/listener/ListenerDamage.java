@@ -48,7 +48,7 @@ public final class ListenerDamage extends ExpansionListener {
         if(!(e instanceof EntityDamageByEntityEvent)) return false;
         EntityDamageByEntityEvent event = (EntityDamageByEntityEvent) e;
 
-        Entity damager = EntityHelper.linkProjectile(event.getDamager());
+        Entity damager = EntityHelper.linkProjectile(getCombatLogX(), event.getDamager());
         return (damager instanceof LivingEntity);
     }
 

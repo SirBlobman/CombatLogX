@@ -103,7 +103,7 @@ public final class ListenerDamage extends ExpansionListener {
         YamlConfiguration configuration = configurationManager.get("config.yml");
 
         Entity damager = e.getDamager();
-        if(configuration.getBoolean("link-projectiles")) damager = EntityHelper.linkProjectile(damager);
+        if(configuration.getBoolean("link-projectiles")) damager = EntityHelper.linkProjectile(getCombatLogX(), damager);
         if(configuration.getBoolean("link-pets")) damager = EntityHelper.linkPet(damager);
         return damager;
     }

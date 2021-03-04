@@ -38,7 +38,7 @@ public class ListenerDamage extends CombatListener {
         YamlConfiguration configuration = configurationManager.get("config.yml");
 
         Entity damager = e.getDamager();
-        if(configuration.getBoolean("link-projectiles")) damager = EntityHelper.linkProjectile(damager);
+        if(configuration.getBoolean("link-projectiles")) damager = EntityHelper.linkProjectile(getPlugin(), damager);
         if(configuration.getBoolean("link-pets")) damager = EntityHelper.linkPet(damager);
         return damager;
     }
