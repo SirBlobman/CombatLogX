@@ -4,7 +4,6 @@
 delay-after-combat: 0
 
 # Which commands are blocked during combat?
-# This list uses a 'startsWith' check, so if you block the `/tp` command, `/tpa` will also be blocked.
 # DO NOT forget the `/` in front of the commands.
 # You can add "*" to the list to block ALL commands.
 blocked-command-list:
@@ -20,7 +19,6 @@ blocked-command-list:
 
 # Which commands are allowed during combat?
 # This list is used if you want to un-block a command that is blocked the the other list.
-# This list also uses the 'startsWith' check and requires the '/' in front of commands.
 # You can add "*" to the list to allow ALL commands.
 #
 # Extra Information: This list overrides the blocked command list

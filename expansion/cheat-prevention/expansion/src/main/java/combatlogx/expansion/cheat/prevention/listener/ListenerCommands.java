@@ -83,14 +83,15 @@ public final class ListenerCommands extends CheatPreventionListener {
         return ("/" + command);
     }
 
-    private boolean startsWithAny(String string, Iterable<String> valueList) {
+    private boolean matchesAny(String string, Iterable<String> valueList) {
         String stringLower = string.toLowerCase();
         for(String value : valueList) {
             if(value.equals("*")) return true;
             if(value.equals("/*")) return true;
 
             String valueLower = value.toLowerCase();
-            if(stringLower.startsWith(valueLower)) return true;
+            if(stringLower.equals(valueLower)) return true;
+            if(stringLower.startsWith(valueLower + " ")) return true;
         }
 
         return false;
@@ -99,13 +100,13 @@ public final class ListenerCommands extends CheatPreventionListener {
     private boolean isBlocked(String command) {
         YamlConfiguration configuration = getConfiguration();
         List<String> blockedCommandList = configuration.getStringList("blocked-command-list");
-        return startsWithAny(command, blockedCommandList);
+        return matchesAny(command, blockedCommandList);
     }
 
     private boolean isAllowed(String command) {
         YamlConfiguration configuration = getConfiguration();
         List<String> allowedCommandList = configuration.getStringList("allowed-command-list");
-        return startsWithAny(command, allowedCommandList);
+        return matchesAny(command, allowedCommandList);
     }
 
     private void checkEvent(PlayerCommandPreprocessEvent e) {
