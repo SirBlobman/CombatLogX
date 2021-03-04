@@ -14,6 +14,8 @@ import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
@@ -107,7 +109,9 @@ public final class ListenerDamage extends ExpansionListener {
 
     private void checkTag(Entity entity, Entity enemy, TagReason tagReason) {
         if(!(entity instanceof Player)) return;
+
         Player player = (Player) entity;
+        if(hasBypassPermission(player)) return;
 
         if(!(enemy instanceof LivingEntity)) return;
         LivingEntity livingEnemy = (LivingEntity) enemy;
@@ -134,5 +138,17 @@ public final class ListenerDamage extends ExpansionListener {
         }
 
         return SpawnReason.DEFAULT;
+    }
+
+    private boolean hasBypassPermission(Player player) {
+        Expansion expansion = getExpansion();
+        ExpansionConfigurationManager configurationManager = expansion.getConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("config.yml");
+
+        String permissionName = configuration.getString("bypass-permission");
+        if(permissionName == null || permissionName.isEmpty()) return false;
+
+        Permission permission = new Permission(permissionName, "CombatLogX Bypass Permission: Mob Combat", PermissionDefault.FALSE);
+        return player.hasPermission(permission);
     }
 }

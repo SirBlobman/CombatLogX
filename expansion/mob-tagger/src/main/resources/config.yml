@@ -13,3 +13,8 @@ mob-list:
 # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/CreatureSpawnEvent.SpawnReason.html
 spawn-reason-list:
   - SPAWNER
+
+# Players with this permission will not be tagged by any mobs.
+# Other forms of combat will still tag players.
+# The permission is not given to OPs by default, you must set it manually.
+bypass-permission: "combatlogx.bypass.mobs"
