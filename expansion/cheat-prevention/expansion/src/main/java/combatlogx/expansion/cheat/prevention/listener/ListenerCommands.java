@@ -10,6 +10,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 
 import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
@@ -47,6 +49,15 @@ public final class ListenerCommands extends CheatPreventionListener {
         Expansion expansion = getExpansion();
         ExpansionConfigurationManager configurationManager = expansion.getConfigurationManager();
         return configurationManager.get("commands.yml");
+    }
+
+    private boolean hasBypassPermission(Player player) {
+        YamlConfiguration configuration = getConfiguration();
+        String permissionName = configuration.getString("bypass-permission");
+        if(permissionName == null || permissionName.isEmpty()) return false;
+
+        Permission permission = new Permission(permissionName, "CombatLogX Bypass Permission: Cheat Prevention Blocked Commands", PermissionDefault.FALSE);
+        return player.hasPermission(permission);
     }
 
     private long getNewExpireTime() {
@@ -112,6 +123,7 @@ public final class ListenerCommands extends CheatPreventionListener {
     private void checkEvent(PlayerCommandPreprocessEvent e) {
         Player player = e.getPlayer();
         if(!isInCombat(player) && !isInCooldown(player)) return;
+        if(hasBypassPermission(player)) return;
 
         String command = e.getMessage();
         String realCommand = fixCommand(command);

@@ -24,3 +24,7 @@ blocked-command-list:
 # Extra Information: This list overrides the blocked command list
 allowed-command-list:
   - "/msg SirBlobman"
+
+# Players with this permission will have every command unblocked.
+# The permission is not given to OPs by default, you must set it manually.
+bypass-permission: "combatlogx.bypass.cheat.prevention.commands"
