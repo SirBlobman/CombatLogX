@@ -9,7 +9,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>FactionsUUIDLegacy</artifactId>
+    <artifactId>FactionsUUID-Legacy</artifactId>
     <name>Compatibility Expansion: Factions UUID Legacy</name>
     <description>An expansion for CombatLogX that detects non-pvp areas from the legacy version of the Factions UUID plugin.</description>
 
