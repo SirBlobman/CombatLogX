@@ -173,6 +173,7 @@ public abstract class Expansion {
         ICombatLogX plugin = getPlugin();
         JavaPlugin javaPlugin = plugin.getPlugin();
         PluginManager manager = Bukkit.getPluginManager();
+
         manager.registerEvents(listener, javaPlugin);
         this.listenerList.add(listener);
     }
