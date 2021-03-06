@@ -175,3 +175,7 @@ expansion:
   worldguard-compatibility-no-entry:
     pvp: "&cYou are not allowed to enter a non-player-combat area during combat."
     mob: "&cYou are not allowed to enter a non-mob-combat area during combat."
+
+  essentials-compatibility:
+    prevent-teleport-request-self: "&cYou can't create teleport requests during combat."
+    prevent-teleport-request-other: "&cYou can't send a teleport request to a player that is in combat."

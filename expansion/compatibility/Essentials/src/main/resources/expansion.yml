@@ -1,0 +1,7 @@
+name: "CompatEssentialsX"
+prefix: "EssentialsX Compatibility"
+description: "${project.description}"
+
+main: "combatlogx.expansion.compatibility.essentials.EssentialsExpansion"
+version: "16.0"
+author: "SirBlobman"
