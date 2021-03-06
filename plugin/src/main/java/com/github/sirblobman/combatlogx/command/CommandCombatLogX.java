@@ -234,6 +234,15 @@ public class CommandCombatLogX extends Command {
         if(!checkPermission(sender, "combatlogx.command.combatlogx.untag", true)) return true;
         List<String> messageList = new ArrayList<>();
         messageList.add("&f");
+
+        try {
+            String javaVersion = System.getProperty("java.version");
+            String javaVendor = System.getProperty("java.vendor");
+            messageList.add("&f&lJava Version: &7" + javaVersion + " (" + javaVendor + ")");
+        } catch(Exception ex) {
+            messageList.add("&f&lJava Version: &7Unknown");
+        }
+
         messageList.add("&f&lServer Version: &7" + Bukkit.getVersion());
         messageList.add("&f&lBukkit Version: &7" + Bukkit.getBukkitVersion());
         messageList.add("Minecraft Version: &7" + VersionUtility.getMinecraftVersion());
