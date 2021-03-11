@@ -3,16 +3,15 @@ This is the API module for CombatLogX.
 You can use it to create new expansions or to check stuff with your own plugin.
 
 ## Maven Repository
-A lot of developers use maven to build projects more easily.  
-CodeMC was nice enough to sponsor a maven repository for CombatLogX.
+A lot of developers use maven to build projects more easily.
 
-**Repository: CodeMC Public**
+**Repository: SirBlobman Public**
 ```xml
 <repositories>
-    <!-- CodeMC Public Repository -->
+    <!-- SirBlobman Public Repository -->
     <repository>
-        <id>codemc-public</id>
-        <url>https://repo.codemc.io/repository/maven-public/</url>
+        <id>sirblobman-public</id>
+        <url>https://nexus.sirblobman.xyz/repository/maven-public/</url>
     </repository>
 </repositories>
 ```
@@ -31,7 +30,7 @@ CodeMC was nice enough to sponsor a maven repository for CombatLogX.
 ```
 
 ## Events
-A list of events and their uses can be found in the `com.SirBlobman.combatlogx.api.event` package.  
+A list of events and their uses can be found in the `com.github.sirblobman.combatlogx.api.event` package.  
 You can see more information about them below:  
 
 - **PlayerCombatTimerChangeEvent:** Triggered every tick while a player is in combat (useful for updating timers)

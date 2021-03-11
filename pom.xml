@@ -21,16 +21,16 @@
     </properties>
 
     <distributionManagement>
-        <!-- CodeMC Releases -->
+        <!-- SirBlobman Releases -->
         <repository>
-            <id>codemc-releases</id>
-            <url>https://repo.codemc.io/repository/maven-releases/</url>
+            <id>sirblobman-releases</id>
+            <url>https://nexus.sirblobman.xyz/repository/maven-releases/</url>
         </repository>
         
-        <!-- CodeMC Snapshots -->
+        <!-- SirBlobman Snapshots -->
         <snapshotRepository>
-            <id>codemc-snapshots</id>
-            <url>https://repo.codemc.io/repository/maven-snapshots/</url>
+            <id>sirblobman-snapshots</id>
+            <url>https://nexus.sirblobman.xyz/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 

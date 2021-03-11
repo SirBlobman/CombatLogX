@@ -11,9 +11,8 @@ If you are looking for the source for the current version on Spigot (10.3.8.3), 
 * Punish players that log out during combat
 
 ## Jenkins Builds
-CodeMC was nice enough to sponsor a CI Jenkins server.  
 The build status is displayed below:  
-[![Build Status](https://ci.codemc.io/job/SirBlobman/job/CombatLogX/badge/icon)](https://ci.codemc.io/job/SirBlobman/job/CombatLogX/)
+[![Build Status](https://jenkins.sirblobman.xyz/job/SirBlobman/job/CombatLogX/badge/icon)](https://jenkins.sirblobman.xyz/job/SirBlobman/job/CombatLogX/)
 
 ## Expansions
 If you want to find out more about the expansions, please visit this page:  
