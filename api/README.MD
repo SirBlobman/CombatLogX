@@ -11,7 +11,7 @@ A lot of developers use maven to build projects more easily.
     <!-- SirBlobman Public Repository -->
     <repository>
         <id>sirblobman-public</id>
-        <url>https://nexus.sirblobman.xyz/repository/maven-public/</url>
+        <url>https://nexus.sirblobman.xyz/repository/public/</url>
     </repository>
 </repositories>
 ```
