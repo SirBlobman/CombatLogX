@@ -23,14 +23,14 @@
     <distributionManagement>
         <!-- SirBlobman Releases -->
         <repository>
-            <id>sirblobman-releases</id>
-            <url>https://nexus.sirblobman.xyz/repository/maven-releases/</url>
+            <id>sb-public-releases</id>
+            <url>https://nexus.sirblobman.xyz/repository/public-releases/</url>
         </repository>
         
         <!-- SirBlobman Snapshots -->
         <snapshotRepository>
-            <id>sirblobman-snapshots</id>
-            <url>https://nexus.sirblobman.xyz/repository/maven-snapshots/</url>
+            <id>sb-public-snapshots</id>
+            <url>https://nexus.sirblobman.xyz/repository/public-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
