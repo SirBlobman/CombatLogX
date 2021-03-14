@@ -80,18 +80,18 @@
         <!-- Final Builder -->
         <module>builder</module>
     </modules>
-
+    
     <distributionManagement>
-        <!-- CodeMC Releases -->
+        <!-- SirBlobman Releases -->
         <repository>
-            <id>codemc-releases</id>
-            <url>https://repo.codemc.io/repository/maven-releases/</url>
+            <id>sb-public-releases</id>
+            <url>https://nexus.sirblobman.xyz/repository/public-releases/</url>
         </repository>
         
-        <!-- CodeMC Snapshots -->
+        <!-- SirBlobman Snapshots -->
         <snapshotRepository>
-            <id>codemc-snapshots</id>
-            <url>https://repo.codemc.io/repository/maven-snapshots/</url>
+            <id>sb-public-snapshots</id>
+            <url>https://nexus.sirblobman.xyz/repository/public-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
