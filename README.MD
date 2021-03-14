@@ -17,7 +17,7 @@ If you want to find out more about the expansions, please visit this page:
 <https://www.spigotmc.org/wiki/combatlogx/>
 
 ## Developer API
-If you want to create expansions or learn how to use the CombatLogX API, please visit this page:
+If you want to create expansions or learn how to use the CombatLogX API, please visit this page:  
 [CombatLogX API](api/README.MD)
 
 ## Support
