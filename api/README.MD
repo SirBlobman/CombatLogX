@@ -4,7 +4,7 @@ You can use it to create new expansions or to check stuff with your own plugin
 
 # Maven Repository
 A lot of developers use maven to build projects more easily.  
-CodeMC was nice enough to sponsor a maven repository for CombatLogX
+CombatLogX has a custom maven repository for you to use.
 
 **Repository: SirBlobman Public**
 ```xml
