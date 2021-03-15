@@ -19,6 +19,12 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+
+        <!-- SirBlobman Public Repository -->
+        <repository>
+            <id>sirblobman-public</id>
+            <url>https://nexus.sirblobman.xyz/repository/public/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -39,20 +45,18 @@
         </dependency>
 
         <!-- MassiveCore -->
-        <!-- Requires local installation or dummy API -->
         <dependency>
-            <groupId>com.github.sirblobman.combatlogx.dummy</groupId>
-            <artifactId>dummy-MassiveCore</artifactId>
-            <version>2.14.0</version>
+            <groupId>com.massivecraft.massivecore</groupId>
+            <artifactId>MassiveCore</artifactId>
+            <version>2.14.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Factions -->
-        <!-- Requires local installation or dummy API -->
+        <!-- MassiveCore Factions -->
         <dependency>
-            <groupId>com.github.sirblobman.combatlogx.dummy</groupId>
-            <artifactId>dummy-Factions</artifactId>
-            <version>2.14.0</version>
+            <groupId>com.massivecraft.factions</groupId>
+            <artifactId>Factions</artifactId>
+            <version>2.14.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
