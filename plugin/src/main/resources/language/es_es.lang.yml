@@ -1,4 +1,4 @@
-﻿# # Archivo de localización en Español (España) 
+﻿# Archivo de localización en Español (España) 
 # Hecha por KrazyxWolf para la versión 11.0.0.0
 # NO quites ninguna variable
 # No pongas nada en null, false o true ya que estos serán los mensajes que se mostrarán en el juego
@@ -11,9 +11,9 @@ prefix: "&f&l[&6CombatLogX&f&l]&r"
 decimal-format: "0.00"
 
 broadcast:
-  on-load: "&a&lHa sido correctamente cargado."
-  on-enable: "&a&lCombatLogX fue habilitada correctamente."
-  on-disable: "&c&lCombatLogX fue deshabilitado correctamente."
+  on-load: "&a&lCombatLogX ha sido cargado correctamente."
+  on-enable: "&a&lCombatLogX ha sido habilitado correctamente."
+  on-disable: "&c&lCombatLogX ha sido deshabilitado correctamente."
 
 placeholder:
   time-left-zero: "0"
@@ -24,11 +24,11 @@ placeholder:
     in-combat: "&aSi"
     not-in-combat: "&cNo"
   toggle:
-    enabled: "&aActivado"
-    disabled: "&cDesactivado"
+    enabled: "§aActivado"
+    disabled: "§cDesactivado"
   pvp-status:
-    enabled: "&aActivado"
-    disabled: "&cDesactivado"
+    enabled: "§aActivado"
+    disabled: "§cDesactivado"
 
 combat-timer:
   expire: "&aYa no estás en modo de combate."
@@ -40,7 +40,7 @@ error:
   no-permission: "&cPermiso faltante: &7{permission}"
   target-not-in-combat: "&7{target}&c no está en combate."
   self-not-in-combat: "&cNo estás en combate."
-  unknown-expansion: "&7{target}&c no es una expansión o no está instalado."
+  unknown-expansion: "&7{target}&c no es una expansión o no está instalada."
 
 command:
   combatlogx:
@@ -48,7 +48,7 @@ command:
       - "&f"
       - "&6&lAyuda de CombatLogX:"
       - "  &f&l/combatlogx help&7: Muestra este menú."
-      - "  &f&l/combatlogx reload&7: reinicia los archivos config.yml, language.yml, y todos los archivos de configuración de sus expansiones."
+      - "  &f&l/combatlogx reload&7: Reinicia los archivos config.yml, language.yml, y todos los archivos de configuración de sus expansiones."
       - "  &f&l/combatlogx about <expansion>&7: Revisa la información sobre una expansión."
       - "  &f&l/combatlogx tag <player>&7: Forzar a un jugador a entrar en modo combate."
       - "  &f&l/combatlogx toggle bossbar/actionbar/scoreboard&7: Habilita o deshabilita alguno de estos mensajes."
@@ -57,7 +57,7 @@ command:
       - "&f"
 
     reload-success:
-      - "&aSe ha recargado exitosamente todos los archivos de configuración de CombatLogX."
+      - "&aSe han recargado exitosamente todos los archivos de configuración de CombatLogX."
       - "&aSe ha recargado exitosamente el archivo de lenguaje de CombatLogX."
       - "&aSe han recargado exitosamente todos los archivos de configuración pertenecientes a las expansiones de CombatLogX."
 
