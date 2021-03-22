@@ -25,7 +25,7 @@ CombatLogX has different installation steps than other plugins, please read this
 [SIZE=5][B][COLOR=#FF0000]CombatLogX Beta:[/COLOR][/B][/SIZE]
 CombatLogX has a beta version available. This version is a developer build and may contain bugs or issues.
 If you would like to test the latest version or help with issues, you can download it through the link below:
-[URL='https://ci.codemc.io/job/SirBlobman/job/CombatLogX/']CodeMC - CombatLogX Beta[/URL]
+[URL='https://jenkins.sirblobman.xyz/job/SirBlobman/job/CombatLogX/']CombatLogX Beta Jenkins[/URL]
 
 [SIZE=5][B][COLOR=#FF0000]Source Code / Developer API:[/COLOR][/B][/SIZE]
 CombatLogX is an open source project licensed with GPL 3.0. You can find the source code and API in the links below:
