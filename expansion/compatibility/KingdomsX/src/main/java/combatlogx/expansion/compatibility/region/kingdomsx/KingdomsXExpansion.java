@@ -13,7 +13,7 @@ public final class KingdomsXExpansion extends RegionExpansion {
 
     @Override
     public boolean checkDependencies() {
-        return checkDependency("KingdomsX", true);
+        return checkDependency("Kingdoms", true, "1.10");
     }
 
     @Override
