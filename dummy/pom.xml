@@ -21,7 +21,6 @@
     <modules>
         <module>CrackShot</module>
         <module>GriefDefender</module>
-        <module>Lands</module>
         <module>LegacyFactions</module>
     </modules>
 </project>

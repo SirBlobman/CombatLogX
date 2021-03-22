@@ -19,6 +19,12 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+
+        <!-- SirBlobman Public -->
+        <repository>
+            <id>sirblobman-public</id>
+            <url>https://nexus.sirblobman.xyz/repository/public/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -39,11 +45,10 @@
         </dependency>
 
         <!-- Lands API -->
-        <!-- Requires local installation or dummy API -->
         <dependency>
-            <groupId>com.github.sirblobman.combatlogx.dummy</groupId>
-            <artifactId>dummy-Lands</artifactId>
-            <version>5.0.5</version>
+            <groupId>com.github.angeschossen</groupId>
+            <artifactId>LandsAPI</artifactId>
+            <version>5.3.2</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
