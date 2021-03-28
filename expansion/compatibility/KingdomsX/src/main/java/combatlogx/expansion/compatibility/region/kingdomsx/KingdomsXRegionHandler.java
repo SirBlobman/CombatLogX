@@ -26,22 +26,21 @@ public final class KingdomsXRegionHandler extends RegionHandler {
     @Override
     public boolean isSafeZone(Player player, Location location, TagType tagType) {
         if(tagType != TagType.PLAYER) return false;
+        UUID playerId = player.getUniqueId();
 
         Land land = Land.getLand(location);
         if(land == null || land.isBeingInvaded() || !land.isClaimed()) return false;
 
         UUID claimedBy = land.getClaimedBy();
-        if(claimedBy != null && claimedBy.equals(player.getUniqueId())) return false;
+        if(claimedBy == null || !claimedBy.equals(playerId)) return false;
 
         KingdomPlayer claimer = land.getClaimer();
-        if(claimer != null) {
-            Kingdom kingdom = claimer.getKingdom();
-            if(kingdom != null) {
-                Set<UUID> memberSet = kingdom.getMembers();
-                return !memberSet.contains(player.getUniqueId());
-            }
-        }
+        if(claimer == null) return false;
 
-        return false;
+        Kingdom kingdom = claimer.getKingdom();
+        if(kingdom == null) return false;
+
+        Set<UUID> kingdomMemberSet = kingdom.getMembers();
+        return !kingdomMemberSet.contains(playerId);
     }
 }
