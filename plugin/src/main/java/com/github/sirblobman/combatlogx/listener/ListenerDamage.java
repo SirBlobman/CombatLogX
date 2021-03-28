@@ -54,7 +54,7 @@ public class ListenerDamage extends CombatListener {
         }
 
         if(!(enemy instanceof Player)) {
-            plugin.printDebug("Enemy was not a playe.");
+            plugin.printDebug("Enemy was not a player.");
             return;
         }
 
