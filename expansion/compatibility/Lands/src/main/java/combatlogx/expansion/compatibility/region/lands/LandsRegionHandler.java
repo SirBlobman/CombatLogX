@@ -8,9 +8,10 @@ import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
+import me.angeschossen.lands.api.flags.Flags;
+import me.angeschossen.lands.api.flags.types.RoleFlag;
 import me.angeschossen.lands.api.integration.LandsIntegration;
 import me.angeschossen.lands.api.land.Area;
-import me.angeschossen.lands.api.role.enums.RoleSetting;
 
 public final class LandsRegionHandler extends RegionHandler {
     private final LandsIntegration landsIntegration;
@@ -31,7 +32,7 @@ public final class LandsRegionHandler extends RegionHandler {
         if(tagType == TagType.UNKNOWN) return false;
         Area area = this.landsIntegration.getAreaByLoc(location);
 
-        RoleSetting roleSetting = (tagType == TagType.PLAYER ? RoleSetting.ATTACK_PLAYER : RoleSetting.ATTACK_ANIMAL);
-        return (area != null && !area.canSetting(player, roleSetting, false));
+        RoleFlag flag = (tagType == TagType.PLAYER ? Flags.ATTACK_PLAYER : Flags.ATTACK_ANIMAL);
+        return (area != null && !area.hasFlag(player, flag, false));
     }
 }
