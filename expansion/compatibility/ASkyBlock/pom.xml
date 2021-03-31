@@ -20,13 +20,10 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
 
-        <!-- Bintray: Tastybento -->
+        <!-- SirBlobman Private Repository -->
         <repository>
-            <id>bintray-tastybento</id>
-            <url>https://dl.bintray.com/tastybento/maven-repo</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
+            <id>sirblobman-private</id>
+            <url>https://nexus.sirblobman.xyz/repository/private/</url>
         </repository>
     </repositories>
 
