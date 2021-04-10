@@ -17,13 +17,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.sirblobman.api.command.Command;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
+import com.github.sirblobman.api.core.CorePlugin;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.language.Replacer;
-import com.github.sirblobman.api.update.UpdateChecker;
+import com.github.sirblobman.api.update.UpdateManager;
 import com.github.sirblobman.api.utility.MessageUtility;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.CombatPlugin;
@@ -266,9 +268,8 @@ public class CommandCombatLogX extends Command {
 
         messageList.add("&f");
         messageList.add("&f&lCombatLogX by SirBlobman");
-        UpdateChecker updateChecker = this.plugin.getUpdateChecker();
-        String pluginVersion = updateChecker.getPluginVersion();
-        String spigotVersion = updateChecker.getSpigotVersion();
+        String pluginVersion = getPluginVersion();
+        String spigotVersion = getSpigotVersion();
         messageList.add("&f&lPlugin Version: &7" + pluginVersion);
         messageList.add("&f&lSpigot Version: &7" + spigotVersion);
         messageList.add("&f");
@@ -334,5 +335,19 @@ public class CommandCombatLogX extends Command {
 
         String messagePath = ("expansion.toggle-" + value);
         languageManager.sendMessage(player, messagePath, replacer, true);
+    }
+
+    @NotNull
+    private String getSpigotVersion() {
+        CorePlugin corePlugin = JavaPlugin.getPlugin(CorePlugin.class);
+        UpdateManager updateManager = corePlugin.getUpdateManager();
+        String spigotVersion = updateManager.getSpigotVersion(this.plugin);
+        return (spigotVersion == null ? "Update Checker Disabled!" : spigotVersion);
+    }
+
+    @NotNull
+    public String getPluginVersion() {
+        PluginDescriptionFile description = this.plugin.getDescription();
+        return description.getVersion();
     }
 }

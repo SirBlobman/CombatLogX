@@ -8,12 +8,14 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
+import com.github.sirblobman.api.core.CorePlugin;
 import com.github.sirblobman.api.core.plugin.ConfigurablePlugin;
 import com.github.sirblobman.api.language.LanguageManager;
-import com.github.sirblobman.api.update.UpdateChecker;
+import com.github.sirblobman.api.update.UpdateManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
@@ -33,12 +35,10 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     private final CombatManager combatManager;
     private final ExpansionManager expansionManager;
     private final ListenerDeath listenerDeath;
-    private final UpdateChecker updateChecker;
     public CombatPlugin() {
         this.expansionManager = new ExpansionManager(this);
         this.combatManager = new CombatManager(this);
         this.listenerDeath = new ListenerDeath(this);
-        this.updateChecker = new UpdateChecker(this, 31689L);
     }
 
     @Override
@@ -63,17 +63,15 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
 
     @Override
     public void onEnable() {
-        ListenerDeath deathListener = getDeathListener();
-        deathListener.register();
+        new CommandCombatLogX(this).register();
+        new CommandCombatTimer(this).register();
+        new CommandTogglePVP(this).register();
 
         new ListenerConfiguration(this).register();
         new ListenerDamage(this).register();
         new ListenerPunish(this).register();
         new ListenerUntag(this).register();
-
-        new CommandCombatLogX(this).register();
-        new CommandCombatTimer(this).register();
-        new CommandTogglePVP(this).register();
+        getDeathListener().register();
 
         CombatTimerTask combatTimerTask = new CombatTimerTask(this);
         combatTimerTask.start();
@@ -82,8 +80,9 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         expansionManager.enableExpansions();
         broadcastEnableMessage();
 
-        UpdateChecker updateChecker = getUpdateChecker();
-        updateChecker.runCheck();
+        CorePlugin corePlugin = JavaPlugin.getPlugin(CorePlugin.class);
+        UpdateManager updateManager = corePlugin.getUpdateManager();
+        updateManager.addResource(this, 31689L);
     }
 
     @Override
@@ -167,10 +166,6 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
 
     public ListenerDeath getDeathListener() {
         return this.listenerDeath;
-    }
-
-    public UpdateChecker getUpdateChecker() {
-        return this.updateChecker;
     }
 
     private void untagAllPlayers() {
