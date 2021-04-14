@@ -23,6 +23,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.PluginManager;
 
+import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
@@ -31,7 +32,6 @@ import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.ICombatManager;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
 import combatlogx.expansion.compatibility.citizens.object.CombatNPC;
@@ -356,7 +356,7 @@ public final class CombatNpcManager {
     }
 
     private YamlConfiguration getConfiguration() {
-        ExpansionConfigurationManager configurationManager = this.expansion.getConfigurationManager();
+        ConfigurationManager configurationManager = this.expansion.getConfigurationManager();
         return configurationManager.get("citizens.yml");
     }
 

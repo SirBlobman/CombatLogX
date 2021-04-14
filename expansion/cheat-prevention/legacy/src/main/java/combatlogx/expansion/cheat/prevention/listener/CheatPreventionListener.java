@@ -7,12 +7,12 @@ import java.util.UUID;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.ICombatManager;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 public abstract class CheatPreventionListener extends ExpansionListener {
@@ -40,7 +40,7 @@ public abstract class CheatPreventionListener extends ExpansionListener {
 
     private long getNewMessageCooldownExpireTime() {
         Expansion expansion = getExpansion();
-        ExpansionConfigurationManager configurationManager = expansion.getConfigurationManager();
+        ConfigurationManager configurationManager = expansion.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
         long cooldownSeconds = configuration.getLong("message-cooldown");
 

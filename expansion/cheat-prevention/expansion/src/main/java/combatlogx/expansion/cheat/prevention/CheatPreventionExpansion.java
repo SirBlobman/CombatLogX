@@ -1,9 +1,9 @@
 package combatlogx.expansion.cheat.prevention;
 
+import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 
 import combatlogx.expansion.cheat.prevention.listener.CheatPreventionListener;
 import combatlogx.expansion.cheat.prevention.listener.ListenerBlocks;
@@ -29,7 +29,7 @@ public final class CheatPreventionExpansion extends Expansion {
 
     @Override
     public void onLoad() {
-        ExpansionConfigurationManager configurationManager = getConfigurationManager();
+        ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.saveDefault("blocks.yml");
         configurationManager.saveDefault("chat.yml");
         configurationManager.saveDefault("commands.yml");
@@ -78,7 +78,7 @@ public final class CheatPreventionExpansion extends Expansion {
 
     @Override
     public void reloadConfig() {
-        ExpansionConfigurationManager configurationManager = getConfigurationManager();
+        ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.reload("blocks.yml");
         configurationManager.reload("chat.yml");
         configurationManager.reload("commands.yml");

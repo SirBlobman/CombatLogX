@@ -7,8 +7,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityResurrectEvent;
 
+import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 
 public final class ListenerTotem extends CheatPreventionListener {
     public ListenerTotem(Expansion expansion) {
@@ -28,7 +28,7 @@ public final class ListenerTotem extends CheatPreventionListener {
 
     private YamlConfiguration getConfiguration() {
         Expansion expansion = getExpansion();
-        ExpansionConfigurationManager configurationManager = expansion.getConfigurationManager();
+        ConfigurationManager configurationManager = expansion.getConfigurationManager();
         return configurationManager.get("items.yml");
     }
 

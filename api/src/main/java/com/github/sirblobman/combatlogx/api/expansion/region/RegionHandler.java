@@ -14,10 +14,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.util.Vector;
 
+import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.ICombatManager;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 import com.github.sirblobman.combatlogx.api.object.NoEntryMode;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
@@ -148,7 +148,7 @@ public abstract class RegionHandler {
 
     private YamlConfiguration getConfiguration() {
         RegionExpansion expansion = getExpansion();
-        ExpansionConfigurationManager configurationManager = expansion.getConfigurationManager();
+        ConfigurationManager configurationManager = expansion.getConfigurationManager();
         return configurationManager.get("config.yml");
     }
 

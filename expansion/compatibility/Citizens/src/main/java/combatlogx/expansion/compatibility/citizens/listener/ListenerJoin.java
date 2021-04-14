@@ -18,11 +18,11 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
@@ -68,7 +68,7 @@ public final class ListenerJoin extends ExpansionListener {
 
     private YamlConfiguration getConfiguration() {
         Expansion expansion = getExpansion();
-        ExpansionConfigurationManager configurationManager = expansion.getConfigurationManager();
+        ConfigurationManager configurationManager = expansion.getConfigurationManager();
         return configurationManager.get("citizens.yml");
     }
 

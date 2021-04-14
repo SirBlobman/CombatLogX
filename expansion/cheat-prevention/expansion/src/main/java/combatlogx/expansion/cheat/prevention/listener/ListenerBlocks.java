@@ -13,8 +13,8 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 
 import combatlogx.expansion.cheat.prevention.CheatPreventionExpansion;
 
@@ -64,7 +64,7 @@ public final class ListenerBlocks extends CheatPreventionListener {
 
     private YamlConfiguration getConfiguration() {
         Expansion expansion = getExpansion();
-        ExpansionConfigurationManager configurationManager = expansion.getConfigurationManager();
+        ConfigurationManager configurationManager = expansion.getConfigurationManager();
         return configurationManager.get("blocks.yml");
     }
 

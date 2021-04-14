@@ -2,9 +2,9 @@ package combatlogx.expansion.compatibility.citizens;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
 import combatlogx.expansion.compatibility.citizens.manager.CombatNpcManager;
@@ -20,7 +20,7 @@ public final class CitizensExpansion extends Expansion {
 
     @Override
     public void onLoad() {
-        ExpansionConfigurationManager configurationManager = getConfigurationManager();
+        ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.saveDefault("config.yml");
         configurationManager.saveDefault("citizens.yml");
         configurationManager.saveDefault("sentinel.yml");
@@ -45,7 +45,7 @@ public final class CitizensExpansion extends Expansion {
 
     @Override
     public void reloadConfig() {
-        ExpansionConfigurationManager configurationManager = getConfigurationManager();
+        ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.reload("config.yml");
         configurationManager.reload("citizens.yml");
         configurationManager.reload("sentinel.yml");
@@ -57,7 +57,8 @@ public final class CitizensExpansion extends Expansion {
 
     public boolean isSentinelEnabled() {
         if(!this.sentinelEnabled) return false;
-        ExpansionConfigurationManager configurationManager = getConfigurationManager();
+
+        ConfigurationManager configurationManager = getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
         return configuration.getBoolean("enable-sentinel");
     }

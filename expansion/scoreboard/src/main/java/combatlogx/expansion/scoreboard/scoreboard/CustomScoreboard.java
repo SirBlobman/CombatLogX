@@ -15,6 +15,7 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.api.nms.scoreboard.ScoreboardHandler;
 import com.github.sirblobman.api.utility.MessageUtility;
@@ -22,7 +23,6 @@ import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.ICombatManager;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 import com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper;
 
 import combatlogx.expansion.scoreboard.ScoreboardExpansion;
@@ -92,7 +92,7 @@ public final class CustomScoreboard {
 
     private void createObjective() {
         ScoreboardExpansion expansion = getExpansion();
-        ExpansionConfigurationManager configurationManager = expansion.getConfigurationManager();
+        ConfigurationManager configurationManager = expansion.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
 
         String title = configuration.getString("title");
@@ -182,7 +182,7 @@ public final class CustomScoreboard {
 
     private List<String> getLines() {
         ScoreboardExpansion expansion = getExpansion();
-        ExpansionConfigurationManager configurationManager = expansion.getConfigurationManager();
+        ConfigurationManager configurationManager = expansion.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
 
         List<String> lineList = configuration.getStringList("lines");

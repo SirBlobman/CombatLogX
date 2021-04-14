@@ -2,10 +2,10 @@ package combatlogx.expansion.action.bar;
 
 import java.util.logging.Logger;
 
+import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
 import combatlogx.expansion.action.bar.listener.ListenerActionBar;
@@ -17,7 +17,7 @@ public final class ActionBarExpansion extends Expansion {
 
     @Override
     public void onLoad() {
-        ExpansionConfigurationManager configurationManager = getConfigurationManager();
+        ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.saveDefault("config.yml");
     }
 
@@ -44,7 +44,7 @@ public final class ActionBarExpansion extends Expansion {
 
     @Override
     public void reloadConfig() {
-        ExpansionConfigurationManager configurationManager = getConfigurationManager();
+        ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.reload("config.yml");
     }
 }

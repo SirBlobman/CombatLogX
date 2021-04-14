@@ -4,9 +4,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
 
+import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
 import combatlogx.expansion.rewards.hook.HookVault;
@@ -24,7 +24,7 @@ public final class RewardExpansion extends Expansion {
 
     @Override
     public void onLoad() {
-        ExpansionConfigurationManager configurationManager = getConfigurationManager();
+        ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.saveDefault("config.yml");
     }
 
@@ -56,7 +56,7 @@ public final class RewardExpansion extends Expansion {
 
     @Override
     public void reloadConfig() {
-        ExpansionConfigurationManager configurationManager = getConfigurationManager();
+        ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.reload("config.yml");
 
         RewardManager rewardManager = getRewardManager();
@@ -72,7 +72,7 @@ public final class RewardExpansion extends Expansion {
     }
 
     public boolean usePlaceholderAPI() {
-        ExpansionConfigurationManager configurationManager = getConfigurationManager();
+        ConfigurationManager configurationManager = getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
         boolean usePlaceholderAPI = configuration.getBoolean("hooks.placeholderapi");
         if(usePlaceholderAPI) {
@@ -84,8 +84,9 @@ public final class RewardExpansion extends Expansion {
     }
 
     public boolean useMVdWPlaceholderAPI() {
-        ExpansionConfigurationManager configurationManager = getConfigurationManager();
+        ConfigurationManager configurationManager = getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
+
         boolean useMVdWPlaceholderAPI = configuration.getBoolean("hooks.mvdwplaceholderapi");
         if(useMVdWPlaceholderAPI) {
             PluginManager pluginManager = Bukkit.getPluginManager();

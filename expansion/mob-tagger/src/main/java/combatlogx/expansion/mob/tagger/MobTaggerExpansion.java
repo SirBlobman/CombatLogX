@@ -1,8 +1,8 @@
 package combatlogx.expansion.mob.tagger;
 
+import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 
 import combatlogx.expansion.mob.tagger.listener.ListenerDamage;
 
@@ -13,7 +13,7 @@ public final class MobTaggerExpansion extends Expansion {
 
     @Override
     public void onLoad() {
-        ExpansionConfigurationManager configurationManager = getConfigurationManager();
+        ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.saveDefault("config.yml");
     }
 
@@ -29,7 +29,7 @@ public final class MobTaggerExpansion extends Expansion {
 
     @Override
     public void reloadConfig() {
-        ExpansionConfigurationManager configurationManager = getConfigurationManager();
+        ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.reload("config.yml");
     }
 }

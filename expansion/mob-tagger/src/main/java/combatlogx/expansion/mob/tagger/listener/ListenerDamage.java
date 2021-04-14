@@ -23,7 +23,6 @@ import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.ICombatManager;
 import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
@@ -87,7 +86,7 @@ public final class ListenerDamage extends ExpansionListener {
         String entityTypeName = entityType.name();
 
         Expansion expansion = getExpansion();
-        ExpansionConfigurationManager configurationManager = expansion.getConfigurationManager();
+        ConfigurationManager configurationManager = expansion.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
 
         List<String> mobList = configuration.getStringList("mob-list");
@@ -100,7 +99,7 @@ public final class ListenerDamage extends ExpansionListener {
         String spawnReasonName = spawnReason.name();
 
         Expansion expansion = getExpansion();
-        ExpansionConfigurationManager configurationManager = expansion.getConfigurationManager();
+        ConfigurationManager configurationManager = expansion.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
 
         List<String> spawnReasonList = configuration.getStringList("spawn-reason-list");
@@ -142,7 +141,7 @@ public final class ListenerDamage extends ExpansionListener {
 
     private boolean hasBypassPermission(Player player) {
         Expansion expansion = getExpansion();
-        ExpansionConfigurationManager configurationManager = expansion.getConfigurationManager();
+        ConfigurationManager configurationManager = expansion.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
 
         String permissionName = configuration.getString("bypass-permission");

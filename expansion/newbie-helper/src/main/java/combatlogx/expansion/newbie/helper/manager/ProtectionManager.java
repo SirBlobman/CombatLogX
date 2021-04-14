@@ -3,11 +3,11 @@ package combatlogx.expansion.newbie.helper.manager;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 
 import combatlogx.expansion.newbie.helper.NewbieHelperExpansion;
 
@@ -58,7 +58,7 @@ public final class ProtectionManager {
     }
 
     private long getProtectionExpireTime() {
-        ExpansionConfigurationManager configurationManager = this.expansion.getConfigurationManager();
+        ConfigurationManager configurationManager = this.expansion.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
         long protectionMillis = configuration.getLong("protection-time");
         return (System.currentTimeMillis() + protectionMillis);

@@ -10,7 +10,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 import com.github.sirblobman.combatlogx.api.utility.EntityHelper;
 
@@ -109,7 +108,7 @@ public final class ListenerDamage extends ExpansionListener {
     }
 
     private boolean shouldRemoveProtectionOnAttack() {
-        ExpansionConfigurationManager configurationManager = this.expansion.getConfigurationManager();
+        ConfigurationManager configurationManager = this.expansion.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
         return configuration.getBoolean("remove-protection-on-attack", true);
     }

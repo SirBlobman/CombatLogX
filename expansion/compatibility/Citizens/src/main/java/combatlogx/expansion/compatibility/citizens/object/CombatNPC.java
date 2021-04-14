@@ -9,10 +9,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.ICombatManager;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
 import combatlogx.expansion.compatibility.citizens.manager.CombatNpcManager;
@@ -80,7 +80,7 @@ public final class CombatNPC extends BukkitRunnable {
     }
 
     public void resetSurvivalTime() {
-        ExpansionConfigurationManager configurationManager = this.expansion.getConfigurationManager();
+        ConfigurationManager configurationManager = this.expansion.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("citizens.yml");
         long survivalSeconds = configuration.getLong("survival-time");
         this.survivalTicks = (survivalSeconds * 20L);

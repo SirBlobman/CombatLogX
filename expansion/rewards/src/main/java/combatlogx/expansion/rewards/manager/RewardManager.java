@@ -12,8 +12,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
+import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.utility.Validate;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 
 import combatlogx.expansion.rewards.RewardExpansion;
 import combatlogx.expansion.rewards.object.Reward;
@@ -29,7 +29,7 @@ public final class RewardManager {
     }
 
     public void loadRewards() {
-        ExpansionConfigurationManager configurationManager = this.expansion.getConfigurationManager();
+        ConfigurationManager configurationManager = this.expansion.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
         this.rewardSet.clear();
 

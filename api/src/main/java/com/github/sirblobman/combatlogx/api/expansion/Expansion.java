@@ -18,10 +18,12 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.configuration.IResourceHolder;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 
-public abstract class Expansion {
+public abstract class Expansion implements IResourceHolder {
     public enum State {
         LOADED, UNLOADED, ENABLED, DISABLED
     }
@@ -32,11 +34,10 @@ public abstract class Expansion {
 
     private final ICombatLogX plugin;
     private ExpansionLogger logger;
-    private final ExpansionConfigurationManager configurationManager;
+    private ConfigurationManager configurationManager;
     private final List<Listener> listenerList;
     public Expansion(ICombatLogX plugin) {
         this.plugin = Validate.notNull(plugin, "plugin must not be null!");
-        this.configurationManager = new ExpansionConfigurationManager(this);
         this.listenerList = new ArrayList<>();
 
         this.state = State.UNLOADED;
@@ -85,7 +86,11 @@ public abstract class Expansion {
         return this.logger;
     }
 
-    public final ExpansionConfigurationManager getConfigurationManager() {
+    public final ConfigurationManager getConfigurationManager() {
+        if(this.configurationManager == null) {
+            this.configurationManager = new ConfigurationManager(this);
+        }
+
         return this.configurationManager;
     }
 
@@ -111,7 +116,8 @@ public abstract class Expansion {
         return description.getDisplayName();
     }
 
-    protected final InputStream getResource(String name) {
+    @Override
+    public final InputStream getResource(String name) {
         Validate.notEmpty(name, "name cannot be null or empty!");
         try {
             Class<? extends Expansion> thisClass = getClass();

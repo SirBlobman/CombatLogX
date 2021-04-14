@@ -7,8 +7,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 
+import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionConfigurationManager;
 
 public final class ListenerModernItemPickup extends CheatPreventionListener {
     public ListenerModernItemPickup(Expansion expansion) {
@@ -30,7 +30,7 @@ public final class ListenerModernItemPickup extends CheatPreventionListener {
 
     private boolean isAllowed() {
         Expansion expansion = getExpansion();
-        ExpansionConfigurationManager configurationManager = expansion.getConfigurationManager();
+        ConfigurationManager configurationManager = expansion.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("items.yml");
         return !configuration.getBoolean("prevent-pickup");
     }

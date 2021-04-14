@@ -1,23 +1,19 @@
 package com.github.sirblobman.combatlogx.api;
 
-import java.io.File;
-import java.util.logging.Logger;
-
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.configuration.IResourceHolder;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
-public interface ICombatLogX {
+public interface ICombatLogX extends IResourceHolder {
     JavaPlugin getPlugin();
-    Logger getLogger();
-    File getDataFolder();
     ClassLoader getPluginClassLoader();
 
     YamlConfiguration getConfig(String fileName);
