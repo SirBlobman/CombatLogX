@@ -96,7 +96,9 @@ public class ListenerConfiguration extends CombatListener {
         YamlConfiguration configuration = configurationManager.get("config.yml");
 
         List<String> disabledWorldList = configuration.getStringList("disabled-world-list");
-        return disabledWorldList.contains(worldName);
+        boolean whitelist = configuration.getBoolean("disabled-world-list-is-whitelist");
+        boolean contains = disabledWorldList.contains(worldName);
+        return (whitelist != contains);
     }
 
     private boolean checkBypass(Player player) {
