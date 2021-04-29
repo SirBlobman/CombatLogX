@@ -3,7 +3,9 @@ CombatLogX is a plugin made for the Spigot server software.
 It has many combat-related features to add to your server.  
 One of the main features of this plugin are the Expansions, which are like modules that allow you to add different things and change how the plugin works.
 
-If you are looking for the source for the current version on Spigot (10.3.8.3), please check the "old/10.0.0.0" branch.
+# Dependencies
+- [Spigot 1.8.8 - 1.16.5](https://spigotmc.org/)
+- [SirBlobmanCore 2.0.6-Dev or higher](https://jenkins.sirblobman.xyz/job/SirBlobman/job/SirBlobmanAPI/)
 
 ## Main Features
 * Custom expansions that change how the plugin works
@@ -21,8 +23,9 @@ If you want to find out more about the expansions, please visit this page:
 You can also open the README files in each expansion folder.
 
 ## Developer API
-If you want to create expansions or learn how to use the CombatLogX API, please visit this page:
-<https://github.com/SirBlobman/CombatLogX/blob/master/api/README.MD>
+If you are looking for the source for the current version on Spigot (10.3.8.3), please check the "old/10.0.0.0" branch.  
+If you want to create expansions or learn how to use the CombatLogX API for V11/Beta, please visit this page:  
+[API README](api/README.MD)
 
 ## Support
 Support is provided by creating a new issue, or by chatting with the Support Team on my discord.  
