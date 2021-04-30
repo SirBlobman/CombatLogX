@@ -1,0 +1,628 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] CombatLogX Parent                                                  [pom]
+[INFO] CombatLogX API                                                     [jar]
+[INFO] Dummy: Parent POM                                                  [pom]
+[INFO] Dummy: CrackShot                                                   [jar]
+[INFO] Dummy: GriefDefender                                               [jar]
+[INFO] Dummy: LegacyFactions                                              [jar]
+[INFO] CombatLogX Plugin                                                  [jar]
+[INFO] Expansion: Parent POM                                              [pom]
+[INFO] Expansion: Damage Tagger                                           [jar]
+[INFO] Expansion: Logger                                                  [jar]
+[INFO] Expansion: Loot Protection                                         [jar]
+[INFO] Expansion: Mob Tagger                                              [jar]
+[INFO] Expansion: Newbie Helper                                           [jar]
+[INFO] Expansion: Rewards                                                 [jar]
+[INFO] Expansion: Action Bar                                              [jar]
+[INFO] Expansion: Boss Bar                                                [jar]
+[INFO] Expansion: Scoreboard                                              [jar]
+[INFO] Expansion: Glowing                                                 [jar]
+[INFO] Expansion: Cheat Prevention Parent POM                             [pom]
+[INFO] Expansion: Cheat Prevention Legacy                                 [jar]
+[INFO] Expansion: Cheat Prevention                                        [jar]
+[INFO] Expansion: Compatibility Parent POM                                [pom]
+[INFO] Compatibility Expansion: CrackShot                                 [jar]
+[INFO] Compatibility Expansion: Citizens                                  [jar]
+[INFO] Compatibility Expansion: MassiveCore Factions                      [jar]
+[INFO] Compatibility Expansion: Factions UUID                             [jar]
+[INFO] Compatibility Expansion: Factions UUID Legacy                      [jar]
+[INFO] Compatibility Expansion: FactionsX                                 [jar]
+[INFO] Compatibility Expansion: LegacyFactions                            [jar]
+[INFO] Compatibility Expansion: MVdWPlaceholderAPI                        [jar]
+[INFO] Compatibility Expansion: PlaceholderAPI                            [jar]
+[INFO] Compatibility Expansion: GriefDefender                             [jar]
+[INFO] Compatibility Expansion: GriefPrevention                           [jar]
+[INFO] Compatibility: KingdomsX                                           [jar]
+[INFO] Compatibility Expansion: Lands                                     [jar]
+[INFO] Compatibility Expansion: WorldGuard                                [jar]
+[INFO] Compatibility Expansion: ASkyBlock                                 [jar]
+[INFO] Compatibility Expansion: BSkyBlock                                 [jar]
+[INFO] Compatibility Expansion: FabledSkyBlock                            [jar]
+[INFO] Compatibility Expansion: IridiumSkyBlock                           [jar]
+[INFO] Compatibility Expansion: SuperiorSkyblock                          [jar]
+[INFO] Compatibility Expansion: uSkyBlock                                 [jar]
+[INFO] Compatibility Expansion: Essentials                                [jar]
+[INFO] CombatLogX ZIP Builder                                             [pom]
+[INFO] 
+[INFO] --------------< com.github.sirblobman.combatlogx:parent >---------------
+[INFO] Building CombatLogX Parent 11.0.0.0-SNAPSHOT                      [1/44]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ parent ---
+[INFO] com.github.sirblobman.combatlogx:parent:pom:11.0.0.0-SNAPSHOT
+[INFO] 
+[INFO] ----------------< com.github.sirblobman.combatlogx:api >----------------
+[INFO] Building CombatLogX API 11.0.0.0-SNAPSHOT                         [2/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ api ---
+[INFO] com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT
+[INFO] +- org.jetbrains:annotations:jar:20.1.0:provided
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] +- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:compile
+[INFO] \- com.comphenix.protocol:ProtocolLib:jar:4.6.1-SNAPSHOT:provided
+[INFO] 
+[INFO] --------< com.github.sirblobman.combatlogx.dummy:dummy-parent >---------
+[INFO] Building Dummy: Parent POM 11.0.0.0-SNAPSHOT                      [3/44]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ dummy-parent ---
+[INFO] com.github.sirblobman.combatlogx.dummy:dummy-parent:pom:11.0.0.0-SNAPSHOT
+[INFO] 
+[INFO] -------< com.github.sirblobman.combatlogx.dummy:dummy-CrackShot >-------
+[INFO] Building Dummy: CrackShot 0.98.9                                  [4/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ dummy-CrackShot ---
+[INFO] com.github.sirblobman.combatlogx.dummy:dummy-CrackShot:jar:0.98.9
+[INFO] \- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] 
+[INFO] -----< com.github.sirblobman.combatlogx.dummy:dummy-GriefDefender >-----
+[INFO] Building Dummy: GriefDefender 1.0.0-SNAPSHOT                      [5/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ dummy-GriefDefender ---
+[INFO] com.github.sirblobman.combatlogx.dummy:dummy-GriefDefender:jar:1.0.0-SNAPSHOT
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.google.guava:guava:jar:21.0:provided
+[INFO] 
+[INFO] ----< com.github.sirblobman.combatlogx.dummy:dummy-LegacyFactions >-----
+[INFO] Building Dummy: LegacyFactions 1.4.4                              [6/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ dummy-LegacyFactions ---
+[INFO] com.github.sirblobman.combatlogx.dummy:dummy-LegacyFactions:jar:1.4.4
+[INFO] \- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] 
+[INFO] --------------< com.github.sirblobman.combatlogx:plugin >---------------
+[INFO] Building CombatLogX Plugin 11.0.0.0-SNAPSHOT                      [7/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ plugin ---
+[INFO] com.github.sirblobman.combatlogx:plugin:jar:11.0.0.0-SNAPSHOT
+[INFO] +- org.jetbrains:annotations:jar:20.1.0:provided
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] +- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:compile
+[INFO] |  \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:compile
+[INFO] +- org.zeroturnaround:zt-zip:jar:1.14:compile
+[INFO] +- me.clip:placeholderapi:jar:2.10.9:provided
+[INFO] \- be.maximvdw:MVdWPlaceholderAPI:jar:3.1.1-SNAPSHOT:provided
+[INFO] 
+[INFO] ----< com.github.sirblobman.combatlogx.expansion:expansion-parent >-----
+[INFO] Building Expansion: Parent POM 11.0.0.0-SNAPSHOT                  [8/44]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ expansion-parent ---
+[INFO] com.github.sirblobman.combatlogx.expansion:expansion-parent:pom:11.0.0.0-SNAPSHOT
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] ------< com.github.sirblobman.combatlogx.expansion:damage-tagger >------
+[INFO] Building Expansion: Damage Tagger 11.0.0.0-SNAPSHOT               [9/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ damage-tagger ---
+[INFO] com.github.sirblobman.combatlogx.expansion:damage-tagger:jar:11.0.0.0-SNAPSHOT
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] ---------< com.github.sirblobman.combatlogx.expansion:logger >----------
+[INFO] Building Expansion: Logger 11.0.0.0-SNAPSHOT                     [10/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ logger ---
+[INFO] com.github.sirblobman.combatlogx.expansion:logger:jar:11.0.0.0-SNAPSHOT
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] -----< com.github.sirblobman.combatlogx.expansion:loot-protection >-----
+[INFO] Building Expansion: Loot Protection 11.0.0.0-SNAPSHOT            [11/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ loot-protection ---
+[INFO] com.github.sirblobman.combatlogx.expansion:loot-protection:jar:11.0.0.0-SNAPSHOT
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] -------< com.github.sirblobman.combatlogx.expansion:mob-tagger >--------
+[INFO] Building Expansion: Mob Tagger 11.0.0.0-SNAPSHOT                 [12/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ mob-tagger ---
+[INFO] com.github.sirblobman.combatlogx.expansion:mob-tagger:jar:11.0.0.0-SNAPSHOT
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] ------< com.github.sirblobman.combatlogx.expansion:newbie-helper >------
+[INFO] Building Expansion: Newbie Helper 11.0.0.0-SNAPSHOT              [13/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ newbie-helper ---
+[INFO] com.github.sirblobman.combatlogx.expansion:newbie-helper:jar:11.0.0.0-SNAPSHOT
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] ---------< com.github.sirblobman.combatlogx.expansion:rewards >---------
+[INFO] Building Expansion: Rewards 11.0.0.0-SNAPSHOT                    [14/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ rewards ---
+[INFO] com.github.sirblobman.combatlogx.expansion:rewards:jar:11.0.0.0-SNAPSHOT
+[INFO] +- net.milkbowl.vault:VaultAPI:jar:1.7:provided
+[INFO] +- be.maximvdw:MVdWPlaceholderAPI:jar:3.1.1-SNAPSHOT:provided
+[INFO] |  +- be.maximvdw:MVdWUpdater:jar:1.6.0-SNAPSHOT:provided
+[INFO] |  \- org.eclipse.paho:org.eclipse.paho.client.mqttv3:jar:1.2.1:provided
+[INFO] +- me.clip:placeholderapi:jar:2.10.9:provided
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] -------< com.github.sirblobman.combatlogx.expansion:action-bar >--------
+[INFO] Building Expansion: Action Bar 11.0.0.0-SNAPSHOT                 [15/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ action-bar ---
+[INFO] com.github.sirblobman.combatlogx.expansion:action-bar:jar:11.0.0.0-SNAPSHOT
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] --------< com.github.sirblobman.combatlogx.expansion:boss-bar >---------
+[INFO] Building Expansion: Boss Bar 11.0.0.0-SNAPSHOT                   [16/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ boss-bar ---
+[INFO] com.github.sirblobman.combatlogx.expansion:boss-bar:jar:11.0.0.0-SNAPSHOT
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] -------< com.github.sirblobman.combatlogx.expansion:scoreboard >--------
+[INFO] Building Expansion: Scoreboard 11.0.0.0-SNAPSHOT                 [17/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ scoreboard ---
+[INFO] com.github.sirblobman.combatlogx.expansion:scoreboard:jar:11.0.0.0-SNAPSHOT
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] ---------< com.github.sirblobman.combatlogx.expansion:glowing >---------
+[INFO] Building Expansion: Glowing 11.0.0.0-SNAPSHOT                    [18/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ glowing ---
+[INFO] com.github.sirblobman.combatlogx.expansion:glowing:jar:11.0.0.0-SNAPSHOT
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] --< com.github.sirblobman.combatlogx.expansion:cheat-prevention-parent >--
+[INFO] Building Expansion: Cheat Prevention Parent POM 11.0.0.0-SNAPSHOT [19/44]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ cheat-prevention-parent ---
+[INFO] com.github.sirblobman.combatlogx.expansion:cheat-prevention-parent:pom:11.0.0.0-SNAPSHOT
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] --< com.github.sirblobman.combatlogx.expansion.cheat.prevention:legacy >--
+[INFO] Building Expansion: Cheat Prevention Legacy 11.0.0.0-SNAPSHOT    [20/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ legacy ---
+[INFO] com.github.sirblobman.combatlogx.expansion.cheat.prevention:legacy:jar:11.0.0.0-SNAPSHOT
+[INFO] +- org.spigotmc:spigot-api:jar:1.8.8-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] ----< com.github.sirblobman.combatlogx.expansion:cheat-prevention >-----
+[INFO] Building Expansion: Cheat Prevention 11.0.0.0-SNAPSHOT           [21/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ cheat-prevention ---
+[INFO] com.github.sirblobman.combatlogx.expansion:cheat-prevention:jar:11.0.0.0-SNAPSHOT
+[INFO] +- com.github.sirblobman.combatlogx.expansion.cheat.prevention:legacy:jar:11.0.0.0-SNAPSHOT:compile
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] --< com.github.sirblobman.combatlogx.expansion.compatibility:compatibility-parent >--
+[INFO] Building Expansion: Compatibility Parent POM 11.0.0.0-SNAPSHOT   [22/44]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ compatibility-parent ---
+[INFO] com.github.sirblobman.combatlogx.expansion.compatibility:compatibility-parent:pom:11.0.0.0-SNAPSHOT
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] --< com.github.sirblobman.combatlogx.expansion.compatibility:CrackShot >--
+[INFO] Building Compatibility Expansion: CrackShot 11.0.0.0-SNAPSHOT    [23/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ CrackShot ---
+[INFO] com.github.sirblobman.combatlogx.expansion.compatibility:CrackShot:jar:11.0.0.0-SNAPSHOT
+[INFO] +- com.github.sirblobman.combatlogx.dummy:dummy-CrackShot:jar:0.98.9:provided
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] --< com.github.sirblobman.combatlogx.expansion.compatibility:Citizens >--
+[INFO] Building Compatibility Expansion: Citizens 11.0.0.0-SNAPSHOT     [24/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[WARNING] The POM for org.mcmonkey:sentinel:jar:2.2.1-20210226.011452-401 is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ Citizens ---
+[WARNING] Invalid POM for org.mcmonkey:sentinel:jar:2.2.1-SNAPSHOT, transitive dependencies (if any) will not be available, enable debug logging for more details
+[INFO] com.github.sirblobman.combatlogx.expansion.compatibility:Citizens:jar:11.0.0.0-SNAPSHOT
+[INFO] +- net.citizensnpcs:citizens-main:jar:2.0.27-SNAPSHOT:provided
+[INFO] |  +- net.sf.trove4j:trove4j:jar:3.0.3:provided
+[INFO] |  \- net.citizensnpcs:citizensapi:jar:2.0.27-SNAPSHOT:provided
+[INFO] |     \- ch.ethz.globis.phtree:phtree:jar:2.3.0:provided
+[INFO] |        \- junit:junit:jar:4.12:provided
+[INFO] |           \- org.hamcrest:hamcrest-core:jar:1.3:provided
+[INFO] +- org.mcmonkey:sentinel:jar:2.2.1-SNAPSHOT:provided
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] --< com.github.sirblobman.combatlogx.expansion.compatibility:Factions >--
+[INFO] Building Compatibility Expansion: MassiveCore Factions 11.0.0.0-SNAPSHOT [25/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ Factions ---
+Downloading from minebuilders-repo: http://minebuilders.me:8080/plugin/repository/everything/com/massivecraft/massivesuper/MassiveSuper/2.14.1-SNAPSHOT/maven-metadata.xml
+[WARNING] Could not transfer metadata com.massivecraft.massivesuper:MassiveSuper:2.14.1-SNAPSHOT/maven-metadata.xml from/to minebuilders-repo (http://minebuilders.me:8080/plugin/repository/everything/): Transfer failed for http://minebuilders.me:8080/plugin/repository/everything/com/massivecraft/massivesuper/MassiveSuper/2.14.1-SNAPSHOT/maven-metadata.xml
+[INFO] com.github.sirblobman.combatlogx.expansion.compatibility:Factions:jar:11.0.0.0-SNAPSHOT
+[INFO] +- com.massivecraft.massivecore:MassiveCore:jar:2.14.1-SNAPSHOT:provided
+[INFO] +- com.massivecraft.factions:Factions:jar:2.14.1-SNAPSHOT:provided
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] --< com.github.sirblobman.combatlogx.expansion.compatibility:FactionsUUID >--
+[INFO] Building Compatibility Expansion: Factions UUID 11.0.0.0-SNAPSHOT [26/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ FactionsUUID ---
+[INFO] com.github.sirblobman.combatlogx.expansion.compatibility:FactionsUUID:jar:11.0.0.0-SNAPSHOT
+[INFO] +- com.massivecraft:Factions:jar:1.6.9.5-U0.5.21:provided
+[INFO] |  +- com.massivecraft:Factions-Legacy:jar:1.6.9.5-U0.5.21:provided
+[INFO] |  +- io.papermc:paperlib:jar:1.0.4:provided
+[INFO] |  +- mkremins:fanciful:jar:0.4.0-SNAPSHOT:provided
+[INFO] |  +- com.google.guava:guava:jar:21.0:provided
+[INFO] |  +- com.google.code.gson:gson:jar:2.8.5:provided
+[INFO] |  +- com.darkblade12:particleeffect:jar:1.8.0-fuuid:provided
+[INFO] |  +- me.lucko:commodore:jar:1.3:provided
+[INFO] |  |  \- com.mojang:brigadier:jar:1.0.14:provided
+[INFO] |  +- org.spongepowered:configurate-hocon:jar:3.6.1:provided
+[INFO] |  |  +- org.spongepowered:configurate-core:jar:3.6.1:provided
+[INFO] |  |  |  \- (com.google.guava:guava:jar:21.0:provided - omitted for duplicate)
+[INFO] |  |  \- com.typesafe:config:jar:1.3.1:provided
+[INFO] |  \- org.kitteh:paste-gg-api:jar:0.9.1:provided
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] --< com.github.sirblobman.combatlogx.expansion.compatibility:FactionsUUID-Legacy >--
+[INFO] Building Compatibility Expansion: Factions UUID Legacy 11.0.0.0-SNAPSHOT [27/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ FactionsUUID-Legacy ---
+[INFO] com.github.sirblobman.combatlogx.expansion.compatibility:FactionsUUID-Legacy:jar:11.0.0.0-SNAPSHOT
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] |  +- commons-lang:commons-lang:jar:2.6:provided
+[INFO] |  +- com.google.guava:guava:jar:21.0:provided
+[INFO] |  +- com.google.code.gson:gson:jar:2.8.0:provided
+[INFO] |  +- net.md-5:bungeecord-chat:jar:1.16-R0.4:provided
+[INFO] |  |  +- (com.google.code.gson:gson:jar:2.8.0:provided - omitted for duplicate)
+[INFO] |  |  \- (com.google.guava:guava:jar:21.0:provided - omitted for duplicate)
+[INFO] |  \- org.yaml:snakeyaml:jar:1.27:provided
+[INFO] +- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO] |  \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] \- com.massivecraft:Factions:jar:1.6.9.5-U0.2.1-RC:provided
+[INFO]    +- mkremins:fanciful:jar:0.4.0-SNAPSHOT:provided
+[INFO]    \- (com.google.code.gson:gson:jar:2.6.2:provided - omitted for conflict with 2.8.0)
+[INFO] 
+[INFO] --< com.github.sirblobman.combatlogx.expansion.compatibility:FactionsX >--
+[INFO] Building Compatibility Expansion: FactionsX 11.0.0.0-SNAPSHOT    [28/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ FactionsX ---
+[INFO] com.github.sirblobman.combatlogx.expansion.compatibility:FactionsX:jar:11.0.0.0-SNAPSHOT
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] |  +- commons-lang:commons-lang:jar:2.6:provided
+[INFO] |  +- com.google.guava:guava:jar:21.0:provided
+[INFO] |  +- com.google.code.gson:gson:jar:2.8.0:provided
+[INFO] |  +- net.md-5:bungeecord-chat:jar:1.16-R0.4:provided
+[INFO] |  |  +- (com.google.code.gson:gson:jar:2.8.0:provided - omitted for duplicate)
+[INFO] |  |  \- (com.google.guava:guava:jar:21.0:provided - omitted for duplicate)
+[INFO] |  \- org.yaml:snakeyaml:jar:1.27:provided
+[INFO] +- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO] |  \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] \- net.prosavage.factionsx:FactionsX:jar:1.0.8-RC:provided
+[INFO] 
+[INFO] --< com.github.sirblobman.combatlogx.expansion.compatibility:LegacyFactions >--
+[INFO] Building Compatibility Expansion: LegacyFactions 11.0.0.0-SNAPSHOT [29/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ LegacyFactions ---
+[INFO] com.github.sirblobman.combatlogx.expansion.compatibility:LegacyFactions:jar:11.0.0.0-SNAPSHOT
+[INFO] +- com.github.sirblobman.combatlogx.dummy:dummy-LegacyFactions:jar:1.4.4:provided
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] --< com.github.sirblobman.combatlogx.expansion.compatibility:MVdWPlaceholderAPI >--
+[INFO] Building Compatibility Expansion: MVdWPlaceholderAPI 11.0.0.0-SNAPSHOT [30/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ MVdWPlaceholderAPI ---
+[INFO] com.github.sirblobman.combatlogx.expansion.compatibility:MVdWPlaceholderAPI:jar:11.0.0.0-SNAPSHOT
+[INFO] +- com.github.sirblobman.combatlogx.expansion:newbie-helper:jar:11.0.0.0-SNAPSHOT:provided
+[INFO] +- be.maximvdw:MVdWPlaceholderAPI:jar:3.1.1-SNAPSHOT:provided
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] --< com.github.sirblobman.combatlogx.expansion.compatibility:PlaceholderAPI >--
+[INFO] Building Compatibility Expansion: PlaceholderAPI 11.0.0.0-SNAPSHOT [31/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ PlaceholderAPI ---
+[INFO] com.github.sirblobman.combatlogx.expansion.compatibility:PlaceholderAPI:jar:11.0.0.0-SNAPSHOT
+[INFO] +- com.github.sirblobman.combatlogx.expansion:newbie-helper:jar:11.0.0.0-SNAPSHOT:provided
+[INFO] +- me.clip:placeholderapi:jar:2.10.9:provided
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] --< com.github.sirblobman.combatlogx.expansion.compatibility:GriefDefender >--
+[INFO] Building Compatibility Expansion: GriefDefender 11.0.0.0-SNAPSHOT [32/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ GriefDefender ---
+[INFO] com.github.sirblobman.combatlogx.expansion.compatibility:GriefDefender:jar:11.0.0.0-SNAPSHOT
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] |  +- commons-lang:commons-lang:jar:2.6:provided
+[INFO] |  +- com.google.guava:guava:jar:21.0:provided
+[INFO] |  +- com.google.code.gson:gson:jar:2.8.0:provided
+[INFO] |  +- net.md-5:bungeecord-chat:jar:1.16-R0.4:provided
+[INFO] |  |  +- (com.google.code.gson:gson:jar:2.8.0:provided - omitted for duplicate)
+[INFO] |  |  \- (com.google.guava:guava:jar:21.0:provided - omitted for duplicate)
+[INFO] |  \- org.yaml:snakeyaml:jar:1.27:provided
+[INFO] +- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO] |  \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx.dummy:dummy-GriefDefender:jar:1.0.0-SNAPSHOT:provided
+[INFO] 
+[INFO] --< com.github.sirblobman.combatlogx.expansion.compatibility:GriefPrevention >--
+[INFO] Building Compatibility Expansion: GriefPrevention 11.0.0.0-SNAPSHOT [33/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ GriefPrevention ---
+[INFO] com.github.sirblobman.combatlogx.expansion.compatibility:GriefPrevention:jar:11.0.0.0-SNAPSHOT
+[INFO] +- com.github.TechFortress:GriefPrevention:jar:16.17.1:provided
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] --< com.github.sirblobman.combatlogx.expansion.compatibility:KingdomsX >--
+[INFO] Building Compatibility: KingdomsX 11.0.0.0-SNAPSHOT              [34/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ KingdomsX ---
+[INFO] com.github.sirblobman.combatlogx.expansion.compatibility:KingdomsX:jar:11.0.0.0-SNAPSHOT
+[INFO] +- com.github.cryptomorin:kingdoms:jar:1.10.16.1.2:provided
+[INFO] |  +- com.github.cryptomorin:XSeries:jar:7.8.0:provided
+[INFO] |  \- com.github.ben-manes.caffeine:caffeine:jar:2.8.8:provided
+[INFO] |     +- org.checkerframework:checker-qual:jar:3.8.0:provided
+[INFO] |     \- com.google.errorprone:error_prone_annotations:jar:2.4.0:provided
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] ---< com.github.sirblobman.combatlogx.expansion.compatibility:Lands >---
+[INFO] Building Compatibility Expansion: Lands 11.0.0.0-SNAPSHOT        [35/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ Lands ---
+[INFO] com.github.sirblobman.combatlogx.expansion.compatibility:Lands:jar:11.0.0.0-SNAPSHOT
+[INFO] +- com.github.angeschossen:LandsAPI:jar:5.4.0:provided
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] --< com.github.sirblobman.combatlogx.expansion.compatibility:WorldGuard >--
+[INFO] Building Compatibility Expansion: WorldGuard 11.0.0.0-SNAPSHOT   [36/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ WorldGuard ---
+[INFO] com.github.sirblobman.combatlogx.expansion.compatibility:WorldGuard:jar:11.0.0.0-SNAPSHOT
+[INFO] +- org.codemc.worldguardwrapper:worldguardwrapper:jar:1.2.0-SNAPSHOT:compile
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] --< com.github.sirblobman.combatlogx.expansion.compatibility:ASkyBlock >--
+[INFO] Building Compatibility Expansion: ASkyBlock 11.0.0.0-SNAPSHOT    [37/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ ASkyBlock ---
+[INFO] com.github.sirblobman.combatlogx.expansion.compatibility:ASkyBlock:jar:11.0.0.0-SNAPSHOT
+[INFO] +- com.wasteofplastic:askyblock:jar:3.0.9.4:provided
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] --< com.github.sirblobman.combatlogx.expansion.compatibility:BSkyBlock >--
+[INFO] Building Compatibility Expansion: BSkyBlock 11.0.0.0-SNAPSHOT    [38/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ BSkyBlock ---
+[INFO] com.github.sirblobman.combatlogx.expansion.compatibility:BSkyBlock:jar:11.0.0.0-SNAPSHOT
+[INFO] +- world.bentobox:bentobox:jar:1.16.0-SNAPSHOT:provided
+[INFO] |  +- org.mongodb:mongodb-driver:jar:3.8.0:provided
+[INFO] |  |  +- org.mongodb:bson:jar:3.8.0:provided
+[INFO] |  |  \- org.mongodb:mongodb-driver-core:jar:3.8.0:provided
+[INFO] |  |     \- (org.mongodb:bson:jar:3.8.0:provided - omitted for duplicate)
+[INFO] |  \- org.eclipse.jdt:org.eclipse.jdt.annotation:jar:2.2.200:provided
+[INFO] +- world.bentobox:bskyblock:jar:1.14.3-SNAPSHOT:provided
+[INFO] +- com.google.guava:guava:jar:21.0:provided
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] --< com.github.sirblobman.combatlogx.expansion.compatibility:FabledSkyBlock >--
+[INFO] Building Compatibility Expansion: FabledSkyBlock 11.0.0.0-SNAPSHOT [39/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ FabledSkyBlock ---
+[INFO] com.github.sirblobman.combatlogx.expansion.compatibility:FabledSkyBlock:jar:11.0.0.0-SNAPSHOT
+[INFO] +- com.songoda:fabledskyblock:jar:2.2.1:provided
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] --< com.github.sirblobman.combatlogx.expansion.compatibility:IridiumSkyblock >--
+[INFO] Building Compatibility Expansion: IridiumSkyBlock 11.0.0.0-SNAPSHOT [40/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ IridiumSkyblock ---
+[INFO] com.github.sirblobman.combatlogx.expansion.compatibility:IridiumSkyblock:jar:11.0.0.0-SNAPSHOT
+[INFO] +- com.iridium:IridiumSkyblock:jar:2.6.5:provided
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] --< com.github.sirblobman.combatlogx.expansion.compatibility:SuperiorSkyblock >--
+[INFO] Building Compatibility Expansion: SuperiorSkyblock 11.0.0.0-SNAPSHOT [41/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ SuperiorSkyblock ---
+[INFO] com.github.sirblobman.combatlogx.expansion.compatibility:SuperiorSkyblock:jar:11.0.0.0-SNAPSHOT
+[INFO] +- com.bgsoftware:SuperiorSkyblockAPI:jar:latest:provided
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] --< com.github.sirblobman.combatlogx.expansion.compatibility:uSkyBlock >--
+[INFO] Building Compatibility Expansion: uSkyBlock 11.0.0.0-SNAPSHOT    [42/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ uSkyBlock ---
+[INFO] com.github.sirblobman.combatlogx.expansion.compatibility:uSkyBlock:jar:11.0.0.0-SNAPSHOT
+[INFO] +- com.github.rlf:uSkyBlock-API:jar:2.8.9:provided
+[INFO] |  \- org.jetbrains:annotations:jar:19.0.0:provided
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] --< com.github.sirblobman.combatlogx.expansion.compatibility:Essentials >--
+[INFO] Building Compatibility Expansion: Essentials 11.0.0.0-SNAPSHOT   [43/44]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ Essentials ---
+[INFO] com.github.sirblobman.combatlogx.expansion.compatibility:Essentials:jar:11.0.0.0-SNAPSHOT
+[INFO] +- net.ess3:EssentialsX:jar:2.18.2:provided
+[INFO] |  +- io.papermc:paperlib:jar:1.0.6-SNAPSHOT:provided
+[INFO] |  +- net.ess3:BaseProviders:jar:2.18.2:provided
+[INFO] |  +- net.ess3:NMSReflectionProvider:jar:2.18.2:provided
+[INFO] |  |  \- (net.ess3:BaseProviders:jar:2.18.2:provided - omitted for duplicate)
+[INFO] |  +- net.ess3:PaperProvider:jar:2.18.2:provided
+[INFO] |  |  \- (net.ess3:BaseProviders:jar:2.18.2:provided - omitted for duplicate)
+[INFO] |  \- net.ess3:1_8Provider:jar:2.18.2:provided
+[INFO] |     \- (net.ess3:NMSReflectionProvider:jar:2.18.2:provided - omitted for duplicate)
+[INFO] +- org.spigotmc:spigot-api:jar:1.16.5-R0.1-SNAPSHOT:provided
+[INFO] \- com.github.sirblobman.combatlogx:api:jar:11.0.0.0-SNAPSHOT:provided
+[INFO]    \- com.github.sirblobman.api:core:jar:2.1-SNAPSHOT:provided
+[INFO] 
+[INFO] --------------< com.github.sirblobman.combatlogx:builder >--------------
+[INFO] Building CombatLogX ZIP Builder 11.0.0.0-SNAPSHOT                [44/44]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ builder ---
+[INFO] com.github.sirblobman.combatlogx:builder:pom:11.0.0.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary:
+[INFO] 
+[INFO] CombatLogX Parent 11.0.0.0-SNAPSHOT ................ SUCCESS [  0.476 s]
+[INFO] CombatLogX API 11.0.0.0-SNAPSHOT ................... SUCCESS [  0.093 s]
+[INFO] Dummy: Parent POM 11.0.0.0-SNAPSHOT ................ SUCCESS [  0.003 s]
+[INFO] Dummy: CrackShot 0.98.9 ............................ SUCCESS [  0.007 s]
+[INFO] Dummy: GriefDefender 1.0.0-SNAPSHOT ................ SUCCESS [  0.018 s]
+[INFO] Dummy: LegacyFactions 1.4.4 ........................ SUCCESS [  0.007 s]
+[INFO] CombatLogX Plugin 11.0.0.0-SNAPSHOT ................ SUCCESS [  0.038 s]
+[INFO] Expansion: Parent POM 11.0.0.0-SNAPSHOT ............ SUCCESS [  0.013 s]
+[INFO] Expansion: Damage Tagger 11.0.0.0-SNAPSHOT ......... SUCCESS [  0.008 s]
+[INFO] Expansion: Logger 11.0.0.0-SNAPSHOT ................ SUCCESS [  0.009 s]
+[INFO] Expansion: Loot Protection 11.0.0.0-SNAPSHOT ....... SUCCESS [  0.009 s]
+[INFO] Expansion: Mob Tagger 11.0.0.0-SNAPSHOT ............ SUCCESS [  0.007 s]
+[INFO] Expansion: Newbie Helper 11.0.0.0-SNAPSHOT ......... SUCCESS [  0.007 s]
+[INFO] Expansion: Rewards 11.0.0.0-SNAPSHOT ............... SUCCESS [  0.042 s]
+[INFO] Expansion: Action Bar 11.0.0.0-SNAPSHOT ............ SUCCESS [  0.007 s]
+[INFO] Expansion: Boss Bar 11.0.0.0-SNAPSHOT .............. SUCCESS [  0.008 s]
+[INFO] Expansion: Scoreboard 11.0.0.0-SNAPSHOT ............ SUCCESS [  0.007 s]
+[INFO] Expansion: Glowing 11.0.0.0-SNAPSHOT ............... SUCCESS [  0.007 s]
+[INFO] Expansion: Cheat Prevention Parent POM 11.0.0.0-SNAPSHOT SUCCESS [  0.007 s]
+[INFO] Expansion: Cheat Prevention Legacy 11.0.0.0-SNAPSHOT SUCCESS [  0.012 s]
+[INFO] Expansion: Cheat Prevention 11.0.0.0-SNAPSHOT ...... SUCCESS [  0.015 s]
+[INFO] Expansion: Compatibility Parent POM 11.0.0.0-SNAPSHOT SUCCESS [  0.007 s]
+[INFO] Compatibility Expansion: CrackShot 11.0.0.0-SNAPSHOT SUCCESS [  0.013 s]
+[INFO] Compatibility Expansion: Citizens 11.0.0.0-SNAPSHOT  SUCCESS [  0.050 s]
+[INFO] Compatibility Expansion: MassiveCore Factions 11.0.0.0-SNAPSHOT SUCCESS [  3.075 s]
+[INFO] Compatibility Expansion: Factions UUID 11.0.0.0-SNAPSHOT SUCCESS [  0.065 s]
+[INFO] Compatibility Expansion: Factions UUID Legacy 11.0.0.0-SNAPSHOT SUCCESS [  0.057 s]
+[INFO] Compatibility Expansion: FactionsX 11.0.0.0-SNAPSHOT SUCCESS [  0.033 s]
+[INFO] Compatibility Expansion: LegacyFactions 11.0.0.0-SNAPSHOT SUCCESS [  0.012 s]
+[INFO] Compatibility Expansion: MVdWPlaceholderAPI 11.0.0.0-SNAPSHOT SUCCESS [  0.027 s]
+[INFO] Compatibility Expansion: PlaceholderAPI 11.0.0.0-SNAPSHOT SUCCESS [  0.014 s]
+[INFO] Compatibility Expansion: GriefDefender 11.0.0.0-SNAPSHOT SUCCESS [  0.026 s]
+[INFO] Compatibility Expansion: GriefPrevention 11.0.0.0-SNAPSHOT SUCCESS [  0.016 s]
+[INFO] Compatibility: KingdomsX 11.0.0.0-SNAPSHOT ......... SUCCESS [  0.024 s]
+[INFO] Compatibility Expansion: Lands 11.0.0.0-SNAPSHOT ... SUCCESS [  0.009 s]
+[INFO] Compatibility Expansion: WorldGuard 11.0.0.0-SNAPSHOT SUCCESS [  0.023 s]
+[INFO] Compatibility Expansion: ASkyBlock 11.0.0.0-SNAPSHOT SUCCESS [  0.018 s]
+[INFO] Compatibility Expansion: BSkyBlock 11.0.0.0-SNAPSHOT SUCCESS [  0.027 s]
+[INFO] Compatibility Expansion: FabledSkyBlock 11.0.0.0-SNAPSHOT SUCCESS [  0.014 s]
+[INFO] Compatibility Expansion: IridiumSkyBlock 11.0.0.0-SNAPSHOT SUCCESS [  0.014 s]
+[INFO] Compatibility Expansion: SuperiorSkyblock 11.0.0.0-SNAPSHOT SUCCESS [  0.014 s]
+[INFO] Compatibility Expansion: uSkyBlock 11.0.0.0-SNAPSHOT SUCCESS [  0.015 s]
+[INFO] Compatibility Expansion: Essentials 11.0.0.0-SNAPSHOT SUCCESS [  0.032 s]
+[INFO] CombatLogX ZIP Builder 11.0.0.0-SNAPSHOT ........... SUCCESS [  0.005 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.691 s
+[INFO] Finished at: 2021-04-30T18:06:59-04:00
+[INFO] ------------------------------------------------------------------------

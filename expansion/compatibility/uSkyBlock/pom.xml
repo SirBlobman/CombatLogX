@@ -14,12 +14,6 @@
     <description>An expansion for CombatLogX that adds compatibility with the uSkyBlock plugin.</description>
 
     <repositories>
-        <!-- SpigotMC Repository -->
-        <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-
         <!-- uSkyBlock Repository -->
         <repository>
             <id>uskyblock</id>
@@ -31,22 +25,6 @@
     </repositories>
 
     <dependencies>
-        <!-- Spigot API -->
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>${spigot.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- CombatLogX API -->
-        <dependency>
-            <groupId>com.github.sirblobman.combatlogx</groupId>
-            <artifactId>api</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- uSkyBlock API -->
         <dependency>
             <groupId>com.github.rlf</groupId>

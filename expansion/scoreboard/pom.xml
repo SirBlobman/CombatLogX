@@ -13,24 +13,6 @@
     <name>Expansion: Scoreboard</name>
     <description>An expansion for CombatLogX that shows a scoreboard to players in combat.</description>
 
-    <dependencies>
-        <!-- Spigot API -->
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>${spigot.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- CombatLogX API -->
-        <dependency>
-            <groupId>com.github.sirblobman.combatlogx</groupId>
-            <artifactId>api</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
-
     <build>
         <finalName>Scoreboard</finalName>
     </build>

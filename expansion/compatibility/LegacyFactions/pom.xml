@@ -13,31 +13,7 @@
     <name>Compatibility Expansion: LegacyFactions</name>
     <description>An expansion for CombatLogX that detects non-pvp areas from the legacy version of the Factions UUID plugin.</description>
 
-    <repositories>
-        <!-- SpigotMC Repository -->
-        <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-    </repositories>
-
     <dependencies>
-        <!-- Spigot API -->
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>${spigot.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- CombatLogX API -->
-        <dependency>
-            <groupId>com.github.sirblobman.combatlogx</groupId>
-            <artifactId>api</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- LegacyFactions -->
         <!-- Requires local installation or dummy API -->
         <dependency>

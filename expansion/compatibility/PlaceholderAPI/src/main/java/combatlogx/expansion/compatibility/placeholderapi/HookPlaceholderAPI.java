@@ -19,7 +19,6 @@ import combatlogx.expansion.newbie.helper.NewbieHelperExpansion;
 import combatlogx.expansion.newbie.helper.manager.PVPManager;
 import combatlogx.expansion.newbie.helper.manager.ProtectionManager;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import org.jetbrains.annotations.NotNull;
 
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyHealth;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyHealthRounded;
@@ -59,7 +58,6 @@ public final class HookPlaceholderAPI extends PlaceholderExpansion {
         return String.join(", ", authorList);
     }
 
-    @NotNull
     @Override
     public String getVersion() {
         ExpansionDescription description = this.expansion.getDescription();

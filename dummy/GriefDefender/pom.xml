@@ -23,68 +23,26 @@
     </repositories>
 
     <dependencies>
-        <!-- JetBrains Annotations -->
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>20.1.0</version>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- Spigot API -->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>${spigot.version}</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
-        <!-- Flow Math -->
+        <!-- Google Guava -->
         <dependency>
-            <groupId>com.flowpowered</groupId>
-            <artifactId>flow-math</artifactId>
-            <version>1.0.3</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <!-- Google Inject Guice -->
-        <dependency>
-            <groupId>com.google.inject</groupId>
-            <artifactId>guice</artifactId>
-            <version>4.1.0</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <!-- Google FindBugs jsr305 -->
-        <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>jsr305</artifactId>
-            <version>3.0.2</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <!-- Event API -->
-        <dependency>
-            <groupId>net.kyori</groupId>
-            <artifactId>event-api</artifactId>
-            <version>3.0.0</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <!-- Event Method ASM -->
-        <dependency>
-            <groupId>net.kyori</groupId>
-            <artifactId>event-method-asm</artifactId>
-            <version>3.0.0</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <!-- Text API -->
-        <dependency>
-            <groupId>net.kyori</groupId>
-            <artifactId>text-api</artifactId>
-            <version>3.0.2</version>
-            <scope>compile</scope>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>21.0</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

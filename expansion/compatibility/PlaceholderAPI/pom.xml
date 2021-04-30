@@ -14,18 +14,6 @@
     <description>An expansion for CombatLogX that adds placeholders to plugins that use PlaceholderAPI.</description>
 
     <repositories>
-        <!-- SpigotMC Repository -->
-        <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-
-        <!-- CodeMC Public Repository -->
-        <repository>
-            <id>codemc-public</id>
-            <url>https://repo.codemc.io/repository/maven-public/</url>
-        </repository>
-
         <!-- PlaceholderAPI Repository -->
         <repository>
             <id>placeholderapi</id>
@@ -34,22 +22,6 @@
     </repositories>
 
     <dependencies>
-        <!-- Spigot API -->
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>${spigot.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- CombatLogX API -->
-        <dependency>
-            <groupId>com.github.sirblobman.combatlogx</groupId>
-            <artifactId>api</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- CombatLogX Expansion: Newbie Helper -->
         <dependency>
             <groupId>com.github.sirblobman.combatlogx.expansion</groupId>
@@ -64,6 +36,12 @@
             <artifactId>placeholderapi</artifactId>
             <version>2.10.9</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
