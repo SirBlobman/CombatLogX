@@ -33,11 +33,11 @@
             <id>songoda-public</id>
             <url>https://repo.songoda.com/repository/public/</url>
         </repository>
-        
-        <!-- Tastybento Bintray -->
+
+        <!-- SirBlobman Private Repository -->
         <repository>
-            <id>tastybento-bintray</id>
-            <url>http://dl.bintray.com/tastybento/maven-repo/</url>
+            <id>sirblobman-private</id>
+            <url>https://nexus.sirblobman.xyz/repository/private/</url>
         </repository>
         
         <!-- Ultimate SkyBlock Repository -->

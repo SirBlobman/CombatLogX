@@ -104,8 +104,8 @@ public final class HookWorldGuard {
 
         PluginDescriptionFile pdf = plugin.getDescription();
         String version = pdf.getVersion();
+        if(version.equals("6.1.3-SNAPSHOT;c904242") || version.startsWith("6.2")) return (worldGuardVersion = WorldGuardVersion.V6_2);
         if(version.startsWith("6.1")) return (worldGuardVersion = WorldGuardVersion.V6_1);
-        if(version.startsWith("6.2")) return (worldGuardVersion = WorldGuardVersion.V6_2);
         if(version.startsWith("7.0")) return (worldGuardVersion = WorldGuardVersion.V7_0);
 
         return (worldGuardVersion = WorldGuardVersion.ERROR);

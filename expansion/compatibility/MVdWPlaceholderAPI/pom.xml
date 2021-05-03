@@ -31,7 +31,7 @@
         <!-- MVdW Repository -->
         <repository>
             <id>mvdw-software</id>
-            <url>http://repo.mvdw-software.com/content/groups/public/</url>
+            <url>https://repo.mvdw-software.com/content/groups/public/</url>
         </repository>
     </repositories>
     

@@ -31,16 +31,20 @@
         <!-- PlaceholderAPI Repository -->
         <repository>
             <id>placeholderapi</id>
-            <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
 
         <!-- MVdW Repository -->
-        <!-- Temporarily disabled as the repository is down
         <repository>
             <id>mvdw-software</id>
-            <url>http://repo.mvdw-software.com/content/groups/public/</url>
+            <url>https://repo.mvdw-software.com/content/groups/public/</url>
         </repository>
-        -->
+
+        <!-- SirBlobman Private Repository -->
+        <repository>
+            <id>sirblobman-private</id>
+            <url>https://nexus.sirblobman.xyz/repository/private/</url>
+        </repository>
     </repositories>
     
     <dependencies>
@@ -83,11 +87,10 @@
         </dependency>
 
         <!-- AnimatedScoreboard -->
-        <!-- Requires local installation or Dummy API -->
         <dependency>
-            <groupId>com.SirBlobman.combatlogx.dummy-api</groupId>
+            <groupId>me.jasperjh</groupId>
             <artifactId>AnimatedScoreboard</artifactId>
-            <version>0.2.1</version>
+            <version>0.2.3</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
