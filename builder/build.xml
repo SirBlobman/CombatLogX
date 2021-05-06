@@ -39,6 +39,7 @@
                 <!-- Compatibility Expansions -->
                 <file file="${expansion.compatibility.dir}/Citizens/target/Citizens Compatibility.jar"/>
                 <file file="${expansion.compatibility.dir}/CrackShot/target/CrackShot Compatibility.jar"/>
+                <file file="${expansion.compatibility.dir}/MythicMobs/target/MythicMobs Compatibility.jar"/>
 
                 <!-- SkyBlock Compatibility Expansions -->
                 <file file="${expansion.compatibility.dir}/ASkyBlock/target/ASkyBlock Compatibility.jar"/>

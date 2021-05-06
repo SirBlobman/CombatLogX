@@ -18,9 +18,7 @@
     <modules>
         <module>CrackShot</module>
         <module>Citizens</module>
-        <!--
         <module>MythicMobs</module>
-        -->
 
         <!-- Disguise Compatibility -->
         <!--
