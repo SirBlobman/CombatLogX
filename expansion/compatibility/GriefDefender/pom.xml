@@ -29,6 +29,12 @@
             <artifactId>guava</artifactId>
             <version>30.1.1-jre</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
