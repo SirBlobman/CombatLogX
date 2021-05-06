@@ -27,7 +27,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>21.0</version>
+            <version>30.1.1-jre</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
