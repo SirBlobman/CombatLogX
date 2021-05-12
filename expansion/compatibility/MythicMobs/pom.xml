@@ -27,6 +27,12 @@
             <id>codemc-repo</id>
             <url>https://repo.codemc.io/repository/maven-public/</url>
         </repository>
+
+        <!-- Lumine Releases -->
+        <repository>
+            <id>lumine</id>
+            <url>https://mvn.lumine.io/repository/maven-public/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -46,11 +52,11 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- MythicMobs Dummy API -->
+        <!-- MythicMobs -->
         <dependency>
-            <groupId>com.SirBlobman.combatlogx.dummy-api</groupId>
+            <groupId>io.lumine.xikage</groupId>
             <artifactId>MythicMobs</artifactId>
-            <version>4.9.1</version>
+            <version>4.11.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

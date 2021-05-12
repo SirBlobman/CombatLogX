@@ -1,8 +1,6 @@
 package com.SirBlobman.combatlogx.expansion.compatibility.mythicmobs.listener;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
@@ -19,11 +17,9 @@ import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagReason;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagType;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import com.SirBlobman.combatlogx.expansion.compatibility.mythicmobs.CompatibilityMythicMobs;
-
 import io.lumine.xikage.mythicmobs.MythicMobs;
+import io.lumine.xikage.mythicmobs.api.bukkit.BukkitAPIHelper;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
-import io.lumine.xikage.mythicmobs.mobs.MobManager;
-import io.lumine.xikage.mythicmobs.mobs.MythicMob;
 
 public class ListenerMythicMobs implements Listener {
     private final ICombatLogX plugin;
@@ -79,21 +75,21 @@ public class ListenerMythicMobs implements Listener {
         
         combatManager.tag(player, null, TagType.UNKNOWN, reason);
     }
-    
-    private String getMythicMobName(Entity entity) {
-        if(entity == null) return null;
-    
+
+    private boolean isMythicMob(Entity entity) {
         MythicMobs mythicMobs = MythicMobs.inst();
-        MobManager mobManager = mythicMobs.getMobManager();
-        
-        UUID uuid = entity.getUniqueId();
-        Optional<ActiveMob> activeMobOptional = mobManager.getActiveMob(uuid);
-        if(activeMobOptional.isPresent()) {
-            ActiveMob activeMob = activeMobOptional.get();
-            MythicMob mobType = activeMob.getType();
-            return mobType.getInternalName();
+        BukkitAPIHelper apiHelper = mythicMobs.getAPIHelper();
+        return apiHelper.isMythicMob(entity);
+    }
+
+    private String getMythicMobName(Entity entity) {
+        if(isMythicMob(entity)) {
+            MythicMobs mythicMobs = MythicMobs.inst();
+            BukkitAPIHelper apiHelper = mythicMobs.getAPIHelper();
+            ActiveMob activeMob = apiHelper.getMythicMobInstance(entity);
+            return (activeMob == null ? null : activeMob.getMobType());
         }
-        
+
         return null;
     }
     
