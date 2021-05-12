@@ -14,16 +14,15 @@
     <description>An expansion for CombatLogX that adds compatibility with the CrackShot plugin.</description>
 
     <repositories>
-        <!-- SirBlobman Private -->
+        <!-- SirBlobman Public Repository -->
         <repository>
-            <id>sirblobman-private</id>
-            <url>https://nexus.sirblobman.xyz/repository/private/</url>
+            <id>sirblobman-public</id>
+            <url>https://nexus.sirblobman.xyz/repository/public/</url>
         </repository>
     </repositories>
 
     <dependencies>
         <!-- CrackShot -->
-        <!-- Requires local installation or private repository -->
         <dependency>
             <groupId>com.shampaggon</groupId>
             <artifactId>crackshot</artifactId>

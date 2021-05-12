@@ -14,10 +14,10 @@
     <description>An expansion for CombatLogX that adds compatibility with the ASkyBlock plugin.</description>
 
     <repositories>
-        <!-- SirBlobman Private Repository -->
+        <!-- SirBlobman Public Repository -->
         <repository>
-            <id>sirblobman-private</id>
-            <url>https://nexus.sirblobman.xyz/repository/private/</url>
+            <id>sirblobman-public</id>
+            <url>https://nexus.sirblobman.xyz/repository/public/</url>
         </repository>
     </repositories>
 
