@@ -41,6 +41,10 @@
                 <file file="${expansion.compatibility.dir}/CrackShot/target/CrackShot Compatibility.jar"/>
                 <file file="${expansion.compatibility.dir}/MythicMobs/target/MythicMobs Compatibility.jar"/>
 
+                <!-- Disguise Compatibility Expansions -->
+                <file file="${expansion.compatibility.dir}/iDisguise/target/iDisguise Compatibility.jar"/>
+                <file file="${expansion.compatibility.dir}/LibsDisguises/target/LibsDisguises Compatibility.jar"/>
+
                 <!-- SkyBlock Compatibility Expansions -->
                 <file file="${expansion.compatibility.dir}/ASkyBlock/target/ASkyBlock Compatibility.jar"/>
                 <file file="${expansion.compatibility.dir}/BSkyBlock/target/BSkyBlock Compatibility.jar"/>
