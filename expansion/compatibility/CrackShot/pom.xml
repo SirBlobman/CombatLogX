@@ -13,13 +13,21 @@
     <name>Compatibility Expansion: CrackShot</name>
     <description>An expansion for CombatLogX that adds compatibility with the CrackShot plugin.</description>
 
+    <repositories>
+        <!-- SirBlobman Private -->
+        <repository>
+            <id>sirblobman-private</id>
+            <url>https://nexus.sirblobman.xyz/repository/private/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <!-- CrackShot -->
-        <!-- Requires local installation or dummy API -->
+        <!-- Requires local installation or private repository -->
         <dependency>
-            <groupId>com.github.sirblobman.combatlogx.dummy</groupId>
-            <artifactId>dummy-CrackShot</artifactId>
-            <version>0.98.9</version>
+            <groupId>com.shampaggon</groupId>
+            <artifactId>crackshot</artifactId>
+            <version>0.98.11</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

@@ -36,7 +36,6 @@
 
     <modules>
         <module>api</module>
-        <module>dummy</module>
         <module>plugin</module>
         <module>expansion</module>
         <module>builder</module>

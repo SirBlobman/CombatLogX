@@ -13,14 +13,30 @@
     <name>Compatibility Expansion: LegacyFactions</name>
     <description>An expansion for CombatLogX that detects non-pvp areas from the legacy version of the Factions UUID plugin.</description>
 
+    <repositories>
+        <!-- JitPack Repository -->
+        <repository>
+            <id>jitpack</id>
+            <url>https://jitpack.io/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
     <dependencies>
         <!-- LegacyFactions -->
-        <!-- Requires local installation or dummy API -->
         <dependency>
-            <groupId>com.github.sirblobman.combatlogx.dummy</groupId>
-            <artifactId>dummy-LegacyFactions</artifactId>
-            <version>1.4.4</version>
+            <groupId>com.github.redstone</groupId>
+            <artifactId>LegacyFactions</artifactId>
+            <version>v1.4.4</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
