@@ -20,11 +20,11 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
-
-        <!-- CodeMC Public Repository -->
+		
+        <!-- SirBlobman Public Repository -->
         <repository>
-            <id>codemc-repo</id>
-            <url>https://repo.codemc.io/repository/maven-public/</url>
+            <id>sirblobman-public</id>
+            <url>https://nexus.sirblobman.xyz/repository/public/</url>
         </repository>
 
         <!-- ProtocolLib Repository -->
@@ -33,7 +33,6 @@
             <url>https://repo.dmulloy2.net/repository/public/</url>
         </repository>
     </repositories>
-    
     
     <dependencies>
         <!-- Spigot API -->
@@ -45,7 +44,6 @@
         </dependency>
 
         <!-- SirBlobman API -->
-        <!-- https://www.github.com/SirBlobman/SirBlobmanAPI -->
         <dependency>
             <groupId>com.SirBlobman.api</groupId>
             <artifactId>SirBlobmanAPI</artifactId>
