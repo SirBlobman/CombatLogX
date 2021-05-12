@@ -33,13 +33,13 @@
         <!-- PlaceholderAPI Repository -->
         <repository>
             <id>placeholderapi</id>
-            <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
 
         <!-- MVdW Repository -->
         <repository>
             <id>mvdw-software</id>
-            <url>http://repo.mvdw-software.com/content/groups/public/</url>
+            <url>https://repo.mvdw-software.com/content/groups/public/</url>
         </repository>
     </repositories>
 

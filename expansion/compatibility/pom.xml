@@ -21,10 +21,8 @@
         <module>MythicMobs</module>
 
         <!-- Disguise Compatibility -->
-        <!--
         <module>iDisguise</module>
         <module>LibsDisguises</module>
-        -->
 
         <!-- Factions Compatibility -->
         <module>Factions</module>
