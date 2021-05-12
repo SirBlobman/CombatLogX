@@ -1,6 +1,9 @@
 package com.SirBlobman.combatlogx.listener;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -14,13 +17,13 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.listener.ICustomDeathListener;
-import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 
 public class ListenerCustomDeath implements ICustomDeathListener {
-    private final List<UUID> customDeathList = Util.newList();
     private final ICombatLogX plugin;
+    private final Set<UUID> customDeathSet;
     public ListenerCustomDeath(ICombatLogX plugin) {
-        this.plugin = plugin;
+        this.plugin = Objects.requireNonNull(plugin, "plugin must not be null!");
+        this.customDeathSet = new HashSet<>();
     }
 
     @Override
@@ -28,7 +31,7 @@ public class ListenerCustomDeath implements ICustomDeathListener {
         if(player == null) return;
 
         UUID uuid = player.getUniqueId();
-        customDeathList.add(uuid);
+        this.customDeathSet.add(uuid);
     }
 
     @Override
@@ -36,7 +39,15 @@ public class ListenerCustomDeath implements ICustomDeathListener {
         if(player == null) return;
 
         UUID uuid = player.getUniqueId();
-        customDeathList.remove(uuid);
+        this.customDeathSet.remove(uuid);
+    }
+
+    @Override
+    public boolean contains(Player player) {
+        if(player == null) return false;
+
+        UUID uuid = player.getUniqueId();
+        return this.customDeathSet.contains(uuid);
     }
 
     @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
@@ -51,19 +62,20 @@ public class ListenerCustomDeath implements ICustomDeathListener {
         this.plugin.saveDataFile(player);
     }
 
-    @EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
+    @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
     public void onDeath(PlayerDeathEvent e) {
         Player player = e.getEntity();
-        UUID uuid = player.getUniqueId();
-        if(!customDeathList.contains(uuid)) return;
-
-        FileConfiguration config = this.plugin.getConfig("config.yml");
-        List<String> customDeathMessageList = config.getStringList("punishments.custom-death-messages");
-        if(customDeathMessageList.isEmpty()) return;
-
-        int random = ThreadLocalRandom.current().nextInt(customDeathMessageList.size());
-        String message = customDeathMessageList.get(random).replace("{name}", player.getName());
-        e.setDeathMessage(message);
+        boolean contains = contains(player);
         remove(player);
+
+        if(contains) {
+            FileConfiguration config = this.plugin.getConfig("config.yml");
+            List<String> customDeathMessageList = config.getStringList("punishments.custom-death-messages");
+            if(customDeathMessageList.isEmpty()) return;
+
+            int random = ThreadLocalRandom.current().nextInt(customDeathMessageList.size());
+            String message = customDeathMessageList.get(random).replace("{name}", player.getName());
+            e.setDeathMessage(message);
+        }
     }
 }
