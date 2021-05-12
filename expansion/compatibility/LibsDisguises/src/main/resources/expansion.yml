@@ -1,0 +1,7 @@
+name: "CompatLibsDisguises"
+prefix: "LibsDisguises Compatibility"
+description: "${project.description}"
+
+main: "combatlogx.expansion.compatibility.libsdisguises.LibsDisguisesExpansion"
+version: "16.0"
+author: "SirBlobman"
