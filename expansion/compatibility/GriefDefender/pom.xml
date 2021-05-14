@@ -18,6 +18,9 @@
         <repository>
             <id>jitpack</id>
             <url>https://jitpack.io/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
     </repositories>
 

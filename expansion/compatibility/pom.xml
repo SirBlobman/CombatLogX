@@ -60,9 +60,7 @@
 
         <!-- Vanish Compatibility -->
         <module>Essentials</module>
-        <!--
         <module>SuperVanish</module>
         <module>VanishNoPacket</module>
-        -->
     </modules>
 </project>

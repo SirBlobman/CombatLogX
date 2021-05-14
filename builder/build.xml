@@ -73,6 +73,8 @@
 
                 <!-- Vanish Compatibility Expansions -->
                 <file file="${expansion.compatibility.dir}/Essentials/target/EssentialsX Compatibility.jar"/>
+                <file file="${expansion.compatibility.dir}/SuperVanish/target/SuperVanish Compatibility.jar"/>
+                <file file="${expansion.compatibility.dir}/VanishNoPacket/target/VanishNoPacket Compatibility.jar"/>
             </resources>
         </copy>
 
