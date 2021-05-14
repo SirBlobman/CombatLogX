@@ -24,7 +24,9 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -94,26 +96,28 @@ public class ListenerLootProtection extends ExpansionListener {
         if(configuration.getBoolean("only-protect-after-log", false) && !listenerDeath.contains(player)) return;
         LivingEntity enemy = getCombatLogX().getCombatManager().getEnemy(player);
         if(enemy == null) return;
+        Location location = toBlockLocation(player.getLocation());
         if(player.getLastDamageCause() != null &&
                 player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.VOID &&
                 configuration.getBoolean("return-void-items", true) &&
-                enemy instanceof Player)
-        {
+                enemy instanceof Player) {
             Player enemyPlayer = (Player) enemy;
-            for(final ItemStack i : event.getDrops()) {
-                enemyPlayer.getInventory().addItem(i).values().forEach((item) -> {
+            location = toBlockLocation(enemy.getLocation());
+            List<ItemStack> removeItems = new ArrayList<>();
+            for(final ItemStack droppedItem : event.getDrops()) {
+                enemyPlayer.getInventory().addItem(droppedItem).values().forEach((item) -> {
                     player.getWorld().dropItemNaturally(player.getLocation(), item);
+                    removeItems.add(item);
                 });
             }
-            return;
+            event.getDrops().removeAll(removeItems);
         }
 
-        Location location = toBlockLocation(player.getLocation());
-
         ConcurrentLinkedQueue<ProtectedItem> list = new ConcurrentLinkedQueue<>();
+        final Location finalLocation = location;
         event.getDrops().forEach((item -> {
-            ProtectedItem protectedItem = new ProtectedItem(location, item);
-            protectedItem.setOwnerUUID(player.getUniqueId());
+            ProtectedItem protectedItem = new ProtectedItem(finalLocation, item);
+            protectedItem.setOwnerUUID(enemy.getUniqueId());
             list.add(protectedItem);
         }));
         pendingProtection.put(toBlockLocation(location), list);

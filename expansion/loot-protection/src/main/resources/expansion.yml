@@ -4,4 +4,4 @@ description: "${project.description}"
 
 main: "combatlogx.expansion.loot.protection.LootProtectionExpansion"
 version: "16.0"
-author: "SirBlobman"
+author: "olivolja3 (Olivo#3313)"
