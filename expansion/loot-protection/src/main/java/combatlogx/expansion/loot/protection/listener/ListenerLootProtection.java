@@ -1,8 +1,10 @@
 package combatlogx.expansion.loot.protection.listener;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.combatlogx.CombatPlugin;
+import com.github.sirblobman.combatlogx.api.event.PlayerPunishEvent;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 import com.github.sirblobman.combatlogx.listener.ListenerDeath;
@@ -12,8 +14,8 @@ import net.jodah.expiringmap.ExpiringMap;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -38,7 +40,9 @@ public class ListenerLootProtection extends ExpansionListener {
     private final Set<UUID> messageCooldown;
     private final ExpiringMap<UUID, ProtectedItem> protectedItems;
     private final Map<Location, ConcurrentLinkedQueue<ProtectedItem>> pendingProtection;
+    private final Map<UUID, UUID> punishedPlayers;
     private final YamlConfiguration configuration;
+    private final PlayerDataManager playerDataManager;
 
     public ListenerLootProtection(final Expansion expansion) {
         super(expansion);
@@ -47,6 +51,8 @@ public class ListenerLootProtection extends ExpansionListener {
         this.messageCooldown = Collections.newSetFromMap(ExpiringMap.builder().expiration(configuration.getLong("message-cooldown", 1), TimeUnit.SECONDS).build());
         this.pendingProtection = ExpiringMap.builder().expiration(configuration.getLong("loot-protection-time", 30), TimeUnit.SECONDS).build();
         this.protectedItems = ExpiringMap.builder().expiration(configuration.getLong("loot-protection-time", 30), TimeUnit.SECONDS).build();
+        this.punishedPlayers = ExpiringMap.builder().expiration(configuration.getLong("loot-protection-time", 30), TimeUnit.SECONDS).build();
+        this.playerDataManager = getCombatLogX().getPlayerDataManager();
     }
 
     public static Location toBlockLocation(Location location) {
@@ -87,20 +93,45 @@ public class ListenerLootProtection extends ExpansionListener {
         if(contains(event.getItem())) event.setCancelled(true);
     }
 
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPunish(PlayerPunishEvent event) {
+        if(event.getPreviousEnemy() != null) {
+            YamlConfiguration playerData = playerDataManager.get(event.getPlayer());
+            YamlConfiguration configuration = getCombatLogX().getConfigurationManager().get("punish.yml");
+            String killOptionString = configuration.getString("kill-time", "QUIT");
+            UUID enemyUUID = event.getPreviousEnemy().getUniqueId();
+            if(killOptionString.equals("JOIN")) {
+                playerData.set("loot-protection-enemy", enemyUUID);
+                getCombatLogX().saveData(event.getPlayer());
+                return;
+            }
+            punishedPlayers.put(event.getPlayer().getUniqueId(), enemyUUID);
+        }
+    }
+
+    @EventHandler
     public void onDeath(PlayerDeathEvent event) {
         if(!(getCombatLogX() instanceof CombatPlugin)) return;
         CombatPlugin clx = (CombatPlugin) getCombatLogX();
         ListenerDeath listenerDeath = clx.getDeathListener();
         Player player = event.getEntity();
         if(configuration.getBoolean("only-protect-after-log", false) && !listenerDeath.contains(player)) return;
-        LivingEntity enemy = getCombatLogX().getCombatManager().getEnemy(player);
+
+        YamlConfiguration playerData = playerDataManager.get(player);
+        String enemyUUIDString = playerData.getString("loot-protection-enemy");
+        UUID enemyUUID;
+        if(enemyUUIDString != null) {
+            playerData.set("loot-protection-enemy", null);
+            playerDataManager.save(player);
+            enemyUUID = UUID.fromString(enemyUUIDString);
+        } else {
+            enemyUUID = punishedPlayers.get(player.getUniqueId());
+        }
+        if(enemyUUID == null) return;
+        Entity enemy = Bukkit.getEntity(enemyUUID);
         if(enemy == null) return;
         Location location = toBlockLocation(player.getLocation());
-        if(player.getLastDamageCause() != null &&
-                player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.VOID &&
-                configuration.getBoolean("return-void-items", true) &&
-                enemy instanceof Player) {
+        if(player.getLastDamageCause() != null && player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.VOID && configuration.getBoolean("return-void-items", true) && enemy instanceof Player) {
             Player enemyPlayer = (Player) enemy;
             location = toBlockLocation(enemy.getLocation());
             List<ItemStack> removeItems = new ArrayList<>();
