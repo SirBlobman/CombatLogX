@@ -179,3 +179,10 @@ expansion:
   essentials-compatibility:
     prevent-teleport-request-self: "&cYou can't create teleport requests during combat."
     prevent-teleport-request-other: "&cYou can't send a teleport request to a player that is in combat."
+
+  protectionstones-compatability:
+    place: "&cYou can't create a protected area while in combat."
+
+  loot-protection:
+    enemy-died: "&f{enemy} &ahas died. Loot will be protected for &f{time} seconds&a."
+    protected: "&cThis item is currently protected wait &f{time} seconds &cuntil you can pick it up."

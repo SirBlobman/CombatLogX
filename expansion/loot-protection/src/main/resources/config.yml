@@ -1,0 +1,14 @@
+# How long should items be protected after death?
+# Default: 30 (seconds)
+loot-protection-time: 30
+
+# How long should the expansion wait before sending the same message again?
+# Default: 30 (seconds)
+message-cooldown: 1
+
+# Should the expansion only protect items from people that have logged out during combat?
+# Default: false
+only-protect-after-log: false
+
+# Should the expansion add items to the killers inventory if the player dies in the void?
+return-void-items: true
