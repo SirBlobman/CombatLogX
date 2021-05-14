@@ -23,6 +23,10 @@ disabled-world-list:
   - "disabled_world_1"
   - "DiSaBlEd_WoRlD_2"
 
+# If this option is set to 'true', the 'disabled-world-list' will change into
+# the list of enabled worlds.
+disabled-world-list-inverted: false
+
 # Should tameable entities be linked to their owners? (e.g. Wolf, Horse)
 # This will only link the attacker, not the entity that was attacked.
 # Default: true

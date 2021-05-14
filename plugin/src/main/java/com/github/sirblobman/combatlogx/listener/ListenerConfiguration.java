@@ -88,15 +88,16 @@ public class ListenerConfiguration extends CombatListener {
     }
 
     private boolean checkDisabledWorld(Player player) {
-        World world = player.getWorld();
-        String worldName = world.getName();
-
         CombatPlugin plugin = getPlugin();
         ConfigurationManager configurationManager = plugin.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-
         List<String> disabledWorldList = configuration.getStringList("disabled-world-list");
-        return disabledWorldList.contains(worldName);
+        boolean inverted = configuration.getBoolean("disabled-world-list-inverted");
+
+        World world = player.getWorld();
+        String worldName = world.getName();
+        boolean contains = disabledWorldList.contains(worldName);
+        return (inverted != contains);
     }
 
     private boolean checkBypass(Player player) {
