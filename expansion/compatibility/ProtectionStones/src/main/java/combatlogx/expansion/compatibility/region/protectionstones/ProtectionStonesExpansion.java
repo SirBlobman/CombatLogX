@@ -13,19 +13,9 @@ public final class ProtectionStonesExpansion extends RegionExpansion {
     }
 
     @Override
-    public void onLoad() {
-
-    }
-
-    @Override
     public void afterEnable() {
         new ProtectionStonesListener(this).register();
         this.regionHandler = new ProtectionStonesRegionHandler(this);
-    }
-
-    @Override
-    public void reloadConfig() {
-
     }
 
     @Override
