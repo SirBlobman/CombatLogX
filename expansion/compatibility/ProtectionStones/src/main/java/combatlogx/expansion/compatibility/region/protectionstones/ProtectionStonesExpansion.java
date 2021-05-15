@@ -1,38 +1,30 @@
 package combatlogx.expansion.compatibility.region.protectionstones;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
+import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
+import combatlogx.expansion.compatibility.region.protectionstones.handler.ProtectionStonesRegionHandler;
 
-import java.util.logging.Level;
-
-public final class ProtectionStonesExpansion extends Expansion {
+public final class ProtectionStonesExpansion extends RegionExpansion {
+    private RegionHandler regionHandler = null;
 
     public ProtectionStonesExpansion(final ICombatLogX plugin) {
         super(plugin);
     }
 
     @Override
-    public void onLoad() {
-
-    }
-
-    @Override
-    public void onEnable() {
+    public void afterEnable() {
         new ProtectionStonesListener(this).register();
-        if(!getPlugin().getExpansionManager().getExpansion("CompatWorldGuard").isPresent()) {
-            getLogger().log(Level.WARNING, "ProtectionStones is a WorldGuard based plugin");
-            getLogger().log(Level.WARNING, "and to enable the ForceField and other region protection features");
-            getLogger().log(Level.WARNING, "please install the WorldGuard Compatibility expansion");
-        }
+        this.regionHandler = new ProtectionStonesRegionHandler(this);
     }
 
     @Override
-    public void onDisable() {
-
+    public boolean checkDependencies() {
+        return checkDependency("ProtectionStones", true);
     }
 
     @Override
-    public void reloadConfig() {
-
+    public RegionHandler getRegionHandler() {
+        return this.regionHandler;
     }
 }
