@@ -70,6 +70,7 @@
                 <file file="${expansion.compatibility.dir}/KingdomsX/target/KingdomsX Compatibility.jar"/>
                 <file file="${expansion.compatibility.dir}/Lands/target/Lands Compatibility.jar"/>
                 <file file="${expansion.compatibility.dir}/WorldGuard/target/WorldGuard Compatibility.jar"/>
+                <file file="${expansion.compatibility.dir}/ProtectionStones/target/ProtectionStones Compatibility.jar"/>
 
                 <!-- Vanish Compatibility Expansions -->
                 <file file="${expansion.compatibility.dir}/Essentials/target/EssentialsX Compatibility.jar"/>
