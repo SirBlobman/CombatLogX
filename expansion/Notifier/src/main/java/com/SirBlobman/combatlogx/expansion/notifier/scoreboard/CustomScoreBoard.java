@@ -90,29 +90,40 @@ public class CustomScoreBoard {
     }
 
     private CustomLine getLine(int line) {
-        return this.lineList.stream().filter(custom -> custom.getLine() == line).findFirst().orElse(null);
+        for(CustomLine custom : this.lineList) {
+            int customLine = custom.getLine();
+            if(customLine == line) return custom;
+        }
+
+        return null;
     }
 
     private void setLine(int line, String value) {
-        CustomLine custom = getLine(line);
-        Validate.notNull(custom, "Could not find scoreboard line with index '" + line + "'.");
+        CustomLine customLine = getLine(line);
+        Validate.notNull(customLine, "Could not find scoreboard line with index '" + line + "'.");
 
-        this.objective.getScore(custom.getColor().toString()).setScore(line);
+        String scoreName = customLine.getColor().toString();
+        Score score = this.objective.getScore(scoreName);
+        score.setScore(line);
 
-        int maxLength = getMaxLineLength();
+        int maxLength = getMaxPrefixOrSuffixLength();
         int valueLength = value.length();
-        if(valueLength > maxLength) {
-            String part1 = value.substring(0, maxLength);
-            String part2 = value.substring(maxLength);
-            String colorCodes = ChatColor.getLastColors(part1);
-            part2 = colorCodes + part2;
-            if(part2.length() > maxLength) {
-                part2 = part2.substring(0, maxLength);
-            }
+        Team team = customLine.getTeam();
 
-            custom.getTeam().setPrefix(part1);
-            custom.getTeam().setSuffix(part2);
-        } else custom.getTeam().setPrefix(value);
+        if(valueLength <= maxLength) {
+            team.setPrefix(value);
+            team.setSuffix("");
+            return;
+        }
+
+        String part1 = value.substring(0, maxLength);
+        String part2 = value.substring(maxLength);
+        if(part2.length() > maxLength) {
+            part2 = part2.substring(0, maxLength);
+        }
+
+        team.setPrefix(part1);
+        team.setSuffix(part2);
     }
 
     private void removeLine(int line) {
@@ -168,11 +179,9 @@ public class CustomScoreBoard {
                 .replace("{enemy_hearts}", enemyHearts);
     }
 
-    private int getMaxLineLength() {
+    private int getMaxPrefixOrSuffixLength() {
         int minorVersion = VersionUtil.getMinorVersion();
-        if(minorVersion <= 12) return 16;
-        if(minorVersion <= 13) return 64;
-
+        if(minorVersion >= 13) return 64;
         return 16;
     }
 }
