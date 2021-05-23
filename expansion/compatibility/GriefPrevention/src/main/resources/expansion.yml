@@ -4,4 +4,4 @@ description: "An expansion that adds region and force field support to GriefPrev
 
 main: "com.SirBlobman.combatlogx.expansion.compatibility.griefprevention.CompatibilityGriefPrevention"
 author: "SirBlobman"
-version: "15.3"
+version: "15.4"
