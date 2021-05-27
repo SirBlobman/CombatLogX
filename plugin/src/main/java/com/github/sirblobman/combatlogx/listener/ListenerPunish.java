@@ -6,6 +6,7 @@ import org.bukkit.event.EventPriority;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.CombatPlugin;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.event.PlayerPunishEvent;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 
@@ -22,7 +23,7 @@ public class ListenerPunish extends CombatListener {
     }
 
     private boolean checkPunishment(UntagReason reason) {
-        CombatPlugin plugin = getPlugin();
+        ICombatLogX plugin = getPlugin();
         ConfigurationManager configurationManager = plugin.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("punish.yml");
 

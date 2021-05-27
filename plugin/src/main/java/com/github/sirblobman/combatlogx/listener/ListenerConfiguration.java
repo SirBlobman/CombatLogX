@@ -20,10 +20,12 @@ import org.bukkit.permissions.PermissionDefault;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.CombatPlugin;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.ICombatManager;
 import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
-import com.github.sirblobman.combatlogx.manager.CombatManager;
+import com.github.sirblobman.combatlogx.api.utility.CommandHelper;
 
 public class ListenerConfiguration extends CombatListener {
     public ListenerConfiguration(CombatPlugin plugin) {
@@ -49,7 +51,7 @@ public class ListenerConfiguration extends CombatListener {
             return;
         }
 
-        CombatPlugin plugin = getPlugin();
+        ICombatLogX plugin = getPlugin();
         plugin.printDebug("Finished default beforeTag check without cancellation.");
     }
 
@@ -88,7 +90,7 @@ public class ListenerConfiguration extends CombatListener {
     }
 
     private boolean checkDisabledWorld(Player player) {
-        CombatPlugin plugin = getPlugin();
+        ICombatLogX plugin = getPlugin();
         ConfigurationManager configurationManager = plugin.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
         List<String> disabledWorldList = configuration.getStringList("disabled-world-list");
@@ -101,7 +103,7 @@ public class ListenerConfiguration extends CombatListener {
     }
 
     private boolean checkBypass(Player player) {
-        CombatPlugin plugin = getPlugin();
+        ICombatLogX plugin = getPlugin();
         ConfigurationManager configurationManager = plugin.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
 
@@ -115,7 +117,7 @@ public class ListenerConfiguration extends CombatListener {
     private boolean isSelfCombatDisabled(Player player, LivingEntity enemy) {
         if(enemy == null || doesNotEqual(player, enemy)) return false;
 
-        CombatPlugin plugin = getPlugin();
+        ICombatLogX plugin = getPlugin();
         ConfigurationManager configurationManager = plugin.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
         return !configuration.getBoolean("self-combat");
@@ -130,22 +132,22 @@ public class ListenerConfiguration extends CombatListener {
     }
 
     private void checkDeathUntag(Player player) {
-        CombatPlugin plugin = getPlugin();
+        ICombatLogX plugin = getPlugin();
         ConfigurationManager configurationManager = plugin.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
         if(!configuration.getBoolean("untag-on-death")) return;
 
-        CombatManager combatManager = plugin.getCombatManager();
+        ICombatManager combatManager = plugin.getCombatManager();
         if(combatManager.isInCombat(player)) combatManager.untag(player, UntagReason.SELF_DEATH);
     }
 
     private void checkEnemyDeathUntag(LivingEntity enemy) {
-        CombatPlugin plugin = getPlugin();
+        ICombatLogX plugin = getPlugin();
         ConfigurationManager configurationManager = plugin.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
         if(!configuration.getBoolean("untag-on-death")) return;
 
-        CombatManager combatManager = plugin.getCombatManager();
+        ICombatManager combatManager = plugin.getCombatManager();
         OfflinePlayer offlinePlayer = combatManager.getByEnemy(enemy);
         if(offlinePlayer == null || !offlinePlayer.isOnline()) return;
 
@@ -154,11 +156,11 @@ public class ListenerConfiguration extends CombatListener {
     }
 
     private void runTagCommands(Player player, LivingEntity enemy) {
-        CombatPlugin plugin = getPlugin();
+        ICombatLogX plugin = getPlugin();
         ConfigurationManager configurationManager = plugin.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("commands.yml");
 
-        CombatManager combatManager = plugin.getCombatManager();
+        ICombatManager combatManager = plugin.getCombatManager();
         List<String> tagCommandList = configuration.getStringList("tag-command-list");
         if(tagCommandList.isEmpty()) return;
 
@@ -166,17 +168,17 @@ public class ListenerConfiguration extends CombatListener {
             String replacedCommand = combatManager.replaceVariables(player, enemy, tagCommand);
             if(replacedCommand.startsWith("[PLAYER]")) {
                 String command = replacedCommand.substring("[PLAYER]".length());
-                combatManager.runAsPlayer(player, command);
+                CommandHelper.runAsPlayer(plugin, player, command);
                 continue;
             }
 
             if(replacedCommand.startsWith("[OP]")) {
                 String command = replacedCommand.substring("[OP]".length());
-                combatManager.runAsOperator(player, command);
+                CommandHelper.runAsOperator(plugin, player, command);
                 continue;
             }
 
-            combatManager.runAsConsole(replacedCommand);
+            CommandHelper.runAsConsole(plugin, replacedCommand);
         }
     }
 }

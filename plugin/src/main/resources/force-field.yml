@@ -5,8 +5,8 @@ enabled: true
 
 # What material will the force field be made out of?
 # This uses the XMaterial naming system to support multiple Spigot versions.
-# Default: GLASS
-material: GLASS
+# Default: RED_STAINED_GLASS
+material: RED_STAINED_GLASS
 
 # Radius is the distance that a player has to be from a region to display the force field.
 # A higher radius may cause your server to lag.

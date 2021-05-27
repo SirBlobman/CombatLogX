@@ -14,10 +14,11 @@ import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.combatlogx.CombatPlugin;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.github.sirblobman.combatlogx.api.utility.EntityHelper;
-import com.github.sirblobman.combatlogx.manager.CombatManager;
 
 public class ListenerDamage extends CombatListener {
     public ListenerDamage(CombatPlugin plugin) {
@@ -33,7 +34,7 @@ public class ListenerDamage extends CombatListener {
     }
 
     private Entity getDamager(EntityDamageByEntityEvent e) {
-        CombatPlugin plugin = getPlugin();
+        ICombatLogX plugin = getPlugin();
         ConfigurationManager configurationManager = plugin.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
 
@@ -44,8 +45,8 @@ public class ListenerDamage extends CombatListener {
     }
 
     private void checkTag(Entity entity, Entity enemy, TagReason tagReason) {
-        CombatPlugin plugin = getPlugin();
-        CombatManager combatManager = plugin.getCombatManager();
+        ICombatLogX plugin = getPlugin();
+        ICombatManager combatManager = plugin.getCombatManager();
         plugin.printDebug("Checking if the entity '" + getName(entity) + "' should be tagged for reason '" + tagReason + "' by enemy '" + getName(enemy) + "'.");
 
         if(!(entity instanceof Player)) {
@@ -67,7 +68,7 @@ public class ListenerDamage extends CombatListener {
     }
 
     private String getName(Entity entity) {
-        CombatPlugin plugin = getPlugin();
+        ICombatLogX plugin = getPlugin();
         if(entity == null) {
             CommandSender console = Bukkit.getConsoleSender();
             LanguageManager languageManager = plugin.getLanguageManager();

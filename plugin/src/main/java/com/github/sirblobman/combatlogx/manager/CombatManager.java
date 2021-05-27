@@ -8,13 +8,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -41,6 +38,7 @@ import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.github.sirblobman.combatlogx.api.object.TimerType;
 import com.github.sirblobman.combatlogx.api.object.TimerUpdater;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
+import com.github.sirblobman.combatlogx.api.utility.CommandHelper;
 import com.github.sirblobman.combatlogx.listener.ListenerDeath;
 
 public final class CombatManager implements ICombatManager {
@@ -215,44 +213,6 @@ public final class CombatManager implements ICombatManager {
         return replaceMVdW(player, replacePAPI(player, newString));
     }
 
-    public void runAsConsole(String command) {
-        try {
-            CommandSender console = Bukkit.getConsoleSender();
-            Bukkit.dispatchCommand(console, command);
-        } catch(Exception ex) {
-            Logger logger = this.plugin.getLogger();
-            logger.log(Level.SEVERE, "Failed to execute command '/" + command + "' in console:", ex);
-        }
-    }
-
-    public void runAsPlayer(Player player, String command) {
-        try {
-            player.performCommand(command);
-        } catch(Exception ex) {
-            Logger logger = this.plugin.getLogger();
-            String playerName = player.getName();
-            logger.log(Level.SEVERE, "Failed to execute command '/" + command + "' as player '" + playerName + "':", ex);
-        }
-    }
-
-    public void runAsOperator(Player player, String command) {
-        if(player.isOp()) {
-            runAsPlayer(player, command);
-            return;
-        }
-
-        try {
-            player.setOp(true);
-            player.performCommand(command);
-        } catch(Exception ex) {
-            Logger logger = this.plugin.getLogger();
-            String playerName = player.getName();
-            logger.log(Level.SEVERE, "Failed to execute command '/" + command + "' as player '" + playerName + "' with OP:", ex);
-        } finally {
-            player.setOp(false);
-        }
-    }
-
     private int getGlobalTimerSeconds() {
         ConfigurationManager configurationManager = this.plugin.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
@@ -332,17 +292,17 @@ public final class CombatManager implements ICombatManager {
             String replacedCommand = replaceVariables(player, previousEnemy, punishCommand);
             if(replacedCommand.startsWith("[PLAYER]")) {
                 String command = replacedCommand.substring("[PLAYER]".length());
-                runAsPlayer(player, command);
+                CommandHelper.runAsPlayer(this.plugin, player, command);
                 continue;
             }
 
             if(replacedCommand.startsWith("[OP]")) {
                 String command = replacedCommand.substring("[OP]".length());
-                runAsOperator(player, command);
+                CommandHelper.runAsOperator(this.plugin, player, command);
                 continue;
             }
 
-            runAsConsole(replacedCommand);
+            CommandHelper.runAsConsole(this.plugin, replacedCommand);
         }
     }
 

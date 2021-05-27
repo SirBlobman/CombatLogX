@@ -1,11 +1,13 @@
-package com.github.sirblobman.combatlogx.api.force.field;
+package com.github.sirblobman.combatlogx.force.field;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import com.github.sirblobman.api.object.WorldXYZ;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.ICombatManager;
 
@@ -18,8 +20,8 @@ import com.comphenix.protocol.events.PacketEvent;
 /** @author olivolja3 */
 public class ForceFieldAdapter extends PacketAdapter {
     private final ICombatLogX plugin;
-    private final ForceFieldListener forceFieldListener;
-    public ForceFieldAdapter(ForceFieldListener forceFieldListener) {
+    private final ListenerForceField forceFieldListener;
+    public ForceFieldAdapter(ListenerForceField forceFieldListener) {
         super(forceFieldListener.getPlugin().getPlugin(), ListenerPriority.NORMAL, Server.BLOCK_CHANGE);
         this.forceFieldListener = forceFieldListener;
         this.plugin = forceFieldListener.getPlugin();
@@ -46,12 +48,12 @@ public class ForceFieldAdapter extends PacketAdapter {
         Location location = packetContainer.getBlockPositionModifier().read(0).toLocation(world);
 
         if(this.forceFieldListener.fakeBlockMap.containsKey(uuid)
-                && this.forceFieldListener.isSafe(location, player)
+                && this.forceFieldListener.isSafe(player, location)
                 && this.forceFieldListener.isSafeSurround(location, player)
                 && this.forceFieldListener.canPlace(location)
-                && this.forceFieldListener.fakeBlockMap.get(uuid).contains(location)
+                && this.forceFieldListener.fakeBlockMap.get(uuid).contains(WorldXYZ.from(location))
                 ) {
-            block.setBlockData(this.forceFieldListener.wrappedData(block.getBlockData()));
+            block.setBlockData(this.forceFieldListener.wrapData(block.getBlockData()));
         }
     }
 }

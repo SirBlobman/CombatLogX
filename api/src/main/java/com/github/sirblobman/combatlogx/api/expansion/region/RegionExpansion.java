@@ -2,8 +2,6 @@ package com.github.sirblobman.combatlogx.api.expansion.region;
 
 import java.util.logging.Logger;
 
-import org.bukkit.configuration.file.YamlConfiguration;
-
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
@@ -11,11 +9,9 @@ import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
 public abstract class RegionExpansion extends Expansion {
     private boolean enabledSuccessfully;
-    private final RegionForceField regionForceField;
     public RegionExpansion(ICombatLogX plugin) {
         super(plugin);
         this.enabledSuccessfully = false;
-        this.regionForceField = new RegionForceField(this);
     }
 
     @Override
@@ -30,13 +26,6 @@ public abstract class RegionExpansion extends Expansion {
             return;
         }
 
-        ConfigurationManager configurationManager = plugin.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("force-field.yml");
-        if(configuration.getBoolean("enabled")) {
-            this.regionForceField.registerProtocol();
-            registerListener(this.regionForceField);
-        }
-
         RegionMoveListener regionMoveListener = new RegionMoveListener(this);
         regionMoveListener.register();
 
@@ -47,7 +36,6 @@ public abstract class RegionExpansion extends Expansion {
     @Override
     public final void onDisable() {
         if(!this.enabledSuccessfully) return;
-        this.regionForceField.unregisterProtocol();
 
         afterDisable();
         this.enabledSuccessfully = false;
@@ -63,13 +51,6 @@ public abstract class RegionExpansion extends Expansion {
     public void reloadConfig() {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.reload("config.yml");
-
-        this.regionForceField.unregisterProtocol();
-        YamlConfiguration configuration = getPlugin().getConfigurationManager().get("force-field.yml");
-        if(configuration.getBoolean("enabled")) {
-            this.regionForceField.registerProtocol();
-            registerListener(this.regionForceField);
-        }
     }
 
     /**

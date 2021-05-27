@@ -1,4 +1,4 @@
-package com.github.sirblobman.combatlogx.api.force.field;
+package com.github.sirblobman.combatlogx.force.field;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;

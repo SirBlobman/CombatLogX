@@ -36,6 +36,7 @@ import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
+import com.github.sirblobman.combatlogx.force.field.ListenerForceField;
 import com.github.sirblobman.combatlogx.manager.CombatManager;
 
 import org.jetbrains.annotations.NotNull;
@@ -180,6 +181,15 @@ public class CommandCombatLogX extends Command {
         configurationManager.reload("force-field.yml");
         configurationManager.reload("punish.yml");
         configurationManager.reload("language.yml");
+
+        ListenerForceField listenerForceField = this.plugin.getListenerForceField();
+        listenerForceField.unregister();
+        listenerForceField.removeProtocol();
+
+        if(listenerForceField.isEnabled()) {
+            listenerForceField.register();
+            listenerForceField.registerProtocol();
+        }
 
         LanguageManager languageManager = this.plugin.getLanguageManager();
         languageManager.reloadLocales();

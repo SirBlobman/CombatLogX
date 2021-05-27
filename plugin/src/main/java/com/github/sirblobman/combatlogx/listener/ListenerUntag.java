@@ -13,9 +13,11 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.CombatPlugin;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.ICombatManager;
 import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
-import com.github.sirblobman.combatlogx.manager.CombatManager;
+import com.github.sirblobman.combatlogx.api.utility.CommandHelper;
 
 public class ListenerUntag extends CombatListener {
     public ListenerUntag(CombatPlugin plugin) {
@@ -28,16 +30,16 @@ public class ListenerUntag extends CombatListener {
         UntagReason untagReason = (isKickReasonIgnored(kickReason) ? UntagReason.EXPIRE : UntagReason.KICK);
         Player player = e.getPlayer();
 
-        CombatPlugin plugin = getPlugin();
-        CombatManager combatManager = plugin.getCombatManager();
+        ICombatLogX plugin = getPlugin();
+        ICombatManager combatManager = plugin.getCombatManager();
         combatManager.untag(player, untagReason);
     }
 
     @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
     public void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
-        CombatPlugin plugin = getPlugin();
-        CombatManager combatManager = plugin.getCombatManager();
+        ICombatLogX plugin = getPlugin();
+        ICombatManager combatManager = plugin.getCombatManager();
         combatManager.untag(player, UntagReason.QUIT);
     }
 
@@ -47,8 +49,8 @@ public class ListenerUntag extends CombatListener {
         LivingEntity previousEnemy = e.getPreviousEnemy();
         UntagReason untagReason = e.getUntagReason();
 
-        CombatPlugin plugin = getPlugin();
-        CombatManager combatManager = plugin.getCombatManager();
+        ICombatLogX plugin = getPlugin();
+        ICombatManager combatManager = plugin.getCombatManager();
         combatManager.punish(player, untagReason, previousEnemy);
 
         sendUntagMessage(player, untagReason);
@@ -56,7 +58,7 @@ public class ListenerUntag extends CombatListener {
     }
 
     private boolean isKickReasonIgnored(String kickReason) {
-        CombatPlugin plugin = getPlugin();
+        ICombatLogX plugin = getPlugin();
         ConfigurationManager configurationManager = plugin.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("punish.yml");
 
@@ -67,7 +69,7 @@ public class ListenerUntag extends CombatListener {
 
     private void sendUntagMessage(Player player, UntagReason untagReason) {
         if(!untagReason.isExpire()) return;
-        CombatPlugin plugin = getPlugin();
+        ICombatLogX plugin = getPlugin();
 
         LanguageManager languageManager = plugin.getLanguageManager();
         String languagePath = ("combat-timer." + (untagReason == UntagReason.EXPIRE ? "expire" : "enemy-death"));
@@ -75,9 +77,9 @@ public class ListenerUntag extends CombatListener {
     }
 
     private void runUntagCommands(Player player, LivingEntity previousEnemy) {
-        CombatPlugin plugin = getPlugin();
+        ICombatLogX plugin = getPlugin();
         ConfigurationManager configurationManager = plugin.getConfigurationManager();
-        CombatManager combatManager = plugin.getCombatManager();
+        ICombatManager combatManager = plugin.getCombatManager();
         YamlConfiguration configuration = configurationManager.get("commands.yml");
 
         List<String> untagCommandList = configuration.getStringList("untag-command-list");
@@ -87,17 +89,17 @@ public class ListenerUntag extends CombatListener {
             String replacedCommand = combatManager.replaceVariables(player, previousEnemy, untagCommand);
             if(replacedCommand.startsWith("[PLAYER]")) {
                 String command = replacedCommand.substring("[PLAYER]".length());
-                combatManager.runAsPlayer(player, command);
+                CommandHelper.runAsPlayer(plugin, player, command);
                 continue;
             }
 
             if(replacedCommand.startsWith("[OP]")) {
                 String command = replacedCommand.substring("[OP]".length());
-                combatManager.runAsOperator(player, command);
+                CommandHelper.runAsOperator(plugin, player, command);
                 continue;
             }
 
-            combatManager.runAsConsole(replacedCommand);
+            CommandHelper.runAsConsole(plugin, replacedCommand);
         }
     }
 }

@@ -24,6 +24,7 @@ import com.github.sirblobman.combatlogx.command.CommandCombatLogX;
 import com.github.sirblobman.combatlogx.command.CommandCombatTimer;
 import com.github.sirblobman.combatlogx.command.CommandTogglePVP;
 import com.github.sirblobman.combatlogx.configuration.ConfigurationChecker;
+import com.github.sirblobman.combatlogx.force.field.ListenerForceField;
 import com.github.sirblobman.combatlogx.listener.ListenerConfiguration;
 import com.github.sirblobman.combatlogx.listener.ListenerDamage;
 import com.github.sirblobman.combatlogx.listener.ListenerDeath;
@@ -37,12 +38,14 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     private final CombatManager combatManager;
     private final ExpansionManager expansionManager;
     private final ListenerDeath listenerDeath;
+    private final ListenerForceField listenerForceField;
     private final TimerUpdateTask timerUpdateTask;
 
     public CombatPlugin() {
         this.expansionManager = new ExpansionManager(this);
         this.combatManager = new CombatManager(this);
         this.listenerDeath = new ListenerDeath(this);
+        this.listenerForceField = new ListenerForceField(this);
         this.timerUpdateTask = new TimerUpdateTask(this);
     }
 
@@ -78,6 +81,12 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         new ListenerUntag(this).register();
         getDeathListener().register();
 
+        ListenerForceField listenerForceField = getListenerForceField();
+        if(listenerForceField.isEnabled()) {
+            listenerForceField.register();
+            listenerForceField.registerProtocol();
+        }
+
         this.timerUpdateTask.register();
         new UntagTask(this).register();
 
@@ -93,6 +102,10 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     @Override
     public void onDisable() {
         untagAllPlayers();
+
+        ListenerForceField listenerForceField = getListenerForceField();
+        listenerForceField.unregister();
+        listenerForceField.removeProtocol();
 
         ExpansionManager expansionManager = getExpansionManager();
         expansionManager.disableExpansions();
@@ -174,6 +187,10 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
             String realMessage = ("[Debug] " + message);
             logger.info(realMessage);
         }
+    }
+
+    public ListenerForceField getListenerForceField() {
+        return this.listenerForceField;
     }
 
     public ListenerDeath getDeathListener() {

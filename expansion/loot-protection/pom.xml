@@ -39,9 +39,6 @@
 
                 <configuration>
                     <shadeSourcesContent>true</shadeSourcesContent>
-                    <createDependencyReducedPom>false</createDependencyReducedPom>
-                    <minimizeJar>true</minimizeJar>
-
                     <filters>
                         <filter>
                             <artifact>net.jodah:expiringmap</artifact>
