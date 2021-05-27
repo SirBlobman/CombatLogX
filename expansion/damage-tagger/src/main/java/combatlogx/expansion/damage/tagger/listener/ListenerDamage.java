@@ -74,7 +74,7 @@ public final class ListenerDamage extends ExpansionListener {
         }
 
         String damageCauseName = damageCause.name().toLowerCase();
-        String messagePath = ("expansion.damage-tagger." + damageCauseName);
+        String messagePath = ("expansion.damage-tagger.damage-type." + damageCauseName);
         languageManager.sendMessage(player, messagePath, null, true);
     }
 }
