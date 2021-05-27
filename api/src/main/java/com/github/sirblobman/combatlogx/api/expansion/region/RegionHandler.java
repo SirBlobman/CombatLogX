@@ -126,7 +126,9 @@ public abstract class RegionHandler {
 
         double strength = getKnockbackStrength();
         Vector multiply = normal.multiply(strength);
-        return makeFinite(multiply);
+
+        Vector finite = makeFinite(multiply);
+        return finite.setY(0.0D);
     }
 
     private Vector makeFinite(Vector original) {

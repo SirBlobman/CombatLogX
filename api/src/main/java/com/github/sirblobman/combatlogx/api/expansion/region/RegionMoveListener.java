@@ -35,7 +35,9 @@ public final class RegionMoveListener extends ExpansionListener {
         RegionHandler regionHandler = this.regionExpansion.getRegionHandler();
         if(regionHandler.isSafeZone(player, toLocation, tagType)) {
             Location fromLocation = e.getFrom();
-            regionHandler.preventEntry(e, player, fromLocation, toLocation);
+            if(!regionHandler.isSafeZone(player, fromLocation, tagType)) {
+                regionHandler.preventEntry(e, player, fromLocation, toLocation);
+            }
         }
     }
 }
