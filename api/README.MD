@@ -31,9 +31,7 @@ A lot of developers use maven to build projects more easily.
 
 ## Events
 A list of events and their uses can be found in the `com.github.sirblobman.combatlogx.api.event` package.  
-You can see more information about them below:  
-
-- **PlayerCombatTimerChangeEvent:** Triggered every tick while a player is in combat (useful for updating timers)
+You can see more information about them below:
 - **PlayerPreTagEvent:** Triggered before a player gets tagged. (cancellable)
 - **PlayerTagEvent:** Triggered when a player gets tagged into combat (not cancellable).
 - **PlayerReTagEvent:** Triggered when a player already has a timer, but they are tagged again. (cancellable)
