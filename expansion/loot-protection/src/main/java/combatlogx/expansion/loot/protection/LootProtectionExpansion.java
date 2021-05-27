@@ -24,7 +24,7 @@ public final class LootProtectionExpansion extends Expansion {
 
     @Override
     public void onDisable() {
-
+        // Do Nothing
     }
 
     @Override

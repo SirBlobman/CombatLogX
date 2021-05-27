@@ -39,7 +39,6 @@ import combatlogx.expansion.loot.protection.object.ProtectedItem;
 import net.jodah.expiringmap.ExpiringMap;
 
 public class ListenerLootProtection extends ExpansionListener {
-
     private final Set<UUID> messageCooldown;
     private final ExpiringMap<UUID, ProtectedItem> protectedItems;
     private final Map<Location, ConcurrentLinkedQueue<ProtectedItem>> pendingProtection;
