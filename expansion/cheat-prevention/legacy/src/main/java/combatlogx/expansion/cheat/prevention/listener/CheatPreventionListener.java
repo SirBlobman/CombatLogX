@@ -20,14 +20,18 @@ public abstract class CheatPreventionListener extends ExpansionListener {
         this.messageCooldownMap = new HashMap<>();
     }
 
-    protected final void sendMessage(Player player, String key, Replacer replacer) {
-        long systemMillis = System.currentTimeMillis();
-        long expireMillis = getCooldownExpireTime(player, key);
-        if(expireMillis < systemMillis) return;
-
+    protected final void sendMessageIgnoreCooldown(Player player, String key, Replacer replacer) {
         LanguageManager languageManager = getLanguageManager();
         languageManager.sendMessage(player, key, replacer, true);
         addMessageCooldown(player, key);
+    }
+
+    protected final void sendMessage(Player player, String key, Replacer replacer) {
+        long systemMillis = System.currentTimeMillis();
+        long expireMillis = getCooldownExpireTime(player, key);
+        if(systemMillis < expireMillis) return;
+
+        sendMessageIgnoreCooldown(player, key, replacer);
     }
 
     private long getNewMessageCooldownExpireTime() {

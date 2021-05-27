@@ -131,6 +131,6 @@ public final class ListenerCommands extends CheatPreventionListener {
 
         e.setCancelled(true);
         Replacer replacer = message -> message.replace("{command}", realCommand);
-        sendMessage(player, "expansion.cheat-prevention.command-blocked", replacer);
+        sendMessageIgnoreCooldown(player, "expansion.cheat-prevention.command-blocked", replacer);
     }
 }
