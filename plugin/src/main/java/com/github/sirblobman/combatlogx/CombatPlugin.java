@@ -17,6 +17,7 @@ import com.github.sirblobman.api.core.plugin.ConfigurablePlugin;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.update.UpdateManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.ICombatManager;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 import com.github.sirblobman.combatlogx.command.CommandCombatLogX;
@@ -29,16 +30,20 @@ import com.github.sirblobman.combatlogx.listener.ListenerDeath;
 import com.github.sirblobman.combatlogx.listener.ListenerPunish;
 import com.github.sirblobman.combatlogx.listener.ListenerUntag;
 import com.github.sirblobman.combatlogx.manager.CombatManager;
-import com.github.sirblobman.combatlogx.task.CombatTimerTask;
+import com.github.sirblobman.combatlogx.task.TimerUpdateTask;
+import com.github.sirblobman.combatlogx.task.UntagTask;
 
 public final class CombatPlugin extends ConfigurablePlugin implements ICombatLogX {
     private final CombatManager combatManager;
     private final ExpansionManager expansionManager;
     private final ListenerDeath listenerDeath;
+    private final TimerUpdateTask timerUpdateTask;
+
     public CombatPlugin() {
         this.expansionManager = new ExpansionManager(this);
         this.combatManager = new CombatManager(this);
         this.listenerDeath = new ListenerDeath(this);
+        this.timerUpdateTask = new TimerUpdateTask(this);
     }
 
     @Override
@@ -73,8 +78,8 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         new ListenerUntag(this).register();
         getDeathListener().register();
 
-        CombatTimerTask combatTimerTask = new CombatTimerTask(this);
-        combatTimerTask.start();
+        this.timerUpdateTask.register();
+        new UntagTask(this).register();
 
         ExpansionManager expansionManager = getExpansionManager();
         expansionManager.enableExpansions();
@@ -88,11 +93,13 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     @Override
     public void onDisable() {
         untagAllPlayers();
+
         ExpansionManager expansionManager = getExpansionManager();
         expansionManager.disableExpansions();
 
         Bukkit.getScheduler().cancelTasks(this);
         HandlerList.unregisterAll(this);
+
         broadcastDisableMessage();
     }
 
@@ -153,6 +160,11 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     }
 
     @Override
+    public TimerUpdateTask getTimerManager() {
+        return this.timerUpdateTask;
+    }
+
+    @Override
     public void printDebug(String... messageArray) {
         YamlConfiguration configuration = getConfig("config.yml");
         if(!configuration.getBoolean("debug-mode")) return;
@@ -169,9 +181,11 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     }
 
     private void untagAllPlayers() {
-        CombatManager combatManager = getCombatManager();
-        List<Player> playerList = combatManager.getPlayersInCombat();
-        playerList.forEach(player -> combatManager.untag(player, UntagReason.EXPIRE));
+        ICombatManager combatManager = getCombatManager();
+        List<Player> playerCombatList = combatManager.getPlayersInCombat();
+        for(Player player : playerCombatList) {
+            combatManager.untag(player, UntagReason.EXPIRE);
+        }
     }
 
     private void broadcastLoadMessage() {

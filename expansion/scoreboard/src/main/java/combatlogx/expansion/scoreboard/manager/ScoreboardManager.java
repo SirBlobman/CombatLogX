@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -69,11 +70,21 @@ public final class ScoreboardManager {
 
         CustomScoreboard customScoreboard = this.combatScoreboardMap.getOrDefault(uuid, null);
         if(customScoreboard == null) {
-            customScoreboard = enableScoreboard(player);
-            if(customScoreboard == null) return;
+            createSync(player);
+            return;
         }
 
         customScoreboard.updateScoreboard();
+    }
+
+    private void createSync(Player player) {
+        Runnable task = () -> {
+            CustomScoreboard customScoreboard = enableScoreboard(player);
+            if(customScoreboard != null) customScoreboard.updateScoreboard();
+        };
+
+        JavaPlugin plugin = getExpansion().getPlugin().getPlugin();
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, task);
     }
 
     public void removeScoreboard(Player player) {

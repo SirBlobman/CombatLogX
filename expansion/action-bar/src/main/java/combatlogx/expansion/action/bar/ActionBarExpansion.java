@@ -5,10 +5,9 @@ import java.util.logging.Logger;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.ITimerManager;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
-
-import combatlogx.expansion.action.bar.listener.ListenerActionBar;
 
 public final class ActionBarExpansion extends Expansion {
     public ActionBarExpansion(ICombatLogX plugin) {
@@ -23,18 +22,19 @@ public final class ActionBarExpansion extends Expansion {
 
     @Override
     public void onEnable() {
+        ICombatLogX plugin = getPlugin();
         int minorVersion = VersionUtility.getMinorVersion();
         if(minorVersion < 8) {
             Logger logger = getLogger();
-            logger.warning("The action bar expansion requires version 1.8 and above!");
+            logger.warning("This expansion requires Spigot 1.8.8 or higher.");
 
-            ICombatLogX plugin = getPlugin();
             ExpansionManager expansionManager = plugin.getExpansionManager();
             expansionManager.disableExpansion(this);
             return;
         }
 
-        new ListenerActionBar(this).register();
+        ITimerManager timerManager = plugin.getTimerManager();
+        timerManager.addUpdaterTask(new ActionBarUpdater(this));
     }
 
     @Override

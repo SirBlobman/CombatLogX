@@ -31,6 +31,7 @@ public interface ICombatLogX extends IResourceHolder {
 
     ExpansionManager getExpansionManager();
     ICombatManager getCombatManager();
+    ITimerManager getTimerManager();
 
     void printDebug(String... messageArray);
 

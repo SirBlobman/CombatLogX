@@ -30,6 +30,7 @@ import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.CombatPlugin;
 import com.github.sirblobman.combatlogx.api.ICombatManager;
+import com.github.sirblobman.combatlogx.api.ITimerManager;
 import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerPunishEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerReTagEvent;
@@ -38,6 +39,7 @@ import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.github.sirblobman.combatlogx.api.object.TimerType;
+import com.github.sirblobman.combatlogx.api.object.TimerUpdater;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 import com.github.sirblobman.combatlogx.listener.ListenerDeath;
 
@@ -106,6 +108,12 @@ public final class CombatManager implements ICombatManager {
 
         UUID uuid = player.getUniqueId();
         this.combatMap.remove(uuid);
+
+        ITimerManager timerManager = this.plugin.getTimerManager();
+        Set<TimerUpdater> timerUpdaterSet = timerManager.getTimerUpdaters();
+        for(TimerUpdater task : timerUpdaterSet) {
+            task.remove(player);
+        }
 
         LivingEntity previousEnemy = enemyMap.remove(uuid);
         PlayerUntagEvent event = new PlayerUntagEvent(player, untagReason, previousEnemy);

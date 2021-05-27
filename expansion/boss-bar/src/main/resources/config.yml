@@ -1,7 +1,6 @@
-# Information:
 # Remove this expansion to disable the boss bar.
 
-# Color and Style are only available in 1.9+
+# Color and Style are only available in 1.9.4+
 # You can find a list of colors here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarColor.html
 # You can find a list of styles here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarStyle.html
 bar-color: YELLOW
