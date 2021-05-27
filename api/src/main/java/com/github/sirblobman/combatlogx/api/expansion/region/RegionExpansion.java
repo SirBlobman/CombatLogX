@@ -63,6 +63,13 @@ public abstract class RegionExpansion extends Expansion {
     public void reloadConfig() {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.reload("config.yml");
+
+        this.regionForceField.unregisterProtocol();
+        YamlConfiguration configuration = getPlugin().getConfigurationManager().get("force-field.yml");
+        if(configuration.getBoolean("enabled")) {
+            this.regionForceField.registerProtocol();
+            registerListener(this.regionForceField);
+        }
     }
 
     /**

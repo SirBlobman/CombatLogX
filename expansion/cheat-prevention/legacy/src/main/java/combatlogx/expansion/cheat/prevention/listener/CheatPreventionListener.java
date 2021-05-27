@@ -10,8 +10,6 @@ import org.bukkit.entity.Player;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.language.Replacer;
-import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.ICombatManager;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
@@ -20,12 +18,6 @@ public abstract class CheatPreventionListener extends ExpansionListener {
     public CheatPreventionListener(Expansion expansion) {
         super(expansion);
         this.messageCooldownMap = new HashMap<>();
-    }
-
-    protected final boolean isInCombat(Player player) {
-        ICombatLogX combatLogX = getCombatLogX();
-        ICombatManager combatManager = combatLogX.getCombatManager();
-        return combatManager.isInCombat(player);
     }
 
     protected final void sendMessage(Player player, String key, Replacer replacer) {

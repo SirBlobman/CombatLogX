@@ -3,6 +3,7 @@ package combatlogx.expansion.compatibility.region.protectionstones;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
+
 import combatlogx.expansion.compatibility.region.protectionstones.handler.ProtectionStonesRegionHandler;
 
 public final class ProtectionStonesExpansion extends RegionExpansion {

@@ -3,6 +3,7 @@ package combatlogx.expansion.loot.protection;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+
 import combatlogx.expansion.loot.protection.listener.ListenerLootProtection;
 
 public final class LootProtectionExpansion extends Expansion {

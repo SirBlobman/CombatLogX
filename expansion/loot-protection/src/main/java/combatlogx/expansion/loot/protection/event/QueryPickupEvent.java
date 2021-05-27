@@ -1,8 +1,10 @@
 package combatlogx.expansion.loot.protection.event;
 
-import com.github.sirblobman.combatlogx.api.event.CustomPlayerEventCancellable;
-import combatlogx.expansion.loot.protection.object.ProtectedItem;
 import org.bukkit.entity.Player;
+
+import com.github.sirblobman.combatlogx.api.event.CustomPlayerEventCancellable;
+
+import combatlogx.expansion.loot.protection.object.ProtectedItem;
 
 public class QueryPickupEvent extends CustomPlayerEventCancellable {
 

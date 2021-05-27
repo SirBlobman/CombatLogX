@@ -1,28 +1,36 @@
 package combatlogx.expansion.compatibility.region.protectionstones.handler;
 
-import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
-import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
-import com.github.sirblobman.combatlogx.api.object.TagType;
-import com.sk89q.worldguard.protection.flags.Flags;
-import com.sk89q.worldguard.protection.flags.StateFlag;
-import dev.espi.protectionstones.PSRegion;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-public class ProtectionStonesRegionHandler extends RegionHandler {
+import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
+import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
+import com.github.sirblobman.combatlogx.api.object.TagType;
 
-    public ProtectionStonesRegionHandler(final RegionExpansion expansion) {
+import com.sk89q.worldguard.protection.flags.Flags;
+import com.sk89q.worldguard.protection.flags.StateFlag.State;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import dev.espi.protectionstones.PSRegion;
+
+public class ProtectionStonesRegionHandler extends RegionHandler {
+    public ProtectionStonesRegionHandler(RegionExpansion expansion) {
         super(expansion);
     }
 
     @Override
-    public String getEntryDeniedMessagePath(final TagType tagType) {
+    public String getEntryDeniedMessagePath(TagType tagType) {
         return "expansion.protectionstones-compatibility-no-entry";
     }
 
     @Override
-    public boolean isSafeZone(final Player player, final Location location, final TagType tagType) {
+    public boolean isSafeZone(Player player, Location location, TagType tagType) {
         PSRegion region = PSRegion.fromLocation(location);
-        return region != null && region.getWGRegion().getFlag(Flags.PVP) == StateFlag.State.DENY;
+        if(region == null) return false;
+
+        ProtectedRegion wgRegion = region.getWGRegion();
+        if(wgRegion == null) return false;
+
+        State pvpState = wgRegion.getFlag(Flags.PVP);
+        return (pvpState == State.DENY);
     }
 }

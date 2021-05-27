@@ -1,18 +1,12 @@
 package combatlogx.expansion.loot.protection.listener;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.api.configuration.PlayerDataManager;
-import com.github.sirblobman.api.language.Replacer;
-import com.github.sirblobman.combatlogx.CombatPlugin;
-import com.github.sirblobman.combatlogx.api.event.PlayerPunishEvent;
-import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
-import com.github.sirblobman.combatlogx.api.object.UntagReason;
-import com.github.sirblobman.combatlogx.listener.ListenerDeath;
-import combatlogx.expansion.loot.protection.event.QueryPickupEvent;
-import combatlogx.expansion.loot.protection.object.ProtectedItem;
-import net.jodah.expiringmap.ExpiringMap;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.TimeUnit;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -29,12 +23,20 @@ import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.event.inventory.InventoryPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.TimeUnit;
+import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.configuration.PlayerDataManager;
+import com.github.sirblobman.api.language.Replacer;
+import com.github.sirblobman.combatlogx.CombatPlugin;
+import com.github.sirblobman.combatlogx.api.event.PlayerPunishEvent;
+import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
+import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
+import com.github.sirblobman.combatlogx.api.object.UntagReason;
+import com.github.sirblobman.combatlogx.listener.ListenerDeath;
+
+import combatlogx.expansion.loot.protection.event.QueryPickupEvent;
+import combatlogx.expansion.loot.protection.object.ProtectedItem;
+import net.jodah.expiringmap.ExpiringMap;
 
 public class ListenerLootProtection extends ExpansionListener {
 

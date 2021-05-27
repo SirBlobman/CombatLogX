@@ -1,10 +1,11 @@
 package combatlogx.expansion.loot.protection.object;
 
-import combatlogx.expansion.loot.protection.listener.ListenerLootProtection;
+import java.util.UUID;
+
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.UUID;
+import combatlogx.expansion.loot.protection.listener.ListenerLootProtection;
 
 public class ProtectedItem {
 

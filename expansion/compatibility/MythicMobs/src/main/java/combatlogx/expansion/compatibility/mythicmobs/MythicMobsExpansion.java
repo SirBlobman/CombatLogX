@@ -1,7 +1,5 @@
 package combatlogx.expansion.compatibility.mythicmobs;
 
-import org.bukkit.event.Listener;
-
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
