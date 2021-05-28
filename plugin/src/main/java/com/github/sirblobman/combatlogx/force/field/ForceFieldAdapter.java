@@ -4,15 +4,16 @@ import java.util.UUID;
 
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import com.github.sirblobman.api.object.WorldXYZ;
 import com.github.sirblobman.api.utility.VersionUtility;
+import com.github.sirblobman.api.xseries.XMaterial;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.ICombatManager;
 
-import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.PacketType.Play.Client;
 import com.comphenix.protocol.PacketType.Play.Server;
 import com.comphenix.protocol.events.ListenerPriority;
@@ -40,9 +41,6 @@ public class ForceFieldAdapter extends PacketAdapter {
         ICombatManager combatManager = this.plugin.getCombatManager();
         if(!combatManager.isInCombat(player)) return;
 
-        PacketType packetType = e.getPacketType();
-        if(packetType == Client.USE_ITEM && VersionUtility.getMinorVersion() > 12) return;
-
         World world = player.getWorld();
         PacketContainer packet = e.getPacket();
         Location location = packet.getBlockPositionModifier().read(0).toLocation(world);
@@ -61,9 +59,6 @@ public class ForceFieldAdapter extends PacketAdapter {
     public void onPacketSending(PacketEvent e) {
         if(e.isCancelled()) return;
 
-        int minorVersion = VersionUtility.getMinorVersion();
-        if(minorVersion > 12) return;
-
         Player player = e.getPlayer();
         ICombatManager combatManager = this.plugin.getCombatManager();
         if(!combatManager.isInCombat(player)) return;
@@ -73,8 +68,10 @@ public class ForceFieldAdapter extends PacketAdapter {
         Location location = packet.getBlockPositionModifier().read(0).toLocation(world);
 
         if(isForceFieldBlock(player, location)) {
-            WrappedBlockData wrappedBlockData = WrappedBlockData.createData(this.forceFieldListener.getForceFieldMaterial());
-            packet.getBlockData().writeSafely(0, wrappedBlockData);
+            WrappedBlockData wrappedBlockData = getWrappedBlockData();
+            if(wrappedBlockData != null) {
+                packet.getBlockData().writeSafely(0, wrappedBlockData);
+            }
         }
     }
 
@@ -91,5 +88,19 @@ public class ForceFieldAdapter extends PacketAdapter {
         }
 
         return false;
+    }
+
+    private WrappedBlockData getWrappedBlockData() {
+        XMaterial material = this.forceFieldListener.getForceFieldMaterial();
+        Material bukkitMaterial = material.parseMaterial();
+        if(bukkitMaterial == null) return null;
+
+        int minorVersion = VersionUtility.getMinorVersion();
+        if(minorVersion < 13) {
+            byte data = material.getData();
+            return WrappedBlockData.createData(bukkitMaterial, data);
+        }
+
+        return WrappedBlockData.createData(bukkitMaterial);
     }
 }
