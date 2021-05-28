@@ -209,11 +209,22 @@ public final class CustomScoreboard {
         String enemyHealth = PlaceholderHelper.getEnemyHealth(plugin, player);
         String enemyHearts = PlaceholderHelper.getEnemyHearts(plugin, player);
         String enemyHealthRounded = PlaceholderHelper.getEnemyHealthRounded(plugin, player);
+        String enemyWorldName = PlaceholderHelper.getEnemyWorld(plugin, player);
+        String enemyX = PlaceholderHelper.getEnemyX(plugin, player);
+        String enemyY = PlaceholderHelper.getEnemyY(plugin, player);
+        String enemyZ = PlaceholderHelper.getEnemyZ(plugin, player);
 
-        return string.replace("{time_left}", timeLeft).replace("{time_left_decimal}", timeLeftDecimal)
+        return string.replace("{time_left}", timeLeft)
+                .replace("{time_left_decimal}", timeLeftDecimal)
                 .replace("{in_combat}", inCombat).replace("{status}", combatStatus)
-                .replace("{enemy_name}", enemyName).replace("{enemy_health}", enemyHealth)
+                .replace("{enemy_name}", enemyName)
+                .replace("{enemy_health}", enemyHealth)
                 .replace("{enemy_hearts}", enemyHearts)
-                .replace("{enemy_health_rounded}", enemyHealthRounded);
+                .replace("{enemy_health_rounded}", enemyHealthRounded)
+                .replace("{enemy_world}", enemyWorldName)
+                .replace("{enemy_x}", enemyX)
+                .replace("{enemy_y}", enemyY)
+                .replace("{enemy_z}", enemyZ)
+        ;
     }
 }

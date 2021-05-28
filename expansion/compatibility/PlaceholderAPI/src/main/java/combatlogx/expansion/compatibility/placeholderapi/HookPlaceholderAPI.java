@@ -24,6 +24,10 @@ import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.get
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyHealthRounded;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyHearts;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyName;
+import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyWorld;
+import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyX;
+import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyY;
+import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyZ;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getInCombat;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getStatus;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getTimeLeft;
@@ -76,6 +80,10 @@ public final class HookPlaceholderAPI extends PlaceholderExpansion {
             case "enemy_health": return getEnemyHealth(plugin, player);
             case "enemy_health_rounded": return getEnemyHealthRounded(plugin, player);
             case "enemy_hearts": return getEnemyHearts(plugin, player);
+            case "enemy_world": return getEnemyWorld(plugin, player);
+            case "enemy_x": return getEnemyX(plugin, player);
+            case "enemy_y": return getEnemyY(plugin, player);
+            case "enemy_z": return getEnemyZ(plugin, player);
             case "newbie_helper_pvp_status": return getNewbieHelperPVPStatus(player);
             case "newbie_helper_protected": return getNewbieHelperProtected(player);
             default: break;

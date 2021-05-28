@@ -3,6 +3,8 @@ package com.github.sirblobman.combatlogx.api.utility;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -12,6 +14,8 @@ import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.api.utility.MessageUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.ICombatManager;
+
+import org.jetbrains.annotations.Nullable;
 
 public final class PlaceholderHelper {
     public static String getTimeLeft(ICombatLogX plugin, Player player) {
@@ -105,5 +109,46 @@ public final class PlaceholderHelper {
         LanguageManager languageManager = plugin.getLanguageManager();
         String decimalFormatString = languageManager.getMessage(player, "decimal-format");
         return new DecimalFormat(decimalFormatString);
+    }
+
+    @Nullable
+    public static Location getEnemyLocation(ICombatLogX plugin, Player player) {
+        ICombatManager combatManager = plugin.getCombatManager();
+        LivingEntity enemy = combatManager.getEnemy(player);
+        return (enemy == null ? null : enemy.getLocation());
+    }
+
+    public static String getEnemyWorld(ICombatLogX plugin, Player player) {
+        Location location = getEnemyLocation(plugin, player);
+        if(location == null) return getUnknownEnemy(plugin, player);
+
+        World world = location.getWorld();
+        if(world == null) return getUnknownEnemy(plugin, player);
+
+        return world.getName();
+    }
+
+    public static String getEnemyX(ICombatLogX plugin, Player player) {
+        Location location = getEnemyLocation(plugin, player);
+        if(location == null) return getUnknownEnemy(plugin, player);
+
+        int x = location.getBlockX();
+        return Integer.toString(x);
+    }
+
+    public static String getEnemyY(ICombatLogX plugin, Player player) {
+        Location location = getEnemyLocation(plugin, player);
+        if(location == null) return getUnknownEnemy(plugin, player);
+
+        int y = location.getBlockY();
+        return Integer.toString(y);
+    }
+
+    public static String getEnemyZ(ICombatLogX plugin, Player player) {
+        Location location = getEnemyLocation(plugin, player);
+        if(location == null) return getUnknownEnemy(plugin, player);
+
+        int z = location.getBlockZ();
+        return Integer.toString(z);
     }
 }
