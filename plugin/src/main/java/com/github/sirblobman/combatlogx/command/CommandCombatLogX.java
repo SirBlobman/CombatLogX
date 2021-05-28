@@ -185,6 +185,7 @@ public class CommandCombatLogX extends Command {
         ListenerForceField listenerForceField = this.plugin.getListenerForceField();
         listenerForceField.unregister();
         listenerForceField.removeProtocol();
+        listenerForceField.clearData();
 
         if(listenerForceField.isEnabled()) {
             listenerForceField.register();

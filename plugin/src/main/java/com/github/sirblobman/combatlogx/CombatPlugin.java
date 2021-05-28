@@ -106,6 +106,7 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         ListenerForceField listenerForceField = getListenerForceField();
         listenerForceField.unregister();
         listenerForceField.removeProtocol();
+        listenerForceField.clearData();
 
         ExpansionManager expansionManager = getExpansionManager();
         expansionManager.disableExpansions();

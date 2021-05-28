@@ -17,3 +17,8 @@ radius: 8
 # Set it to "" to prevent all players from bypassing
 # Default: "combatlogx.bypass.force.field"
 bypass-permission: "combatlogx.bypass.force.field"
+
+# Should CombatLogX run the force-field async?
+# This is unsafe but may result in much better performance. Use at own risk!
+# Default: false
+unsafe-mode: false

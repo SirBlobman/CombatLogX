@@ -1,59 +1,95 @@
 package com.github.sirblobman.combatlogx.force.field;
 
-import java.util.List;
 import java.util.UUID;
 
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import com.github.sirblobman.api.object.WorldXYZ;
+import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.ICombatManager;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.PacketType.Play.Client;
 import com.comphenix.protocol.PacketType.Play.Server;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.EnumWrappers.PlayerDigType;
+import com.comphenix.protocol.wrappers.WrappedBlockData;
 
 /** @author olivolja3 */
 public class ForceFieldAdapter extends PacketAdapter {
     private final ICombatLogX plugin;
     private final ListenerForceField forceFieldListener;
-    public ForceFieldAdapter(ListenerForceField forceFieldListener) {
-        super(forceFieldListener.getPlugin().getPlugin(), ListenerPriority.NORMAL, Server.BLOCK_CHANGE);
+    public ForceFieldAdapter(ICombatLogX plugin, ListenerForceField forceFieldListener) {
+        super(plugin.getPlugin(), ListenerPriority.NORMAL, Client.USE_ITEM, Client.BLOCK_DIG, Server.BLOCK_CHANGE);
+        this.plugin = plugin;
         this.forceFieldListener = forceFieldListener;
-        this.plugin = forceFieldListener.getPlugin();
     }
 
-    public ICombatLogX getCombatLogX() {
-        return this.plugin;
+    @Override
+    public void onPacketReceiving(PacketEvent e) {
+        if(e.isCancelled()) return;
+
+        Player player = e.getPlayer();
+        ICombatManager combatManager = this.plugin.getCombatManager();
+        if(!combatManager.isInCombat(player)) return;
+
+        PacketType packetType = e.getPacketType();
+        if(packetType == Client.USE_ITEM && VersionUtility.getMinorVersion() > 12) return;
+
+        World world = player.getWorld();
+        PacketContainer packet = e.getPacket();
+        Location location = packet.getBlockPositionModifier().read(0).toLocation(world);
+
+        if(isForceFieldBlock(player, location)) {
+            PlayerDigType digType = packet.getPlayerDigTypes().read(0);
+            GameMode gameMode = player.getGameMode();
+            if(digType == PlayerDigType.STOP_DESTROY_BLOCK
+                    || (digType == PlayerDigType.START_DESTROY_BLOCK && gameMode == GameMode.CREATIVE)) {
+                this.forceFieldListener.sendForceField(player, location);
+            }
+        }
     }
 
     @Override
     public void onPacketSending(PacketEvent e) {
         if(e.isCancelled()) return;
-        Player player = e.getPlayer();
 
-        ICombatLogX plugin = getCombatLogX();
-        ICombatManager combatManager = plugin.getCombatManager();
+        int minorVersion = VersionUtility.getMinorVersion();
+        if(minorVersion > 12) return;
+
+        Player player = e.getPlayer();
+        ICombatManager combatManager = this.plugin.getCombatManager();
         if(!combatManager.isInCombat(player)) return;
 
-        UUID uuid = player.getUniqueId();
         World world = player.getWorld();
-        PacketContainer packetContainer = e.getPacket();
+        PacketContainer packet = e.getPacket();
+        Location location = packet.getBlockPositionModifier().read(0).toLocation(world);
 
-        WrapperPlayServerBlockChange block = new WrapperPlayServerBlockChange(packetContainer);
-        Location location = packetContainer.getBlockPositionModifier().read(0).toLocation(world);
-
-        if(this.forceFieldListener.fakeBlockMap.containsKey(uuid)
-                && this.forceFieldListener.isSafe(player, location)
-                && this.forceFieldListener.isSafeSurround(location, player)
-                && this.forceFieldListener.canPlace(location)
-                && this.forceFieldListener.fakeBlockMap.get(uuid).contains(WorldXYZ.from(location))
-                ) {
-            block.setBlockData(this.forceFieldListener.wrapData(block.getBlockData()));
+        if(isForceFieldBlock(player, location)) {
+            WrappedBlockData wrappedBlockData = WrappedBlockData.createData(this.forceFieldListener.getForceFieldMaterial());
+            packet.getBlockData().writeSafely(0, wrappedBlockData);
         }
+    }
+
+    private boolean isForceFieldBlock(Player player, Location location) {
+        UUID uuid = player.getUniqueId();
+        if(this.forceFieldListener.fakeBlockMap.containsKey(uuid)) {
+            boolean isSafe = this.forceFieldListener.isSafe(player, location);
+            boolean isSafeSurround = this.forceFieldListener.isSafeSurround(player, location);
+            boolean canPlace = this.forceFieldListener.canPlace(WorldXYZ.from(location));
+            if(isSafe && isSafeSurround && canPlace) {
+                WorldXYZ worldXYZ = WorldXYZ.from(location);
+                return this.forceFieldListener.fakeBlockMap.get(uuid).contains(worldXYZ);
+            }
+        }
+
+        return false;
     }
 }
