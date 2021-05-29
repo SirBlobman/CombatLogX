@@ -14,6 +14,7 @@
     <description>An expansion for CombatLogX that protects loot from being lost or stolen.</description>
 
     <dependencies>
+        <!-- CombatLogX Plugin -->
         <dependency>
             <groupId>com.github.sirblobman.combatlogx</groupId>
             <artifactId>plugin</artifactId>
@@ -21,6 +22,8 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- ExpiringMap -->
+        <!-- Included in jar -->
         <dependency>
             <groupId>net.jodah</groupId>
             <artifactId>expiringmap</artifactId>
@@ -29,15 +32,23 @@
         </dependency>
     </dependencies>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>sirblobman-public</id>
+            <url>https://nexus.sirblobman.xyz/repository/public/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <build>
         <finalName>Loot Protection</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
+                <version>3.3.0-SNAPSHOT</version>
 
                 <configuration>
+                    <minimizeJar>true</minimizeJar>
                     <shadeSourcesContent>true</shadeSourcesContent>
                     <filters>
                         <filter>
