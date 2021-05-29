@@ -30,6 +30,12 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
 
+        <!-- dmulloy2 Repository -->
+        <repository>
+            <id>dmulloy2-repo</id>
+            <url>https://repo.dmulloy2.net/repository/public/</url>
+        </repository>
+
         <!-- PlaceholderAPI Repository -->
         <repository>
             <id>placeholderapi</id>
