@@ -26,13 +26,13 @@ import org.bukkit.inventory.ItemStack;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.language.Replacer;
-import com.github.sirblobman.combatlogx.CombatPlugin;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.event.PlayerPunishEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
+import com.github.sirblobman.combatlogx.api.listener.IDeathListener;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
-import com.github.sirblobman.combatlogx.listener.ListenerDeath;
 
 import combatlogx.expansion.loot.protection.event.QueryPickupEvent;
 import combatlogx.expansion.loot.protection.object.ProtectedItem;
@@ -126,11 +126,10 @@ public class ListenerLootProtection extends ExpansionListener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onDeath(EntityDeathEvent event) {
-        if(!(getCombatLogX() instanceof CombatPlugin)) return;
-        CombatPlugin clx = (CombatPlugin) getCombatLogX();
-        ListenerDeath listenerDeath = clx.getDeathListener();
         Entity entity = event.getEntity();
-        if(entity instanceof Player && configuration.getBoolean("only-protect-after-log", false) && !listenerDeath.contains((Player) entity)) {
+        ICombatLogX combatLogX = getCombatLogX();
+        IDeathListener deathListener = combatLogX.getDeathListener();
+        if(entity instanceof Player && configuration.getBoolean("only-protect-after-log", false) && !deathListener.contains((Player) entity)) {
             return;
         }
 

@@ -179,6 +179,11 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     }
 
     @Override
+    public ListenerDeath getDeathListener() {
+        return this.listenerDeath;
+    }
+
+    @Override
     public void printDebug(String... messageArray) {
         YamlConfiguration configuration = getConfig("config.yml");
         if(!configuration.getBoolean("debug-mode")) return;
@@ -192,10 +197,6 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
 
     public ListenerForceField getListenerForceField() {
         return this.listenerForceField;
-    }
-
-    public ListenerDeath getDeathListener() {
-        return this.listenerDeath;
     }
 
     private void untagAllPlayers() {

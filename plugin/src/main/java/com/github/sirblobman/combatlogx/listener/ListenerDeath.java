@@ -16,24 +16,28 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.CombatPlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.listener.IDeathListener;
 
-public class ListenerDeath extends CombatListener {
+public class ListenerDeath extends CombatListener implements IDeathListener {
     private final Set<UUID> customDeathSet;
     public ListenerDeath(CombatPlugin plugin) {
         super(plugin);
         this.customDeathSet = new HashSet<>();
     }
 
+    @Override
     public void add(Player player) {
         UUID uuid = player.getUniqueId();
         this.customDeathSet.add(uuid);
     }
 
+    @Override
     public void remove(Player player) {
         UUID uuid = player.getUniqueId();
         this.customDeathSet.remove(uuid);
     }
 
+    @Override
     public boolean contains(Player player) {
         UUID uuid = player.getUniqueId();
         return this.customDeathSet.contains(uuid);

@@ -14,14 +14,6 @@
     <description>An expansion for CombatLogX that protects loot from being lost or stolen.</description>
 
     <dependencies>
-        <!-- CombatLogX Plugin -->
-        <dependency>
-            <groupId>com.github.sirblobman.combatlogx</groupId>
-            <artifactId>plugin</artifactId>
-            <version>11.0.0.0-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- ExpiringMap -->
         <!-- Included in jar -->
         <dependency>
@@ -50,6 +42,13 @@
                 <configuration>
                     <minimizeJar>true</minimizeJar>
                     <shadeSourcesContent>true</shadeSourcesContent>
+
+                    <artifactSet>
+                        <includes>
+                            <include>net.jodah:expiringmap</include>
+                        </includes>
+                    </artifactSet>
+
                     <filters>
                         <filter>
                             <artifact>net.jodah:expiringmap</artifact>

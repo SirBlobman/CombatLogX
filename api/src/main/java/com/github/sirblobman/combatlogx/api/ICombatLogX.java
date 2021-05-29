@@ -11,6 +11,7 @@ import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
+import com.github.sirblobman.combatlogx.api.listener.IDeathListener;
 
 public interface ICombatLogX extends IResourceHolder {
     JavaPlugin getPlugin();
@@ -32,6 +33,7 @@ public interface ICombatLogX extends IResourceHolder {
     ExpansionManager getExpansionManager();
     ICombatManager getCombatManager();
     ITimerManager getTimerManager();
+    IDeathListener getDeathListener();
 
     void printDebug(String... messageArray);
 
