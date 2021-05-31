@@ -1,6 +1,7 @@
 package combatlogx.expansion.loot.protection.listener;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -9,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
@@ -17,15 +19,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.event.inventory.InventoryPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.language.Replacer;
+import com.github.sirblobman.api.object.WorldXYZ;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.event.PlayerPunishEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
@@ -39,171 +44,231 @@ import combatlogx.expansion.loot.protection.object.ProtectedItem;
 import net.jodah.expiringmap.ExpiringMap;
 
 public class ListenerLootProtection extends ExpansionListener {
-    private final Set<UUID> messageCooldown;
-    private final ExpiringMap<UUID, ProtectedItem> protectedItems;
-    private final Map<Location, ConcurrentLinkedQueue<ProtectedItem>> pendingProtection;
+    private final Set<UUID> messageCooldownSet;
+    private final ExpiringMap<UUID, ProtectedItem> protectedItemMap;
+    private final Map<WorldXYZ, ConcurrentLinkedQueue<ProtectedItem>> pendingProtectionMap;
     private final Map<UUID, UUID> enemyMap;
-    private final YamlConfiguration configuration;
-    private final PlayerDataManager playerDataManager;
 
     public ListenerLootProtection(final Expansion expansion) {
         super(expansion);
-        ConfigurationManager configurationManager = getCombatLogX().getConfigurationManager();
-        this.configuration = configurationManager.get("config.yml");
-        this.messageCooldown = Collections.newSetFromMap(ExpiringMap.builder().expiration(configuration.getLong("message-cooldown", 1), TimeUnit.SECONDS).build());
-        this.pendingProtection = ExpiringMap.builder().expiration(configuration.getLong("loot-protection-time", 30), TimeUnit.SECONDS).build();
-        this.protectedItems = ExpiringMap.builder().expiration(configuration.getLong("loot-protection-time", 30), TimeUnit.SECONDS).build();
+
+        ConfigurationManager configurationManager = expansion.getConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("config.yml");
+
+        this.messageCooldownSet = Collections.newSetFromMap(ExpiringMap.builder().expiration(configuration.getLong("message-cooldown", 1), TimeUnit.SECONDS).build());
+        this.pendingProtectionMap = ExpiringMap.builder().expiration(configuration.getLong("loot-protection-time", 30), TimeUnit.SECONDS).build();
+        this.protectedItemMap = ExpiringMap.builder().expiration(configuration.getLong("loot-protection-time", 30), TimeUnit.SECONDS).build();
         this.enemyMap = ExpiringMap.builder().expiration(configuration.getLong("loot-protection-time", 30), TimeUnit.SECONDS).build();
-        this.playerDataManager = getCombatLogX().getPlayerDataManager();
     }
 
-    public static Location toBlockLocation(Location location) {
-        return new Location(location.getWorld(), location.getBlockX(), location.getBlockY(), location.getBlockZ());
-    }
+    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+    public void onEntityItemPickup(EntityPickupItemEvent e) {
+        Item itemEntity = e.getItem();
+        if(!contains(itemEntity)) return;
 
-    public boolean contains(Item item) {
-        UUID uuid = item.getUniqueId();
-        return protectedItems.containsKey(uuid);
-    }
-
-    @EventHandler
-    public void onEntityItemPickup(EntityPickupItemEvent event) {
-        if(contains(event.getItem())) {
-            if(!(event.getEntity() instanceof Player)) {
-                event.setCancelled(true);
-                return;
-            }
-            ProtectedItem item = this.protectedItems.get(event.getItem().getUniqueId());
-            Player player = (Player) event.getEntity();
-            UUID uuid = player.getUniqueId();
-            QueryPickupEvent query = new QueryPickupEvent(player, item);
-            Bukkit.getPluginManager().callEvent(query);
-            if(!item.getOwnerUUID().equals(uuid) && !query.isCancelled()) {
-                if(!messageCooldown.contains(uuid)) {
-                    Replacer replacer = message -> message.replace("{time}", "" + TimeUnit.MILLISECONDS.toSeconds(protectedItems.getExpectedExpiration(event.getItem().getUniqueId())));
-                    getLanguageManager().sendMessage(player, "expansion.loot-protection.protected", replacer, true);
-                    messageCooldown.add(uuid);
-                }
-                event.setCancelled(true);
-            }
-        }
-    }
-
-    @EventHandler
-    public void onHopperItemPickup(InventoryPickupItemEvent event) {
-        if(contains(event.getItem())) event.setCancelled(true);
-    }
-
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onPunish(PlayerPunishEvent event) {
-        if(event.getPreviousEnemy() == null) return;
-        YamlConfiguration playerData = playerDataManager.get(event.getPlayer());
-        YamlConfiguration configuration = getCombatLogX().getConfigurationManager().get("punish.yml");
-        String killOptionString = configuration.getString("kill-time", "QUIT");
-        UUID enemyUUID = event.getPreviousEnemy().getUniqueId();
-        if(killOptionString.equals("JOIN")) {
-            playerData.set("loot-protection-enemy", enemyUUID);
-            getCombatLogX().saveData(event.getPlayer());
+        Entity entity = e.getEntity();
+        if(!(entity instanceof Player)) {
+            e.setCancelled(true);
             return;
         }
-        enemyMap.put(event.getPlayer().getUniqueId(), enemyUUID);
+
+        Player player = (Player) entity;
+        UUID itemEntityId = itemEntity.getUniqueId();
+        ProtectedItem protectedItem = this.protectedItemMap.get(itemEntityId);
+
+        UUID playerId = player.getUniqueId();
+        QueryPickupEvent queryPickupEvent = new QueryPickupEvent(player, protectedItem);
+        Bukkit.getPluginManager().callEvent(queryPickupEvent);
+
+        if(!protectedItem.getOwnerUUID().equals(playerId) && !queryPickupEvent.isCancelled()) {
+            e.setCancelled(true);
+            if(!this.messageCooldownSet.contains(playerId)) {
+                long expireMillisLeft = this.protectedItemMap.getExpectedExpiration(itemEntityId);
+                long expireSecondsLeft = TimeUnit.MILLISECONDS.toSeconds(expireMillisLeft);
+                String timeLeft = Long.toString(expireSecondsLeft);
+
+                Replacer replacer = message -> message.replace("{time}", timeLeft);
+                getLanguageManager().sendMessage(player, "expansion.loot-protection.protected", replacer, true);
+                this.messageCooldownSet.add(playerId);
+            }
+        }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onUntag(PlayerUntagEvent event) {
-        if(event.getPreviousEnemy() == null) return;
-        UUID enemyUUID = event.getPreviousEnemy().getUniqueId();
-        UUID playerUUID = event.getPlayer().getUniqueId();
-        if(event.getUntagReason() == UntagReason.SELF_DEATH) {
-            enemyMap.put(playerUUID, enemyUUID);
+    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+    public void onHopperItemPickup(InventoryPickupItemEvent e) {
+        Item itemEntity = e.getItem();
+        if(contains(itemEntity)) {
+            e.setCancelled(true);
         }
-
-        if(event.getUntagReason() == UntagReason.ENEMY_DEATH) {
-            enemyMap.put(enemyUUID, playerUUID);
-        }
-
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onDeath(EntityDeathEvent event) {
-        Entity entity = event.getEntity();
+    @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
+    public void onPunish(PlayerPunishEvent e) {
+        LivingEntity previousEnemy = e.getPreviousEnemy();
+        if(previousEnemy == null) return;
+
+        Player player = e.getPlayer();
+        PlayerDataManager playerDataManager = getPlayerDataManager();
+        YamlConfiguration playerData = playerDataManager.get(player);
+
+        YamlConfiguration mainConfiguration = getCombatLogX().getConfigurationManager().get("config.yml");
+        String killTimeString = mainConfiguration.getString("kill-time", "QUIT");
+        UUID previousEnemyId = previousEnemy.getUniqueId();
+
+        if(killTimeString.equals("JOIN")) {
+            playerData.set("loot-protection-enemy", previousEnemyId.toString());
+            playerDataManager.save(player);
+            return;
+        }
+
+        UUID playerId = player.getUniqueId();
+        this.enemyMap.put(playerId, previousEnemyId);
+    }
+
+    @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
+    public void onUntag(PlayerUntagEvent e) {
+        LivingEntity previousEnemy = e.getPreviousEnemy();
+        if(previousEnemy == null) return;
+
+        Player player = e.getPlayer();
+        UUID playerId = player.getUniqueId();
+        UUID previousEnemyId = previousEnemy.getUniqueId();
+
+        UntagReason untagReason = e.getUntagReason();
+        if(untagReason == UntagReason.SELF_DEATH) {
+            this.enemyMap.put(playerId, previousEnemyId);
+        }
+
+        if(untagReason == UntagReason.ENEMY_DEATH) {
+            this.enemyMap.put(previousEnemyId, playerId);
+        }
+    }
+
+    @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
+    public void onDeath(EntityDeathEvent e) {
+        LivingEntity entity = e.getEntity();
         ICombatLogX combatLogX = getCombatLogX();
         IDeathListener deathListener = combatLogX.getDeathListener();
-        if(entity instanceof Player && configuration.getBoolean("only-protect-after-log", false) && !deathListener.contains((Player) entity)) {
-            return;
-        }
+        YamlConfiguration configuration = getExpansionConfigurationManager().get("config.yml");
 
-        UUID enemyUUID = enemyMap.get(entity.getUniqueId());
-        if(!checkVoidKill(event) && entity instanceof Player) {
+        if(entity instanceof Player) {
             Player player = (Player) entity;
-            YamlConfiguration playerData = playerDataManager.get(player);
-            String enemyUUIDString = playerData.getString("loot-protection-enemy");
-
-            if(enemyUUIDString != null) {
-                playerData.set("loot-protection-enemy", null);
-                playerDataManager.save(player);
-                enemyUUID = UUID.fromString(enemyUUIDString);
+            if(configuration.getBoolean("only-protect-after-log", false) && !deathListener.contains(player)) {
+                return;
             }
         }
 
-        if(enemyUUID == null) return;
-        Entity enemy = Bukkit.getEntity(enemyUUID);
-        if(enemy == null) return;
-        Location location = toBlockLocation(entity.getLocation());
+        UUID entityId = entity.getUniqueId();
+        UUID enemyId = this.enemyMap.get(entityId);
+        if(!checkVoidKill(e) && entity instanceof Player) {
+            Player player = (Player) entity;
+            PlayerDataManager playerDataManager = getPlayerDataManager();
+            YamlConfiguration playerData = playerDataManager.get(player);
+            String enemyIdString = playerData.getString("loot-protection-enemy");
 
-        ConcurrentLinkedQueue<ProtectedItem> list = new ConcurrentLinkedQueue<>();
-        final Location finalLocation = location;
-        event.getDrops().forEach((item -> {
-            ProtectedItem protectedItem = new ProtectedItem(finalLocation, item);
-            protectedItem.setOwnerUUID(enemy.getUniqueId());
-            list.add(protectedItem);
-        }));
-        pendingProtection.put(toBlockLocation(location), list);
-        String name = entity.getCustomName() == null ? entity.getName() : entity.getCustomName();
-        Replacer replacer = message -> message.replace("{time}", "" + TimeUnit.MILLISECONDS.toSeconds(protectedItems.getExpiration())).replace("{enemy}", name);
+            if(enemyIdString != null) {
+                playerData.set("loot-protection-enemy", null);
+                playerDataManager.save(player);
+                enemyId = UUID.fromString(enemyIdString);
+            }
+        }
+
+        if(enemyId == null) return;
+        Entity enemy = Bukkit.getEntity(enemyId);
+        if(enemy == null) return;
+        enemyId = enemy.getUniqueId();
+
+        WorldXYZ entityLocation = WorldXYZ.from(entity.getLocation());
+        ConcurrentLinkedQueue<ProtectedItem> protectedItemQueue = new ConcurrentLinkedQueue<>();
+
+        List<ItemStack> dropList = e.getDrops();
+        for(ItemStack drop : dropList) {
+            ProtectedItem protectedItem = new ProtectedItem(entityLocation, drop);
+            protectedItem.setOwnerUUID(enemyId);
+            protectedItemQueue.add(protectedItem);
+        }
+
+        this.pendingProtectionMap.put(entityLocation, protectedItemQueue);
+        String entityName = (entity.getCustomName() == null ? entity.getName() : entity.getCustomName());
+
+        long timeLeftMillis = this.protectedItemMap.getExpiration();
+        long timeLeftSeconds = TimeUnit.MILLISECONDS.toSeconds(timeLeftMillis);
+        String timeLeft = Long.toString(timeLeftSeconds);
+
+        Replacer replacer = message -> message.replace("{time}", timeLeft).replace("{enemy}", entityName);
         getLanguageManager().sendMessage(enemy, "expansion.loot-protection.enemy-died", replacer, true);
     }
 
-    private boolean checkVoidKill(EntityDeathEvent event) {
-        LivingEntity entity = event.getEntity();
-        if(entity.getLastDamageCause() != null && entity.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.VOID && configuration.getBoolean("return-void-items", true)) {
-            UUID enemyUUID = enemyMap.get(entity.getUniqueId());
-            if(enemyUUID == null) return true;
-            Entity enemy = Bukkit.getEntity(enemyUUID);
-            if(!(enemy instanceof Player)) return true;
-            Player enemyPlayer = (Player) enemy;
-            Location location = enemy.getLocation();
-            for(final ItemStack droppedItem : event.getDrops()) {
-                enemyPlayer.getInventory().addItem(droppedItem).values().forEach((item) -> {
-                    enemy.getWorld().dropItem(location, item, (itemEntity) -> {
-                        ProtectedItem protectedItem = new ProtectedItem(location, item);
-                        protectedItem.setItemUUID(itemEntity.getUniqueId());
-                        protectedItem.setOwnerUUID(enemyUUID);
-                        protectedItems.put(protectedItem.getItemUUID(), protectedItem);
-                    });
-                });
-            }
-            event.getDrops().clear();
-            return true;
-        }
-        return false;
-    }
+    @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
+    public void onItemSpawn(ItemSpawnEvent e) {
+        if(this.pendingProtectionMap.isEmpty()) return;
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onItemSpawn(ItemSpawnEvent event) {
-        if(pendingProtection.isEmpty()) return;
-        Location location = toBlockLocation(event.getLocation());
-        if(!pendingProtection.containsKey(location)) return;
-        ConcurrentLinkedQueue<ProtectedItem> items = pendingProtection.get(location);
-        Item item = event.getEntity();
-        for(final ProtectedItem protectedItem : items) {
-            if(protectedItem.getItemStack().equals(item.getItemStack())) {
-                protectedItem.setItemUUID(item.getUniqueId());
-                protectedItems.put(protectedItem.getItemUUID(), protectedItem);
-                items.remove(protectedItem);
-                if(items.isEmpty()) pendingProtection.remove(location);
+        WorldXYZ location = WorldXYZ.from(e.getLocation());
+        if(!this.pendingProtectionMap.containsKey(location)) return;
+
+        Item itemEntity = e.getEntity();
+        UUID itemEntityId = itemEntity.getUniqueId();
+        ConcurrentLinkedQueue<ProtectedItem> protectedItemQueue = this.pendingProtectionMap.get(location);
+
+        for(ProtectedItem protectedItem : protectedItemQueue) {
+            ItemStack protectedItemStack = protectedItem.getItemStack();
+            ItemStack itemEntityStack = itemEntity.getItemStack();
+            if(protectedItemStack.equals(itemEntityStack)) {
+                protectedItem.setItemUUID(itemEntityId);
+                this.protectedItemMap.put(itemEntityId, protectedItem);
+                protectedItemQueue.remove(protectedItem);
+
+                if(protectedItemQueue.isEmpty()) {
+                    this.pendingProtectionMap.remove(location);
+                }
+
                 return;
             }
         }
+    }
+
+    private boolean contains(Item item) {
+        UUID uuid = item.getUniqueId();
+        return this.protectedItemMap.containsKey(uuid);
+    }
+
+    private boolean checkVoidKill(EntityDeathEvent e) {
+        LivingEntity entity = e.getEntity();
+        EntityDamageEvent lastDamageEvent = entity.getLastDamageCause();
+        if(lastDamageEvent == null) return false;
+
+        DamageCause lastDamageCause = lastDamageEvent.getCause();
+        if(lastDamageCause != DamageCause.VOID) return false;
+
+        ConfigurationManager configurationManager = getExpansionConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("config.yml");
+        if(configuration.getBoolean("return-void-items", true)) {
+            UUID entityId = entity.getUniqueId();
+            UUID enemyId = this.enemyMap.get(entityId);
+            if(enemyId == null) return true;
+
+            Entity enemy = Bukkit.getEntity(enemyId);
+            if(!(enemy instanceof Player)) return true;
+            Player enemyPlayer = (Player) enemy;
+
+            World enemyWorld = enemy.getWorld();
+            Location enemyLocation = enemy.getLocation();
+            List<ItemStack> dropList = e.getDrops();
+
+            ItemStack[] dropArray = dropList.toArray(new ItemStack[0]);
+            PlayerInventory enemyInventory = enemyPlayer.getInventory();
+            Map<Integer, ItemStack> leftoverDrops = enemyInventory.addItem(dropArray);
+            leftoverDrops.forEach((slot, drop) -> enemyWorld.dropItem(enemyLocation, drop, itemEntity -> {
+                ProtectedItem protectedItem = new ProtectedItem(enemyLocation, drop);
+                protectedItem.setItemUUID(itemEntity.getUniqueId());
+                protectedItem.setOwnerUUID(enemyId);
+                this.protectedItemMap.put(protectedItem.getItemUUID(), protectedItem);
+            }));
+
+            dropList.clear();
+            return true;
+        }
+
+        return false;
     }
 }

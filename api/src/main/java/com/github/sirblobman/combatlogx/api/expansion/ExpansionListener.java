@@ -4,6 +4,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -24,6 +26,11 @@ public abstract class ExpansionListener implements Listener {
         return this.expansion;
     }
 
+    protected final ConfigurationManager getExpansionConfigurationManager() {
+        Expansion expansion = getExpansion();
+        return expansion.getConfigurationManager();
+    }
+
     protected final ICombatLogX getCombatLogX() {
         Expansion expansion = getExpansion();
         return expansion.getPlugin();
@@ -34,9 +41,19 @@ public abstract class ExpansionListener implements Listener {
         return combatLogX.getPlugin();
     }
 
+    protected final ConfigurationManager getPluginConfigurationManager() {
+        ICombatLogX combatLogX = getCombatLogX();
+        return combatLogX.getConfigurationManager();
+    }
+
     protected final LanguageManager getLanguageManager() {
         ICombatLogX combatLogX = getCombatLogX();
         return combatLogX.getLanguageManager();
+    }
+
+    protected final PlayerDataManager getPlayerDataManager() {
+        ICombatLogX combatLogX = getCombatLogX();
+        return combatLogX.getPlayerDataManager();
     }
 
     protected final ICombatManager getCombatManager() {

@@ -5,26 +5,29 @@ import java.util.UUID;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
+import com.github.sirblobman.api.object.WorldXYZ;
 import com.github.sirblobman.api.utility.Validate;
 
-import combatlogx.expansion.loot.protection.listener.ListenerLootProtection;
-
 public class ProtectedItem {
-    private final Location location;
+    private final WorldXYZ location;
     private final ItemStack item;
     private UUID ownerUUID;
     private UUID itemUUID;
 
-    public ProtectedItem(Location location, ItemStack item) {
-        this.location = ListenerLootProtection.toBlockLocation(location);
+    public ProtectedItem(WorldXYZ location, ItemStack item) {
+        this.location = Validate.notNull(location, "location must not be null!");
         this.item = Validate.notNull(item, "item must not be null!");
+    }
+
+    public ProtectedItem(Location location, ItemStack item) {
+        this(WorldXYZ.from(location), item);
     }
 
     public ItemStack getItemStack() {
         return item;
     }
 
-    public Location getLocation() {
+    public WorldXYZ getLocation() {
         return location;
     }
 
