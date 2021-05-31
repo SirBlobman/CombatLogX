@@ -44,10 +44,8 @@
         <module>PreciousStones</module>
         <module>RedProtect</module>
         <module>Residence</module>
-        <!--
         <module>Towny</module>
         <module>UltimateClaims</module>
-        -->
         <module>WorldGuard</module>
 
         <!-- SkyBlock Compatibility -->

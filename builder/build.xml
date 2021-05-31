@@ -74,6 +74,8 @@
                 <file file="${expansion.compatibility.dir}/PreciousStones/target/PreciousStones Compatibility.jar"/>
                 <file file="${expansion.compatibility.dir}/RedProtect/target/RedProtect Compatibility.jar"/>
                 <file file="${expansion.compatibility.dir}/Residence/target/Residence Compatibility.jar"/>
+                <file file="${expansion.compatibility.dir}/Towny/target/Towny Compatibility.jar"/>
+                <file file="${expansion.compatibility.dir}/UltimateClaims/target/UltimateClaims Compatibility.jar"/>
 
                 <!-- Vanish Compatibility Expansions -->
                 <file file="${expansion.compatibility.dir}/Essentials/target/EssentialsX Compatibility.jar"/>
