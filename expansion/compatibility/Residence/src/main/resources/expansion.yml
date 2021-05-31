@@ -1,0 +1,7 @@
+name: "CompatResidence"
+prefix: "Residence Compatibility"
+description: "${project.description}"
+
+main: "combatlogx.expansion.compatibility.region.residence.ResidenceExpansion"
+version: "16.0"
+author: "SirBlobman"

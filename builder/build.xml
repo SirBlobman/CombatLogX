@@ -73,6 +73,7 @@
                 <file file="${expansion.compatibility.dir}/ProtectionStones/target/ProtectionStones Compatibility.jar"/>
                 <file file="${expansion.compatibility.dir}/PreciousStones/target/PreciousStones Compatibility.jar"/>
                 <file file="${expansion.compatibility.dir}/RedProtect/target/RedProtect Compatibility.jar"/>
+                <file file="${expansion.compatibility.dir}/Residence/target/Residence Compatibility.jar"/>
 
                 <!-- Vanish Compatibility Expansions -->
                 <file file="${expansion.compatibility.dir}/Essentials/target/EssentialsX Compatibility.jar"/>
