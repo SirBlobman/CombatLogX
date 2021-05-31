@@ -1,0 +1,7 @@
+name: "CompatPreciousStones"
+prefix: "PreciousStones Compatibility"
+description: "${project.description}"
+
+main: "combatlogx.expansion.compatibility.region.preciousstones.PreciousStonesExpansion"
+version: "16.0"
+author: "SirBlobman"
