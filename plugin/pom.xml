@@ -149,7 +149,6 @@
 
                 <configuration>
                     <shadeSourcesContent>true</shadeSourcesContent>
-                    <minimizeJar>true</minimizeJar>
 
                     <artifactSet>
                         <includes>
