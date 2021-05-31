@@ -3,17 +3,17 @@ package combatlogx.expansion.compatibility.region.protectionstones.handler;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
 import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.flags.StateFlag.State;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import combatlogx.expansion.compatibility.region.protectionstones.ProtectionStonesExpansion;
 import dev.espi.protectionstones.PSRegion;
 
-public class ProtectionStonesRegionHandler extends RegionHandler {
-    public ProtectionStonesRegionHandler(RegionExpansion expansion) {
+public final class ProtectionStonesRegionHandler extends RegionHandler {
+    public ProtectionStonesRegionHandler(ProtectionStonesExpansion expansion) {
         super(expansion);
     }
 

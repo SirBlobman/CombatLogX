@@ -3,5 +3,5 @@ prefix: "ProtectionStones Compatibility"
 description: "${project.description}"
 
 main: "combatlogx.expansion.compatibility.region.protectionstones.ProtectionStonesExpansion"
-version: "16.1"
+version: "16.2"
 author: "olivolja3 (Olivo#3313)"
