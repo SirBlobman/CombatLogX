@@ -1,0 +1,7 @@
+name: "CompatRedProtect"
+prefix: "RedProtect Compatibility"
+description: "${project.description}"
+
+main: "combatlogx.expansion.compatibility.region.redprotect.RedProtectExpansion"
+version: "16.0"
+author: "SirBlobman"
