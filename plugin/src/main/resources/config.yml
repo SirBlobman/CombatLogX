@@ -37,14 +37,17 @@ link-pets: true
 # Default: true
 link-projectiles: true
 
+# Should entities pulled by fishing rods be tagged by the player using the fishing rod?
+link-fishing-rod: true
+
 # Which projectiles will be ignored in the 'link-projectiles' option?
 # If 'link-projectiles' is false, all projectiles will be ignored.
 # You can find a list of valid projectile types on the Spigot javadocs:
 # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
 ignored-projectiles:
-  - SNOWBALL
   - EGG
   - ENDER_PEARL
+  - SNOWBALL
 
 timer:
   # This is the type of timer that CombatLogX will use

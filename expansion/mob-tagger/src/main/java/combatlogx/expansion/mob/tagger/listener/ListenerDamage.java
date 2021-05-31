@@ -12,6 +12,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.event.player.PlayerFishEvent.State;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.permissions.Permission;
@@ -58,6 +60,21 @@ public final class ListenerDamage extends ExpansionListener {
         Entity damager = getDamager(e);
         checkTag(damaged, damager, TagReason.ATTACKED);
         checkTag(damager, damaged, TagReason.ATTACKER);
+    }
+
+    @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
+    public void onFish(PlayerFishEvent e) {
+        YamlConfiguration configuration = getCombatLogX().getConfigurationManager().get("config.yml");
+        if(!configuration.getBoolean("link-fishing-rod")) return;
+
+        State state = e.getState();
+        if(state != State.CAUGHT_ENTITY) return;
+
+        Entity caughtEntity = e.getCaught();
+        if(caughtEntity == null) return;
+
+        Player player = e.getPlayer();
+        checkTag(player, caughtEntity, TagReason.ATTACKER);
     }
 
     @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
