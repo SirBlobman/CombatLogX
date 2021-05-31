@@ -20,6 +20,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>sirblobman-public</id>
+            <url>https://nexus.sirblobman.xyz/repository/public/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <distributionManagement>
         <!-- SirBlobman Releases -->
         <repository>

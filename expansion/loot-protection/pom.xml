@@ -24,13 +24,6 @@
         </dependency>
     </dependencies>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>sirblobman-public</id>
-            <url>https://nexus.sirblobman.xyz/repository/public/</url>
-        </pluginRepository>
-    </pluginRepositories>
-
     <build>
         <finalName>Loot Protection</finalName>
         <plugins>
