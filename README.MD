@@ -16,6 +16,10 @@ One of the main features of this plugin are the Expansions, which are like modul
 The build status is displayed below:  
 [![Build Status](https://jenkins.sirblobman.xyz/job/SirBlobman/job/CombatLogX/badge/icon)](https://jenkins.sirblobman.xyz/job/SirBlobman/job/CombatLogX/)
 
+## Localization
+A translation project for CombatLogX V11 is in progress. If you wish to help out, click the localization badge below:  
+[![Crowdin](https://badges.crowdin.net/combatlogx-spigot-plugin/localized.svg)](https://crowdin.com/project/combatlogx-spigot-plugin)
+
 ## Expansions
 If you want to find out more about the expansions, please visit this page:  
 <https://www.spigotmc.org/wiki/combatlogx/>
