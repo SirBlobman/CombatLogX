@@ -193,7 +193,7 @@ public class CommandCombatLogX extends Command {
         }
 
         LanguageManager languageManager = this.plugin.getLanguageManager();
-        languageManager.reloadLocales();
+        languageManager.reloadLanguages();
 
         ExpansionManager expansionManager = this.plugin.getExpansionManager();
         expansionManager.reloadConfigs();
@@ -341,7 +341,7 @@ public class CommandCombatLogX extends Command {
 
         boolean status = configuration.getBoolean(value, true);
         String statusPath = ("placeholder.toggle." + (status ? "enabled" : "disabled"));
-        String statusString = languageManager.getMessageColored(player, statusPath);
+        String statusString = languageManager.getMessage(player, statusPath, null, true);
         Replacer replacer = message -> message.replace("{status}", statusString);
 
         String messagePath = ("expansion.toggle-" + value);

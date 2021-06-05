@@ -24,14 +24,14 @@ public final class PlaceholderHelper {
         if(secondsLeft > 0) return Integer.toString(secondsLeft);
 
         LanguageManager languageManager = plugin.getLanguageManager();
-        return languageManager.getMessageColored(player, "placeholder.time-left-zero");
+        return languageManager.getMessage(player, "placeholder.time-left-zero", null, true);
     }
 
     public static String getTimeLeftDecimal(ICombatLogX plugin, Player player) {
         LanguageManager languageManager = plugin.getLanguageManager();
         ICombatManager combatManager = plugin.getCombatManager();
         double millisLeft = combatManager.getTimerLeftMillis(player);
-        if(millisLeft <= 0.0D) return languageManager.getMessageColored(player, "placeholder.time-left-zero");
+        if(millisLeft <= 0.0D) return languageManager.getMessage(player, "placeholder.time-left-zero", null, true);
 
         double secondsLeft = (millisLeft / 1_000.0D);
         DecimalFormat decimalFormat = getDecimalFormat(plugin, player);
@@ -42,14 +42,18 @@ public final class PlaceholderHelper {
         ICombatManager combatManager = plugin.getCombatManager();
         LanguageManager languageManager = plugin.getLanguageManager();
         boolean inCombat = combatManager.isInCombat(player);
-        return languageManager.getMessageColored(player, ("placeholder.status." + (inCombat ? "in-combat" : "not-in-combat")));
+
+        String key = ("placeholder.status." + (inCombat ? "in-combat" : "not-in-combat"));
+        return languageManager.getMessage(player, key, null, true);
     }
 
     public static String getStatus(ICombatLogX plugin, Player player) {
         ICombatManager combatManager = plugin.getCombatManager();
         LanguageManager languageManager = plugin.getLanguageManager();
         boolean inCombat = combatManager.isInCombat(player);
-        return languageManager.getMessageColored(player, ("placeholder.status." + (inCombat ? "fighting" : "idle")));
+
+        String key = ("placeholder.status." + (inCombat ? "fighting" : "idle"));
+        return languageManager.getMessage(player, key,null, true);
     }
 
     public static String getEnemyName(ICombatLogX plugin, Player player) {
@@ -102,12 +106,12 @@ public final class PlaceholderHelper {
 
     public static String getUnknownEnemy(ICombatLogX plugin, Player player) {
         LanguageManager languageManager = plugin.getLanguageManager();
-        return languageManager.getMessageColored(player, "placeholder.unknown-enemy");
+        return languageManager.getMessage(player, "placeholder.unknown-enemy", null, true);
     }
 
     public static DecimalFormat getDecimalFormat(ICombatLogX plugin, Player player) {
         LanguageManager languageManager = plugin.getLanguageManager();
-        String decimalFormatString = languageManager.getMessage(player, "decimal-format");
+        String decimalFormatString = languageManager.getMessage(player, "decimal-format", null, false);
         return new DecimalFormat(decimalFormatString);
     }
 

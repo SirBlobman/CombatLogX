@@ -39,10 +39,10 @@ public interface ICombatLogX extends IResourceHolder {
 
     default String getMessageColoredWithPrefix(CommandSender sender, String key) {
         LanguageManager languageManager = getLanguageManager();
-        String message = languageManager.getMessageColored(sender, key);
+        String message = languageManager.getMessage(sender, key, null, true);
         if(message.isEmpty()) return "";
 
-        String prefix = languageManager.getMessageColored(sender, "prefix");
+        String prefix = languageManager.getMessage(sender, "prefix", null, true);
         return (prefix.isEmpty() ? message : (prefix + " " + message));
     }
 

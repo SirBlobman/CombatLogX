@@ -107,7 +107,7 @@ public class ListenerDamage extends CombatListener {
         if(entity == null) {
             CommandSender console = Bukkit.getConsoleSender();
             LanguageManager languageManager = plugin.getLanguageManager();
-            return languageManager.getMessage(console, "placeholder.unknown-enemy");
+            return languageManager.getMessage(console, "placeholder.unknown-enemy", null, true);
         }
 
         MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();

@@ -5,10 +5,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.PlayerFishEvent;
-import org.bukkit.event.player.PlayerFishEvent.State;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.language.LanguageManager;
@@ -57,7 +53,7 @@ public final class ListenerFish extends CombatListener {
         if(entity == null) {
             CommandSender console = Bukkit.getConsoleSender();
             LanguageManager languageManager = plugin.getLanguageManager();
-            return languageManager.getMessage(console, "placeholder.unknown-enemy");
+            return languageManager.getMessage(console, "placeholder.unknown-enemy", null, true);
         }
 
         MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();

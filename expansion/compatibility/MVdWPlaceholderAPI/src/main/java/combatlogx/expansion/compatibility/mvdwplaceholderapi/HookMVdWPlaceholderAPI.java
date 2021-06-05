@@ -96,7 +96,7 @@ public final class HookMVdWPlaceholderAPI implements PlaceholderReplacer {
         }
 
         String messagePath = ("placeholder.pvp-status." + (pvp ? "enabled" : "disabled"));
-        return languageManager.getMessageColored(player, messagePath);
+        return languageManager.getMessage(player, messagePath, null, true);
     }
 
     private String getNewbieHelperProtected(Player player) {

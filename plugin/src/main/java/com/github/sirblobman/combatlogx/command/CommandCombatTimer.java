@@ -13,6 +13,8 @@ import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.combatlogx.CombatPlugin;
 import com.github.sirblobman.combatlogx.manager.CombatManager;
 
+import org.jetbrains.annotations.NotNull;
+
 public class CommandCombatTimer extends PlayerCommand {
     private final CombatPlugin plugin;
 
@@ -21,6 +23,7 @@ public class CommandCombatTimer extends PlayerCommand {
         this.plugin = plugin;
     }
 
+    @NotNull
     @Override
     public LanguageManager getLanguageManager() {
         return this.plugin.getLanguageManager();
@@ -57,7 +60,7 @@ public class CommandCombatTimer extends PlayerCommand {
             double timeLeftMillis = combatManager.getTimerLeftMillis(player);
             double timeLeftSeconds = (timeLeftMillis / 1_000.0D);
 
-            String decimalFormatString = languageManager.getMessage(player, "decimal-format");
+            String decimalFormatString = languageManager.getMessage(player, "decimal-format", null, false);
             DecimalFormat decimalFormat = new DecimalFormat(decimalFormatString);
             String timeLeftString = decimalFormat.format(timeLeftSeconds);
 
@@ -76,7 +79,7 @@ public class CommandCombatTimer extends PlayerCommand {
             double timeLeftMillis = combatManager.getTimerLeftMillis(target);
             double timeLeftSeconds = (timeLeftMillis / 1_000.0D);
 
-            String decimalFormatString = languageManager.getMessage(player, "decimal-format");
+            String decimalFormatString = languageManager.getMessage(player, "decimal-format", null, false);
             DecimalFormat decimalFormat = new DecimalFormat(decimalFormatString);
             String timeLeftString = decimalFormat.format(timeLeftSeconds);
 

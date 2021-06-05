@@ -97,8 +97,8 @@ public final class CommandTogglePVP extends Command {
         boolean isProtected = protectionManager.isProtected(target);
         boolean pvpEnabled = !pvpManager.isDisabled(target);
 
-        String protectedStatus = languageManager.getMessage(sender, "placeholder.toggle." + (isProtected ? "enabled" : "disabled"));
-        String pvpStatus = languageManager.getMessage(sender, "placeholder.toggle." + (pvpEnabled ? "enabled" : "disabled"));
+        String protectedStatus = languageManager.getMessage(sender, "placeholder.toggle." + (isProtected ? "enabled" : "disabled"), null, true);
+        String pvpStatus = languageManager.getMessage(sender, "placeholder.toggle." + (pvpEnabled ? "enabled" : "disabled"), null, true);
         Replacer replacer = message -> message.replace("{target}", targetName).replace("{protected}", protectedStatus).replace("{pvp}", pvpStatus);
 
         languageManager.sendMessage(sender, "expansion.newbie-helper.check-format", replacer, true);
@@ -175,7 +175,7 @@ public final class CommandTogglePVP extends Command {
         PVPManager pvpManager = this.expansion.getPVPManager();
         boolean pvpEnabled = !pvpManager.isDisabled(player);
 
-        String pvpStatus = languageManager.getMessage(player, "placeholder.toggle." + (pvpEnabled ? "enabled" : "disabled"));
+        String pvpStatus = languageManager.getMessage(player, "placeholder.toggle." + (pvpEnabled ? "enabled" : "disabled"), null, true);
         Replacer replacer = message -> message.replace("{status}", pvpStatus);
         languageManager.sendMessage(player, "expansion.newbie-helper.togglepvp.self", replacer, true);
     }
@@ -186,7 +186,7 @@ public final class CommandTogglePVP extends Command {
         boolean pvpEnabled = !pvpManager.isDisabled(target);
 
         String targetName = target.getName();
-        String pvpStatus = languageManager.getMessage(sender, "placeholder.toggle." + (pvpEnabled ? "enabled" : "disabled"));
+        String pvpStatus = languageManager.getMessage(sender, "placeholder.toggle." + (pvpEnabled ? "enabled" : "disabled"), null, true);
         Replacer replacer = message -> message.replace("{target}", targetName).replace("{status}", pvpStatus);
         languageManager.sendMessage(sender, "expansion.newbie-helper.togglepvp.admin", replacer, true);
     }

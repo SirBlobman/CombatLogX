@@ -178,7 +178,7 @@ public final class ListenerLogger extends ExpansionListener {
         if(entity == null) {
             CommandSender console = Bukkit.getConsoleSender();
             LanguageManager languageManager = getLanguageManager();
-            return languageManager.getMessage(console, "placeholder.unknown-enemy");
+            return languageManager.getMessage(console, "placeholder.unknown-enemy", null, true);
         }
 
         ICombatLogX combatLogX = getCombatLogX();

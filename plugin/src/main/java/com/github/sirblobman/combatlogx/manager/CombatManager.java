@@ -245,7 +245,7 @@ public final class CombatManager implements ICombatManager {
     private String getEntityName(Player player, LivingEntity entity) {
         if(entity == null) {
             LanguageManager languageManager = this.plugin.getLanguageManager();
-            return languageManager.getMessage(player, "placeholder.unknown-enemy");
+            return languageManager.getMessage(player, "placeholder.unknown-enemy", null, true);
         }
 
         MultiVersionHandler multiVersionHandler = this.plugin.getMultiVersionHandler();

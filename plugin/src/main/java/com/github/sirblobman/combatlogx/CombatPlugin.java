@@ -13,8 +13,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.core.CorePlugin;
-import com.github.sirblobman.api.core.plugin.ConfigurablePlugin;
 import com.github.sirblobman.api.language.LanguageManager;
+import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.api.update.UpdateManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.ICombatManager;
@@ -59,13 +59,14 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         configurationManager.saveDefault("commands.yml");
         configurationManager.saveDefault("force-field.yml");
         configurationManager.saveDefault("punish.yml");
-        configurationManager.saveDefault("language.yml");
 
         LanguageManager languageManager = getLanguageManager();
-        languageManager.saveDefaultLocales();
+        languageManager.saveDefaultLanguages();
+        languageManager.reloadLanguages();
 
         ExpansionManager expansionManager = getExpansionManager();
         expansionManager.loadExpansions();
+
         broadcastLoadMessage();
     }
 
