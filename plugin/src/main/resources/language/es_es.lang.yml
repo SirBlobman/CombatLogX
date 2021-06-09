@@ -51,7 +51,7 @@ command:
       - "  &f&l/combatlogx reload&7: Reinicia los archivos config.yml, language.yml, y todos los archivos de configuración de sus expansiones."
       - "  &f&l/combatlogx about <expansion>&7: Revisa la información sobre una expansión."
       - "  &f&l/combatlogx tag <player>&7: Forzar a un jugador a entrar en modo combate."
-      - "  &f&l/combatlogx toggle bossbar/actionbar/scoreboard&7: Habilita o deshabilita alguno de estos mensajes."
+      - "  &f&l/combatlogx toggle bossbar/actionbar/scoreboard&7: Habilita o deshabilita alguna de estas opciones."
       - "  &f&l/combatlogx untag <player>&7: Quitar forzosamente el modo combate."
       - "  &f&l/combatlogx version&7: Muestra la versión de CombatLogX."
       - "&f"
@@ -76,7 +76,7 @@ tagged:
     mob: "&cEstás siendo atacado por un(os) &f{mob_type}&c. ¡No te desconectes!"
   attacker:
     player: "&cEstás atacando a &f{enemy}&c. ¡No te desconectes!"
-    mob: "&cEstás atacando un(os) &f{mob_type}&c.¡No te salgas!"
+    mob: "&cEstás atacando un(os) &f{mob_type}&c.¡No te desconectes!"
 
 expansion:
   cheat-prevention:
@@ -87,7 +87,7 @@ expansion:
     no-chat: "&cNo tienes permitido enviar mensajes durante el combate."
 
     game-mode:
-      force-switch: "&cTu modo de juego ha cambiado a &f{game_mode}&c."
+      force-switch: "&cTu modo de juego ha sido cambiado a &f{game_mode}&c."
       no-switch: "&cNo tienes permitido cambiar tu modo de juego en combate."
 
     flight:
@@ -118,8 +118,8 @@ expansion:
   damage-tagger:
     unknown-damage: "&c¡Te han herido! ¡No te desconectes!"
     damage-type:
-      contact: "&cFuiste pinchido por un cactus. ¡No te desconectes!"
-      suffocation: "&cTe estás sofocando en una pared. ¡No te salgas!"
+      contact: "&cFuiste pinchado por un cactus. ¡No te desconectes!"
+      suffocation: "&cTe estás sofocando en una pared. ¡No te desconectes!"
       fall: "&cTe caiste. ¡No te desconectes!"
       fire: "&cEstás caminado sobre brasas. ¡No te desconectes!"
       fire-tick: "&cEstás ardiendo. ¡No te desconectes!"
@@ -177,3 +177,10 @@ expansion:
   essentials-compatibility:
     prevent-teleport-request-self: "&cNo puedes enviarte solicitudes de teletransportación durante el combate."
     prevent-teleport-request-other: "&cNo puedes enviar solicitudes de teletransportación durante el combate."
+
+  protectionstones-compatability:
+    place: "&cNo puedes colocar una protección durante el combate."
+
+  loot-protection:
+    enemy-died: "&f{enemy} &aha muerto. Sus cosas se protegerán por &f{time} segundos&a."
+    protected: "&cEste objeto se encuentra protegido espere &f{time} segundos &chasta que puedas recogerlo."
