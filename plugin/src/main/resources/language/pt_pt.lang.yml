@@ -177,3 +177,10 @@ expansion:
   essentials-compatibility:
     prevent-teleport-request-self: "&cVocê não pode criar solicitações de teletransporte durante o combate."
     prevent-teleport-request-other: "&cVocê não pode enviar uma solicitação de teletransporte para um jogador que está em combate."
+ 
+   protectionstones-compatability:
+    place: "&cVocê não pode criar uma área protegida durante o combate."
+
+  loot-protection:
+    enemy-died: "&f{enemy} &aestá morto. Os objetos serão protegidos por &f{time} segundos&a."
+    protected: "&cEste item está protegido no momento, aguarde &f{time} segundos &caté que você possa pegá-lo."
