@@ -7,6 +7,9 @@
 #
 # Missing entries will be inherited from the 'default-locale' file in language.yml
 
+language-name: "pl_pl"
+parent: "en_us"
+
 prefix: "&f&l[&6CombatLogX&f&l]&r"
 decimal-format: "0.00"
 
@@ -171,8 +174,6 @@ expansion:
   towny-compatibility-no-entry: "&cNie mo\u017Cesz wej\u015B\u0107 na ten obszar w trakcie walki."
   preciousstones-compatibility-no-entry: "&cNie mo\u017Cesz wej\u015B\u0107 na t\u0105 stref\u0119 w trakcie walki."
   protectionstones-compatibility-no-entry: "&cNie mo\u017Cesz wej\u015B\u0107 na t\u0105 stref\u0119 w trakcie walki."
-  
-  
 
   worldguard-compatibility-no-entry:
     pvp: "&cNie mo\u017Cesz wej\u015B\u0107 na stref\u0119 bez PvP w trakcie walki."

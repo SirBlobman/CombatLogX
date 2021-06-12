@@ -6,6 +6,8 @@
 # Se você deseja desativar uma mensagem, deixe como está no exemplo abaixo
 # example-disabled-message: "" 
 
+language-name: "pt_pt"
+parent: "en_us"
 
 prefix: "&f&l[&6CombatLogX&f&l]&r"
 decimal-format: "0.00"
@@ -178,7 +180,7 @@ expansion:
     prevent-teleport-request-self: "&cVocê não pode criar solicitações de teletransporte durante o combate."
     prevent-teleport-request-other: "&cVocê não pode enviar uma solicitação de teletransporte para um jogador que está em combate."
  
-   protectionstones-compatability:
+  protectionstones-compatibility:
     place: "&cVocê não pode criar uma área protegida durante o combate."
 
   loot-protection:

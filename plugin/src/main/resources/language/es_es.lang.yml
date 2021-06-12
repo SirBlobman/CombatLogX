@@ -1,10 +1,13 @@
-﻿# Archivo de localización en Español (España) 
+﻿# Archivo de localización en Español (España)
 # Hecha por KrazyxWolf para la versión 11.0.0.0
 # NO quites ninguna variable
 # No pongas nada en null, false o true ya que estos serán los mensajes que se mostrarán en el juego
 
 # Si buscas desactivar un mensaje, solo dejalo como está en el ejemplo de abajo
 # example-disabled-message: ""
+
+language-name: "es_es"
+parent: "en_us"
 
 
 prefix: "&f&l[&6CombatLogX&f&l]&r"
@@ -178,7 +181,7 @@ expansion:
     prevent-teleport-request-self: "&cNo puedes enviarte solicitudes de teletransportación durante el combate."
     prevent-teleport-request-other: "&cNo puedes enviar solicitudes de teletransportación durante el combate."
 
-  protectionstones-compatability:
+  protectionstones-compatibility:
     place: "&cNo puedes colocar una protección durante el combate."
 
   loot-protection:

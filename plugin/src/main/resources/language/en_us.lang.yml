@@ -9,6 +9,8 @@
 # and make a pull request on GitHub
 # https://github.com/SirBlobman/CombatLogX/
 
+language-name: "en_us"
+
 prefix: "&f&l[&6CombatLogX&f&l]&r"
 decimal-format: "0.00"
 
@@ -180,7 +182,7 @@ expansion:
     prevent-teleport-request-self: "&cYou can't create teleport requests during combat."
     prevent-teleport-request-other: "&cYou can't send a teleport request to a player that is in combat."
 
-  protectionstones-compatability:
+  protectionstones-compatibility:
     place: "&cYou can't create a protected area while in combat."
 
   loot-protection:
