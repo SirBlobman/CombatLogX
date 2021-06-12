@@ -3,13 +3,18 @@ package combatlogx.expansion.force.field;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
+
+import combatlogx.expansion.force.field.listener.ListenerForceField;
 
 public final class ForceFieldExpansion extends Expansion {
-    private final ListenerForceField listenerForceField;
+    private ListenerForceField listenerForceField;
+    private boolean successfullyEnabled;
 
     public ForceFieldExpansion(ICombatLogX plugin) {
         super(plugin);
-        this.listenerForceField = new ListenerForceField(this);
+        this.listenerForceField = null;
+        this.successfullyEnabled = false;
     }
 
     @Override
@@ -20,19 +25,31 @@ public final class ForceFieldExpansion extends Expansion {
 
     @Override
     public void onEnable() {
+        if(!checkDependency("ProtocolLib", true)) {
+            ExpansionManager expansionManager = getPlugin().getExpansionManager();
+            expansionManager.disableExpansion(this);
+            return;
+        }
+
         ListenerForceField listenerForceField = getListenerForceField();
         if(listenerForceField.isEnabled()) {
             listenerForceField.register();
             listenerForceField.registerProtocol();
         }
+
+        this.successfullyEnabled = true;
     }
 
     @Override
     public void onDisable() {
-        ListenerForceField listenerForceField = getListenerForceField();
-        listenerForceField.unregister();
-        listenerForceField.removeProtocol();
-        listenerForceField.clearData();
+        if(this.successfullyEnabled) {
+            ListenerForceField listenerForceField = getListenerForceField();
+            listenerForceField.unregister();
+            listenerForceField.removeProtocol();
+            listenerForceField.clearData();
+        }
+
+        this.successfullyEnabled = false;
     }
 
     @Override
@@ -52,6 +69,10 @@ public final class ForceFieldExpansion extends Expansion {
     }
 
     public ListenerForceField getListenerForceField() {
+        if(this.listenerForceField == null) {
+            this.listenerForceField = new ListenerForceField(this);
+        }
+
         return this.listenerForceField;
     }
 }

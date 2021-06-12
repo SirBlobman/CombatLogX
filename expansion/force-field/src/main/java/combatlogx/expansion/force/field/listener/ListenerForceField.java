@@ -1,4 +1,4 @@
-package combatlogx.expansion.force.field;
+package combatlogx.expansion.force.field.listener;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -45,6 +45,7 @@ import com.github.sirblobman.combatlogx.api.object.TagType;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
+import combatlogx.expansion.force.field.ForceFieldExpansion;
 
 /** @author olivolja3 */
 public class ListenerForceField extends ExpansionListener {
