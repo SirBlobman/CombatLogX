@@ -1,4 +1,4 @@
-package com.github.sirblobman.combatlogx.force.field;
+package combatlogx.expansion.force.field;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,22 +37,22 @@ import com.github.sirblobman.combatlogx.api.ICombatManager;
 import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 import com.github.sirblobman.combatlogx.api.object.TagType;
-import com.github.sirblobman.combatlogx.listener.CombatListener;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 
 /** @author olivolja3 */
-public class ListenerForceField extends CombatListener {
+public class ListenerForceField extends ExpansionListener {
     protected final Map<UUID, Set<WorldXYZ>> fakeBlockMap;
     private final ExecutorService forceFieldExecutor;
 
-    public ListenerForceField(ICombatLogX plugin) {
-        super(plugin);
+    public ListenerForceField(ForceFieldExpansion expansion) {
+        super(expansion);
         this.fakeBlockMap = new HashMap<>();
         this.forceFieldExecutor = Executors.newSingleThreadExecutor();
     }
@@ -74,7 +74,7 @@ public class ListenerForceField extends CombatListener {
         Player player = e.getPlayer();
         if(canBypass(player)) return;
 
-        ICombatManager combatManager = getPlugin().getCombatManager();
+        ICombatManager combatManager = getCombatManager();
         if(!combatManager.isInCombat(player)) return;
 
         Location fromLocation = e.getFrom();
@@ -108,12 +108,12 @@ public class ListenerForceField extends CombatListener {
 
     public void registerProtocol() {
         ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-        ForceFieldAdapter forceFieldAdapter = new ForceFieldAdapter(getPlugin(), this);
+        ForceFieldAdapter forceFieldAdapter = new ForceFieldAdapter(getCombatLogX(), this);
         protocolManager.addPacketListener(forceFieldAdapter);
     }
 
     public void removeProtocol() {
-        JavaPlugin plugin = getPlugin().getPlugin();
+        JavaPlugin plugin = getPlugin();
         ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
         protocolManager.removePacketListeners(plugin);
 
@@ -132,9 +132,8 @@ public class ListenerForceField extends CombatListener {
     }
 
     protected YamlConfiguration getConfiguration() {
-        ICombatLogX plugin = getPlugin();
-        ConfigurationManager configurationManager = plugin.getConfigurationManager();
-        return configurationManager.get("force-field.yml");
+        ConfigurationManager configurationManager = getExpansionConfigurationManager();
+        return configurationManager.get("config.yml");
     }
 
     protected boolean canBypass(Player player) {
@@ -215,7 +214,7 @@ public class ListenerForceField extends CombatListener {
     }
 
     protected void updateForceField(Player player) {
-        ICombatManager combatManager = getPlugin().getCombatManager();
+        ICombatManager combatManager = getCombatManager();
         if(!combatManager.isInCombat(player)) return;
 
         Location playerLocation = player.getLocation();
@@ -226,7 +225,7 @@ public class ListenerForceField extends CombatListener {
     }
 
     protected void updateForceField(Player player, LivingEntity enemy) {
-        ICombatManager combatManager = getPlugin().getCombatManager();
+        ICombatManager combatManager = getCombatManager();
         if(!combatManager.isInCombat(player)) return;
 
         Location playerLocation = player.getLocation();
@@ -242,7 +241,7 @@ public class ListenerForceField extends CombatListener {
     }
 
     protected boolean isSafeSurround(Player player, Location location) {
-        ICombatManager combatManager = getPlugin().getCombatManager();
+        ICombatManager combatManager = getCombatManager();
         LivingEntity enemy = combatManager.getEnemy(player);
 
         TagType tagType = getTagType(enemy);
@@ -286,7 +285,7 @@ public class ListenerForceField extends CombatListener {
     }
 
     private void safeForceField(Player player) {
-        ICombatManager combatManager = getPlugin().getCombatManager();
+        ICombatManager combatManager = getCombatManager();
         LivingEntity enemy = combatManager.getEnemy(player);
         safeForceField(player, enemy);
     }
@@ -340,7 +339,7 @@ public class ListenerForceField extends CombatListener {
     }
 
     private boolean isSafe(Player player, Location location, TagType tagType) {
-        ICombatLogX plugin = getPlugin();
+        ICombatLogX plugin = getCombatLogX();
         ExpansionManager expansionManager = plugin.getExpansionManager();
         List<Expansion> enabledExpansionList = expansionManager.getEnabledExpansions();
 
@@ -358,7 +357,7 @@ public class ListenerForceField extends CombatListener {
     }
 
     protected boolean isSafe(Player player, Location location) {
-        ICombatManager combatManager = getPlugin().getCombatManager();
+        ICombatManager combatManager = getCombatManager();
         LivingEntity enemy = combatManager.getEnemy(player);
 
         TagType tagType = getTagType(enemy);

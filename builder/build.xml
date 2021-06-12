@@ -23,6 +23,7 @@
             <resources>
                 <!-- Normal Expansions -->
                 <file file="${expansion.dir}/damage-tagger/target/Damage Tagger.jar"/>
+                <file file="${expansion.dir}/force-field/target/Force Field.jar"/>
                 <file file="${expansion.dir}/logger/target/Logger.jar"/>
                 <file file="${expansion.dir}/loot-protection/target/Loot Protection.jar"/>
                 <file file="${expansion.dir}/mob-tagger/target/Mob Tagger.jar"/>

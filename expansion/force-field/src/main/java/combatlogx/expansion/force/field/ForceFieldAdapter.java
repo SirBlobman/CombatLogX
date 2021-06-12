@@ -1,4 +1,4 @@
-package com.github.sirblobman.combatlogx.force.field;
+package combatlogx.expansion.force.field;
 
 import java.util.UUID;
 

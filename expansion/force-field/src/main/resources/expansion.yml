@@ -1,0 +1,7 @@
+name: "ForceField"
+prefix: "Force Field"
+description: "${project.description}"
+
+main: "combatlogx.expansion.force.field.ForceFieldExpansion"
+version: "16.0"
+author: "SirBlobman"

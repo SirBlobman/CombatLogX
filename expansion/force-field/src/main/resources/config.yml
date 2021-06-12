@@ -1,9 +1,9 @@
-# Disclaimer:
-# The force field is a nice visual effect that shows players area they cannot enter. 
-# The force field is not meant to be used as entry prevention, as players can just ignore the fake block packets that are sent to them.
-# For the actual entry prevention options, please check the configuration for your region expansion (e.g. WorldGuard Compatibility).
-# If your server has weak hardware or you have a lot of players online, it is not recommended to continue using the force field effect.
-# You can try unsafe mode and see if performance improves, but the most recommended option is to disable the force field.
+# Disclaimers:
+# - The force field is a nice visual effect that shows players areas they cannot enter.
+# - The force field should not be used as entry prevention, as players can just ignore the fake block packets that are sent to them.
+# - For the actual entry prevention options, please check the configuration for your region expansion (e.g. WorldGuard Compatibility).
+# - If your server has weak hardware, or you have a lot of players online, we recommend disabling the force field effect.
+# - You can try unsafe mode and see if performance improves, but the most recommended option is to disable the force field.
 
 # Credits:
 # The force field code was contributed by olivolja3

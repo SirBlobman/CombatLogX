@@ -1,6 +1,7 @@
 package com.github.sirblobman.combatlogx.api.expansion;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -20,6 +21,10 @@ public abstract class ExpansionListener implements Listener {
     public final void register() {
         Expansion expansion = getExpansion();
         expansion.registerListener(this);
+    }
+
+    public final void unregister() {
+        HandlerList.unregisterAll(this);
     }
 
     protected final Expansion getExpansion() {
