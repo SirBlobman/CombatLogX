@@ -1,4 +1,4 @@
-# What is the default language that will be used if a language cannot be detected?
-# Sometimes players have custom resource pack languages, or the server does not check player locales
-# Default: en_us
+# This is the default language that will be shown to players when their language is not detected.
+# Player language can fail to detect if the file does not exist or if your Spigot jar does not support locales.
+# This language is also used for the server console.
 default-locale: "en_us"
