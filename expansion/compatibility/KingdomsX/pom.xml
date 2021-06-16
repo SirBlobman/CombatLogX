@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>KingdomsX</artifactId>
-    <name>Compatibility: KingdomsX</name>
+    <name>Compatibility Expansion: KingdomsX</name>
     <description>An expansion for CombatLogX that prevents players from entering kingdoms during combat.</description>
 
     <dependencies>
