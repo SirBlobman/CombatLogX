@@ -54,7 +54,6 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.saveDefault("config.yml");
         configurationManager.saveDefault("commands.yml");
-        configurationManager.saveDefault("force-field.yml");
         configurationManager.saveDefault("punish.yml");
 
         LanguageManager languageManager = getLanguageManager();
