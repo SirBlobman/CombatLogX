@@ -47,8 +47,8 @@ public class CommandCombatLogX extends Command {
         this.plugin = plugin;
     }
 
-    @Override
     @NotNull
+    @Override
     public LanguageManager getLanguageManager() {
         return this.plugin.getLanguageManager();
     }
@@ -247,8 +247,8 @@ public class CommandCombatLogX extends Command {
 
         messageList.add("&f&lServer Version: &7" + Bukkit.getVersion());
         messageList.add("&f&lBukkit Version: &7" + Bukkit.getBukkitVersion());
-        messageList.add("Minecraft Version: &7" + VersionUtility.getMinecraftVersion());
-        messageList.add("NMS Version: &7" + VersionUtility.getNetMinecraftServerVersion());
+        messageList.add("&f&lMinecraft Version: &7" + VersionUtility.getMinecraftVersion());
+        messageList.add("&f&lNMS Version: &7" + VersionUtility.getNetMinecraftServerVersion());
         messageList.add("&f");
         messageList.add("&f&lDependency Information:");
 
