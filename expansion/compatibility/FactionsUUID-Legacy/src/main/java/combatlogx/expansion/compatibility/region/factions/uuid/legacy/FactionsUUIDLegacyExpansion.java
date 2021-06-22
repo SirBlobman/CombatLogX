@@ -30,7 +30,7 @@ public final class FactionsUUIDLegacyExpansion extends RegionExpansion {
         if(pluginFactions != null) {
             PluginDescriptionFile description = pluginFactions.getDescription();
             String version = description.getVersion();
-            if(version.startsWith("1.6.9.5-U0.5")) {
+            if(version.startsWith("1.6.9.5-U0.2")) {
                 logger.info("The Factions plugin passed the check.");
                 return true;
             }
