@@ -13,12 +13,20 @@
     <name>Compatibility Expansion: KingdomsX</name>
     <description>An expansion for CombatLogX that prevents players from entering kingdoms during combat.</description>
 
+    <repositories>
+        <!-- SirBlobman Public Repository -->
+        <repository>
+            <id>sirblobman-public</id>
+            <url>https://nexus.sirblobman.xyz/repository/public/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <!-- KingdomsX -->
         <dependency>
-            <groupId>com.github.cryptomorin</groupId>
+            <groupId>org.kingdoms</groupId>
             <artifactId>kingdoms</artifactId>
-            <version>1.10.18.1</version>
+            <version>1.8.0.1</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
