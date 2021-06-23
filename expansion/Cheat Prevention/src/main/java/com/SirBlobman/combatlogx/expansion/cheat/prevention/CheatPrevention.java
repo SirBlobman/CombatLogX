@@ -5,10 +5,25 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.sirblobman.api.utility.VersionUtility;
+
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.shaded.nms.VersionUtil;
-import com.SirBlobman.combatlogx.expansion.cheat.prevention.listener.*;
+import com.SirBlobman.combatlogx.expansion.cheat.prevention.listener.ListenerBlocks;
+import com.SirBlobman.combatlogx.expansion.cheat.prevention.listener.ListenerChat;
+import com.SirBlobman.combatlogx.expansion.cheat.prevention.listener.ListenerCommandBlocker;
+import com.SirBlobman.combatlogx.expansion.cheat.prevention.listener.ListenerElytra;
+import com.SirBlobman.combatlogx.expansion.cheat.prevention.listener.ListenerEntityInteraction;
+import com.SirBlobman.combatlogx.expansion.cheat.prevention.listener.ListenerEssentials;
+import com.SirBlobman.combatlogx.expansion.cheat.prevention.listener.ListenerFlight;
+import com.SirBlobman.combatlogx.expansion.cheat.prevention.listener.ListenerGameMode;
+import com.SirBlobman.combatlogx.expansion.cheat.prevention.listener.ListenerInventories;
+import com.SirBlobman.combatlogx.expansion.cheat.prevention.listener.ListenerLegacyItemPickup;
+import com.SirBlobman.combatlogx.expansion.cheat.prevention.listener.ListenerNewItemPickup;
+import com.SirBlobman.combatlogx.expansion.cheat.prevention.listener.ListenerPotions;
+import com.SirBlobman.combatlogx.expansion.cheat.prevention.listener.ListenerRiptide;
+import com.SirBlobman.combatlogx.expansion.cheat.prevention.listener.ListenerTeleport;
+import com.SirBlobman.combatlogx.expansion.cheat.prevention.listener.ListenerTotemOfUndying;
 
 public class CheatPrevention extends Expansion {
     public CheatPrevention(ICombatLogX plugin) {
@@ -30,7 +45,7 @@ public class CheatPrevention extends Expansion {
         PluginManager manager = Bukkit.getPluginManager();
         ICombatLogX plugin = getPlugin();
         JavaPlugin javaPlugin = plugin.getPlugin();
-        int minorVersion = VersionUtil.getMinorVersion();
+        int minorVersion = VersionUtility.getMinorVersion();
 
         // All Versions
         manager.registerEvents(new ListenerBlocks(this), javaPlugin);

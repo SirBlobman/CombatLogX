@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,8 +22,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
-
-import com.SirBlobman.api.utility.Util;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 
 /**
@@ -35,15 +34,18 @@ public abstract class Expansion {
         ENABLED, DISABLED, LOADED, UNLOADED
     }
     
-    private ExpansionDescription description;
-    private State state = State.UNLOADED;
-    private File dataFolder, file;
-    
     private final ICombatLogX plugin;
+    private final Map<String, FileConfiguration> fileNameToConfigMap;
+
+    private ExpansionDescription description;
     private ExpansionLogger logger;
-    private final Map<String, FileConfiguration> fileNameToConfigMap = Util.newMap();
+    private File dataFolder, file;
+    private State state;
+
     public Expansion(ICombatLogX plugin) {
         this.plugin = plugin;
+        this.fileNameToConfigMap = new HashMap<>();
+        this.state = State.UNLOADED;
     }
     
     final void setDataFolder(File dataFolder) {

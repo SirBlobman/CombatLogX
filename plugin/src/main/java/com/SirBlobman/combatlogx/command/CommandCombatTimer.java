@@ -7,15 +7,19 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.github.sirblobman.api.command.Command;
+
 import com.SirBlobman.combatlogx.CombatLogX;
-import com.SirBlobman.combatlogx.api.shaded.command.CustomCommand;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
 import com.SirBlobman.combatlogx.api.utility.Replacer;
 
-public class CommandCombatTimer extends CustomCommand<CombatLogX> {
+public class CommandCombatTimer extends Command {
+    private final CombatLogX plugin;
+
     public CommandCombatTimer(CombatLogX plugin) {
         super(plugin, "combat-timer");
+        this.plugin = plugin;
     }
 
     @Override
@@ -24,7 +28,7 @@ public class CommandCombatTimer extends CustomCommand<CombatLogX> {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, String[] args) {
+    public boolean execute(CommandSender sender, String[] args) {
         if(args.length > 0) {
             String targetName = args[0];
             Player target = getCustomTarget(sender, targetName);
@@ -70,7 +74,7 @@ public class CommandCombatTimer extends CustomCommand<CombatLogX> {
     }
 
     private void sendMessage(CommandSender sender, String key, Replacer... replacerArray) {
-        ILanguageManager languageManager = this.plugin.getLanguageManager();
+        ILanguageManager languageManager = this.plugin.getCombatLogXLanguageManager();
         if(sender instanceof Player) {
             Player player = (Player) sender;
             languageManager.sendLocalizedMessage(player, key, replacerArray);

@@ -31,7 +31,7 @@ public class ListenerFieldCreation implements Listener {
         if(!config.getBoolean("prevent-field-creation", true)) return;
         e.setCancelled(true);
 
-        ILanguageManager languageManager = plugin.getLanguageManager();
+        ILanguageManager languageManager = plugin.getCombatLogXLanguageManager();
         String message = languageManager.getMessageColoredWithPrefix("preciousstones-compatibility-no-field");
         languageManager.sendMessage(player, message);
     }

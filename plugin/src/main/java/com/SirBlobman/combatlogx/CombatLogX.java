@@ -17,14 +17,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.configuration.PlayerDataManager;
+import com.github.sirblobman.api.plugin.ConfigurablePlugin;
+import com.github.sirblobman.api.utility.MessageUtility;
+
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
 import com.SirBlobman.combatlogx.api.listener.ICustomDeathListener;
-import com.SirBlobman.combatlogx.api.shaded.configuration.ConfigManager;
-import com.SirBlobman.combatlogx.api.shaded.configuration.PlayerDataManager;
-import com.SirBlobman.combatlogx.api.shaded.plugin.SirBlobmanPlugin;
-import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
 import com.SirBlobman.combatlogx.command.CommandCombatLogX;
 import com.SirBlobman.combatlogx.command.CommandCombatTimer;
 import com.SirBlobman.combatlogx.command.CustomCommand;
@@ -34,7 +35,7 @@ import com.SirBlobman.combatlogx.manager.LanguageManager;
 import com.SirBlobman.combatlogx.update.ConfigChecker;
 import com.SirBlobman.combatlogx.update.UpdateChecker;
 
-public class CombatLogX extends SirBlobmanPlugin<CombatLogX> implements ICombatLogX {
+public class CombatLogX extends ConfigurablePlugin implements ICombatLogX {
     private final CombatManager combatManager;
     private final ExpansionManager expansionManager;
     private final LanguageManager languageManager;
@@ -114,38 +115,38 @@ public class CombatLogX extends SirBlobmanPlugin<CombatLogX> implements ICombatL
 
     @Override
     public YamlConfiguration getConfig(String fileName) {
-        ConfigManager<?> configManager = getConfigManager();
-        return configManager.getConfig(fileName);
+        ConfigurationManager configurationManager = getConfigurationManager();
+        return configurationManager.get(fileName);
     }
 
     @Override
     public void reloadConfig(String fileName) {
-        ConfigManager<?> configManager = getConfigManager();
-        configManager.reloadConfig(fileName);
+        ConfigurationManager configurationManager = getConfigurationManager();
+        configurationManager.reload(fileName);
     }
 
     @Override
     public void saveConfig(String fileName) {
-        ConfigManager<?> configManager = getConfigManager();
-        configManager.saveConfig(fileName);
+        ConfigurationManager configurationManager = getConfigurationManager();
+        configurationManager.save(fileName);
     }
 
     @Override
     public void saveDefaultConfig(String fileName) {
-        ConfigManager<?> configManager = getConfigManager();
-        configManager.saveDefaultConfig(fileName);
+        ConfigurationManager configurationManager = getConfigurationManager();
+        configurationManager.saveDefault(fileName);
     }
 
     @Override
     public YamlConfiguration getDataFile(OfflinePlayer user) {
-        PlayerDataManager<?> playerDataManager = getPlayerDataManager();
-        return playerDataManager.getData(user);
+        PlayerDataManager playerDataManager = getPlayerDataManager();
+        return playerDataManager.get(user);
     }
 
     @Override
     public void saveDataFile(OfflinePlayer user) {
-        PlayerDataManager<?> playerDataManager = getPlayerDataManager();
-        playerDataManager.saveData(user);
+        PlayerDataManager playerDataManager = getPlayerDataManager();
+        playerDataManager.save(user);
     }
 
     @Override
@@ -159,7 +160,7 @@ public class CombatLogX extends SirBlobmanPlugin<CombatLogX> implements ICombatL
     }
     
     @Override
-    public LanguageManager getLanguageManager() {
+    public LanguageManager getCombatLogXLanguageManager() {
         return this.languageManager;
     }
     
@@ -196,7 +197,7 @@ public class CombatLogX extends SirBlobmanPlugin<CombatLogX> implements ICombatL
 
     private void broadcastMessage(String message) {
         if(message == null || message.isEmpty()) return;
-        String color = MessageUtil.color(message);
+        String color = MessageUtility.color(message);
 
         Logger logger = getLogger();
         logger.info(color);
@@ -210,7 +211,7 @@ public class CombatLogX extends SirBlobmanPlugin<CombatLogX> implements ICombatL
         boolean shouldBroadcast = config.getBoolean("broadcast.on-load");
         if(!shouldBroadcast) return;
         
-        LanguageManager languageManager = getLanguageManager();
+        LanguageManager languageManager = getCombatLogXLanguageManager();
         String message = languageManager.getMessageColored("broadcasts.on-load");
         broadcastMessage(message);
     }
@@ -220,7 +221,7 @@ public class CombatLogX extends SirBlobmanPlugin<CombatLogX> implements ICombatL
         boolean shouldBroadcast = config.getBoolean("broadcast.on-enable");
         if(!shouldBroadcast) return;
     
-        LanguageManager languageManager = getLanguageManager();
+        LanguageManager languageManager = getCombatLogXLanguageManager();
         String message = languageManager.getMessageColored("broadcasts.on-enable");
         broadcastMessage(message);
     }
@@ -230,7 +231,7 @@ public class CombatLogX extends SirBlobmanPlugin<CombatLogX> implements ICombatL
         boolean shouldBroadcast = config.getBoolean("broadcast.on-disable");
         if(!shouldBroadcast) return;
     
-        LanguageManager languageManager = getLanguageManager();
+        LanguageManager languageManager = getCombatLogXLanguageManager();
         String message = languageManager.getMessageColored("broadcasts.on-disable");
         broadcastMessage(message);
     }
@@ -251,8 +252,8 @@ public class CombatLogX extends SirBlobmanPlugin<CombatLogX> implements ICombatL
     }
 
     private void registerCommands() {
-        registerCommand(CommandCombatLogX.class);
-        registerCommand(CommandCombatTimer.class);
+        new CommandCombatLogX(this).register();
+        new CommandCombatTimer(this).register();
     }
 
     private void registerTasks() {

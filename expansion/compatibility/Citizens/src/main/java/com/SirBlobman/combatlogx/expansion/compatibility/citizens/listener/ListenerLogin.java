@@ -38,7 +38,7 @@ public class ListenerLogin implements Listener {
         NPC npc = npcManager.getNPC(uuid);
         if(npc == null) return;
 
-        ILanguageManager languageManager = this.expansion.getPlugin().getLanguageManager();
+        ILanguageManager languageManager = this.expansion.getPlugin().getCombatLogXLanguageManager();
         String message = languageManager.getMessageColored("citizens-join-deny");
         e.setKickMessage(message);
         e.setLoginResult(Result.KICK_OTHER);

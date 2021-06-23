@@ -38,7 +38,7 @@ public class CommandTogglePVP implements CommandExecutor {
         }
 
         if(checkNoPermission(sender, "combatlogx.command.pvptoggle.admin")) return true;
-        ILanguageManager languageManager = this.plugin.getLanguageManager();
+        ILanguageManager languageManager = this.plugin.getCombatLogXLanguageManager();
 
         Player target = getTarget(sender, args[1]);
         if(target == null) return true;
@@ -73,7 +73,7 @@ public class CommandTogglePVP implements CommandExecutor {
 
     private boolean checkNoPermission(CommandSender sender, String permission) {
         if(sender.hasPermission(permission)) return false;
-        ILanguageManager languageManager = this.plugin.getLanguageManager();
+        ILanguageManager languageManager = this.plugin.getCombatLogXLanguageManager();
 
         String message = languageManager.getMessageColoredWithPrefix("errors.no-permission").replace("{permission}", permission);
         languageManager.sendMessage(sender, message);
@@ -83,7 +83,7 @@ public class CommandTogglePVP implements CommandExecutor {
     private Player getTarget(CommandSender sender, String targetName) {
         Player target = Bukkit.getPlayer(targetName);
         if(target == null) {
-            ILanguageManager languageManager = this.plugin.getLanguageManager();
+            ILanguageManager languageManager = this.plugin.getCombatLogXLanguageManager();
             String message = languageManager.getMessageColoredWithPrefix("errors.invalid-target").replace("{target}", targetName);
             languageManager.sendMessage(sender, message);
             return null;
@@ -92,7 +92,7 @@ public class CommandTogglePVP implements CommandExecutor {
     }
 
     private boolean togglePVP(CommandSender sender) {
-        ILanguageManager languageManager = this.plugin.getLanguageManager();
+        ILanguageManager languageManager = this.plugin.getCombatLogXLanguageManager();
         if(!(sender instanceof Player)) {
             String message = languageManager.getMessageColoredWithPrefix("errors.not-player");
             languageManager.sendMessage(sender, message);

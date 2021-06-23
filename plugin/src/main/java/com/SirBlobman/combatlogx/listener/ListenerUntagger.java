@@ -61,7 +61,7 @@ public class ListenerUntagger implements Listener {
         String messagePath = (untagReason == UntagReason.EXPIRE ? "combat-timer.expire" : (untagReason == UntagReason.EXPIRE_ENEMY_DEATH ? "combat-timer.enemy-death" : null));
         if(messagePath == null) return;
 
-        ILanguageManager languageManager = this.plugin.getLanguageManager();
+        ILanguageManager languageManager = this.plugin.getCombatLogXLanguageManager();
         languageManager.sendLocalizedMessage(player, messagePath);
     }
 

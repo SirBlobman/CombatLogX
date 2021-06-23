@@ -5,8 +5,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.github.sirblobman.api.utility.MessageUtility;
+
 import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
 import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
 import com.SirBlobman.combatlogx.expansion.notifier.Notifier;
 import com.SirBlobman.combatlogx.expansion.notifier.manager.ActionBarManager;
@@ -26,7 +27,7 @@ public class CommandNotifier implements CommandExecutor {
         
         if(!(sender instanceof Player)) {
             ICombatLogX plugin = this.expansion.getPlugin();
-            ILanguageManager languageManager = plugin.getLanguageManager();
+            ILanguageManager languageManager = plugin.getCombatLogXLanguageManager();
             String message = languageManager.getMessageColoredWithPrefix("errors.not-player");
             languageManager.sendMessage(sender, message);
             return true;
@@ -34,7 +35,7 @@ public class CommandNotifier implements CommandExecutor {
         
         Player player = (Player) sender;
         ICombatLogX plugin = this.expansion.getPlugin();
-        ILanguageManager languageManager = plugin.getLanguageManager();
+        ILanguageManager languageManager = plugin.getCombatLogXLanguageManager();
 
         String permission = "combatlogx.notifier.toggle";
         if(!sender.hasPermission(permission)) {
@@ -74,7 +75,7 @@ public class CommandNotifier implements CommandExecutor {
 
     private void sendToggleMessage(Player player, String type, boolean status) {
         ICombatLogX plugin = this.expansion.getPlugin();
-        ILanguageManager languageManager = plugin.getLanguageManager();
+        ILanguageManager languageManager = plugin.getCombatLogXLanguageManager();
 
         String messageFormat = languageManager.getLocalizedMessage(player, "notifier.toggle-" + type);
         if(messageFormat == null) return;
@@ -83,7 +84,7 @@ public class CommandNotifier implements CommandExecutor {
         if(statusString == null) statusString = Boolean.toString(status);
         String message = messageFormat.replace("{status}", statusString);
 
-        String color = MessageUtil.color(message);
+        String color = MessageUtility.color(message);
         languageManager.sendMessage(player, color);
     }
 }

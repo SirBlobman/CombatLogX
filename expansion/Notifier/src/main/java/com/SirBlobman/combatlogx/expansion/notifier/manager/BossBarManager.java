@@ -9,11 +9,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import com.github.sirblobman.api.nms.MultiVersionHandler;
+import com.github.sirblobman.api.nms.bossbar.BossBarHandler;
+import com.github.sirblobman.api.utility.MessageUtility;
+
 import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.shaded.nms.AbstractNMS;
-import com.SirBlobman.combatlogx.api.shaded.nms.MultiVersionHandler;
-import com.SirBlobman.combatlogx.api.shaded.nms.boss.bar.BossBarHandler;
-import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import com.SirBlobman.combatlogx.expansion.notifier.Notifier;
 
@@ -55,9 +55,8 @@ public class BossBarManager {
         if(isDisabled(player)) return;
     
         ICombatLogX plugin = this.expansion.getPlugin();
-        MultiVersionHandler<?> multiVersionHandler = plugin.getMultiVersionHandler();
-        AbstractNMS nmsHandler = multiVersionHandler.getInterface();
-        BossBarHandler bossBarHandler = nmsHandler.getBossBarHandler();
+        MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
+        BossBarHandler bossBarHandler = multiVersionHandler.getBossBarHandler();
         
         String message = getTimerMessage(player);
         double progress = getProgress(player);
@@ -68,9 +67,8 @@ public class BossBarManager {
     
     public void removeBossBar(Player player, boolean onDisable) {
         ICombatLogX plugin = this.expansion.getPlugin();
-        MultiVersionHandler<?> multiVersionHandler = plugin.getMultiVersionHandler();
-        AbstractNMS nmsHandler = multiVersionHandler.getInterface();
-        BossBarHandler bossBarHandler = nmsHandler.getBossBarHandler();
+        MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
+        BossBarHandler bossBarHandler = multiVersionHandler.getBossBarHandler();
         
         if(onDisable || isDisabledGlobally() || isDisabled(player)) {
             bossBarHandler.removeBossBar(player);
@@ -97,7 +95,7 @@ public class BossBarManager {
         String timerMessageFormat = config.getString("message-timer");
         if(timerMessageFormat == null) return "";
         
-        return MessageUtil.color(this.expansion.replacePlaceholders(player, timerMessageFormat));
+        return MessageUtility.color(this.expansion.replacePlaceholders(player, timerMessageFormat));
     }
     
     private String getEndedMessage(Player player) {
@@ -105,7 +103,7 @@ public class BossBarManager {
         String endedMessageFormat = config.getString("message-ended");
         if(endedMessageFormat == null) return "";
         
-        return MessageUtil.color(this.expansion.replacePlaceholders(player, endedMessageFormat));
+        return MessageUtility.color(this.expansion.replacePlaceholders(player, endedMessageFormat));
     }
     
     private String getColor() {

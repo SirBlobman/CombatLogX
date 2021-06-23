@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
-import com.SirBlobman.combatlogx.expansion.rewards.Rewards;
-import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -15,11 +13,13 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
+import com.github.sirblobman.api.nms.EntityHandler;
+import com.github.sirblobman.api.nms.MultiVersionHandler;
+
 import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.shaded.nms.AbstractNMS;
-import com.SirBlobman.combatlogx.api.shaded.nms.EntityHandler;
-import com.SirBlobman.combatlogx.api.shaded.nms.MultiVersionHandler;
 import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
+import com.SirBlobman.combatlogx.expansion.rewards.Rewards;
+import me.clip.placeholderapi.PlaceholderAPI;
 
 public class Reward {
     private final ICombatLogX plugin;
@@ -98,13 +98,12 @@ public class Reward {
 
     private String getEnemyName(Entity enemy) {
         if(enemy == null) {
-            ILanguageManager languageManager = this.plugin.getLanguageManager();
+            ILanguageManager languageManager = this.plugin.getCombatLogXLanguageManager();
             return languageManager.getMessage("errors.unknown-entity-name");
         }
 
-        MultiVersionHandler<?> multiVersionHandler = this.plugin.getMultiVersionHandler();
-        AbstractNMS nmsHandler = multiVersionHandler.getInterface();
-        EntityHandler entityHandler = nmsHandler.getEntityHandler();
+        MultiVersionHandler multiVersionHandler = this.plugin.getMultiVersionHandler();
+        EntityHandler entityHandler = multiVersionHandler.getEntityHandler();
         return entityHandler.getName(enemy);
     }
     

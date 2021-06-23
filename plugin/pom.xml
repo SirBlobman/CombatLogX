@@ -29,12 +29,6 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
-		
-        <!-- SirBlobman Public Repository -->
-        <repository>
-            <id>sirblobman-public</id>
-            <url>https://nexus.sirblobman.xyz/repository/public/</url>
-        </repository>
 
         <!-- PlaceholderAPI Repository -->
         <repository>
@@ -64,12 +58,6 @@
             <artifactId>CombatLogX-API</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <!-- Zip Archive Tool -->
@@ -114,14 +102,20 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.2</version>
+                <version>3.2.4</version>
                 
                 <configuration>
+                    <artifactSet>
+                        <includes>
+                            <include>com.SirBlobman.combatlogx:CombatLogX-API</include>
+                            <include>org.zeroturnaround:zt-zip</include>
+                        </includes>
+                    </artifactSet>
                     <filters>
                         <filter>
                             <artifact>*</artifact>
                             <excludes>
-                                <exclude>META-INF/*</exclude>
+                                <exclude>META-INF/**</exclude>
                             </excludes>
                         </filter>
                     </filters>

@@ -9,10 +9,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.utility.MessageUtility;
+import com.github.sirblobman.api.utility.VersionUtility;
+
 import com.SirBlobman.combatlogx.CombatLogX;
-import com.SirBlobman.combatlogx.api.shaded.configuration.ConfigManager;
-import com.SirBlobman.combatlogx.api.shaded.nms.VersionUtil;
-import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
 import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
 import com.SirBlobman.combatlogx.api.utility.Replacer;
 
@@ -24,9 +25,9 @@ public final class LanguageManager implements ILanguageManager {
     
     @Override
     public String getLanguage() {
-        ConfigManager<?> configManager = this.plugin.getConfigManager();
-        YamlConfiguration config = configManager.getConfig("config.yml");
-        String languageName = config.getString("language");
+        ConfigurationManager configurationManager = this.plugin.getConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("config.yml");
+        String languageName = configuration.getString("language");
         if(languageName == null) return "en_us";
         
         File pluginFolder = this.plugin.getDataFolder();
@@ -54,7 +55,7 @@ public final class LanguageManager implements ILanguageManager {
         String message = getLocalizedMessage(player, key);
         if(message.isEmpty()) return;
 
-        String replace = MessageUtil.color(message);
+        String replace = MessageUtility.color(message);
         for(Replacer replacer : replacerArray) {
             replace = replacer.replace(replace);
         }
@@ -65,33 +66,33 @@ public final class LanguageManager implements ILanguageManager {
     public void reloadConfig() {
         String languageName = getLanguage();
         String fileName = ("language/" + languageName + ".yml");
-    
-        ConfigManager<?> configManager = this.plugin.getConfigManager();
-        configManager.reloadConfig(fileName);
+
+        ConfigurationManager configurationManager = this.plugin.getConfigurationManager();
+        configurationManager.reload(fileName);
     
         Collection<? extends Player> onlinePlayerList = Bukkit.getOnlinePlayers();
         for(Player player : onlinePlayerList) {
             String localeName = getLocale(player);
             String localeFile = ("language/" + localeName + ".yml");
-            configManager.reloadConfig(localeFile);
+            configurationManager.reload(localeFile);
         }
     }
 
     private String getMessage(String fileName, String key) {
-        ConfigManager<?> configManager = this.plugin.getConfigManager();
-        YamlConfiguration config = configManager.getConfig(fileName);
+        ConfigurationManager configurationManager = this.plugin.getConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get(fileName);
 
-        if(config.isList(key)) {
-            List<String> messageList = config.getStringList(key);
+        if(configuration.isList(key)) {
+            List<String> messageList = configuration.getStringList(key);
             return String.join("\n", messageList);
         }
 
-        String message = config.getString(key);
+        String message = configuration.getString(key);
         return (message == null ? "" : message);
     }
 
     private String getLocale(Player player) {
-        int minorVersion = VersionUtil.getMinorVersion();
+        int minorVersion = VersionUtility.getMinorVersion();
         if(minorVersion < 12) return getLanguage();
         String languageName = player.getLocale();
         

@@ -31,7 +31,7 @@ public class ListenerPVP implements Listener {
 
         Player damaged = (Player) ded;
         Player damager = (Player) der;
-        ILanguageManager languageManager = this.plugin.getLanguageManager();
+        ILanguageManager languageManager = this.plugin.getCombatLogXLanguageManager();
 
         if(!isPVPEnabled(damaged)) {
             e.setCancelled(true);

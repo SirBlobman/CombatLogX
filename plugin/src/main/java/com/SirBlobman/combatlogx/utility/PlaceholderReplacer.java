@@ -2,23 +2,23 @@ package com.SirBlobman.combatlogx.utility;
 
 import java.text.DecimalFormat;
 
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.shaded.nms.AbstractNMS;
-import com.SirBlobman.combatlogx.api.shaded.nms.EntityHandler;
-import com.SirBlobman.combatlogx.api.shaded.nms.MultiVersionHandler;
-import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
-import com.SirBlobman.combatlogx.api.utility.ICombatManager;
-import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
-
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+
+import com.github.sirblobman.api.nms.EntityHandler;
+import com.github.sirblobman.api.nms.MultiVersionHandler;
+import com.github.sirblobman.api.utility.MessageUtility;
+
+import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.utility.ICombatManager;
+import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
 
 public final class PlaceholderReplacer {
     public static String getTimeLeftSeconds(ICombatLogX plugin, Player player) {
         ICombatManager manager = plugin.getCombatManager();
         int secondsLeft = manager.getTimerSecondsLeft(player);
         if(secondsLeft <= 0) {
-            ILanguageManager languageManager = plugin.getLanguageManager();
+            ILanguageManager languageManager = plugin.getCombatLogXLanguageManager();
             return languageManager.getMessage("placeholders.time-left-zero");
         }
 
@@ -30,7 +30,7 @@ public final class PlaceholderReplacer {
         boolean isInCombat = manager.isInCombat(player);
         String path = "placeholders.status." + (isInCombat ? "in-combat" : "not-in-combat");
     
-        ILanguageManager languageManager = plugin.getLanguageManager();
+        ILanguageManager languageManager = plugin.getCombatLogXLanguageManager();
         return languageManager.getMessageColored(path);
     }
 
@@ -39,7 +39,7 @@ public final class PlaceholderReplacer {
         boolean isInCombat = manager.isInCombat(player);
         String path = "placeholders.status." + (isInCombat ? "fighting" : "idle");
     
-        ILanguageManager languageManager = plugin.getLanguageManager();
+        ILanguageManager languageManager = plugin.getCombatLogXLanguageManager();
         return languageManager.getMessageColored(path);
     }
 
@@ -47,14 +47,12 @@ public final class PlaceholderReplacer {
         ICombatManager manager = plugin.getCombatManager();
         LivingEntity enemy = manager.getEnemy(player);
         if(enemy == null) {
-            ILanguageManager languageManager = plugin.getLanguageManager();
+            ILanguageManager languageManager = plugin.getCombatLogXLanguageManager();
             return languageManager.getMessage("errors.unknown-entity-name");
         }
     
-        MultiVersionHandler<?> multiVersionHandler = plugin.getMultiVersionHandler();
-        AbstractNMS nmsHandler = multiVersionHandler.getInterface();
-    
-        EntityHandler entityHandler = nmsHandler.getEntityHandler();
+        MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
+        EntityHandler entityHandler = multiVersionHandler.getEntityHandler();
         return entityHandler.getName(enemy);
     }
 
@@ -62,7 +60,7 @@ public final class PlaceholderReplacer {
         ICombatManager manager = plugin.getCombatManager();
         LivingEntity entity = manager.getEnemy(player);
         if(entity == null) {
-            ILanguageManager languageManager = plugin.getLanguageManager();
+            ILanguageManager languageManager = plugin.getCombatLogXLanguageManager();
             return languageManager.getMessage("placeholders.unknown-enemy");
         }
 
@@ -75,7 +73,7 @@ public final class PlaceholderReplacer {
         ICombatManager manager = plugin.getCombatManager();
         LivingEntity entity = manager.getEnemy(player);
         if(entity == null) {
-            ILanguageManager languageManager = plugin.getLanguageManager();
+            ILanguageManager languageManager = plugin.getCombatLogXLanguageManager();
             return languageManager.getMessage("placeholders.unknown-enemy");
         }
 
@@ -88,7 +86,7 @@ public final class PlaceholderReplacer {
         ICombatManager manager = plugin.getCombatManager();
         LivingEntity entity = manager.getEnemy(player);
         if(entity == null) {
-            ILanguageManager languageManager = plugin.getLanguageManager();
+            ILanguageManager languageManager = plugin.getCombatLogXLanguageManager();
             return languageManager.getMessage("placeholders.unknown-enemy");
         }
 
@@ -103,6 +101,6 @@ public final class PlaceholderReplacer {
             heartsLong--;
         }
 
-        return MessageUtil.color(builder.toString());
+        return MessageUtility.color(builder.toString());
     }
 }

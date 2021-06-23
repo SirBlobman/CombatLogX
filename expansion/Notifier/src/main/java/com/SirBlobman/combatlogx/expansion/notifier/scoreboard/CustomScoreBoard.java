@@ -1,39 +1,45 @@
 package com.SirBlobman.combatlogx.expansion.notifier.scoreboard;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.shaded.nms.AbstractNMS;
-import com.SirBlobman.combatlogx.api.shaded.nms.MultiVersionHandler;
-import com.SirBlobman.combatlogx.api.shaded.nms.ScoreboardHandler;
-import com.SirBlobman.combatlogx.api.shaded.nms.VersionUtil;
-import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
-import com.SirBlobman.combatlogx.api.shaded.utility.Util;
-import com.SirBlobman.combatlogx.expansion.notifier.Notifier;
-import com.SirBlobman.combatlogx.expansion.notifier.hook.HookMVdWPlaceholderAPI;
-import com.SirBlobman.combatlogx.expansion.notifier.hook.HookPlaceholderAPI;
-import com.SirBlobman.combatlogx.utility.PlaceholderReplacer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.scoreboard.*;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Score;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
+import org.bukkit.scoreboard.Team;
 
+import com.github.sirblobman.api.nms.MultiVersionHandler;
+import com.github.sirblobman.api.nms.scoreboard.ScoreboardHandler;
+import com.github.sirblobman.api.utility.MessageUtility;
+import com.github.sirblobman.api.utility.VersionUtility;
+
+import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.expansion.notifier.Notifier;
+import com.SirBlobman.combatlogx.expansion.notifier.hook.HookMVdWPlaceholderAPI;
+import com.SirBlobman.combatlogx.expansion.notifier.hook.HookPlaceholderAPI;
+import com.SirBlobman.combatlogx.utility.PlaceholderReplacer;
 import org.apache.commons.lang.Validate;
 
 public class CustomScoreBoard {
     private final Notifier expansion;
     private final UUID playerId;
-    private final List<CustomLine> lineList = Util.newList();
+    private final List<CustomLine> lineList;
     private final Scoreboard scoreboard;
     private Objective objective;
+
     public CustomScoreBoard(Notifier expansion, Player player) {
         this.expansion = Objects.requireNonNull(expansion, "expansion must not be null!");
         this.playerId = Objects.requireNonNull(player, "player must not be null!").getUniqueId();
+        this.lineList = new ArrayList<>();
     
         ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
         this.scoreboard = Objects.requireNonNull(scoreboardManager, "Bukkit's Scoreboard Manager is not available yet!").getNewScoreboard();
@@ -44,12 +50,11 @@ public class CustomScoreBoard {
 
     private void createObjective() {
         FileConfiguration config = this.expansion.getConfig("scoreboard.yml");
-        String scoreboardTitle = MessageUtil.color(config.getString("scoreboard-title"));
+        String scoreboardTitle = MessageUtility.color(config.getString("scoreboard-title"));
         
         ICombatLogX plugin = this.expansion.getPlugin();
-        MultiVersionHandler<?> multiVersionHandler = plugin.getMultiVersionHandler();
-        AbstractNMS nmsHandler = multiVersionHandler.getInterface();
-        ScoreboardHandler scoreboardHandler = nmsHandler.getScoreboardHandler();
+        MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
+        ScoreboardHandler scoreboardHandler = multiVersionHandler.getScoreboardHandler();
     
         this.objective = scoreboardHandler.createObjective(this.scoreboard, "combatlogx", "dummy", scoreboardTitle);
         this.objective.setDisplaySlot(DisplaySlot.SIDEBAR);
@@ -145,7 +150,7 @@ public class CustomScoreBoard {
             }
 
             String line = scoreboardLineList.get(i);
-            line = MessageUtil.color(line);
+            line = MessageUtility.color(line);
             line = replacePlaceholders(line);
             setLine(index, line);
             index--;
@@ -180,8 +185,8 @@ public class CustomScoreBoard {
     }
 
     private int getMaxPrefixOrSuffixLength() {
-        int minorVersion = VersionUtil.getMinorVersion();
-        if(minorVersion >= 13) return 64;
-        return 16;
+        int minorVersion = VersionUtility.getMinorVersion();
+        if(minorVersion < 13) return 16;
+        return 64;
     }
 }

@@ -22,14 +22,18 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
+import com.github.sirblobman.api.nms.EntityHandler;
+import com.github.sirblobman.api.nms.MultiVersionHandler;
+
 import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.event.*;
+import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagReason;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagType;
+import com.SirBlobman.combatlogx.api.event.PlayerPunishEvent;
+import com.SirBlobman.combatlogx.api.event.PlayerReTagEvent;
+import com.SirBlobman.combatlogx.api.event.PlayerTagEvent;
+import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
 import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent.UntagReason;
-import com.SirBlobman.combatlogx.api.shaded.nms.AbstractNMS;
-import com.SirBlobman.combatlogx.api.shaded.nms.EntityHandler;
-import com.SirBlobman.combatlogx.api.shaded.nms.MultiVersionHandler;
 import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
 import com.SirBlobman.combatlogx.expansion.logger.LoggerExpansion;
 
@@ -165,19 +169,16 @@ public class ListenerLogger implements Listener {
 
     private String getEntityName(Entity entity) {
         ICombatLogX plugin = this.expansion.getPlugin();
-        ILanguageManager languageManager = plugin.getLanguageManager();
+        ILanguageManager languageManager = plugin.getCombatLogXLanguageManager();
         if(entity == null) return languageManager.getMessage("errors.unknown-entity-name");
     
-        MultiVersionHandler<?> multiVersionHandler = plugin.getMultiVersionHandler();
-        AbstractNMS nmsHandler = multiVersionHandler.getInterface();
-        EntityHandler entityHandler = nmsHandler.getEntityHandler();
+        MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
+        EntityHandler entityHandler = multiVersionHandler.getEntityHandler();
         return entityHandler.getName(entity);
     }
 
     private String getLoggerFormat(String path) {
         FileConfiguration config = this.expansion.getConfig("logger.yml");
-        if(config == null) return null;
-
         String prefixFormat = config.getString("log-entry-options.prefix-format");
         if(prefixFormat == null) prefixFormat = "[MMMM dd, YYYY HH:mm:ss.SSSa zzz] ";
 
@@ -192,8 +193,6 @@ public class ListenerLogger implements Listener {
 
     private boolean isDisabled(String path) {
         FileConfiguration config = this.expansion.getConfig("logger.yml");
-        if(config == null) return true;
-
         return !config.getBoolean("log-options." + path);
     }
 

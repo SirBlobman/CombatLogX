@@ -39,7 +39,7 @@ public class ListenerDamage implements Listener {
         if(doesNotTagPlayer(damageCause)) return;
 
         ICombatManager combatManager = this.plugin.getCombatManager();
-        ILanguageManager languageManager = this.plugin.getLanguageManager();
+        ILanguageManager languageManager = this.plugin.getCombatLogXLanguageManager();
         boolean wasInCombat = combatManager.isInCombat(player);
 
         boolean tagged = combatManager.tag(player, null, TagType.UNKNOWN, TagReason.UNKNOWN);
@@ -79,7 +79,7 @@ public class ListenerDamage implements Listener {
 
     private String getTagMessage(DamageCause damageCause) {
         if(doesNotTagPlayer(damageCause)) return null;
-        ILanguageManager languageManager = this.plugin.getLanguageManager();
+        ILanguageManager languageManager = this.plugin.getCombatLogXLanguageManager();
 
         FileConfiguration config = this.expansion.getConfig("damage-tagger.yml");
         boolean allDamage = config.getBoolean("all-damage");

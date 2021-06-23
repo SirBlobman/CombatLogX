@@ -1,17 +1,14 @@
 package com.SirBlobman.combatlogx.manager;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.event.*;
-import com.SirBlobman.combatlogx.api.listener.ICustomDeathListener;
-import com.SirBlobman.combatlogx.api.shaded.nms.AbstractNMS;
-import com.SirBlobman.combatlogx.api.shaded.nms.EntityHandler;
-import com.SirBlobman.combatlogx.api.shaded.nms.MultiVersionHandler;
-import com.SirBlobman.combatlogx.api.utility.ICombatManager;
-import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -23,6 +20,20 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitScheduler;
+
+import com.github.sirblobman.api.nms.EntityHandler;
+import com.github.sirblobman.api.nms.MultiVersionHandler;
+
+import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.event.PlayerCombatTimerChangeEvent;
+import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
+import com.SirBlobman.combatlogx.api.event.PlayerPunishEvent;
+import com.SirBlobman.combatlogx.api.event.PlayerReTagEvent;
+import com.SirBlobman.combatlogx.api.event.PlayerTagEvent;
+import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
+import com.SirBlobman.combatlogx.api.listener.ICustomDeathListener;
+import com.SirBlobman.combatlogx.api.utility.ICombatManager;
+import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
 
 public class CombatManager implements ICombatManager, Runnable {
     private final ICombatLogX plugin;
@@ -220,7 +231,7 @@ public class CombatManager implements ICombatManager, Runnable {
 
     private void sendTagMessage(Player player, LivingEntity enemy, PlayerPreTagEvent.TagType tagType, PlayerPreTagEvent.TagReason tagReason) {
         if(tagType == PlayerPreTagEvent.TagType.UNKNOWN || tagReason == PlayerPreTagEvent.TagReason.UNKNOWN) {
-            ILanguageManager languageManager = this.plugin.getLanguageManager();
+            ILanguageManager languageManager = this.plugin.getCombatLogXLanguageManager();
             String message = languageManager.getMessageColored("tag-messages.unknown");
             languageManager.sendMessage(player, message);
         }
@@ -229,14 +240,14 @@ public class CombatManager implements ICombatManager, Runnable {
         String enemyName = getEntityName(enemy);
 
         if(tagType == PlayerPreTagEvent.TagType.MOB) {
-            ILanguageManager languageManager = this.plugin.getLanguageManager();
+            ILanguageManager languageManager = this.plugin.getCombatLogXLanguageManager();
             String messagePath = ("tag-messages.attacke" + (tagReason == PlayerPreTagEvent.TagReason.ATTACKER ? "r.of" : "d.by") + "-mob");
             String message = languageManager.getMessageColored(messagePath).replace("{mob_type}", enemyType).replace("{name}", enemyName);
             languageManager.sendMessage(player, message);
         }
 
         if(tagType == PlayerPreTagEvent.TagType.PLAYER) {
-            ILanguageManager languageManager = this.plugin.getLanguageManager();
+            ILanguageManager languageManager = this.plugin.getCombatLogXLanguageManager();
             String messagePath = ("tag-messages.attacke" + (tagReason == PlayerPreTagEvent.TagReason.ATTACKER ? "r.of" : "d.by") + "-player");
             String message = languageManager.getMessageColored(messagePath).replace("{mob_type}", enemyName).replace("{name}", enemyName);
             languageManager.sendMessage(player, message);
@@ -245,14 +256,12 @@ public class CombatManager implements ICombatManager, Runnable {
 
     private String getEntityName(LivingEntity enemy) {
         if(enemy == null) {
-            ILanguageManager languageManager = this.plugin.getLanguageManager();
+            ILanguageManager languageManager = this.plugin.getCombatLogXLanguageManager();
             return languageManager.getMessage("errors.unknown-entity-name");
         }
     
-        MultiVersionHandler<?> multiVersionHandler = this.plugin.getMultiVersionHandler();
-        AbstractNMS nmsHandler = multiVersionHandler.getInterface();
-        
-        EntityHandler entityHandler = nmsHandler.getEntityHandler();
+        MultiVersionHandler multiVersionHandler = this.plugin.getMultiVersionHandler();
+        EntityHandler entityHandler = multiVersionHandler.getEntityHandler();
         return entityHandler.getName(enemy);
     }
     

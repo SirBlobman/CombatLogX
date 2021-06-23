@@ -1,5 +1,6 @@
 package com.SirBlobman.combatlogx.command;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.bukkit.command.Command;
@@ -11,12 +12,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-import com.SirBlobman.combatlogx.api.shaded.utility.Util;
-
 public class CustomCommand extends Command implements Listener {
     private final CommandExecutor executor;
     public CustomCommand(String command, CommandExecutor executor, String description, String usage, String... aliases) {
-        super(command, description, usage, Util.newList(aliases));
+        super(command, description, usage, new ArrayList<>(Arrays.asList(aliases)));
         this.executor = executor;
     }
 

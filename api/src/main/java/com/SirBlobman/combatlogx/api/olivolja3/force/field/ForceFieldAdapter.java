@@ -1,6 +1,5 @@
 package com.SirBlobman.combatlogx.api.olivolja3.force.field;
 
-import com.SirBlobman.api.nms.VersionUtil;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import com.comphenix.protocol.PacketType;
@@ -10,14 +9,14 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.WrappedBlockData;
-import org.bukkit.Bukkit;
-import org.bukkit.FluidCollisionMode;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
+
+import com.github.sirblobman.api.utility.VersionUtility;
 
 public class ForceFieldAdapter extends PacketAdapter {
     private final ForceField forceField;
@@ -41,7 +40,7 @@ public class ForceFieldAdapter extends PacketAdapter {
         World world = player.getWorld();
         Location location;
         if(e.getPacketType() == PacketType.Play.Client.USE_ITEM) {
-             if(VersionUtil.getMinorVersion() > 12) return;
+             if(VersionUtility.getMinorVersion() > 12) return;
         }
 
         location = packet.getBlockPositionModifier().read(0).toLocation(world);
@@ -54,7 +53,7 @@ public class ForceFieldAdapter extends PacketAdapter {
 
     @Override
     public void onPacketSending(PacketEvent e) {
-        if(VersionUtil.getMajorVersion() > 12 || e.isCancelled()) return;
+        if(VersionUtility.getMajorVersion() > 12 || e.isCancelled()) return;
 
         Player player = e.getPlayer();
         ICombatManager combatManager = this.plugin.getCombatManager();

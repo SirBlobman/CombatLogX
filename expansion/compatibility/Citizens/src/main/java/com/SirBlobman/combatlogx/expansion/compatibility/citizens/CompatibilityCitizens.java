@@ -1,9 +1,17 @@
 package com.SirBlobman.combatlogx.expansion.compatibility.citizens;
 
+import java.util.logging.Logger;
+
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.PluginManager;
+
+import com.github.sirblobman.api.utility.VersionUtility;
+
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
-import com.SirBlobman.combatlogx.api.shaded.nms.VersionUtil;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener.ListenerCombat;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener.ListenerDamageDeath;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener.ListenerLogin;
@@ -13,12 +21,6 @@ import com.SirBlobman.combatlogx.expansion.compatibility.citizens.listener.Liste
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.NPCManager;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.SentinelManager;
 import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.enemystorage.EnemyStorageManager;
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.PluginManager;
-
-import java.util.logging.Logger;
 
 public class CompatibilityCitizens extends Expansion {
     private NPCManager npcManager = null;
@@ -69,7 +71,7 @@ public class CompatibilityCitizens extends Expansion {
         npcMoveListener = new ListenerNPCMove(this);
 
         // 1.11+ Totem of Undying
-        int minorVersion = VersionUtil.getMinorVersion();
+        int minorVersion = VersionUtility.getMinorVersion();
         if(minorVersion >= 11) expansionManager.registerListener(this, new ListenerResurrect(this));
     }
     

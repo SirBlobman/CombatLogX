@@ -1,5 +1,6 @@
 package com.SirBlobman.combatlogx.expansion.cheat.prevention.listener;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,16 +16,18 @@ import org.bukkit.scheduler.BukkitScheduler;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
-import com.SirBlobman.combatlogx.api.shaded.utility.Util;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
 
 public class ListenerLegacyItemPickup implements Listener {
     private final Expansion expansion;
     private final ICombatLogX plugin;
+    private final List<UUID> messageCooldownList;
+
     public ListenerLegacyItemPickup(Expansion expansion) {
         this.expansion = expansion;
         this.plugin = this.expansion.getPlugin();
+        this.messageCooldownList = new ArrayList<>();
     }
 
     @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
@@ -40,7 +43,6 @@ public class ListenerLegacyItemPickup implements Listener {
         sendMessage(player);
     }
 
-    private final List<UUID> messageCooldownList = Util.newList();
     private void sendMessage(Player player) {
         if(player == null) return;
 
@@ -48,7 +50,7 @@ public class ListenerLegacyItemPickup implements Listener {
         if(messageCooldownList.contains(uuid)) return;
         messageCooldownList.add(uuid);
 
-        ILanguageManager languageManager = this.plugin.getLanguageManager();
+        ILanguageManager languageManager = this.plugin.getCombatLogXLanguageManager();
         String message = languageManager.getMessageColoredWithPrefix("cheat-prevention.items.no-pickup");
         languageManager.sendMessage(player, message);
 

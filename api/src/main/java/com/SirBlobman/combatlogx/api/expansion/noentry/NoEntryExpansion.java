@@ -1,5 +1,6 @@
 package com.SirBlobman.combatlogx.api.expansion.noentry;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -13,7 +14,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.util.Vector;
 
-import com.SirBlobman.api.utility.Util;
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagType;
 import com.SirBlobman.combatlogx.api.expansion.Expansion;
@@ -22,9 +22,13 @@ import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
 
 public abstract class NoEntryExpansion extends Expansion {
+    private final List<UUID> noEntryMessageCooldownList;
+
     private boolean actuallyEnabled = false;
+
     public NoEntryExpansion(ICombatLogX plugin) {
         super(plugin);
+        this.noEntryMessageCooldownList = new ArrayList<>();
     }
     
     @Override
@@ -56,7 +60,6 @@ public abstract class NoEntryExpansion extends Expansion {
         this.actuallyEnabled = false;
     }
 
-    private final List<UUID> noEntryMessageCooldownList = Util.newList();
     public final void sendNoEntryMessage(Player player, LivingEntity enemy) {
         if(player == null || enemy == null) return;
 
@@ -68,7 +71,7 @@ public abstract class NoEntryExpansion extends Expansion {
         String messagePath = handler.getNoEntryMessagePath(tagType);
 
         ICombatLogX plugin = getPlugin();
-        ILanguageManager languageManager = plugin.getLanguageManager();
+        ILanguageManager languageManager = plugin.getCombatLogXLanguageManager();
         String message = languageManager.getMessageColoredWithPrefix(messagePath);
         languageManager.sendMessage(player, message);
 

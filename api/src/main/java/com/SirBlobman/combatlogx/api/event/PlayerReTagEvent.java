@@ -46,8 +46,8 @@ public class PlayerReTagEvent extends CustomPlayerEvent {
     }
 
     /**
-     * @return The time (in millis) that the combat timer will end.<br/>
-     * This can change if the player is tagged again
+     * @return The time (in millis) that the combat timer will end.
+     * This can change if the player is tagged again.
      * @see #getPlayer()
      */
     public long getEndTime() {

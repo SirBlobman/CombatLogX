@@ -2,8 +2,14 @@ package com.SirBlobman.combatlogx.expansion.compatibility.factions;
 
 import java.util.logging.Logger;
 
-import com.SirBlobman.combatlogx.api.shaded.hook.factions.FactionsHandler;
-import com.SirBlobman.combatlogx.api.shaded.hook.factions.HookFactions;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import com.github.sirblobman.api.factions.FactionsHandler;
+import com.github.sirblobman.api.factions.FactionsHelper;
+
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
 import com.SirBlobman.combatlogx.api.expansion.noentry.NoEntryExpansion;
@@ -12,15 +18,11 @@ import com.SirBlobman.combatlogx.api.expansion.noentry.NoEntryHandler;
 import com.SirBlobman.combatlogx.api.expansion.noentry.NoEntryListener;
 import com.SirBlobman.combatlogx.expansion.compatibility.factions.handler.FactionsNoEntryHandler;
 
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
-
 public class CompatibilityFactions extends NoEntryExpansion {
     private NoEntryForceFieldListener forceFieldListener;
     private FactionsNoEntryHandler noEntryHandler;
-    private HookFactions<?, ?> hookFactions;
+    private FactionsHandler factionsHandler;
+
     public CompatibilityFactions(ICombatLogX plugin) {
         super(plugin);
     }
@@ -30,10 +32,8 @@ public class CompatibilityFactions extends NoEntryExpansion {
         try {
             ICombatLogX plugin = getPlugin();
             JavaPlugin javaPlugin = plugin.getPlugin();
-            FactionsHandler<?> factionsHandler = new FactionsHandler<>(javaPlugin);
-            
-            this.hookFactions = factionsHandler.getFactionsHook();
-            return (this.hookFactions != null);
+            this.factionsHandler = new FactionsHelper(javaPlugin).getFactionsHandler();
+            return (this.factionsHandler != null);
         } catch(IllegalStateException ex) {
             Logger logger = getLogger();
             logger.info("A Factions plugin could not be found. This expansion will be automatically disabled.");
@@ -81,7 +81,7 @@ public class CompatibilityFactions extends NoEntryExpansion {
         return this.noEntryHandler;
     }
     
-    public HookFactions<?, ?> getHookFactions() {
-        return this.hookFactions;
+    public FactionsHandler getFactionsHandler() {
+        return this.factionsHandler;
     }
 }

@@ -1,6 +1,5 @@
 package com.SirBlobman.combatlogx.expansion.newbie.helper.listener;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.AnimalTamer;
@@ -36,7 +35,7 @@ public class ListenerNewbieProtection implements Listener {
 
         Player damaged = (Player) ded;
         Player damager = (Player) der;
-        ILanguageManager languageManager = this.plugin.getLanguageManager();
+        ILanguageManager languageManager = this.plugin.getCombatLogXLanguageManager();
 
         if(isProtected(damaged)) {
             e.setCancelled(true);
@@ -85,7 +84,7 @@ public class ListenerNewbieProtection implements Listener {
 
     private void removeProtection(Player player) {
         if(player == null) return;
-        ILanguageManager languageManager = this.plugin.getLanguageManager();
+        ILanguageManager languageManager = this.plugin.getCombatLogXLanguageManager();
 
         YamlConfiguration dataFile = this.plugin.getDataFile(player);
         if(!dataFile.getBoolean("newbie-helper.protected", true)) return;

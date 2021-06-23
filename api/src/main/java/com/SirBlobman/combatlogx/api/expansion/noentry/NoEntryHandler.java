@@ -1,6 +1,5 @@
 package com.SirBlobman.combatlogx.api.expansion.noentry;
 
-import com.SirBlobman.api.nms.VersionUtil;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagType;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -11,6 +10,8 @@ import org.bukkit.permissions.PermissionDefault;
 
 import java.lang.reflect.Method;
 import java.util.regex.Pattern;
+
+import com.github.sirblobman.api.utility.VersionUtility;
 
 public abstract class NoEntryHandler {
     private final NoEntryExpansion expansion;
@@ -83,7 +84,7 @@ public abstract class NoEntryHandler {
     public Material getForceFieldMaterial() {
         String materialString = getForceFieldMaterialString();
 
-        int minorVersion = VersionUtil.getMinorVersion();
+        int minorVersion = VersionUtility.getMinorVersion();
         if(minorVersion >= 13) {
             try {
                 Class<?> classMaterial = Class.forName("org.bukkit.Material");
@@ -105,7 +106,7 @@ public abstract class NoEntryHandler {
     public byte getForceFieldMaterialData() {
         String materialString = getForceFieldMaterialString();
 
-        int minorVersion = VersionUtil.getMinorVersion();
+        int minorVersion = VersionUtility.getMinorVersion();
         if(minorVersion >= 13) return 0;
 
         if(materialString.contains(":")) {

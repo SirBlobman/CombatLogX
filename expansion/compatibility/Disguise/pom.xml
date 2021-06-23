@@ -78,7 +78,7 @@
             </exclusions>
         </dependency>
 
-        <!-- iDisguise API -->
+        <!-- iDisguise -->
         <dependency>
             <groupId>de.robingrether.idisguise</groupId>
             <artifactId>idisguise-core</artifactId>

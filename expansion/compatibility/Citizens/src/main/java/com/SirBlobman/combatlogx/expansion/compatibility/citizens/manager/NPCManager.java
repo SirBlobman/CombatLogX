@@ -1,27 +1,14 @@
 package com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager;
 
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagReason;
-import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagType;
-import com.SirBlobman.combatlogx.api.shaded.item.ItemUtil;
-import com.SirBlobman.combatlogx.api.shaded.nms.AbstractNMS;
-import com.SirBlobman.combatlogx.api.shaded.nms.EntityHandler;
-import com.SirBlobman.combatlogx.api.shaded.nms.MultiVersionHandler;
-import com.SirBlobman.combatlogx.api.shaded.nms.VersionUtil;
-import com.SirBlobman.combatlogx.api.utility.ICombatManager;
-import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
-import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.enemystorage.EnemyStorageManager;
-import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.enemystorage.StoredEnemy;
-import com.SirBlobman.combatlogx.expansion.compatibility.citizens.trait.TraitCombatLogX;
-import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.npc.NPC;
-import net.citizensnpcs.api.npc.NPCRegistry;
-import net.citizensnpcs.api.trait.TraitFactory;
-import net.citizensnpcs.api.trait.TraitInfo;
-import net.citizensnpcs.api.trait.trait.Equipment;
-import net.citizensnpcs.api.trait.trait.Equipment.EquipmentSlot;
-import net.citizensnpcs.api.trait.trait.Inventory;
-import net.citizensnpcs.api.trait.trait.Owner;
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -37,14 +24,28 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.github.sirblobman.api.nms.EntityHandler;
+import com.github.sirblobman.api.nms.MultiVersionHandler;
+import com.github.sirblobman.api.utility.ItemUtility;
+import com.github.sirblobman.api.utility.VersionUtility;
+
+import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagReason;
+import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent.TagType;
+import com.SirBlobman.combatlogx.api.utility.ICombatManager;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.CompatibilityCitizens;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.enemystorage.EnemyStorageManager;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.manager.enemystorage.StoredEnemy;
+import com.SirBlobman.combatlogx.expansion.compatibility.citizens.trait.TraitCombatLogX;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.npc.NPCRegistry;
+import net.citizensnpcs.api.trait.TraitFactory;
+import net.citizensnpcs.api.trait.TraitInfo;
+import net.citizensnpcs.api.trait.trait.Equipment;
+import net.citizensnpcs.api.trait.trait.Equipment.EquipmentSlot;
+import net.citizensnpcs.api.trait.trait.Inventory;
+import net.citizensnpcs.api.trait.trait.Owner;
 
 public class NPCManager {
     private final CompatibilityCitizens expansion;
@@ -149,9 +150,8 @@ public class NPCManager {
         double health = config.getDouble("citizens-compatibility.last-health", playerHealth);
         
         ICombatLogX plugin = this.expansion.getPlugin();
-        MultiVersionHandler<?> multiVersionHandler = plugin.getMultiVersionHandler();
-        AbstractNMS nmsHandler = multiVersionHandler.getInterface();
-        EntityHandler entityHandler = nmsHandler.getEntityHandler();
+        MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
+        EntityHandler entityHandler = multiVersionHandler.getEntityHandler();
         
         double maxHealth = entityHandler.getMaxHealth(player);
         double value = Math.min(health, maxHealth);
@@ -204,7 +204,7 @@ public class NPCManager {
             data.set("citizens-compatibility.last-inventory." + slot, item);
         }
         
-        int minorVersion = VersionUtil.getMinorVersion();
+        int minorVersion = VersionUtility.getMinorVersion();
         if(minorVersion < 9) {
             ItemStack[] armorContents = playerInventory.getArmorContents().clone();
             int armorContentsLength = armorContents.length;
@@ -235,13 +235,13 @@ public class NPCManager {
                 try {
                     int slot = Integer.parseInt(slotKey);
                     ItemStack item = inventorySection.getItemStack(slotKey);
-                    item = (ItemUtil.isAir(item) ? ItemUtil.getAir() : item.clone());
+                    item = (ItemUtility.isAir(item) ? ItemUtility.getAir() : item.clone());
                     playerInventory.setItem(slot, item);
                 } catch(NumberFormatException ignored) {}
             }
         }
         
-        int minorVersion = VersionUtil.getMinorVersion();
+        int minorVersion = VersionUtility.getMinorVersion();
         if(minorVersion < 9) {
             ConfigurationSection armorSection = data.getConfigurationSection("citizens-compatibility.last-armor");
             if(armorSection != null) {
@@ -251,7 +251,7 @@ public class NPCManager {
                     try {
                         int slot = Integer.parseInt(slotKey);
                         ItemStack item = armorSection.getItemStack(slotKey);
-                        armorContents[slot] = (ItemUtil.isAir(item) ? ItemUtil.getAir() : item.clone());
+                        armorContents[slot] = (ItemUtility.isAir(item) ? ItemUtility.getAir() : item.clone());
                     } catch(NumberFormatException ignored) {}
                 }
                 playerInventory.setArmorContents(armorContents);
@@ -291,13 +291,13 @@ public class NPCManager {
             for(String slotKey : slotKeys) {
                 try {
                     ItemStack item = inventorySection.getItemStack(slotKey);
-                    if(ItemUtil.isAir(item)) continue;
+                    if(ItemUtility.isAir(item)) continue;
                     world.dropItemNaturally(location, item.clone());
                 } catch(NumberFormatException ignored) {}
             }
         }
         
-        int minorVersion = VersionUtil.getMinorVersion();
+        int minorVersion = VersionUtility.getMinorVersion();
         if(minorVersion < 9) {
             ConfigurationSection armorSection = data.getConfigurationSection("citizens-compatibility.last-armor");
             if(armorSection != null) {
@@ -305,7 +305,7 @@ public class NPCManager {
                 for(String slotKey : slotKeys) {
                     try {
                         ItemStack item = armorSection.getItemStack(slotKey);
-                        if(ItemUtil.isAir(item)) continue;
+                        if(ItemUtility.isAir(item)) continue;
                         world.dropItemNaturally(location, item.clone());
                     } catch(NumberFormatException ignored) {}
                 }
@@ -444,9 +444,8 @@ public class NPCManager {
         LivingEntity livingEntity = (LivingEntity) entity;
         
         ICombatLogX plugin = this.expansion.getPlugin();
-        MultiVersionHandler<?> multiVersionHandler = plugin.getMultiVersionHandler();
-        AbstractNMS nmsHandler = multiVersionHandler.getInterface();
-        EntityHandler entityHandler = nmsHandler.getEntityHandler();
+        MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
+        EntityHandler entityHandler = multiVersionHandler.getEntityHandler();
         
         double health = player.getHealth();
         double maxHealth = entityHandler.getMaxHealth(player);
@@ -498,7 +497,7 @@ public class NPCManager {
             ItemStack boots = copyItem(playerInventory.getBoots());
             trait.set(EquipmentSlot.BOOTS, boots);
             
-            int minorVersion = VersionUtil.getMinorVersion();
+            int minorVersion = VersionUtility.getMinorVersion();
             if(minorVersion < 9) {
                 ItemStack handItem = copyItem(playerInventory.getItemInHand());
                 trait.set(EquipmentSlot.HAND, handItem);
@@ -516,6 +515,6 @@ public class NPCManager {
     }
     
     private ItemStack copyItem(ItemStack item) {
-        return (ItemUtil.isAir(item) ? ItemUtil.getAir() : item.clone());
+        return (ItemUtility.isAir(item) ? ItemUtility.getAir() : item.clone());
     }
 }

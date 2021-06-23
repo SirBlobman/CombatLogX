@@ -11,6 +11,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import com.github.sirblobman.api.command.Command;
+import com.github.sirblobman.api.utility.MessageUtility;
+import com.github.sirblobman.api.utility.VersionUtility;
+
 import com.SirBlobman.combatlogx.CombatLogX;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
@@ -18,18 +22,18 @@ import com.SirBlobman.combatlogx.api.expansion.Expansion;
 import com.SirBlobman.combatlogx.api.expansion.Expansion.State;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionDescription;
 import com.SirBlobman.combatlogx.api.expansion.ExpansionManager;
-import com.SirBlobman.combatlogx.api.shaded.command.CustomCommand;
-import com.SirBlobman.combatlogx.api.shaded.nms.VersionUtil;
-import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
 import com.SirBlobman.combatlogx.api.utility.Replacer;
 import com.SirBlobman.combatlogx.manager.LanguageManager;
 import com.SirBlobman.combatlogx.update.UpdateChecker;
 
-public class CommandCombatLogX extends CustomCommand<CombatLogX> {
+public class CommandCombatLogX extends Command {
+    private final CombatLogX plugin;
+
     public CommandCombatLogX(CombatLogX plugin) {
         super(plugin, "combatlogx");
+        this.plugin = plugin;
     }
 
     @Override
@@ -53,7 +57,7 @@ public class CommandCombatLogX extends CustomCommand<CombatLogX> {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, String[] args) {
+    public boolean execute(CommandSender sender, String[] args) {
         if(args.length < 1) return false;
 
         String sub = args[0].toLowerCase();
@@ -92,7 +96,7 @@ public class CommandCombatLogX extends CustomCommand<CombatLogX> {
     private boolean helpCommand(CommandSender sender) {
         if(checkNoPermission(sender, "combatlogx.command.combatlogx.help")) return true;
         
-        ILanguageManager languageManager = this.plugin.getLanguageManager();
+        ILanguageManager languageManager = this.plugin.getCombatLogXLanguageManager();
         String helpMessage = languageManager.getMessageColored("commands.combatlogx.help-message-list");
 
         String newLine = Pattern.quote("\n");
@@ -108,17 +112,17 @@ public class CommandCombatLogX extends CustomCommand<CombatLogX> {
         try {
             this.plugin.reloadConfig("config.yml");
     
-            LanguageManager languageManager = this.plugin.getLanguageManager();
+            LanguageManager languageManager = this.plugin.getCombatLogXLanguageManager();
             languageManager.reloadConfig();
     
             ExpansionManager expansionManager = this.plugin.getExpansionManager();
             expansionManager.reloadExpansionConfigs();
         } catch(Exception ex) {
             String exMessage = ex.getMessage();
-            String message1 = MessageUtil.color("&f&l[&6CombatLogX&f&l] &cAn error has occurred while loading your configurations. &cPlease check console for further details.");
-            String message2 = MessageUtil.color("&f&l[&6CombatLogX&f&l[ &c&lError Message: &7" + exMessage);
+            String message1 = MessageUtility.color("&f&l[&6CombatLogX&f&l] &cAn error has occurred while loading your configurations. &cPlease check console for further details.");
+            String message2 = MessageUtility.color("&f&l[&6CombatLogX&f&l[ &c&lError Message: &7" + exMessage);
     
-            LanguageManager languageManager = this.plugin.getLanguageManager();
+            LanguageManager languageManager = this.plugin.getCombatLogXLanguageManager();
             languageManager.sendMessage(sender, message1, message2);
             
             Logger logger = this.plugin.getLogger();
@@ -168,7 +172,7 @@ public class CommandCombatLogX extends CustomCommand<CombatLogX> {
     private boolean versionCommand(CommandSender sender, String[] args) {
         if(checkNoPermission(sender, "combatlogx.command.combatlogx.version")) return true;
         if(args.length < 1) {
-            LanguageManager languageManager = this.plugin.getLanguageManager();
+            LanguageManager languageManager = this.plugin.getCombatLogXLanguageManager();
             languageManager.sendMessage(sender, "Getting version information for CombatLogX...");
     
             Runnable task = () -> checkVersion(sender);
@@ -198,16 +202,16 @@ public class CommandCombatLogX extends CustomCommand<CombatLogX> {
         String authorString = String.join(", ", authorList);
         
         List<String> messageList = new ArrayList<>();
-        messageList.add(MessageUtil.color("&6&lExpansion Information for &e" + expansionName));
-        messageList.add(MessageUtil.color("&6&lState:&e " + state.name()));
-        messageList.add(MessageUtil.color("&6&lVersion:&e " + version));
+        messageList.add(MessageUtility.color("&6&lExpansion Information for &e" + expansionName));
+        messageList.add(MessageUtility.color("&6&lState:&e " + state.name()));
+        messageList.add(MessageUtility.color("&6&lVersion:&e " + version));
         
-        if(displayName != null) messageList.add(MessageUtil.color("&6&lDisplay Name:&e " + displayName));
-        if(descriptionText != null) messageList.add(MessageUtil.color("&6&lDescription:&e " + descriptionText));
-        if(!authorList.isEmpty()) messageList.add(MessageUtil.color("&6&lAuthors:&e " + authorString));
+        if(displayName != null) messageList.add(MessageUtility.color("&6&lDisplay Name:&e " + displayName));
+        if(descriptionText != null) messageList.add(MessageUtility.color("&6&lDescription:&e " + descriptionText));
+        if(!authorList.isEmpty()) messageList.add(MessageUtility.color("&6&lAuthors:&e " + authorString));
         
         String[] messageArray = messageList.toArray(new String[0]);
-        LanguageManager languageManager = this.plugin.getLanguageManager();
+        LanguageManager languageManager = this.plugin.getCombatLogXLanguageManager();
         languageManager.sendMessage(sender, messageArray);
         return true;
     }
@@ -217,12 +221,12 @@ public class CommandCombatLogX extends CustomCommand<CombatLogX> {
         String pluginVersion = updateChecker.getPluginVersion();
         String spigotVersion = updateChecker.getSpigotVersion();
         
-        LanguageManager languageManager = this.plugin.getLanguageManager();
-        String[] messageArray = MessageUtil.colorArray("&f",
+        LanguageManager languageManager = this.plugin.getCombatLogXLanguageManager();
+        String[] messageArray = MessageUtility.colorArray("&f",
                 "&f&lServer Version: &7" + Bukkit.getVersion(),
                 "&f&lBukkit Version: &7" + Bukkit.getBukkitVersion(),
-                "&f&lMinecraft Version: &7" + VersionUtil.getMinecraftVersion(),
-                "&f&lNMS Version: &7" + VersionUtil.getNetMinecraftServerVersion(),
+                "&f&lMinecraft Version: &7" + VersionUtility.getMinecraftVersion(),
+                "&f&lNMS Version: &7" + VersionUtility.getNetMinecraftServerVersion(),
                 "&f",
                 "&f&lCombatLogX by SirBlobman",
                 "&f&lInstalled Version: &7v" + pluginVersion,
@@ -237,7 +241,7 @@ public class CommandCombatLogX extends CustomCommand<CombatLogX> {
         List<Expansion> expansionList = expansionManager.getEnabledExpansions();
         
         if(expansionList.isEmpty()) {
-            String message = MessageUtil.color("  &f&lYou do not have any expansions installed.");
+            String message = MessageUtility.color("  &f&lYou do not have any expansions installed.");
             languageManager.sendMessage(sender, message);
             return;
         }
@@ -247,13 +251,13 @@ public class CommandCombatLogX extends CustomCommand<CombatLogX> {
             String name = description.getDisplayName();
             String version = description.getVersion();
 
-            String message = MessageUtil.color("  &f&l" + name + " &7v" + version);
+            String message = MessageUtility.color("  &f&l" + name + " &7v" + version);
             languageManager.sendMessage(sender, message);
         }
     }
 
     private void sendMessage(CommandSender sender, String key, Replacer... replacerArray) {
-        ILanguageManager languageManager = this.plugin.getLanguageManager();
+        ILanguageManager languageManager = this.plugin.getCombatLogXLanguageManager();
         if(sender instanceof Player) {
             Player player = (Player) sender;
             languageManager.sendLocalizedMessage(player, key, replacerArray);

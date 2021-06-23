@@ -7,11 +7,11 @@ import java.util.UUID;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import com.github.sirblobman.api.nms.MultiVersionHandler;
+import com.github.sirblobman.api.nms.PlayerHandler;
+import com.github.sirblobman.api.utility.MessageUtility;
+
 import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.shaded.nms.AbstractNMS;
-import com.SirBlobman.combatlogx.api.shaded.nms.MultiVersionHandler;
-import com.SirBlobman.combatlogx.api.shaded.nms.PlayerHandler;
-import com.SirBlobman.combatlogx.api.shaded.utility.MessageUtil;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import com.SirBlobman.combatlogx.expansion.notifier.Notifier;
 
@@ -52,9 +52,8 @@ public class ActionBarManager {
         if(isDisabled(player)) return;
     
         ICombatLogX plugin = this.expansion.getPlugin();
-        MultiVersionHandler<?> multiVersionHandler = plugin.getMultiVersionHandler();
-        AbstractNMS nmsHandler = multiVersionHandler.getInterface();
-        PlayerHandler playerHandler = nmsHandler.getPlayerHandler();
+        MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
+        PlayerHandler playerHandler = multiVersionHandler.getPlayerHandler();
     
         String message = getTimerMessage(player);
         playerHandler.sendActionBar(player, message);
@@ -65,9 +64,8 @@ public class ActionBarManager {
         if(isDisabled(player)) return;
     
         ICombatLogX plugin = this.expansion.getPlugin();
-        MultiVersionHandler<?> multiVersionHandler = plugin.getMultiVersionHandler();
-        AbstractNMS nmsHandler = multiVersionHandler.getInterface();
-        PlayerHandler playerHandler = nmsHandler.getPlayerHandler();
+        MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
+        PlayerHandler playerHandler = multiVersionHandler.getPlayerHandler();
         
         String message = getEndedMessage(player);
         playerHandler.sendActionBar(player, message);
@@ -85,7 +83,7 @@ public class ActionBarManager {
     
         String barsString = getBarsPlaceholder(expansion, player);
         String message = timerMessageFormat.replace("{bars}", barsString);
-        return MessageUtil.color(this.expansion.replacePlaceholders(player, message));
+        return MessageUtility.color(this.expansion.replacePlaceholders(player, message));
     }
     
     private String getEndedMessage(Player player) {
@@ -93,7 +91,7 @@ public class ActionBarManager {
         String endedMessageFormat = config.getString("message-ended");
         if(endedMessageFormat == null) return "";
         
-        return MessageUtil.color(this.expansion.replacePlaceholders(player, endedMessageFormat));
+        return MessageUtility.color(this.expansion.replacePlaceholders(player, endedMessageFormat));
     }
     
     private String getBarsPlaceholder(Notifier expansion, Player player) {
@@ -108,7 +106,7 @@ public class ActionBarManager {
         String barsRightSymbol = config.getString("bar-options.right-symbol");
         int scale = config.getInt("bar-options.scale");
         
-        double maxTimer = getMaxTimer(player);
+        double maxTimer = getMaxTimer();
         double progress = (timeLeft / maxTimer);
         long leftBarsCount = Math.round(scale * progress);
         long rightBarsCount = (scale - leftBarsCount);
@@ -128,10 +126,10 @@ public class ActionBarManager {
         }
         
         String barsString = builder.toString();
-        return MessageUtil.color(barsString);
+        return MessageUtility.color(barsString);
     }
     
-    private int getMaxTimer(Player player) {
+    private int getMaxTimer() {
         ICombatLogX plugin = this.expansion.getPlugin();
         FileConfiguration config = plugin.getConfig("config.yml");
         return config.getInt("combat.timer", 15);

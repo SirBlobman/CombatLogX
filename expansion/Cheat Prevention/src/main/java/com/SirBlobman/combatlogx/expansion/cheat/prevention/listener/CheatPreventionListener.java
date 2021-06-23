@@ -51,13 +51,13 @@ abstract class CheatPreventionListener implements Listener {
 
     public String getMessage(String key) {
         ICombatLogX plugin = getPlugin();
-        ILanguageManager languageManager = plugin.getLanguageManager();
+        ILanguageManager languageManager = plugin.getCombatLogXLanguageManager();
         return languageManager.getMessageColoredWithPrefix(key);
     }
 
     public void sendMessage(CommandSender sender, String... messageArray) {
         ICombatLogX plugin = getPlugin();
-        ILanguageManager languageManager = plugin.getLanguageManager();
+        ILanguageManager languageManager = plugin.getCombatLogXLanguageManager();
         languageManager.sendMessage(sender, messageArray);
     }
 

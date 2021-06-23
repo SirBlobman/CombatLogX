@@ -3,7 +3,7 @@ package com.SirBlobman.combatlogx.api.utility;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.SirBlobman.api.utility.MessageUtil;
+import com.github.sirblobman.api.utility.MessageUtility;
 
 public interface ILanguageManager {
     String getLanguage();
@@ -15,7 +15,7 @@ public interface ILanguageManager {
     default String getMessageColored(String key) {
         String message = getMessage(key);
         if(message == null || message.isEmpty()) return "";
-        return MessageUtil.color(message);
+        return MessageUtility.color(message);
     }
     
     default String getMessageColoredWithPrefix(String key) {
