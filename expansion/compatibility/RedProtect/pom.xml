@@ -21,13 +21,7 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
-
-        <!-- CodeMC Public Repository -->
-        <repository>
-            <id>codemc-repo</id>
-            <url>https://repo.codemc.io/repository/maven-public/</url>
-        </repository>
-
+        
         <!-- RedProtect GitHub Repository -->
         <repository>
             <id>redprotect-repo</id>
@@ -56,15 +50,21 @@
         <dependency>
             <groupId>br.net.fabiozumbi12.RedProtect</groupId>
             <artifactId>RedProtect-Core</artifactId>
-            <version>7.7.2</version>
+            <version>7.7.3</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- RedProtect Spigot -->
         <dependency>
             <groupId>br.net.fabiozumbi12.RedProtect</groupId>
             <artifactId>RedProtect-Spigot</artifactId>
-            <version>7.7.2</version>
+            <version>7.7.3</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
