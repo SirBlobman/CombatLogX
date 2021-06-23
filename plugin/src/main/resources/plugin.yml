@@ -8,6 +8,9 @@ version: "${bukkit.plugin.version}"
 api-version: "1.13"
 author: "${bukkit.plugin.author}"
 
+depend:
+  - "SirBlobmanCore"
+
 loadbefore:
   - "TitleManager"
 
