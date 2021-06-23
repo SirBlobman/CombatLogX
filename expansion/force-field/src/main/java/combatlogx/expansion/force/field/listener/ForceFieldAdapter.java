@@ -20,7 +20,10 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.reflect.StructureModifier;
+import com.comphenix.protocol.wrappers.BlockPosition;
 import com.comphenix.protocol.wrappers.EnumWrappers.PlayerDigType;
+import com.comphenix.protocol.wrappers.MovingObjectPositionBlock;
 import com.comphenix.protocol.wrappers.WrappedBlockData;
 
 /** @author olivolja3 */
@@ -43,8 +46,19 @@ public class ForceFieldAdapter extends PacketAdapter {
 
         World world = player.getWorld();
         PacketContainer packet = e.getPacket();
-        Location location = packet.getBlockPositionModifier().read(0).toLocation(world);
 
+        StructureModifier<BlockPosition> blockPositionModifier = packet.getBlockPositionModifier();
+        BlockPosition blockPosition = blockPositionModifier.readSafely(0);
+
+        if(blockPosition == null) {
+            StructureModifier<MovingObjectPositionBlock> movingBlockPositions = packet.getMovingBlockPositions();
+            MovingObjectPositionBlock movingBlockPosition = movingBlockPositions.readSafely(0);
+            if(movingBlockPosition == null) return;
+
+            blockPosition = movingBlockPosition.getBlockPosition();
+        }
+
+        Location location = blockPosition.toLocation(world);
         if(isForceFieldBlock(player, location)) {
             PlayerDigType digType = packet.getPlayerDigTypes().read(0);
             GameMode gameMode = player.getGameMode();
