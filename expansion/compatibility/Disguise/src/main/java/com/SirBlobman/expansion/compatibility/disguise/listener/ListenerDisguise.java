@@ -2,10 +2,12 @@ package com.SirBlobman.expansion.compatibility.disguise.listener;
 
 import java.util.Objects;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.PluginManager;
 
 import com.SirBlobman.combatlogx.api.event.PlayerTagEvent;
 import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
@@ -24,12 +26,12 @@ public class ListenerDisguise implements Listener {
         Player player = e.getPlayer();
         boolean undisguised = false;
 
-        if(HookLibsDisguises.isDisguised(player)) {
+        if(isEnabled("iDisguise") && HookLibsDisguises.isDisguised(player)) {
             HookLibsDisguises.undisguise(player);
             undisguised = true;
         }
 
-        if(HookiDisguise.isDisguised(player)) {
+        if(isEnabled("LibsDisguises") && HookiDisguise.isDisguised(player)) {
             HookiDisguise.undisguise(player);
             undisguised = true;
         }
@@ -39,5 +41,10 @@ public class ListenerDisguise implements Listener {
             String message = languageManager.getMessageColoredWithPrefix("disguise-compatibility-remove-disguise");
             languageManager.sendMessage(player, message);
         }
+    }
+
+    private boolean isEnabled(String pluginName) {
+        PluginManager pluginManager = Bukkit.getPluginManager();
+        return pluginManager.isPluginEnabled(pluginName);
     }
 }
