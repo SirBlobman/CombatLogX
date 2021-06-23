@@ -1,5 +1,11 @@
 [SIZE=5][B]Supported Spigot Versions:[/B][/SIZE]
-1.8.8, 1.12.2, 1.16.5
+1.8.8, 1.12.2, 1.16.5, 1.17
+
+[SIZE=5][COLOR=#FF0000][B]Dependencies:[/B][/COLOR][/SIZE]
+[LIST]
+[*][URL='https://www.spigotmc.org/resources/83189/']SirBlobmanCore[/URL]
+[*][URL='https://www.spigotmc.org/resources/7504/']BossBarAPI[/URL] (Only in 1.8.8 if you want to use the Boss Bar feature.)
+[/LIST]
 
 [SIZE=5][B][COLOR=#FF0000]Description:[/COLOR][/B][/SIZE]
 CombatLogX is a pvp-based plugin that punishes players for logging out during combat.
