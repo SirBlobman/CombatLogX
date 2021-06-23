@@ -21,11 +21,11 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
-
-        <!-- CodeMC Public Repository -->
+        
+        <!-- SirBlobman Public Repository -->
         <repository>
-            <id>codemc-repo</id>
-            <url>https://repo.codemc.io/repository/maven-public/</url>
+            <id>sirblobman-public</id>
+            <url>https://nexus.sirblobman.xyz/repository/public/</url>
         </repository>
 
         <!-- Lumine Releases -->
@@ -56,7 +56,7 @@
         <dependency>
             <groupId>io.lumine.xikage</groupId>
             <artifactId>MythicMobs</artifactId>
-            <version>4.11.0</version>
+            <version>4.12.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
