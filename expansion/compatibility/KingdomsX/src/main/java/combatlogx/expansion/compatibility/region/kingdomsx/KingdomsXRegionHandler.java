@@ -23,6 +23,10 @@ public final class KingdomsXRegionHandler extends RegionHandler {
         if(tagType != TagType.PLAYER) return false;
 
         Land land = Land.getLand(location);
-        return (land != null && land.isClaimed() && !land.isBeingInvaded());
+        if(land != null) {
+            return !land.isBeingInvaded();
+        }
+
+        return false;
     }
 }
