@@ -1,4 +1,5 @@
 # CombatLogX
+[![Code Size](https://img.shields.io/github/languages/code-size/SirBlobman/CombatLogX)](https://github.com/SirBlobman/CombatLogX/)
 CombatLogX is a plugin made for the Spigot server software.  
 It has many combat-related features to add to your server.  
 One of the main features of this plugin are the Expansions, which are like modules that allow you to add different things and change how the plugin works.
