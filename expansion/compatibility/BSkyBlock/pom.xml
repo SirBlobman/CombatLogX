@@ -40,7 +40,7 @@
         <dependency>
             <groupId>world.bentobox</groupId>
             <artifactId>bskyblock</artifactId>
-            <version>1.14.3-SNAPSHOT</version>
+            <version>1.14.4</version>
             <scope>provided</scope>
         </dependency>
 
