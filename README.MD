@@ -4,8 +4,8 @@ It has many combat-related features to add to your server.
 One of the main features of this plugin are the Expansions, which are like modules that allow you to add different things and change how the plugin works.
 
 # Dependencies
-- [Spigot 1.8.8 - 1.16.5](https://spigotmc.org/)
-- [SirBlobmanCore 2.0.6-Dev or higher](https://jenkins.sirblobman.xyz/job/SirBlobman/job/SirBlobmanAPI/)
+- [Spigot 1.8.8 - 1.17](https://spigotmc.org/)
+- [SirBlobmanCore 2.2.3 or higher](https://jenkins.sirblobman.xyz/job/SirBlobman/job/SirBlobmanAPI/)
 
 ## Main Features
 * Custom expansions that change how the plugin works
