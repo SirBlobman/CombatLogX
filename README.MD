@@ -1,5 +1,9 @@
 # CombatLogX
 [![Code Size](https://img.shields.io/github/languages/code-size/SirBlobman/CombatLogX)](https://github.com/SirBlobman/CombatLogX/)
+[![Build Status](https://jenkins.sirblobman.xyz/job/SirBlobman/job/CombatLogX/badge/icon)](https://jenkins.sirblobman.xyz/job/SirBlobman/job/CombatLogX/)
+[![Crowdin Localization](https://badges.crowdin.net/combatlogx-spigot-plugin/localized.svg)](https://crowdin.com/project/combatlogx-spigot-plugin)
+
+# Description
 CombatLogX is a plugin made for the Spigot server software.  
 It has many combat-related features to add to your server.  
 One of the main features of this plugin are the Expansions, which are like modules that allow you to add different things and change how the plugin works.
@@ -14,12 +18,11 @@ One of the main features of this plugin are the Expansions, which are like modul
 * Punish players that log out during combat
 
 ## Jenkins Builds
-The build status is displayed below:  
-[![Build Status](https://jenkins.sirblobman.xyz/job/SirBlobman/job/CombatLogX/badge/icon)](https://jenkins.sirblobman.xyz/job/SirBlobman/job/CombatLogX/)
+The build status is displayed below:
 
 ## Localization
-A translation project for CombatLogX V11 is in progress. If you wish to help out, click the localization badge below:  
-[![Crowdin](https://badges.crowdin.net/combatlogx-spigot-plugin/localized.svg)](https://crowdin.com/project/combatlogx-spigot-plugin)
+A translation project for CombatLogX V11 is in progress. If you wish to help out, please visit the Crowdin page below:  
+https://crowdin.com/project/combatlogx-spigot-plugin
 
 ## Expansions
 If you want to find out more about the expansions, please visit this page:  
