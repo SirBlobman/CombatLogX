@@ -15,6 +15,7 @@ import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 public abstract class CheatPreventionListener extends ExpansionListener {
     private final Map<UUID, Map<String, Long>> messageCooldownMap;
+
     public CheatPreventionListener(Expansion expansion) {
         super(expansion);
         this.messageCooldownMap = new HashMap<>();

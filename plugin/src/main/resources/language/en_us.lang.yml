@@ -119,6 +119,10 @@ expansion:
       no-pickup: "&cYou are not allowed to pick up items during combat."
       no-dropping: "&cYou are not allowed to drop items during combat."
 
+    buckets:
+      no-empty: "&cYou can't empty buckets during combat."
+      no-fill: "&cYou can't fill up buckets during combat."
+
   damage-tagger:
     unknown-damage: "&cYou took damage! Do not log out!"
     damage-type:

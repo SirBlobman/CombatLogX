@@ -5,8 +5,8 @@ import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 
-import combatlogx.expansion.cheat.prevention.listener.CheatPreventionListener;
 import combatlogx.expansion.cheat.prevention.listener.ListenerBlocks;
+import combatlogx.expansion.cheat.prevention.listener.ListenerBuckets;
 import combatlogx.expansion.cheat.prevention.listener.ListenerChat;
 import combatlogx.expansion.cheat.prevention.listener.ListenerCommands;
 import combatlogx.expansion.cheat.prevention.listener.ListenerDrop;
@@ -46,6 +46,7 @@ public final class CheatPreventionExpansion extends Expansion {
     @Override
     public void onEnable() {
         new ListenerBlocks(this).register();
+        new ListenerBuckets(this).register();
         new ListenerChat(this).register();
         new ListenerCommands(this).register();
         new ListenerDrop(this).register();
@@ -58,17 +59,26 @@ public final class CheatPreventionExpansion extends Expansion {
 
         // 1.9: Elytra
         int minorVersion = VersionUtility.getMinorVersion();
-        if(minorVersion >= 9) new ListenerElytra(this).register();
+        if(minorVersion >= 9) {
+            new ListenerElytra(this).register();
+        }
 
         // 1.11: Totem of Undying
-        if(minorVersion >= 11) new ListenerTotem(this).register();
+        if(minorVersion >= 11) {
+            new ListenerTotem(this).register();
+        }
 
         // 1.12: PlayerPickupItemEvent --> EntityPickupItemEvent
-        CheatPreventionListener listenerItemPickup = (minorVersion < 12 ? new ListenerLegacyItemPickup(this) : new ListenerModernItemPickup(this));
-        listenerItemPickup.register();
+        if(minorVersion < 12) {
+            new ListenerLegacyItemPickup(this).register();
+        } else {
+            new ListenerModernItemPickup(this).register();
+        }
 
         // 1.13: Riptide Enchantment
-        if(minorVersion >= 13) new ListenerRiptide(this).register();
+        if(minorVersion >= 13) {
+            new ListenerRiptide(this).register();
+        }
     }
 
     @Override

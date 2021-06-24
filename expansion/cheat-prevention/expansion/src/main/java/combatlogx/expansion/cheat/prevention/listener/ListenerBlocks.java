@@ -26,14 +26,15 @@ public final class ListenerBlocks extends CheatPreventionListener {
     @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
     public void onInteract(PlayerInteractEvent e) {
         Action action = e.getAction();
-        if(action != Action.RIGHT_CLICK_BLOCK && action != Action.LEFT_CLICK_BLOCK) return;
+        if(action != Action.RIGHT_CLICK_BLOCK && action != Action.LEFT_CLICK_BLOCK) {
+            return;
+        }
 
         Player player = e.getPlayer();
-        if(!isInCombat(player)) return;
-        if(canInteract()) return;
-
-        e.setCancelled(true);
-        sendMessage(player, "expansion.cheat-prevention.blocks.prevent-interaction", null);
+        if(isInCombat(player) && shouldPreventInteraction()) {
+            e.setCancelled(true);
+            sendMessage(player, "expansion.cheat-prevention.blocks.prevent-interaction", null);
+        }
     }
 
     @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
@@ -86,8 +87,8 @@ public final class ListenerBlocks extends CheatPreventionListener {
         return (!noBreakList.contains("*") && !noBreakList.contains(materialName));
     }
 
-    private boolean canInteract() {
+    private boolean shouldPreventInteraction() {
         YamlConfiguration configuration = getConfiguration();
-        return !configuration.getBoolean("prevent-interaction");
+        return configuration.getBoolean("prevent-interaction", false);
     }
 }
