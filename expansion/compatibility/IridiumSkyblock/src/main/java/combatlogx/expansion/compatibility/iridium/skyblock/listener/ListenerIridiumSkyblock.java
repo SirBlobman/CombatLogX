@@ -1,5 +1,6 @@
 package combatlogx.expansion.compatibility.iridium.skyblock.listener;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.bukkit.entity.LivingEntity;
@@ -11,9 +12,9 @@ import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
-import com.iridium.iridiumskyblock.Island;
-import com.iridium.iridiumskyblock.User;
-import com.iridium.iridiumskyblock.managers.UserManager;
+import com.iridium.iridiumskyblock.api.IridiumSkyblockAPI;
+import com.iridium.iridiumskyblock.database.Island;
+import com.iridium.iridiumskyblock.database.User;
 
 public final class ListenerIridiumSkyblock extends ExpansionListener {
     public ListenerIridiumSkyblock(Expansion expansion) {
@@ -32,9 +33,12 @@ public final class ListenerIridiumSkyblock extends ExpansionListener {
 
     private Island getIsland(Player player) {
         if(player == null) return null;
-        UUID uuid = player.getUniqueId();
-        User user = UserManager.getUser(uuid);
-        return (user == null ? null : user.getIsland());
+
+        IridiumSkyblockAPI api = IridiumSkyblockAPI.getInstance();
+        User user = api.getUser(player);
+
+        Optional<Island> optionalIsland = user.getIsland();
+        return optionalIsland.orElse(null);
     }
 
     private boolean doesTeamMatch(Player player1, Player player2) {
@@ -47,6 +51,9 @@ public final class ListenerIridiumSkyblock extends ExpansionListener {
 
         Island island2 = getIsland(player2);
         if(island2 == null) return false;
-        return (island1.id == island2.id);
+
+        int islandId1 = island1.getId();
+        int islandId2 = island2.getId();
+        return (islandId1 == islandId2);
     }
 }
