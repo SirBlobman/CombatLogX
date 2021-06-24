@@ -3,15 +3,22 @@ package combatlogx.expansion.compatibility.citizens;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
+import combatlogx.expansion.compatibility.citizens.listener.ListenerCombat;
+import combatlogx.expansion.compatibility.citizens.listener.ListenerDeath;
+import combatlogx.expansion.compatibility.citizens.listener.ListenerJoin;
+import combatlogx.expansion.compatibility.citizens.listener.ListenerPunish;
+import combatlogx.expansion.compatibility.citizens.listener.ListenerResurrect;
 import combatlogx.expansion.compatibility.citizens.manager.CombatNpcManager;
 
 public final class CitizensExpansion extends Expansion {
     private boolean sentinelEnabled;
     private final CombatNpcManager combatNpcManager;
+
     public CitizensExpansion(ICombatLogX plugin) {
         super(plugin);
         this.sentinelEnabled = false;
@@ -28,7 +35,7 @@ public final class CitizensExpansion extends Expansion {
 
     @Override
     public void onEnable() {
-        if(!checkDependency("Citizens", true, "2.0.27")) {
+        if(!checkDependency("Citizens", true, "2.0.28")) {
             ICombatLogX plugin = getPlugin();
             ExpansionManager expansionManager = plugin.getExpansionManager();
             expansionManager.disableExpansion(this);
@@ -36,6 +43,17 @@ public final class CitizensExpansion extends Expansion {
         }
 
         this.sentinelEnabled = checkDependency("Sentinel", true);
+
+        new ListenerCombat(this).register();
+        new ListenerDeath(this).register();
+        new ListenerJoin(this).register();
+        new ListenerPunish(this).register();
+
+        // 1.11: Totem of Undying
+        int minorVersion = VersionUtility.getMinorVersion();
+        if(minorVersion >= 11) {
+            new ListenerResurrect(this).register();
+        }
     }
 
     @Override
