@@ -4,13 +4,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.SirBlobman.combatlogx.CombatLogX;
-import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
-import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent.UntagReason;
-import com.SirBlobman.combatlogx.api.utility.ICombatManager;
-import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
-import com.SirBlobman.combatlogx.manager.CombatManager;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -22,13 +15,20 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import com.SirBlobman.combatlogx.CombatLogX;
+import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent;
+import com.SirBlobman.combatlogx.api.event.PlayerUntagEvent.UntagReason;
+import com.SirBlobman.combatlogx.api.utility.ICombatManager;
+import com.SirBlobman.combatlogx.api.utility.ILanguageManager;
+import com.SirBlobman.combatlogx.manager.CombatManager;
+
 public class ListenerUntagger implements Listener {
     private final CombatLogX plugin;
     public ListenerUntagger(CombatLogX plugin) {
         this.plugin = plugin;
     }
 
-    @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
+    @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
     public void onKicked(PlayerKickEvent e) {
         String kickReason = e.getReason();
         UntagReason untagReason = (isKickReasonIgnored(kickReason) ? UntagReason.EXPIRE : UntagReason.KICK);
@@ -38,7 +38,7 @@ public class ListenerUntagger implements Listener {
         combatManager.untag(player, untagReason);
     }
 
-    @EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
+    @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
     public void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
         ICombatManager combatManager = this.plugin.getCombatManager();
