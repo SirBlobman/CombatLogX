@@ -15,6 +15,7 @@ import combatlogx.expansion.compatibility.citizens.manager.CombatNpcManager;
 
 public final class ListenerPunish extends ExpansionListener {
     private final CitizensExpansion expansion;
+
     public ListenerPunish(CitizensExpansion expansion) {
         super(expansion);
         this.expansion = expansion;
@@ -26,8 +27,9 @@ public final class ListenerPunish extends ExpansionListener {
         ConfigurationManager configurationManager = expansion.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("citizens.yml");
 
-        boolean cancel = configuration.getBoolean("prevent-punishments");
-        if(cancel) e.setCancelled(true);
+        if(configuration.getBoolean("prevent-punishments")) {
+            e.setCancelled(true);
+        }
 
         Player player = e.getPlayer();
         CombatNpcManager combatNpcManager = this.expansion.getCombatNpcManager();

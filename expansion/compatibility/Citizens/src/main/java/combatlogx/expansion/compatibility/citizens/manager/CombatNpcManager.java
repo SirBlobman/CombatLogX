@@ -48,6 +48,7 @@ public final class CombatNpcManager {
     private final CitizensExpansion expansion;
     private final Map<UUID, CombatNPC> playerNpcMap;
     private final Map<UUID, CombatNPC> npcCombatMap;
+
     public CombatNpcManager(CitizensExpansion expansion) {
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
         this.playerNpcMap = new HashMap<>();

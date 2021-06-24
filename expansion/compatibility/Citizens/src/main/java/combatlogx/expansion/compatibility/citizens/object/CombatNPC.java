@@ -24,6 +24,7 @@ public final class CombatNPC extends BukkitRunnable {
     private final UUID ownerId;
     private UUID enemyId;
     private long survivalTicks;
+
     public CombatNPC(CitizensExpansion expansion, NPC originalNPC, OfflinePlayer owner) {
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
         this.originalNPC = Validate.notNull(originalNPC, "originalNPC must not be null!");

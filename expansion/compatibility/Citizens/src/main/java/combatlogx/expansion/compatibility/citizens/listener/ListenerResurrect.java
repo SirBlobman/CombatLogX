@@ -19,6 +19,7 @@ import net.citizensnpcs.api.npc.NPCRegistry;
 
 public final class ListenerResurrect extends ExpansionListener {
     private final CitizensExpansion expansion;
+
     public ListenerResurrect(CitizensExpansion expansion) {
         super(expansion);
         this.expansion = expansion;

@@ -25,6 +25,7 @@ import net.citizensnpcs.api.npc.NPC;
 
 public final class ListenerDeath extends ExpansionListener {
     private final CitizensExpansion expansion;
+
     public ListenerDeath(CitizensExpansion expansion) {
         super(expansion);
         this.expansion = expansion;

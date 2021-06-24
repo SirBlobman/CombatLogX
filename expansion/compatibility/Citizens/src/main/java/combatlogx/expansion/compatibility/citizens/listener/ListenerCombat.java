@@ -23,9 +23,9 @@ public final class ListenerCombat extends ExpansionListener {
         if(configuration.getBoolean("npc-tagging")) return;
 
         LivingEntity entity = e.getEnemy();
-        if(entity == null || !entity.hasMetadata("NPC")) return;
-
-        e.setCancelled(true);
+        if(entity != null && entity.hasMetadata("NPC")) {
+            e.setCancelled(true);
+        }
     }
 
     private YamlConfiguration getConfiguration() {

@@ -31,6 +31,7 @@ import combatlogx.expansion.compatibility.citizens.object.CombatNPC;
 
 public final class ListenerJoin extends ExpansionListener {
     private final CitizensExpansion expansion;
+
     public ListenerJoin(CitizensExpansion expansion) {
         super(expansion);
         this.expansion = expansion;
