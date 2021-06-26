@@ -30,7 +30,7 @@
         <dependency>
             <groupId>com.github.LeonMangler</groupId>
             <artifactId>SuperVanish</artifactId>
-            <version>6.2.0</version>
+            <version>6.2.6</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
