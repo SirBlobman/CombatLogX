@@ -3,5 +3,5 @@ prefix: "Force Field"
 description: "${project.description}"
 
 main: "combatlogx.expansion.force.field.ForceFieldExpansion"
-version: "16.1"
+version: "16.2"
 author: "SirBlobman"

@@ -20,11 +20,13 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.reflect.FieldAccessException;
 import com.comphenix.protocol.reflect.StructureModifier;
 import com.comphenix.protocol.wrappers.BlockPosition;
 import com.comphenix.protocol.wrappers.EnumWrappers.PlayerDigType;
 import com.comphenix.protocol.wrappers.MovingObjectPositionBlock;
 import com.comphenix.protocol.wrappers.WrappedBlockData;
+import org.jetbrains.annotations.Nullable;
 
 /** @author olivolja3 */
 public class ForceFieldAdapter extends PacketAdapter {
@@ -45,22 +47,12 @@ public class ForceFieldAdapter extends PacketAdapter {
         if(!combatManager.isInCombat(player)) return;
 
         World world = player.getWorld();
-        PacketContainer packet = e.getPacket();
+        PacketContainer packetContainer = e.getPacket();
+        Location location = getLocation0(world, packetContainer);
+        if(location == null) return;
 
-        StructureModifier<BlockPosition> blockPositionModifier = packet.getBlockPositionModifier();
-        BlockPosition blockPosition = blockPositionModifier.readSafely(0);
-
-        if(blockPosition == null) {
-            StructureModifier<MovingObjectPositionBlock> movingBlockPositions = packet.getMovingBlockPositions();
-            MovingObjectPositionBlock movingBlockPosition = movingBlockPositions.readSafely(0);
-            if(movingBlockPosition == null) return;
-
-            blockPosition = movingBlockPosition.getBlockPosition();
-        }
-
-        Location location = blockPosition.toLocation(world);
         if(isForceFieldBlock(player, location)) {
-            PlayerDigType digType = packet.getPlayerDigTypes().read(0);
+            PlayerDigType digType = packetContainer.getPlayerDigTypes().read(0);
             GameMode gameMode = player.getGameMode();
             if(digType == PlayerDigType.STOP_DESTROY_BLOCK
                     || (digType == PlayerDigType.START_DESTROY_BLOCK && gameMode == GameMode.CREATIVE)) {
@@ -78,13 +70,13 @@ public class ForceFieldAdapter extends PacketAdapter {
         if(!combatManager.isInCombat(player)) return;
 
         World world = player.getWorld();
-        PacketContainer packet = e.getPacket();
-        Location location = packet.getBlockPositionModifier().read(0).toLocation(world);
+        PacketContainer packetContainer = e.getPacket();
+        Location location = getLocation0(world, packetContainer);
 
         if(isForceFieldBlock(player, location)) {
             WrappedBlockData wrappedBlockData = getWrappedBlockData();
             if(wrappedBlockData != null) {
-                packet.getBlockData().writeSafely(0, wrappedBlockData);
+                packetContainer.getBlockData().writeSafely(0, wrappedBlockData);
             }
         }
     }
@@ -116,5 +108,30 @@ public class ForceFieldAdapter extends PacketAdapter {
         }
 
         return WrappedBlockData.createData(bukkitMaterial);
+    }
+
+    @Nullable
+    private Location getLocation0(World world, PacketContainer packetContainer) {
+        try {
+            StructureModifier<BlockPosition> blockPositionModifier = packetContainer.getBlockPositionModifier();
+            BlockPosition blockPosition = blockPositionModifier.readSafely(0);
+            return blockPosition.toLocation(world);
+        } catch(FieldAccessException ex) {
+            return getLocation1(world, packetContainer);
+        }
+    }
+
+    @Nullable
+    private Location getLocation1(World world, PacketContainer packetContainer) {
+        try {
+            StructureModifier<MovingObjectPositionBlock> movingBlockPositionModifier =
+                    packetContainer.getMovingBlockPositions();
+            MovingObjectPositionBlock movingObjectPositionBlock = movingBlockPositionModifier.readSafely(0);
+
+            BlockPosition blockPosition = movingObjectPositionBlock.getBlockPosition();
+            return blockPosition.toLocation(world);
+        } catch(FieldAccessException ex) {
+            return null;
+        }
     }
 }
