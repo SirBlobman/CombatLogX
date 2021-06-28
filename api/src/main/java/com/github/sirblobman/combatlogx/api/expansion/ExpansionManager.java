@@ -83,7 +83,8 @@ public final class ExpansionManager {
         List<Expansion> expansionList = sortExpansions(getLoadedExpansions());
         int expansionListSize = expansionList.size();
 
-        String message = ("Successfully loaded " + expansionListSize + " expansion" + (expansionListSize == 1 ? "" : "s") + ".");
+        String message = ("Successfully loaded " + expansionListSize + " expansion" +
+                (expansionListSize == 1 ? "" : "s") + ".");
         logger.info(message);
     }
 
@@ -212,6 +213,7 @@ public final class ExpansionManager {
     private void loadExpansion(File expansionFile) {
         ICombatLogX plugin = getPlugin();
         Logger logger = plugin.getLogger();
+        plugin.printDebug("Attempting to load expansion from file '" + expansionFile + "'...");
 
         Expansion expansion;
         ExpansionClassLoader expansionClassLoader;
@@ -225,7 +227,8 @@ public final class ExpansionManager {
                 List<String> pluginDependList = description.getStringList("plugin-depend");
                 for(String pluginName : pluginDependList) {
                     if(pluginManager.isPluginEnabled(pluginName)) continue;
-                    logger.warning("Failed to load expansion '" + expansionFile + "' because a plugin dependency was missing: " + pluginName);
+                    logger.warning("Failed to load expansion '" + expansionFile + "' because a plugin " +
+                            "dependency was missing: " + pluginName);
                     return;
                 }
             }
@@ -234,15 +237,19 @@ public final class ExpansionManager {
                 List<String> expansionDependList = description.getStringList("expansion-depend");
                 for(String expansionName : expansionDependList) {
                     if(this.expansionMap.containsKey(expansionName)) continue;
-                    logger.warning("Failed to load expansion '" + expansionFile + "' because an expansion dependency was missing: " + expansionName);
+                    logger.warning("Failed to load expansion '" + expansionFile + "' because an expansion" +
+                            " dependency was missing: " + expansionName);
                     return;
                 }
             }
 
-            expansionClassLoader = new ExpansionClassLoader(this, description, expansionFile, managerClassLoader);
+            expansionClassLoader = new ExpansionClassLoader(this, description, expansionFile,
+                    managerClassLoader);
             expansion = expansionClassLoader.getExpansion();
         } catch(Exception ex) {
-            logger.log(Level.WARNING, "Failed to load an expansion because an error occurred:", ex);
+            logger.warning("An expansion failed to load because an error occurred.");
+            logger.warning("If debug-mode is enabled, the full error will be displayed below.");
+            this.plugin.printDebug(ex);
             return;
         }
 
@@ -321,10 +328,12 @@ public final class ExpansionManager {
         return original;
     }
 
-    private YamlConfiguration getExpansionDescription(JarFile jarFile) throws IllegalStateException, IOException, InvalidConfigurationException {
+    private YamlConfiguration getExpansionDescription(JarFile jarFile) throws IllegalStateException, IOException,
+            InvalidConfigurationException {
         JarEntry entry = jarFile.getJarEntry("expansion.yml");
         if(entry == null) {
-            String errorMessage = ("Expansion file '" + jarFile.getName() + "' does not contain an expansion.yml file.");
+            String errorMessage = ("Expansion file '" + jarFile.getName() + "' does not contain an " +
+                    "expansion.yml file.");
             throw new IllegalStateException(errorMessage);
         }
 

@@ -77,6 +77,10 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.3.0</version>
 
+                <configuration>
+                    <doclint>all,-missing</doclint>
+                </configuration>
+
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>

@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -46,10 +47,16 @@ class ExpansionClassLoader extends URLClassLoader {
                     result = super.findClass(name);
                 } catch (ClassNotFoundException | NoClassDefFoundError e) {
                     // Do nothing.
+                } catch(UnsupportedClassVersionError e) {
+                    ICombatLogX plugin = this.manager.getPlugin();
+                    Logger logger = plugin.getLogger();
+                    logger.warning("Could not load class with name=" + name + ", global=" + checkGlobal
+                            + " because an error occurred:");
+                    logger.warning(e.getMessage());
                 }
+
                 if (result != null) {
                     this.manager.setClass(name, result);
-
                 }
             }
             classes.put(name, result);
