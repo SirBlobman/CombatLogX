@@ -3,7 +3,7 @@ package com.github.sirblobman.combatlogx.api.expansion;
 import java.util.Comparator;
 import java.util.List;
 
-public class ExpansionComparator implements Comparator<Expansion> {
+public final class ExpansionComparator implements Comparator<Expansion> {
     @Override
     public int compare(Expansion e1, Expansion e2) {
         ExpansionDescription description1 = e1.getDescription();

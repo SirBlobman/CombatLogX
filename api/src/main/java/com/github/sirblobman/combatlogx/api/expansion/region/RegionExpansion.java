@@ -9,6 +9,7 @@ import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
 public abstract class RegionExpansion extends Expansion {
     private boolean enabledSuccessfully;
+
     public RegionExpansion(ICombatLogX plugin) {
         super(plugin);
         this.enabledSuccessfully = false;

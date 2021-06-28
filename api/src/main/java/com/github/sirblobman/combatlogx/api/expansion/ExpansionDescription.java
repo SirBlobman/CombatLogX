@@ -13,6 +13,7 @@ public class ExpansionDescription {
     private final List<String> authorList, pluginDependList, pluginSoftDependList, expansionDependList,
             expansionSoftDependList;
     private final boolean lateLoad;
+
     ExpansionDescription(String mainClassName, String unlocalizedName, String version, String displayName,
                          String description, String website, List<String> authorList, List<String> pluginDependList,
                          List<String> pluginSoftDependList, List<String> expansionDependList,

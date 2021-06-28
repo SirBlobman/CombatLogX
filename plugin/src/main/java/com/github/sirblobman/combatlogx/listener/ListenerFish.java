@@ -12,6 +12,7 @@ import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.ICombatManager;
+import com.github.sirblobman.combatlogx.api.listener.CombatListener;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
@@ -26,7 +27,7 @@ public final class ListenerFish extends CombatListener {
     }
 
     private void checkTag(Entity entity, Entity enemy) {
-        ICombatLogX plugin = getPlugin();
+        ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = getCombatManager();
         plugin.printDebug("Checking if the entity '" + getName(entity) + "' should be tagged for reason '" + TagReason.ATTACKER + "' by enemy '" + getName(enemy) + "'.");
 
@@ -49,7 +50,7 @@ public final class ListenerFish extends CombatListener {
     }
 
     private String getName(Entity entity) {
-        ICombatLogX plugin = getPlugin();
+        ICombatLogX plugin = getCombatLogX();
         if(entity == null) {
             CommandSender console = Bukkit.getConsoleSender();
             LanguageManager languageManager = plugin.getLanguageManager();

@@ -16,6 +16,7 @@ import com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper;
 
 public final class ActionBarUpdater implements TimerUpdater {
     private final ActionBarExpansion expansion;
+
     public ActionBarUpdater(ActionBarExpansion expansion) {
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
     }

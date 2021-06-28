@@ -12,6 +12,7 @@ import com.github.sirblobman.combatlogx.api.object.UntagReason;
 public class PlayerUntagEvent extends CustomPlayerEvent {
     private final UntagReason untagReason;
     private final LivingEntity previousEnemy;
+
     public PlayerUntagEvent(Player player, UntagReason untagReason, LivingEntity previousEnemy) {
         super(player);
         this.untagReason = untagReason;

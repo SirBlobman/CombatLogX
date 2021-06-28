@@ -114,7 +114,7 @@ public class ListenerForceField extends ExpansionListener {
     }
 
     public void removeProtocol() {
-        JavaPlugin plugin = getPlugin();
+        JavaPlugin plugin = getJavaPlugin();
         ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
         protocolManager.removePacketListeners(plugin);
 

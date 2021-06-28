@@ -16,6 +16,7 @@ import com.github.sirblobman.combatlogx.CombatPlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.ICombatManager;
 import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
+import com.github.sirblobman.combatlogx.api.listener.CombatListener;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 import com.github.sirblobman.combatlogx.api.utility.CommandHelper;
 
@@ -30,7 +31,7 @@ public class ListenerUntag extends CombatListener {
         UntagReason untagReason = (isKickReasonIgnored(kickReason) ? UntagReason.EXPIRE : UntagReason.KICK);
         Player player = e.getPlayer();
 
-        ICombatLogX plugin = getPlugin();
+        ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = plugin.getCombatManager();
         combatManager.untag(player, untagReason);
     }
@@ -38,7 +39,7 @@ public class ListenerUntag extends CombatListener {
     @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
     public void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
-        ICombatLogX plugin = getPlugin();
+        ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = plugin.getCombatManager();
         combatManager.untag(player, UntagReason.QUIT);
     }
@@ -49,7 +50,7 @@ public class ListenerUntag extends CombatListener {
         LivingEntity previousEnemy = e.getPreviousEnemy();
         UntagReason untagReason = e.getUntagReason();
 
-        ICombatLogX plugin = getPlugin();
+        ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = plugin.getCombatManager();
         combatManager.punish(player, untagReason, previousEnemy);
 
@@ -58,7 +59,7 @@ public class ListenerUntag extends CombatListener {
     }
 
     private boolean isKickReasonIgnored(String kickReason) {
-        ICombatLogX plugin = getPlugin();
+        ICombatLogX plugin = getCombatLogX();
         ConfigurationManager configurationManager = plugin.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("punish.yml");
 
@@ -69,7 +70,7 @@ public class ListenerUntag extends CombatListener {
 
     private void sendUntagMessage(Player player, UntagReason untagReason) {
         if(!untagReason.isExpire()) return;
-        ICombatLogX plugin = getPlugin();
+        ICombatLogX plugin = getCombatLogX();
 
         LanguageManager languageManager = plugin.getLanguageManager();
         String languagePath = ("combat-timer." + (untagReason == UntagReason.EXPIRE ? "expire" : "enemy-death"));
@@ -77,7 +78,7 @@ public class ListenerUntag extends CombatListener {
     }
 
     private void runUntagCommands(Player player, LivingEntity previousEnemy) {
-        ICombatLogX plugin = getPlugin();
+        ICombatLogX plugin = getCombatLogX();
         ConfigurationManager configurationManager = plugin.getConfigurationManager();
         ICombatManager combatManager = plugin.getCombatManager();
         YamlConfiguration configuration = configurationManager.get("commands.yml");

@@ -18,6 +18,7 @@ import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.combatlogx.CombatPlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.ICombatManager;
+import com.github.sirblobman.combatlogx.api.listener.CombatListener;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.github.sirblobman.combatlogx.api.utility.EntityHelper;
@@ -65,7 +66,7 @@ public class ListenerDamage extends CombatListener {
     private Entity getDamager(Entity entity) {
         if(entity == null) return null;
 
-        ICombatLogX plugin = getPlugin();
+        ICombatLogX plugin = getCombatLogX();
         YamlConfiguration configuration = getConfiguration();
 
         if(configuration.getBoolean("link-projectiles")) {
@@ -80,7 +81,7 @@ public class ListenerDamage extends CombatListener {
     }
 
     private void checkTag(Entity entity, Entity enemy, TagReason tagReason) {
-        ICombatLogX plugin = getPlugin();
+        ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = getCombatManager();
         plugin.printDebug("Checking if the entity '" + getName(entity) + "' should be tagged for reason '" + tagReason + "' by enemy '" + getName(enemy) + "'.");
 
@@ -103,7 +104,7 @@ public class ListenerDamage extends CombatListener {
     }
 
     private String getName(Entity entity) {
-        ICombatLogX plugin = getPlugin();
+        ICombatLogX plugin = getCombatLogX();
         if(entity == null) {
             CommandSender console = Bukkit.getConsoleSender();
             LanguageManager languageManager = plugin.getLanguageManager();

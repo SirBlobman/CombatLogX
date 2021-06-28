@@ -82,7 +82,7 @@ public final class ListenerDamage extends ExpansionListener {
         LivingEntity entity = e.getEntity();
         SpawnReason spawnReason = e.getSpawnReason();
 
-        JavaPlugin plugin = getPlugin();
+        JavaPlugin plugin = getJavaPlugin();
         MetadataValue metadataValue = new FixedMetadataValue(plugin, spawnReason);
         entity.setMetadata("spawn_reason", metadataValue);
     }

@@ -14,6 +14,7 @@ import com.github.sirblobman.combatlogx.api.object.UntagReason;
 public class PlayerPunishEvent extends CustomPlayerEventCancellable {
     private final UntagReason punishReason;
     private final LivingEntity previousEnemy;
+
     public PlayerPunishEvent(Player player, UntagReason punishReason, LivingEntity previousEnemy) {
         super(player);
         this.previousEnemy = previousEnemy;

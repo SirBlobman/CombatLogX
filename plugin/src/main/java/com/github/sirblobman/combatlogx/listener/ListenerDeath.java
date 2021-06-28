@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.CombatPlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.listener.CombatListener;
 import com.github.sirblobman.combatlogx.api.listener.IDeathListener;
 
 public class ListenerDeath extends CombatListener implements IDeathListener {
@@ -46,7 +47,7 @@ public class ListenerDeath extends CombatListener implements IDeathListener {
     @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
     public void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
-        ICombatLogX plugin = getPlugin();
+        ICombatLogX plugin = getCombatLogX();
         YamlConfiguration configuration = plugin.getData(player);
         if(!configuration.getBoolean("kill-on-join")) return;
 
@@ -68,7 +69,7 @@ public class ListenerDeath extends CombatListener implements IDeathListener {
     }
 
     private String getRandomDeathMessage(Player player) {
-        ICombatLogX plugin = getPlugin();
+        ICombatLogX plugin = getCombatLogX();
         ConfigurationManager configurationManager = plugin.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("punish.yml");
         List<String> customDeathMessageList = configuration.getStringList("custom-death-message-list");

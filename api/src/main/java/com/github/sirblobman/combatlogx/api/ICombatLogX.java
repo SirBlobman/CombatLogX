@@ -1,5 +1,7 @@
 package com.github.sirblobman.combatlogx.api;
 
+import java.util.Locale;
+
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -43,7 +45,7 @@ public interface ICombatLogX extends IResourceHolder {
         if(message.isEmpty()) return "";
 
         String prefix = languageManager.getMessage(sender, "prefix", null, true);
-        return (prefix.isEmpty() ? message : (prefix + " " + message));
+        return (prefix.isEmpty() ? message : String.format(Locale.US,"%s %s", prefix, message));
     }
 
     default void sendMessage(CommandSender sender, String... messageArray) {

@@ -24,6 +24,7 @@ import com.github.sirblobman.combatlogx.api.object.TagType;
 public abstract class RegionHandler {
     private final RegionExpansion expansion;
     private final List<UUID> cooldownList;
+
     public RegionHandler(RegionExpansion expansion) {
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
         this.cooldownList = new ArrayList<>();

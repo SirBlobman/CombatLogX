@@ -14,6 +14,7 @@ import com.github.sirblobman.combatlogx.api.object.TagType;
 
 public final class RegionMoveListener extends ExpansionListener {
     private final RegionExpansion regionExpansion;
+
     public RegionMoveListener(RegionExpansion expansion) {
         super(expansion);
         this.regionExpansion = expansion;

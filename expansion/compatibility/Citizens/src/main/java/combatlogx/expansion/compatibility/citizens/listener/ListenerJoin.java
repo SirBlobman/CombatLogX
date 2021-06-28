@@ -63,7 +63,7 @@ public final class ListenerJoin extends ExpansionListener {
             player.setCanPickupItems(true);
         };
 
-        JavaPlugin plugin = getPlugin();
+        JavaPlugin plugin = getJavaPlugin();
         scheduler.scheduleSyncDelayedTask(plugin, task, 1L);
     }
 

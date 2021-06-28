@@ -9,6 +9,7 @@ import com.github.sirblobman.combatlogx.api.ICombatLogX;
 
 public final class ExpansionLogger extends Logger {
     private final Expansion expansion;
+
     public ExpansionLogger(Expansion expansion) {
         super(expansion.getName(), null);
         this.expansion = expansion;

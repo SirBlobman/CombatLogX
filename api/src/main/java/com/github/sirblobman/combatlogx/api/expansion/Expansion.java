@@ -30,12 +30,13 @@ public abstract class Expansion implements IResourceHolder {
 
     private State state;
     private File dataFolder, file;
+    private ExpansionLogger logger;
     private ExpansionDescription description;
+    private ConfigurationManager configurationManager;
 
     private final ICombatLogX plugin;
-    private ExpansionLogger logger;
-    private ConfigurationManager configurationManager;
     private final List<Listener> listenerList;
+
     public Expansion(ICombatLogX plugin) {
         this.plugin = Validate.notNull(plugin, "plugin must not be null!");
         this.listenerList = new ArrayList<>();

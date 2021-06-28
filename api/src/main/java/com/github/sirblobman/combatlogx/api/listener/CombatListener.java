@@ -1,15 +1,17 @@
-package com.github.sirblobman.combatlogx.listener;
+package com.github.sirblobman.combatlogx.api.listener;
 
 import java.util.Locale;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.api.utility.Validate;
@@ -21,12 +23,13 @@ import org.jetbrains.annotations.Nullable;
 
 public abstract class CombatListener implements Listener {
     private final ICombatLogX plugin;
+
     public CombatListener(ICombatLogX plugin) {
         this.plugin = Validate.notNull(plugin, "plugin must not be null!");
     }
 
     public void register() {
-        ICombatLogX combatLogX = getPlugin();
+        ICombatLogX combatLogX = getCombatLogX();
         JavaPlugin plugin = combatLogX.getPlugin();
 
         PluginManager pluginManager = Bukkit.getPluginManager();
@@ -37,23 +40,48 @@ public abstract class CombatListener implements Listener {
         HandlerList.unregisterAll(this);
     }
 
-    protected final ICombatLogX getPlugin() {
+    protected final ICombatLogX getCombatLogX() {
         return this.plugin;
     }
 
+    protected final JavaPlugin getJavaPlugin() {
+        ICombatLogX combatLogX = getCombatLogX();
+        return combatLogX.getPlugin();
+    }
+
     protected final ConfigurationManager getConfigurationManager() {
-        ICombatLogX plugin = getPlugin();
+        ICombatLogX plugin = getCombatLogX();
         return plugin.getConfigurationManager();
     }
 
+    protected final ConfigurationManager getPluginConfigurationManager() {
+        ICombatLogX combatLogX = getCombatLogX();
+        return combatLogX.getConfigurationManager();
+    }
+
+    protected final LanguageManager getLanguageManager() {
+        ICombatLogX combatLogX = getCombatLogX();
+        return combatLogX.getLanguageManager();
+    }
+
+    protected final PlayerDataManager getPlayerDataManager() {
+        ICombatLogX combatLogX = getCombatLogX();
+        return combatLogX.getPlayerDataManager();
+    }
+
     protected final ICombatManager getCombatManager() {
-        ICombatLogX plugin = getPlugin();
+        ICombatLogX plugin = getCombatLogX();
         return plugin.getCombatManager();
+    }
+
+    protected final boolean isInCombat(Player player) {
+        ICombatManager combatManager = getCombatManager();
+        return combatManager.isInCombat(player);
     }
 
     protected final String getMessageWithPrefix(@Nullable CommandSender sender, @NotNull String key,
                                                 @Nullable Replacer replacer, boolean color) {
-        ICombatLogX plugin = getPlugin();
+        ICombatLogX plugin = getCombatLogX();
         LanguageManager languageManager = plugin.getLanguageManager();
 
         String message = languageManager.getMessage(sender, key, replacer, color);
