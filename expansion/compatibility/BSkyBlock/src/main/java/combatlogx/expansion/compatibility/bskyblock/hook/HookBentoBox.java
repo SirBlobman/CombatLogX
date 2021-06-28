@@ -1,5 +1,6 @@
 package combatlogx.expansion.compatibility.bskyblock.hook;
 
+import java.util.Locale;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -16,23 +17,23 @@ public final class HookBentoBox {
         Logger logger = expansion.getLogger();
         logger.info("Checking BentoBox for BSkyBlock...");
 
-        Addon addon = getBSkyBlock();
-        if(addon == null) {
+        BentoBox bentoBox = JavaPlugin.getPlugin(BentoBox.class);
+        AddonsManager addonsManager = bentoBox.getAddonsManager();
+        Optional<Addon> optionalAddon = addonsManager.getAddonByName("BSkyBlock");
+
+        if(optionalAddon.isEmpty()) {
             logger.info("Failed to find BSkyBlock in BentoBox.");
             return false;
         }
 
+        Addon addon = optionalAddon.get();
         AddonDescription description = addon.getDescription();
-        String version = description.getVersion();
+        String addonName = description.getName();
+        String addonVersion = description.getVersion();
 
-        logger.info("Successfully found a dependency: BSkyBlock v" + version);
+        String message = String.format(Locale.US, "Successfully found a dependency: %s v%s", addonName,
+                addonVersion);
+        logger.info(message);
         return true;
-    }
-
-    public static Addon getBSkyBlock() {
-        BentoBox bentoBox = JavaPlugin.getPlugin(BentoBox.class);
-        AddonsManager addonsManager = bentoBox.getAddonsManager();
-        Optional<Addon> optionalAddon = addonsManager.getAddonByName("BSkyBlock");
-        return optionalAddon.orElse(null);
     }
 }
