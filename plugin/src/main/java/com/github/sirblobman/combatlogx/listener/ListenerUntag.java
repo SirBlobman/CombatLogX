@@ -20,27 +20,29 @@ import com.github.sirblobman.combatlogx.api.listener.CombatListener;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 import com.github.sirblobman.combatlogx.api.utility.CommandHelper;
 
-public class ListenerUntag extends CombatListener {
+public final class ListenerUntag extends CombatListener {
     public ListenerUntag(CombatPlugin plugin) {
         super(plugin);
     }
 
     @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
     public void onKick(PlayerKickEvent e) {
+        Player player = e.getPlayer();
+        if(!isInCombat(player)) return;
+
         String kickReason = e.getReason();
         UntagReason untagReason = (isKickReasonIgnored(kickReason) ? UntagReason.EXPIRE : UntagReason.KICK);
-        Player player = e.getPlayer();
 
-        ICombatLogX plugin = getCombatLogX();
-        ICombatManager combatManager = plugin.getCombatManager();
+        ICombatManager combatManager = getCombatManager();
         combatManager.untag(player, untagReason);
     }
 
     @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
     public void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
-        ICombatLogX plugin = getCombatLogX();
-        ICombatManager combatManager = plugin.getCombatManager();
+        if(!isInCombat(player)) return;
+
+        ICombatManager combatManager = getCombatManager();
         combatManager.untag(player, UntagReason.QUIT);
     }
 

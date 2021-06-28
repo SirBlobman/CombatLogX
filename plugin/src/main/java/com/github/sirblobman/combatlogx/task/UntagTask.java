@@ -13,6 +13,7 @@ import com.github.sirblobman.combatlogx.api.object.UntagReason;
 
 public final class UntagTask extends BukkitRunnable {
     private final ICombatLogX plugin;
+
     public UntagTask(ICombatLogX plugin) {
         this.plugin = Validate.notNull(plugin, "plugin must not be null!");
     }

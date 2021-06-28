@@ -14,13 +14,14 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.combatlogx.CombatPlugin;
-import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
 import com.github.sirblobman.combatlogx.api.listener.IDeathListener;
 
-public class ListenerDeath extends CombatListener implements IDeathListener {
+public final class ListenerDeath extends CombatListener implements IDeathListener {
     private final Set<UUID> customDeathSet;
+
     public ListenerDeath(CombatPlugin plugin) {
         super(plugin);
         this.customDeathSet = new HashSet<>();
@@ -47,12 +48,11 @@ public class ListenerDeath extends CombatListener implements IDeathListener {
     @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
     public void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
-        ICombatLogX plugin = getCombatLogX();
-        YamlConfiguration configuration = plugin.getData(player);
-        if(!configuration.getBoolean("kill-on-join")) return;
+        PlayerDataManager playerDataManager = getPlayerDataManager();
+        YamlConfiguration playerData = playerDataManager.get(player);
 
-        configuration.set("kill-on-join", false);
-        plugin.saveData(player);
+        playerData.set("kill-on-join", false);
+        playerDataManager.save(player);
 
         add(player);
         player.setHealth(0.0D);
@@ -69,15 +69,16 @@ public class ListenerDeath extends CombatListener implements IDeathListener {
     }
 
     private String getRandomDeathMessage(Player player) {
-        ICombatLogX plugin = getCombatLogX();
-        ConfigurationManager configurationManager = plugin.getConfigurationManager();
+        ConfigurationManager configurationManager = getPluginConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("punish.yml");
+
         List<String> customDeathMessageList = configuration.getStringList("custom-death-message-list");
         if(customDeathMessageList.isEmpty()) return null;
 
-        int customDeathMessageListSize = customDeathMessageList.size();
         ThreadLocalRandom random = ThreadLocalRandom.current();
-        String customDeathMessage = customDeathMessageList.get(random.nextInt(customDeathMessageListSize));
+        int customDeathMessageListSize = customDeathMessageList.size();
+        int customDeathMessageIndex = random.nextInt(customDeathMessageListSize);
+        String customDeathMessage = customDeathMessageList.get(customDeathMessageIndex);
 
         String playerName = player.getName();
         return customDeathMessage.replace("{player}", playerName);

@@ -45,7 +45,7 @@ public abstract class RegionHandler {
 
         ICombatLogX plugin = this.expansion.getPlugin();
         JavaPlugin javaPlugin = plugin.getPlugin();
-        String message = plugin.getMessageColoredWithPrefix(player, messagePath);
+        String message = plugin.getMessageWithPrefix(player, messagePath, null, true);
         plugin.sendMessage(player, message);
 
         this.cooldownList.add(uuid);

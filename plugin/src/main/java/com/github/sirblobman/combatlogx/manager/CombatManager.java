@@ -62,7 +62,8 @@ public final class CombatManager implements ICombatManager {
     }
 
     @Override
-    public boolean tag(Player player, LivingEntity enemy, TagType tagType, TagReason tagReason, long customEndMillis) {
+    public boolean tag(Player player, LivingEntity enemy, TagType tagType, TagReason tagReason,
+                       long customEndMillis) {
         Validate.notNull(player, "player must not be null!");
         Validate.notNull(tagType, "tagType must not be null!");
         Validate.notNull(tagReason, "tagReason must not be null!");
@@ -314,9 +315,8 @@ public final class CombatManager implements ICombatManager {
     }
 
     private void sendTagMessage(Player player, LivingEntity enemy, TagType tagType, TagReason tagReason) {
-        LanguageManager languageManager = this.plugin.getLanguageManager();
         if(tagType == TagType.UNKNOWN || tagReason == TagReason.UNKNOWN) {
-            languageManager.sendMessage(player, "tagged.unknown", null, true);
+            this.plugin.sendMessageWithPrefix(player, "tagged.unknown", null, true);
             return;
         }
 
@@ -326,7 +326,8 @@ public final class CombatManager implements ICombatManager {
         String tagTypeString = tagType.name().toLowerCase();
 
         String languagePath = ("tagged." + tagReasonString + "." + tagTypeString);
-        Replacer replacer = message -> message.replace("{enemy}", enemyName).replace("{mob_type}", enemyType);
-        languageManager.sendMessage(player, languagePath, replacer, true);
+        Replacer replacer = message -> message.replace("{enemy}", enemyName)
+                .replace("{mob_type}", enemyType);
+        this.plugin.sendMessageWithPrefix(player, languagePath, replacer, true);
     }
 }

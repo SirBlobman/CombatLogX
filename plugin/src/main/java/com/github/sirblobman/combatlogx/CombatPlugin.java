@@ -1,10 +1,13 @@
 package com.github.sirblobman.combatlogx;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -14,6 +17,7 @@ import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.core.CorePlugin;
 import com.github.sirblobman.api.language.LanguageManager;
+import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.api.update.UpdateManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -167,6 +171,33 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     @Override
     public ListenerDeath getDeathListener() {
         return this.listenerDeath;
+    }
+
+    @Override
+    public void sendMessageWithPrefix(CommandSender sender, String key, Replacer replacer, boolean color) {
+        String message = getMessageWithPrefix(sender, key, null, color);
+        if(!message.isEmpty()) sender.sendMessage(message);
+    }
+
+    @Override
+    public String getMessageWithPrefix(CommandSender sender, String key, Replacer replacer, boolean color) {
+        LanguageManager languageManager = getLanguageManager();
+        String message = languageManager.getMessage(sender, key, null, color);
+        if(message.isEmpty()) return "";
+
+        String prefix = languageManager.getMessage(sender, "prefix", null, true);
+        if(prefix.isEmpty()) return message;
+
+        if(!color) ChatColor.stripColor(prefix);
+        return String.format(Locale.US,"%s %s", prefix, message);
+    }
+
+    @Override
+    public void sendMessage(CommandSender sender, String... messageArray) {
+        for(String message : messageArray) {
+            if(message == null || message.isEmpty()) continue;
+            sender.sendMessage(message);
+        }
     }
 
     @Override

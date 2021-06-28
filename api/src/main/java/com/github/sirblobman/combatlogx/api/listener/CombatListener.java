@@ -49,14 +49,9 @@ public abstract class CombatListener implements Listener {
         return combatLogX.getPlugin();
     }
 
-    protected final ConfigurationManager getConfigurationManager() {
+    protected final ConfigurationManager getPluginConfigurationManager() {
         ICombatLogX plugin = getCombatLogX();
         return plugin.getConfigurationManager();
-    }
-
-    protected final ConfigurationManager getPluginConfigurationManager() {
-        ICombatLogX combatLogX = getCombatLogX();
-        return combatLogX.getConfigurationManager();
     }
 
     protected final LanguageManager getLanguageManager() {

@@ -15,7 +15,6 @@ import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
-import com.github.sirblobman.combatlogx.CombatPlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.ICombatManager;
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
@@ -23,8 +22,8 @@ import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.github.sirblobman.combatlogx.api.utility.EntityHelper;
 
-public class ListenerDamage extends CombatListener {
-    public ListenerDamage(CombatPlugin plugin) {
+public final class ListenerDamage extends CombatListener {
+    public ListenerDamage(ICombatLogX plugin) {
         super(plugin);
     }
 
@@ -54,7 +53,7 @@ public class ListenerDamage extends CombatListener {
     }
 
     private YamlConfiguration getConfiguration() {
-        ConfigurationManager configurationManager = getConfigurationManager();
+        ConfigurationManager configurationManager = getPluginConfigurationManager();
         return configurationManager.get("config.yml");
     }
 
@@ -83,7 +82,8 @@ public class ListenerDamage extends CombatListener {
     private void checkTag(Entity entity, Entity enemy, TagReason tagReason) {
         ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = getCombatManager();
-        plugin.printDebug("Checking if the entity '" + getName(entity) + "' should be tagged for reason '" + tagReason + "' by enemy '" + getName(enemy) + "'.");
+        plugin.printDebug("Checking if the entity '" + getName(entity) + "' should be tagged for reason '"
+                + tagReason + "' by enemy '" + getName(enemy) + "'.");
 
         if(!(entity instanceof Player)) {
             plugin.printDebug("Entity was not a player.");
@@ -98,7 +98,8 @@ public class ListenerDamage extends CombatListener {
         Player playerEntity = (Player) entity;
         Player playerEnemy = (Player) enemy;
 
-        plugin.printDebug("Triggering tag for player " + getName(playerEntity) + " with enemy " + getName(playerEnemy) + "...");
+        plugin.printDebug("Triggering tag for player " + getName(playerEntity) + " with enemy "
+                + getName(playerEnemy) + "...");
         boolean tag = combatManager.tag(playerEnemy, playerEntity, TagType.PLAYER, tagReason);
         plugin.printDebug("Tag Status: " + tag);
     }
