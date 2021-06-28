@@ -1,7 +1,5 @@
 package com.github.sirblobman.combatlogx.api;
 
-import java.util.Locale;
-
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;

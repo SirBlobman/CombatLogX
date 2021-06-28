@@ -9,6 +9,7 @@ import combatlogx.expansion.scoreboard.manager.ScoreboardManager;
 
 public class ScoreboardExpansion extends Expansion {
     private final ScoreboardManager scoreboardManager;
+
     public ScoreboardExpansion(ICombatLogX plugin) {
         super(plugin);
         this.scoreboardManager = new ScoreboardManager(this);

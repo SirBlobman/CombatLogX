@@ -13,9 +13,12 @@ import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
 public final class BossBarExpansion extends Expansion {
     private final BossBarHandler bossBarHandler;
+
     public BossBarExpansion(ICombatLogX plugin) {
         super(plugin);
-        this.bossBarHandler = new MultiVersionHandler(plugin.getPlugin()).getBossBarHandler();
+
+        MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
+        this.bossBarHandler = multiVersionHandler.getBossBarHandler();
     }
 
     @Override
@@ -26,8 +29,8 @@ public final class BossBarExpansion extends Expansion {
 
     @Override
     public void onEnable() {
-        int minorVersion = VersionUtility.getMinorVersion();
         ICombatLogX plugin = getPlugin();
+        int minorVersion = VersionUtility.getMinorVersion();
         if(minorVersion < 9 && !checkDependency("BossBarAPI", true)) {
             Logger logger = getLogger();
             logger.warning("The boss bar expansion requires BossBarAPI if you are in a version below 1.9!");

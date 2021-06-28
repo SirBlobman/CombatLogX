@@ -10,7 +10,6 @@ import org.bukkit.scheduler.BukkitScheduler;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
-import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.api.nms.bossbar.BossBarHandler;
 import com.github.sirblobman.api.utility.MessageUtility;
 import com.github.sirblobman.api.utility.Validate;
@@ -21,6 +20,7 @@ import com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper;
 
 public final class BossBarUpdater implements TimerUpdater {
     private final BossBarExpansion expansion;
+
     public BossBarUpdater(BossBarExpansion expansion) {
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
     }
@@ -30,9 +30,7 @@ public final class BossBarUpdater implements TimerUpdater {
     }
 
     private BossBarHandler getBossBarHandler() {
-        ICombatLogX combatLogX = getCombatLogX();
-        MultiVersionHandler multiVersionHandler = combatLogX.getMultiVersionHandler();
-        return multiVersionHandler.getBossBarHandler();
+        return this.expansion.getBossBarHandler();
     }
 
     @Override

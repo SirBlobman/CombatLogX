@@ -27,6 +27,7 @@ public final class ScoreboardManager {
     private final ScoreboardExpansion expansion;
     private final Map<UUID, Scoreboard> oldScoreboardMap;
     private final Map<UUID, CustomScoreboard> combatScoreboardMap;
+
     public ScoreboardManager(ScoreboardExpansion expansion) {
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
         this.oldScoreboardMap = new HashMap<>();
