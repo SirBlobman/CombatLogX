@@ -1,0 +1,23 @@
+# Should players be prevented from emptying buckets during combat?
+# Default: false
+prevent-bucket-empty: false
+
+# Should players be prevented from filling buckets during combat?
+# Default: false
+prevent-bucket-fill: false
+
+# Which bucket types cannot be emptied during combat?
+# Requires 'prevent-bucket-empty: true'
+# Use '*' for all bucket types.
+# Use XMaterial names for custom types:
+# https://github.com/CryptoMorin/XSeries/blob/master/src/main/java/com/cryptomorin/xseries/XMaterial.java
+prevent-bucket-empty-list:
+  - "*"
+
+# Which bucket types cannot be filled during combat?
+# Requires 'prevent-bucket-fill: true'
+# Use '*' for all bucket types.
+# Use XMaterial names for custom types:
+# https://github.com/CryptoMorin/XSeries/blob/master/src/main/java/com/cryptomorin/xseries/XMaterial.java
+prevent-bucket-fill-list:
+  - "LAVA_BUCKET"

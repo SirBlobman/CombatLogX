@@ -17,11 +17,3 @@ prevent-totem: false
 # Should players be prevented from using tridents with the riptide enchantment during combat?
 # Default: false
 prevent-riptide: false
-
-# Should players be prevented from emptying buckets during combat? (e.g. Lava/Water)
-# Default: false
-prevent-bucket-empty: false
-
-# Should players be prevented from filling buckets during combat? (e.g. Lava/Water)
-# Default: false
-prevent-bucket-fill: false
