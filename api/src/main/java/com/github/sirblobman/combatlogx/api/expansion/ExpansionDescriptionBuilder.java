@@ -12,6 +12,7 @@ public final class ExpansionDescriptionBuilder {
     private final String mainClassName, unlocalizedName, version;
     private String displayName, description, website;
     private List<String> authorList, pluginDependencyList, expansionDependencyList, pluginSoftDependencyList, expansionSoftDependencyList;
+    private boolean lateLoad;
 
     public ExpansionDescriptionBuilder(String mainClassName, String unlocalizedName, String version) {
         this.mainClassName = Validate.notEmpty(mainClassName, "mainClassName must not be empty!");
@@ -26,6 +27,7 @@ public final class ExpansionDescriptionBuilder {
         this.expansionDependencyList = new ArrayList<>();
         this.pluginSoftDependencyList = new ArrayList<>();
         this.expansionSoftDependencyList = new ArrayList<>();
+        this.lateLoad = false;
     }
 
     public ExpansionDescriptionBuilder withDisplayName(@Nullable String displayName) {
@@ -68,12 +70,17 @@ public final class ExpansionDescriptionBuilder {
         return this;
     }
 
+    public ExpansionDescriptionBuilder withLateLoad(boolean lateLoad) {
+        this.lateLoad = lateLoad;
+        return this;
+    }
+
     @NotNull
     public ExpansionDescription build() {
         String displayName = (this.displayName == null ? this.unlocalizedName : this.displayName);
         String description = (this.description == null ? "" : this.description);
         return new ExpansionDescription(this.mainClassName, this.unlocalizedName, this.version, displayName,
                 description, this.website, this.authorList, this.pluginDependencyList, this.pluginSoftDependencyList,
-                this.expansionDependencyList, this.expansionSoftDependencyList);
+                this.expansionDependencyList, this.expansionSoftDependencyList, this.lateLoad);
     }
 }

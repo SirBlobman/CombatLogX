@@ -26,6 +26,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -36,6 +38,7 @@ public final class ExpansionManager {
     private final Map<String, Expansion> expansionMap;
     private final Map<Expansion, ExpansionClassLoader> expansionClassLoaderMap;
     private final Map<String, Class<?>> classNameMap;
+
     public ExpansionManager(ICombatLogX plugin) {
         this.plugin = Validate.notNull(plugin, "plugin must not be null!");
         this.expansionMap = new HashMap<>();
@@ -96,15 +99,43 @@ public final class ExpansionManager {
         }
 
         sortExpansions(loadedExpansionList);
+        List<Expansion> lateLoadExpansionList = new ArrayList<>();
+
         for(Expansion expansion : loadedExpansionList) {
+            ExpansionDescription description = expansion.getDescription();
+            if(description.isLateLoad()) {
+                lateLoadExpansionList.add(expansion);
+                continue;
+            }
+
             enableExpansion(expansion);
             logger.info(" ");
         }
 
         List<Expansion> enabledExpansionList = getEnabledExpansions();
         int expansionListSize = enabledExpansionList.size();
-        String message = ("Successfully enabled " + expansionListSize + " expansion" + (expansionListSize == 1 ? "" : "s") + ".");
+        String message = ("Successfully enabled " + expansionListSize + " expansion"
+                + (expansionListSize == 1 ? "" : "s") + ".");
         logger.info(message);
+
+        Runnable task = () -> {
+            for(Expansion expansion : lateLoadExpansionList) {
+                enableExpansion(expansion);
+                logger.info(" ");
+            }
+
+            List<Expansion> newEnabledExpansionList = getEnabledExpansions();
+            int newExpansionListSize = newEnabledExpansionList.size();
+            int newExpansionCount = (newExpansionListSize - expansionListSize);
+
+            String newMessage = ("Successfully enabled " + newExpansionCount + " late-load expansion"
+                    + (expansionListSize == 1 ? "" : "s") + ".");
+            logger.info(newMessage);
+        };
+
+        JavaPlugin javaPlugin = getPlugin().getPlugin();
+        BukkitScheduler scheduler = Bukkit.getScheduler();
+        scheduler.scheduleSyncDelayedTask(javaPlugin, task, 1L);
     }
 
     public void disableExpansions() {

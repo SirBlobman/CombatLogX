@@ -10,11 +10,13 @@ import org.jetbrains.annotations.Nullable;
 
 public class ExpansionDescription {
     private final String mainClassName, unlocalizedName, version, displayName, description, website;
-    private final List<String> authorList, pluginDependList, pluginSoftDependList, expansionDependList, expansionSoftDependList;
+    private final List<String> authorList, pluginDependList, pluginSoftDependList, expansionDependList,
+            expansionSoftDependList;
+    private final boolean lateLoad;
     ExpansionDescription(String mainClassName, String unlocalizedName, String version, String displayName,
                          String description, String website, List<String> authorList, List<String> pluginDependList,
                          List<String> pluginSoftDependList, List<String> expansionDependList,
-                         List<String> expansionSoftDependList) {
+                         List<String> expansionSoftDependList, boolean lateLoad) {
         this.mainClassName = Validate.notEmpty(mainClassName, "mainClassName cannot be empty or null!");
         this.unlocalizedName = Validate.notEmpty(unlocalizedName, "unlocalizedName cannot be empty or null!");
         this.version = Validate.notEmpty(version, "version cannot be empty or null!");
@@ -28,6 +30,8 @@ public class ExpansionDescription {
         this.pluginSoftDependList = pluginSoftDependList;
         this.expansionDependList = expansionDependList;
         this.expansionSoftDependList = expansionSoftDependList;
+
+        this.lateLoad = lateLoad;
     }
 
     @NotNull
@@ -90,5 +94,9 @@ public class ExpansionDescription {
         String displayName = getDisplayName();
         String version = getVersion();
         return (displayName + " v" + version);
+    }
+
+    public boolean isLateLoad() {
+        return this.lateLoad;
     }
 }

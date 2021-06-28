@@ -19,7 +19,9 @@ class ExpansionClassLoader extends URLClassLoader {
     private Expansion expansion;
     private final ExpansionManager manager;
     private final Map<String, Class<?>> classes;
-    ExpansionClassLoader(ExpansionManager manager, YamlConfiguration description, File path, ClassLoader parent) throws MalformedURLException {
+
+    ExpansionClassLoader(ExpansionManager manager, YamlConfiguration description, File path, ClassLoader parent)
+            throws MalformedURLException {
         super(new URL[] {path.toURI().toURL()}, parent);
         this.manager = manager;
         this.classes = new HashMap<>();
@@ -95,46 +97,49 @@ class ExpansionClassLoader extends URLClassLoader {
         }
     }
 
-    private ExpansionDescription createDescription(YamlConfiguration config) throws IllegalStateException {
-        String mainClassName = config.getString("main");
+    private ExpansionDescription createDescription(YamlConfiguration configuration) throws IllegalStateException {
+        String mainClassName = configuration.getString("main");
         if(mainClassName == null) throw new IllegalStateException("'main' is required in expansion.yml");
 
-        String unlocalizedName = config.getString("name");
+        String unlocalizedName = configuration.getString("name");
         if(unlocalizedName == null) throw new IllegalStateException("'name' is required in expansion.yml");
 
-        String version = config.getString("version");
+        String version = configuration.getString("version");
         if(version == null) throw new IllegalStateException("'version' is required in expansion.yml");
 
         ExpansionDescriptionBuilder builder = new ExpansionDescriptionBuilder(mainClassName, unlocalizedName, version);
-        String displayName = config.getString("display-name", null);
-        if(displayName == null) displayName = config.getString("prefix", null);
+        String displayName = configuration.getString("display-name", null);
+        if(displayName == null) displayName = configuration.getString("prefix", null);
         if(displayName == null) displayName = unlocalizedName;
         builder.withDisplayName(displayName);
 
-        String description = config.getString("description", null);
+        String description = configuration.getString("description", null);
         if(description != null) builder.withDescription(description);
 
-        String website = config.getString("website", null);
+        String website = configuration.getString("website", null);
         if(website != null) builder.withWebsite(website);
 
-        List<String> authorList = config.getStringList("authors");
+        List<String> authorList = configuration.getStringList("authors");
         if(authorList.isEmpty()) authorList = new ArrayList<>();
 
-        String author = config.getString("author", null);
+        String author = configuration.getString("author", null);
         if(author != null) authorList.add(author);
         builder.withAuthors(authorList);
 
-        List<String> pluginDependList = config.getStringList("plugin-depend");
+        List<String> pluginDependList = configuration.getStringList("plugin-depend");
         builder.withPluginDependencies(pluginDependList);
 
-        List<String> pluginSoftDependList = config.getStringList("plugin-soft-depend");
+        List<String> pluginSoftDependList = configuration.getStringList("plugin-soft-depend");
         builder.withPluginSoftDependencies(pluginSoftDependList);
 
-        List<String> expansionDependList = config.getStringList("expansion-depend");
+        List<String> expansionDependList = configuration.getStringList("expansion-depend");
         builder.withExpansionDependencies(expansionDependList);
 
-        List<String> expansionSoftDependList = config.getStringList("expansion-soft-depend");
+        List<String> expansionSoftDependList = configuration.getStringList("expansion-soft-depend");
         builder.withExpansionSoftDependencies(expansionSoftDependList);
+
+        boolean lateLoad = configuration.getBoolean("late-load", false);
+        builder.withLateLoad(lateLoad);
 
         return builder.build();
     }
