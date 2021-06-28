@@ -27,6 +27,6 @@ public final class GriefPreventionRegionHandler extends RegionHandler {
 
         GriefPrevention griefPrevention = JavaPlugin.getPlugin(GriefPrevention.class);
         Claim claim = griefPrevention.dataStore.getClaimAt(location, false, null);
-        return griefPrevention.claimIsPvPSafeZone(claim);
+        return (claim != null && griefPrevention.claimIsPvPSafeZone(claim));
     }
 }
