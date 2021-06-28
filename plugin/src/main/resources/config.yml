@@ -4,7 +4,7 @@ generated-by-version: "${combatlogx.version}"
 # Should debug messages be sent to the console?
 # This option is not really useful unless you are reporting a bug
 # Default: false
-debug: false
+debug-mode: false
 
 # Should the plugin be allowed to check for updates?
 # Default: true

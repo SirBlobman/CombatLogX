@@ -41,4 +41,5 @@ public interface ICombatLogX extends IResourceHolder {
     void sendMessage(CommandSender sender, String... messageArray);
 
     void printDebug(String... messageArray);
+    void printDebug(Throwable ex);
 }

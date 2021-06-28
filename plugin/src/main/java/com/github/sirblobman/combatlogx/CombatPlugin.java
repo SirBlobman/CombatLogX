@@ -2,6 +2,7 @@ package com.github.sirblobman.combatlogx;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -210,6 +211,15 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
             String realMessage = ("[Debug] " + message);
             logger.info(realMessage);
         }
+    }
+
+    @Override
+    public void printDebug(Throwable ex) {
+        YamlConfiguration configuration = getConfig("config.yml");
+        if(!configuration.getBoolean("debug-mode")) return;
+
+        Logger logger = getLogger();
+        logger.log(Level.WARNING, "Full Error Details:", ex);
     }
 
     private void untagAllPlayers() {
