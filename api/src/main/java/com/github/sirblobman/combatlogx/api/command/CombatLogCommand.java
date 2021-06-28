@@ -1,59 +1,38 @@
-package com.github.sirblobman.combatlogx.listener;
+package com.github.sirblobman.combatlogx.api.command;
 
 import java.util.Locale;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.command.Command;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.language.Replacer;
-import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.ICombatManager;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class CombatListener implements Listener {
+public abstract class CombatLogCommand extends Command {
     private final ICombatLogX plugin;
-    public CombatListener(ICombatLogX plugin) {
-        this.plugin = Validate.notNull(plugin, "plugin must not be null!");
+
+    public CombatLogCommand(ICombatLogX plugin, String commandName) {
+        super(plugin.getPlugin(), commandName);
+        this.plugin = plugin;
     }
 
-    public void register() {
-        ICombatLogX combatLogX = getPlugin();
-        JavaPlugin plugin = combatLogX.getPlugin();
-
-        PluginManager pluginManager = Bukkit.getPluginManager();
-        pluginManager.registerEvents(this, plugin);
+    @NotNull
+    @Override
+    protected final LanguageManager getLanguageManager() {
+        return this.plugin.getLanguageManager();
     }
 
-    public void unregister() {
-        HandlerList.unregisterAll(this);
-    }
-
-    protected final ICombatLogX getPlugin() {
+    protected final ICombatLogX getCombatLogX() {
         return this.plugin;
-    }
-
-    protected final ConfigurationManager getConfigurationManager() {
-        ICombatLogX plugin = getPlugin();
-        return plugin.getConfigurationManager();
-    }
-
-    protected final ICombatManager getCombatManager() {
-        ICombatLogX plugin = getPlugin();
-        return plugin.getCombatManager();
     }
 
     protected final String getMessageWithPrefix(@Nullable CommandSender sender, @NotNull String key,
                                                 @Nullable Replacer replacer, boolean color) {
-        ICombatLogX plugin = getPlugin();
+        ICombatLogX plugin = getCombatLogX();
         LanguageManager languageManager = plugin.getLanguageManager();
 
         String message = languageManager.getMessage(sender, key, replacer, color);

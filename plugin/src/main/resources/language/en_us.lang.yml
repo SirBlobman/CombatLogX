@@ -149,6 +149,7 @@ expansion:
     togglepvp:
       self: "&7PVP: {status}"
       admin: "&7You changed the pvp of &e{target}&7 to {status}&7."
+      cooldown: "&cYou must wait &7{time_left} seconds&c to use this command again."
     no-pvp:
       self: "&cYou are not allowed to hit that player while your PvP is disabled."
       other: "&cThat player has PvP disabled."

@@ -13,3 +13,12 @@ protection-time: 30000
 # Should new players also be protected from mob attacks?
 # Default: true
 mob-protection: false
+
+# How long (in seconds) must players wait before using the pvp toggle command again?
+# Default: 0 (no cooldown)
+pvp-toggle-cooldown: 0
+
+# What permission is required to bypass the pvp toggle cooldown?
+# Set this to "" to disable the bypass permission.
+# Default: "combatlogx.bypass.pvp-toggle.cooldown"
+pvp-toggle-cooldown-bypass-permission: "combatlogx.bypass.pvp-toggle.cooldown"

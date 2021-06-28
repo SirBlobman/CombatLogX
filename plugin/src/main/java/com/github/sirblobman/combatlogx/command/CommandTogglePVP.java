@@ -4,22 +4,22 @@ import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import com.github.sirblobman.api.command.Command;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.command.CombatLogCommand;
 
-public class CommandTogglePVP extends Command {
-    public CommandTogglePVP(JavaPlugin plugin) {
+public final class CommandTogglePVP extends CombatLogCommand {
+    public CommandTogglePVP(ICombatLogX plugin) {
         super(plugin, "togglepvp");
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, String[] args) {
+    protected List<String> onTabComplete(CommandSender sender, String[] args) {
         return Collections.emptyList();
     }
 
     @Override
-    public boolean execute(CommandSender sender, String[] args) {
+    protected boolean execute(CommandSender sender, String[] args) {
         sender.sendMessage("This command requires the 'Newbie Helper' expansion.");
         sender.sendMessage("Please tell an admin to install it!");
         return true;

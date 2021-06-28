@@ -19,7 +19,6 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.github.sirblobman.api.command.Command;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.core.CorePlugin;
@@ -28,7 +27,9 @@ import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.api.update.UpdateManager;
 import com.github.sirblobman.api.utility.MessageUtility;
 import com.github.sirblobman.api.utility.VersionUtility;
-import com.github.sirblobman.combatlogx.CombatPlugin;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.ICombatManager;
+import com.github.sirblobman.combatlogx.api.command.CombatLogCommand;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion.State;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionDescription;
@@ -36,25 +37,16 @@ import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
-import com.github.sirblobman.combatlogx.manager.CombatManager;
 
 import org.jetbrains.annotations.NotNull;
 
-public class CommandCombatLogX extends Command {
-    private final CombatPlugin plugin;
-    public CommandCombatLogX(CombatPlugin plugin) {
+public final class CommandCombatLogX extends CombatLogCommand {
+    public CommandCombatLogX(ICombatLogX plugin) {
         super(plugin, "combatlogx");
-        this.plugin = plugin;
-    }
-
-    @NotNull
-    @Override
-    public LanguageManager getLanguageManager() {
-        return this.plugin.getLanguageManager();
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, String[] args) {
+    protected List<String> onTabComplete(CommandSender sender, String[] args) {
         if(args.length == 1) {
             List<String> valueList = Arrays.asList("help", "reload", "version", "tag", "toggle", "untag", "about");
             return getMatching(valueList, args[0]);
@@ -63,7 +55,8 @@ public class CommandCombatLogX extends Command {
         if(args.length == 2) {
             String sub = args[0].toLowerCase();
             if(sub.equals("about")) {
-                ExpansionManager expansionManager = this.plugin.getExpansionManager();
+                ICombatLogX plugin = getCombatLogX();
+                ExpansionManager expansionManager = plugin.getExpansionManager();
                 List<Expansion> expansionList = expansionManager.getAllExpansions();
                 List<String> valueList = expansionList.stream().map(Expansion::getName).collect(Collectors.toList());
                 return getMatching(valueList, args[1]);
@@ -84,7 +77,7 @@ public class CommandCombatLogX extends Command {
     }
 
     @Override
-    public boolean execute(CommandSender sender, String[] args) {
+    protected boolean execute(CommandSender sender, String[] args) {
         if(args.length < 1) return false;
         String[] newArgs = (args.length < 2 ? new String[0] : Arrays.copyOfRange(args, 1, args.length));
 
@@ -129,14 +122,14 @@ public class CommandCombatLogX extends Command {
         if(!checkPermission(sender, "combatlogx.command.combatlogx.about", true)) return true;
         if(args.length < 1) return false;
 
-        LanguageManager languageManager = getLanguageManager();
-        ExpansionManager expansionManager = this.plugin.getExpansionManager();
-
         String expansionName = args[0];
+        ICombatLogX plugin = getCombatLogX();
+        ExpansionManager expansionManager = plugin.getExpansionManager();
         Optional<Expansion> optionalExpansion = expansionManager.getExpansion(expansionName);
+
         if(!optionalExpansion.isPresent()) {
             Replacer replacer = message -> message.replace("{target}", expansionName);
-            languageManager.sendMessage(sender, "error.unknown-expansion", replacer, true);
+            sendMessageWithPrefix(sender, "error.unknown-expansion", replacer, true);
             return true;
         }
 
@@ -167,6 +160,7 @@ public class CommandCombatLogX extends Command {
 
     private boolean helpCommand(CommandSender sender) {
         if(!checkPermission(sender, "combatlogx.command.combatlogx.help", true)) return true;
+
         LanguageManager languageManager = getLanguageManager();
         languageManager.sendMessage(sender, "command.combatlogx.help-message-list", null, true);
         return true;
@@ -174,20 +168,22 @@ public class CommandCombatLogX extends Command {
 
     private boolean reloadCommand(CommandSender sender) {
         if(!checkPermission(sender, "combatlogx.command.combatlogx.reload", true)) return true;
-        ConfigurationManager configurationManager = this.plugin.getConfigurationManager();
+
+        ICombatLogX plugin = getCombatLogX();
+        ConfigurationManager configurationManager = plugin.getConfigurationManager();
         configurationManager.reload("config.yml");
         configurationManager.reload("commands.yml");
         configurationManager.reload("force-field.yml");
         configurationManager.reload("punish.yml");
         configurationManager.reload("language.yml");
 
-        LanguageManager languageManager = this.plugin.getLanguageManager();
+        LanguageManager languageManager = getLanguageManager();
         languageManager.reloadLanguages();
 
-        ExpansionManager expansionManager = this.plugin.getExpansionManager();
+        ExpansionManager expansionManager = plugin.getExpansionManager();
         expansionManager.reloadConfigs();
 
-        languageManager.sendMessage(sender, "command.combatlogx.reload-success", null, true);
+        sendMessageWithPrefix(sender, "command.combatlogx.reload-success", null, true);
         return true;
     }
 
@@ -201,12 +197,12 @@ public class CommandCombatLogX extends Command {
         String targetName = target.getName();
         Replacer replacer = message -> message.replace("{target}", targetName);
 
-        CombatManager combatManager = this.plugin.getCombatManager();
+        ICombatLogX plugin = getCombatLogX();
+        ICombatManager combatManager = plugin.getCombatManager();
         boolean successfulTag = combatManager.tag(target, null, TagType.UNKNOWN, TagReason.UNKNOWN);
         String messagePath = ("command.combatlogx." + (successfulTag ? "tag-player" : "tag-failure"));
 
-        LanguageManager languageManager = getLanguageManager();
-        languageManager.sendMessage(sender, messagePath, replacer, true);
+        sendMessageWithPrefix(sender, messagePath, replacer, true);
         return true;
     }
 
@@ -219,16 +215,16 @@ public class CommandCombatLogX extends Command {
 
         String targetName = target.getName();
         Replacer replacer = message -> message.replace("{target}", targetName);
-        LanguageManager languageManager = getLanguageManager();
 
-        CombatManager combatManager = this.plugin.getCombatManager();
+        ICombatLogX plugin = getCombatLogX();
+        ICombatManager combatManager = plugin.getCombatManager();
         if(!combatManager.isInCombat(target)) {
-            languageManager.sendMessage(sender, "error.target-not-in-combat", replacer, true);
+            sendMessageWithPrefix(sender, "error.target-not-in-combat", replacer, true);
             return true;
         }
 
         combatManager.untag(target, UntagReason.EXPIRE);
-        languageManager.sendMessage(sender, "command.combatlogx.untag-player", replacer, true);
+        sendMessageWithPrefix(sender, "command.combatlogx.untag-player", replacer, true);
         return true;
     }
 
@@ -253,7 +249,7 @@ public class CommandCombatLogX extends Command {
         messageList.add("&f&lDependency Information:");
 
         PluginManager pluginManager = Bukkit.getPluginManager();
-        PluginDescriptionFile description = this.plugin.getDescription();
+        PluginDescriptionFile description = getCombatLogX().getPlugin().getDescription();
         List<String> dependencyList = new ArrayList<>(description.getDepend());
         dependencyList.addAll(description.getSoftDepend());
 
@@ -274,7 +270,7 @@ public class CommandCombatLogX extends Command {
         messageList.add("&f&lSpigot Version: &7" + spigotVersion);
         messageList.add("&f");
 
-        ExpansionManager expansionManager = this.plugin.getExpansionManager();
+        ExpansionManager expansionManager = getCombatLogX().getExpansionManager();
         List<Expansion> enabledExpansionList = expansionManager.getEnabledExpansions();
         messageList.add("&f&lEnabled Expansions (&7" + enabledExpansionList.size() + "&f&l):");
 
@@ -287,7 +283,10 @@ public class CommandCombatLogX extends Command {
         List<String> finalMessage = MessageUtility.colorList(messageList);
         finalMessage.forEach(sender::sendMessage);
 
-        if(!(sender instanceof ConsoleCommandSender)) sender.sendMessage(ChatColor.RED + "This command works better in the server console.");
+        if(!(sender instanceof ConsoleCommandSender)) {
+            sender.sendMessage(ChatColor.RED + "This command works better in the server console.");
+        }
+
         return true;
     }
 
@@ -320,7 +319,7 @@ public class CommandCombatLogX extends Command {
     }
 
     private void toggleValue(Player player, String value) {
-        PlayerDataManager playerDataManager = this.plugin.getPlayerDataManager();
+        PlayerDataManager playerDataManager = getCombatLogX().getPlayerDataManager();
         LanguageManager languageManager = getLanguageManager();
 
         YamlConfiguration configuration = playerDataManager.get(player);
@@ -334,20 +333,21 @@ public class CommandCombatLogX extends Command {
         Replacer replacer = message -> message.replace("{status}", statusString);
 
         String messagePath = ("expansion.toggle-" + value);
-        languageManager.sendMessage(player, messagePath, replacer, true);
+        sendMessageWithPrefix(player, messagePath, replacer, true);
     }
 
     @NotNull
     private String getSpigotVersion() {
         CorePlugin corePlugin = JavaPlugin.getPlugin(CorePlugin.class);
         UpdateManager updateManager = corePlugin.getUpdateManager();
-        String spigotVersion = updateManager.getSpigotVersion(this.plugin);
+        String spigotVersion = updateManager.getSpigotVersion(getCombatLogX().getPlugin());
         return (spigotVersion == null ? "Update Checker Disabled!" : spigotVersion);
     }
 
     @NotNull
     public String getPluginVersion() {
-        PluginDescriptionFile description = this.plugin.getDescription();
+        ICombatLogX plugin = getCombatLogX();
+        PluginDescriptionFile description = plugin.getPlugin().getDescription();
         return description.getVersion();
     }
 }
