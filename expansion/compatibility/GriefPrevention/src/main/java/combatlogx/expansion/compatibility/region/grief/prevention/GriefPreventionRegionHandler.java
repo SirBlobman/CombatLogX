@@ -10,7 +10,6 @@ import com.github.sirblobman.combatlogx.api.object.TagType;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 
-@SuppressWarnings("UnstableApiUsage")
 public final class GriefPreventionRegionHandler extends RegionHandler {
     public GriefPreventionRegionHandler(GriefPreventionExpansion expansion) {
         super(expansion);
