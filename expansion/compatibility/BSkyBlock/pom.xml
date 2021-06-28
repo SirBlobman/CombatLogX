@@ -26,7 +26,7 @@
         <dependency>
             <groupId>world.bentobox</groupId>
             <artifactId>bentobox</artifactId>
-            <version>1.16.2</version>
+            <version>1.17.0</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
