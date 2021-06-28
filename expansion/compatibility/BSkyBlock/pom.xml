@@ -13,11 +13,15 @@
     <name>Compatibility Expansion: BSkyBlock</name>
     <description>An expansion for CombatLogX that adds compatibility with the BentoBox BSkyBlock addon.</description>
 
+    <properties>
+        <java.version>16</java.version>
+    </properties>
+
     <repositories>
-        <!-- CodeMC Public Repository -->
+        <!-- SirBlobman Public Repository -->
         <repository>
-            <id>codemc-public</id>
-            <url>https://repo.codemc.io/repository/maven-public/</url>
+            <id>sirblobman-public</id>
+            <url>https://nexus.sirblobman.xyz/repository/public/</url>
         </repository>
     </repositories>
 
