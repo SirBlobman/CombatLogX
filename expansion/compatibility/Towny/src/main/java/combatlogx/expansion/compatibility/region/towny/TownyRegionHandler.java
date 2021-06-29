@@ -20,7 +20,7 @@ import com.palmergames.bukkit.towny.object.Town;
 import com.palmergames.bukkit.towny.object.TownBlock;
 import com.palmergames.bukkit.towny.object.TownyPermission;
 import com.palmergames.bukkit.towny.object.TownyWorld;
-import com.palmergames.bukkit.towny.war.flagwar.FlagWar;
+import io.github.townyadvanced.flagwar.FlagWarAPI;
 
 public class TownyRegionHandler extends RegionHandler {
     public TownyRegionHandler(TownyExpansion expansion) {
@@ -33,7 +33,6 @@ public class TownyRegionHandler extends RegionHandler {
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public boolean isSafeZone(Player player, Location location, TagType tagType) {
         if(tagType != TagType.PLAYER) return false;
 
@@ -55,9 +54,7 @@ public class TownyRegionHandler extends RegionHandler {
 
         Town town = townBlock.getTownOrNull();
         if(town == null || town.isPVP() || town.isAdminEnabledPVP()) return false;
-
-        // TODO: Use FlagWar plugin when it is released instead of this deprecated method.
-        if(FlagWar.isUnderAttack(town)) return false;
+        if(FlagWarAPI.isUnderAttack(town)) return false;
 
         TownyPermission townBlockPermissions = townBlock.getPermissions();
         return !townBlockPermissions.pvp;
