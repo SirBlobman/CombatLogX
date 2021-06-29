@@ -142,7 +142,8 @@ expansion:
   newbie-helper:
     togglepvp:
       self: "&7PVP: {status}"
-      admin: "&7You changed the pvp of &e{target}&7 to {status}&7."
+      admin: "&7Você alterou o pvp de &e{target}&7 para {status}&7." 
+      cooldown: "&cVocê deve esperar &7{time_left} segundos&c para usar este comando novamente."
     no-pvp:
       self: "&cVocê não tem permissão para acertar aquele jogador enquanto seu PvP estiver desabilitado."
       other: "&cEsse jogador tem PvP desativado."
