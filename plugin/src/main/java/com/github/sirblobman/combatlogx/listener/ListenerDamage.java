@@ -33,8 +33,8 @@ public final class ListenerDamage extends CombatListener {
         Entity damager = getDamager(e);
         if(damager == null) return;
 
-        checkTag(damaged, damager, TagReason.ATTACKED);
         checkTag(damager, damaged, TagReason.ATTACKER);
+        checkTag(damaged, damager, TagReason.ATTACKED);
     }
 
     @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)

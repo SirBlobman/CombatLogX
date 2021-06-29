@@ -176,14 +176,14 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
 
     @Override
     public void sendMessageWithPrefix(CommandSender sender, String key, Replacer replacer, boolean color) {
-        String message = getMessageWithPrefix(sender, key, null, color);
+        String message = getMessageWithPrefix(sender, key, replacer, color);
         if(!message.isEmpty()) sender.sendMessage(message);
     }
 
     @Override
     public String getMessageWithPrefix(CommandSender sender, String key, Replacer replacer, boolean color) {
         LanguageManager languageManager = getLanguageManager();
-        String message = languageManager.getMessage(sender, key, null, color);
+        String message = languageManager.getMessage(sender, key, replacer, color);
         if(message.isEmpty()) return "";
 
         String prefix = languageManager.getMessage(sender, "prefix", null, true);
