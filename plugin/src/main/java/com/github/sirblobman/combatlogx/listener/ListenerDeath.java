@@ -47,9 +47,15 @@ public final class ListenerDeath extends CombatListener implements IDeathListene
 
     @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
     public void onJoin(PlayerJoinEvent e) {
+        ConfigurationManager configurationManager = getPluginConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("punish.yml");
+        String killTime = configuration.getString("kill-time");
+        if(killTime == null || !killTime.equalsIgnoreCase("join")) return;
+
         Player player = e.getPlayer();
         PlayerDataManager playerDataManager = getPlayerDataManager();
         YamlConfiguration playerData = playerDataManager.get(player);
+        if(!playerData.getBoolean("kill-on-join", false)) return;
 
         playerData.set("kill-on-join", false);
         playerDataManager.save(player);
