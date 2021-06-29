@@ -143,7 +143,8 @@ expansion:
   newbie-helper:
     togglepvp:
       self: "&7PVP: {status}"
-      admin: "&7Cambiaste el modo combate al jugador &e{target}&7 a {status}&7."
+      admin: "&7Cambiaste el modo combate al jugador &e{target}&7 a {status}&7." 
+      cooldown: "&cDebes esperar &7{time_left} segundos&c para usar este comando nuevamente."
     no-pvp:
       self: "&cNo puedes atacarte si tienes el modo de combate desactivado."
       other: "&cEse jugador tiene el modo de combate desactivado."
