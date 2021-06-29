@@ -31,6 +31,7 @@ public final class CheatPreventionExpansion extends Expansion {
     public void onLoad() {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.saveDefault("blocks.yml");
+        configurationManager.saveDefault("buckets.yml");
         configurationManager.saveDefault("chat.yml");
         configurationManager.saveDefault("commands.yml");
         configurationManager.saveDefault("config.yml");
@@ -90,14 +91,15 @@ public final class CheatPreventionExpansion extends Expansion {
     public void reloadConfig() {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.reload("blocks.yml");
+        configurationManager.reload("buckets.yml");
         configurationManager.reload("chat.yml");
         configurationManager.reload("commands.yml");
         configurationManager.reload("config.yml");
         configurationManager.reload("entities.yml");
-        configurationManager.reload("items.yml");
-        configurationManager.reload("inventories.yml");
         configurationManager.reload("flight.yml");
         configurationManager.reload("game-mode.yml");
+        configurationManager.reload("inventories.yml");
+        configurationManager.reload("items.yml");
         configurationManager.reload("potions.yml");
         configurationManager.reload("teleportation.yml");
     }
