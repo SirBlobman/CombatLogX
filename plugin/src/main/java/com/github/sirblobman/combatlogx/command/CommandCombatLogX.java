@@ -173,7 +173,6 @@ public final class CommandCombatLogX extends CombatLogCommand {
         ConfigurationManager configurationManager = plugin.getConfigurationManager();
         configurationManager.reload("config.yml");
         configurationManager.reload("commands.yml");
-        configurationManager.reload("force-field.yml");
         configurationManager.reload("punish.yml");
         configurationManager.reload("language.yml");
 
