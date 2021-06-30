@@ -5,9 +5,11 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
@@ -41,6 +43,8 @@ public class TownyRegionHandler extends RegionHandler {
         YamlConfiguration configuration = configurationManager.get("config.yml");
 
         TownBlock townBlock = getTownBlock(location);
+        if(townBlock == null) return false;
+
         if(configuration.getBoolean("prevent-all-town-entries", false)
                 && isOwnTown(townBlock, player)) {
             return true;
@@ -54,7 +58,11 @@ public class TownyRegionHandler extends RegionHandler {
 
         Town town = townBlock.getTownOrNull();
         if(town == null || town.isPVP() || town.isAdminEnabledPVP()) return false;
-        if(FlagWarAPI.isUnderAttack(town)) return false;
+
+        PluginManager pluginManager = Bukkit.getPluginManager();
+        if(pluginManager.isPluginEnabled("FlagWar")) {
+            if(FlagWarAPI.isUnderAttack(town)) return false;
+        }
 
         TownyPermission townBlockPermissions = townBlock.getPermissions();
         return !townBlockPermissions.pvp;

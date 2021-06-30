@@ -6,6 +6,7 @@ import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 
 public final class TownyExpansion extends RegionExpansion {
     private RegionHandler regionHandler;
+
     public TownyExpansion(ICombatLogX plugin) {
         super(plugin);
         this.regionHandler = null;
@@ -14,6 +15,11 @@ public final class TownyExpansion extends RegionExpansion {
     @Override
     public boolean checkDependencies() {
         return checkDependency("Towny", true, "0.97");
+    }
+
+    @Override
+    public void afterEnable() {
+        checkDependency("FlagWar", true);
     }
 
     @Override
