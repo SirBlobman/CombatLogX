@@ -17,6 +17,7 @@ import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
 import com.palmergames.bukkit.towny.TownyAPI;
+import com.palmergames.bukkit.towny.exceptions.NotRegisteredException;
 import com.palmergames.bukkit.towny.object.Resident;
 import com.palmergames.bukkit.towny.object.Town;
 import com.palmergames.bukkit.towny.object.TownBlock;
@@ -56,8 +57,13 @@ public final class TownyRegionHandler extends RegionHandler {
         TownyWorld townyWorld = townBlock.getWorld();
         if(townyWorld == null || townyWorld.isForcePVP()) return false;
 
-        Town town = townBlock.getTownOrNull();
-        if(town == null || town.isPVP() || town.isAdminEnabledPVP()) return false;
+        Town town;
+        try {
+            town = townBlock.getTown();
+            if(town == null || town.isPVP() || town.isAdminEnabledPVP()) return false;
+        } catch(NotRegisteredException ex) {
+            return false;
+        }
 
         PluginManager pluginManager = Bukkit.getPluginManager();
         if(pluginManager.isPluginEnabled("FlagWar")) {
@@ -76,8 +82,12 @@ public final class TownyRegionHandler extends RegionHandler {
     private boolean isOwnTown(TownBlock townBlock, Player player) {
         if(townBlock == null) return false;
 
-        Town town = townBlock.getTownOrNull();
-        if(town == null) return false;
+        Town town;
+        try {
+            town = townBlock.getTown();
+        } catch(NotRegisteredException ex) {
+            return false;
+        }
 
         List<Resident> residentList = town.getResidents();
         Set<UUID> residentIdList = residentList.stream().map(Resident::getUUID).collect(Collectors.toSet());
