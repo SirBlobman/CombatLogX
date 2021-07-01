@@ -25,6 +25,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -226,9 +227,11 @@ public final class ExpansionManager {
             if(description.isList("plugin-depend")) {
                 List<String> pluginDependList = description.getStringList("plugin-depend");
                 for(String pluginName : pluginDependList) {
-                    if(pluginManager.isPluginEnabled(pluginName)) continue;
+                    Plugin dependencyPlugin = pluginManager.getPlugin(pluginName);
+                    if(dependencyPlugin != null) continue;
+
                     logger.warning("Failed to load expansion '" + expansionFile + "' because a plugin " +
-                            "dependency was missing: " + pluginName);
+                            "dependency was not loaded: " + pluginName);
                     return;
                 }
             }
