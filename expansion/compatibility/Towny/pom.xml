@@ -33,7 +33,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Flagwar -->
+        <!-- FlagWar -->
         <dependency>
             <groupId>com.github.TownyAdvanced</groupId>
             <artifactId>FlagWar</artifactId>
