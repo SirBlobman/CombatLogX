@@ -27,6 +27,7 @@ public final class ListenerPreciousStones extends ExpansionListener {
 
         e.setCancelled(true);
         LanguageManager languageManager = getLanguageManager();
-        languageManager.sendMessage(player, "expansion.preciousstones-compatibility.no-field", null, true);
+        languageManager.sendMessage(player, "expansion.preciousstones-compatibility.no-field",
+                null, true);
     }
 }

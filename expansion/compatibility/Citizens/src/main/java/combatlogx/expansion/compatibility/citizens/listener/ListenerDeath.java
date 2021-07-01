@@ -11,7 +11,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
@@ -80,8 +79,7 @@ public final class ListenerDeath extends ExpansionListener {
     }
 
     private YamlConfiguration getConfiguration() {
-        Expansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
+        ConfigurationManager configurationManager = getExpansionConfigurationManager();
         return configurationManager.get("citizens.yml");
     }
 

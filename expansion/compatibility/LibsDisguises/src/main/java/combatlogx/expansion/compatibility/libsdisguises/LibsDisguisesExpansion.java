@@ -4,7 +4,7 @@ import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
-public class LibsDisguisesExpansion extends Expansion {
+public final class LibsDisguisesExpansion extends Expansion {
     public LibsDisguisesExpansion(ICombatLogX plugin) {
         super(plugin);
     }

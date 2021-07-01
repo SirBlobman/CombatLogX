@@ -13,6 +13,8 @@ import org.bukkit.projectiles.ProjectileSource;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 
+import org.jetbrains.annotations.Nullable;
+
 public final class EntityHelper {
     public static Entity linkPet(Entity original) {
         if(!(original instanceof Tameable)) return original;
@@ -24,6 +26,7 @@ public final class EntityHelper {
 
     public static Entity linkProjectile(ICombatLogX plugin, Entity original) {
         if(!(original instanceof Projectile)) return original;
+
         Projectile projectile = (Projectile) original;
         if(isProjectileIgnored(plugin, projectile)) return original;
 
@@ -31,9 +34,8 @@ public final class EntityHelper {
         return (shooter instanceof Entity ? (Entity) shooter : original);
     }
 
-    public static boolean isNPC(Entity original) {
-        if(original == null) return false;
-        return original.hasMetadata("NPC");
+    public static boolean isNPC(@Nullable Entity entity) {
+        return (entity != null && entity.hasMetadata("NPC"));
     }
 
     private static boolean isProjectileIgnored(ICombatLogX plugin, Projectile projectile) {

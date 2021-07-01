@@ -12,7 +12,7 @@ import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.massivecore.ps.PS;
 
-public class FactionsRegionHandler extends RegionHandler {
+public final class FactionsRegionHandler extends RegionHandler {
     public FactionsRegionHandler(FactionsExpansion expansion) {
         super(expansion);
     }

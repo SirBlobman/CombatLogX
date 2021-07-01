@@ -10,6 +10,7 @@ import combatlogx.expansion.compatibility.region.world.guard.listener.ListenerWo
 
 public final class WorldGuardExpansion extends RegionExpansion {
     private RegionHandler regionHandler;
+
     public WorldGuardExpansion(ICombatLogX plugin) {
         super(plugin);
         this.regionHandler = null;

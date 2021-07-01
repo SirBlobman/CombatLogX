@@ -10,7 +10,7 @@ import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 import dev.espi.protectionstones.event.PSCreateEvent;
 
-public class ProtectionStonesListener extends ExpansionListener {
+public final class ProtectionStonesListener extends ExpansionListener {
     public ProtectionStonesListener(Expansion expansion) {
         super(expansion);
     }
@@ -22,6 +22,7 @@ public class ProtectionStonesListener extends ExpansionListener {
         e.setCancelled(true);
 
         LanguageManager languageManager = getLanguageManager();
-        languageManager.sendMessage(player, "expansion.protectionstones-compatibility.place", null, true);
+        languageManager.sendMessage(player, "expansion.protectionstones-compatibility.place",
+                null, true);
     }
 }

@@ -5,3 +5,6 @@ description: "${project.description}"
 main: "combatlogx.expansion.compatibility.superior.skyblock.SuperiorSkyblockExpansion"
 version: "16.0"
 author: "SirBlobman"
+
+plugin-depend:
+  - "SuperiorSkyblock"

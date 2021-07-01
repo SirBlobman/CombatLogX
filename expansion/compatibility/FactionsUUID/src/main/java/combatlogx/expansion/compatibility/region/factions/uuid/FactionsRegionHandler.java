@@ -11,7 +11,7 @@ import com.massivecraft.factions.Board;
 import com.massivecraft.factions.FLocation;
 import com.massivecraft.factions.Faction;
 
-public class FactionsRegionHandler extends RegionHandler {
+public final class FactionsRegionHandler extends RegionHandler {
     public FactionsRegionHandler(FactionsUUIDExpansion expansion) {
         super(expansion);
     }

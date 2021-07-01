@@ -35,6 +35,7 @@ import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.get
 
 public final class HookMVdWPlaceholderAPI implements PlaceholderReplacer {
     private final MVdWPlaceholderAPIExpansion expansion;
+
     public HookMVdWPlaceholderAPI(MVdWPlaceholderAPIExpansion expansion) {
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
     }
@@ -43,10 +44,12 @@ public final class HookMVdWPlaceholderAPI implements PlaceholderReplacer {
         ICombatLogX combatLogX = this.expansion.getPlugin();
         JavaPlugin plugin = combatLogX.getPlugin();
 
-        List<String> placeholderList = Arrays.asList("time_left", "in_combat", "status", "enemy_name", "enemy_health",
-                "enemy_health_rounded", "enemy_hearts", "newbie_helper_pvp_status", "newbie_helper_protected",
-                "enemy_world", "enemy_x", "enemy_y", "enemy_z"
+        List<String> placeholderList = Arrays.asList(
+                "time_left", "in_combat", "status", "enemy_name", "enemy_health", "enemy_health_rounded",
+                "enemy_hearts", "newbie_helper_pvp_status", "newbie_helper_protected", "enemy_world",
+                "enemy_x", "enemy_y", "enemy_z"
         );
+
         for(String value : placeholderList) {
             String placeholder = ("combatlogx_" + value);
             PlaceholderAPI.registerPlaceholder(plugin, placeholder, this);

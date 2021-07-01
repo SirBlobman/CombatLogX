@@ -8,7 +8,6 @@ import org.bukkit.event.EventPriority;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 import combatlogx.expansion.compatibility.supervanish.SuperVanishExpansion;
@@ -36,14 +35,8 @@ public final class ListenerVanish extends ExpansionListener {
     }
 
     private YamlConfiguration getConfiguration() {
-        Expansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
+        ConfigurationManager configurationManager = getExpansionConfigurationManager();
         return configurationManager.get("config.yml");
-    }
-
-    private boolean isTeleportRequestEnabled() {
-        YamlConfiguration configuration = getConfiguration();
-        return !configuration.getBoolean("prevent-teleport-request");
     }
 
     private boolean preventVanishSelfTag() {

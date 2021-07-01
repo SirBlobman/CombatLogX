@@ -17,13 +17,18 @@ public final class HookWorldGuard {
     public static void registerFlags(WorldGuardExpansion expansion) {
         try {
             WorldGuardWrapper instance = WorldGuardWrapper.getInstance();
-            UNKNOWN_COMBAT = instance.registerFlag("unknown-combat", WrappedState.class, WrappedState.ALLOW).orElse(null);
-            PLAYER_COMBAT = instance.registerFlag("player-combat", WrappedState.class, WrappedState.ALLOW).orElse(null);
-            MOB_COMBAT = instance.registerFlag("mob-combat", WrappedState.class, WrappedState.ALLOW).orElse(null);
-            NO_TAGGING = instance.registerFlag("no-tagging", Boolean.TYPE, false).orElse(null);
+            UNKNOWN_COMBAT = instance.registerFlag("unknown-combat", WrappedState.class, WrappedState.ALLOW)
+                    .orElse(null);
+            PLAYER_COMBAT = instance.registerFlag("player-combat", WrappedState.class, WrappedState.ALLOW)
+                    .orElse(null);
+            MOB_COMBAT = instance.registerFlag("mob-combat", WrappedState.class, WrappedState.ALLOW)
+                    .orElse(null);
+            NO_TAGGING = instance.registerFlag("no-tagging", Boolean.TYPE, false)
+                    .orElse(null);
         } catch(Exception ex) {
             Logger logger = expansion.getLogger();
-            logger.log(Level.WARNING, "Failed to register custom WorldGuard flags because an error occurred:", ex);
+            logger.log(Level.WARNING, "Failed to register custom WorldGuard flags because an error occurred:",
+                    ex);
         }
     }
 }

@@ -7,7 +7,6 @@ import org.bukkit.event.EventPriority;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.event.PlayerPunishEvent;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
@@ -23,18 +22,16 @@ public final class ListenerPunish extends ExpansionListener {
 
     @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
     public void beforePunish(PlayerPunishEvent e) {
-        Expansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
+        ConfigurationManager configurationManager = getExpansionConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("citizens.yml");
-
         if(configuration.getBoolean("prevent-punishments")) {
             e.setCancelled(true);
         }
 
         Player player = e.getPlayer();
         CombatNpcManager combatNpcManager = this.expansion.getCombatNpcManager();
-        YamlConfiguration data = combatNpcManager.getData(player);
-        data.set("citizens-compatibility.punish", true);
+        YamlConfiguration playerData = combatNpcManager.getData(player);
+        playerData.set("citizens-compatibility.punish", true);
 
         combatNpcManager.saveData(player);
         combatNpcManager.createNPC(player);

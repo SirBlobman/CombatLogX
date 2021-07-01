@@ -11,7 +11,7 @@ import net.redstoneore.legacyfactions.FLocation;
 import net.redstoneore.legacyfactions.entity.Board;
 import net.redstoneore.legacyfactions.entity.Faction;
 
-public class FactionsRegionHandler extends RegionHandler {
+public final class FactionsRegionHandler extends RegionHandler {
     public FactionsRegionHandler(LegacyFactionsExpansion expansion) {
         super(expansion);
     }

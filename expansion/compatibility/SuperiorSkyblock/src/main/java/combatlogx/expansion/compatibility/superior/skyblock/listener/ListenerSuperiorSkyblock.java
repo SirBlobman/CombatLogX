@@ -1,8 +1,9 @@
 package combatlogx.expansion.compatibility.superior.skyblock.listener;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -17,7 +18,7 @@ import com.bgsoftware.superiorskyblock.api.SuperiorSkyblockAPI;
 import com.bgsoftware.superiorskyblock.api.island.Island;
 import com.bgsoftware.superiorskyblock.api.wrappers.SuperiorPlayer;
 
-public class ListenerSuperiorSkyblock extends ExpansionListener {
+public final class ListenerSuperiorSkyblock extends ExpansionListener {
     public ListenerSuperiorSkyblock(Expansion expansion) {
         super(expansion);
     }
@@ -34,6 +35,7 @@ public class ListenerSuperiorSkyblock extends ExpansionListener {
 
     private Island getIsland(Player player) {
         if(player == null) return null;
+
         SuperiorPlayer superiorPlayer = SuperiorSkyblockAPI.getPlayer(player);
         return superiorPlayer.getIsland();
     }
@@ -46,8 +48,14 @@ public class ListenerSuperiorSkyblock extends ExpansionListener {
         Island island = getIsland(player1);
         if(island == null) return false;
 
-        List<SuperiorPlayer> islandPlayerList = island.getIslandMembers(true);
-        List<UUID> islandMemberList = islandPlayerList.stream().map(SuperiorPlayer::getUniqueId).collect(Collectors.toList());
-        return islandMemberList.contains(uuid2);
+        List<SuperiorPlayer> islandMemberList = island.getIslandMembers(true);
+        Set<UUID> islandMemberIdList = new HashSet<>();
+
+        for(SuperiorPlayer islandMember : islandMemberList) {
+            UUID uuid = islandMember.getUniqueId();
+            islandMemberIdList.add(uuid);
+        }
+
+        return islandMemberIdList.contains(uuid2);
     }
 }

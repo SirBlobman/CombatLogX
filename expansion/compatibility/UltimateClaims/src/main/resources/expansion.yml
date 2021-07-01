@@ -5,3 +5,6 @@ description: "${project.description}"
 main: "combatlogx.expansion.compatibility.region.ultimateclaims.UltimateClaimsExpansion"
 version: "16.0"
 author: "SirBlobman"
+
+plugin-depend:
+  - "UltimateClaims"

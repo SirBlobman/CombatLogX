@@ -55,29 +55,30 @@ public final class CombatNpcManager {
         this.npcCombatMap = new HashMap<>();
     }
 
-    public CitizensExpansion getExpansion() {
+    protected CitizensExpansion getExpansion() {
         return this.expansion;
     }
 
-    public ICombatLogX getPlugin() {
+    protected ICombatLogX getCombatLogX() {
         CitizensExpansion expansion = getExpansion();
         return expansion.getPlugin();
     }
 
     public CombatNPC getCombatNPC(NPC npc) {
         if(npc == null) return null;
+
         UUID uuid = npc.getUniqueId();
         return this.npcCombatMap.getOrDefault(uuid, null);
     }
 
     public YamlConfiguration getData(OfflinePlayer player) {
-        ICombatLogX plugin = getPlugin();
+        ICombatLogX plugin = getCombatLogX();
         PlayerDataManager playerDataManager = plugin.getPlayerDataManager();
         return playerDataManager.get(player);
     }
 
     public void saveData(OfflinePlayer player) {
-        ICombatLogX plugin = getPlugin();
+        ICombatLogX plugin = getCombatLogX();
         PlayerDataManager playerDataManager = plugin.getPlayerDataManager();
         playerDataManager.save(player);
     }

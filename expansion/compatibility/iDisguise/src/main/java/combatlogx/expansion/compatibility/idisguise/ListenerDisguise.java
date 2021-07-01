@@ -10,7 +10,7 @@ import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 import de.robingrether.idisguise.api.DisguiseAPI;
 import de.robingrether.idisguise.iDisguise;
 
-public class ListenerDisguise extends ExpansionListener {
+public final class ListenerDisguise extends ExpansionListener {
     public ListenerDisguise(DisguiseExpansion expansion) {
         super(expansion);
     }

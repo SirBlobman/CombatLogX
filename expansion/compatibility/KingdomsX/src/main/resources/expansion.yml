@@ -3,5 +3,8 @@ prefix: "KingdomsX Compatibility"
 description: "${project.description}"
 
 main: "combatlogx.expansion.compatibility.region.kingdomsx.KingdomsXExpansion"
-version: "16.2-Dev"
+version: "16.2"
 author: "SirBlobman"
+
+plugin-depend:
+  - "Kingdoms"

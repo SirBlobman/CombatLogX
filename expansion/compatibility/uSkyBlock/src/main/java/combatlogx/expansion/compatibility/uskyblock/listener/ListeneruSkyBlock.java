@@ -8,6 +8,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
 import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
@@ -17,7 +18,7 @@ import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 import us.talabrek.ultimateskyblock.api.IslandInfo;
 import us.talabrek.ultimateskyblock.api.uSkyBlockAPI;
 
-public class ListeneruSkyBlock extends ExpansionListener {
+public final class ListeneruSkyBlock extends ExpansionListener {
     public ListeneruSkyBlock(Expansion expansion) {
         super(expansion);
     }
@@ -32,11 +33,17 @@ public class ListeneruSkyBlock extends ExpansionListener {
         if(doesTeamMatch(player, playerEnemy)) e.setCancelled(true);
     }
 
+    private uSkyBlockAPI getAPI() {
+        PluginManager pluginManager = Bukkit.getPluginManager();
+        Plugin plugin = pluginManager.getPlugin("uSkyBlock");
+        return (uSkyBlockAPI) plugin;
+    }
+
     private IslandInfo getIsland(Player player) {
         if(player == null) return null;
-        PluginManager pluginManager = Bukkit.getPluginManager();
-        uSkyBlockAPI api = (uSkyBlockAPI) pluginManager.getPlugin("uSkyBlock");
-        return (api == null ? null : api.getIslandInfo(player));
+
+        uSkyBlockAPI api = getAPI();
+        return api.getIslandInfo(player);
     }
 
     private boolean doesTeamMatch(Player player1, Player player2) {

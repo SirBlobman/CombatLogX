@@ -34,6 +34,7 @@ import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.get
 
 public final class HookPlaceholderAPI extends PlaceholderExpansion {
     private final PlaceholderAPIExpansion expansion;
+
     public HookPlaceholderAPI(PlaceholderAPIExpansion expansion) {
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
     }

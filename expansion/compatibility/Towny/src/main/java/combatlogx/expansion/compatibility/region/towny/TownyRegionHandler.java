@@ -24,7 +24,7 @@ import com.palmergames.bukkit.towny.object.TownyPermission;
 import com.palmergames.bukkit.towny.object.TownyWorld;
 import io.github.townyadvanced.flagwar.FlagWarAPI;
 
-public class TownyRegionHandler extends RegionHandler {
+public final class TownyRegionHandler extends RegionHandler {
     public TownyRegionHandler(TownyExpansion expansion) {
         super(expansion);
     }

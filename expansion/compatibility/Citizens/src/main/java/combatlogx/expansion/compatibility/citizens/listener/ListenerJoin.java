@@ -22,7 +22,7 @@ import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
@@ -44,7 +44,8 @@ public final class ListenerJoin extends ExpansionListener {
 
         CommandSender console = Bukkit.getConsoleSender();
         LanguageManager languageManager = getLanguageManager();
-        String npcMessage = languageManager.getMessage(console, "expansion.citizens-join-deny", null, true);
+        String npcMessage = languageManager.getMessage(console, "expansion.citizens-join-deny", null,
+                true);
         e.disallow(Result.KICK_OTHER, npcMessage);
     }
 
@@ -68,8 +69,7 @@ public final class ListenerJoin extends ExpansionListener {
     }
 
     private YamlConfiguration getConfiguration() {
-        Expansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
+        ConfigurationManager configurationManager = getExpansionConfigurationManager();
         return configurationManager.get("citizens.yml");
     }
 
@@ -120,12 +120,19 @@ public final class ListenerJoin extends ExpansionListener {
     }
 
     private void setHealth(Player player, double health) {
-        if(Double.isInfinite(health) || Double.isNaN(health)) health = 0.0D;
-        MultiVersionHandler multiVersionHandler = getCombatLogX().getMultiVersionHandler();
+        if(Double.isInfinite(health) || Double.isNaN(health)) {
+            health = 0.0D;
+        }
+
+        ICombatLogX combatLogX = getCombatLogX();
+        MultiVersionHandler multiVersionHandler = combatLogX.getMultiVersionHandler();
         EntityHandler entityHandler = multiVersionHandler.getEntityHandler();
 
         double maxHealth = entityHandler.getMaxHealth(player);
-        if(maxHealth < health) entityHandler.setMaxHealth(player, health);
+        if(maxHealth < health) {
+            entityHandler.setMaxHealth(player, health);
+        }
+
         player.setHealth(health);
     }
 }

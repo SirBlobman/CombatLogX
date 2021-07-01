@@ -5,7 +5,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
-import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.ICombatManager;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
@@ -19,15 +18,15 @@ public class ListenerCrackShot extends ExpansionListener {
         super(expansion);
     }
 
-    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+    @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
     public void onAttack(WeaponDamageEntityEvent e) {
         Entity entity = e.getVictim();
         if(!(entity instanceof Player)) return;
+
         Player damaged = (Player) entity;
         Player damager = e.getPlayer();
 
-        ICombatLogX plugin = getCombatLogX();
-        ICombatManager combatManager = plugin.getCombatManager();
+        ICombatManager combatManager = getCombatManager();
         combatManager.tag(damager, damaged, TagType.PLAYER, TagReason.ATTACKER);
         combatManager.tag(damaged, damager, TagType.PLAYER, TagReason.ATTACKED);
     }

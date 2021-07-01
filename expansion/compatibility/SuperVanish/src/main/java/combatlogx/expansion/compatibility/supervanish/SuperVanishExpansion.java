@@ -20,7 +20,8 @@ public final class SuperVanishExpansion extends Expansion {
 
     @Override
     public void onEnable() {
-        if(!checkDependency("SuperVanish", true) && !checkDependency("PremiumVanish", true)) {
+        if(!checkDependency("SuperVanish", true)
+                && !checkDependency("PremiumVanish", true)) {
             ICombatLogX plugin = getPlugin();
             ExpansionManager expansionManager = plugin.getExpansionManager();
             expansionManager.disableExpansion(this);

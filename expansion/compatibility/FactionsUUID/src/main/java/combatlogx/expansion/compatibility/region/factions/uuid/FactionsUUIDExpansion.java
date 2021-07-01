@@ -13,6 +13,7 @@ import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 
 public final class FactionsUUIDExpansion extends RegionExpansion {
     private RegionHandler regionHandler;
+
     public FactionsUUIDExpansion(ICombatLogX plugin) {
         super(plugin);
         this.regionHandler = null;

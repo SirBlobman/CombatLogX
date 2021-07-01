@@ -5,3 +5,9 @@ description: "${project.description}"
 main: "combatlogx.expansion.compatibility.citizens.CitizensExpansion"
 version: "16.1"
 author: "SirBlobman"
+
+plugin-depend:
+  - "Citizens"
+
+plugin-soft-depend:
+  - "Sentinel"

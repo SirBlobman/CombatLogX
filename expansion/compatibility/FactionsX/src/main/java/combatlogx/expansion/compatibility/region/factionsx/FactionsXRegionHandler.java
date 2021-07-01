@@ -10,7 +10,7 @@ import com.github.sirblobman.combatlogx.api.object.TagType;
 import net.prosavage.factionsx.core.Faction;
 import net.prosavage.factionsx.manager.GridManager;
 
-public class FactionsXRegionHandler extends RegionHandler {
+public final class FactionsXRegionHandler extends RegionHandler {
     public FactionsXRegionHandler(FactionsXExpansion expansion) {
         super(expansion);
     }

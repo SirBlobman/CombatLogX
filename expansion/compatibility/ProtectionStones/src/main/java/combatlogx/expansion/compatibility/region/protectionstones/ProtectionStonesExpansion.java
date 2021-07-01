@@ -8,6 +8,7 @@ import combatlogx.expansion.compatibility.region.protectionstones.handler.Protec
 
 public final class ProtectionStonesExpansion extends RegionExpansion {
     private RegionHandler regionHandler;
+
     public ProtectionStonesExpansion(final ICombatLogX plugin) {
         super(plugin);
         this.regionHandler = null;

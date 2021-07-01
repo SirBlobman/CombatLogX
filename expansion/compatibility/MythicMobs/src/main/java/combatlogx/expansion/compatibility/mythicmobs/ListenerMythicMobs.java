@@ -11,10 +11,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.ICombatManager;
 import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
@@ -33,20 +31,23 @@ public final class ListenerMythicMobs extends ExpansionListener {
         Entity damaged = e.getEntity();
         Entity damager = e.getDamager();
 
-        ICombatLogX plugin = getCombatLogX();
-        ICombatManager combatManager = plugin.getCombatManager();
+        ICombatManager combatManager = getCombatManager();
 
         if(damaged instanceof Player && damager instanceof LivingEntity && isMythicMob(damager)) {
             String mobName = getMythicMobName(damager);
             if(isForceTag(mobName)) {
-                combatManager.tag((Player) damaged, (LivingEntity) damager, TagType.MOB, TagReason.ATTACKED);
+                Player playerDamaged = (Player) damaged;
+                LivingEntity livingDamager = (LivingEntity) damager;
+                combatManager.tag(playerDamaged, livingDamager, TagType.MOB, TagReason.ATTACKED);
             }
         }
 
-        if(damager instanceof Player && isMythicMob(damaged)) {
+        if(damager instanceof Player && damaged instanceof LivingEntity && isMythicMob(damaged)) {
             String mobName = getMythicMobName(damaged);
             if(isForceTag(mobName)) {
-                combatManager.tag((Player) damager, (LivingEntity) damaged, TagType.MOB, TagReason.ATTACKER);
+                Player playerDamager = (Player) damager;
+                LivingEntity livingDamaged = (LivingEntity) damaged;
+                combatManager.tag(playerDamager, livingDamaged, TagType.MOB, TagReason.ATTACKER);
             }
         }
     }
@@ -80,8 +81,7 @@ public final class ListenerMythicMobs extends ExpansionListener {
     }
 
     private YamlConfiguration getConfiguration() {
-        Expansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
+        ConfigurationManager configurationManager = getExpansionConfigurationManager();
         return configurationManager.get("config.yml");
     }
 

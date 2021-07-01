@@ -7,3 +7,5 @@ version: "16.1"
 author: "SirBlobman"
 
 late-load: true
+plugin-depend:
+  - "GriefPrevention"

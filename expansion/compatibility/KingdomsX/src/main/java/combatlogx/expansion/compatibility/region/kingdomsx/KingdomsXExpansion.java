@@ -6,6 +6,7 @@ import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 
 public final class KingdomsXExpansion extends RegionExpansion {
     private RegionHandler regionHandler;
+
     public KingdomsXExpansion(ICombatLogX plugin) {
         super(plugin);
         this.regionHandler = null;

@@ -15,6 +15,7 @@ import me.angeschossen.lands.api.land.Area;
 
 public final class LandsRegionHandler extends RegionHandler {
     private final LandsIntegration landsIntegration;
+
     public LandsRegionHandler(LandsExpansion expansion) {
         super(expansion);
         ICombatLogX plugin = expansion.getPlugin();

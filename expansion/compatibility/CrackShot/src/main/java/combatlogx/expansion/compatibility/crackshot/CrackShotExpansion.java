@@ -6,7 +6,7 @@ import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
 import combatlogx.expansion.compatibility.crackshot.listener.ListenerCrackShot;
 
-public class CrackShotExpansion extends Expansion {
+public final class CrackShotExpansion extends Expansion {
     public CrackShotExpansion(ICombatLogX plugin) {
         super(plugin);
     }

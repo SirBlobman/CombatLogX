@@ -6,7 +6,7 @@ import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
 import combatlogx.expansion.compatibility.superior.skyblock.listener.ListenerSuperiorSkyblock;
 
-public class SuperiorSkyblockExpansion extends Expansion {
+public final class SuperiorSkyblockExpansion extends Expansion {
     public SuperiorSkyblockExpansion(ICombatLogX plugin) {
         super(plugin);
     }

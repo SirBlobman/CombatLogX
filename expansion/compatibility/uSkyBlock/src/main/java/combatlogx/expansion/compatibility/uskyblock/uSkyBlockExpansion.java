@@ -6,7 +6,7 @@ import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
 import combatlogx.expansion.compatibility.uskyblock.listener.ListeneruSkyBlock;
 
-public class uSkyBlockExpansion extends Expansion {
+public final class uSkyBlockExpansion extends Expansion {
     public uSkyBlockExpansion(ICombatLogX plugin) {
         super(plugin);
     }

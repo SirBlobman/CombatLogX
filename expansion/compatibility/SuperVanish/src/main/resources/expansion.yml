@@ -5,3 +5,7 @@ description: "${project.description}"
 main: "combatlogx.expansion.compatibility.supervanish.SuperVanishExpansion"
 version: "16.0"
 author: "SirBlobman"
+
+plugin-soft-depend:
+  - "SuperVanish"
+  - "PremiumVanish"

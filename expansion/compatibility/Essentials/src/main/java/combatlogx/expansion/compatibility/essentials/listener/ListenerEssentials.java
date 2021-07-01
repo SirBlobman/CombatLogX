@@ -9,10 +9,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.language.LanguageManager;
-import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.ICombatManager;
 import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 import com.earth2me.essentials.CommandSource;
@@ -31,8 +29,7 @@ public final class ListenerEssentials extends ExpansionListener {
     public void onTeleportRequest(TPARequestEvent e) {
         if(isTeleportRequestEnabled()) return;
 
-        ICombatLogX plugin = getCombatLogX();
-        ICombatManager combatManager = plugin.getCombatManager();
+        ICombatManager combatManager = getCombatManager();
         LanguageManager languageManager = getLanguageManager();
 
         CommandSource requester = e.getRequester();
@@ -40,7 +37,9 @@ public final class ListenerEssentials extends ExpansionListener {
         if(player == null) return;
 
         if(combatManager.isInCombat(player)) {
-            languageManager.sendMessage(player, "expansion.essentials-compatibility.prevent-teleport-request-self", null, true);
+            languageManager.sendMessage(player,
+                    "expansion.essentials-compatibility.prevent-teleport-request-self", null,
+                    true);
             e.setCancelled(true);
             return;
         }
@@ -50,7 +49,9 @@ public final class ListenerEssentials extends ExpansionListener {
         if(target == null) return;
 
         if(combatManager.isInCombat(target)) {
-            languageManager.sendMessage(player, "expansion.essentials-compatibility.prevent-teleport-request-other", null, true);
+            languageManager.sendMessage(player,
+                    "expansion.essentials-compatibility.prevent-teleport-request-other", null,
+                    true);
             e.setCancelled(true);
             // return;
         }
@@ -73,8 +74,7 @@ public final class ListenerEssentials extends ExpansionListener {
     }
 
     private YamlConfiguration getConfiguration() {
-        Expansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
+        ConfigurationManager configurationManager = getExpansionConfigurationManager();
         return configurationManager.get("config.yml");
     }
 

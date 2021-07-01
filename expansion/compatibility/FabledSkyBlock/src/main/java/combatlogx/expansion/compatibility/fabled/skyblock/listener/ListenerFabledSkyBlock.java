@@ -27,11 +27,14 @@ public final class ListenerFabledSkyBlock extends ExpansionListener {
         Player playerEnemy = (Player) enemy;
 
         Player player = e.getPlayer();
-        if(doesTeamMatch(player, playerEnemy)) e.setCancelled(true);
+        if(doesTeamMatch(player, playerEnemy)) {
+            e.setCancelled(true);
+        }
     }
 
     private Island getIsland(Player player) {
         if(player == null) return null;
+
         IslandManager islandManager = SkyBlockAPI.getIslandManager();
         return islandManager.getIsland(player);
     }

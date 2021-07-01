@@ -21,7 +21,6 @@ import com.griefdefender.api.claim.ClaimManager;
 import com.griefdefender.api.permission.Context;
 import com.griefdefender.api.permission.option.Options;
 
-@SuppressWarnings("UnstableApiUsage")
 public final class GriefDefenderRegionHandler extends RegionHandler {
     public GriefDefenderRegionHandler(GriefDefenderExpansion expansion) {
         super(expansion);
@@ -33,6 +32,7 @@ public final class GriefDefenderRegionHandler extends RegionHandler {
     }
 
     @Override
+    @SuppressWarnings("UnstableApiUsage")
     public boolean isSafeZone(Player player, Location location, TagType tagType) {
         if(tagType == TagType.UNKNOWN) return false;
 
@@ -43,9 +43,10 @@ public final class GriefDefenderRegionHandler extends RegionHandler {
         Core core = GriefDefender.getCore();
         User user = core.getUser(uuid);
 
-        TypeToken<Tristate> tristateTypeToken = TypeToken.of(Tristate.class);
         Set<Context> contexts = Collections.emptySet();
-        Tristate activeOptionValue = claim.getActiveOptionValue(tristateTypeToken, Options.PVP, user, contexts);
+        TypeToken<Tristate> typeTokenTristate = TypeToken.of(Tristate.class);
+        Tristate activeOptionValue = claim.getActiveOptionValue(typeTokenTristate, Options.PVP, user, contexts);
+
         return (activeOptionValue != Tristate.TRUE);
     }
 

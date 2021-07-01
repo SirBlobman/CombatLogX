@@ -9,7 +9,7 @@ import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 import me.libraryaddict.disguise.DisguiseAPI;
 
-public class ListenerDisguise extends ExpansionListener {
+public final class ListenerDisguise extends ExpansionListener {
     public ListenerDisguise(LibsDisguisesExpansion expansion) {
         super(expansion);
     }

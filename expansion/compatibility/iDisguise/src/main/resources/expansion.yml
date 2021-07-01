@@ -5,3 +5,6 @@ description: "${project.description}"
 main: "combatlogx.expansion.compatibility.idisguise.DisguiseExpansion"
 version: "16.0"
 author: "SirBlobman"
+
+plugin-depend:
+  - "iDisguise"

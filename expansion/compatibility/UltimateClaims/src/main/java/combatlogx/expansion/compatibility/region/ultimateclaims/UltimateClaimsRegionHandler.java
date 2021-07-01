@@ -13,7 +13,7 @@ import com.songoda.ultimateclaims.claim.ClaimManager;
 import com.songoda.ultimateclaims.claim.ClaimSetting;
 import com.songoda.ultimateclaims.claim.ClaimSettings;
 
-public class UltimateClaimsRegionHandler extends RegionHandler {
+public final class UltimateClaimsRegionHandler extends RegionHandler {
     public UltimateClaimsRegionHandler(UltimateClaimsExpansion expansion) {
         super(expansion);
     }
