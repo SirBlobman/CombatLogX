@@ -18,6 +18,7 @@
     <modules>
         <module>CrackShot</module>
         <module>Citizens</module>
+        <module>FeatherBoard</module>
         <module>MythicMobs</module>
 
         <!-- Disguise Compatibility -->

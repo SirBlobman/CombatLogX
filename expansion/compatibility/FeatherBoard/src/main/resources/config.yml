@@ -1,0 +1,2 @@
+# Which trigger name should be sent to FeatherBoard whenever a player is tagged?
+trigger-name: "combatlogx"

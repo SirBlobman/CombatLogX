@@ -1,0 +1,10 @@
+name: "CompatFeatherBoard"
+prefix: "FeatherBoard Compatibility"
+description: "${project.description}"
+
+main: "combatlogx.expansion.compatibility.featherboard.FeatherBoardExpansion"
+version: "16.0"
+author: "SirBlobman"
+
+plugin-depend:
+  - "FeatherBoard"
