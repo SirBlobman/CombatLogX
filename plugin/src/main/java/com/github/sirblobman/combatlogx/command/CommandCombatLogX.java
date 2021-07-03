@@ -228,7 +228,7 @@ public final class CommandCombatLogX extends CombatLogCommand {
     }
 
     private boolean versionCommand(CommandSender sender) {
-        if(!checkPermission(sender, "combatlogx.command.combatlogx.untag", true)) return true;
+        if(!checkPermission(sender, "combatlogx.command.combatlogx.version", true)) return true;
         List<String> messageList = new ArrayList<>();
         messageList.add("&f");
 
