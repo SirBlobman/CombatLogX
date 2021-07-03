@@ -89,6 +89,10 @@ permissions:
     description: "Default force-field bypass permission if not configured."
     default: false
 
+  combatlogx.command.combat-timer:
+    description: "Access to the `/combat-timer` command."
+    default: true
+
   combatlogx.command.togglepvp:
     description: "Access to the '/togglepvp' command."
     default: true
