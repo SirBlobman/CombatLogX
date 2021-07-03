@@ -16,3 +16,19 @@ It contains all the implementations, commands, and listeners that will be used o
   - **Aliases:** `/combattimer`, `/combattime`, `/ctime`, `/clt`, `/ct`
   - **/combat-timer:** Check how much time you have left in combat.
   - **/combat-timer \<player\>:** Check how much time a player has left in combat.
+  
+## Permissions
+- **combatlogx.bypass:** Default bypass permission, can be changed in the config.yml file.
+- **combatlogx.bypass.force.field:** Default bypass permission for the force field, can be changed in the 
+  configuration file for the force field expansion.
+- **combatlogx.command.togglepvp:** Gives access to the `/togglepvp` command from the NewbieHelper expansion.
+- **combatlogx.command.togglepvp.admin:** Gives access to the admin features of the `/togglepvp` command.
+- **combatlogx.command.combatlogx:** Gives access to the base `/combatlogx` command, but not the sub-commands.
+- **combatlogx.command.combatlogx.toggle:** Gives access to the base `/combatlogx` command, but not the sub-commands.
+- **combatlogx.command.combatlogx.about:** Gives access to information about expansions with `/combatlogx about`.
+- **combatlogx.command.combatlogx.help:** Gives access to information about CombatLogX commands with 
+  `/combatlogx help`.
+- **combatlogx.command.combatlogx.reload:** Gives access to reload configurations with `/combatlogx reload`.
+- **combatlogx.command.combatlogx.version:** Gives access to version information with `/combatlogx version`.
+- **combatlogx.command.combatlogx.tag:** Gives access to force tag players with `/combatlogx tag`.
+- **combatlogx.command.combatlogx.untag:** Gives access to force players out of combat with `/combatlogx untag`.
