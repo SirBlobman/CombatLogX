@@ -90,7 +90,7 @@ permissions:
     default: false
 
   combatlogx.command.combat-timer:
-    description: "Access to the `/combat-timer` command."
+    description: "Access to the '/combat-timer' command."
     default: true
 
   combatlogx.command.togglepvp:
