@@ -142,7 +142,7 @@ public final class ListenerConfiguration extends CombatListener {
     private void checkEnemyDeathUntag(LivingEntity enemy) {
         ConfigurationManager configurationManager = getPluginConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-        if(!configuration.getBoolean("untag-on-death")) return;
+        if(!configuration.getBoolean("untag-on-enemy-death")) return;
 
         ICombatManager combatManager = getCombatManager();
         OfflinePlayer offlinePlayer = combatManager.getByEnemy(enemy);
