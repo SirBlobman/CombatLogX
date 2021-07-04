@@ -3,25 +3,19 @@ package com.SirBlobman.combatlogx.api.expansion;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
+
+import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.configuration.IResourceHolder;
+
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 
 /**
@@ -29,13 +23,13 @@ import com.SirBlobman.combatlogx.api.ICombatLogX;
  *
  * @author SirBlobman
  */
-public abstract class Expansion {
+public abstract class Expansion implements IResourceHolder {
     public enum State {
         ENABLED, DISABLED, LOADED, UNLOADED
     }
     
     private final ICombatLogX plugin;
-    private final Map<String, FileConfiguration> fileNameToConfigMap;
+    private final ConfigurationManager configurationManager;
 
     private ExpansionDescription description;
     private ExpansionLogger logger;
@@ -44,8 +38,8 @@ public abstract class Expansion {
 
     public Expansion(ICombatLogX plugin) {
         this.plugin = plugin;
-        this.fileNameToConfigMap = new HashMap<>();
         this.state = State.UNLOADED;
+        this.configurationManager = new ConfigurationManager(this);
     }
     
     final void setDataFolder(File dataFolder) {
@@ -68,6 +62,7 @@ public abstract class Expansion {
         return this.plugin;
     }
 
+    @Override
     public final File getDataFolder() {
         return this.dataFolder;
     }
@@ -88,7 +83,12 @@ public abstract class Expansion {
         if(this.logger != null) return this.logger;
         return (this.logger = new ExpansionLogger(this));
     }
-    
+
+    public ConfigurationManager getConfigurationManager() {
+        return this.configurationManager;
+    }
+
+    @Override
     public final InputStream getResource(String fileName) {
         if(fileName == null) throw new IllegalArgumentException("fileName must not be null!");
         
@@ -108,119 +108,23 @@ public abstract class Expansion {
     }
 
     public final FileConfiguration getConfig(String fileName) {
-        try {
-            File dataFolder = getDataFolder();
-            File file = new File(dataFolder, fileName);
-
-            File realFile = file.getCanonicalFile();
-            String realName = realFile.getName();
-
-            FileConfiguration config = fileNameToConfigMap.getOrDefault(realName, null);
-            if(config != null) return config;
-
-            reloadConfig(fileName);
-            return getConfig(fileName);
-        } catch(IOException ex) {
-            Logger logger = getLogger();
-            logger.log(Level.SEVERE, "An error occurred while getting a config named '" + fileName + "'. An empty config will be returned.", ex);
-            return new YamlConfiguration();
-        }
+        ConfigurationManager configurationManager = getConfigurationManager();
+        return configurationManager.get(fileName);
     }
 
     public final void reloadConfig(String fileName) {
-        try {
-            File dataFolder = getDataFolder();
-            File file = new File(dataFolder, fileName);
-
-            File realFile = file.getCanonicalFile();
-            String realName = realFile.getName();
-
-            YamlConfiguration config = new YamlConfiguration();
-            config.load(realFile);
-
-            InputStream jarStream = getResource(fileName);
-            if(jarStream != null) {
-                InputStreamReader reader = new InputStreamReader(jarStream, StandardCharsets.UTF_8);
-                YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(reader);
-                config.setDefaults(defaultConfig);
-            }
-
-            fileNameToConfigMap.put(realName, config);
-        } catch(IOException | InvalidConfigurationException ex) {
-            Logger logger = getLogger();
-            logger.log(Level.SEVERE, "An error ocurred while loading a config named '" + fileName + "'.", ex);
-        }
+        ConfigurationManager configurationManager = getConfigurationManager();
+        configurationManager.reload(fileName);
     }
 
     public final void saveConfig(String fileName) {
-        try {
-            File dataFolder = getDataFolder();
-            File file = new File(dataFolder, fileName);
-
-            File realFile = file.getCanonicalFile();
-            File parentFile = realFile.getParentFile();
-            if(parentFile != null && !parentFile.exists()) {
-                boolean createParent = parentFile.mkdirs();
-                if(!createParent) {
-                    Logger logger = getLogger();
-                    logger.info("Could not create parent file for '" + fileName + "'.");
-                    return;
-                }
-            }
-    
-            boolean createFile = realFile.createNewFile();
-            if(!createFile) {
-                Logger logger = getLogger();
-                logger.info("Failed to create file '" + fileName + "'.");
-                return;
-            }
-
-            FileConfiguration config = getConfig(fileName);
-            config.save(realFile);
-        } catch(IOException ex) {
-            Logger logger = getLogger();
-            logger.log(Level.SEVERE, "An error ocurred while saving a config named '" + fileName + "'.", ex);
-        }
+        ConfigurationManager configurationManager = getConfigurationManager();
+        configurationManager.save(fileName);
     }
 
     public final void saveDefaultConfig(String fileName) {
-        try {
-            File dataFolder = getDataFolder();
-            File file = new File(dataFolder, fileName);
-
-            File realFile = file.getCanonicalFile();
-            if(realFile.exists()) return;
-    
-            InputStream jarStream = getResource(fileName);
-            if(jarStream == null) {
-                Logger logger = getLogger();
-                logger.warning("Could not find file '" + fileName + "' in jar.");
-                return;
-            }
-            
-            File parentFile = realFile.getParentFile();
-            if(parentFile != null && !parentFile.exists()) {
-                boolean createParent = parentFile.mkdirs();
-                if(!createParent) {
-                    Logger logger = getLogger();
-                    logger.info("Could not create parent file for '" + fileName + "'.");
-                    return;
-                }
-            }
-            
-            boolean createFile = realFile.createNewFile();
-            if(!createFile) {
-                Logger logger = getLogger();
-                logger.info("Failed to create default file '" + fileName + "'.");
-                return;
-            }
-
-            Path path = realFile.toPath();
-            Files.copy(jarStream, path, StandardCopyOption.REPLACE_EXISTING);
-        } catch(IOException ex) {
-            Logger logger = getLogger();
-            logger.log(Level.SEVERE, "An error ocurred while saving the default config for file '" + fileName + "'.", ex);
-        }
+        ConfigurationManager configurationManager = getConfigurationManager();
+        configurationManager.saveDefault(fileName);
     }
 
     public final void printHookInfo(String pluginName) {

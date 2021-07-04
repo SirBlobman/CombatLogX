@@ -28,10 +28,13 @@
             <url>https://repo.codemc.io/repository/maven-public/</url>
         </repository>
 
-        <!-- Jitpack -->
+        <!-- JitPack Repository -->
         <repository>
             <id>jitpack</id>
             <url>https://jitpack.io/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
     </repositories>
     

@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.event.PlayerPreTagEvent;
@@ -76,16 +77,19 @@ public class ListenerMythicMobs implements Listener {
         combatManager.tag(player, null, TagType.UNKNOWN, reason);
     }
 
+    private BukkitAPIHelper getMythicMobsAPI() {
+        MythicMobs mythicMobs = JavaPlugin.getPlugin(MythicMobs.class);
+        return mythicMobs.getAPIHelper();
+    }
+
     private boolean isMythicMob(Entity entity) {
-        MythicMobs mythicMobs = MythicMobs.inst();
-        BukkitAPIHelper apiHelper = mythicMobs.getAPIHelper();
+        BukkitAPIHelper apiHelper = getMythicMobsAPI();
         return apiHelper.isMythicMob(entity);
     }
 
     private String getMythicMobName(Entity entity) {
         if(isMythicMob(entity)) {
-            MythicMobs mythicMobs = MythicMobs.inst();
-            BukkitAPIHelper apiHelper = mythicMobs.getAPIHelper();
+            BukkitAPIHelper apiHelper = getMythicMobsAPI();
             ActiveMob activeMob = apiHelper.getMythicMobInstance(entity);
             return (activeMob == null ? null : activeMob.getMobType());
         }

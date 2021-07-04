@@ -27,6 +27,7 @@ public class CompatibilityCitizens extends Expansion {
     private SentinelManager sentinelManager = null;
     private EnemyStorageManager enemyStorageManager = null;
     public ListenerNPCMove npcMoveListener = null;
+
     public CompatibilityCitizens(ICombatLogX plugin) {
         super(plugin);
     }
