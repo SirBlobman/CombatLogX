@@ -29,8 +29,8 @@ public abstract class Expansion implements IResourceHolder {
     }
     
     private final ICombatLogX plugin;
-    private final ConfigurationManager configurationManager;
 
+    private ConfigurationManager configurationManager;
     private ExpansionDescription description;
     private ExpansionLogger logger;
     private File dataFolder, file;
@@ -39,7 +39,6 @@ public abstract class Expansion implements IResourceHolder {
     public Expansion(ICombatLogX plugin) {
         this.plugin = plugin;
         this.state = State.UNLOADED;
-        this.configurationManager = new ConfigurationManager(this);
     }
     
     final void setDataFolder(File dataFolder) {
@@ -84,7 +83,11 @@ public abstract class Expansion implements IResourceHolder {
         return (this.logger = new ExpansionLogger(this));
     }
 
-    public ConfigurationManager getConfigurationManager() {
+    public final ConfigurationManager getConfigurationManager() {
+        if(this.configurationManager == null) {
+            this.configurationManager = new ConfigurationManager(this);
+        }
+
         return this.configurationManager;
     }
 

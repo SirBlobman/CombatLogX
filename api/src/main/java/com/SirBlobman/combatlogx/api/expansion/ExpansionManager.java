@@ -1,15 +1,23 @@
 package com.SirBlobman.combatlogx.api.expansion;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.expansion.Expansion.State;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -18,6 +26,9 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.expansion.Expansion.State;
 
 public class ExpansionManager {
     private final ICombatLogX plugin;
@@ -178,7 +189,7 @@ public class ExpansionManager {
             logger.log(Level.SEVERE, "An error occurred while trying to load an expansion", ex);
             return;
         }
-        
+
         File pluginFolder = this.plugin.getDataFolder();
         File expansionsFolder = new File(pluginFolder, "expansions");
         String expansionName = expansion.getDescription().getName();
