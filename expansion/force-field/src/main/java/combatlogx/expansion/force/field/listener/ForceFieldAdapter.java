@@ -115,6 +115,7 @@ public class ForceFieldAdapter extends PacketAdapter {
         try {
             StructureModifier<BlockPosition> blockPositionModifier = packetContainer.getBlockPositionModifier();
             BlockPosition blockPosition = blockPositionModifier.readSafely(0);
+            if(blockPosition == null) return getLocation1(world, packetContainer);
             return blockPosition.toLocation(world);
         } catch(FieldAccessException ex) {
             return getLocation1(world, packetContainer);
@@ -127,9 +128,10 @@ public class ForceFieldAdapter extends PacketAdapter {
             StructureModifier<MovingObjectPositionBlock> movingBlockPositionModifier =
                     packetContainer.getMovingBlockPositions();
             MovingObjectPositionBlock movingObjectPositionBlock = movingBlockPositionModifier.readSafely(0);
+            if(movingObjectPositionBlock == null) return null;
 
             BlockPosition blockPosition = movingObjectPositionBlock.getBlockPosition();
-            return blockPosition.toLocation(world);
+            return (blockPosition == null ? null : blockPosition.toLocation(world));
         } catch(FieldAccessException ex) {
             return null;
         }
