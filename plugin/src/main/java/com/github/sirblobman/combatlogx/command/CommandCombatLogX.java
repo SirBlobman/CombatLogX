@@ -84,33 +84,33 @@ public final class CommandCombatLogX extends CombatLogCommand {
         String sub = args[0].toLowerCase();
         switch(sub) {
             case "about":
-                return aboutCommand(sender, newArgs);
+                return commandAbout(sender, newArgs);
 
             case "help":
             case "?":
-                return helpCommand(sender);
+                return commandHelp(sender);
 
             case "reload":
             case "reloadconfig":
             case "config":
-                return reloadCommand(sender);
+                return commandReload(sender);
 
             case "tag":
             case "add":
             case "forcetag":
-                return tagCommand(sender, newArgs);
+                return commandTag(sender, newArgs);
 
             case "toggle":
-                return toggleCommand(sender, newArgs);
+                return commandToggle(sender, newArgs);
 
             case "untag":
             case "remove":
             case "forceuntag":
-                return untagCommand(sender, newArgs);
+                return commandUntag(sender, newArgs);
 
             case "version":
             case "ver":
-                return versionCommand(sender);
+                return commandVersion(sender);
 
             default: break;
         }
@@ -118,7 +118,7 @@ public final class CommandCombatLogX extends CombatLogCommand {
         return false;
     }
 
-    private boolean aboutCommand(CommandSender sender, String[] args) {
+    private boolean commandAbout(CommandSender sender, String[] args) {
         if(!checkPermission(sender, "combatlogx.command.combatlogx.about", true)) return true;
         if(args.length < 1) return false;
 
@@ -158,7 +158,7 @@ public final class CommandCombatLogX extends CombatLogCommand {
         return true;
     }
 
-    private boolean helpCommand(CommandSender sender) {
+    private boolean commandHelp(CommandSender sender) {
         if(!checkPermission(sender, "combatlogx.command.combatlogx.help", true)) return true;
 
         LanguageManager languageManager = getLanguageManager();
@@ -166,11 +166,14 @@ public final class CommandCombatLogX extends CombatLogCommand {
         return true;
     }
 
-    private boolean reloadCommand(CommandSender sender) {
+    private boolean commandReload(CommandSender sender) {
         if(!checkPermission(sender, "combatlogx.command.combatlogx.reload", true)) return true;
 
         ICombatLogX plugin = getCombatLogX();
         ConfigurationManager configurationManager = plugin.getConfigurationManager();
+        List<String> reloadNameList = Arrays.asList("config.yml", "commands.yml", "punish.yml", "language.yml");
+        reloadNameList.forEach(configurationManager::reload);
+
         configurationManager.reload("config.yml");
         configurationManager.reload("commands.yml");
         configurationManager.reload("punish.yml");
@@ -186,7 +189,7 @@ public final class CommandCombatLogX extends CombatLogCommand {
         return true;
     }
 
-    private boolean tagCommand(CommandSender sender, String[] args) {
+    private boolean commandTag(CommandSender sender, String[] args) {
         if(!checkPermission(sender, "combatlogx.command.combatlogx.tag", true)) return true;
         if(args.length < 1) return false;
 
@@ -205,7 +208,7 @@ public final class CommandCombatLogX extends CombatLogCommand {
         return true;
     }
 
-    private boolean untagCommand(CommandSender sender, String[] args) {
+    private boolean commandUntag(CommandSender sender, String[] args) {
         if(!checkPermission(sender, "combatlogx.command.combatlogx.untag", true)) return true;
         if(args.length < 1) return false;
 
@@ -227,7 +230,7 @@ public final class CommandCombatLogX extends CombatLogCommand {
         return true;
     }
 
-    private boolean versionCommand(CommandSender sender) {
+    private boolean commandVersion(CommandSender sender) {
         if(!checkPermission(sender, "combatlogx.command.combatlogx.version", true)) return true;
         List<String> messageList = new ArrayList<>();
         messageList.add("&f");
@@ -289,7 +292,7 @@ public final class CommandCombatLogX extends CombatLogCommand {
         return true;
     }
 
-    private boolean toggleCommand(CommandSender sender, String[] args) {
+    private boolean commandToggle(CommandSender sender, String[] args) {
         if(args.length < 1) return false;
         if(!checkPermission(sender, "combatlogx.command.combatlogx.toggle", true)) return true;
         if(!(sender instanceof Player)) {
