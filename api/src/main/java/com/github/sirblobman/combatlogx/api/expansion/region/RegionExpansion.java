@@ -27,8 +27,8 @@ public abstract class RegionExpansion extends Expansion {
             return;
         }
 
-        RegionMoveListener regionMoveListener = new RegionMoveListener(this);
-        regionMoveListener.register();
+        new RegionMoveListener(this).register();
+        new RegionVulnerableListener(this).register();
 
         this.enabledSuccessfully = true;
         afterEnable();

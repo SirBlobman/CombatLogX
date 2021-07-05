@@ -9,18 +9,14 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.ICombatManager;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
-public final class RegionMoveListener extends ExpansionListener {
-    private final RegionExpansion regionExpansion;
-
+public final class RegionMoveListener extends RegionListener {
     public RegionMoveListener(RegionExpansion expansion) {
         super(expansion);
-        this.regionExpansion = expansion;
     }
 
-    @EventHandler(priority= EventPriority.NORMAL, ignoreCancelled=true)
+    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
     public void onMove(PlayerMoveEvent e) {
         Location toLocation = e.getTo();
         if(toLocation == null) return;
@@ -33,7 +29,7 @@ public final class RegionMoveListener extends ExpansionListener {
         LivingEntity enemy = combatManager.getEnemy(player);
         TagType tagType = (enemy == null ? TagType.UNKNOWN : (enemy instanceof Player ? TagType.PLAYER : TagType.MOB));
 
-        RegionHandler regionHandler = this.regionExpansion.getRegionHandler();
+        RegionHandler regionHandler = getRegionHandler();
         if(regionHandler.isSafeZone(player, toLocation, tagType)) {
             Location fromLocation = e.getFrom();
             if(!regionHandler.isSafeZone(player, fromLocation, tagType)) {
