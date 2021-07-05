@@ -14,6 +14,7 @@ import com.github.sirblobman.api.xseries.XMaterial;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.ICombatManager;
 
+import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.PacketType.Play.Client;
 import com.comphenix.protocol.PacketType.Play.Server;
 import com.comphenix.protocol.events.ListenerPriority;
@@ -52,10 +53,19 @@ public class ForceFieldAdapter extends PacketAdapter {
         if(location == null) return;
 
         if(isForceFieldBlock(player, location)) {
-            PlayerDigType digType = packetContainer.getPlayerDigTypes().read(0);
-            GameMode gameMode = player.getGameMode();
-            if(digType == PlayerDigType.STOP_DESTROY_BLOCK
-                    || (digType == PlayerDigType.START_DESTROY_BLOCK && gameMode == GameMode.CREATIVE)) {
+            PacketType packetType = packetContainer.getType();
+            if(packetType == Client.BLOCK_DIG) {
+                StructureModifier<PlayerDigType> playerDigTypeModifier = packetContainer.getPlayerDigTypes();
+                PlayerDigType playerDigType = playerDigTypeModifier.readSafely(0);
+                GameMode gameMode = player.getGameMode();
+
+                if(playerDigType == PlayerDigType.STOP_DESTROY_BLOCK
+                        || (playerDigType == PlayerDigType.START_DESTROY_BLOCK && gameMode == GameMode.CREATIVE)) {
+                    this.forceFieldListener.sendForceField(player, location);
+                }
+            }
+
+            if(packetType == Client.USE_ITEM) {
                 this.forceFieldListener.sendForceField(player, location);
             }
         }
