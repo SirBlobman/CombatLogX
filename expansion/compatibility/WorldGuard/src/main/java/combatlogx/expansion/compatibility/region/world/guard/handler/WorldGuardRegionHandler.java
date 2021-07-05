@@ -1,5 +1,6 @@
 package combatlogx.expansion.compatibility.region.world.guard.handler;
 
+import java.util.Locale;
 import java.util.Optional;
 
 import org.bukkit.Location;
@@ -21,7 +22,9 @@ public final class WorldGuardRegionHandler extends RegionHandler {
 
     @Override
     public String getEntryDeniedMessagePath(TagType tagType) {
-        return "expansion.worldguard-compatibility-no-entry";
+        String tagTypeName = tagType.name();
+        String tagTypeLower = tagTypeName.toLowerCase(Locale.US);
+        return ("expansion.worldguard-compatibility-no-entry." + tagTypeLower);
     }
 
     @Override
