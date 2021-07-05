@@ -13,6 +13,10 @@
     <name>Expansion: Newbie Helper</name>
     <description>An expansion for CombatLogX that prevents new players from being attacked.</description>
 
+    <properties>
+        <maven.deploy.skip>false</maven.deploy.skip>
+    </properties>
+
     <build>
         <finalName>Newbie Helper</finalName>
     </build>
