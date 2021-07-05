@@ -1,5 +1,7 @@
 package com.github.sirblobman.combatlogx.api.expansion;
 
+import java.util.logging.Logger;
+
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
@@ -20,6 +22,11 @@ public abstract class ExpansionListener extends CombatListener {
 
     protected final Expansion getExpansion() {
         return this.expansion;
+    }
+
+    protected final Logger getExpansionLogger() {
+        Expansion expansion = getExpansion();
+        return expansion.getLogger();
     }
 
     protected final ConfigurationManager getExpansionConfigurationManager() {

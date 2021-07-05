@@ -22,14 +22,15 @@
         <copy todir="${build.expansion.dir}">
             <resources>
                 <!-- Normal Expansions -->
+                <file file="${expansion.dir}/cheat-prevention/expansion/target/Cheat Prevention.jar"/>
                 <file file="${expansion.dir}/damage-tagger/target/Damage Tagger.jar"/>
+                <file file="${expansion.dir}/death-effects/target/Death Effects.jar"/>
                 <file file="${expansion.dir}/force-field/target/Force Field.jar"/>
                 <file file="${expansion.dir}/logger/target/Logger.jar"/>
                 <file file="${expansion.dir}/loot-protection/target/Loot Protection.jar"/>
                 <file file="${expansion.dir}/mob-tagger/target/Mob Tagger.jar"/>
                 <file file="${expansion.dir}/newbie-helper/target/Newbie Helper.jar"/>
                 <file file="${expansion.dir}/rewards/target/Rewards.jar"/>
-                <file file="${expansion.dir}/cheat-prevention/expansion/target/Cheat Prevention.jar"/>
 
                 <!-- Notifier Expansions -->
                 <file file="${expansion.dir}/action-bar/target/Action Bar.jar"/>

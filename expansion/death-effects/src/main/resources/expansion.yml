@@ -1,0 +1,7 @@
+name: "DeathEffects"
+prefix: "Death Effects"
+description: "${project.description}"
+
+main: "combatlogx.expansion.death.effects.DeathEffectsExpansion"
+version: "16.0"
+author: "SirBlobman"

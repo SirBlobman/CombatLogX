@@ -21,6 +21,7 @@
     <modules>
         <!-- Normal Expansions -->
         <module>damage-tagger</module>
+        <module>death-effects</module>
         <module>force-field</module>
         <module>logger</module>
         <module>loot-protection</module>

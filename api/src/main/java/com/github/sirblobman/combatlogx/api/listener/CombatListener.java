@@ -1,6 +1,7 @@
 package com.github.sirblobman.combatlogx.api.listener;
 
 import java.util.Locale;
+import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -47,6 +48,11 @@ public abstract class CombatListener implements Listener {
     protected final JavaPlugin getJavaPlugin() {
         ICombatLogX combatLogX = getCombatLogX();
         return combatLogX.getPlugin();
+    }
+
+    protected final Logger getPluginLogger() {
+        ICombatLogX plugin = getCombatLogX();
+        return plugin.getLogger();
     }
 
     protected final ConfigurationManager getPluginConfigurationManager() {

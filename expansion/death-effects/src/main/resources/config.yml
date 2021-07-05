@@ -1,0 +1,21 @@
+# Should these effects apply only to logging out during combat, or to all deaths?
+# Default: true
+combat-death-only: true
+
+# Which death effects are enabled?
+# Available Effects can be found on the README page.
+# https://github.com/SirBlobman/CombatLogX/blob/main/expansion/death-effects/README.MD
+# Default: ALL
+death-effect-list:
+  - BLOOD
+  - LIGHTNING
+
+lightning:
+  # Should the lightning only be a visual effect (no damage to nearby players or blocks)?
+  # Default: true
+  effect-only: true
+
+  # Should the lightning be silent?
+  # Lightning can be annoying to some players.
+  # Default: true
+  silent: true
