@@ -67,7 +67,7 @@ public final class ListenerDeath extends ExpansionListener {
 
         OfflinePlayer offlinePlayer = combatNPC.getOfflineOwner();
         if(despawnReason == DespawnReason.DEATH) combatNpcManager.dropInventory(combatNPC);
-        combatNpcManager.remove(combatNPC);
+        if(despawnReason != DespawnReason.REMOVAL) combatNpcManager.remove(combatNPC);
 
         YamlConfiguration data = combatNpcManager.getData(offlinePlayer);
         data.set("citizens-compatibility.punish-next-join", true);

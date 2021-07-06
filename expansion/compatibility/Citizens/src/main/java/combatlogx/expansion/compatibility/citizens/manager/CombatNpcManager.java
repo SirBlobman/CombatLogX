@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
@@ -21,7 +21,6 @@ import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.plugin.PluginManager;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
@@ -51,8 +50,8 @@ public final class CombatNpcManager {
 
     public CombatNpcManager(CitizensExpansion expansion) {
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
-        this.playerNpcMap = new HashMap<>();
-        this.npcCombatMap = new HashMap<>();
+        this.playerNpcMap = new ConcurrentHashMap<>();
+        this.npcCombatMap = new ConcurrentHashMap<>();
     }
 
     protected CitizensExpansion getExpansion() {
@@ -86,7 +85,10 @@ public final class CombatNpcManager {
     public void remove(CombatNPC combatNPC) {
         OfflinePlayer owner = combatNPC.getOfflineOwner();
         NPC originalNPC = combatNPC.getOriginalNPC();
-        if(!combatNPC.isCancelled()) combatNPC.cancel();
+
+        try {
+            combatNPC.cancel();
+        } catch(IllegalStateException ignored) {}
 
         saveNPC(owner, originalNPC);
         originalNPC.destroy();
@@ -104,7 +106,10 @@ public final class CombatNpcManager {
     }
 
     public void createNPC(Player player) {
-        if(player == null || player.hasMetadata("NPC")) return;
+        if(player == null || player.hasMetadata("NPC")) {
+            return;
+        }
+
         UUID uuid = player.getUniqueId();
         String playerName = player.getName();
 
@@ -127,10 +132,13 @@ public final class CombatNpcManager {
             npc.destroy();
             return;
         }
-        LivingEntity livingEntity = (LivingEntity) entity;
 
-        if(npc.hasTrait(Owner.class)) npc.removeTrait(Owner.class);
+        LivingEntity livingEntity = (LivingEntity) entity;
         npc.setProtected(false);
+
+        if(npc.hasTrait(Owner.class)) {
+            npc.removeTrait(Owner.class);
+        }
 
         ICombatLogX plugin = this.expansion.getPlugin();
         MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
@@ -146,7 +154,7 @@ public final class CombatNpcManager {
             double radius = configuration.getDouble("mob-target-radius");
             List<Entity> nearbyEntityList = livingEntity.getNearbyEntities(radius, radius, radius);
             for(Entity nearby : nearbyEntityList) {
-                if(!(nearby instanceof Monster)) return;
+                if(!(nearby instanceof Monster)) continue;
                 Monster monster = (Monster) nearby;
                 monster.setTarget(livingEntity);
             }
@@ -164,17 +172,18 @@ public final class CombatNpcManager {
         equipNPC(player, npc);
         saveInventory(player);
 
-        PluginManager pluginManager = Bukkit.getPluginManager();
-        if(pluginManager.isPluginEnabled("Sentinel") && configuration.getBoolean("attack-first") && enemyEntity != null) {
-            SentinelTrait sentinelTrait = npc.getOrAddTrait(SentinelTrait.class);
-            sentinelTrait.setInvincible(false);
-            sentinelTrait.respawnTime = -1;
+        CitizensExpansion citizensExpansion = getExpansion();
+        if(citizensExpansion.isSentinelEnabled()) {
+            if(enemyEntity != null && configuration.getBoolean("attack-first")) {SentinelTrait sentinelTrait = npc.getOrAddTrait(SentinelTrait.class);
+                sentinelTrait.setInvincible(false);
+                sentinelTrait.respawnTime = -1;
 
-            UUID enemyId = enemyEntity.getUniqueId();
-            String enemyIdString = enemyId.toString();
+                UUID enemyId = enemyEntity.getUniqueId();
+                String enemyIdString = enemyId.toString();
 
-            SentinelTargetLabel targetLabel = new SentinelTargetLabel("uuid:" + enemyIdString);
-            targetLabel.addToList(sentinelTrait.allTargets);
+                SentinelTargetLabel targetLabel = new SentinelTargetLabel("uuid:" + enemyIdString);
+                targetLabel.addToList(sentinelTrait.allTargets);
+            }
         }
 
         combatNPC.start();
@@ -239,13 +248,14 @@ public final class CombatNpcManager {
     }
 
     public void saveInventory(Player player) {
-        YamlConfiguration configuration = getData(player);
         PlayerInventory playerInventory = player.getInventory();
         ItemStack[] contents = playerInventory.getContents().clone();
+        YamlConfiguration playerData = getData(player);
+
         int contentsLength = contents.length;
         for(int slot = 0; slot < contentsLength; slot++) {
             ItemStack item = contents[slot];
-            configuration.set("citizens-compatibility.inventory." + slot, item);
+            playerData.set("citizens-compatibility.inventory." + slot, item);
         }
 
         int minorVersion = VersionUtility.getMinorVersion();
@@ -254,7 +264,7 @@ public final class CombatNpcManager {
             int armorContentsLength = armorContents.length;
             for(int slot = 0; slot < armorContentsLength; slot++) {
                 ItemStack item = armorContents[slot];
-                configuration.set("citizens-compatibility.armor." + slot, item);
+                playerData.set("citizens-compatibility.armor." + slot, item);
             }
         }
 
@@ -264,30 +274,57 @@ public final class CombatNpcManager {
     }
 
     public void restoreInventory(Player player) {
-        YamlConfiguration configuration = getData(player);
+        restoreInventoryContents(player);
+        restoreArmorContents(player);
+    }
+
+    private void restoreInventoryContents(Player player) {
         PlayerInventory playerInventory = player.getInventory();
         playerInventory.clear();
 
+        YamlConfiguration playerData = getData(player);
+        ConfigurationSection inventorySection =
+                playerData.getConfigurationSection("citizens-compatibility.inventory");
+        if(inventorySection == null) return;
+
         int playerInventorySize = playerInventory.getSize();
         for(int slot = 0; slot < playerInventorySize; slot++) {
-            ItemStack item = configuration.getItemStack("citizens-compatibility.inventory." + slot);
+            String path = Integer.toString(slot);
+            ItemStack item = inventorySection.getItemStack(path);
             playerInventory.setItem(slot, item);
         }
-        configuration.set("citizens-compatibility.inventory", null);
 
+        playerData.set("citizens-compatibility.inventory", null);
+        saveData(player);
+
+        player.updateInventory();
+    }
+
+    private void restoreArmorContents(Player player) {
         int minorVersion = VersionUtility.getMinorVersion();
-        if(minorVersion <= 8) {
-            ItemStack[] armorContents = playerInventory.getArmorContents();
-            int armorContentsSize = armorContents.length;
-            for(int slot = 0; slot < armorContentsSize; slot++) {
-                ItemStack item = configuration.getItemStack("citizens-compatibility.armor." + slot);
-                armorContents[slot] = item;
-            }
-            playerInventory.setArmorContents(armorContents);
-            configuration.set("citizens-compatibility.armor", null);
+        if(minorVersion > 8) return;
+
+        PlayerInventory playerInventory = player.getInventory();
+        playerInventory.clear();
+
+        YamlConfiguration playerData = getData(player);
+        ConfigurationSection armorSection =
+                playerData.getConfigurationSection("citizens-compatibility.armor");
+        if(armorSection == null) return;
+
+        ItemStack[] armorContents = playerInventory.getArmorContents();
+        int armorContentsSize = armorContents.length;
+
+        for(int slot = 0; slot < armorContentsSize; slot++) {
+            String path = Integer.toString(slot);
+            ItemStack item = armorSection.getItemStack(path);
+            armorContents[slot] = item;
         }
 
+        playerInventory.setArmorContents(armorContents);
+        playerData.set("citizens-compatibility.armor", null);
         saveData(player);
+
         player.updateInventory();
     }
 

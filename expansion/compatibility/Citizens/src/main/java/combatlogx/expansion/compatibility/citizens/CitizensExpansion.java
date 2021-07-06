@@ -16,13 +16,14 @@ import combatlogx.expansion.compatibility.citizens.listener.ListenerResurrect;
 import combatlogx.expansion.compatibility.citizens.manager.CombatNpcManager;
 
 public final class CitizensExpansion extends Expansion {
-    private boolean sentinelEnabled;
     private final CombatNpcManager combatNpcManager;
+
+    private boolean sentinelEnabled;
 
     public CitizensExpansion(ICombatLogX plugin) {
         super(plugin);
-        this.sentinelEnabled = false;
         this.combatNpcManager = new CombatNpcManager(this);
+        this.sentinelEnabled = false;
     }
 
     @Override

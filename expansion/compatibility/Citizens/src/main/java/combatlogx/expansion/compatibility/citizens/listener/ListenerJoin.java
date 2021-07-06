@@ -56,7 +56,9 @@ public final class ListenerJoin extends ExpansionListener {
 
         CombatNpcManager combatNpcManager = this.expansion.getCombatNpcManager();
         CombatNPC combatNPC = combatNpcManager.getNPC(player);
-        if(combatNPC != null) combatNpcManager.remove(combatNPC);
+        if(combatNPC != null) {
+            combatNpcManager.remove(combatNPC);
+        }
 
         BukkitScheduler scheduler = Bukkit.getScheduler();
         Runnable task = () -> {
@@ -85,15 +87,21 @@ public final class ListenerJoin extends ExpansionListener {
 
     private void punish(Player player) {
         if(player == null || player.hasMetadata("NPC")) return;
+
         CombatNpcManager combatNpcManager = this.expansion.getCombatNpcManager();
-        YamlConfiguration data = combatNpcManager.getData(player);
-        if(!data.getBoolean("citizens-compatibility.punish")) return;
+        YamlConfiguration playerData = combatNpcManager.getData(player);
+        if(!playerData.getBoolean("citizens-compatibility.punish")) {
+            return;
+        }
+
+        playerData.set("citizens-compatibility.punish", false);
+        combatNpcManager.saveData(player);
 
         YamlConfiguration configuration = getConfiguration();
         if(configuration.getBoolean("store-location")) {
             Location location = combatNpcManager.loadLocation(player);
             if(location != null) player.teleport(location, TeleportCause.PLUGIN);
-            data.set("citizens-compatibility.location", null);
+            playerData.set("citizens-compatibility.location", null);
         }
 
         if(configuration.getBoolean("store-inventory")) {
@@ -105,18 +113,14 @@ public final class ListenerJoin extends ExpansionListener {
         double health = combatNpcManager.loadHealth(player);
         setHealth(player, health);
         if(health <= 0.0D) {
-            data.set("citizens-compatibility.inventory", null);
-            data.set("citizens-compatibility.armor", null);
-            return;
+            playerData.set("citizens-compatibility.inventory", null);
+            playerData.set("citizens-compatibility.armor", null);
         }
 
         if(configuration.getBoolean("store-inventory")) {
             combatNpcManager.restoreInventory(player);
             player.updateInventory();
         }
-
-        data.set("citizens-compatibility.punish", false);
-        combatNpcManager.saveData(player);
     }
 
     private void setHealth(Player player, double health) {
