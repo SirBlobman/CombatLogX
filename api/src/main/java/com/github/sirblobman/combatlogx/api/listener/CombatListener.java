@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -96,5 +97,14 @@ public abstract class CombatListener implements Listener {
                                                @Nullable Replacer replacer, boolean color) {
         String message = getMessageWithPrefix(sender, key, replacer, color);
         if(!message.isEmpty()) sender.sendMessage(message);
+    }
+
+    protected void printDebug(String message) {
+        ConfigurationManager configurationManager = getPluginConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("config.yml");
+        if(!configuration.getBoolean("debug-mode")) return;
+
+        Logger logger = getPluginLogger();
+        logger.info("[Debug] " + message);
     }
 }

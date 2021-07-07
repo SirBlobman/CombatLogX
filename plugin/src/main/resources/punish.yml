@@ -1,4 +1,5 @@
 # Should players be punished if they disconnect during combat?
+# It is not recommended to disable this option unless you are testing something.
 # Default: true
 on-disconnect: true
 

@@ -25,6 +25,7 @@ import org.bukkit.inventory.PlayerInventory;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.nms.EntityHandler;
+import com.github.sirblobman.api.nms.ItemHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.api.utility.ItemUtility;
 import com.github.sirblobman.api.utility.Validate;
@@ -275,7 +276,10 @@ public final class CombatNpcManager {
     }
 
     public void restoreInventory(Player player) {
+        printDebug("Restoring inventory contents...");
         restoreInventoryContents(player);
+
+        printDebug("Restoring armor contents...");
         restoreArmorContents(player);
     }
 
@@ -286,24 +290,33 @@ public final class CombatNpcManager {
         YamlConfiguration playerData = getData(player);
         ConfigurationSection inventorySection =
                 playerData.getConfigurationSection("citizens-compatibility.inventory");
-        if(inventorySection == null) return;
+        if(inventorySection == null) {
+            printDebug("Did not find stored inventory, not restoring.");
+            return;
+        }
 
         int playerInventorySize = playerInventory.getSize();
         for(int slot = 0; slot < playerInventorySize; slot++) {
             String path = Integer.toString(slot);
             ItemStack item = inventorySection.getItemStack(path);
             playerInventory.setItem(slot, item);
+            printDebug("Restored item '" + toString(item) + "' in slot '" + slot + "'.");
         }
 
+        printDebug("Clearing stored items.");
         playerData.set("citizens-compatibility.inventory", null);
         saveData(player);
 
         player.updateInventory();
+        printDebug("Done.");
     }
 
     private void restoreArmorContents(Player player) {
         int minorVersion = VersionUtility.getMinorVersion();
-        if(minorVersion > 8) return;
+        if(minorVersion > 8) {
+            printDebug("Version greater than 1.8, armor already restored by inventory restore.");
+            return;
+        }
 
         PlayerInventory playerInventory = player.getInventory();
         playerInventory.clear();
@@ -311,7 +324,10 @@ public final class CombatNpcManager {
         YamlConfiguration playerData = getData(player);
         ConfigurationSection armorSection =
                 playerData.getConfigurationSection("citizens-compatibility.armor");
-        if(armorSection == null) return;
+        if(armorSection == null) {
+            printDebug("Did not find stored armor, not restoring.");
+            return;
+        }
 
         ItemStack[] armorContents = playerInventory.getArmorContents();
         int armorContentsSize = armorContents.length;
@@ -320,13 +336,17 @@ public final class CombatNpcManager {
             String path = Integer.toString(slot);
             ItemStack item = armorSection.getItemStack(path);
             armorContents[slot] = item;
+            printDebug("Restored armor '" + toString(item) + "' in slot '" + slot + "'.");
         }
 
         playerInventory.setArmorContents(armorContents);
+
+        printDebug("Clearing stored items.");
         playerData.set("citizens-compatibility.armor", null);
         saveData(player);
 
         player.updateInventory();
+        printDebug("Done.");
     }
 
     public void dropInventory(CombatNPC npc) {
@@ -427,5 +447,14 @@ public final class CombatNpcManager {
 
         Logger logger = getExpansion().getLogger();
         logger.info("[Debug] " + message);
+    }
+
+    private String toString(ItemStack item) {
+        if(item == null) return "null";
+
+        ICombatLogX combatLogX = getCombatLogX();
+        MultiVersionHandler multiVersionHandler = combatLogX.getMultiVersionHandler();
+        ItemHandler itemHandler = multiVersionHandler.getItemHandler();
+        return itemHandler.toNBT(item);
     }
 }
