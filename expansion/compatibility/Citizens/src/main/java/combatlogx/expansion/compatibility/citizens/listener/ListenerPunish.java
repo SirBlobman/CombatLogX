@@ -22,17 +22,21 @@ public final class ListenerPunish extends ExpansionListener {
 
     @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
     public void beforePunish(PlayerPunishEvent e) {
+        printDebug("Detected PlayerPunishEvent.");
+
         ConfigurationManager configurationManager = getExpansionConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("citizens.yml");
         if(configuration.getBoolean("prevent-punishments")) {
+            printDebug("Cancelling all other CombatLogX punishments.");
             e.setCancelled(true);
         }
 
         Player player = e.getPlayer();
         CombatNpcManager combatNpcManager = this.expansion.getCombatNpcManager();
         YamlConfiguration playerData = combatNpcManager.getData(player);
-        playerData.set("citizens-compatibility.punish", true);
 
+        printDebug("Spawning NPC for player " + player.getName());
+        playerData.set("citizens-compatibility.punish", true);
         combatNpcManager.saveData(player);
         combatNpcManager.createNPC(player);
     }

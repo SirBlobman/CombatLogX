@@ -2,6 +2,8 @@ package com.github.sirblobman.combatlogx.api.expansion;
 
 import java.util.logging.Logger;
 
+import org.bukkit.configuration.file.YamlConfiguration;
+
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
@@ -32,5 +34,14 @@ public abstract class ExpansionListener extends CombatListener {
     protected final ConfigurationManager getExpansionConfigurationManager() {
         Expansion expansion = getExpansion();
         return expansion.getConfigurationManager();
+    }
+
+    protected final void printDebug(String message) {
+        ConfigurationManager pluginConfigurationManager = getPluginConfigurationManager();
+        YamlConfiguration configuration = pluginConfigurationManager.get("config.yml");
+        if(!configuration.getBoolean("debug-mode")) return;
+
+        Logger logger = getExpansionLogger();
+        logger.info("[Debug] " + message);
     }
 }

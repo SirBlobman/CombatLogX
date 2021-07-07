@@ -32,11 +32,17 @@ public final class ListenerDeath extends ExpansionListener {
 
     @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
     public void onDeathNPC(NPCDeathEvent e) {
+        printDebug("Detected NPCDeathEvent...");
+
         NPC npc = e.getNPC();
         CombatNpcManager combatNpcManager = this.expansion.getCombatNpcManager();
         CombatNPC combatNPC = combatNpcManager.getCombatNPC(npc);
-        if(combatNPC == null) return;
+        if(combatNPC == null) {
+            printDebug("NPC was not combat NPC, ignoring event.");
+            return;
+        }
 
+        printDebug("Setting drops and exp to zero and sending custom death message.");
         e.setDroppedExp(0);
         e.getDrops().clear();
         checkForDeathMessages(e, combatNPC);
@@ -44,38 +50,64 @@ public final class ListenerDeath extends ExpansionListener {
 
     @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
     public void onDamageNPC(NPCDamageByEntityEvent e) {
+        printDebug("Detected NPCDamageByEntityEvent...");
+
         YamlConfiguration configuration = getConfiguration();
-        if(!configuration.getBoolean("stay-until-no-damage")) return;
+        if(!configuration.getBoolean("stay-until-no-damage")) {
+            printDebug("Stay until no damage setting is not enabled, ignoring event.");
+            return;
+        }
 
         NPC npc = e.getNPC();
         CombatNpcManager combatNpcManager = this.expansion.getCombatNpcManager();
         CombatNPC combatNPC = combatNpcManager.getCombatNPC(npc);
-        if(combatNPC == null) return;
+        if(combatNPC == null) {
+            printDebug("NPC was not combat NPC, ignoring event.");
+            return;
+        }
 
+        printDebug("Resetting NPC survival time.");
         combatNPC.resetSurvivalTime();
     }
 
     @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
     public void onDespawnNPC(NPCDespawnEvent e) {
+        printDebug("Detected NPCDespawnEvent...");
+
         DespawnReason despawnReason = e.getReason();
-        if(despawnReason == DespawnReason.PENDING_RESPAWN) return;
+        if(despawnReason == DespawnReason.PENDING_RESPAWN) {
+            printDebug("Despawn reason is PENDING_RESPAWN, ignoring event.");
+            return;
+        }
 
         NPC npc = e.getNPC();
         CombatNpcManager combatNpcManager = this.expansion.getCombatNpcManager();
         CombatNPC combatNPC = combatNpcManager.getCombatNPC(npc);
-        if(combatNPC == null) return;
+        if(combatNPC == null) {
+            printDebug("NPC was not combat NPC, ignoring event.");
+            return;
+        }
 
         OfflinePlayer offlinePlayer = combatNPC.getOfflineOwner();
-        if(despawnReason == DespawnReason.DEATH) combatNpcManager.dropInventory(combatNPC);
-        if(despawnReason != DespawnReason.REMOVAL) combatNpcManager.remove(combatNPC);
+        if(despawnReason == DespawnReason.DEATH) {
+            printDebug("Despawn reason was death, drop NPC inventory.");
+            combatNpcManager.dropInventory(combatNPC);
+        }
 
+        if(despawnReason != DespawnReason.REMOVAL) {
+            printDebug("Despawn reason was not removal, destroying NPC.");
+            combatNpcManager.remove(combatNPC);
+
+            printDebug("Destroy NPC later.");
+            JavaPlugin plugin = this.expansion.getPlugin().getPlugin();
+            BukkitScheduler scheduler = Bukkit.getScheduler();
+            scheduler.runTaskLater(plugin, npc::destroy, 1L);
+        }
+
+        printDebug("Setting player to be punished when they next join.");
         YamlConfiguration data = combatNpcManager.getData(offlinePlayer);
         data.set("citizens-compatibility.punish-next-join", true);
         combatNpcManager.saveData(offlinePlayer);
-
-        JavaPlugin plugin = this.expansion.getPlugin().getPlugin();
-        BukkitScheduler scheduler = Bukkit.getScheduler();
-        scheduler.runTaskLater(plugin, (Runnable) npc::destroy, 1L);
     }
 
     private YamlConfiguration getConfiguration() {

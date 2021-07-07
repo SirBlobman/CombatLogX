@@ -107,28 +107,29 @@ public final class CombatNpcManager {
 
     public void createNPC(Player player) {
         if(player == null || player.hasMetadata("NPC")) {
+            printDebug("player was null or an NPC, not spawning.");
             return;
         }
 
         UUID uuid = player.getUniqueId();
         String playerName = player.getName();
+        printDebug("Spawning NPC for player '" + playerName + "'.");
 
         EntityType entityType = getEntityType();
         NPCRegistry npcRegistry = CitizensAPI.getNPCRegistry();
         NPC npc = npcRegistry.createNPC(entityType, playerName);
+        printDebug("Created NPC with entity type " + entityType + ".");
 
         Location location = player.getLocation();
         boolean spawn = npc.spawn(location);
         if(!spawn) {
-            Logger logger = this.expansion.getLogger();
-            logger.warning("Failed to spawn NPC for player '" + playerName + "'.");
+            printDebug("Failed to spawn an NPC. (npc.spawn() returned false)");
             return;
         }
 
         Entity entity = npc.getEntity();
         if(!(entity instanceof LivingEntity)) {
-            Logger logger = this.expansion.getLogger();
-            logger.warning("NPC for player '" + playerName + "' is not a LivingEntity, removing...");
+            printDebug("NPC for player '" + playerName + "' is not a LivingEntity, removing...");
             npc.destroy();
             return;
         }
@@ -417,5 +418,14 @@ public final class CombatNpcManager {
             configuration.set("mob-type", "PLAYER");
             return EntityType.PLAYER;
         }
+    }
+
+    private void printDebug(String message) {
+        ConfigurationManager pluginConfigurationManager = getCombatLogX().getConfigurationManager();
+        YamlConfiguration configuration = pluginConfigurationManager.get("config.yml");
+        if(!configuration.getBoolean("debug-mode")) return;
+
+        Logger logger = getExpansion().getLogger();
+        logger.info("[Debug] " + message);
     }
 }

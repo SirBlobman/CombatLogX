@@ -19,11 +19,17 @@ public final class ListenerCombat extends ExpansionListener {
 
     @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
     public void beforeTag(PlayerPreTagEvent e) {
+        printDebug("Detected PlayerPreTagEvent....");
+
         YamlConfiguration configuration = getConfiguration();
-        if(configuration.getBoolean("npc-tagging")) return;
+        if(configuration.getBoolean("npc-tagging")) {
+            printDebug("NPC tagging is allowed, ignoring event.");
+            return;
+        }
 
         LivingEntity entity = e.getEnemy();
         if(EntityHelper.isNPC(entity)) {
+            printDebug("enemy is NPC, cancelling event.");
             e.setCancelled(true);
         }
     }
