@@ -1,0 +1,186 @@
+# CombatLogX Russian (Russia, Kazakhstan, Kyrgyzstan) Localization File
+# DO NOT remove any entries from this file
+# DO NOT set any messages to null
+#
+# If you want to disable a message, set it to an empty string
+# example-disabled-message: ""
+#
+# If you want to add support for a language, please submit the translations to our crowdin.
+# https://crowdin.com/project/combatlogx-spigot-plugin/
+
+
+# CombatLogX Российский (Россия, Казахстан, Кыргызстан) файл локализации
+# НЕ удаляйте любые строчки этого файла
+# НЕ оставляйте любые сообщения пустыми
+#
+# Если вы хотите отключить одно из сообщений, оставьте его пустым в ковычках
+# пример отключенного сообщения: ""
+#
+# Если вы хотите добавить поддержку какого-либо языка, отправьте переводы в нашу группу.
+# https://crowdin.com/project/combatlogx-spigot-plugin/ 
+
+language-name: "ru_ru"
+
+prefix: "&f&l[&6CombatLogX&f&l]&r"
+decimal-format: "0.00"
+
+broadcast:
+  on-load: "&a&lCombatLogX был успешно загружен."
+  on-enable: "&a&lCombatLogX был успешно включен."
+  on-disable: "&c&lCombatLogX был успешно выключен."
+
+placeholder:
+  time-left-zero: "0"
+  unknown-enemy: "Неизвестно"
+  status:
+    fighting: "&cБой"
+    idle: "Бездействует"
+    in-combat: "&aДа"
+    not-in-combat: "&cНет"
+  toggle:
+    enabled: "&aВКЛ."
+    disabled: "&cВЫКЛ."
+  pvp-status:
+    enabled: "&aВкл."
+    disabled: "&cВыкл."
+
+combat-timer:
+  expire: "&aВы больше не в бою."
+  enemy-death: "&aВы больше не в бою, потому что ваш враг мёртв."
+
+error:
+  player-only: "&cТолько игроки могут выполнить эту команду."
+  invalid-target: "&7{target}&c не онлайн или не существует."
+  no-permission: "&cОтсутствует разрешение: &7{permission}"
+  target-not-in-combat: "&7{target}&c не в бою."
+  self-not-in-combat: "&cВы не в бою."
+  unknown-expansion: "&7{target}&c не является дополнением или не установлен."
+
+command:
+  combatlogx:
+    help-message-list:
+      - "&f"
+      - "&6Справка по командам CombatLogX:"
+      - "  &f&l/combatlogx help&7: Смотреть эту страницу."
+      - "  &f&l/combatlogx reload&7: Перезагрузка config.yml, language.yml, и всех конфигурационных файлов расширений."
+      - "  &f&l/combatlogx about <expansion>&7: Проверьте информацию о расширении."
+      - "  &f&l/combatlogx tag <игрок>&7: Принудительно вводит игрока в бой."
+      - "  &f&l/combatlogx toggle bossbar/actionbar/scoreboard&7: Включает/выключает тип уведомления."
+      - "  &f&l/combatlogx untag <игрок>&7: Принудительно выводит игрока из боя."
+      - "  &f&l/combatlogx version&7: Узнайте вашу версию CombatLogX."
+      - "&f"
+    reload-success:
+      - "&aУспешно перезагружены все файлы конфигурации CombatLogX."
+      - "&aУспешно перезагружены все файлы локализации CombatLogX."
+      - "&aУспешно перезагружены все файлы конфигурации расширений CombatLogX."
+    tag-player: "&7{target}&a успешно введен в бой."
+    tag-failure: "&7{target}&c не может быть введен бой. (Имеет права обхода?)"
+    untag-player: "&7{target}&a успешно выведен из боя."
+  combat-timer:
+    time-left-self: "&aОсталось &7{time_left} &aсекунд."
+    time-left-other: "&7{target}&a осталось &7{time_left} &aсекунд."
+
+tagged:
+  unknown: "&cВы находитесь в бою! Не выходите из игры."
+  attacked:
+    player: "&cВы были атакованы игроком &f{enemy}&c. Не выходите из игры!"
+    mob: "&cВы были атакованы &f{mob_type}&c. Не выходите из игры!"
+  attacker:
+    player: "&cВы атаковали игрока &f{enemy}&c. Не выходите из игры!"
+    mob: "&cВы атаковали &f{mob_type}&c. Не выходите из игры!"
+
+expansion:
+  cheat-prevention:
+    command-blocked: "&cУ вас нет доступа к &a{command}&c во время боя."
+    no-riptide: "&cЗачарование \"Тягун\" недоступно во время боя."
+    no-totem: "&cВы не можете использовать тотемы бессмертия во время боя."
+    no-entity-interaction: "&cВы не можете использовать этого моба в бою."
+    no-chat: "&cВы не можете писать в чат в бою."
+    game-mode:
+      force-switch: "&cВаш игровой режим изменен на &f{game_mode}&c."
+      no-switch: "&cВы не можете переключать игровой режим во время боя."
+    flight:
+      force-disabled: "&cВозможность летать была удалена."
+      no-flying: "&cВы не можете летать во время боя."
+    elytra:
+      force-disabled: "&cВаши элитры были отключены."
+      no-gliding: "&cВы не можете использовать элитры в бою."
+    teleportation:
+      block-pearl: "&cВы не можете использовать эндер-жемчуг в бою."
+      block-other: "&cВы не можете телепортироваться в бою."
+    inventory:
+      force-closed: "&cВаш инвентарь закрыт."
+      no-opening: "&cВы не можете открывать инвентарь во время боя."
+    blocks:
+      prevent-breaking: "&cВы не можете ломать блоки во время боя."
+      prevent-placing: "&cВы не можете строить во время боя."
+      prevent-interaction: "&cВы не можете использовать блоки во время боя."
+    items:
+      no-pickup: "&cВы не можете подбирать предметы в бою."
+      no-dropping: "&cВы не можете выбрасывать предметы в бою."
+    buckets:
+      no-empty: "&cВы не можете опустошать вёдра во время боя."
+      no-fill: "&cВы не можете набирать вёдра во время боя."
+  damage-tagger:
+    unknown-damage: "&cВы получили урон! Не выходите из игры!"
+    damage-type:
+      contact: "&cВы укололись о кактус. Не выходите из игры!"
+      suffocation: "&cВы задыхаетесь в стене. Не выходите из игры!"
+      fall: "&cВы получили урон от падения. Не выходите из игры!"
+      fire: "&cВы пробежали через огонь. Не выходите из игры!"
+      fire-tick: "&cВы горите. Не выходите из игры!"
+      lava: "&cВы кипите в лаве. Не выходите из игры!"
+      drowning: "&cВы задыхаетесь. Не выходите из игры!"
+      block-explosion: "&cВы получили урон от взрыва. Не выходите из игры!"
+      lightning: "&cВас поразило молнией! Не выходите из игры!"
+      starvation: "&cНаступил голод. Не выходите из игры!"
+      poison: "&cВы получили урон от отравления. Не выходите из игры!"
+      magic: "&cКто-то бросил в вас зелье. Не выходите из игры!"
+      wither: "&cВас атакует Визер. Не выходите из игры!"
+      falling-block: "&cБлок упал сверху на вас. Не выходите из игры!"
+      custom: "&cВы получили нестандартный урон. Не выходите из игры!"
+      fly-into-wall: "&cВы врезались о стену. Не выходите из игры!"
+      hot-floor: "&cПол это лава! Не выходите!"
+      cramming: "&cВас раздавило. Не выходите из игры!"
+  newbie-helper:
+    togglepvp:
+      self: "&7PvP: {status}"
+      admin: "&7Вы изменили PvP &e{target}&7 на {status}&7."
+      cooldown: "&cВы должны подождать &7{time_left} seconds,&c чтобы использовать эту команду снова."
+    no-pvp:
+      self: "&cВы не можете ударить этого игрока, пока вам выключен PvP."
+      other: "&cУ этого игрока отключено PvP."
+      protected: "&cИгрок защищён, вы не можете атаковать новичка!"
+    protection-disabled:
+      attacker: "&cВы кого-то атаковали, ваша защита новичка отключилась."
+      expired: "&cВаша защита новичка закончилась."
+    check-format:
+      - "&f&lИнформация по&7{target}&f&l:"
+      - "&f&lЗащита: &7{protected}"
+      - "&f&lPvP: &7{pvp}"
+  toggle-bossbar: "&7&lБосс-панель: {status}"
+  toggle-actionbar: "&7&lПанель действий: {status}"
+  toggle-scoreboard: "&7Scoreboard: {status}"
+  citizens-join-deny: "&cКак наказание за выход из игры во время боя вы не можете войти, пока ваш клон не будет убит или удалён."
+  preciousstones-compatibility-no-field: "&cВы не можете создавать защитное поле во время боя."
+  disguise-compatibility-remove-disguise: "&cВаша маскировка удалена."
+  factions-compatibility-no-entry: "&cВы не можете входить в эту зону во время боя."
+  griefprevention-compatibility-no-entry: "&cВы не можете входить в земли во время боя."
+  lands-compatibility-no-entry: "&cВы не можете входить в эту зону во время боя."
+  redprotect-compatibility-no-entry: "&cВы не можете входить в эту зону во время боя."
+  residence-compatibility-no-entry: "&cВы не можете входить в эту зону во время боя."
+  towny-compatibility-no-entry: "&cВы не можете входить в эту зону во время боя."
+  preciousstones-compatibility-no-entry: "&cВы не можете входить в эту зону во время боя."
+  protectionstones-compatibility-no-entry: "&cВы не можете входить в эту зону во время боя."
+  worldguard-compatibility-no-entry:
+    pvp: "&cВы не можете войти в зону, где запрещён PvP."
+    mob: "&cВы не можете войти в зону, где запрещен PvE."
+    unknown: "&cВы не можете входить в эту зону во время боя."
+  essentials-compatibility:
+    prevent-teleport-request-self: "&cВы не можете отправлять запрос на тп во время боя."
+    prevent-teleport-request-other: "&cВы не можете отправлять запрос на тп игроку, находящемуся в бою."
+  protectionstones-compatibility:
+    place: "&cВы не можете создавать защищённую зону во время боя."
+  loot-protection:
+    enemy-died: "&f{enemy} &aмёртв. Лут будет защищён &f{time} секунд&a."
+    protected: "&cЭтот предмет сейчас защищён, подождите &f{time} секунд, &cчтобы взять его."
