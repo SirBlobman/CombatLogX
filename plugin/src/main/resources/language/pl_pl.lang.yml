@@ -1,11 +1,12 @@
-# Polish Language Configuration for CombatLogX
-# Made by szumielxd for v11.0.0.0
+# CombatLogX Polish (Poland) Localization File
+# DO NOT remove any entries from this file
+# DO NOT set any messages to null
 #
-# Do not set any messages to 'false' or 'null'
-# Do not delete any message entries from this file
-# You can set any message to "" to prevent it from being sent
+# If you want to disable a message, set it to an empty string
+# example-disabled-message: ""
 #
-# Missing entries will be inherited from the 'default-locale' file in language.yml
+# If you want to add support for a language, please submit the translations to our crowdin.
+# https://crowdin.com/project/combatlogx-spigot-plugin/
 
 language-name: "pl_pl"
 parent: "en_us"

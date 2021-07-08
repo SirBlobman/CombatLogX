@@ -1,10 +1,12 @@
-# Arquivo de localização em Português (Portugal)
-# Feito por KrazyxWolf para a versão 11.0.0.0
-# NÃO remova nenhuma variável (pode causar certas falhas)
-# Não coloque nada em nulo, falso ou verdadeiro, pois essas serão as mensagens que serão mostradas no jogo
-
-# Se você deseja desativar uma mensagem, deixe como está no exemplo abaixo
-# example-disabled-message: "" 
+# CombatLogX Portuguese (Portugal) Localization File
+# DO NOT remove any entries from this file
+# DO NOT set any messages to null
+#
+# If you want to disable a message, set it to an empty string
+# example-disabled-message: ""
+#
+# If you want to add support for a language, please submit the translations to our crowdin.
+# https://crowdin.com/project/combatlogx-spigot-plugin/
 
 language-name: "pt_pt"
 parent: "en_us"
