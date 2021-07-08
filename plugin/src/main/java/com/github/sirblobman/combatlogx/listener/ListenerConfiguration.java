@@ -34,19 +34,26 @@ public final class ListenerConfiguration extends CombatListener {
 
     @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
     public void beforeTag(PlayerPreTagEvent e) {
+        printDebug("Detected PlayerPreTagEvent.");
+
         Player player = e.getPlayer();
+        printDebug("Player: " + player.getName());
+
         if(checkDisabledWorld(player)) {
+            printDebug("Player is in disabled world, cancelling.");
             e.setCancelled(true);
             return;
         }
 
         if(checkBypass(player)) {
+            printDebug("Player has bypass, cancelling.");
             e.setCancelled(true);
             return;
         }
 
         LivingEntity enemy = e.getEnemy();
         if(isSelfCombatDisabled(player, enemy)) {
+            printDebug("Self combat is disabled, cancelling.");
             e.setCancelled(true);
             return;
         }

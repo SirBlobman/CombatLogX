@@ -29,9 +29,14 @@ public final class ListenerDamage extends CombatListener {
 
     @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
     public void onDamage(EntityDamageByEntityEvent e) {
+        printDebug("Detected EntityDamageByEntityEvent.");
+
         Entity damaged = e.getEntity();
         Entity damager = getDamager(e);
-        if(damager == null) return;
+        if(damager == null) {
+            printDebug("Damager is null, ignoring event.");
+            return;
+        }
 
         checkTag(damager, damaged, TagReason.ATTACKER);
         checkTag(damaged, damager, TagReason.ATTACKED);
