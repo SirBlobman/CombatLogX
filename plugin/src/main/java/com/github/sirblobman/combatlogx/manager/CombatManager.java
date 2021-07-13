@@ -1,13 +1,13 @@
 package com.github.sirblobman.combatlogx.manager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -25,7 +25,7 @@ import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.api.utility.Validate;
-import com.github.sirblobman.combatlogx.CombatPlugin;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.ICombatManager;
 import com.github.sirblobman.combatlogx.api.ITimerManager;
 import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
@@ -33,22 +33,23 @@ import com.github.sirblobman.combatlogx.api.event.PlayerPunishEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerReTagEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
+import com.github.sirblobman.combatlogx.api.listener.IDeathListener;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.github.sirblobman.combatlogx.api.object.TimerType;
 import com.github.sirblobman.combatlogx.api.object.TimerUpdater;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 import com.github.sirblobman.combatlogx.api.utility.CommandHelper;
-import com.github.sirblobman.combatlogx.listener.ListenerDeath;
 
 public final class CombatManager implements ICombatManager {
-    private final CombatPlugin plugin;
+    private final ICombatLogX plugin;
     private final Map<UUID, Long> combatMap;
     private final Map<UUID, LivingEntity> enemyMap;
-    public CombatManager(CombatPlugin plugin) {
+
+    public CombatManager(ICombatLogX plugin) {
         this.plugin = Validate.notNull(plugin, "plugin must not be null!");
-        this.combatMap = new HashMap<>();
-        this.enemyMap = new HashMap<>();
+        this.combatMap = new ConcurrentHashMap<>();
+        this.enemyMap = new ConcurrentHashMap<>();
     }
 
     @Override
@@ -273,7 +274,7 @@ public final class CombatManager implements ICombatManager {
         if(killOptionString == null) killOptionString = "QUIT";
 
         if(killOptionString.equals("QUIT")) {
-            ListenerDeath listenerDeath = this.plugin.getDeathListener();
+            IDeathListener listenerDeath = this.plugin.getDeathListener();
             listenerDeath.add(player);
             player.setHealth(0.0D);
         }
