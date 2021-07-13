@@ -22,6 +22,16 @@ public abstract class ExpansionListener extends CombatListener {
         expansion.registerListener(this);
     }
 
+    @Override
+    protected final void printDebug(String message) {
+        ConfigurationManager pluginConfigurationManager = getPluginConfigurationManager();
+        YamlConfiguration configuration = pluginConfigurationManager.get("config.yml");
+        if(!configuration.getBoolean("debug-mode")) return;
+
+        Logger logger = getExpansionLogger();
+        logger.info("[Debug] " + message);
+    }
+
     protected final Expansion getExpansion() {
         return this.expansion;
     }
@@ -34,14 +44,5 @@ public abstract class ExpansionListener extends CombatListener {
     protected final ConfigurationManager getExpansionConfigurationManager() {
         Expansion expansion = getExpansion();
         return expansion.getConfigurationManager();
-    }
-
-    protected final void printDebug(String message) {
-        ConfigurationManager pluginConfigurationManager = getPluginConfigurationManager();
-        YamlConfiguration configuration = pluginConfigurationManager.get("config.yml");
-        if(!configuration.getBoolean("debug-mode")) return;
-
-        Logger logger = getExpansionLogger();
-        logger.info("[Debug] " + message);
     }
 }

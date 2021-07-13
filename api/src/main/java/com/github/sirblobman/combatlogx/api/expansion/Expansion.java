@@ -179,9 +179,9 @@ public abstract class Expansion implements IResourceHolder {
     protected final void registerListener(Listener listener) {
         ICombatLogX plugin = getPlugin();
         JavaPlugin javaPlugin = plugin.getPlugin();
-        PluginManager manager = Bukkit.getPluginManager();
+        PluginManager pluginManager = Bukkit.getPluginManager();
 
-        manager.registerEvents(listener, javaPlugin);
+        pluginManager.registerEvents(listener, javaPlugin);
         this.listenerList.add(listener);
     }
 

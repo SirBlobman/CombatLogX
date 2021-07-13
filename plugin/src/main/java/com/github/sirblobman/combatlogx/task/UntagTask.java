@@ -11,6 +11,9 @@ import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 
+/**
+ * This task is used to untag players from combat. It runs every 10 ticks.
+ */
 public final class UntagTask extends BukkitRunnable {
     private final ICombatLogX plugin;
 
