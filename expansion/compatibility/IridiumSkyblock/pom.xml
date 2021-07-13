@@ -29,7 +29,7 @@
         <dependency>
             <groupId>com.iridium</groupId>
             <artifactId>IridiumSkyblock</artifactId>
-            <version>3.0.4</version>
+            <version>3.0.6</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

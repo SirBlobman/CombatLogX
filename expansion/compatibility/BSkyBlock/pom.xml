@@ -30,7 +30,7 @@
         <dependency>
             <groupId>world.bentobox</groupId>
             <artifactId>bentobox</artifactId>
-            <version>1.17.0</version>
+            <version>1.17.1</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
