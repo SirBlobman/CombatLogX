@@ -161,7 +161,7 @@ public final class ListenerConfiguration extends CombatListener {
 
     private void runTagCommands(Player player, LivingEntity enemy) {
         ConfigurationManager configurationManager = getPluginConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
+        YamlConfiguration configuration = configurationManager.get("commands.yml");
 
         ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = getCombatManager();

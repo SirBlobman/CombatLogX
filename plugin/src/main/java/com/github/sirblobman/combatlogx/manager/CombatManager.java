@@ -290,6 +290,8 @@ public final class CombatManager implements ICombatManager {
         ConfigurationManager configurationManager = this.plugin.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("commands.yml");
         List<String> punishCommandList = configuration.getStringList("punish-command-list");
+        if(punishCommandList.isEmpty()) return;
+
         for(String punishCommand : punishCommandList) {
             String replacedCommand = replaceVariables(player, previousEnemy, punishCommand);
             if(replacedCommand.startsWith("[PLAYER]")) {

@@ -80,14 +80,13 @@ public final class ListenerUntag extends CombatListener {
     }
 
     private void runUntagCommands(Player player, LivingEntity previousEnemy) {
-        ICombatLogX plugin = getCombatLogX();
-        ConfigurationManager configurationManager = plugin.getConfigurationManager();
-        ICombatManager combatManager = plugin.getCombatManager();
-        YamlConfiguration configuration = configurationManager.get("commands.yml");
-
+        ConfigurationManager configurationManager = getPluginConfigurationManager();
+        YamlConfiguration configuration  = configurationManager.get("commands.yml");
         List<String> untagCommandList = configuration.getStringList("untag-command-list");
         if(untagCommandList.isEmpty()) return;
 
+        ICombatLogX plugin = getCombatLogX();
+        ICombatManager combatManager = getCombatManager();
         for(String untagCommand : untagCommandList) {
             String replacedCommand = combatManager.replaceVariables(player, previousEnemy, untagCommand);
             if(replacedCommand.startsWith("[PLAYER]")) {
