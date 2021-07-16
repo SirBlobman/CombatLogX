@@ -14,7 +14,7 @@ import com.github.sirblobman.api.nms.bossbar.BossBarHandler;
 import com.github.sirblobman.api.utility.MessageUtility;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.ICombatManager;
+import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TimerUpdater;
 import com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper;
 

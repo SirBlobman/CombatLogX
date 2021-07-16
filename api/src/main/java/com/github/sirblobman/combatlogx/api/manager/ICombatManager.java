@@ -1,4 +1,4 @@
-package com.github.sirblobman.combatlogx.api;
+package com.github.sirblobman.combatlogx.api.manager;
 
 import java.util.List;
 
@@ -25,6 +25,5 @@ public interface ICombatManager {
     int getTimerLeftSeconds(Player player);
     int getMaxTimerSeconds(Player player);
 
-    boolean punish(Player player, UntagReason punishReason, LivingEntity previousEnemy);
     String replaceVariables(Player player, LivingEntity enemy, String string);
 }

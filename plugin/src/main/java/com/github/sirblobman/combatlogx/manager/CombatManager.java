@@ -26,14 +26,13 @@ import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.ICombatManager;
-import com.github.sirblobman.combatlogx.api.ITimerManager;
 import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
-import com.github.sirblobman.combatlogx.api.event.PlayerPunishEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerReTagEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
 import com.github.sirblobman.combatlogx.api.listener.IDeathListener;
+import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
+import com.github.sirblobman.combatlogx.api.manager.ITimerManager;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.github.sirblobman.combatlogx.api.object.TimerType;
@@ -196,18 +195,6 @@ public final class CombatManager implements ICombatManager {
     }
 
     @Override
-    public boolean punish(Player player, UntagReason punishReason, LivingEntity previousEnemy) {
-        PlayerPunishEvent event = new PlayerPunishEvent(player, punishReason, previousEnemy);
-        PluginManager pluginManager = Bukkit.getPluginManager();
-        pluginManager.callEvent(event);
-        if(event.isCancelled()) return false;
-
-        checkKill(player);
-        runPunishCommands(player, previousEnemy);
-        return true;
-    }
-
-    @Override
     public String replaceVariables(Player player, LivingEntity enemy, String string) {
         String playerName = player.getName();
         String enemyName = getEntityName(player, enemy);
@@ -265,49 +252,6 @@ public final class CombatManager implements ICombatManager {
         PluginManager pluginManager = Bukkit.getPluginManager();
         if(!pluginManager.isPluginEnabled("MVdWPlaceholderAPI")) return string;
         return be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(player, string);
-    }
-
-    private void checkKill(Player player) {
-        ConfigurationManager configurationManager = this.plugin.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("punish.yml");
-        String killOptionString = configuration.getString("kill-time");
-        if(killOptionString == null) killOptionString = "QUIT";
-
-        if(killOptionString.equals("QUIT")) {
-            IDeathListener listenerDeath = this.plugin.getDeathListener();
-            listenerDeath.add(player);
-            player.setHealth(0.0D);
-        }
-
-        if(killOptionString.equals("JOIN")) {
-            YamlConfiguration playerData = this.plugin.getData(player);
-            playerData.set("kill-on-join", true);
-            this.plugin.saveData(player);
-        }
-    }
-
-    private void runPunishCommands(Player player, LivingEntity previousEnemy) {
-        ConfigurationManager configurationManager = this.plugin.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("commands.yml");
-        List<String> punishCommandList = configuration.getStringList("punish-command-list");
-        if(punishCommandList.isEmpty()) return;
-
-        for(String punishCommand : punishCommandList) {
-            String replacedCommand = replaceVariables(player, previousEnemy, punishCommand);
-            if(replacedCommand.startsWith("[PLAYER]")) {
-                String command = replacedCommand.substring("[PLAYER]".length());
-                CommandHelper.runAsPlayer(this.plugin, player, command);
-                continue;
-            }
-
-            if(replacedCommand.startsWith("[OP]")) {
-                String command = replacedCommand.substring("[OP]".length());
-                CommandHelper.runAsOperator(this.plugin, player, command);
-                continue;
-            }
-
-            CommandHelper.runAsConsole(this.plugin, replacedCommand);
-        }
     }
 
     private boolean failsPreTagEvent(Player player, LivingEntity enemy, TagType tagType, TagReason tagReason) {

@@ -2,11 +2,13 @@ package com.github.sirblobman.combatlogx.api.object;
 
 import org.bukkit.entity.Player;
 
+import com.github.sirblobman.combatlogx.api.manager.ITimerManager;
+
 /**
  * If you are going to implement this class, don't forget to
  * register your instance with the timer manager.
- * @see com.github.sirblobman.combatlogx.api.ITimerManager
- * @see com.github.sirblobman.combatlogx.api.ITimerManager#addUpdaterTask(TimerUpdater)
+ * @see ITimerManager
+ * @see ITimerManager#addUpdaterTask(TimerUpdater)
  */
 public interface TimerUpdater {
     /**

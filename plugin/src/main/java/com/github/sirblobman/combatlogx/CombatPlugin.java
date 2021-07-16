@@ -22,8 +22,9 @@ import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.api.update.UpdateManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.ICombatManager;
+import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
+import com.github.sirblobman.combatlogx.api.manager.IPunishManager;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 import com.github.sirblobman.combatlogx.command.CommandCombatLogX;
 import com.github.sirblobman.combatlogx.command.CommandCombatTimer;
@@ -35,11 +36,13 @@ import com.github.sirblobman.combatlogx.listener.ListenerDeath;
 import com.github.sirblobman.combatlogx.listener.ListenerPunish;
 import com.github.sirblobman.combatlogx.listener.ListenerUntag;
 import com.github.sirblobman.combatlogx.manager.CombatManager;
+import com.github.sirblobman.combatlogx.manager.PunishManager;
 import com.github.sirblobman.combatlogx.task.TimerUpdateTask;
 import com.github.sirblobman.combatlogx.task.UntagTask;
 
 public final class CombatPlugin extends ConfigurablePlugin implements ICombatLogX {
     private final CombatManager combatManager;
+    private final PunishManager punishManager;
     private final ExpansionManager expansionManager;
     private final ListenerDeath listenerDeath;
     private final TimerUpdateTask timerUpdateTask;
@@ -47,6 +50,7 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     public CombatPlugin() {
         this.expansionManager = new ExpansionManager(this);
         this.combatManager = new CombatManager(this);
+        this.punishManager = new PunishManager(this);
         this.listenerDeath = new ListenerDeath(this);
         this.timerUpdateTask = new TimerUpdateTask(this);
     }
@@ -162,6 +166,11 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     @Override
     public CombatManager getCombatManager() {
         return this.combatManager;
+    }
+
+    @Override
+    public IPunishManager getPunishManager() {
+        return this.punishManager;
     }
 
     @Override

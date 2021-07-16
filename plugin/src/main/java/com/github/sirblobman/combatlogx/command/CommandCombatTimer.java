@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.ICombatManager;
+import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.command.CombatLogPlayerCommand;
 
 public final class CommandCombatTimer extends CombatLogPlayerCommand {

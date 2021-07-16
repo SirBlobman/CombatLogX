@@ -14,9 +14,10 @@ import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.CombatPlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.ICombatManager;
+import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
+import com.github.sirblobman.combatlogx.api.manager.IPunishManager;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 import com.github.sirblobman.combatlogx.api.utility.CommandHelper;
 
@@ -53,8 +54,8 @@ public final class ListenerUntag extends CombatListener {
         UntagReason untagReason = e.getUntagReason();
 
         ICombatLogX plugin = getCombatLogX();
-        ICombatManager combatManager = plugin.getCombatManager();
-        combatManager.punish(player, untagReason, previousEnemy);
+        IPunishManager punishManager = plugin.getPunishManager();
+        punishManager.punish(player, untagReason, previousEnemy);
 
         sendUntagMessage(player, untagReason);
         runUntagCommands(player, previousEnemy);

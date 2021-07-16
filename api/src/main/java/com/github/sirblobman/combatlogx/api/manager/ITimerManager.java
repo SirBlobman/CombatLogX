@@ -1,4 +1,4 @@
-package com.github.sirblobman.combatlogx.api;
+package com.github.sirblobman.combatlogx.api.manager;
 
 import java.util.Set;
 
