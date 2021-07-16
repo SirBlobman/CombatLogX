@@ -23,7 +23,6 @@ import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
-import com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper;
 
 import combatlogx.expansion.scoreboard.ScoreboardExpansion;
 
@@ -198,35 +197,6 @@ public final class CustomScoreboard {
         LivingEntity enemy = combatManager.getEnemy(player);
 
         string = MessageUtility.color(string);
-        string = combatManager.replaceVariables(player, enemy, string);
-
-        String timeLeft = PlaceholderHelper.getTimeLeft(plugin, player);
-        String timeLeftDecimal = PlaceholderHelper.getTimeLeftDecimal(plugin, player);
-        String inCombat = PlaceholderHelper.getInCombat(plugin, player);
-        String combatStatus = PlaceholderHelper.getStatus(plugin, player);
-
-        String enemyName = PlaceholderHelper.getEnemyName(plugin, player);
-        String enemyDisplayName = PlaceholderHelper.getEnemyDisplayName(plugin, player);
-        String enemyHealth = PlaceholderHelper.getEnemyHealth(plugin, player);
-        String enemyHearts = PlaceholderHelper.getEnemyHearts(plugin, player);
-        String enemyHealthRounded = PlaceholderHelper.getEnemyHealthRounded(plugin, player);
-        String enemyWorldName = PlaceholderHelper.getEnemyWorld(plugin, player);
-        String enemyX = PlaceholderHelper.getEnemyX(plugin, player);
-        String enemyY = PlaceholderHelper.getEnemyY(plugin, player);
-        String enemyZ = PlaceholderHelper.getEnemyZ(plugin, player);
-
-        return string.replace("{time_left}", timeLeft)
-                .replace("{time_left_decimal}", timeLeftDecimal)
-                .replace("{in_combat}", inCombat).replace("{status}", combatStatus)
-                .replace("{enemy_name}", enemyName)
-                .replace("{enemy_display_name}", enemyDisplayName)
-                .replace("{enemy_health}", enemyHealth)
-                .replace("{enemy_hearts}", enemyHearts)
-                .replace("{enemy_health_rounded}", enemyHealthRounded)
-                .replace("{enemy_world}", enemyWorldName)
-                .replace("{enemy_x}", enemyX)
-                .replace("{enemy_y}", enemyY)
-                .replace("{enemy_z}", enemyZ)
-        ;
+        return combatManager.replaceVariables(player, enemy, string);
     }
 }

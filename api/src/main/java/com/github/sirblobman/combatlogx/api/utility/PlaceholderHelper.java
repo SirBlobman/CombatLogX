@@ -14,10 +14,17 @@ import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.api.utility.MessageUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
+import com.github.sirblobman.combatlogx.api.manager.IPunishManager;
 
 import org.jetbrains.annotations.Nullable;
 
 public final class PlaceholderHelper {
+    public static String getPunishmentCount(ICombatLogX plugin, Player player) {
+        IPunishManager punishManager = plugin.getPunishManager();
+        long punishmentCount = punishManager.getPunishmentCount(player);
+        return Long.toString(punishmentCount);
+    }
+
     public static String getTimeLeft(ICombatLogX plugin, Player player) {
         ICombatManager combatManager = plugin.getCombatManager();
         int secondsLeft = combatManager.getTimerLeftSeconds(player);

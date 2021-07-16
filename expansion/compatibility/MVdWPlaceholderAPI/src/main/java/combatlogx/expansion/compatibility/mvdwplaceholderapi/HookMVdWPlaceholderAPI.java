@@ -29,6 +29,7 @@ import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.get
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyY;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyZ;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getInCombat;
+import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getPunishmentCount;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getStatus;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getTimeLeft;
 
@@ -59,6 +60,7 @@ public final class HookMVdWPlaceholderAPI implements PlaceholderReplacer {
             case "time_left": return getTimeLeft(plugin, player);
             case "in_combat": return getInCombat(plugin, player);
             case "status": return getStatus(plugin, player);
+            case "punishment_count": return getPunishmentCount(plugin, player);
             case "enemy_name": return getEnemyName(plugin, player);
             case "enemy_display_name": return getEnemyDisplayName(plugin, player);
             case "enemy_health": return getEnemyHealth(plugin, player);

@@ -30,7 +30,6 @@ import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerReTagEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
-import com.github.sirblobman.combatlogx.api.listener.IDeathListener;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.ITimerManager;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
@@ -38,7 +37,7 @@ import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.github.sirblobman.combatlogx.api.object.TimerType;
 import com.github.sirblobman.combatlogx.api.object.TimerUpdater;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
-import com.github.sirblobman.combatlogx.api.utility.CommandHelper;
+import com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper;
 
 public final class CombatManager implements ICombatManager {
     private final ICombatLogX plugin;
@@ -198,7 +197,39 @@ public final class CombatManager implements ICombatManager {
     public String replaceVariables(Player player, LivingEntity enemy, String string) {
         String playerName = player.getName();
         String enemyName = getEntityName(player, enemy);
-        String newString = string.replace("{player}", playerName).replace("{enemy}", enemyName);
+
+        String timeLeft = PlaceholderHelper.getTimeLeft(this.plugin, player);
+        String timeLeftDecimal = PlaceholderHelper.getTimeLeftDecimal(this.plugin, player);
+        String inCombat = PlaceholderHelper.getInCombat(this.plugin, player);
+        String combatStatus = PlaceholderHelper.getStatus(this.plugin, player);
+        String punishmentCount = PlaceholderHelper.getPunishmentCount(this.plugin, player);
+
+        String enemyDisplayName = PlaceholderHelper.getEnemyDisplayName(this.plugin, player);
+        String enemyHealth = PlaceholderHelper.getEnemyHealth(this.plugin, player);
+        String enemyHearts = PlaceholderHelper.getEnemyHearts(this.plugin, player);
+        String enemyHealthRounded = PlaceholderHelper.getEnemyHealthRounded(this.plugin, player);
+        String enemyWorldName = PlaceholderHelper.getEnemyWorld(this.plugin, player);
+        String enemyX = PlaceholderHelper.getEnemyX(this.plugin, player);
+        String enemyY = PlaceholderHelper.getEnemyY(this.plugin, player);
+        String enemyZ = PlaceholderHelper.getEnemyZ(this.plugin, player);
+
+        String newString = string.replace("{player}", playerName)
+                .replace("{time_left}", timeLeft)
+                .replace("{time_left_decimal}", timeLeftDecimal)
+                .replace("{in_combat}", inCombat)
+                .replace("{status}", combatStatus)
+                .replace("{punishment_count}", punishmentCount)
+                .replace("{enemy}", enemyName)
+                .replace("{enemy_name}", enemyName)
+                .replace("{enemy_display_name}", enemyDisplayName)
+                .replace("{enemy_health}", enemyHealth)
+                .replace("{enemy_hearts}", enemyHearts)
+                .replace("{enemy_health_rounded}", enemyHealthRounded)
+                .replace("{enemy_world}", enemyWorldName)
+                .replace("{enemy_x}", enemyX)
+                .replace("{enemy_y}", enemyY)
+                .replace("{enemy_z}", enemyZ);
+
         return replaceMVdW(player, replacePAPI(player, newString));
     }
 
