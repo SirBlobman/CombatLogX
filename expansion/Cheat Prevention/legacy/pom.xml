@@ -16,7 +16,7 @@
     <description>Legacy code for the Cheat Prevention expansion</description>
     
     <properties>
-        <spigot.version>1.8-R0.1-SNAPSHOT</spigot.version>
+        <spigot.version>1.8.8-R0.1-SNAPSHOT</spigot.version>
     </properties>
     
     <repositories>
