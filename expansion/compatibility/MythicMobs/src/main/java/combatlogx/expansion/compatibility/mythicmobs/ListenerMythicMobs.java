@@ -63,17 +63,20 @@ public final class ListenerMythicMobs extends ExpansionListener {
         }
     }
 
-    private boolean isMythicMob(Entity entity) {
+    private BukkitAPIHelper getAPI() {
         MythicMobs mythicMobs = MythicMobs.inst();
-        BukkitAPIHelper apiHelper = mythicMobs.getAPIHelper();
-        return apiHelper.isMythicMob(entity);
+        return mythicMobs.getAPIHelper();
+    }
+
+    private boolean isMythicMob(Entity entity) {
+        BukkitAPIHelper api = getAPI();
+        return api.isMythicMob(entity);
     }
 
     private String getMythicMobName(Entity entity) {
         if(isMythicMob(entity)) {
-            MythicMobs mythicMobs = MythicMobs.inst();
-            BukkitAPIHelper apiHelper = mythicMobs.getAPIHelper();
-            ActiveMob activeMob = apiHelper.getMythicMobInstance(entity);
+            BukkitAPIHelper api = getAPI();
+            ActiveMob activeMob = api.getMythicMobInstance(entity);
             return (activeMob == null ? null : activeMob.getMobType());
         }
 
