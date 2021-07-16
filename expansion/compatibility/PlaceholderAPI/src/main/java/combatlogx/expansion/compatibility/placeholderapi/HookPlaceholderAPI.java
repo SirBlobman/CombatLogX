@@ -20,6 +20,7 @@ import combatlogx.expansion.newbie.helper.manager.PVPManager;
 import combatlogx.expansion.newbie.helper.manager.ProtectionManager;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 
+import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyDisplayName;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyHealth;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyHealthRounded;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyHearts;
@@ -78,6 +79,7 @@ public final class HookPlaceholderAPI extends PlaceholderExpansion {
             case "in_combat": return getInCombat(plugin, player);
             case "status": return getStatus(plugin, player);
             case "enemy_name": return getEnemyName(plugin, player);
+            case "enemy_display_name": return getEnemyDisplayName(plugin, player);
             case "enemy_health": return getEnemyHealth(plugin, player);
             case "enemy_health_rounded": return getEnemyHealthRounded(plugin, player);
             case "enemy_hearts": return getEnemyHearts(plugin, player);

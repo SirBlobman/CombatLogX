@@ -1,7 +1,5 @@
 package combatlogx.expansion.compatibility.mvdwplaceholderapi;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 import org.bukkit.entity.Player;
@@ -21,6 +19,7 @@ import combatlogx.expansion.newbie.helper.NewbieHelperExpansion;
 import combatlogx.expansion.newbie.helper.manager.PVPManager;
 import combatlogx.expansion.newbie.helper.manager.ProtectionManager;
 
+import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyDisplayName;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyHealth;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyHealthRounded;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyHearts;
@@ -43,17 +42,7 @@ public final class HookMVdWPlaceholderAPI implements PlaceholderReplacer {
     public void register() {
         ICombatLogX combatLogX = this.expansion.getPlugin();
         JavaPlugin plugin = combatLogX.getPlugin();
-
-        List<String> placeholderList = Arrays.asList(
-                "time_left", "in_combat", "status", "enemy_name", "enemy_health", "enemy_health_rounded",
-                "enemy_hearts", "newbie_helper_pvp_status", "newbie_helper_protected", "enemy_world",
-                "enemy_x", "enemy_y", "enemy_z"
-        );
-
-        for(String value : placeholderList) {
-            String placeholder = ("combatlogx_" + value);
-            PlaceholderAPI.registerPlaceholder(plugin, placeholder, this);
-        }
+        PlaceholderAPI.registerPlaceholder(plugin, "combatlogx_*", this);
     }
 
     @Override
@@ -71,6 +60,7 @@ public final class HookMVdWPlaceholderAPI implements PlaceholderReplacer {
             case "in_combat": return getInCombat(plugin, player);
             case "status": return getStatus(plugin, player);
             case "enemy_name": return getEnemyName(plugin, player);
+            case "enemy_display_name": return getEnemyDisplayName(plugin, player);
             case "enemy_health": return getEnemyHealth(plugin, player);
             case "enemy_health_rounded": return getEnemyHealthRounded(plugin, player);
             case "enemy_hearts": return getEnemyHearts(plugin, player);

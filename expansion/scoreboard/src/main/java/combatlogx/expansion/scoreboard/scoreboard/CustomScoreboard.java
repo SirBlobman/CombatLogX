@@ -206,6 +206,7 @@ public final class CustomScoreboard {
         String combatStatus = PlaceholderHelper.getStatus(plugin, player);
 
         String enemyName = PlaceholderHelper.getEnemyName(plugin, player);
+        String enemyDisplayName = PlaceholderHelper.getEnemyDisplayName(plugin, player);
         String enemyHealth = PlaceholderHelper.getEnemyHealth(plugin, player);
         String enemyHearts = PlaceholderHelper.getEnemyHearts(plugin, player);
         String enemyHealthRounded = PlaceholderHelper.getEnemyHealthRounded(plugin, player);
@@ -218,6 +219,7 @@ public final class CustomScoreboard {
                 .replace("{time_left_decimal}", timeLeftDecimal)
                 .replace("{in_combat}", inCombat).replace("{status}", combatStatus)
                 .replace("{enemy_name}", enemyName)
+                .replace("{enemy_display_name}", enemyDisplayName)
                 .replace("{enemy_health}", enemyHealth)
                 .replace("{enemy_hearts}", enemyHearts)
                 .replace("{enemy_health_rounded}", enemyHealthRounded)

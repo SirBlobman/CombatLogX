@@ -66,6 +66,17 @@ public final class PlaceholderHelper {
         return entityHandler.getName(enemy);
     }
 
+    public static String getEnemyDisplayName(ICombatLogX plugin, Player player) {
+        ICombatManager combatManager = plugin.getCombatManager();
+        LivingEntity enemy = combatManager.getEnemy(player);
+        if(enemy instanceof Player) {
+            Player enemyPlayer = (Player) enemy;
+            return enemyPlayer.getDisplayName();
+        }
+
+        return getEnemyName(plugin, player);
+    }
+
     public static String getEnemyHealth(ICombatLogX plugin, Player player) {
         ICombatManager combatManager = plugin.getCombatManager();
         LivingEntity enemy = combatManager.getEnemy(player);
