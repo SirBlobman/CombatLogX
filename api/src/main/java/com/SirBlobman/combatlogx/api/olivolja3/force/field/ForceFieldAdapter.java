@@ -2,6 +2,7 @@ package com.SirBlobman.combatlogx.api.olivolja3.force.field;
 
 import java.util.UUID;
 
+import com.comphenix.protocol.injector.server.TemporaryPlayer;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -42,6 +43,8 @@ public class ForceFieldAdapter extends PacketAdapter {
         if(e.isCancelled()) return;
 
         Player player = e.getPlayer();
+        if(player instanceof TemporaryPlayer) return;
+
         ICombatManager combatManager = this.plugin.getCombatManager();
         if(!combatManager.isInCombat(player)) return;
 
@@ -74,6 +77,8 @@ public class ForceFieldAdapter extends PacketAdapter {
         if(e.isCancelled()) return;
 
         Player player = e.getPlayer();
+        if(player instanceof TemporaryPlayer) return;
+
         ICombatManager combatManager = this.plugin.getCombatManager();
         if(!combatManager.isInCombat(player)) return;
 
