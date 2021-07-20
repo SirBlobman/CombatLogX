@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -61,6 +62,15 @@ public final class PlaceholderHelper {
 
         String key = ("placeholder.status." + (inCombat ? "fighting" : "idle"));
         return languageManager.getMessage(player, key,null, true);
+    }
+
+    public static String getEnemyType(ICombatLogX plugin, Player player) {
+        ICombatManager combatManager = plugin.getCombatManager();
+        LivingEntity enemy = combatManager.getEnemy(player);
+        if(enemy == null) return getUnknownEnemy(plugin, player);
+
+        EntityType entityType = enemy.getType();
+        return entityType.name();
     }
 
     public static String getEnemyName(ICombatLogX plugin, Player player) {

@@ -19,3 +19,4 @@ The MVdWPlaceholderAPI Compatibility expansion for CombatLogX adds placeholders 
 | `{combatlogx_enemy_z}` | This shows the z position of the enemy (or unknown). |
 | `{combatlogx_newbie_helper_pvp_status}` | (Requires Newbie Helper) This placeholder shows whether a player has pvp enabled or not. |
 | `{combatlogx_newbie_helper_protected}` | (Requires Newbie Helper) This placeholder shows a boolean (true/false). The value is true when the player has newbie protection and false when they do not. |
+| `{combatlogx_enemy_<placeholder_without_{}>}` | This placeholder will show any other PlaceholderAPI placeholder from the enemy. If the enemy is not a player, "Unknown" will be shown instead. |
