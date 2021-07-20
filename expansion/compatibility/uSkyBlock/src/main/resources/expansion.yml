@@ -3,7 +3,7 @@ prefix: "uSkyBlock Compatibility"
 description: "${project.description}"
 
 main: "combatlogx.expansion.compatibility.uskyblock.uSkyBlockExpansion"
-version: "16.0"
+version: "16.1"
 author: "SirBlobman"
 
 plugin-depend:
