@@ -18,7 +18,6 @@ softdepend:
   - "ASkyBlock"
   - "AnimatedNames"
   - "BentoBox"
-  - "BossBarAPI"
   - "Citizens"
   - "CrackShot"
   - "Essentials"
