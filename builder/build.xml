@@ -56,18 +56,12 @@
                 <file file="${expansion.compatibility.dir}/SuperiorSkyblock/target/SuperiorSkyblock Compatibility.jar"/>
                 <file file="${expansion.compatibility.dir}/uSkyBlock/target/uSkyBlock Compatibility.jar"/>
 
-                <!-- Factions Compatibility Expansions -->
-                <file file="${expansion.compatibility.dir}/Factions/target/Factions Compatibility.jar"/>
-                <file file="${expansion.compatibility.dir}/FactionsUUID/target/FactionsUUID Compatibility.jar"/>
-                <file file="${expansion.compatibility.dir}/FactionsUUID-Legacy/target/FactionsUUID Legacy Compatibility.jar"/>
-                <file file="${expansion.compatibility.dir}/FactionsX/target/FactionsX Compatibility.jar"/>
-                <file file="${expansion.compatibility.dir}/LegacyFactions/target/LegacyFactions Compatibility.jar"/>
-
                 <!-- PlaceholderAPI Compatibility Expansions -->
                 <file file="${expansion.compatibility.dir}/MVdWPlaceholderAPI/target/MVdWPlaceholderAPI Compatibility.jar"/>
                 <file file="${expansion.compatibility.dir}/PlaceholderAPI/target/PlaceholderAPI Compatibility.jar"/>
 
                 <!-- Region Compatibility Expansions -->
+                <file file="${expansion.compatibility.dir}/Factions/target/Factions Compatibility.jar"/>
                 <file file="${expansion.compatibility.dir}/GriefDefender/target/GriefDefender Compatibility.jar"/>
                 <file file="${expansion.compatibility.dir}/GriefPrevention/target/GriefPrevention Compatibility.jar"/>
                 <file file="${expansion.compatibility.dir}/KingdomsX/target/KingdomsX Compatibility.jar"/>

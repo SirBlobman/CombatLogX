@@ -1,46 +1,31 @@
 package combatlogx.expansion.compatibility.region.factions;
 
-import java.util.List;
-import java.util.logging.Logger;
+import org.bukkit.plugin.java.JavaPlugin;
 
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.PluginManager;
-
+import com.github.sirblobman.api.factions.FactionsHandler;
+import com.github.sirblobman.api.factions.FactionsHelper;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 
 public final class FactionsExpansion extends RegionExpansion {
     private RegionHandler regionHandler;
+    private FactionsHandler factionsHandler;
+
     public FactionsExpansion(ICombatLogX plugin) {
         super(plugin);
         this.regionHandler = null;
+        this.factionsHandler = null;
     }
 
     @Override
     public boolean checkDependencies() {
-        if(!checkDependency("MassiveCore", true)) return false;
-        if(!checkDependency("Factions", true)) return false;
+        ICombatLogX combatLogX = getPlugin();
+        JavaPlugin plugin = combatLogX.getPlugin();
+        FactionsHelper factionsHelper = new FactionsHelper(plugin);
 
-        Logger logger = getLogger();
-        logger.info("Checking if Factions plugin is the correct version...");
-
-        PluginManager pluginManager = Bukkit.getPluginManager();
-        Plugin pluginFactions = pluginManager.getPlugin("Factions");
-        if(pluginFactions != null) {
-            PluginDescriptionFile description = pluginFactions.getDescription();
-            List<String> depend = description.getDepend();
-            if(depend.contains("MassiveCore")) {
-                logger.info("The Factions plugin passed the check.");
-                return true;
-            }
-        }
-
-        logger.warning("The Factions plugin does not match the type of plugin supported by this expansion.");
-        logger.warning("If you believe this is a mistake, please contact SirBlobman!");
-        return false;
+        this.factionsHandler = factionsHelper.getFactionsHandler();
+        return (this.factionsHandler != null);
     }
 
     @Override
@@ -50,5 +35,9 @@ public final class FactionsExpansion extends RegionExpansion {
         }
 
         return this.regionHandler;
+    }
+
+    public FactionsHandler getFactionsHandler() {
+        return this.factionsHandler;
     }
 }

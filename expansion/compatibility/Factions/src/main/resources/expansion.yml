@@ -3,9 +3,10 @@ prefix: "Factions Compatibility"
 description: "${project.description}"
 
 main: "combatlogx.expansion.compatibility.region.factions.FactionsExpansion"
-version: "16.0"
+version: "16.1"
 author: "SirBlobman"
 
-plugin-depend:
-  - "MassiveCore"
+plugin-soft-depend:
   - "Factions"
+  - "FactionsX"
+  - "LegacyFactions"

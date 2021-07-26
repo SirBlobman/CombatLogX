@@ -25,18 +25,12 @@
         <module>iDisguise</module>
         <module>LibsDisguises</module>
 
-        <!-- Factions Compatibility -->
-        <module>Factions</module>
-        <module>FactionsUUID</module>
-        <module>FactionsUUID-Legacy</module>
-        <module>FactionsX</module>
-        <module>LegacyFactions</module>
-
         <!-- Placeholder Compatibility -->
         <module>MVdWPlaceholderAPI</module>
         <module>PlaceholderAPI</module>
 
         <!-- Region Compatibility -->
+        <module>Factions</module>
         <module>GriefDefender</module>
         <module>GriefPrevention</module>
         <module>KingdomsX</module>
