@@ -183,11 +183,14 @@ expansion:
 
   region-protection:
     factions-no-entry: "&cYou are not allowed to enter that area during combat."
+    griefdefender-no-entry: "&cYou are not allowed to enter that area during combat."
     griefprevention-no-entry: "&cYou are not allowed to enter that area during combat."
+    kingdomsx-no-entry: "&cYou are not allowed to enter that area during combat."
     lands-no-entry: "&cYou are not allowed to enter that area during combat."
     redprotect-no-entry: "&cYou are not allowed to enter that area during combat."
     residence-no-entry: "&cYou are not allowed to enter that area during combat."
     towny-no-entry: "&cYou are not allowed to enter that area during combat."
+    ultimateclaims-no-entry: "&cYou are not allowed to enter that area during combat."
 
     protectionstones:
       prevent-area-creation: "&cYou are not allowed to create a protected area during combat."

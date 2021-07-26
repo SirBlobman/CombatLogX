@@ -25,7 +25,7 @@ public final class LandsRegionHandler extends RegionHandler {
 
     @Override
     public String getEntryDeniedMessagePath(TagType tagType) {
-        return "expansion.lands-compatibility-no-entry";
+        return "expansion.region-protection.lands-no-entry";
     }
 
     @Override

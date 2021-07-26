@@ -20,7 +20,7 @@ public final class UltimateClaimsRegionHandler extends RegionHandler {
 
     @Override
     public String getEntryDeniedMessagePath(TagType tagType) {
-        return "expansion.ultimateclaims-compatibility-no-entry";
+        return "expansion.region-protection.ultimateclaims-no-entry";
     }
 
     @Override

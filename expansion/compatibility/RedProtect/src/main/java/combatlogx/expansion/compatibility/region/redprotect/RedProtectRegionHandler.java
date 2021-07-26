@@ -17,7 +17,7 @@ public class RedProtectRegionHandler extends RegionHandler {
 
     @Override
     public String getEntryDeniedMessagePath(TagType tagType) {
-        return "expansion.redprotect-compatibility-no-entry";
+        return "expansion.region-protection.redprotect-no-entry";
     }
 
     @Override

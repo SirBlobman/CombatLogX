@@ -24,19 +24,19 @@ public final class WorldGuardRegionHandler extends RegionHandler {
     public String getEntryDeniedMessagePath(TagType tagType) {
         String tagTypeName = tagType.name();
         String tagTypeLower = tagTypeName.toLowerCase(Locale.US);
-        return ("expansion.worldguard-compatibility-no-entry." + tagTypeLower);
+        return ("expansion.region-protection.worldguard.no-entry-" + tagTypeLower + "-combat");
     }
 
     @Override
     public boolean isSafeZone(Player player, Location location, TagType tagType) {
-        WorldGuardWrapper instance = WorldGuardWrapper.getInstance();
-        IWrappedFlag<WrappedState> flag = getFlag(tagType);
-        if(flag == null) return false;
+        WorldGuardWrapper wrappedWorldGuard = WorldGuardWrapper.getInstance();
+        IWrappedFlag<WrappedState> wrappedFlag = getFlag(tagType);
+        if(wrappedFlag == null) return false;
 
-        Optional<WrappedState> optionalState = instance.queryFlag(player, location, flag);
-        if(optionalState.isPresent()) {
-            WrappedState state = optionalState.get();
-            return (state == WrappedState.DENY);
+        Optional<WrappedState> optionalWrappedState = wrappedWorldGuard.queryFlag(player, location, wrappedFlag);
+        if(optionalWrappedState.isPresent()) {
+            WrappedState wrappedState = optionalWrappedState.get();
+            return (wrappedState == WrappedState.DENY);
         }
 
         return false;

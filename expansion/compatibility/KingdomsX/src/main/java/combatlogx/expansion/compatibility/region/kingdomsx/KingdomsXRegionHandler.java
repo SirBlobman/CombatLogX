@@ -15,7 +15,7 @@ public final class KingdomsXRegionHandler extends RegionHandler {
 
     @Override
     public String getEntryDeniedMessagePath(TagType tagType) {
-        return "expansion.kingdomsx-compatibility-no-entry";
+        return "expansion.region-protection.kingdomsx-no-entry";
     }
 
     @Override

@@ -32,7 +32,7 @@ public final class TownyRegionHandler extends RegionHandler {
 
     @Override
     public String getEntryDeniedMessagePath(TagType tagType) {
-        return "expansion.towny-compatibility-no-entry";
+        return "expansion.region-protection.towny-no-entry";
     }
 
     @Override

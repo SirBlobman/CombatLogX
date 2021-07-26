@@ -19,7 +19,7 @@ public final class ResidenceRegionHandler extends RegionHandler {
 
     @Override
     public String getEntryDeniedMessagePath(TagType tagType) {
-        return "expansion.residence-compatibility-no-entry";
+        return "expansion.region-protection.residence-no-entry";
     }
 
     @Override

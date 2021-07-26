@@ -22,7 +22,7 @@ public final class ProtectionStonesListener extends ExpansionListener {
         e.setCancelled(true);
 
         LanguageManager languageManager = getLanguageManager();
-        languageManager.sendMessage(player, "expansion.protectionstones-compatibility.place",
+        languageManager.sendMessage(player, "expansion.region-protection.protectionstones.prevent-area-creation",
                 null, true);
     }
 }

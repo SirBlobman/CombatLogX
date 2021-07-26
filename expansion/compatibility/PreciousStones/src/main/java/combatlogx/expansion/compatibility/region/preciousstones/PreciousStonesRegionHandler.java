@@ -17,7 +17,7 @@ public final class PreciousStonesRegionHandler extends RegionHandler {
 
     @Override
     public String getEntryDeniedMessagePath(TagType tagType) {
-        return "expansion.preciousstones-compatibility-no-entry";
+        return "expansion.region-protection.preciousstones.no-entry";
     }
 
     @Override

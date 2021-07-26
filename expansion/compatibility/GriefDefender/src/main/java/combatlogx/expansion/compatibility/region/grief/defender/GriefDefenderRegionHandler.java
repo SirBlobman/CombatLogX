@@ -28,13 +28,13 @@ public final class GriefDefenderRegionHandler extends RegionHandler {
 
     @Override
     public String getEntryDeniedMessagePath(TagType tagType) {
-        return "expansion.griefdefender-compatibility-no-entry";
+        return "expansion.region-protection.griefdefender-no-entry";
     }
 
     @Override
     @SuppressWarnings("UnstableApiUsage")
     public boolean isSafeZone(Player player, Location location, TagType tagType) {
-        if(tagType == TagType.UNKNOWN) return false;
+        if(tagType != TagType.PLAYER) return false;
 
         Claim claim = getClaimAt(location);
         if(claim == null) return false;

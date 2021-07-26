@@ -1,4 +1,4 @@
-package combatlogx.expansion.compatibility.region.protectionstones.handler;
+package combatlogx.expansion.compatibility.region.protectionstones;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -9,7 +9,6 @@ import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.flags.StateFlag.State;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-import combatlogx.expansion.compatibility.region.protectionstones.ProtectionStonesExpansion;
 import dev.espi.protectionstones.PSRegion;
 
 public final class ProtectionStonesRegionHandler extends RegionHandler {
@@ -19,11 +18,13 @@ public final class ProtectionStonesRegionHandler extends RegionHandler {
 
     @Override
     public String getEntryDeniedMessagePath(TagType tagType) {
-        return "expansion.protectionstones-compatibility-no-entry";
+        return "expansion.region-protection.protectionstones.no-entry";
     }
 
     @Override
     public boolean isSafeZone(Player player, Location location, TagType tagType) {
+        if(tagType != TagType.PLAYER) return false;
+
         PSRegion region = PSRegion.fromLocation(location);
         if(region == null) return false;
 
