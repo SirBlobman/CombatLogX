@@ -51,8 +51,8 @@ public final class ListenerJoin extends ExpansionListener {
 
         CommandSender console = Bukkit.getConsoleSender();
         LanguageManager languageManager = getLanguageManager();
-        String npcMessage = languageManager.getMessage(console, "expansion.citizens-join-deny", null,
-                true);
+        String npcMessage = languageManager.getMessage(console, "expansion.citizens-compatibility.prevent-join",
+                null, true);
         e.disallow(Result.KICK_OTHER, npcMessage);
     }
 

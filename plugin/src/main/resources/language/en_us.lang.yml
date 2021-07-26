@@ -5,7 +5,7 @@
 # If you want to disable a message, set it to an empty string
 # example-disabled-message: ""
 #
-# If you want to add support for a language, please submit the translations to our crowdin.
+# If you want to add support for a language, please submit the translations to our Crowdin.
 # https://crowdin.com/project/combatlogx-spigot-plugin/
 
 language-name: "en_us"
@@ -68,6 +68,10 @@ command:
     tag-failure: "&7{target}&c could not be placed into combat. (Maybe they have a bypass?)"
     untag-player: "&aSuccessfully forced player &7{target}&a out of combat."
 
+    toggle-bossbar: "&7&lBoss Bar: {status}"
+    toggle-actionbar: "&7&lAction Bar: {status}"
+    toggle-scoreboard: "&7Scoreboard: {status}"
+
   combat-timer:
     time-left-self: "&aYou have &7{time_left} seconds&a remaining."
     time-left-other: "&7{target}&a has &7{time_left} seconds&a remaining."
@@ -102,6 +106,7 @@ expansion:
       no-gliding: "&cYou are not allowed to use elytra during combat."
 
     teleportation:
+      block-portal: "&cYou are not allowed to use a portal during combat."
       block-pearl: "&cYou are not allowed to use ender pearls during combat."
       block-other: "&cYou are not allowed to teleport during combat."
 
@@ -113,6 +118,7 @@ expansion:
       prevent-breaking: "&cYou are not allowed to break blocks during combat."
       prevent-placing: "&cYou are not allowed to place blocks during combat."
       prevent-interaction: "&cYou are not allowed to use blocks during combat."
+      prevent-portal-creation: "&cYou are not allowed to create portals during combat."
 
     items:
       no-pickup: "&cYou are not allowed to pick up items during combat."
@@ -161,35 +167,37 @@ expansion:
       - "&f&lProtection: &7{protected}"
       - "&f&lPvP: &7{pvp}"
 
-  toggle-bossbar: "&7&lBoss Bar: {status}"
-  toggle-actionbar: "&7&lAction Bar: {status}"
-  toggle-scoreboard: "&7Scoreboard: {status}"
+  citizens-compatibility:
+    prevent-join: "&cYou are not allowed to join the server until your NPC is killed or despawned."
 
-  citizens-join-deny: "&cAs punishment for logging out during combat, you are not allowed to join until your clone is killed or removed."
-  preciousstones-compatibility-no-field: "&cYou can't create a protection field during combat."
-  disguise-compatibility-remove-disguise: "&cYour disguise was removed."
-
-  factions-compatibility-no-entry: "&cYou are not allowed to enter that area during combat."
-  griefprevention-compatibility-no-entry: "&cYou are not allowed to enter claims during combat."
-  lands-compatibility-no-entry: "&cYou are not allowed to enter that area during combat."
-  redprotect-compatibility-no-entry: "&cYou are not allowed to enter that area during combat."
-  residence-compatibility-no-entry: "&cYou are not allowed to enter that area during combat."
-  towny-compatibility-no-entry: "&cYou are not allowed to enter that area during combat."
-  preciousstones-compatibility-no-entry: "&cYou are not allowed to enter that area during combat."
-  protectionstones-compatibility-no-entry: "&cYou are not allowed to enter that area during combat."
-
-  worldguard-compatibility-no-entry:
-    pvp: "&cYou are not allowed to enter a non-player-combat area during combat."
-    mob: "&cYou are not allowed to enter a non-mob-combat area during combat."
-    unknown: "&cYou are not allowed to enter that area during combat."
+  disguise-compatibility:
+    remove-disguise: "&cYour disguise was removed."
 
   essentials-compatibility:
     prevent-teleport-request-self: "&cYou can't create teleport requests during combat."
     prevent-teleport-request-other: "&cYou can't send a teleport request to a player that is in combat."
 
-  protectionstones-compatibility:
-    place: "&cYou can't create a protected area while in combat."
-
   loot-protection:
     enemy-died: "&f{enemy} &ahas died. Loot will be protected for &f{time} seconds&a."
-    protected: "&cThis item is currently protected wait &f{time} seconds &cuntil you can pick it up."
+    protected: "&cThis item is currently protected, wait &f{time} seconds &cuntil you can pick it up."
+
+  region-protection:
+    factions-no-entry: "&cYou are not allowed to enter that area during combat."
+    griefprevention-no-entry: "&cYou are not allowed to enter that area during combat."
+    lands-no-entry: "&cYou are not allowed to enter that area during combat."
+    redprotect-no-entry: "&cYou are not allowed to enter that area during combat."
+    residence-no-entry: "&cYou are not allowed to enter that area during combat."
+    towny-no-entry: "&cYou are not allowed to enter that area during combat."
+
+    protectionstones:
+      prevent-area-creation: "&cYou are not allowed to create a protected area during combat."
+      no-entry: "&cYou are not allowed to enter that area during combat."
+
+    preciousstones:
+      prevent-field-creation: "&cYou are not allowed to create a protection field during combat."
+      no-entry: "&cYou are not allowed to enter that area during combat."
+
+    worldguard:
+      no-entry-mob-combat: "&cYou are not allowed to enter a non-mob-combat area during combat."
+      no-entry-player-combat: "&cYou are not allowed to enter a non-player-combat area during combat."
+      no-entry-unknown-combat: "&cYou are not allowed to enter that area during combat."
