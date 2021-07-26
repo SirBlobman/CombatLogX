@@ -334,7 +334,7 @@ public final class CommandCombatLogX extends CombatLogCommand {
         String statusString = languageManager.getMessage(player, statusPath, null, true);
         Replacer replacer = message -> message.replace("{status}", statusString);
 
-        String messagePath = ("expansion.toggle-" + value);
+        String messagePath = ("command.combatlogx.toggle-" + value);
         sendMessageWithPrefix(player, messagePath, replacer, true);
     }
 
