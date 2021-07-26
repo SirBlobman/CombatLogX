@@ -3,10 +3,10 @@ package com.github.sirblobman.combatlogx.command;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -28,12 +28,12 @@ import com.github.sirblobman.api.update.UpdateManager;
 import com.github.sirblobman.api.utility.MessageUtility;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.command.CombatLogCommand;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion.State;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionDescription;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
+import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
@@ -55,11 +55,8 @@ public final class CommandCombatLogX extends CombatLogCommand {
         if(args.length == 2) {
             String sub = args[0].toLowerCase();
             if(sub.equals("about")) {
-                ICombatLogX plugin = getCombatLogX();
-                ExpansionManager expansionManager = plugin.getExpansionManager();
-                List<Expansion> expansionList = expansionManager.getAllExpansions();
-                List<String> valueList = expansionList.stream().map(Expansion::getName).collect(Collectors.toList());
-                return getMatching(valueList, args[1]);
+                Set<String> valueSet = getExpansionNames();
+                return getMatching(valueSet, args[1]);
             }
 
             if(sub.equals("toggle")) {
@@ -351,10 +348,24 @@ public final class CommandCombatLogX extends CombatLogCommand {
     }
 
     @NotNull
-    public String getPluginVersion() {
+    private String getPluginVersion() {
         ICombatLogX combatLogX = getCombatLogX();
         JavaPlugin plugin = combatLogX.getPlugin();
         PluginDescriptionFile description = plugin.getDescription();
         return description.getVersion();
+    }
+
+    private Set<String> getExpansionNames() {
+        ICombatLogX combatLogX = getCombatLogX();
+        ExpansionManager expansionManager = combatLogX.getExpansionManager();
+        List<Expansion> expansionList = expansionManager.getAllExpansions();
+
+        Set<String> expansionNameSet = new HashSet<>();
+        for(Expansion expansion : expansionList) {
+            String expansionName = expansion.getName();
+            expansionNameSet.add(expansionName);
+        }
+
+        return Collections.unmodifiableSet(expansionNameSet);
     }
 }
