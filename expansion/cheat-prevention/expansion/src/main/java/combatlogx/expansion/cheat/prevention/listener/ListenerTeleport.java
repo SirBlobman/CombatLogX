@@ -7,6 +7,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
@@ -33,9 +34,20 @@ public final class ListenerTeleport extends CheatPreventionListener {
         checkUntag(e);
     }
 
+    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+    public void onPortal(PlayerPortalEvent e) {
+        Player player = e.getPlayer();
+        if(!isInCombat(player)) return;
+
+        YamlConfiguration configuration = getConfiguration();
+        if(configuration.getBoolean("prevent-portals")) {
+            e.setCancelled(true);
+            sendMessage(player, "expansion.cheat-prevention.teleportation.block-portal", null);
+        }
+    }
+
     private YamlConfiguration getConfiguration() {
-        Expansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
+        ConfigurationManager configurationManager = getExpansionConfigurationManager();
         return configurationManager.get("teleportation.yml");
     }
 
@@ -68,7 +80,8 @@ public final class ListenerTeleport extends CheatPreventionListener {
         Player player = e.getPlayer();
         e.setCancelled(true);
 
-        String messagePath = ("expansion.cheat-prevention.teleportation.block-" + (teleportCause == TeleportCause.ENDER_PEARL ? "pearl" : "other"));
+        String messagePath = ("expansion.cheat-prevention.teleportation.block-"
+                + (teleportCause == TeleportCause.ENDER_PEARL ? "pearl" : "other"));
         sendMessage(player, messagePath, null);
     }
 

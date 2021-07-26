@@ -1,3 +1,7 @@
+# Should players be prevented from using nether/end portals during combat?
+# Default: true
+prevent-portals: true
+
 # Should players be prevented from teleporting away during combat?
 # Default: true
 prevent-teleportation: true

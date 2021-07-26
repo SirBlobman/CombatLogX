@@ -21,3 +21,7 @@ prevent-breaking-list:
 # This defaults to prevent all block placing
 prevent-placing-list:
   - "*"
+
+# Should players be prevented from creating portals during combat?
+# Default: true
+prevent-portal-creation: true
