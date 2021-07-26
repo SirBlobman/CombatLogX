@@ -18,6 +18,9 @@
         <repository>
             <id>bg-software</id>
             <url>https://repo.bg-software.com/repository/api/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
     </repositories>
 
