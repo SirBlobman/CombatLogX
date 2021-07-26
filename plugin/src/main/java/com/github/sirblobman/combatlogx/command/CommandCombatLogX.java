@@ -340,16 +340,21 @@ public final class CommandCombatLogX extends CombatLogCommand {
 
     @NotNull
     private String getSpigotVersion() {
+        ICombatLogX combatLogX = getCombatLogX();
+        JavaPlugin plugin = combatLogX.getPlugin();
+
         CorePlugin corePlugin = JavaPlugin.getPlugin(CorePlugin.class);
         UpdateManager updateManager = corePlugin.getUpdateManager();
-        String spigotVersion = updateManager.getSpigotVersion(getCombatLogX().getPlugin());
+        String spigotVersion = updateManager.getSpigotVersion(plugin);
+
         return (spigotVersion == null ? "Update Checker Disabled!" : spigotVersion);
     }
 
     @NotNull
     public String getPluginVersion() {
-        ICombatLogX plugin = getCombatLogX();
-        PluginDescriptionFile description = plugin.getPlugin().getDescription();
+        ICombatLogX combatLogX = getCombatLogX();
+        JavaPlugin plugin = combatLogX.getPlugin();
+        PluginDescriptionFile description = plugin.getDescription();
         return description.getVersion();
     }
 }
