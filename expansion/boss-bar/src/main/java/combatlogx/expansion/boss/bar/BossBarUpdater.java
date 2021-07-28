@@ -64,6 +64,8 @@ public final class BossBarUpdater implements TimerUpdater {
     }
 
     private void actualRemove(Player player) {
+        if(!player.isOnline()) return;
+
         BossBarHandler bossBarHandler = getBossBarHandler();
         bossBarHandler.removeBossBar(player);
     }

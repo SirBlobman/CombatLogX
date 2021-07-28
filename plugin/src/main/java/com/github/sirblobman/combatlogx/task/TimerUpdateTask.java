@@ -5,9 +5,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -15,7 +16,7 @@ import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.ITimerManager;
 import com.github.sirblobman.combatlogx.api.object.TimerUpdater;
 
-public final class TimerUpdateTask extends BukkitRunnable implements ITimerManager {
+public final class TimerUpdateTask implements ITimerManager, Runnable {
     private final ICombatLogX plugin;
     private final Set<TimerUpdater> timerUpdaterSet;
 
@@ -26,7 +27,8 @@ public final class TimerUpdateTask extends BukkitRunnable implements ITimerManag
 
     public void register() {
         JavaPlugin plugin = this.plugin.getPlugin();
-        runTaskTimerAsynchronously(plugin, 5L, 1L);
+        BukkitScheduler scheduler = Bukkit.getScheduler();
+        scheduler.scheduleSyncRepeatingTask(plugin, this, 5L, 10L);
     }
 
     @Override
