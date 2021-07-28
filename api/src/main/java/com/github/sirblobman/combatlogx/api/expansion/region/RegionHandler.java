@@ -1,8 +1,9 @@
 package com.github.sirblobman.combatlogx.api.expansion.region;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -23,11 +24,11 @@ import com.github.sirblobman.combatlogx.api.object.TagType;
 
 public abstract class RegionHandler {
     private final RegionExpansion expansion;
-    private final List<UUID> cooldownList;
+    private final Map<UUID, Long> cooldownMap;
 
     public RegionHandler(RegionExpansion expansion) {
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
-        this.cooldownList = new ArrayList<>();
+        this.cooldownMap = new ConcurrentHashMap<>();
     }
 
     public final RegionExpansion getExpansion() {
@@ -35,26 +36,28 @@ public abstract class RegionHandler {
     }
 
     public final void sendEntryDeniedMessage(Player player, LivingEntity enemy) {
-        if(player == null || enemy == null) return;
-        UUID uuid = player.getUniqueId();
-        if(this.cooldownList.contains(uuid)) return;
+        if(player == null) return;
 
-        TagType tagType = (enemy instanceof Player ? TagType.PLAYER : TagType.MOB);
+        TagType tagType = getTagType(enemy);
         String messagePath = getEntryDeniedMessagePath(tagType);
         if(messagePath == null) return;
 
+        UUID playerId = player.getUniqueId();
+        if(this.cooldownMap.containsKey(playerId)) {
+            long expireMillis = this.cooldownMap.getOrDefault(playerId, 0L);
+            long systemMillis = System.currentTimeMillis();
+            if(systemMillis < expireMillis) return;
+        }
+
         ICombatLogX plugin = this.expansion.getPlugin();
-        JavaPlugin javaPlugin = plugin.getPlugin();
         String message = plugin.getMessageWithPrefix(player, messagePath, null, true);
         plugin.sendMessage(player, message);
 
-        this.cooldownList.add(uuid);
-        long cooldown = getEntryDeniedMessageCooldown();
-        long delay = (cooldown * 20L);
-
-        Runnable task = () -> this.cooldownList.remove(uuid);
-        BukkitScheduler scheduler = Bukkit.getScheduler();
-        scheduler.runTaskLaterAsynchronously(javaPlugin, task, delay);
+        long cooldownSeconds = getEntryDeniedMessageCooldown();
+        long cooldownMillis = TimeUnit.SECONDS.toMillis(cooldownSeconds);
+        long systemMillis = System.currentTimeMillis();
+        long expireMillis = (systemMillis + cooldownMillis);
+        this.cooldownMap.put(playerId, expireMillis);
     }
 
     public final void preventEntry(Cancellable e, Player player, Location fromLocation, Location toLocation) {
@@ -153,6 +156,11 @@ public abstract class RegionHandler {
         RegionExpansion expansion = getExpansion();
         ConfigurationManager configurationManager = expansion.getConfigurationManager();
         return configurationManager.get("config.yml");
+    }
+
+    private TagType getTagType(LivingEntity enemy) {
+        if(enemy == null) return TagType.UNKNOWN;
+        return (enemy instanceof Player ? TagType.PLAYER : TagType.MOB);
     }
 
     public abstract String getEntryDeniedMessagePath(TagType tagType);

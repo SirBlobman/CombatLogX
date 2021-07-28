@@ -4,7 +4,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
-import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
@@ -37,9 +36,7 @@ public final class ListenerDisguise extends ExpansionListener {
     private void undisguise(Player player) {
         DisguiseAPI api = getAPI();
         api.undisguise(player, false);
-
-        LanguageManager languageManager = getLanguageManager();
-        languageManager.sendMessage(player, "expansion.disguise-compatibility.remove-disguise",
+        sendMessageWithPrefix(player, "expansion.disguise-compatibility.remove-disguise",
                 null, true);
     }
 }

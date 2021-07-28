@@ -167,6 +167,10 @@ expansion:
       - "&f&lProtection: &7{protected}"
       - "&f&lPvP: &7{pvp}"
 
+  loot-protection:
+    enemy-died: "&f{enemy} &ahas died. Loot will be protected for &f{time} seconds&a."
+    protected: "&cThis item is currently protected, wait &f{time} seconds &cuntil you can pick it up."
+
   citizens-compatibility:
     prevent-join: "&cYou are not allowed to join the server until your NPC is killed or despawned."
 
@@ -176,10 +180,6 @@ expansion:
   essentials-compatibility:
     prevent-teleport-request-self: "&cYou can't create teleport requests during combat."
     prevent-teleport-request-other: "&cYou can't send a teleport request to a player that is in combat."
-
-  loot-protection:
-    enemy-died: "&f{enemy} &ahas died. Loot will be protected for &f{time} seconds&a."
-    protected: "&cThis item is currently protected, wait &f{time} seconds &cuntil you can pick it up."
 
   region-protection:
     factions-no-entry: "&cYou are not allowed to enter that area during combat."

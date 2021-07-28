@@ -37,9 +37,8 @@ public final class ListenerEssentials extends ExpansionListener {
         if(player == null) return;
 
         if(combatManager.isInCombat(player)) {
-            languageManager.sendMessage(player,
-                    "expansion.essentials-compatibility.prevent-teleport-request-self", null,
-                    true);
+            sendMessageWithPrefix(player, "expansion.essentials-compatibility.prevent-teleport-request-self",
+                    null, true);
             e.setCancelled(true);
             return;
         }
@@ -49,9 +48,8 @@ public final class ListenerEssentials extends ExpansionListener {
         if(target == null) return;
 
         if(combatManager.isInCombat(target)) {
-            languageManager.sendMessage(player,
-                    "expansion.essentials-compatibility.prevent-teleport-request-other", null,
-                    true);
+            sendMessageWithPrefix(player, "expansion.essentials-compatibility.prevent-teleport-request-other",
+                    null, true);
             e.setCancelled(true);
             // return;
         }

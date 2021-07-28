@@ -13,6 +13,7 @@ import combatlogx.expansion.newbie.helper.NewbieHelperExpansion;
 
 public final class ProtectionManager {
     private final NewbieHelperExpansion expansion;
+
     public ProtectionManager(NewbieHelperExpansion expansion) {
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
     }

@@ -164,15 +164,15 @@ public final class CommandTogglePVP extends CombatLogCommand {
         String sub = args[0].toLowerCase();
         String[] newArgs = (args.length < 2 ? new String[0] : Arrays.copyOfRange(args, 1, args.length));
         switch(sub) {
-            case "on": return adminEnableCommand(sender, newArgs);
-            case "off": return adminDisableCommand(sender, newArgs);
+            case "on": return commandAdminEnable(sender, newArgs);
+            case "off": return commandAdminDisable(sender, newArgs);
             default: break;
         }
 
         return false;
     }
 
-    private boolean adminEnableCommand(CommandSender sender, String[] args) {
+    private boolean commandAdminEnable(CommandSender sender, String[] args) {
         if(args.length < 1) return false;
         Player target = findTarget(sender, args[0]);
         if(target == null) return true;
@@ -184,7 +184,7 @@ public final class CommandTogglePVP extends CombatLogCommand {
         return true;
     }
 
-    private boolean adminDisableCommand(CommandSender sender, String[] args) {
+    private boolean commandAdminDisable(CommandSender sender, String[] args) {
         if(args.length < 1) return false;
         Player target = findTarget(sender, args[0]);
         if(target == null) return true;
@@ -254,7 +254,6 @@ public final class CommandTogglePVP extends CombatLogCommand {
         long cooldownSecondsLeft = TimeUnit.MILLISECONDS.toSeconds(cooldownMillisLeft);
         String cooldownSecondsLeftString = Long.toString(cooldownSecondsLeft);
 
-        LanguageManager languageManager = getLanguageManager();
         Replacer replacer = message -> message.replace("{time_left}", cooldownSecondsLeftString);
         sendMessageWithPrefix(player, "expansion.newbie-helper.togglepvp.cooldown", replacer, true);
     }

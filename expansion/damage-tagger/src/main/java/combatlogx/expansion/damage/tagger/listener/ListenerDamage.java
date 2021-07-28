@@ -11,11 +11,10 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
+import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.github.sirblobman.combatlogx.api.utility.EntityHelper;
@@ -63,18 +62,16 @@ public final class ListenerDamage extends ExpansionListener {
     }
 
     private void sendMessage(Player player, DamageCause damageCause) {
-        Expansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        LanguageManager languageManager = getLanguageManager();
-
+        ConfigurationManager configurationManager = getExpansionConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
+
         if(configuration.getBoolean("all-damage")) {
-            languageManager.sendMessage(player, "expansion.damage-tagger.unknown-damage", null, true);
+            sendMessageWithPrefix(player, "expansion.damage-tagger.unknown-damage", null, true);
             return;
         }
 
         String damageCauseName = damageCause.name().toLowerCase();
         String messagePath = ("expansion.damage-tagger.damage-type." + damageCauseName);
-        languageManager.sendMessage(player, messagePath, null, true);
+        sendMessageWithPrefix(player, messagePath, null, true);
     }
 }

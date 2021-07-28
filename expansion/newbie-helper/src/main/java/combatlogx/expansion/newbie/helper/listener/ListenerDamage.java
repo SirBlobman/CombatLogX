@@ -8,7 +8,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 import com.github.sirblobman.combatlogx.api.utility.EntityHelper;
@@ -19,6 +18,7 @@ import combatlogx.expansion.newbie.helper.manager.ProtectionManager;
 
 public final class ListenerDamage extends ExpansionListener {
     private final NewbieHelperExpansion expansion;
+
     public ListenerDamage(NewbieHelperExpansion expansion) {
         super(expansion);
         this.expansion = expansion;
@@ -48,11 +48,10 @@ public final class ListenerDamage extends ExpansionListener {
         Player player = (Player) damager;
 
         ProtectionManager protectionManager = this.expansion.getProtectionManager();
-        LanguageManager languageManager = getLanguageManager();
-
         if(protectionManager.isProtected(player) && shouldRemoveProtectionOnAttack()) {
             protectionManager.setProtected(player, false);
-            languageManager.sendMessage(player, "expansion.newbie-helper.protection-disabled.attacker", null, true);
+            sendMessageWithPrefix(player, "expansion.newbie-helper.protection-disabled.attacker",
+                    null, true);
         }
     }
 
@@ -66,32 +65,32 @@ public final class ListenerDamage extends ExpansionListener {
         if(!(damager instanceof Player)) return;
         Player attacker = (Player) damager;
 
-        LanguageManager languageManager = getLanguageManager();
         PVPManager pvpManager = this.expansion.getPVPManager();
         ProtectionManager protectionManager = this.expansion.getProtectionManager();
 
         if(pvpManager.isDisabled(attacked)) {
             e.setCancelled(true);
-            languageManager.sendMessage(attacker, "expansion.newbie-helper.no-pvp.other", null, true);
+            sendMessageWithPrefix(attacker, "expansion.newbie-helper.no-pvp.other", null, true);
             return;
         }
 
         if(pvpManager.isDisabled(attacker)) {
             e.setCancelled(true);
-            languageManager.sendMessage(attacker, "expansion.newbie-helper.no-pvp.self", null, true);
+            sendMessageWithPrefix(attacker, "expansion.newbie-helper.no-pvp.self", null, true);
             return;
         }
 
         if(protectionManager.isProtected(attacked)) {
             e.setCancelled(true);
-            languageManager.sendMessage(attacker, "expansion.newbie-helper.no-pvp.protected", null, true);
+            sendMessageWithPrefix(attacker, "expansion.newbie-helper.no-pvp.protected", null, true);
             return;
         }
 
         if(protectionManager.isProtected(attacker)) {
             if(shouldRemoveProtectionOnAttack()) {
                 protectionManager.setProtected(attacker, false);
-                languageManager.sendMessage(attacker, "expansion.newbie-helper.protection-disabled.attacker", null, true);
+                sendMessageWithPrefix(attacker, "expansion.newbie-helper.protection-disabled.attacker",
+                        null, true);
             }
         }
     }

@@ -12,6 +12,7 @@ import combatlogx.expansion.newbie.helper.manager.ProtectionManager;
 
 public final class ListenerJoin extends ExpansionListener {
     private final NewbieHelperExpansion expansion;
+
     public ListenerJoin(NewbieHelperExpansion expansion) {
         super(expansion);
         this.expansion = expansion;

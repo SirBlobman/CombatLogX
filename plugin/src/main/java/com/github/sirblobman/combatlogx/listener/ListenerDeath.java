@@ -15,6 +15,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
+import com.github.sirblobman.api.utility.MessageUtility;
 import com.github.sirblobman.combatlogx.CombatPlugin;
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
 import com.github.sirblobman.combatlogx.api.listener.IDeathListener;
@@ -71,7 +72,10 @@ public final class ListenerDeath extends CombatListener implements IDeathListene
         remove(player);
 
         String message = getRandomDeathMessage(player);
-        if(message != null) e.setDeathMessage(message);
+        if(message != null) {
+            String coloredMessage = MessageUtility.color(message);
+            e.setDeathMessage(coloredMessage);
+        }
     }
 
     private String getRandomDeathMessage(Player player) {

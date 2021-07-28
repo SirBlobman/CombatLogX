@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 public final class PVPManager {
     private final Set<UUID> disabledSet;
+
     public PVPManager() {
         this.disabledSet = new HashSet<>();
     }

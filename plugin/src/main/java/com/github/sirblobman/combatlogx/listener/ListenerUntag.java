@@ -11,12 +11,11 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.CombatPlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
+import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.IPunishManager;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 import com.github.sirblobman.combatlogx.api.utility.CommandHelper;
@@ -75,9 +74,8 @@ public final class ListenerUntag extends CombatListener {
         if(!untagReason.isExpire()) return;
         ICombatLogX plugin = getCombatLogX();
 
-        LanguageManager languageManager = plugin.getLanguageManager();
         String languagePath = ("combat-timer." + (untagReason == UntagReason.EXPIRE ? "expire" : "enemy-death"));
-        languageManager.sendMessage(player, languagePath, null, true);
+        plugin.sendMessageWithPrefix(player, languagePath, null, true);
     }
 
     private void runUntagCommands(Player player, LivingEntity previousEnemy) {

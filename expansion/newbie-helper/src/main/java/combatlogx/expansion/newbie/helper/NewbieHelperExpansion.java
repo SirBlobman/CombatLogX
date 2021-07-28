@@ -13,6 +13,7 @@ import combatlogx.expansion.newbie.helper.manager.ProtectionManager;
 public final class NewbieHelperExpansion extends Expansion {
     private final PVPManager pvpManager;
     private final ProtectionManager protectionManager;
+
     public NewbieHelperExpansion(ICombatLogX plugin) {
         super(plugin);
         this.pvpManager = new PVPManager();
