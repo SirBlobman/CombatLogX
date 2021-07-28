@@ -114,6 +114,17 @@ public final class PlaceholderHelper {
         return Long.toString(enemyHealthRounded);
     }
 
+    public static String getEnemyHeartsCount(ICombatLogX plugin, Player player) {
+        ICombatManager combatManager = plugin.getCombatManager();
+        LivingEntity enemy = combatManager.getEnemy(player);
+        if(enemy == null) return getUnknownEnemy(plugin, player);
+
+        double enemyHealth = enemy.getHealth();
+        double enemyHearts = (enemyHealth / 2.0D);
+        long enemyHeartsRounded = Math.round(enemyHearts);
+        return Long.toString(enemyHeartsRounded);
+    }
+
     public static String getEnemyHearts(ICombatLogX plugin, Player player) {
         ICombatManager combatManager = plugin.getCombatManager();
         LivingEntity enemy = combatManager.getEnemy(player);
@@ -121,11 +132,13 @@ public final class PlaceholderHelper {
 
         double enemyHealth = enemy.getHealth();
         double enemyHearts = (enemyHealth / 2.0D);
-        int enemyHeartsRounded = (int) Math.round(enemyHearts);
-        if(enemyHeartsRounded > 10) return Integer.toString(enemyHeartsRounded);
+        long enemyHeartsRounded = Math.round(enemyHearts);
+        if(enemyHeartsRounded > 10L) {
+            return Long.toString(enemyHeartsRounded);
+        }
 
         char heartSymbol = '\u2764';
-        char[] charArray = new char[enemyHeartsRounded];
+        char[] charArray = new char[(int) enemyHeartsRounded];
         Arrays.fill(charArray, heartSymbol);
 
         String hearts = new String(charArray);

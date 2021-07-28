@@ -207,6 +207,7 @@ public final class CombatManager implements ICombatManager {
         String enemyDisplayName = PlaceholderHelper.getEnemyDisplayName(this.plugin, player);
         String enemyHealth = PlaceholderHelper.getEnemyHealth(this.plugin, player);
         String enemyHearts = PlaceholderHelper.getEnemyHearts(this.plugin, player);
+        String enemyHeartsCount = PlaceholderHelper.getEnemyHeartsCount(this.plugin, player);
         String enemyHealthRounded = PlaceholderHelper.getEnemyHealthRounded(this.plugin, player);
         String enemyWorldName = PlaceholderHelper.getEnemyWorld(this.plugin, player);
         String enemyX = PlaceholderHelper.getEnemyX(this.plugin, player);
@@ -224,6 +225,7 @@ public final class CombatManager implements ICombatManager {
                 .replace("{enemy_display_name}", enemyDisplayName)
                 .replace("{enemy_health}", enemyHealth)
                 .replace("{enemy_hearts}", enemyHearts)
+                .replace("{enemy_hearts_count}", enemyHeartsCount)
                 .replace("{enemy_health_rounded}", enemyHealthRounded)
                 .replace("{enemy_world}", enemyWorldName)
                 .replace("{enemy_x}", enemyX)

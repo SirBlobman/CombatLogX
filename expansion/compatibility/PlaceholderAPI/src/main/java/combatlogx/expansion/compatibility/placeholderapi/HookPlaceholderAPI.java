@@ -28,6 +28,7 @@ import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.get
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyHealth;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyHealthRounded;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyHearts;
+import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyHeartsCount;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyName;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyType;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyWorld;
@@ -100,6 +101,7 @@ public final class HookPlaceholderAPI extends PlaceholderExpansion {
                 case "health": return getEnemyHealth(plugin, player);
                 case "health_rounded": return getEnemyHealthRounded(plugin, player);
                 case "hearts": return getEnemyHearts(plugin, player);
+                case "hearts_count": return getEnemyHeartsCount(plugin, player);
                 case "world": return getEnemyWorld(plugin, player);
                 case "x": return getEnemyX(plugin, player);
                 case "y": return getEnemyY(plugin, player);
