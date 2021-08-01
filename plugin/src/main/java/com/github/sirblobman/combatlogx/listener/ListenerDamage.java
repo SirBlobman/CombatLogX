@@ -37,6 +37,9 @@ public final class ListenerDamage extends CombatListener {
             printDebug("Damager is null, ignoring event.");
             return;
         }
+        
+        printDebug("Damager Name + Type: " + getName(damager) + " " + damager.getType().name());
+        printDebug("Damaged Name + Type: " + getName(damaged) + " " + damaged.getType().name());
 
         checkTag(damager, damaged, TagReason.ATTACKER);
         checkTag(damaged, damager, TagReason.ATTACKED);
@@ -87,8 +90,8 @@ public final class ListenerDamage extends CombatListener {
     private void checkTag(Entity entity, Entity enemy, TagReason tagReason) {
         ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = getCombatManager();
-        plugin.printDebug("Checking if the entity '" + getName(entity) + "' should be tagged for reason '"
-                + tagReason + "' by enemy '" + getName(enemy) + "'.");
+        plugin.printDebug("Checking if the entity '" + getName(entity) + "' should be tagged " +
+                "for reason '" + tagReason + "' by enemy '" + getName(enemy) + "'.");
 
         if(!(entity instanceof Player)) {
             plugin.printDebug("Entity was not a player.");
@@ -105,7 +108,7 @@ public final class ListenerDamage extends CombatListener {
 
         plugin.printDebug("Triggering tag for player " + getName(playerEntity) + " with enemy "
                 + getName(playerEnemy) + "...");
-        boolean tag = combatManager.tag(playerEnemy, playerEntity, TagType.PLAYER, tagReason);
+        boolean tag = combatManager.tag(playerEntity, playerEnemy, TagType.PLAYER, tagReason);
         plugin.printDebug("Tag Status: " + tag);
     }
 
