@@ -1,0 +1,54 @@
+name: Feature Requests
+about: Make a suggestion or submit  a feature you already coded
+labels: Feature Request
+
+body:
+  - type: markdown
+    attributes:
+      value: |-
+        Please fill out the following form to the best of your ability.
+        The better you fill this out, the faster we can resolve the problem.
+
+  - type: dropdown
+    attributes:
+      label: Server Implementation
+      description: >-
+        Which server implementation are you using? If your server implementation
+        is not listed, we do not provide support for it.
+      multiple: false
+      options:
+        - Spigot
+        - Paper
+    validations:
+      required: true
+
+  - type: dropdown
+    attributes:
+      label: Server Version
+      description: >-
+        Which server version are you using? If your version is not listed, we do
+        not provide support for it.
+      multiple: false
+      options:
+        - 1.17.1
+        - 1.16.5
+        - 1.12.2
+        - 1.8.9
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: CombatLogX Version
+      description: >-
+        Please run the command '/clx version' on your server and post the output
+        here.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Feature Request
+      description: What is your request? What do you think we should add to CombatLogX?
+    validations:
+      required: true
