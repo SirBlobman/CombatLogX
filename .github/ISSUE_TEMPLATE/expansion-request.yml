@@ -1,14 +1,13 @@
-name: Feature Request
-description: Make a suggestion or submit  a feature you already coded
+name: Expansion Request
+description: Make a suggestion for a new plugin compatibility expansion.
 labels: Feature Request
-
 body:
   - type: markdown
     attributes:
       value: |-
         Please fill out the following form to the best of your ability.
         The better you fill this out, the faster we can resolve the problem.
-
+  
   - type: dropdown
     attributes:
       label: Server Implementation
@@ -21,7 +20,7 @@ body:
         - Paper
     validations:
       required: true
-
+  
   - type: dropdown
     attributes:
       label: Server Version
@@ -36,7 +35,7 @@ body:
         - 1.8.9
     validations:
       required: true
-
+  
   - type: textarea
     attributes:
       label: CombatLogX Version
@@ -45,10 +44,26 @@ body:
         here.
     validations:
       required: true
-
+  
   - type: textarea
     attributes:
-      label: Feature Request
-      description: What is your request? What do you think we should add to CombatLogX?
+      label: Plugin
+      description: >-
+        Which plugin needs a compatibility expansion? Please provide a link to
+        the plugin. We also need access to source or an API jar.
     validations:
       required: true
+  
+  - type: textarea
+    attributes:
+      label: Explanation
+      description: >-
+        Please explain why this plugin needs support or how we can improve the
+        support for this plugin.
+    validations:
+      required: true
+  
+  - type: textarea
+    attributes:
+      label: Extra Information
+      description: What other information (if any) do you need us to know?
