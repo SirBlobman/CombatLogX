@@ -1,7 +1,11 @@
-# Russian (Russia, Kazakhstan, Kyrgyzstan) Localization File
-# Submitted on Crowdin by Daniil Meister (danechek), Костя Суббач (kosty18kosty), Finelolik (g8404008), and luckybl0ck 
-# https://crowdin.com/project/combatlogx-spigot-plugin/
-
+---
+#CombatLogX English (United States) Localization File
+#DO NOT remove any entries from this file
+#DO NOT set any messages to null
+#If you want to disable a message, set it to an empty string
+#example-disabled-message: ""
+#If you want to add support for a language, please submit the translations to our Crowdin.
+#https://crowdin.com/project/combatlogx-spigot-plugin/
 language-name: "ru_ru"
 prefix: "&f&l[&6CombatLogX&f&l]&r"
 decimal-format: "0.00"
