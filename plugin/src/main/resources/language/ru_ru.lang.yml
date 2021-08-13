@@ -3,15 +3,12 @@
 # https://crowdin.com/project/combatlogx-spigot-plugin/
 
 language-name: "ru_ru"
-
 prefix: "&f&l[&6CombatLogX&f&l]&r"
 decimal-format: "0.00"
-
 broadcast:
   on-load: "&a&lCombatLogX был успешно загружен."
   on-enable: "&a&lCombatLogX был успешно включен."
   on-disable: "&c&lCombatLogX был успешно выключен."
-
 placeholder:
   time-left-zero: "0"
   unknown-enemy: "Неизвестно"
@@ -26,19 +23,16 @@ placeholder:
   pvp-status:
     enabled: "&aВкл."
     disabled: "&cВыкл."
-
 combat-timer:
   expire: "&aВы больше не в бою."
   enemy-death: "&aВы больше не в бою, потому что ваш враг мёртв."
-
 error:
   player-only: "&cТолько игроки могут выполнить эту команду."
   invalid-target: "&7{target}&c не онлайн или не существует."
   no-permission: "&cОтсутствует разрешение: &7{permission}"
   target-not-in-combat: "&7{target}&c не в бою."
   self-not-in-combat: "&cВы не в бою."
-  unknown-expansion: "&7{target}&c не является дополнением или не установлен."
-
+  unknown-expansion: "&7{target}&c не является расширением или не установлен."
 command:
   combatlogx:
     help-message-list:
@@ -59,10 +53,12 @@ command:
     tag-player: "&7{target}&a успешно введен в бой."
     tag-failure: "&7{target}&c не может быть введен бой. (Имеет права обхода?)"
     untag-player: "&7{target}&a успешно выведен из боя."
+    toggle-bossbar: "&7&lБосс Бар: {status}"
+    toggle-actionbar: "&7&lПанель действий: {status}"
+    toggle-scoreboard: "&7Табло: {status}"
   combat-timer:
     time-left-self: "&aОсталось &7{time_left} &aсекунд."
     time-left-other: "&7{target}&a осталось &7{time_left} &aсекунд."
-
 tagged:
   unknown: "&cВы находитесь в бою! Не выходите из игры."
   attacked:
@@ -71,7 +67,6 @@ tagged:
   attacker:
     player: "&cВы атаковали игрока &f{enemy}&c. Не выходите из игры!"
     mob: "&cВы атаковали &f{mob_type}&c. Не выходите из игры!"
-
 expansion:
   cheat-prevention:
     command-blocked: "&cУ вас нет доступа к &a{command}&c во время боя."
@@ -89,6 +84,7 @@ expansion:
       force-disabled: "&cВаши элитры были отключены."
       no-gliding: "&cВы не можете использовать элитры в бою."
     teleportation:
+      block-portal: "&cВам не разрешено использовать портал во время боя."
       block-pearl: "&cВы не можете использовать эндер-жемчуг в бою."
       block-other: "&cВы не можете телепортироваться в бою."
     inventory:
@@ -98,6 +94,7 @@ expansion:
       prevent-breaking: "&cВы не можете ломать блоки во время боя."
       prevent-placing: "&cВы не можете строить во время боя."
       prevent-interaction: "&cВы не можете использовать блоки во время боя."
+      prevent-portal-creation: "&cВам не разрешено создавать порталы во время боя."
     items:
       no-pickup: "&cВы не можете подбирать предметы в бою."
       no-dropping: "&cВы не можете выбрасывать предметы в бою."
@@ -141,29 +138,33 @@ expansion:
       - "&f&lИнформация по&7{target}&f&l:"
       - "&f&lЗащита: &7{protected}"
       - "&f&lPvP: &7{pvp}"
-  toggle-bossbar: "&7&lБосс-панель: {status}"
-  toggle-actionbar: "&7&lПанель действий: {status}"
-  toggle-scoreboard: "&7Scoreboard: {status}"
-  citizens-join-deny: "&cКак наказание за выход из игры во время боя вы не можете войти, пока ваш клон не будет убит или удалён."
-  preciousstones-compatibility-no-field: "&cВы не можете создавать защитное поле во время боя."
-  disguise-compatibility-remove-disguise: "&cВаша маскировка удалена."
-  factions-compatibility-no-entry: "&cВы не можете входить в эту зону во время боя."
-  griefprevention-compatibility-no-entry: "&cВы не можете входить в земли во время боя."
-  lands-compatibility-no-entry: "&cВы не можете входить в эту зону во время боя."
-  redprotect-compatibility-no-entry: "&cВы не можете входить в эту зону во время боя."
-  residence-compatibility-no-entry: "&cВы не можете входить в эту зону во время боя."
-  towny-compatibility-no-entry: "&cВы не можете входить в эту зону во время боя."
-  preciousstones-compatibility-no-entry: "&cВы не можете входить в эту зону во время боя."
-  protectionstones-compatibility-no-entry: "&cВы не можете входить в эту зону во время боя."
-  worldguard-compatibility-no-entry:
-    pvp: "&cВы не можете войти в зону, где запрещён PvP."
-    mob: "&cВы не можете войти в зону, где запрещен PvE."
-    unknown: "&cВы не можете входить в эту зону во время боя."
+  loot-protection:
+    enemy-died: "&f{enemy} &aмёртв. Лут будет защищён &f{time} секунд&a."
+    protected: "&cЭтот предмет защищён, подождите &f{time} сек, &cчтобы взять его."
+  citizens-compatibility:
+    prevent-join: "&cВам не разрешено присоединиться к серверу, пока ваш NPC не будет убит или исчезнет."
+  disguise-compatibility:
+    remove-disguise: "&cВаша маскировка была удалена."
   essentials-compatibility:
     prevent-teleport-request-self: "&cВы не можете отправлять запрос на тп во время боя."
     prevent-teleport-request-other: "&cВы не можете отправлять запрос на тп игроку, находящемуся в бою."
-  protectionstones-compatibility:
-    place: "&cВы не можете создавать защищённую зону во время боя."
-  loot-protection:
-    enemy-died: "&f{enemy} &aмёртв. Лут будет защищён &f{time} секунд&a."
-    protected: "&cЭтот предмет сейчас защищён, подождите &f{time} секунд, &cчтобы взять его."
+  region-protection:
+    factions-no-entry: "&cВам не разрешено входить в эту зону во время боя."
+    griefdefender-no-entry: "&cВам не разрешено входить в эту зону во время боя."
+    griefprevention-no-entry: "&cВам не разрешено входить в эту зону во время боя."
+    kingdomsx-no-entry: "&cВам не разрешено входить в эту зону во время боя."
+    lands-no-entry: "&cВам не разрешено входить в эту зону во время боя."
+    redprotect-no-entry: "&cВам не разрешено входить в эту зону во время боя."
+    residence-no-entry: "&cВам не разрешено входить в эту зону во время боя."
+    towny-no-entry: "&cВам не разрешено входить в эту зону во время боя."
+    ultimateclaims-no-entry: "&cВам не разрешено входить в эту зону во время боя."
+    protectionstones:
+      prevent-area-creation: "&cВам не разрешается создавать защищенную зону во время боя."
+      no-entry: "&cВам не разрешено входить в эту зону во время боя."
+    preciousstones:
+      prevent-field-creation: "&cВам не разрешается создавать защитное поле во время боя."
+      no-entry: "&cВам не разрешено входить в эту зону во время боя."
+    worldguard:
+      no-entry-mob-combat: "&cВы не можете войти в зону, где запрещён PvE, во время боя."
+      no-entry-player-combat: "&cВы не можете войти в зону, где запрещён PvP, во время боя."
+      no-entry-unknown-combat: "&cВам не разрешено входить в эту зону во время боя."
