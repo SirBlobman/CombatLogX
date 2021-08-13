@@ -1,0 +1,5 @@
+project_id: "459244"
+
+files:
+  - source: "/plugin/src/main/resources/language/en_us.lang.yml"
+    translation: "/plugin/src/main/resources/language/%locale_with_underscore%.lang.yml"
