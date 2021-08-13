@@ -1,11 +1,5 @@
-# CombatLogX Polish (Poland) Localization File
-# DO NOT remove any entries from this file
-# DO NOT set any messages to null
-#
-# If you want to disable a message, set it to an empty string
-# example-disabled-message: ""
-#
-# If you want to add support for a language, please submit the translations to our crowdin.
+# Polish (Poland) Translation
+# Submitted on Crowdin by PLKaratusPL and szumielxd
 # https://crowdin.com/project/combatlogx-spigot-plugin/
 
 language-name: "pl_pl"

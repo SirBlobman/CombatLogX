@@ -1,23 +1,6 @@
-# CombatLogX Russian (Russia, Kazakhstan, Kyrgyzstan) Localization File
-# DO NOT remove any entries from this file
-# DO NOT set any messages to null
-#
-# If you want to disable a message, set it to an empty string
-# example-disabled-message: ""
-#
-# If you want to add support for a language, please submit the translations to our crowdin.
+# Russian (Russia, Kazakhstan, Kyrgyzstan) Localization File
+# Submitted on Crowdin by Daniil Meister (danechek), Костя Суббач (kosty18kosty), Finelolik (g8404008), and luckybl0ck 
 # https://crowdin.com/project/combatlogx-spigot-plugin/
-
-
-# CombatLogX Российский (Россия, Казахстан, Кыргызстан) файл локализации
-# НЕ удаляйте любые строчки этого файла
-# НЕ оставляйте любые сообщения пустыми
-#
-# Если вы хотите отключить одно из сообщений, оставьте его пустым в ковычках
-# пример отключенного сообщения: ""
-#
-# Если вы хотите добавить поддержку какого-либо языка, отправьте переводы в нашу группу.
-# https://crowdin.com/project/combatlogx-spigot-plugin/ 
 
 language-name: "ru_ru"
 

@@ -10,7 +10,7 @@ One of the main features of this plugin are the Expansions, which are like modul
 
 # Dependencies
 - [Spigot 1.8.8 - 1.17.1](https://spigotmc.org/)
-- [SirBlobmanCore 2.2.3 or higher](https://jenkins.sirblobman.xyz/job/SirBlobman/job/SirBlobmanAPI/)
+- [SirBlobmanCore 2.3.0 or higher](https://jenkins.sirblobman.xyz/job/SirBlobman/job/SirBlobmanAPI/)
 
 ## Main Features
 * Custom expansions that change how the plugin works
