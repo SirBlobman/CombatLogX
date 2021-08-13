@@ -1,11 +1,5 @@
-﻿# CombatLogX Spanish (Spain) Localization File
-# DO NOT remove any entries from this file
-# DO NOT set any messages to null
-#
-# If you want to disable a message, set it to an empty string
-# example-disabled-message: ""
-#
-# If you want to add support for a language, please submit the translations to our crowdin.
+﻿# Spanish (Spain) Translation
+# Submitted on Crowdin by SirBlobman, KrazyzWolf, Ant4rez, and Enrique Walter Philippeaux (enriquewph) 
 # https://crowdin.com/project/combatlogx-spigot-plugin/
 
 language-name: "es_es"
