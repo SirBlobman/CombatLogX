@@ -1,0 +1,10 @@
+name: "CompatKonquest"
+prefix: "Konquest Compatibility"
+description: "${project.description}"
+
+main: "combatlogx.expansion.compatibility.region.konquest.KonquestExpansion"
+version: "16.0"
+author: "SirBlobman"
+
+plugin-depend:
+  - "Konquest"
