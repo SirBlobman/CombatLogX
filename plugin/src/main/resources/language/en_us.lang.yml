@@ -1,4 +1,7 @@
-# CombatLogX English (United States) Localization File
+# English (United States) Translation
+# Created by SirBlobman
+# https://crowdin.com/project/combatlogx-spigot-plugin/
+#
 # DO NOT remove any entries from this file
 # DO NOT set any messages to null
 #
@@ -6,7 +9,7 @@
 # example-disabled-message: ""
 #
 # If you want to add support for a language, please submit the translations to our Crowdin.
-# https://crowdin.com/project/combatlogx-spigot-plugin/
+---
 
 # Please replace this with the Minecraft name for your language.
 # Examples: en_us, es_es, ru_ru, en_gb
