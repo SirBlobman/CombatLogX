@@ -1,12 +1,22 @@
+---
+#Please replace this with the Minecraft name for your language.
+#Examples: en_us, es_es, ru_ru, en_gb
 language-name: "zh_cn"
+#The message prefix is sent before most messages in this plugin.
 prefix: "&f&l[&6CombatLogX&f&l]&r"
+#The United States uses the comma separator for thousands, and the period separator for decimals.
 decimal-format: "0.00"
 broadcast:
+  #This message is broadcasted to all players when the plugin is finished loading.
   on-load: "&a&lCombatLogX 已成功加载。"
+  #This message is broadcasted to all players when the plugin is finished enabling all features.
   on-enable: "&a&lCombatLogX 已成功启用。"
+  #This message is broadcasted to all players when the plugin is disabled.
   on-disable: "&c&lCombatLogX 已成功禁用。"
 placeholder:
+  #This text is used when a player is not in combat, but the time_left placeholder is used.
   time-left-zero: "0"
+  #This placeholder is used when the player has a null or unknown enemy during combat.
   unknown-enemy: "未知敌人"
   status:
     fighting: "&c战斗中"
@@ -150,6 +160,7 @@ expansion:
     griefprevention-no-entry: "&c您不能在战斗中进入那片区域。"
     kingdomsx-no-entry: "&c您不能在战斗中进入那片区域。"
     lands-no-entry: "&c您不能在战斗中进入那片区域。"
+    konquest-no-entry: "&c您不能在战斗中进入那片区域。"
     redprotect-no-entry: "&c您不能在战斗中进入那片区域。"
     residence-no-entry: "&c您不能在战斗中进入那片区域。"
     towny-no-entry: "&c您不能在战斗中进入那片区域。"
