@@ -13,6 +13,10 @@
     <name>CombatLogX API</name>
     <description>The API module for CombatLogX</description>
 
+    <properties>
+        <spigot.version>1.11.2-R0.1-SNAPSHOT</spigot.version>
+    </properties>
+
     <repositories>
         <!-- SpigotMC Repository -->
         <repository>
