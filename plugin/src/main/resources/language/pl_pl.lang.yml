@@ -1,8 +1,3 @@
-# Polish (Poland) Translation
-# Submitted on Crowdin by PLKaratusPL and szumielxd
-# https://crowdin.com/project/combatlogx-spigot-plugin/
----
-
 language-name: "pl_pl"
 parent: "en_us"
 

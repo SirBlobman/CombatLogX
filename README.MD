@@ -24,6 +24,9 @@ The build status is displayed below:
 A translation project for CombatLogX V11 is in progress. If you wish to help out, please visit the Crowdin page below:  
 https://crowdin.com/project/combatlogx-spigot-plugin
 
+### Localization Credits
+https://crowdin.com/project/combatlogx-spigot-plugin/reports/top-members
+
 ## Expansions
 If you want to find out more about the expansions, please visit this page:  
 <https://www.spigotmc.org/wiki/combatlogx/>

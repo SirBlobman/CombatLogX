@@ -1,9 +1,4 @@
-﻿# Spanish (Spain) Translation
-# Submitted on Crowdin by SirBlobman, KrazyzWolf, Ant4rez, and Enrique Walter Philippeaux (enriquewph) 
-# https://crowdin.com/project/combatlogx-spigot-plugin/
----
-
-language-name: "es_es"
+﻿language-name: "es_es"
 parent: "en_us"
 
 

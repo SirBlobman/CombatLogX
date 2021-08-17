@@ -1,8 +1,3 @@
-# Hungarian (Hungary) Translation
-# Submitted on Crowdin by andris155
-# https://crowdin.com/project/combatlogx-spigot-plugin/
----
-
 language-name: "hu_hu"
 prefix: "&f&l[&6CombatLogX&f&l]&r"
 decimal-format: "0,00"
