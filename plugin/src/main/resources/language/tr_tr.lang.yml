@@ -1,6 +1,7 @@
 # Turkish (Turkey) Translation
 # Submitted on Crowdin by Kovalski
 # https://crowdin.com/project/combatlogx-spigot-plugin/
+---
 
 language-name: "tr_tr"
 prefix: "&f&l[&6CombatLogX&f&l]&r"

@@ -1,6 +1,7 @@
 # Russian (Russia, Kazakhstan, Kyrgyzstan) Localization File
 # Submitted on Crowdin by Daniil Meister (danechek), Костя Суббач (kosty18kosty), Finelolik (g8404008), and luckybl0ck 
 # https://crowdin.com/project/combatlogx-spigot-plugin/
+---
 
 language-name: "ru_ru"
 prefix: "&f&l[&6CombatLogX&f&l]&r"

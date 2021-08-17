@@ -1,6 +1,7 @@
 # Chinese Simplified (China) Translation
 # Submitted on Crowdin by 王品呈 (wpcwzy)
 # https://crowdin.com/project/combatlogx-spigot-plugin/
+---
 
 language-name: "zh_cn"
 prefix: "&f&l[&6CombatLogX&f&l]&r"

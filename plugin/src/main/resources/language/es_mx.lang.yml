@@ -1,2 +1,7 @@
+# Spanish (Mexico) Translation
+# Current uses the same messages as "Spanish (Spain)"
+# https://crowdin.com/project/combatlogx-spigot-plugin/
+---
+
 language-name: "es_mx"
 parent: "es_es"
