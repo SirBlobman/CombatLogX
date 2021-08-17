@@ -1,30 +1,12 @@
----
-#English (United States) Translation
-#Created by SirBlobman
-#https://crowdin.com/project/combatlogx-spigot-plugin/
-#DO NOT remove any entries from this file
-#DO NOT set any messages to null
-#If you want to disable a message, set it to an empty string
-#example-disabled-message: ""
-#If you want to add support for a language, please submit the translations to our Crowdin.
-#Please replace this with the Minecraft name for your language.
-#Examples: en_us, es_es, ru_ru, en_gb
 language-name: "uk_ua"
-#The message prefix is sent before most messages in this plugin.
 prefix: "&f&l[&6CombatLogX&f&l]&r"
-#The United States uses the comma separator for thousands, and the period separator for decimals.
 decimal-format: "0.00"
 broadcast:
-  #This message is broadcasted to all players when the plugin is finished loading.
   on-load: "&a&lCombatLogX успішно завантажено."
-  #This message is broadcasted to all players when the plugin is finished enabling all features.
   on-enable: "&a&lCombatLogX успішно увімкнено."
-  #This message is broadcasted to all players when the plugin is disabled.
   on-disable: "&c&lCombatLogX успішно відключено."
 placeholder:
-  #This text is used when a player is not in combat, but the time_left placeholder is used.
   time-left-zero: "0"
-  #This placeholder is used when the player has a null or unknown enemy during combat.
   unknown-enemy: "Невідомий"
   status:
     fighting: "&cБоротьба"

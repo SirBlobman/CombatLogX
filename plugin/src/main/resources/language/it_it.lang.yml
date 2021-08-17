@@ -1,8 +1,3 @@
-# Italian (Italy) Translation
-# Submitted on Crowdin by KrazyzWolf
-# https://crowdin.com/project/combatlogx-spigot-plugin/
----
-
 language-name: "it_it"
 prefix: "&f&l[&6CombatLogX&f&l]&r"
 decimal-format: "0.00"
