@@ -12,9 +12,8 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
@@ -74,34 +73,82 @@ public final class ListenerTeleport extends CheatPreventionListener {
     }
 
     private void checkPrevention(PlayerTeleportEvent e) {
+        printDebug("Checking if teleport event should be prevented...");
+        if(e.isCancelled()) {
+            printDebug("Event is already cancelled.");
+            return;
+        }
+        
+        if(isAllowed()) {
+            printDebug("Teleportation is allowed by the config.");
+            return;
+        }
+        
         TeleportCause teleportCause = e.getCause();
-        if(e.isCancelled() || isAllowed() || isAllowed(teleportCause)) return;
+        if(isAllowed(teleportCause)) {
+            printDebug("Teleportation cause '" + teleportCause + "' is allowed by the config.");
+            return;
+        }
 
-        Player player = e.getPlayer();
+        printDebug("Cancelling teleport event.");
         e.setCancelled(true);
-
-        String messagePath = ("expansion.cheat-prevention.teleportation.block-"
-                + (teleportCause == TeleportCause.ENDER_PEARL ? "pearl" : "other"));
+    
+        Player player = e.getPlayer();
+        String messagePath = getMessagePath(teleportCause);
         sendMessage(player, messagePath, null);
     }
 
     private void checkEnderPearlRetag(PlayerTeleportEvent e) {
+        printDebug("Checking if ender pearl should re-tag player...");
+        if(!shouldRetag()) {
+            printDebug("Re-tag option is disabled.");
+            return;
+        }
+        
+        if(e.isCancelled()) {
+            printDebug("Event was cancelled, ignoring.");
+            return;
+        }
+        
         TeleportCause teleportCause = e.getCause();
-        if(e.isCancelled() || teleportCause != TeleportCause.ENDER_PEARL || !shouldRetag()) return;
-
-        ICombatLogX plugin = getCombatLogX();
-        ICombatManager combatManager = plugin.getCombatManager();
+        if(teleportCause != TeleportCause.ENDER_PEARL) {
+            printDebug("Teleport cause was not ENDER_PEARL, ignoring.");
+            return;
+        }
+        
         Player player = e.getPlayer();
+        ICombatManager combatManager = getCombatManager();
         LivingEntity enemy = combatManager.getEnemy(player);
         combatManager.tag(player, enemy, TagType.UNKNOWN, TagReason.UNKNOWN);
+        printDebug("Player will be re-tagged. Done.");
     }
 
     private void checkUntag(PlayerTeleportEvent e) {
-        if(e.isCancelled() || !shouldUntag()) return;
+        printDebug("Checking if player should be untagged by teleport event...");
+        if(!shouldUntag()) {
+            printDebug("Untag option is set to false, not untagging.");
+            return;
+        }
+        
+        if(e.isCancelled()) {
+            printDebug("Event was cancelled, not untagging.");
+            return;
+        }
+    
+        TeleportCause teleportCause = e.getCause();
+        if(teleportCause == TeleportCause.UNKNOWN) {
+            printDebug("Teleport cause was unknown, not untagging.");
+            return;
+        }
+        
         Player player = e.getPlayer();
-
-        ICombatLogX plugin = getCombatLogX();
-        ICombatManager combatManager = plugin.getCombatManager();
+        ICombatManager combatManager = getCombatManager();
         combatManager.untag(player, UntagReason.EXPIRE);
+        printDebug("Untagging player due to teleport event.");
+    }
+    
+    private String getMessagePath(TeleportCause cause) {
+        String mainPath = ("expansion.cheat-prevention.teleportation.block-");
+        return (mainPath + (cause == TeleportCause.ENDER_PEARL ? "pearl" : "other"));
     }
 }
