@@ -1,6 +1,7 @@
+---
 language-name: "tr_tr"
-prefix: "&f&l[&6CombatLogX&f&l]&r"
 decimal-format: "0.00"
+prefix: "&f&l[&6CombatLogX&f&l]&r"
 broadcast:
   on-load: "&a&lCombatLogX başarıyla yüklendi."
   on-enable: "&a&lCombatLogX başarıyla etkinleştirildi."
@@ -150,6 +151,7 @@ expansion:
     griefprevention-no-entry: "&cSavaş sırasında bu alana girmenize izin verilmiyor."
     kingdomsx-no-entry: "&cSavaş sırasında bu alana girmenize izin verilmiyor."
     lands-no-entry: "&cSavaş sırasında bu alana girmenize izin verilmiyor."
+    konquest-no-entry: "&cSavaş sırasında bu alana girmenize izin verilmiyor."
     redprotect-no-entry: "&cSavaş sırasında bu alana girmenize izin verilmiyor."
     residence-no-entry: "&cSavaş sırasında bu alana girmenize izin verilmiyor."
     towny-no-entry: "&cSavaş sırasında bu alana girmenize izin verilmiyor."

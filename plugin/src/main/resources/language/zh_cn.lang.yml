@@ -1,6 +1,7 @@
+---
 language-name: "zh_cn"
-prefix: "&f&l[&6CombatLogX&f&l]&r"
 decimal-format: "0.00"
+prefix: "&f&l[&6CombatLogX&f&l]&r"
 broadcast:
   on-load: "&a&lCombatLogX 已成功加载。"
   on-enable: "&a&lCombatLogX 已成功启用。"
@@ -150,6 +151,7 @@ expansion:
     griefprevention-no-entry: "&c您不能在战斗中进入那片区域。"
     kingdomsx-no-entry: "&c您不能在战斗中进入那片区域。"
     lands-no-entry: "&c您不能在战斗中进入那片区域。"
+    konquest-no-entry: "&c您不能在战斗中进入那片区域。"
     redprotect-no-entry: "&c您不能在战斗中进入那片区域。"
     residence-no-entry: "&c您不能在战斗中进入那片区域。"
     towny-no-entry: "&c您不能在战斗中进入那片区域。"

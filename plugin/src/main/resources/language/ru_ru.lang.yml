@@ -1,6 +1,7 @@
+---
 language-name: "ru_ru"
-prefix: "&f&l[&6CombatLogX&f&l]&r"
 decimal-format: "0.00"
+prefix: "&f&l[&6CombatLogX&f&l]&r"
 broadcast:
   on-load: "&a&lCombatLogX был успешно загружен."
   on-enable: "&a&lCombatLogX был успешно включен."
@@ -150,6 +151,7 @@ expansion:
     griefprevention-no-entry: "&cВам не разрешено входить в эту зону во время боя."
     kingdomsx-no-entry: "&cВам не разрешено входить в эту зону во время боя."
     lands-no-entry: "&cВам не разрешено входить в эту зону во время боя."
+    konquest-no-entry: "&cВам не разрешено входить в эту зону во время боя."
     redprotect-no-entry: "&cВам не разрешено входить в эту зону во время боя."
     residence-no-entry: "&cВам не разрешено входить в эту зону во время боя."
     towny-no-entry: "&cВам не разрешено входить в эту зону во время боя."

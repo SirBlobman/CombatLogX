@@ -1,22 +1,18 @@
-﻿language-name: "es_es"
-parent: "en_us"
-
-
-prefix: "&f&l[&6CombatLogX&f&l]&r"
+---
+language-name: "es_es"
 decimal-format: "0.00"
-
+prefix: "&f&l[&6CombatLogX&f&l]&r"
 broadcast:
   on-load: "&a&lCombatLogX ha sido cargado correctamente."
   on-enable: "&a&lCombatLogX ha sido habilitado correctamente."
   on-disable: "&c&lCombatLogX ha sido deshabilitado correctamente."
-
 placeholder:
   time-left-zero: "0"
   unknown-enemy: "Desconocido"
   status:
     fighting: "&cCombatiendo"
     idle: "&aInactivo"
-    in-combat: "&aSi"
+    in-combat: "&aSí"
     not-in-combat: "&cNo"
   toggle:
     enabled: "§aActivado"
@@ -24,11 +20,9 @@ placeholder:
   pvp-status:
     enabled: "§aActivado"
     disabled: "§cDesactivado"
-
 combat-timer:
   expire: "&aYa no estás en modo de combate."
   enemy-death: "&aYa no estás en modo de combate debido a que tu enemigo murió."
-
 error:
   player-only: "&cSolo jugadores pueden ejecutar este comando."
   invalid-target: "&7{target}&c no está conectado o no existe."
@@ -36,7 +30,6 @@ error:
   target-not-in-combat: "&7{target}&c no está en combate."
   self-not-in-combat: "&cNo estás en combate."
   unknown-expansion: "&7{target}&c no es una expansión o no está instalada."
-
 command:
   combatlogx:
     help-message-list:
@@ -46,24 +39,23 @@ command:
       - "  &f&l/combatlogx reload&7: Reinicia los archivos config.yml, language.yml, y todos los archivos de configuración de sus expansiones."
       - "  &f&l/combatlogx about <expansion>&7: Revisa la información sobre una expansión."
       - "  &f&l/combatlogx tag <player>&7: Forzar a un jugador a entrar en modo combate."
-      - "  &f&l/combatlogx toggle bossbar/actionbar/scoreboard&7: Habilita o deshabilita alguna de estas opciones."
+      - "  &f&l/combatlogx toggle bossbar/actionbar/scoreboard&7: Habilita o deshabilita alguno de estos mensajes."
       - "  &f&l/combatlogx untag <player>&7: Quitar forzosamente el modo combate."
       - "  &f&l/combatlogx version&7: Muestra la versión de CombatLogX."
       - "&f"
-
     reload-success:
       - "&aSe han recargado exitosamente todos los archivos de configuración de CombatLogX."
       - "&aSe ha recargado exitosamente el archivo de lenguaje de CombatLogX."
       - "&aSe han recargado exitosamente todos los archivos de configuración pertenecientes a las expansiones de CombatLogX."
-
     tag-player: "&aSe ha forzado exitosamente al jugador &7{target}&a para entrar en modo combate."
     tag-failure: "&7{target}&c no puede ser puesto en combate. (¿Talvez tenga un permiso de excepción?)"
     untag-player: "&aSe ha retirado forzosamente al jugador &7{target}&a su modo de combate."
-
+    toggle-bossbar: "&7&lBarra de Boss: {status}"
+    toggle-actionbar: "&7&lBarra de acciones: {status}"
+    toggle-scoreboard: "&7Marcador: {status}"
   combat-timer:
     time-left-self: "&aTienes &7{time_left} segundos&a restantes."
     time-left-other: "&7{target}&a tiene &7{time_left} segundos&a restantes."
-
 tagged:
   unknown: "&c¡Estás en combate! ¡No te desconectes!."
   attacked:
@@ -71,8 +63,7 @@ tagged:
     mob: "&cEstás siendo atacado por un(os) &f{mob_type}&c. ¡No te desconectes!"
   attacker:
     player: "&cEstás atacando a &f{enemy}&c. ¡No te desconectes!"
-    mob: "&cEstás atacando un(os) &f{mob_type}&c.¡No te desconectes!"
-
+    mob: "&cEstás atacando un(os) &f{mob_type}&c.¡No te salgas!"
 expansion:
   cheat-prevention:
     command-blocked: "&cNo tienes acceso al comando &a{command}&c durante este combate."
@@ -80,41 +71,38 @@ expansion:
     no-totem: "&cNo tienes permitido usar Totems de la Inmortalidad durante el combate."
     no-entity-interaction: "&cNo tienes permitido interactuar con esta criatura durante el combate."
     no-chat: "&cNo tienes permitido enviar mensajes durante el combate."
-
     game-mode:
-      force-switch: "&cTu modo de juego ha sido cambiado a &f{game_mode}&c."
+      force-switch: "&cTu modo de juego ha cambiado a &f{game_mode}&c."
       no-switch: "&cNo tienes permitido cambiar tu modo de juego en combate."
-
     flight:
       force-disabled: "&cTu habilidad de volar fue removida."
       no-flying: "&cNo tienes permitido volar durante el combate."
-
     elytra:
       force-disabled: "&cTus élitros se han desactivado."
       no-gliding: "&cNo tienes permitido usar élitros en combate."
-
     teleportation:
+      block-portal: "&cNo tienes permitido usar portales durante el combate."
       block-pearl: "&cNo tienes permitido usar Perlas de Enderman en combate."
       block-other: "&cNo tienes permitido teletransportarte durante el combate."
-
     inventory:
       force-closed: "&cTu inventario ha sido cerrado."
       no-opening: "&cNo tienes permitido abrir inventarios durante el combate."
-
     blocks:
       prevent-breaking: "&cNo tienes permitido romper bloques durante el combate."
       prevent-placing: "&cNo tienes permitido colocar bloques durante el combate."
       prevent-interaction: "&cNo tienes permitido usar bloques durante el combate."
-
+      prevent-portal-creation: "&cNo tienes permitido crear portales durante el combate."
     items:
       no-pickup: "&cNo tienes permitido recoger objetos durante el combate."
       no-dropping: "&cNo tienes permitido arrojar objetos durante el combate."
-
+    buckets:
+      no-empty: "&cNo puedes usar baldes durante el combate."
+      no-fill: "&cNo puedes llenar baldes durante el combate."
   damage-tagger:
     unknown-damage: "&c¡Te han herido! ¡No te desconectes!"
     damage-type:
-      contact: "&cFuiste pinchado por un cactus. ¡No te desconectes!"
-      suffocation: "&cTe estás sofocando en una pared. ¡No te desconectes!"
+      contact: "&cFuiste pinchido por un cactus. ¡No te desconectes!"
+      suffocation: "&cTe estás sofocando en una pared. ¡No te salgas!"
       fall: "&cTe caiste. ¡No te desconectes!"
       fire: "&cEstás caminado sobre brasas. ¡No te desconectes!"
       fire-tick: "&cEstás ardiendo. ¡No te desconectes!"
@@ -131,12 +119,11 @@ expansion:
       fly-into-wall: "&cAcabas de experimentar la energía cinética. ¡No te desconectes!"
       hot-floor: "&c¡El suelo es lava! ¡No te desconectes!"
       cramming: "&cSerás aplastado. ¡No te desconectes!"
-
   newbie-helper:
     togglepvp:
       self: "&7PVP: {status}"
-      admin: "&7Cambiaste el modo combate al jugador &e{target}&7 a {status}&7." 
-      cooldown: "&cDebes esperar &7{time_left} segundos&c para usar este comando nuevamente."
+      admin: "&7Cambiaste el modo combate al jugador &e{target}&7 a {status}&7."
+      cooldown: "&cDebes esperar &7{time_left} segundos&c para usar este comando de nuevo."
     no-pvp:
       self: "&cNo puedes atacarte si tienes el modo de combate desactivado."
       other: "&cEse jugador tiene el modo de combate desactivado."
@@ -148,35 +135,34 @@ expansion:
       - "&fInformación para &7{target}&f&l:"
       - "&f&lProtección: &7{protected}"
       - "&f&lEstado: &7{pvp}"
-
-  toggle-bossbar: "&7&lBarra de Jefe: {status}"
-  toggle-actionbar: "&7&lBarra de acciones: {status}"
-  toggle-scoreboard: "&7Marcador: {status}"
-
-  citizens-join-deny: "&cComo castigo por desconectarte en combate, no tendrás permitido entrar hasta que tu clon haya sido asesinado o removido."
-  preciousstones-compatibility-no-field: "&cNo puedes crear un campo de protección durante el combate."
-  disguise-compatibility-remove-disguise: "&cTu disfraz ha sido removido."
-
-  factions-compatibility-no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
-  griefprevention-compatibility-no-entry: "&cNo tienes permitido entrar a tierras reclamadas durante el combate."
-  lands-compatibility-no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
-  redprotect-compatibility-no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
-  residence-compatibility-no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
-  towny-compatibility-no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
-  preciousstones-compatibility-no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
-  protectionstones-compatibility-no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
-
-  worldguard-compatibility-no-entry:
-    pvp: "&cNo tienes permitido entrar a esta zona mientras estás en combate."
-    mob: "&cNo tines permitido entrar a zonas que no permitan el combate con entidades mientras estás en combate."
-
+  loot-protection:
+    enemy-died: "&f{enemy} &aha muerto. El botín estará protegido por &f{time} segundos&a."
+    protected: "&cEste objeto está actualmente protegido, espera &f{time} segundos &cantes de poder recogerlo."
+  citizens-compatibility:
+    prevent-join: "&cNo puedes unirte al servidor hasta que tu NPC sea eliminado."
+  disguise-compatibility:
+    remove-disguise: "&cTu disfraz ha sido removido."
   essentials-compatibility:
     prevent-teleport-request-self: "&cNo puedes enviarte solicitudes de teletransportación durante el combate."
     prevent-teleport-request-other: "&cNo puedes enviar solicitudes de teletransportación durante el combate."
-
-  protectionstones-compatibility:
-    place: "&cNo puedes colocar una protección durante el combate."
-
-  loot-protection:
-    enemy-died: "&f{enemy} &aha muerto. Sus cosas se protegerán por &f{time} segundos&a."
-    protected: "&cEste objeto se encuentra protegido espere &f{time} segundos &chasta que puedas recogerlo."
+  region-protection:
+    factions-no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
+    griefdefender-no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
+    griefprevention-no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
+    kingdomsx-no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
+    lands-no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
+    konquest-no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
+    redprotect-no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
+    residence-no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
+    towny-no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
+    ultimateclaims-no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
+    protectionstones:
+      prevent-area-creation: "&cNo tienes permitido crear un area protegida durante el combate."
+      no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
+    preciousstones:
+      prevent-field-creation: "&cNo tienes permitido crear un area protegida durante el combate."
+      no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
+    worldguard:
+      no-entry-mob-combat: "&cNo tienes permitido entrar a zonas que no admitan PvE durante el combate."
+      no-entry-player-combat: "&cNo tienes permitido entrar a zonas que no admitan PvP durante el combate."
+      no-entry-unknown-combat: "&cNo tienes permitido entrar a este lugar durante el combate."
