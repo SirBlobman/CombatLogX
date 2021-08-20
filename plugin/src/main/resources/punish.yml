@@ -30,5 +30,7 @@ custom-death-message-list:
   - "{player} was killed for logging out during combat."
   - "{player} instantly died due to logging out during combat."
 
+# Should the punishment counter be enabled?
+enable-punishment-counter: true
 
 # The punish-command-list is now in 'commands.yml'

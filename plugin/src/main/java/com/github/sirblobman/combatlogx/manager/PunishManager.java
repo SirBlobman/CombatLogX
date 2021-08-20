@@ -45,12 +45,24 @@ public final class PunishManager implements IPunishManager {
 
     @Override
     public long getPunishmentCount(OfflinePlayer player) {
+        ConfigurationManager configurationManager = this.plugin.getConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("punish.yml");
+        if(!configuration.getBoolean("enable-punishment-counter")) {
+            return 0L;
+        }
+        
         PlayerDataManager playerDataManager = this.plugin.getPlayerDataManager();
         YamlConfiguration playerData = playerDataManager.get(player);
         return playerData.getLong("punishment-count", 0L);
     }
 
     private void increasePunishmentCount(OfflinePlayer player) {
+        ConfigurationManager configurationManager = this.plugin.getConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("punish.yml");
+        if(!configuration.getBoolean("enable-punishment-counter")) {
+            return;
+        }
+    
         PlayerDataManager playerDataManager = this.plugin.getPlayerDataManager();
         YamlConfiguration playerData = playerDataManager.get(player);
 
