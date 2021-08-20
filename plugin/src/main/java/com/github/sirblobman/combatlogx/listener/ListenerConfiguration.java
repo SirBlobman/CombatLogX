@@ -142,7 +142,9 @@ public final class ListenerConfiguration extends CombatListener {
         if(!configuration.getBoolean("untag-on-death")) return;
 
         ICombatManager combatManager = getCombatManager();
-        if(combatManager.isInCombat(player)) combatManager.untag(player, UntagReason.SELF_DEATH);
+        if(combatManager.isInCombat(player)) {
+            combatManager.untag(player, UntagReason.SELF_DEATH);
+        }
     }
 
     private void checkEnemyDeathUntag(LivingEntity enemy) {

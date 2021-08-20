@@ -35,7 +35,6 @@ import com.github.sirblobman.combatlogx.api.manager.ITimerManager;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.github.sirblobman.combatlogx.api.object.TimerType;
-import com.github.sirblobman.combatlogx.api.object.TimerUpdater;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 import com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper;
 
@@ -108,12 +107,9 @@ public final class CombatManager implements ICombatManager {
         this.combatMap.remove(uuid);
 
         ITimerManager timerManager = this.plugin.getTimerManager();
-        Set<TimerUpdater> timerUpdaterSet = timerManager.getTimerUpdaters();
-        for(TimerUpdater task : timerUpdaterSet) {
-            task.remove(player);
-        }
+        timerManager.remove(player);
 
-        LivingEntity previousEnemy = enemyMap.remove(uuid);
+        LivingEntity previousEnemy = this.enemyMap.remove(uuid);
         PlayerUntagEvent event = new PlayerUntagEvent(player, untagReason, previousEnemy);
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.callEvent(event);

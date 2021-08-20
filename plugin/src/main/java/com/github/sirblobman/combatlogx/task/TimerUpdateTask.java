@@ -48,6 +48,14 @@ public final class TimerUpdateTask implements ITimerManager, Runnable {
         playerCombatList.forEach(this::update);
     }
     
+    @Override
+    public void remove(Player player) {
+        Set<TimerUpdater> timerUpdaterSet = getTimerUpdaters();
+        for(TimerUpdater timerUpdater : timerUpdaterSet) {
+            timerUpdater.remove(player);
+        }
+    }
+    
     private void update(Player player) {
         ICombatManager combatManager = this.plugin.getCombatManager();
         long timeLeftMillis = combatManager.getTimerLeftMillis(player);
