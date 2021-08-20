@@ -1,22 +1,13 @@
 ---
-#Please replace this with the Minecraft name for your language.
-#Examples: en_us, es_es, ru_ru, en_gb
 language-name: "es_es"
-#The message prefix is sent before most messages in this plugin.
-prefix: "&f&l[&6CombatLogX&f&l]&r"
-#The United States uses the comma separator for thousands, and the period separator for decimals.
 decimal-format: "0.00"
+prefix: "&f&l[&6CombatLogX&f&l]&r"
 broadcast:
-  #This message is broadcasted to all players when the plugin is finished loading.
   on-load: "&a&lCombatLogX ha sido cargado correctamente."
-  #This message is broadcasted to all players when the plugin is finished enabling all features.
   on-enable: "&a&lCombatLogX ha sido habilitado correctamente."
-  #This message is broadcasted to all players when the plugin is disabled.
   on-disable: "&c&lCombatLogX ha sido deshabilitado correctamente."
 placeholder:
-  #This text is used when a player is not in combat, but the time_left placeholder is used.
   time-left-zero: "0"
-  #This placeholder is used when the player has a null or unknown enemy during combat.
   unknown-enemy: "Desconocido"
   status:
     fighting: "&cCombatiendo"
