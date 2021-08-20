@@ -45,22 +45,19 @@ public final class TimerUpdateTask implements ITimerManager, Runnable {
     public void run() {
         ICombatManager combatManager = this.plugin.getCombatManager();
         List<Player> playerCombatList = combatManager.getPlayersInCombat();
-        for(Player player : playerCombatList) {
-            long timeLeftMillis = combatManager.getTimerLeftMillis(player);
-            if(timeLeftMillis <= 0L) continue;
-            update(player, timeLeftMillis);
-        }
+        playerCombatList.forEach(this::update);
     }
-
-    private void update(Player player, long timeLeftMillis) {
-        for(TimerUpdater task : this.timerUpdaterSet) {
-            task.update(player, timeLeftMillis);
+    
+    private void update(Player player) {
+        ICombatManager combatManager = this.plugin.getCombatManager();
+        long timeLeftMillis = combatManager.getTimerLeftMillis(player);
+        if(timeLeftMillis <= 0L) {
+            return;
         }
-    }
-
-    private void remove(Player player) {
-        for(TimerUpdater task : this.timerUpdaterSet) {
-            task.remove(player);
+    
+        Set<TimerUpdater> timerUpdaterSet = getTimerUpdaters();
+        for(TimerUpdater timerUpdater : timerUpdaterSet) {
+            timerUpdater.update(player, timeLeftMillis);
         }
     }
 }
