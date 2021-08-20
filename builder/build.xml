@@ -18,6 +18,9 @@
         <!-- Copy Plugin -->
         <copy file="${plugin.target.dir}/CombatLogX.jar" todir="${build.dir}"/>
 
+        <!-- Copy README Text -->
+        <copy file="./src/main/resources/README.TXT" todir="${build.dir}"/>
+
         <!-- Copy Expansions -->
         <copy todir="${build.expansion.dir}">
             <resources>
