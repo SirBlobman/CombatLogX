@@ -57,9 +57,8 @@ public final class ListenerConfiguration extends CombatListener {
             e.setCancelled(true);
             return;
         }
-
-        ICombatLogX plugin = getCombatLogX();
-        plugin.printDebug("Finished default beforeTag check without cancellation.");
+        
+        printDebug("Finished default beforeTag check without cancellation.");
     }
 
     @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
