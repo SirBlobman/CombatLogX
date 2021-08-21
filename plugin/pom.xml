@@ -20,7 +20,6 @@
 
         <bukkit.plugin.main>com.github.sirblobman.combatlogx.CombatPlugin</bukkit.plugin.main>
         <bukkit.plugin.version>${combatlogx.version}</bukkit.plugin.version>
-        <bukkit.plugin.author>SirBlobman</bukkit.plugin.author>
     </properties>
 
     <repositories>
