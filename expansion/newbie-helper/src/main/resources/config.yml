@@ -14,6 +14,11 @@ protection-time: 30000
 # Default: true
 mob-protection: false
 
+# (This is for the `/togglepvp` command, protection options are above.)
+# What is the default PVP status for players?
+# Default: true (PVP allowed)
+pvp-toggle-default-status: true
+
 # How long (in seconds) must players wait before using the pvp toggle command again?
 # Default: 0 (no cooldown)
 pvp-toggle-cooldown: 0

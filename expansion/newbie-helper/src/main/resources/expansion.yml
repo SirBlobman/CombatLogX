@@ -3,5 +3,5 @@ prefix: "Newbie Helper"
 description: "${project.description}"
 
 main: "combatlogx.expansion.newbie.helper.NewbieHelperExpansion"
-version: "16.1"
+version: "16.2"
 author: "SirBlobman"

@@ -96,18 +96,24 @@ public final class ListenerDamage extends ExpansionListener {
     }
 
     private Entity getDamager(EntityDamageByEntityEvent e) {
-        ICombatLogX plugin = getCombatLogX();
-        ConfigurationManager configurationManager = plugin.getConfigurationManager();
+        ConfigurationManager configurationManager = getPluginConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-
         Entity damager = e.getDamager();
-        if(configuration.getBoolean("link-projectiles")) damager = EntityHelper.linkProjectile(getCombatLogX(), damager);
-        if(configuration.getBoolean("link-pets")) damager = EntityHelper.linkPet(damager);
+        
+        if(configuration.getBoolean("link-projectiles")) {
+            ICombatLogX plugin = getCombatLogX();
+            damager = EntityHelper.linkProjectile(plugin, damager);
+        }
+        
+        if(configuration.getBoolean("link-pets")) {
+            damager = EntityHelper.linkPet(damager);
+        }
+        
         return damager;
     }
 
     private boolean shouldRemoveProtectionOnAttack() {
-        ConfigurationManager configurationManager = this.expansion.getConfigurationManager();
+        ConfigurationManager configurationManager = getExpansionConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
         return configuration.getBoolean("remove-protection-on-attack", true);
     }

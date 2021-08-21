@@ -16,7 +16,7 @@ public final class NewbieHelperExpansion extends Expansion {
 
     public NewbieHelperExpansion(ICombatLogX plugin) {
         super(plugin);
-        this.pvpManager = new PVPManager();
+        this.pvpManager = new PVPManager(this);
         this.protectionManager = new ProtectionManager(this);
     }
 

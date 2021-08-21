@@ -24,18 +24,18 @@ public final class ProtectionManager {
 
         ICombatLogX plugin = this.expansion.getPlugin();
         PlayerDataManager playerDataManager = plugin.getPlayerDataManager();
-        YamlConfiguration configuration = playerDataManager.get(player);
+        YamlConfiguration playerData = playerDataManager.get(player);
 
         if(!protect) {
-            configuration.set("newbie-helper.protected", false);
-            configuration.set("newbie-helper.protection-expire-time", null);
+            playerData.set("newbie-helper.protected", false);
+            playerData.set("newbie-helper.protection-expire-time", null);
             playerDataManager.save(player);
             return;
         }
 
         long newExpireTime = getProtectionExpireTime();
-        configuration.set("newbie-helper.protected", true);
-        configuration.set("newbie-helper.protection-expire-time", newExpireTime);
+        playerData.set("newbie-helper.protected", true);
+        playerData.set("newbie-helper.protection-expire-time", newExpireTime);
         playerDataManager.save(player);
     }
 

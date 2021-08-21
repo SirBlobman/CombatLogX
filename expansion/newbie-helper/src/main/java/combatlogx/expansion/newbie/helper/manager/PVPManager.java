@@ -1,30 +1,46 @@
 package combatlogx.expansion.newbie.helper.manager;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-public final class PVPManager {
-    private final Set<UUID> disabledSet;
+import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.configuration.PlayerDataManager;
+import com.github.sirblobman.api.utility.Validate;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
 
-    public PVPManager() {
-        this.disabledSet = new HashSet<>();
+import combatlogx.expansion.newbie.helper.NewbieHelperExpansion;
+
+public final class PVPManager {
+    private final NewbieHelperExpansion expansion;
+    
+    public PVPManager(NewbieHelperExpansion expansion) {
+        this.expansion = Validate.notNull(expansion, "expansion must not be null!");
     }
 
     public void setPVP(Player player, boolean pvp) {
-        UUID uuid = player.getUniqueId();
-        if(pvp) {
-            this.disabledSet.remove(uuid);
-            return;
-        }
-
-        this.disabledSet.add(uuid);
+        Validate.notNull(player, "player must not be null!");
+        if(player.hasMetadata("NPC")) return;
+    
+        ICombatLogX plugin = this.expansion.getPlugin();
+        PlayerDataManager playerDataManager = plugin.getPlayerDataManager();
+        YamlConfiguration playerData = playerDataManager.get(player);
+        
+        playerData.set("newbie-helper.pvp-toggle", pvp);
+        playerDataManager.save(player);
     }
 
     public boolean isDisabled(Player player) {
-        UUID uuid = player.getUniqueId();
-        return this.disabledSet.contains(uuid);
+        Validate.notNull(player, "player must not be null!");
+        if(player.hasMetadata("NPC")) return false;
+    
+        ConfigurationManager configurationManager = this.expansion.getConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("config.yml");
+        boolean defaultPvpState = configuration.getBoolean("pvp-toggle-default-status", true);
+    
+        ICombatLogX plugin = this.expansion.getPlugin();
+        PlayerDataManager playerDataManager = plugin.getPlayerDataManager();
+        YamlConfiguration playerData = playerDataManager.get(player);
+        
+        return !playerData.getBoolean("newbie-helper.pvp-toggle", defaultPvpState);
     }
 }
