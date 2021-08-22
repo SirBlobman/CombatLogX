@@ -1,0 +1,10 @@
+name: "CompatCMI"
+prefix: "CMI Compatibility"
+description: "${project.description}"
+
+main: "combatlogx.expansion.compatibility.cmi.CMIExpansion"
+version: "16.0"
+author: "SirBlobman"
+
+plugin-depend:
+  - "CMI"

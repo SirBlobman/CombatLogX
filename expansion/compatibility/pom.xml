@@ -53,6 +53,7 @@
         <module>uSkyBlock</module>
 
         <!-- Vanish Compatibility -->
+        <module>CMI</module>
         <module>Essentials</module>
         <module>SuperVanish</module>
         <module>VanishNoPacket</module>
