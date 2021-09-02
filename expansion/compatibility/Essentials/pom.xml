@@ -14,19 +14,19 @@
     <description>An expansion for CombatLogX that adds compatibility for features in EssentialsX.</description>
 
     <repositories>
-        <!-- EnderZone Repository -->
+        <!-- EssentialsX Releases -->
         <repository>
-            <id>ender-zone</id>
-            <url>https://ci.ender.zone/plugin/repository/everything/</url>
+            <id>essentials-releases</id>
+            <url>https://repo.essentialsx.net/releases/</url>
         </repository>
     </repositories>
 
     <dependencies>
         <!-- EssentialsX -->
         <dependency>
-            <groupId>net.ess3</groupId>
+            <groupId>net.essentialsx</groupId>
             <artifactId>EssentialsX</artifactId>
-            <version>2.18.2</version>
+            <version>2.19.0</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>

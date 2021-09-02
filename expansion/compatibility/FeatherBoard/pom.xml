@@ -23,11 +23,11 @@
 
     <dependencies>
         <!-- FeatherBoard -->
-        <!-- Requires local installation  or private repository access -->
+        <!-- Requires local installation or private repository access -->
         <dependency>
-            <groupId>be.maximvdw.featherboard</groupId>
+            <groupId>be.maximvdw</groupId>
             <artifactId>FeatherBoard</artifactId>
-            <version>5.0.1a</version>
+            <version>5.0.3b</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

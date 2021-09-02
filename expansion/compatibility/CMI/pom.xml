@@ -14,15 +14,16 @@
     <description>An expansion for CombatLogX that adds compatibility for features in CMI.</description>
 
     <repositories>
-        <!-- SirBlobman Public Repository -->
+        <!-- SirBlobman Private Repository -->
         <repository>
-            <id>sirblobman-public</id>
-            <url>https://nexus.sirblobman.xyz/repository/public/</url>
+            <id>sirblobman-private</id>
+            <url>https://nexus.sirblobman.xyz/repository/private/</url>
         </repository>
     </repositories>
 
     <dependencies>
         <!-- CMI -->
+        <!-- Requires local installation or private repository access -->
         <dependency>
             <groupId>com.Zrips</groupId>
             <artifactId>CMI-API</artifactId>
