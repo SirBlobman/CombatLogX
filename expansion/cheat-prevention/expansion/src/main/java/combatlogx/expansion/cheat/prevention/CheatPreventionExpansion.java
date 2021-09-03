@@ -17,6 +17,7 @@ import combatlogx.expansion.cheat.prevention.listener.ListenerGameMode;
 import combatlogx.expansion.cheat.prevention.listener.ListenerInventories;
 import combatlogx.expansion.cheat.prevention.listener.ListenerLegacyItemPickup;
 import combatlogx.expansion.cheat.prevention.listener.ListenerModernItemPickup;
+import combatlogx.expansion.cheat.prevention.listener.ListenerPortalCreate;
 import combatlogx.expansion.cheat.prevention.listener.ListenerPotions;
 import combatlogx.expansion.cheat.prevention.listener.ListenerRiptide;
 import combatlogx.expansion.cheat.prevention.listener.ListenerTeleport;
@@ -79,6 +80,11 @@ public final class CheatPreventionExpansion extends Expansion {
         // 1.13: Riptide Enchantment
         if(minorVersion >= 13) {
             new ListenerRiptide(this).register();
+        }
+        
+        // 1.14: PortalCreateEvent with entity support.
+        if(minorVersion >= 14) {
+            new ListenerPortalCreate(this).register();
         }
     }
 

@@ -23,5 +23,6 @@ prevent-placing-list:
   - "*"
 
 # Should players be prevented from creating portals during combat?
-# Default: true
-prevent-portal-creation: true
+# This option only works in 1.14.4+
+# Default: false
+prevent-portal-creation: false

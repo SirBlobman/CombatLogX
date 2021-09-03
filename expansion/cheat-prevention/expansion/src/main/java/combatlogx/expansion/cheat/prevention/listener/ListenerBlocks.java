@@ -5,7 +5,6 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -13,7 +12,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.world.PortalCreateEvent;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 
@@ -64,18 +62,6 @@ public final class ListenerBlocks extends CheatPreventionListener {
         sendMessage(player, "expansion.cheat-prevention.blocks.prevent-placing", null);
     }
 
-    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
-    public void onPortalCreate(PortalCreateEvent e) {
-        Entity entity = e.getEntity();
-        if(!(entity instanceof Player)) return;
-
-        Player player = (Player) entity;
-        if(isInCombat(player) && shouldPreventPortalCreation()) {
-            e.setCancelled(true);
-            sendMessage(player, "expansion.cheat-prevention.blocks.prevent-portal-creation", null);
-        }
-    }
-
     private YamlConfiguration getConfiguration() {
         ConfigurationManager configurationManager = getExpansionConfigurationManager();
         return configurationManager.get("blocks.yml");
@@ -102,10 +88,5 @@ public final class ListenerBlocks extends CheatPreventionListener {
     private boolean shouldPreventInteraction() {
         YamlConfiguration configuration = getConfiguration();
         return configuration.getBoolean("prevent-interaction", false);
-    }
-
-    private boolean shouldPreventPortalCreation() {
-        YamlConfiguration configuration = getConfiguration();
-        return configuration.getBoolean("prevent-portal-creation", true);
     }
 }
