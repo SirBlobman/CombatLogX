@@ -1,4 +1,4 @@
-package combatlogx.expansion.cheat.prevention.listener;
+package combatlogx.expansion.cheat.prevention.listener.modern;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
@@ -10,8 +10,10 @@ import org.bukkit.event.world.PortalCreateEvent;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 
-public final class ListenerPortalCreate extends CheatPreventionListener {
-    public ListenerPortalCreate(Expansion expansion) {
+import combatlogx.expansion.cheat.prevention.listener.CheatPreventionListener;
+
+public final class ListenerModernPortalCreate extends CheatPreventionListener {
+    public ListenerModernPortalCreate(Expansion expansion) {
         super(expansion);
     }
     

@@ -15,9 +15,10 @@ import combatlogx.expansion.cheat.prevention.listener.ListenerEntities;
 import combatlogx.expansion.cheat.prevention.listener.ListenerFlight;
 import combatlogx.expansion.cheat.prevention.listener.ListenerGameMode;
 import combatlogx.expansion.cheat.prevention.listener.ListenerInventories;
-import combatlogx.expansion.cheat.prevention.listener.ListenerLegacyItemPickup;
-import combatlogx.expansion.cheat.prevention.listener.ListenerModernItemPickup;
-import combatlogx.expansion.cheat.prevention.listener.ListenerPortalCreate;
+import combatlogx.expansion.cheat.prevention.listener.legacy.ListenerLegacyItemPickup;
+import combatlogx.expansion.cheat.prevention.listener.legacy.ListenerLegacyPortalCreate;
+import combatlogx.expansion.cheat.prevention.listener.modern.ListenerModernItemPickup;
+import combatlogx.expansion.cheat.prevention.listener.modern.ListenerModernPortalCreate;
 import combatlogx.expansion.cheat.prevention.listener.ListenerPotions;
 import combatlogx.expansion.cheat.prevention.listener.ListenerRiptide;
 import combatlogx.expansion.cheat.prevention.listener.ListenerTeleport;
@@ -82,9 +83,11 @@ public final class CheatPreventionExpansion extends Expansion {
             new ListenerRiptide(this).register();
         }
         
-        // 1.14: PortalCreateEvent with entity support.
-        if(minorVersion >= 14) {
-            new ListenerPortalCreate(this).register();
+        // 1.14: EntityCreatePortalEvent --> PortalCreateEvent with getEntity
+        if(minorVersion < 14) {
+            new ListenerLegacyPortalCreate(this).register();
+        } else {
+            new ListenerModernPortalCreate(this).register();
         }
     }
 

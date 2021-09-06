@@ -1,22 +1,28 @@
-package combatlogx.expansion.cheat.prevention.listener;
+package combatlogx.expansion.cheat.prevention.listener.modern;
 
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 
-public final class ListenerLegacyItemPickup extends CheatPreventionListener {
-    public ListenerLegacyItemPickup(Expansion expansion) {
+import combatlogx.expansion.cheat.prevention.listener.CheatPreventionListener;
+
+public final class ListenerModernItemPickup extends CheatPreventionListener {
+    public ListenerModernItemPickup(Expansion expansion) {
         super(expansion);
     }
 
     @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
-    public void onPickup(PlayerPickupItemEvent e) {
-        Player player = e.getPlayer();
+    public void onPickup(EntityPickupItemEvent e) {
+        Entity entity = e.getEntity();
+        if(!(entity instanceof Player)) return;
+
+        Player player = (Player) entity;
         if(!isInCombat(player)) return;
         if(isAllowed()) return;
 
