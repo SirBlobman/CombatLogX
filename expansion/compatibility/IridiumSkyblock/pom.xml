@@ -10,26 +10,15 @@
     </parent>
 
     <artifactId>IridiumSkyblock</artifactId>
-    <name>Compatibility Expansion: IridiumSkyBlock</name>
+    <name>Compatibility Expansion: IridiumSkyblock</name>
     <description>An expansion for CombatLogX that adds compatibility with the IridiumSkyblock plugin.</description>
 
-    <repositories>
-        <!-- SavageLabs Repository -->
-        <repository>
-            <id>savagelabs</id>
-            <url>https://nexus.savagelabs.net/repository/maven-releases/</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
     <dependencies>
-        <!-- Iridium SkyBlock -->
+        <!-- Iridium Skyblock -->
         <dependency>
             <groupId>com.iridium</groupId>
             <artifactId>IridiumSkyblock</artifactId>
-            <version>3.0.8</version>
+            <version>3.1.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
