@@ -22,7 +22,7 @@ public final class CommandCombatTimer extends CombatLogPlayerCommand {
     protected List<String> onTabComplete(Player player, String[] args) {
         if(args.length == 1) {
             Set<String> valueSet = getOnlinePlayerNames();
-            return getMatching(valueSet, args[0]);
+            return getMatching(args[0], valueSet);
         }
 
         return Collections.emptyList();
@@ -73,7 +73,8 @@ public final class CommandCombatTimer extends CombatLogPlayerCommand {
             double timeLeftMillis = combatManager.getTimerLeftMillis(target);
             double timeLeftSeconds = (timeLeftMillis / 1_000.0D);
 
-            String decimalFormatString = languageManager.getMessage(player, "decimal-format", null, false);
+            String decimalFormatString = languageManager.getMessage(player, "decimal-format",
+                    null, false);
             DecimalFormat decimalFormat = new DecimalFormat(decimalFormatString);
             String timeLeftString = decimalFormat.format(timeLeftSeconds);
 

@@ -26,7 +26,7 @@ import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 import com.github.sirblobman.combatlogx.api.manager.IPunishManager;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
-import com.github.sirblobman.combatlogx.command.CommandCombatLogX;
+import com.github.sirblobman.combatlogx.command.combatlogx.CommandCombatLogX;
 import com.github.sirblobman.combatlogx.command.CommandCombatTimer;
 import com.github.sirblobman.combatlogx.command.CommandTogglePVP;
 import com.github.sirblobman.combatlogx.configuration.ConfigurationChecker;

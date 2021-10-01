@@ -1,5 +1,7 @@
 package com.github.sirblobman.combatlogx.api.command;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 import org.bukkit.command.CommandSender;
@@ -8,6 +10,7 @@ import com.github.sirblobman.api.command.Command;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -25,9 +28,24 @@ public abstract class CombatLogCommand extends Command {
     protected final LanguageManager getLanguageManager() {
         return this.plugin.getLanguageManager();
     }
-
+    
+    @Override
+    protected List<String> onTabComplete(CommandSender sender, String[] args) {
+        return Collections.emptyList();
+    }
+    
+    @Override
+    protected boolean execute(CommandSender sender, String[] args) {
+        return false;
+    }
+    
     protected final ICombatLogX getCombatLogX() {
         return this.plugin;
+    }
+    
+    protected final ExpansionManager getExpansionManager() {
+        ICombatLogX plugin = getCombatLogX();
+        return plugin.getExpansionManager();
     }
 
     protected final String getMessageWithPrefix(@Nullable CommandSender sender, @NotNull String key,

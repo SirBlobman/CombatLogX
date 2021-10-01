@@ -39,26 +39,27 @@ public final class CommandTogglePVP extends CombatLogCommand {
         if(args.length == 1) {
             List<String> valueList = new ArrayList<>();
             Collections.addAll(valueList, "check", "on", "off");
-            if(sender.hasPermission("combatlogx.command.togglepvp.admin")) valueList.add("admin");
-            return getMatching(valueList, args[0]);
+            if(sender.hasPermission("combatlogx.command.togglepvp.admin")) {
+                valueList.add("admin");
+            }
+            return getMatching(args[0], valueList);
         }
 
         if(args.length == 2) {
             String sub = args[0].toLowerCase();
             if(sub.equals("check")) {
                 Set<String> valueSet = getOnlinePlayerNames();
-                return getMatching(valueSet, args[1]);
+                return getMatching(args[1], valueSet);
             }
 
             if(sub.equals("admin")) {
-                List<String> valueList = Arrays.asList("on", "off");
-                return getMatching(valueList, args[1]);
+                return getMatching(args[1], "on", "off");
             }
         }
 
         if(args.length == 3 && args[0].equalsIgnoreCase("admin")) {
             Set<String> valueSet = getOnlinePlayerNames();
-            return getMatching(valueSet, args[2]);
+            return getMatching(args[2], valueSet);
         }
 
         return Collections.emptyList();
@@ -100,7 +101,7 @@ public final class CommandTogglePVP extends CombatLogCommand {
 
     private boolean commandToggle(CommandSender sender) {
         if(!(sender instanceof Player)) {
-            sendMessageOrDefault(sender, "error.player-only", "", null, true);
+            sendMessage(sender, "error.player-only", null, true);
             return true;
         }
 
@@ -123,9 +124,12 @@ public final class CommandTogglePVP extends CombatLogCommand {
         boolean isProtected = protectionManager.isProtected(target);
         boolean pvpEnabled = !pvpManager.isDisabled(target);
 
-        String protectedStatus = languageManager.getMessage(sender, "placeholder.toggle." + (isProtected ? "enabled" : "disabled"), null, true);
-        String pvpStatus = languageManager.getMessage(sender, "placeholder.toggle." + (pvpEnabled ? "enabled" : "disabled"), null, true);
-        Replacer replacer = message -> message.replace("{target}", targetName).replace("{protected}", protectedStatus).replace("{pvp}", pvpStatus);
+        String protectedStatus = languageManager.getMessage(sender, "placeholder.toggle."
+                + (isProtected ? "enabled" : "disabled"), null, true);
+        String pvpStatus = languageManager.getMessage(sender, "placeholder.toggle."
+                + (pvpEnabled ? "enabled" : "disabled"), null, true);
+        Replacer replacer = message -> message.replace("{target}", targetName)
+                .replace("{protected}", protectedStatus).replace("{pvp}", pvpStatus);
 
         sendMessageWithPrefix(sender, "expansion.newbie-helper.check-format", replacer, true);
         return true;
@@ -133,7 +137,7 @@ public final class CommandTogglePVP extends CombatLogCommand {
 
     private boolean commandEnable(CommandSender sender) {
         if(!(sender instanceof Player)) {
-            sendMessageOrDefault(sender, "error.player-only", "", null, true);
+            sendMessage(sender, "error.player-only", null, true);
             return true;
         }
 
@@ -147,7 +151,7 @@ public final class CommandTogglePVP extends CombatLogCommand {
 
     private boolean commandDisable(CommandSender sender) {
         if(!(sender instanceof Player)) {
-            sendMessageOrDefault(sender, "error.player-only", "", null, true);
+            sendMessage(sender, "error.player-only", null, true);
             return true;
         }
 
@@ -228,7 +232,8 @@ public final class CommandTogglePVP extends CombatLogCommand {
         PVPManager pvpManager = this.expansion.getPVPManager();
         boolean pvpEnabled = !pvpManager.isDisabled(player);
 
-        String pvpStatus = languageManager.getMessage(player, "placeholder.toggle." + (pvpEnabled ? "enabled" : "disabled"), null, true);
+        String pvpStatus = languageManager.getMessage(player, "placeholder.toggle."
+                + (pvpEnabled ? "enabled" : "disabled"), null, true);
         Replacer replacer = message -> message.replace("{status}", pvpStatus);
         sendMessageWithPrefix(player, "expansion.newbie-helper.togglepvp.self", replacer, true);
     }
@@ -239,8 +244,10 @@ public final class CommandTogglePVP extends CombatLogCommand {
         boolean pvpEnabled = !pvpManager.isDisabled(target);
 
         String targetName = target.getName();
-        String pvpStatus = languageManager.getMessage(sender, "placeholder.toggle." + (pvpEnabled ? "enabled" : "disabled"), null, true);
-        Replacer replacer = message -> message.replace("{target}", targetName).replace("{status}", pvpStatus);
+        String pvpStatus = languageManager.getMessage(sender, "placeholder.toggle."
+                + (pvpEnabled ? "enabled" : "disabled"), null, true);
+        Replacer replacer = message -> message.replace("{target}", targetName)
+                .replace("{status}", pvpStatus);
         sendMessageWithPrefix(sender, "expansion.newbie-helper.togglepvp.admin", replacer, true);
     }
 
