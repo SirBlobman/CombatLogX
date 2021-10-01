@@ -18,7 +18,7 @@ public final class MythicMobsExpansion extends Expansion {
 
     @Override
     public void onEnable() {
-        if(!checkDependency("MythicMobs", true, "4.12")) {
+        if(!checkDependency("MythicMobs", true, "4.13")) {
             ICombatLogX plugin = getPlugin();
             ExpansionManager expansionManager = plugin.getExpansionManager();
             expansionManager.disableExpansion(this);
