@@ -24,6 +24,26 @@ public final class ActionBarUpdater implements TimerUpdater {
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
     }
     
+    @Override
+    public void update(Player player, long timeLeftMillis) {
+        if(isDisabled(player)) {
+            return;
+        }
+        
+        String message = getMessage(player, timeLeftMillis);
+        if(message == null || message.isEmpty()) {
+            return;
+        }
+        
+        PlayerHandler playerHandler = getPlayerHandler();
+        playerHandler.sendActionBar(player, message);
+    }
+    
+    @Override
+    public void remove(Player player) {
+        update(player, 0L);
+    }
+    
     private ActionBarExpansion getExpansion() {
         return this.expansion;
     }
@@ -47,26 +67,6 @@ public final class ActionBarUpdater implements TimerUpdater {
         ICombatLogX combatLogX = getCombatLogX();
         MultiVersionHandler multiVersionHandler = combatLogX.getMultiVersionHandler();
         return multiVersionHandler.getPlayerHandler();
-    }
-    
-    @Override
-    public void update(Player player, long timeLeftMillis) {
-        if(isDisabled(player)) {
-            return;
-        }
-        
-        String message = getMessage(player, timeLeftMillis);
-        if(message == null || message.isEmpty()) {
-            return;
-        }
-        
-        PlayerHandler playerHandler = getPlayerHandler();
-        playerHandler.sendActionBar(player, message);
-    }
-    
-    @Override
-    public void remove(Player player) {
-        update(player, 0L);
     }
     
     private boolean isGlobalEnabled() {

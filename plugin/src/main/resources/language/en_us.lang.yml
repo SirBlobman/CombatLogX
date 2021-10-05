@@ -81,6 +81,30 @@ expansion:
     timer: "&6&lCombat &7\u00BB &f{bars} &f{time_left_decimal} seconds."
     ended: "&6&lCombat &7\u00BB &fYou are no longer in combat."
 
+  boss-bar:
+    # Valid 'timer' placeholders: {time_left}, {time_left_decimal}
+    timer: "&6&lCombat &7\u00BB &c{time_left_decimal} seconds."
+    ended: "&6&lCombat &7\u00BB &aYou are no longer in combat."
+
+  scoreboard:
+    # Make sure to follow your Spigot version's scoreboard character limit
+    title: "&6&lCombatLogX"
+
+    # Make sure to follow your Spigot version's scoreboard line/character limit
+    lines:
+      - "&f"
+      - "&f&lCombat Stats:"
+      - "&8\u00BB &f&lTime Left: &7{time_left}"
+      - "&8\u00BB &f&lIn Combat: &7{in_combat}"
+      - "&8\u00BB &f&lStatus: &7{status}"
+      - "&f"
+      - "&f&lEnemy Stats"
+      - "&8\u00BB &f&lName: &7{enemy_name}"
+      - "&8\u00BB &f&lHealth: &7{enemy_health}"
+      - "&8\u00BB &f&lHealthR: &7{enemy_health_rounded}"
+      - "&8\u00BB &f&lHearts: &7{enemy_hearts}"
+      - "&f"
+
   cheat-prevention:
     command-blocked: "&cYou do not have access to &a{command}&c during combat."
     no-riptide: "&cThe riptide enchantment is disabled during combat."

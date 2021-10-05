@@ -12,22 +12,23 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
+import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 
 import combatlogx.expansion.scoreboard.ScoreboardExpansion;
 import combatlogx.expansion.scoreboard.scoreboard.CustomScoreboard;
 
-public final class ScoreboardManager {
+public final class CustomScoreboardManager {
     private final ScoreboardExpansion expansion;
     private final Map<UUID, Scoreboard> oldScoreboardMap;
     private final Map<UUID, CustomScoreboard> combatScoreboardMap;
 
-    public ScoreboardManager(ScoreboardExpansion expansion) {
+    public CustomScoreboardManager(ScoreboardExpansion expansion) {
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
         this.oldScoreboardMap = new HashMap<>();
         this.combatScoreboardMap = new HashMap<>();
@@ -36,17 +37,41 @@ public final class ScoreboardManager {
     public ScoreboardExpansion getExpansion() {
         return this.expansion;
     }
+    
+    private ICombatLogX getCombatLogX() {
+        ScoreboardExpansion expansion = getExpansion();
+        return expansion.getPlugin();
+    }
+    
+    private PlayerDataManager getPlayerDataManager() {
+        ICombatLogX combatLogX = getCombatLogX();
+        return combatLogX.getPlayerDataManager();
+    }
+    
+    private LanguageManager getLanguageManager() {
+        ICombatLogX combatLogX = getCombatLogX();
+        return combatLogX.getLanguageManager();
+    }
+    
+    private boolean isGlobalEnabled() {
+        ScoreboardExpansion expansion = getExpansion();
+        ConfigurationManager configurationManager = expansion.getConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("config.yml");
+        return configuration.getBoolean("enabled", true);
+    }
 
     private boolean isDisabled(Player player) {
-        Expansion expansion = getExpansion();
-        ICombatLogX plugin = expansion.getPlugin();
-        PlayerDataManager playerDataManager = plugin.getPlayerDataManager();
-        YamlConfiguration configuration = playerDataManager.get(player);
-        return !configuration.getBoolean("scoreboard", true);
+        if(isGlobalEnabled()) {
+            PlayerDataManager playerDataManager = getPlayerDataManager();
+            YamlConfiguration configuration = playerDataManager.get(player);
+            return !configuration.getBoolean("scoreboard", true);
+        }
+        
+        return true;
     }
 
     private boolean shouldIgnorePrevious() {
-        Expansion expansion = getExpansion();
+        ScoreboardExpansion expansion = getExpansion();
         ConfigurationManager configurationManager = expansion.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
         return !configuration.getBoolean("save-previous");
@@ -54,10 +79,10 @@ public final class ScoreboardManager {
 
     public void updateScoreboard(Player player) {
         UUID uuid = player.getUniqueId();
-        Expansion expansion = getExpansion();
-        org.bukkit.scoreboard.ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
+        ScoreboardExpansion expansion = getExpansion();
+        ScoreboardManager bukkitScoreboardManager = Bukkit.getScoreboardManager();
 
-        if(scoreboardManager == null) {
+        if(bukkitScoreboardManager == null) {
             Logger logger = expansion.getLogger();
             logger.warning("The Bukkit scoreboard manager is not available yet!");
             return;
@@ -96,11 +121,16 @@ public final class ScoreboardManager {
 
     public void removeAll() {
         Collection<? extends Player> onlinePlayerCollection = Bukkit.getOnlinePlayers();
-        onlinePlayerCollection.forEach(this::removeScoreboard);
+        for(Player player : onlinePlayerCollection) {
+            removeScoreboard(player);
+        }
     }
 
     private CustomScoreboard enableScoreboard(Player player) {
-        if(isDisabled(player)) return null;
+        if(isDisabled(player)) {
+            return null;
+        }
+        
         UUID uuid = player.getUniqueId();
         savePreviousScoreboard(player);
 
@@ -113,13 +143,18 @@ public final class ScoreboardManager {
     }
 
     private void savePreviousScoreboard(Player player) {
-        if(shouldIgnorePrevious()) return;
+        if(shouldIgnorePrevious()) {
+            return;
+        }
+        
         Scoreboard oldScoreboard = player.getScoreboard();
 
         Objective objective = oldScoreboard.getObjective(DisplaySlot.SIDEBAR);
         if(objective != null) {
             String objectiveName = objective.getName();
-            if(objectiveName.equals("combatlogx")) return;
+            if(objectiveName.equals("combatlogx")) {
+                return;
+            }
         }
 
         UUID uuid = player.getUniqueId();

@@ -12,7 +12,7 @@ public final class BossBarExpansion extends Expansion {
 
     public BossBarExpansion(ICombatLogX plugin) {
         super(plugin);
-
+        
         MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
         this.bossBarHandler = multiVersionHandler.getBossBarHandler();
     }

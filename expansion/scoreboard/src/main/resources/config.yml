@@ -1,30 +1,10 @@
-# Information
-# Remove this expansion to disable the scoreboard.
-# The numbers cannot be removed, that's how scoreboard work in Minecraft
+# This option is here to quickly toggle this expansion on a live server that must stay online.
+# We recommend that you remove the Scoreboard expansion jar if you will not use the feature.
+enabled: true
 
-# Set this to true to save the scoreboard the player had before combat
-# Otherwise, the main scoreboard will be restored instead
+# Set this to true to save the scoreboard the player had before combat.
+# Otherwise, the main server scoreboard will be restored instead.
 save-previous: true
 
 # How often (in ticks) should the scoreboard update?
 update-period: 5
-
-# This is the scoreboard title
-# Make sure to follow your Spigot version's character limit
-title: "&6&lCombatLogX"
-
-# These are the scoreboard lines
-# Make sure to follow your Spigot version's line/character limit
-lines:
-  - "&f"
-  - "&f&lCombat Stats:"
-  - "&8\u00BB &f&lTime Left: &7{time_left}"
-  - "&8\u00BB &f&lIn Combat: &7{in_combat}"
-  - "&8\u00BB &f&lStatus: &7{status}"
-  - "&f"
-  - "&f&lEnemy Stats"
-  - "&8\u00BB &f&lName: &7{enemy_name}"
-  - "&8\u00BB &f&lHealth: &7{enemy_health}"
-  - "&8\u00BB &f&lHealthR: &7{enemy_health_rounded}"
-  - "&8\u00BB &f&lHearts: &7{enemy_hearts}"
-  - "&f"

@@ -2,20 +2,19 @@ package combatlogx.expansion.scoreboard.scoreboard;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.api.nms.scoreboard.ScoreboardHandler;
 import com.github.sirblobman.api.utility.MessageUtility;
@@ -37,17 +36,30 @@ public final class CustomScoreboard {
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
         this.player = Validate.notNull(player, "player must not be null!");
 
-        org.bukkit.scoreboard.ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
-        if(scoreboardManager == null) throw new IllegalStateException("The Bukkit scoreboard manager is not ready yet!");
-        this.scoreboard = scoreboardManager.getNewScoreboard();
+        ScoreboardManager bukkitScoreboardManager = Bukkit.getScoreboardManager();
+        if(bukkitScoreboardManager == null) {
+            throw new IllegalStateException("The Bukkit scoreboard manager is not ready yet!");
+        }
+        
+        this.scoreboard = bukkitScoreboardManager.getNewScoreboard();
         this.customLineList = new ArrayList<>();
 
         createObjective();
         initializeScoreboard();
     }
 
-    public ScoreboardExpansion getExpansion() {
+    private ScoreboardExpansion getExpansion() {
         return this.expansion;
+    }
+    
+    private ICombatLogX getCombatLogX() {
+        ScoreboardExpansion expansion = getExpansion();
+        return expansion.getPlugin();
+    }
+    
+    private LanguageManager getLanguageManager() {
+        ICombatLogX combatLogX = getCombatLogX();
+        return combatLogX.getLanguageManager();
     }
 
     public Player getPlayer() {
@@ -65,8 +77,10 @@ public final class CustomScoreboard {
     }
 
     public void disableScoreboard() {
-        org.bukkit.scoreboard.ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
-        if(scoreboardManager == null) throw new IllegalStateException("The Bukkit scoreboard manager is not ready yet!");
+        ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
+        if(scoreboardManager == null) {
+            throw new IllegalStateException("The Bukkit scoreboard manager is not ready yet!");
+        }
 
         Player player = getPlayer();
         Scoreboard scoreboard = scoreboardManager.getMainScoreboard();
@@ -90,19 +104,16 @@ public final class CustomScoreboard {
     }
 
     private void createObjective() {
-        ScoreboardExpansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-
-        String title = configuration.getString("title");
-        String titleColored = MessageUtility.color(title);
+        Player player = getPlayer();
+        LanguageManager languageManager = getLanguageManager();
+        String title = languageManager.getMessage(player, "expansion.scoreboard.title", null, true);
 
         ICombatLogX plugin = expansion.getPlugin();
         MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
         ScoreboardHandler scoreboardHandler = multiVersionHandler.getScoreboardHandler();
 
         Scoreboard scoreboard = getScoreboard();
-        this.objective = scoreboardHandler.createObjective(scoreboard, "combatlogx", "dummy", titleColored);
+        this.objective = scoreboardHandler.createObjective(scoreboard, "combatlogx", "dummy", title);
         this.objective.setDisplaySlot(DisplaySlot.SIDEBAR);
     }
 
@@ -175,17 +186,23 @@ public final class CustomScoreboard {
 
     private int getLineLengthLimit() {
         int minorVersion = VersionUtility.getMinorVersion();
-        if(minorVersion > 12) return 64;
-        return 16;
+        return (minorVersion > 12 ? 64 : 16);
     }
 
     private List<String> getLines() {
-        ScoreboardExpansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
+        Player player = getPlayer();
+        LanguageManager languageManager = getLanguageManager();
+        String lines = languageManager.getMessage(player, "expansion.scoreboard.lines", null, true);
 
-        List<String> lineList = configuration.getStringList("lines");
-        return lineList.stream().map(this::replacePlaceholders).collect(Collectors.toList());
+        String[] split = lines.split("\n");
+        List<String> lineList = new ArrayList<>();
+        
+        for(String line : split) {
+            String replaced = replacePlaceholders(line);
+            lineList.add(replaced);
+        }
+        
+        return lineList;
     }
 
     private String replacePlaceholders(String string) {
@@ -196,7 +213,7 @@ public final class CustomScoreboard {
         Player player = getPlayer();
         LivingEntity enemy = combatManager.getEnemy(player);
 
-        string = MessageUtility.color(string);
-        return combatManager.replaceVariables(player, enemy, string);
+        String color = MessageUtility.color(string);
+        return combatManager.replaceVariables(player, enemy, color);
     }
 }

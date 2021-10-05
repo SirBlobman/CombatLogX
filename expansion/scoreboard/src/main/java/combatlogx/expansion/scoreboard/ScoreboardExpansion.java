@@ -5,14 +5,14 @@ import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ITimerManager;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 
-import combatlogx.expansion.scoreboard.manager.ScoreboardManager;
+import combatlogx.expansion.scoreboard.manager.CustomScoreboardManager;
 
-public class ScoreboardExpansion extends Expansion {
-    private final ScoreboardManager scoreboardManager;
+public final class ScoreboardExpansion extends Expansion {
+    private final CustomScoreboardManager scoreboardManager;
 
     public ScoreboardExpansion(ICombatLogX plugin) {
         super(plugin);
-        this.scoreboardManager = new ScoreboardManager(this);
+        this.scoreboardManager = new CustomScoreboardManager(this);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class ScoreboardExpansion extends Expansion {
 
     @Override
     public void onDisable() {
-        ScoreboardManager scoreboardManager = getScoreboardManager();
+        CustomScoreboardManager scoreboardManager = getScoreboardManager();
         scoreboardManager.removeAll();
     }
 
@@ -40,7 +40,7 @@ public class ScoreboardExpansion extends Expansion {
         configurationManager.reload("config.yml");
     }
 
-    public ScoreboardManager getScoreboardManager() {
+    public CustomScoreboardManager getScoreboardManager() {
         return this.scoreboardManager;
     }
 }

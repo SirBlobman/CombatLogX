@@ -10,7 +10,7 @@ import org.bukkit.scheduler.BukkitScheduler;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
-import com.github.sirblobman.api.utility.MessageUtility;
+import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.bossbar.BossBarHandler;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -23,14 +23,6 @@ public final class BossBarUpdater implements TimerUpdater {
 
     public BossBarUpdater(BossBarExpansion expansion) {
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
-    }
-
-    private ICombatLogX getCombatLogX() {
-        return this.expansion.getPlugin();
-    }
-
-    private BossBarHandler getBossBarHandler() {
-        return this.expansion.getBossBarHandler();
     }
 
     @Override
@@ -62,19 +54,60 @@ public final class BossBarUpdater implements TimerUpdater {
         BukkitScheduler scheduler = Bukkit.getScheduler();
         scheduler.scheduleSyncDelayedTask(plugin, () -> actualRemove(player), 10L);
     }
-
-    private void actualRemove(Player player) {
-        if(!player.isOnline()) return;
-
-        BossBarHandler bossBarHandler = getBossBarHandler();
-        bossBarHandler.removeBossBar(player);
+    
+    private BossBarExpansion getExpansion() {
+        return this.expansion;
+    }
+    
+    private ICombatLogX getCombatLogX() {
+        BossBarExpansion expansion = getExpansion();
+        return expansion.getPlugin();
+    }
+    
+    private BossBarHandler getBossBarHandler() {
+        BossBarExpansion expansion = getExpansion();
+        return expansion.getBossBarHandler();
+    }
+    
+    private LanguageManager getLanguageManager() {
+        ICombatLogX combatLogX = getCombatLogX();
+        return combatLogX.getLanguageManager();
+    }
+    
+    private PlayerDataManager getPlayerDataManager() {
+        ICombatLogX combatLogX = getCombatLogX();
+        return combatLogX.getPlayerDataManager();
+    }
+    
+    private ICombatManager getCombatManager() {
+        ICombatLogX combatLogX = getCombatLogX();
+        return combatLogX.getCombatManager();
+    }
+    
+    private boolean isGlobalEnabled() {
+        BossBarExpansion expansion = getExpansion();
+        ConfigurationManager configurationManager = expansion.getConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("config.yml");
+        return configuration.getBoolean("enabled", true);
     }
 
     private boolean isDisabled(Player player) {
-        ICombatLogX plugin = getCombatLogX();
-        PlayerDataManager playerDataManager = plugin.getPlayerDataManager();
-        YamlConfiguration configuration = playerDataManager.get(player);
-        return !configuration.getBoolean("bossbar", true);
+        if(isGlobalEnabled()) {
+            PlayerDataManager playerDataManager = getPlayerDataManager();
+            YamlConfiguration playerData = playerDataManager.get(player);
+            return !playerData.getBoolean("bossbar", true);
+        }
+        
+        return true;
+    }
+    
+    private void actualRemove(Player player) {
+        if(!player.isOnline()) {
+            return;
+        }
+        
+        BossBarHandler bossBarHandler = getBossBarHandler();
+        bossBarHandler.removeBossBar(player);
     }
 
     private String getColor() {
@@ -90,40 +123,47 @@ public final class BossBarUpdater implements TimerUpdater {
     }
 
     private double getProgress(Player player, double timeLeftMillis) {
-        ICombatLogX plugin = getCombatLogX();
-        ICombatManager combatManager = plugin.getCombatManager();
-
+        ICombatManager combatManager = getCombatManager();
         long timerMaxSeconds = combatManager.getMaxTimerSeconds(player);
         double timerMaxMillis = TimeUnit.SECONDS.toMillis(timerMaxSeconds);
+        
         double barPercentage = (timeLeftMillis / timerMaxMillis);
-
-        if(barPercentage <= 0.0D) return 0.0D;
+        if(barPercentage <= 0.0D) {
+            return 0.0D;
+        }
+        
         return Math.min(barPercentage, 1.0D);
     }
 
     private String getMessage(Player player, long timeLeftMillis) {
-        ConfigurationManager configurationManager = this.expansion.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
+        LanguageManager languageManager = getLanguageManager();
         if(timeLeftMillis <= 0) {
-            String message = configuration.getString("ended");
-            return MessageUtility.color(message);
+            String path = ("expansion.boss-bar.ended");
+            return languageManager.getMessage(player, path, null, true);
         }
-
+    
+        String path = ("expansion.boss-bar.timer");
+        String message = languageManager.getMessage(player, path, null, true);
+        if(message.isEmpty()) {
+            return null;
+        }
+    
+        return replacePlaceholders(player, message);
+    }
+    
+    private String replacePlaceholders(Player player, String message) {
         ICombatLogX plugin = getCombatLogX();
-        String message = configuration.getString("timer");
-        if(message == null || message.isEmpty()) return null;
-        message = MessageUtility.color(message);
-
+        
         if(message.contains("{time_left}")) {
             String timeLeftNormal = PlaceholderHelper.getTimeLeft(plugin, player);
             message = message.replace("{time_left}", timeLeftNormal);
         }
-
+    
         if(message.contains("{time_left_decimal}")) {
             String timeLeftDecimal = PlaceholderHelper.getTimeLeftDecimal(plugin, player);
             message = message.replace("{time_left_decimal}", timeLeftDecimal);
         }
-
+    
         return message;
     }
 }

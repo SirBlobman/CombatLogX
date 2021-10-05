@@ -3,5 +3,5 @@ prefix: "Boss Bar"
 description: "${project.description}"
 
 main: "combatlogx.expansion.boss.bar.BossBarExpansion"
-version: "16.4"
+version: "16.5"
 author: "SirBlobman"
