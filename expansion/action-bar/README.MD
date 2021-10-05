@@ -7,4 +7,4 @@ The action bar expansion shows an action bar to every player that is in combat.
 
 ## Commands
 - **/combatlogx toggle:**
-  - **/combatlogx toggle actionbar:** Enable or disable your action bar display.
+    - **/combatlogx toggle actionbar:** Enable or disable your action bar display.

@@ -76,6 +76,11 @@ tagged:
     mob: "&cYou are attacking a(n) &f{mob_type}&c. Do not log out!"
 
 expansion:
+  action-bar:
+    # Valid 'timer' placeholders: {time_left}, {time_left_decimal}, {bars}
+    timer: "&6&lCombat &7\u00BB &f{bars} &f{time_left_decimal} seconds."
+    ended: "&6&lCombat &7\u00BB &fYou are no longer in combat."
+
   cheat-prevention:
     command-blocked: "&cYou do not have access to &a{command}&c during combat."
     no-riptide: "&cThe riptide enchantment is disabled during combat."

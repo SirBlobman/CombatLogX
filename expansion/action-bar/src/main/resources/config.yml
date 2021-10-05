@@ -1,25 +1,32 @@
-# Remove this expansion to disable the action bar.
+# This option is here to quickly toggle this expansion on a live server that must stay online.
+# We recommend that you remove the Action Bar expansion jar if you will not use the feature.
+enabled: true
 
-# These are message formatting options for the action bar.
-# Valid 'timer' placeholders: {time_left}, {time_left_decimal}, {bars}
-timer: "&6&lCombat &7\u00BB &f{bars} &f{time_left_decimal} seconds."
-ended: "&6&lCombat &7\u00BB &fYou are no longer in combat."
-
-# Scale is the amount of symbols for the entire bar
+# Scale is the amount of symbols for the {bars} placeholder.
 scale: 15
 
-# Left Color is the color code for the left part of the {bars} placeholder
-left-color: "&a"
+# Left Color is the color code for the left part of the {bars} placeholder.
+# A color name or hex value is required.
+# Example 01: "GREEN"
+# Example 02: "#00FF00"
+# Default: "GREEN"
+left-color: "GREEN"
 
 # Left Symbol is the symbol used for the left part of the {bars} placeholder
 # Unicode is supported, but must be converted.
 # Example: "/u00A7"
+# Default: "|"
 left-symbol: "|"
 
-# Right Color is the color code for the right part of the {bars} placeholder
-right-color: "&c"
+# Right Color is the color code for the right part of the {bars} placeholder.
+# A color name or hex value is required.
+# Example 01: "RED"
+# Example 02: "#FF0000"
+# Default: "RED"
+right-color: "RED"
 
 # Right Symbol is the symbol used for the right part of the {bars} placeholder
 # Unicode is supported, but must be converted.
 # Example: "/u00A7"
+# Default: "|"
 right-symbol: "|"
