@@ -1,17 +1,15 @@
-CombatLogX has different installation steps than other plugins,
-please read this guide before trying to add the plugin to your server!
-
-Dependencies:
-- SirBlobmanCore (https://www.spigotmc.org/resources/83189/)
-
 Installation Guide:
-1) Make sure your server is completely stopped.
-2) Make sure all dependencies listed above are installed on your server.
-3) Download the 'CombatLogX.zip' file through SpigotMC (Stable) or Jenkins (Beta).
-4) Extract the 'CombatLogX.jar' file from the zip into the '/plugins/' folder of your server.
-5) Create a new folder called '/plugins/CombatLogX/expansions/' on your server.
-6) Extract the expansion jar files into your '/plugins/CombatLogX/expansions/' folder of your server.
-7) Start your server so that the configuration files can be generated.
-8) Stop your server and then edit the configuration files with the settings that you wish to use.
-9) While your server is stopped, you can also remove any expansion jar files that you will not be using.
-10) Start your server and enjoy using CombatLogX!
+
+1. Download the CombatLogX.zip file from Jenkins or SpigotMC
+2. Stop your server. (Click the stop button on the panel or type `stop` into the console if your server doesn't use a panel.)
+3. Upload the contents of CombatLogX.zip to your server.
+4. Delete the CombatLogX.zip file.
+5. If the files were uploaded and extracted correctly, your server should have the following files:
+   - File: `/plugins/CombatLogX.jar`
+   - File `/plugins/SirBlobmanCore.jar`
+   - Folder: `/plugins/CombatLogX/`
+   - Folder: `/plugins/CombatLogX/expansions/`
+   - Multiple Files: `/plugins/CombatLogX/expansions/*.jar`
+6. Start your server. (Click the start button on the panel or execute the script if your server doesn't use a panel.)
+7. Edit the configuration files for the main plugin, languages, and expansions.
+8. Type the command `/clx reload` to reload the configuration files.
