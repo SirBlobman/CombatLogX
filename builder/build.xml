@@ -6,6 +6,8 @@
     <property name="plugin.target.dir" location="${parent.dir}/plugin/target"/>
     <property name="expansion.dir" location="${parent.dir}/expansion"/>
     <property name="expansion.compatibility.dir" location="${expansion.dir}/compatibility"/>
+    <property name="jenkins.url" value="https://jenkins.sirblobman.xyz/job/SirBlobman/job/SirBlobmanAPI"/>
+    <property name="jenkins.artifact" value="100/artifact/core/target/SirBlobmanCore-2.3.2.jar"/>
 
     <target name="build">
         <!-- Delete Previous Build Directory -->
@@ -16,7 +18,7 @@
         <mkdir dir="${build.expansion.dir}"/>
         
         <!-- Download SirBlobmanCore -->
-        <get dest="${build.dir}/SirBlobmanCore.jar" src="https://jenkins.sirblobman.xyz/job/SirBlobman/job/SirBlobmanAPI/98/artifact/core/target/SirBlobmanCore-2.3.1.jar"/>
+        <get dest="${build.dir}/SirBlobmanCore.jar" src="${jenkins.url}/${jenkins.artifact}"/>
 
         <!-- Copy Plugin -->
         <copy file="${plugin.target.dir}/CombatLogX.jar" todir="${build.dir}"/>
