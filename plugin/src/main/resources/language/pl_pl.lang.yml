@@ -65,6 +65,31 @@ tagged:
     player: "&cZaatakowałeś &f{enemy}&c. Nie wylogowuj się!"
     mob: "&cZaatakowałeś &f{mob_type}&c. Nie wylogowuj się!"
 expansion:
+  action-bar:
+    #Valid 'timer' placeholders: {time_left}, {time_left_decimal}, {bars}
+    timer: "&6&lWalka &7\u00BB &f{bars} &f{time_left_decimal} sekund."
+    ended: "&6&lWalka &7\u00BB &fNie jesteś już w walce."
+  boss-bar:
+    #Valid 'timer' placeholders: {time_left}, {time_left_decimal}
+    timer: "&6&lWalka &7\u00BB &c{time_left_decimal} sekund."
+    ended: "&6&lWalka &7\u00BB &aNie jesteś już w walce."
+  scoreboard:
+    #Make sure to follow your Spigot version's scoreboard character limit
+    title: "&6&lCombatLogX"
+    #Make sure to follow your Spigot version's scoreboard line/character limit
+    lines:
+      - "&f"
+      - "&f&lStatystyki Walki:"
+      - "&8\u00BB &f&lPozostały Czas: &7{time_left}"
+      - "&8\u00BB &f&lW Walce: &7{in_combat}"
+      - "&8\u00BB &f&lStatus: &7{status}"
+      - "&f"
+      - "&f&lStatystyki Wroga"
+      - "&8\u00BB &f&lNazwa: &7{enemy_name}"
+      - "&8\u00BB &f&lŻycie: &7{enemy_health}"
+      - "&8\u00BB &f&lZdrowie: &7{enemy_health_rounded}"
+      - "&8\u00BB &f&lSerca: &7{enemy_hearts}"
+      - "&f"
   cheat-prevention:
     command-blocked: "&cNie masz dostępu do &a{command}&c podczas walki."
     no-riptide: "&cZaklęcie \"Torpeda\" jest wyłączone podczas walki."
