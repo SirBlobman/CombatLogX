@@ -46,6 +46,6 @@ public final class ListenerFeatherBoard extends ExpansionListener {
 
     private void removeTrigger(Player player) {
         String triggerName = getTriggerName();
-        FeatherBoardAPI.removeScoreboardOverride(player, triggerName, true);
+        FeatherBoardAPI.hideScoreboard(player, triggerName, true);
     }
 }

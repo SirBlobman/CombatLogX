@@ -25,9 +25,9 @@
         <!-- FeatherBoard -->
         <!-- Requires local installation or private repository access -->
         <dependency>
-            <groupId>be.maximvdw</groupId>
+            <groupId>be.maximvdw.featherboard</groupId>
             <artifactId>FeatherBoard</artifactId>
-            <version>5.0.3b</version>
+            <version>5.0.4</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
