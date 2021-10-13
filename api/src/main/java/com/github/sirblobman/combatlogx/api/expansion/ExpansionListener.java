@@ -1,8 +1,7 @@
 package com.github.sirblobman.combatlogx.api.expansion;
 
+import java.util.Locale;
 import java.util.logging.Logger;
-
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.utility.Validate;
@@ -24,12 +23,11 @@ public abstract class ExpansionListener extends CombatListener {
 
     @Override
     protected final void printDebug(String message) {
-        ConfigurationManager pluginConfigurationManager = getPluginConfigurationManager();
-        YamlConfiguration configuration = pluginConfigurationManager.get("config.yml");
-        if(!configuration.getBoolean("debug-mode")) return;
-
-        Logger logger = getExpansionLogger();
-        logger.info("[Debug] " + message);
+        if(isDebugMode()) {
+            Logger logger = getExpansionLogger();
+            String logMessage = String.format(Locale.US, "[Debug] %s", message);
+            logger.info(logMessage);
+        }
     }
 
     protected final Expansion getExpansion() {

@@ -18,83 +18,113 @@ import combatlogx.expansion.newbie.helper.manager.ProtectionManager;
 
 public final class ListenerDamage extends ExpansionListener {
     private final NewbieHelperExpansion expansion;
-
+    
     public ListenerDamage(NewbieHelperExpansion expansion) {
         super(expansion);
         this.expansion = expansion;
     }
-
-    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+    
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onDamageByMob(EntityDamageByEntityEvent e) {
         Entity damaged = e.getEntity();
-        if(!(damaged instanceof Player)) return;
+        if(!(damaged instanceof Player)) {
+            return;
+        }
+        
         Player player = (Player) damaged;
-
+        if(isWorldDisabled(player)) {
+            return;
+        }
+        
         Entity damager = getDamager(e);
-        if(damager instanceof Player) return;
-
+        if(damager instanceof Player) {
+            return;
+        }
+        
         ProtectionManager protectionManager = this.expansion.getProtectionManager();
-        if(!protectionManager.isProtected(player)) return;
-        e.setCancelled(true);
+        if(protectionManager.isProtected(player)) {
+            e.setCancelled(true);
+        }
     }
-
-    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+    
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onDamageMob(EntityDamageByEntityEvent e) {
         Entity damaged = e.getEntity();
-        if(damaged instanceof Player) return;
-
+        if(damaged instanceof Player) {
+            return;
+        }
+        
         Entity damager = getDamager(e);
-        if(!(damager instanceof Player)) return;
+        if(!(damager instanceof Player)) {
+            return;
+        }
+        
         Player player = (Player) damager;
-
+        if(isWorldDisabled(player)) {
+            return;
+        }
+        
         ProtectionManager protectionManager = this.expansion.getProtectionManager();
         if(protectionManager.isProtected(player) && shouldRemoveProtectionOnAttack()) {
             protectionManager.setProtected(player, false);
-            sendMessageWithPrefix(player, "expansion.newbie-helper.protection-disabled.attacker",
-                    null, true);
+            String messagePath = ("expansion.newbie-helper.protection-disabled.attacker");
+            sendMessageWithPrefix(player, messagePath, null, true);
         }
     }
-
-    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+    
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onDamageByPlayer(EntityDamageByEntityEvent e) {
         Entity damaged = e.getEntity();
-        if(!(damaged instanceof Player)) return;
+        if(!(damaged instanceof Player)) {
+            return;
+        }
+        
         Player attacked = (Player) damaged;
-
+        if(isWorldDisabled(attacked)) {
+            return;
+        }
+        
         Entity damager = getDamager(e);
-        if(!(damager instanceof Player)) return;
+        if(!(damager instanceof Player)) {
+            return;
+        }
+        
         Player attacker = (Player) damager;
-
+        if(isWorldDisabled(attacker)) {
+            return;
+        }
+        
         PVPManager pvpManager = this.expansion.getPVPManager();
         ProtectionManager protectionManager = this.expansion.getProtectionManager();
-
+        
         if(pvpManager.isDisabled(attacked)) {
             e.setCancelled(true);
             sendMessageWithPrefix(attacker, "expansion.newbie-helper.no-pvp.other", null, true);
             return;
         }
-
+        
         if(pvpManager.isDisabled(attacker)) {
             e.setCancelled(true);
             sendMessageWithPrefix(attacker, "expansion.newbie-helper.no-pvp.self", null, true);
             return;
         }
-
+        
         if(protectionManager.isProtected(attacked)) {
             e.setCancelled(true);
-            sendMessageWithPrefix(attacker, "expansion.newbie-helper.no-pvp.protected", null, true);
+            String messagePath = ("expansion.newbie-helper.no-pvp.protected");
+            sendMessageWithPrefix(attacker, messagePath, null, true);
             return;
         }
-
+        
         if(protectionManager.isProtected(attacker)) {
             if(shouldRemoveProtectionOnAttack()) {
                 protectionManager.setProtected(attacker, false);
-                sendMessageWithPrefix(attacker, "expansion.newbie-helper.protection-disabled.attacker",
-                        null, true);
+                String messagePath = ("expansion.newbie-helper.protection-disabled.attacker");
+                sendMessageWithPrefix(attacker, messagePath,null, true);
             }
         }
     }
-
+    
     private Entity getDamager(EntityDamageByEntityEvent e) {
         ConfigurationManager configurationManager = getPluginConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
@@ -111,7 +141,7 @@ public final class ListenerDamage extends ExpansionListener {
         
         return damager;
     }
-
+    
     private boolean shouldRemoveProtectionOnAttack() {
         ConfigurationManager configurationManager = getExpansionConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");

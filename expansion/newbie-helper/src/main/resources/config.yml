@@ -27,3 +27,8 @@ pvp-toggle-cooldown: 0
 # Set this to "" to disable the bypass permission.
 # Default: "combatlogx.bypass.pvp-toggle.cooldown"
 pvp-toggle-cooldown-bypass-permission: "combatlogx.bypass.pvp-toggle.cooldown"
+
+# Should the expansion prevent non-admin pvp-toggle from being used
+# in worlds that are disabled in the main config?
+# Default: true
+prevent-pvp-toggle-in-disabled-worlds: true

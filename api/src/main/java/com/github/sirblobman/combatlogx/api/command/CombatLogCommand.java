@@ -4,9 +4,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
 
 import com.github.sirblobman.api.command.Command;
+import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -64,5 +69,32 @@ public abstract class CombatLogCommand extends Command {
                                                @Nullable Replacer replacer, boolean color) {
         String message = getMessageWithPrefix(sender, key, replacer, color);
         if(!message.isEmpty()) sender.sendMessage(message);
+    }
+    
+    protected final boolean isWorldDisabled(Entity entity) {
+        Location location = entity.getLocation();
+        return isWorldDisabled(location);
+    }
+    
+    protected final boolean isWorldDisabled(Location location) {
+        World world = location.getWorld();
+        if(world == null) {
+            return true;
+        }
+        
+        return isWorldDisabled(world);
+    }
+    
+    protected final boolean isWorldDisabled(World world) {
+        ICombatLogX plugin = getCombatLogX();
+        ConfigurationManager configurationManager = plugin.getConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("config.yml");
+        
+        List<String> disabledWorldList = configuration.getStringList("disabled-world-list");
+        boolean inverted = configuration.getBoolean("disabled-world-list-inverted");
+        
+        String worldName = world.getName();
+        boolean contains = disabledWorldList.contains(worldName);
+        return (inverted != contains);
     }
 }

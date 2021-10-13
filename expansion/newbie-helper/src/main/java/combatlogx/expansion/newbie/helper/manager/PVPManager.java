@@ -16,11 +16,13 @@ public final class PVPManager {
     public PVPManager(NewbieHelperExpansion expansion) {
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
     }
-
+    
     public void setPVP(Player player, boolean pvp) {
         Validate.notNull(player, "player must not be null!");
-        if(player.hasMetadata("NPC")) return;
-    
+        if(player.hasMetadata("NPC")) {
+            return;
+        }
+        
         ICombatLogX plugin = this.expansion.getPlugin();
         PlayerDataManager playerDataManager = plugin.getPlayerDataManager();
         YamlConfiguration playerData = playerDataManager.get(player);
@@ -28,15 +30,17 @@ public final class PVPManager {
         playerData.set("newbie-helper.pvp-toggle", pvp);
         playerDataManager.save(player);
     }
-
+    
     public boolean isDisabled(Player player) {
         Validate.notNull(player, "player must not be null!");
-        if(player.hasMetadata("NPC")) return false;
-    
+        if(player.hasMetadata("NPC")) {
+            return false;
+        }
+        
         ConfigurationManager configurationManager = this.expansion.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
         boolean defaultPvpState = configuration.getBoolean("pvp-toggle-default-status", true);
-    
+        
         ICombatLogX plugin = this.expansion.getPlugin();
         PlayerDataManager playerDataManager = plugin.getPlayerDataManager();
         YamlConfiguration playerData = playerDataManager.get(player);

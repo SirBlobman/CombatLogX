@@ -13,7 +13,7 @@
         <java.version>1.8</java.version>
         <spigot.version>1.16.5-R0.1-SNAPSHOT</spigot.version>
         <combatlogx.version>11.0.0.0-Beta-${build.number}</combatlogx.version>
-        <build.number>local</build.number>
+        <build.number>unofficial</build.number>
 
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>

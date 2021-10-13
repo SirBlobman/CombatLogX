@@ -1,11 +1,15 @@
 package com.github.sirblobman.combatlogx.api.listener;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -98,13 +102,45 @@ public abstract class CombatListener implements Listener {
         String message = getMessageWithPrefix(sender, key, replacer, color);
         if(!message.isEmpty()) sender.sendMessage(message);
     }
-
-    protected void printDebug(String message) {
+    
+    protected final boolean isDebugMode() {
         ConfigurationManager configurationManager = getPluginConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-        if(!configuration.getBoolean("debug-mode")) return;
+        return configuration.getBoolean("debug-mode", false);
+    }
 
-        Logger logger = getPluginLogger();
-        logger.info("[Debug] " + message);
+    protected void printDebug(String message) {
+        if(isDebugMode()) {
+            Logger logger = getPluginLogger();
+            String logMessage = String.format(Locale.US, "[Debug] %s", message);
+            logger.info(logMessage);
+        }
+    }
+    
+    protected final boolean isWorldDisabled(Entity entity) {
+        Location location = entity.getLocation();
+        return isWorldDisabled(location);
+    }
+    
+    protected final boolean isWorldDisabled(Location location) {
+        World world = location.getWorld();
+        if(world == null) {
+            return true;
+        }
+        
+        return isWorldDisabled(world);
+    }
+    
+    protected final boolean isWorldDisabled(World world) {
+        ICombatLogX plugin = getCombatLogX();
+        ConfigurationManager configurationManager = plugin.getConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("config.yml");
+        
+        List<String> disabledWorldList = configuration.getStringList("disabled-world-list");
+        boolean inverted = configuration.getBoolean("disabled-world-list-inverted");
+        
+        String worldName = world.getName();
+        boolean contains = disabledWorldList.contains(worldName);
+        return (inverted != contains);
     }
 }
