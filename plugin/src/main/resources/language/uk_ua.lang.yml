@@ -26,6 +26,7 @@ combat-timer:
 error:
   player-only: "&cЦю команду можуть виконувати лише гравці."
   invalid-target: "&7{target}&c не в мережі або не існує."
+  disabled-world: "&cЦя команда недоступна в цьому вимірі."
   no-permission: "&cНемає дозволу: &7{permission}"
   target-not-in-combat: "&7{target}&c не в бою."
   self-not-in-combat: "&cВи не в бою."
@@ -65,6 +66,31 @@ tagged:
     player: "&cВи атакуєте &f{enemy}&c. Не виходьте!"
     mob: "&cВи атакуєте &f{mob_type}&c. Не виходьте!"
 expansion:
+  action-bar:
+    #Valid 'timer' placeholders: {time_left}, {time_left_decimal}, {bars}
+    timer: "&6&lБоротьба &7\u00BB &f{bars} &f{time_left_decimal} секунд."
+    ended: "&6&lБоротьба &7\u00BB &fТи більше не в бою."
+  boss-bar:
+    #Valid 'timer' placeholders: {time_left}, {time_left_decimal}
+    timer: "&6&lБоротьба &7\u00BB &c{time_left_decimal} секунд."
+    ended: "&6&lБоротьба &7\u00BB &aТи більше не в бою."
+  scoreboard:
+    #Make sure to follow your Spigot version's scoreboard character limit
+    title: "&6&lCombatLogX"
+    #Make sure to follow your Spigot version's scoreboard line/character limit
+    lines:
+      - "&f"
+      - "&f&lБойова статистика:"
+      - "&8\u00BB &f&lЗалишився час: &7{time_left}"
+      - "&8\u00BB &f&lВ бою: &7{in_combat}"
+      - "&8\u00BB &f&lСтатус: &7{status}"
+      - "&f"
+      - "&f&lСтатистика ворога"
+      - "&8\u00BB &f&lНазва: &7{enemy_name}"
+      - "&8\u00BB &f&lЗдоров'я: &7{enemy_health}"
+      - "&8\u00BB &f&lЗдоров'я округлене: &7{enemy_health_rounded}"
+      - "&8\u00BB &f&lСерця: &7{enemy_hearts}"
+      - "&f"
   cheat-prevention:
     command-blocked: "&cВи не маєте доступу до &a{command}&c під час бою."
     no-riptide: "&cЗачарування тягун вимикається під час бою."
