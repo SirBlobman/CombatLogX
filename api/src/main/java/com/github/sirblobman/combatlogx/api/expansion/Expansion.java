@@ -184,6 +184,12 @@ public abstract class Expansion implements IResourceHolder {
         pluginManager.registerEvents(listener, javaPlugin);
         this.listenerList.add(listener);
     }
+    
+    protected final void selfDisable() {
+        ICombatLogX plugin = getPlugin();
+        ExpansionManager expansionManager = plugin.getExpansionManager();
+        expansionManager.disableExpansion(this);
+    }
 
     public abstract void onLoad();
     public abstract void onEnable();

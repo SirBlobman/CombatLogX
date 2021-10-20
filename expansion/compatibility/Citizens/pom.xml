@@ -14,7 +14,7 @@
     <description>An expansion for CombatLogX that spawns combat NPCs and adds compatibility with the Citizens plugin.</description>
 
     <properties>
-        <spigot.version>1.12.2-R0.1-SNAPSHOT</spigot.version>
+        <spigot.version>1.11.2-R0.1-SNAPSHOT</spigot.version>
     </properties>
 
     <repositories>
@@ -22,15 +22,6 @@
         <repository>
             <id>everything</id>
             <url>https://repo.citizensnpcs.co/</url>
-        </repository>
-
-        <!-- JitPack Repository -->
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io/</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
         </repository>
     </repositories>
 

@@ -27,6 +27,7 @@ import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
 import combatlogx.expansion.compatibility.citizens.manager.CombatNpcManager;
+import combatlogx.expansion.compatibility.citizens.manager.InventoryManager;
 import combatlogx.expansion.compatibility.citizens.object.CombatNPC;
 import net.citizensnpcs.api.npc.NPC;
 
@@ -141,6 +142,7 @@ public final class ListenerJoin extends ExpansionListener {
                 printDebug("Teleporting player to last known location for NPC.");
                 player.teleport(location, TeleportCause.PLUGIN);
             }
+            
             playerData.set("citizens-compatibility.location", null);
         }
 
@@ -148,7 +150,6 @@ public final class ListenerJoin extends ExpansionListener {
             printDebug("Clearing player inventory.");
             PlayerInventory playerInventory = player.getInventory();
             playerInventory.clear();
-            player.updateInventory();
         }
 
         double health = combatNpcManager.loadHealth(player);
@@ -163,8 +164,8 @@ public final class ListenerJoin extends ExpansionListener {
 
         if(configuration.getBoolean("store-inventory")) {
             printDebug("Restoring player inventory if possible.");
-            combatNpcManager.restoreInventory(player);
-            player.updateInventory();
+            InventoryManager inventoryManager = expansion.getInventoryManager();
+            inventoryManager.restoreInventory(player);
         }
     }
 

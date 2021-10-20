@@ -1,6 +1,7 @@
 package combatlogx.expansion.compatibility.citizens.listener;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
@@ -15,6 +16,7 @@ import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
 import combatlogx.expansion.compatibility.citizens.manager.CombatNpcManager;
+import combatlogx.expansion.compatibility.citizens.manager.InventoryManager;
 import combatlogx.expansion.compatibility.citizens.object.CombatNPC;
 import net.citizensnpcs.api.event.DespawnReason;
 import net.citizensnpcs.api.event.NPCDamageByEntityEvent;
@@ -90,8 +92,12 @@ public final class ListenerDeath extends ExpansionListener {
 
         OfflinePlayer offlinePlayer = combatNPC.getOfflineOwner();
         if(despawnReason == DespawnReason.DEATH) {
-            printDebug("Despawn reason was death, drop NPC inventory.");
-            combatNpcManager.dropInventory(combatNPC);
+            Location location = combatNpcManager.getLocation(npc);
+            if(location != null) {
+                printDebug("Despawn reason was death, drop NPC inventory.");
+                InventoryManager inventoryManager = this.expansion.getInventoryManager();
+                inventoryManager.dropInventory(offlinePlayer, location);
+            }
         }
 
         if(despawnReason != DespawnReason.REMOVAL) {
