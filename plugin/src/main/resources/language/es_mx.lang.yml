@@ -26,6 +26,7 @@ combat-timer:
 error:
   player-only: "&cSolo jugadores pueden ejecutar este comando."
   invalid-target: "&7{target}&c no está conectado o no existe."
+  disabled-world: "%%red%%¡Ese comando no se encuentra disponible en esta dimensión!"
   no-permission: "&cPermiso faltante: &7{permission}"
   target-not-in-combat: "&7{target}&c no está en combate."
   self-not-in-combat: "&cNo estás en combate."
@@ -65,6 +66,31 @@ tagged:
     player: "&cEstás atacando a &f{enemy}&c. ¡No te desconectes!"
     mob: "&cEstás atacando un(os) &f{mob_type}&c.¡No te salgas!"
 expansion:
+  action-bar:
+    #Valid 'timer' placeholders: {time_left}, {time_left_decimal}, {bars}
+    timer: "&6&lCombate &7\u00BB &f{bars} &f{time_left_decimal} segundos."
+    ended: "&6&lCombate &7\u00BB &fYa no estás en combate."
+  boss-bar:
+    #Valid 'timer' placeholders: {time_left}, {time_left_decimal}
+    timer: "&6&lCombate &7\u00BB &c{time_left_decimal} segundos."
+    ended: "&6&lCombate &7\u00BB &aYa no estás en combate."
+  scoreboard:
+    #Make sure to follow your Spigot version's scoreboard character limit
+    title: "&6&lCombatLogX"
+    #Make sure to follow your Spigot version's scoreboard line/character limit
+    lines:
+      - "&f"
+      - "&f&lEstadísticas del combate"
+      - "&8\u00BB &f&lTiempo restante: &7{time_left}"
+      - "&8\u00BB &f&lEn Combate: &7{in_combat}"
+      - "&8\u00BB &f&lStatus: &7{status}"
+      - "&f"
+      - "&f&lEstadísticas del enemigo"
+      - "&8\u00BB &f&lNombre: &7{enemy_name}"
+      - "&8\u00BB &f&lVida: &7{enemy_health}"
+      - "&8\u00BB &f&lVidaR: &7{enemy_health_rounded}"
+      - "&8\u00BB &f&lCorazones: &7{enemy_hearts}"
+      - "&f"
   cheat-prevention:
     command-blocked: "&cNo tienes acceso al comando &a{command}&c durante este combate."
     no-riptide: "&cNo tienes permitido usar el encantamiento de Propulsión Acuática durante el combate."
