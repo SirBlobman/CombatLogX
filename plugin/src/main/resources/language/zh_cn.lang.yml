@@ -1,0 +1,168 @@
+---
+language-name: "zh_cn"
+decimal-format: "0.00"
+prefix: "&f&l[&6CombatLogX&f&l]&r"
+broadcast:
+  on-load: "&a&lCombatLogX 已成功加载。"
+  on-enable: "&a&lCombatLogX 已成功启用。"
+  on-disable: "&c&lCombatLogX 已成功禁用。"
+placeholder:
+  time-left-zero: "0"
+  unknown-enemy: "未知敌人"
+  status:
+    fighting: "&c战斗中"
+    idle: "&a空闲中"
+    in-combat: "&a是"
+    not-in-combat: "&c否"
+  toggle:
+    enabled: "&a开启"
+    disabled: "&c关闭"
+  pvp-status:
+    enabled: "&a开启"
+    disabled: "&c关闭"
+combat-timer:
+  expire: "&a您不再处于战斗状态。"
+  enemy-death: "&a您不再处于战斗状态，因为您的敌人已死亡。"
+error:
+  player-only: "&c此命令仅玩家可用。"
+  invalid-target: "&7{target}&c 不在线或不存在。"
+  no-permission: "&c缺少权限： &7{permission}"
+  target-not-in-combat: "&7{target}&c 未在战斗中。"
+  self-not-in-combat: "&a您未处于战斗状态。"
+  unknown-expansion: "&7{target}&c 不是扩展或未安装。"
+command:
+  combatlogx:
+    help-message-list:
+      - "&f"
+      - "&6&lCombatLogX 命令帮助："
+      - "  &f&l/CombatLogX help&7：查看该帮助页面。"
+      - "  &f&l/CombatLogX reload&7: 重新装入config.yml, language.yml和所有扩展配置文件。"
+      - "  &f&l/combatlogx about <expansion>&7: 检查扩展的信息。"
+      - "  &f&l/combatlogx tag <player>&7: 强制使玩家进入战斗状态。"
+      - "  &f&l/combatlogx toggle bossbar/actionbar/scoreboard&7: 启用或禁用通知类型。"
+      - "  &f&l/combatlogx untag <player>&7: 强制使玩家退出战斗状态。"
+      - "  &f&l/combatlogx version&7: 检查您的 CombatLogX 版本。"
+      - "&f"
+    reload-success:
+      - "&a成功重载 CombatLogX 中的所有配置文件。"
+      - "&a成功重载 CombatLogX 中的所有语言文件。"
+      - "&a成功重载 CombatLogX 中的所有扩展配置文件。"
+    tag-player: "&a成功强制玩家 &7{target}&a 进入战斗。"
+    tag-failure: "&7{target}&c 无法进入战斗。(或许他们被绕过了？)"
+    untag-player: "&a成功强制玩家 &7{target}&a 退出战斗。"
+    toggle-bossbar: "&7&lBoss 条: {status}"
+    toggle-actionbar: "&7&l快捷标题栏: {status}"
+    toggle-scoreboard: "&7记分板: {status}"
+  combat-timer:
+    time-left-self: "&a你还剩下&7{time_left} 秒。&a"
+    time-left-other: "&7{target}&a 还剩下&7{time_left} 秒。&a"
+tagged:
+  unknown: "&c您现在正在战斗中！不要登出。"
+  attacked:
+    player: "&c您正在被&f{enemy}&c攻击。不要登出！"
+    mob: "&c您正在被&f{mob_type}&c攻击。不要登出！"
+  attacker:
+    player: "&c你正在攻击&f{enemy}&c. 不要登出！"
+    mob: "&c你正在攻击一只&f{mob_type}&c. 不要登出！"
+expansion:
+  cheat-prevention:
+    command-blocked: "&c您不能在战斗中使用 &a{command}&c"
+    no-riptide: "&c战斗期间禁用 riptie 附魔。"
+    no-totem: "&c您不能在战斗中使用不死图腾。"
+    no-entity-interaction: "&c您不能在战斗中与那只怪物交互。"
+    no-chat: "&c您不能在战斗中发送聊天消息。"
+    game-mode:
+      force-switch: "&c您的游戏模式已被设置为 &f{game_mode}&c。"
+      no-switch: "&c您不能在战斗中更改游戏模式。"
+    flight:
+      force-disabled: "&c您的飞行能力已被移除。"
+      no-flying: "&c您不能在战斗中飞行。"
+    elytra:
+      force-disabled: "&c您的鞘翅已被禁用。"
+      no-gliding: "&c您不能在战斗中使用鞘翅。"
+    teleportation:
+      block-portal: "&c您不能在战斗中使用传送门。"
+      block-pearl: "&c您不能在战斗中使用末影珍珠。"
+      block-other: "&c您不能在战斗中进行传送。"
+    inventory:
+      force-closed: "&c您的物品栏已被关闭。"
+      no-opening: "&c您不能在战斗中打开物品栏。"
+    blocks:
+      prevent-breaking: "&c您不能在战斗中破坏方块。"
+      prevent-placing: "&c您不能在战斗中放置方块。"
+      prevent-interaction: "&c您不能在战斗中使用方块。"
+      prevent-portal-creation: "&c您不能在战斗中创建传送门。"
+    items:
+      no-pickup: "&c您不能在战斗中捡起物品。"
+      no-dropping: "&c您不能在战斗中丢弃物品。"
+    buckets:
+      no-empty: "&c您不能在战斗中将桶倒空。"
+      no-fill: "&c您不能在战斗中将桶装满。"
+  damage-tagger:
+    unknown-damage: "&c您受到伤害了！不要登出！"
+    damage-type:
+      contact: "&c您被仙人掌扎伤了。不要登出！"
+      suffocation: "&c您正在墙内窒息。不要登出！"
+      fall: "&c您受到了坠落伤害！不要登出！"
+      fire: "&c您走到了火里。不要登出！"
+      fire-tick: "&c您正在燃烧。 不要登出！"
+      lava: "&c您正在岩浆里游泳。不要登出！"
+      drowning: "&c您正在溺水。 不要登出！"
+      block-explosion: "&c您受到了爆炸伤害。不要登出！"
+      lightning: "&c您被闪电劈了！不要登出！"
+      starvation: "&c您太饿了。 不要登出！"
+      poison: "&c您受到了药水伤害。不要登出！"
+      magic: "&c有人向您扔药水。不要登出！"
+      wither: "&c您正在凋零。不要登出！"
+      falling-block: "&c方块砸到了你身上。不要登出！"
+      custom: "&c您受到了自定义伤害。不要登出！"
+      fly-into-wall: "&c你感受到了动能。不要登出！"
+      hot-floor: "&c地板是岩浆做的！不要登出！"
+      cramming: "&c您正在被压扁。不要注销！"
+  newbie-helper:
+    togglepvp:
+      self: "&7PVP: {status}"
+      admin: "&7您将 &e{target}&7 的 PVP 状态更改为 {status}&7。"
+      cooldown: "&c您必须等待 &7{time_left} 秒再使用此命令。"
+    no-pvp:
+      self: "&c您不能在PvP禁用时攻击该玩家。"
+      other: "&c该玩家已禁用PvP。"
+      protected: "&c那个玩家受到保护，你无法攻击他们！"
+    protection-disabled:
+      attacker: "&c您攻击了他人，您的新手保护已被禁用。"
+      expired: "&c您的新手保护已过期。"
+    check-format:
+      - "&f&l&7{target}&f& 的信息l:"
+      - "&f&保护: &7{protected}"
+      - "&f&lPvP: &7{pvp}"
+  loot-protection:
+    enemy-died: "&f{enemy} &a已经死亡。战利品将在 &f{time} 秒内受到保护。"
+    protected: "&c该物品目前受到保护，请等待 &f{time} 秒&c再来获取它。"
+  citizens-compatibility:
+    prevent-join: "&c您不能加入服务器，直到您的NPC 被杀死或被清除为止。"
+  disguise-compatibility:
+    remove-disguise: "&c您的伪装已移除。"
+  essentials-compatibility:
+    prevent-teleport-request-self: "&c您不能在战斗中创建传送请求。"
+    prevent-teleport-request-other: "&c您不能向战斗中的玩家发送传送请求。"
+  region-protection:
+    factions-no-entry: "&c您不能在战斗中进入那片区域。"
+    griefdefender-no-entry: "&c您不能在战斗中进入那片区域。"
+    griefprevention-no-entry: "&c您不能在战斗中进入那片区域。"
+    kingdomsx-no-entry: "&c您不能在战斗中进入那片区域。"
+    lands-no-entry: "&c您不能在战斗中进入那片区域。"
+    konquest-no-entry: "&c您不能在战斗中进入那片区域。"
+    redprotect-no-entry: "&c您不能在战斗中进入那片区域。"
+    residence-no-entry: "&c您不能在战斗中进入那片区域。"
+    towny-no-entry: "&c您不能在战斗中进入那片区域。"
+    ultimateclaims-no-entry: "&c您不能在战斗中进入那片区域。"
+    protectionstones:
+      prevent-area-creation: "&c您不能在战斗中创建保护区域。"
+      no-entry: "&c您不能在战斗中进入那片区域。"
+    preciousstones:
+      prevent-field-creation: "&c您不能在战斗中创建保护区域。"
+      no-entry: "&c您不能在战斗中进入那片区域。"
+    worldguard:
+      no-entry-mob-combat: "&c您不能在战斗中进入非怪物战斗区域。"
+      no-entry-player-combat: "&c您不能在战斗中进入非玩家战斗区域。"
+      no-entry-unknown-combat: "&c您不能在战斗中进入那片区域。"
