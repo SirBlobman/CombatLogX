@@ -27,7 +27,7 @@
         <dependency>
             <groupId>konquest</groupId>
             <artifactId>Konquest</artifactId>
-            <version>0.5.2</version>
+            <version>0.7.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

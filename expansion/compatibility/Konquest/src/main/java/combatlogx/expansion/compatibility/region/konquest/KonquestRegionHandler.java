@@ -26,7 +26,9 @@ public class KonquestRegionHandler extends RegionHandler {
         Konquest konquest = Konquest.getInstance();
         KingdomManager kingdomManager = konquest.getKingdomManager();
         KonTerritory chunkTerritory = kingdomManager.getChunkTerritory(location);
-        if(chunkTerritory == null) return false;
+        if(chunkTerritory == null) {
+            return false;
+        }
     
         KonKingdom locationKingdom = chunkTerritory.getKingdom();
         return (locationKingdom != null);
