@@ -16,11 +16,13 @@ import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
+import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.github.sirblobman.combatlogx.api.utility.EntityHelper;
+
+import org.jetbrains.annotations.Contract;
 
 public final class ListenerDamage extends CombatListener {
     public ListenerDamage(ICombatLogX plugin) {
@@ -48,13 +50,19 @@ public final class ListenerDamage extends CombatListener {
     @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
     public void onFish(PlayerFishEvent e) {
         YamlConfiguration configuration = getConfiguration();
-        if(!configuration.getBoolean("link-fishing-rod")) return;
+        if(!configuration.getBoolean("link-fishing-rod")) {
+            return;
+        }
 
         State state = e.getState();
-        if(state != State.CAUGHT_ENTITY) return;
+        if(state != State.CAUGHT_ENTITY) {
+            return;
+        }
 
         Entity caughtEntity = e.getCaught();
-        if(caughtEntity == null) return;
+        if(caughtEntity == null) {
+            return;
+        }
 
         Player player = e.getPlayer();
         checkTag(player, caughtEntity, TagReason.ATTACKER);
@@ -70,8 +78,11 @@ public final class ListenerDamage extends CombatListener {
         return getDamager(entity);
     }
 
+    @Contract("null -> null")
     private Entity getDamager(Entity entity) {
-        if(entity == null) return null;
+        if(entity == null) {
+            return null;
+        }
 
         ICombatLogX plugin = getCombatLogX();
         YamlConfiguration configuration = getConfiguration();
@@ -82,6 +93,10 @@ public final class ListenerDamage extends CombatListener {
 
         if(configuration.getBoolean("link-pets")) {
             entity = EntityHelper.linkPet(entity);
+        }
+        
+        if(configuration.getBoolean("link-tnt")) {
+            entity = EntityHelper.linkTNT(entity);
         }
 
         return entity;
