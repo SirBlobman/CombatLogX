@@ -17,14 +17,15 @@ import net.milkbowl.vault.economy.Economy;
 public final class HookVault {
     private final RewardExpansion expansion;
     private Economy economy;
+    
     public HookVault(RewardExpansion expansion) {
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
     }
-
+    
     public Economy getEconomyHandler() {
         return this.economy;
     }
-
+    
     public boolean setupEconomy() {
         Logger logger = this.expansion.getLogger();
         try {
@@ -34,14 +35,14 @@ public final class HookVault {
                 logger.warning("An economy plugin is not registered.");
                 return false;
             }
-
+            
             Plugin plugin = registration.getPlugin();
             PluginDescriptionFile description = plugin.getDescription();
             String fullName = description.getFullName();
-
+            
             this.economy = registration.getProvider();
             String economyName = this.economy.getName();
-
+            
             logger.info("Successfully hooked into economy handler '" + economyName + "' from plugin '" + fullName + "'.");
             return true;
         } catch(Exception ex) {

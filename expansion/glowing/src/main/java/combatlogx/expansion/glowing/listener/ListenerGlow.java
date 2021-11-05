@@ -13,14 +13,14 @@ public final class ListenerGlow extends ExpansionListener {
     public ListenerGlow(Expansion expansion) {
         super(expansion);
     }
-
-    @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
+    
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onTag(PlayerTagEvent e) {
         Player player = e.getPlayer();
         player.setGlowing(true);
     }
-
-    @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
+    
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onUntag(PlayerUntagEvent e) {
         Player player = e.getPlayer();
         player.setGlowing(false);

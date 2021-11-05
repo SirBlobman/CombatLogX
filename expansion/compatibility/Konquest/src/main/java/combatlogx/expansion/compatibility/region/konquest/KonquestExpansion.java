@@ -22,7 +22,7 @@ public final class KonquestExpansion extends RegionExpansion {
         if(this.regionHandler == null) {
             this.regionHandler = new KonquestRegionHandler(this);
         }
-    
+        
         return this.regionHandler;
     }
 }

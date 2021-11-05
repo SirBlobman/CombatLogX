@@ -24,109 +24,103 @@ import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 
 public abstract class Expansion implements IResourceHolder {
-    public enum State {
-        LOADED, UNLOADED, ENABLED, DISABLED
-    }
-
+    private final ICombatLogX plugin;
+    private final List<Listener> listenerList;
     private State state;
     private File dataFolder, file;
     private ExpansionLogger logger;
     private ExpansionDescription description;
     private ConfigurationManager configurationManager;
-
-    private final ICombatLogX plugin;
-    private final List<Listener> listenerList;
-
     public Expansion(ICombatLogX plugin) {
         this.plugin = Validate.notNull(plugin, "plugin must not be null!");
         this.listenerList = new ArrayList<>();
-
+        
         this.state = State.UNLOADED;
         this.description = null;
         this.dataFolder = null;
         this.file = null;
     }
-
+    
+    final List<Listener> getListeners() {
+        return this.listenerList;
+    }
+    
+    public final State getState() {
+        return this.state;
+    }
+    
+    final void setState(State state) {
+        this.state = Validate.notNull(state, "state must not be null!");
+    }
+    
+    public final ICombatLogX getPlugin() {
+        return this.plugin;
+    }
+    
+    public final Logger getLogger() {
+        if(this.logger == null) {
+            this.logger = new ExpansionLogger(this);
+        }
+        
+        return this.logger;
+    }
+    
+    public final ConfigurationManager getConfigurationManager() {
+        if(this.configurationManager == null) {
+            this.configurationManager = new ConfigurationManager(this);
+        }
+        
+        return this.configurationManager;
+    }
+    
+    public final File getDataFolder() {
+        return this.dataFolder;
+    }
+    
     final void setDataFolder(File dataFolder) {
         Validate.notNull(dataFolder, "dataFolder must not be null!");
         if(!dataFolder.isDirectory()) throw new IllegalArgumentException("dataFolder must be a directory!");
         this.dataFolder = dataFolder;
     }
-
+    
+    public final File getFile() {
+        return this.file;
+    }
+    
     final void setFile(File file) {
         Validate.notNull(file, "file must not be null!");
         if(file.isDirectory()) throw new IllegalArgumentException("file must not be a directory!");
         this.file = file;
     }
-
-    final void setDescription(ExpansionDescription description) {
-        this.description = Validate.notNull(description, "description must not be null!");
-    }
-
-    final List<Listener> getListeners() {
-        return this.listenerList;
-    }
-
-    final void setState(State state) {
-        this.state = Validate.notNull(state, "state must not be null!");
-    }
-
-    public final State getState() {
-        return this.state;
-    }
-
-    public final ICombatLogX getPlugin() {
-        return this.plugin;
-    }
-
-    public final Logger getLogger() {
-        if(this.logger == null) {
-            this.logger = new ExpansionLogger(this);
-        }
-
-        return this.logger;
-    }
-
-    public final ConfigurationManager getConfigurationManager() {
-        if(this.configurationManager == null) {
-            this.configurationManager = new ConfigurationManager(this);
-        }
-
-        return this.configurationManager;
-    }
-
-    public final File getDataFolder() {
-        return this.dataFolder;
-    }
-
-    public final File getFile() {
-        return this.file;
-    }
-
+    
     public final ExpansionDescription getDescription() {
         return this.description;
     }
-
+    
+    final void setDescription(ExpansionDescription description) {
+        this.description = Validate.notNull(description, "description must not be null!");
+    }
+    
     public final String getName() {
         ExpansionDescription description = getDescription();
         return description.getUnlocalizedName();
     }
-
+    
     public final String getPrefix() {
         ExpansionDescription description = getDescription();
         return description.getDisplayName();
     }
-
+    
     @Override
     public final InputStream getResource(String name) {
         Validate.notEmpty(name, "name cannot be null or empty!");
         try {
             Class<? extends Expansion> thisClass = getClass();
             URLClassLoader classLoader = (URLClassLoader) thisClass.getClassLoader();
-
+            
             URL url = classLoader.findResource(name);
             if(url == null) return null;
-
+            
             URLConnection connection = url.openConnection();
             connection.setUseCaches(false);
             return connection.getInputStream();
@@ -136,51 +130,51 @@ public abstract class Expansion implements IResourceHolder {
             return null;
         }
     }
-
+    
     protected final boolean checkDependency(String pluginName, boolean checkEnabled) {
         PluginManager pluginManager = Bukkit.getPluginManager();
         Logger logger = getLogger();
-
+        
         Plugin plugin = pluginManager.getPlugin(pluginName);
         if(plugin == null) {
             logger.warning("A dependency is not installed on the server: " + pluginName);
             return false;
         }
-
+        
         if(checkEnabled && !plugin.isEnabled()) {
             logger.warning("A dependency was found but it was not enabled: " + pluginName);
             return false;
         }
-
+        
         PluginDescriptionFile description = plugin.getDescription();
         String fullName = description.getFullName();
         logger.info("Successfully found a dependency: " + fullName);
         return true;
     }
-
+    
     protected final boolean checkDependency(String pluginName, boolean checkEnabled, String versionStartsWith) {
         if(!checkDependency(pluginName, checkEnabled)) return false;
         PluginManager pluginManager = Bukkit.getPluginManager();
         Logger logger = getLogger();
-
+        
         Plugin plugin = pluginManager.getPlugin(pluginName);
         if(plugin == null) return false;
-
+        
         PluginDescriptionFile description = plugin.getDescription();
         String version = description.getVersion();
         if(!version.startsWith(versionStartsWith)) {
             logger.info("Dependency '" + pluginName + "' is not the correct version!");
             return false;
         }
-
+        
         return true;
     }
-
+    
     protected final void registerListener(Listener listener) {
         ICombatLogX plugin = getPlugin();
         JavaPlugin javaPlugin = plugin.getPlugin();
         PluginManager pluginManager = Bukkit.getPluginManager();
-
+        
         pluginManager.registerEvents(listener, javaPlugin);
         this.listenerList.add(listener);
     }
@@ -190,9 +184,16 @@ public abstract class Expansion implements IResourceHolder {
         ExpansionManager expansionManager = plugin.getExpansionManager();
         expansionManager.disableExpansion(this);
     }
-
+    
     public abstract void onLoad();
+    
     public abstract void onEnable();
+    
     public abstract void onDisable();
+    
     public abstract void reloadConfig();
+    
+    public enum State {
+        LOADED, UNLOADED, ENABLED, DISABLED
+    }
 }

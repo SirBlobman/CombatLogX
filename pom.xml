@@ -33,7 +33,7 @@
             <id>sb-public-releases</id>
             <url>https://nexus.sirblobman.xyz/repository/public-releases/</url>
         </repository>
-        
+
         <!-- SirBlobman Snapshots -->
         <snapshotRepository>
             <id>sb-public-snapshots</id>

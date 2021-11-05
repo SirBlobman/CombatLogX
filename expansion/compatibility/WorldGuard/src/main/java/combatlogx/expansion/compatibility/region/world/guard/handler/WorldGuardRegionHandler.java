@@ -19,37 +19,41 @@ public final class WorldGuardRegionHandler extends RegionHandler {
     public WorldGuardRegionHandler(WorldGuardExpansion expansion) {
         super(expansion);
     }
-
+    
     @Override
     public String getEntryDeniedMessagePath(TagType tagType) {
         String tagTypeName = tagType.name();
         String tagTypeLower = tagTypeName.toLowerCase(Locale.US);
         return ("expansion.region-protection.worldguard.no-entry-" + tagTypeLower + "-combat");
     }
-
+    
     @Override
     public boolean isSafeZone(Player player, Location location, TagType tagType) {
         WorldGuardWrapper wrappedWorldGuard = WorldGuardWrapper.getInstance();
         IWrappedFlag<WrappedState> wrappedFlag = getFlag(tagType);
         if(wrappedFlag == null) return false;
-
+        
         Optional<WrappedState> optionalWrappedState = wrappedWorldGuard.queryFlag(player, location, wrappedFlag);
         if(optionalWrappedState.isPresent()) {
             WrappedState wrappedState = optionalWrappedState.get();
             return (wrappedState == WrappedState.DENY);
         }
-
+        
         return false;
     }
-
+    
     private IWrappedFlag<WrappedState> getFlag(TagType tagType) {
         switch(tagType) {
-            case PLAYER: return HookWorldGuard.PLAYER_COMBAT;
-            case MOB: return HookWorldGuard.MOB_COMBAT;
-            case UNKNOWN: return HookWorldGuard.UNKNOWN_COMBAT;
-            default: break;
+            case PLAYER:
+                return HookWorldGuard.PLAYER_COMBAT;
+            case MOB:
+                return HookWorldGuard.MOB_COMBAT;
+            case UNKNOWN:
+                return HookWorldGuard.UNKNOWN_COMBAT;
+            default:
+                break;
         }
-
+        
         return null;
     }
 }

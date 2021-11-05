@@ -14,18 +14,18 @@ public final class ListenerPunish extends CombatListener {
     public ListenerPunish(CombatPlugin plugin) {
         super(plugin);
     }
-
-    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+    
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void beforePunish(PlayerPunishEvent e) {
         UntagReason untagReason = e.getPunishReason();
         if(checkPunishment(untagReason)) return;
         e.setCancelled(true);
     }
-
+    
     private boolean checkPunishment(UntagReason reason) {
         ConfigurationManager configurationManager = getPluginConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("punish.yml");
-
+        
         if(reason == UntagReason.EXPIRE) return configuration.getBoolean("on-expire");
         if(reason == UntagReason.KICK) return configuration.getBoolean("on-kick");
         if(reason == UntagReason.QUIT) return configuration.getBoolean("on-disconnect");

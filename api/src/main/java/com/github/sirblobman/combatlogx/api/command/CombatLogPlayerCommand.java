@@ -18,12 +18,12 @@ import org.jetbrains.annotations.Nullable;
 
 public abstract class CombatLogPlayerCommand extends PlayerCommand {
     private final ICombatLogX plugin;
-
+    
     public CombatLogPlayerCommand(ICombatLogX plugin, String commandName) {
         super(plugin.getPlugin(), commandName);
         this.plugin = plugin;
     }
-
+    
     @NotNull
     @Override
     protected final LanguageManager getLanguageManager() {
@@ -39,7 +39,7 @@ public abstract class CombatLogPlayerCommand extends PlayerCommand {
     protected boolean execute(Player player, String[] args) {
         return false;
     }
-
+    
     protected final ICombatLogX getCombatLogX() {
         return this.plugin;
     }
@@ -48,19 +48,19 @@ public abstract class CombatLogPlayerCommand extends PlayerCommand {
         ICombatLogX plugin = getCombatLogX();
         return plugin.getExpansionManager();
     }
-
+    
     protected final String getMessageWithPrefix(@Nullable CommandSender sender, @NotNull String key,
                                                 @Nullable Replacer replacer, boolean color) {
         ICombatLogX plugin = getCombatLogX();
         LanguageManager languageManager = plugin.getLanguageManager();
-
+        
         String message = languageManager.getMessage(sender, key, replacer, color);
         if(message.isEmpty()) return "";
-
+        
         String prefix = languageManager.getMessage(sender, "prefix", null, true);
-        return (prefix.isEmpty() ? message : String.format(Locale.US,"%s %s", prefix, message));
+        return (prefix.isEmpty() ? message : String.format(Locale.US, "%s %s", prefix, message));
     }
-
+    
     protected final void sendMessageWithPrefix(@NotNull CommandSender sender, @NotNull String key,
                                                @Nullable Replacer replacer, boolean color) {
         String message = getMessageWithPrefix(sender, key, replacer, color);

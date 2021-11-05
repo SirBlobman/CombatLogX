@@ -15,15 +15,15 @@ public final class CustomLine {
         this.team = Validate.notNull(team, "team must not be null!");
         this.line = line;
     }
-
+    
     public ChatColor getChatColor() {
         return this.chatColor;
     }
-
+    
     public Team getTeam() {
         return this.team;
     }
-
+    
     public int getLine() {
         return this.line;
     }

@@ -87,7 +87,7 @@ public final class CommandCombatLogXVersion extends CombatLogCommand {
         JavaPlugin plugin = combatLogX.getPlugin();
         PluginDescriptionFile information = plugin.getDescription();
         messageList.add("&f&lDependency Information:");
-    
+        
         List<String> loadBeforeList = information.getLoadBefore();
         List<String> dependList = information.getDepend();
         List<String> softDependList = information.getSoftDepend();
@@ -140,7 +140,7 @@ public final class CommandCombatLogXVersion extends CombatLogCommand {
     private String getSpigotVersion() {
         ICombatLogX combatLogX = getCombatLogX();
         JavaPlugin plugin = combatLogX.getPlugin();
-    
+        
         CorePlugin corePlugin = JavaPlugin.getPlugin(CorePlugin.class);
         UpdateManager updateManager = corePlugin.getUpdateManager();
         String spigotVersion = updateManager.getSpigotVersion(plugin);

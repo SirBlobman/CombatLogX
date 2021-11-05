@@ -25,47 +25,49 @@ public final class ListenerBSkyBlock extends ExpansionListener {
     public ListenerBSkyBlock(Expansion expansion) {
         super(expansion);
     }
-
-    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+    
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void beforeTag(PlayerPreTagEvent e) {
         LivingEntity enemy = e.getEnemy();
         if(!(enemy instanceof Player playerEnemy)) return;
-
+        
         Player player = e.getPlayer();
         if(doesTeamMatch(player, playerEnemy)) e.setCancelled(true);
     }
-
+    
     private Island getIsland(Player player) {
         if(player == null) return null;
-
+        
         UUID uuid = player.getUniqueId();
         World world = player.getWorld();
-
+        
         BentoBox bentoBox = JavaPlugin.getPlugin(BentoBox.class);
         AddonsManager addonsManager = bentoBox.getAddonsManager();
         Optional<Addon> optionalAddon = addonsManager.getAddonByName("BSkyBlock");
-
+        
         if(optionalAddon.isPresent()) {
             Addon addon = optionalAddon.get();
             IslandsManager islandManager = addon.getIslands();
             return islandManager.getIsland(world, uuid);
         }
-
+        
         return null;
     }
-
+    
     private boolean doesTeamMatch(Player player1, Player player2) {
-        World world1 = player1.getWorld(); UUID worldId1 = world1.getUID();
-        World world2 = player2.getWorld(); UUID worldId2 = world2.getUID();
+        World world1 = player1.getWorld();
+        UUID worldId1 = world1.getUID();
+        World world2 = player2.getWorld();
+        UUID worldId2 = world2.getUID();
         if(!worldId1.equals(worldId2)) return false;
-
+        
         UUID uuid1 = player1.getUniqueId();
         UUID uuid2 = player2.getUniqueId();
         if(uuid1.equals(uuid2)) return true;
-
+        
         Island island = getIsland(player1);
         if(island == null) return false;
-
+        
         Set<UUID> memberSet = island.getMemberSet();
         return memberSet.contains(uuid2);
     }

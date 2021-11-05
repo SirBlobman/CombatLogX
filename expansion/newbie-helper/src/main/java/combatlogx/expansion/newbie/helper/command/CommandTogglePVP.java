@@ -132,7 +132,7 @@ public final class CommandTogglePVP extends CombatLogCommand {
         String targetName = target.getName();
         LanguageManager languageManager = getLanguageManager();
         NewbieHelperExpansion expansion = getExpansion();
-    
+        
         ProtectionManager protectionManager = expansion.getProtectionManager();
         PVPManager pvpManager = expansion.getPVPManager();
         boolean targetProtected = protectionManager.isProtected(target);

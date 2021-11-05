@@ -22,56 +22,56 @@ public final class ListenerTeleport extends CheatPreventionListener {
     public ListenerTeleport(Expansion expansion) {
         super(expansion);
     }
-
-    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+    
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onTeleport(PlayerTeleportEvent e) {
         Player player = e.getPlayer();
         if(!isInCombat(player)) return;
-
+        
         checkPrevention(e);
         checkEnderPearlRetag(e);
         checkUntag(e);
     }
-
-    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+    
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPortal(PlayerPortalEvent e) {
         Player player = e.getPlayer();
         if(!isInCombat(player)) return;
-
+        
         YamlConfiguration configuration = getConfiguration();
         if(configuration.getBoolean("prevent-portals")) {
             e.setCancelled(true);
             sendMessage(player, "expansion.cheat-prevention.teleportation.block-portal", null);
         }
     }
-
+    
     private YamlConfiguration getConfiguration() {
         ConfigurationManager configurationManager = getExpansionConfigurationManager();
         return configurationManager.get("teleportation.yml");
     }
-
+    
     private boolean isAllowed() {
         YamlConfiguration configuration = getConfiguration();
         return !configuration.getBoolean("prevent-teleportation");
     }
-
+    
     private boolean isAllowed(TeleportCause teleportCause) {
         String teleportCauseName = teleportCause.name();
         YamlConfiguration configuration = getConfiguration();
         List<String> allowedTeleportCauseList = configuration.getStringList("allowed-teleport-cause-list");
         return allowedTeleportCauseList.contains(teleportCauseName);
     }
-
+    
     private boolean shouldRetag() {
         YamlConfiguration configuration = getConfiguration();
         return configuration.getBoolean("ender-pearl-retag");
     }
-
+    
     private boolean shouldUntag() {
         YamlConfiguration configuration = getConfiguration();
         return configuration.getBoolean("untag");
     }
-
+    
     private void checkPrevention(PlayerTeleportEvent e) {
         printDebug("Checking if teleport event should be prevented...");
         if(e.isCancelled()) {
@@ -89,15 +89,15 @@ public final class ListenerTeleport extends CheatPreventionListener {
             printDebug("Teleportation cause '" + teleportCause + "' is allowed by the config.");
             return;
         }
-
+        
         printDebug("Cancelling teleport event.");
         e.setCancelled(true);
-    
+        
         Player player = e.getPlayer();
         String messagePath = getMessagePath(teleportCause);
         sendMessage(player, messagePath, null);
     }
-
+    
     private void checkEnderPearlRetag(PlayerTeleportEvent e) {
         printDebug("Checking if ender pearl should re-tag player...");
         if(!shouldRetag()) {
@@ -122,7 +122,7 @@ public final class ListenerTeleport extends CheatPreventionListener {
         combatManager.tag(player, enemy, TagType.UNKNOWN, TagReason.UNKNOWN);
         printDebug("Player will be re-tagged. Done.");
     }
-
+    
     private void checkUntag(PlayerTeleportEvent e) {
         printDebug("Checking if player should be untagged by teleport event...");
         if(!shouldUntag()) {
@@ -134,7 +134,7 @@ public final class ListenerTeleport extends CheatPreventionListener {
             printDebug("Event was cancelled, not untagging.");
             return;
         }
-    
+        
         TeleportCause teleportCause = e.getCause();
         if(teleportCause == TeleportCause.UNKNOWN) {
             printDebug("Teleport cause was unknown, not untagging.");

@@ -19,7 +19,7 @@ public final class CommandHelper {
             logger.log(Level.SEVERE, "Failed to execute command '/" + command + "' in console:", ex);
         }
     }
-
+    
     public static void runAsPlayer(ICombatLogX plugin, Player player, String command) {
         try {
             player.performCommand(command);
@@ -29,13 +29,13 @@ public final class CommandHelper {
             logger.log(Level.SEVERE, "Failed to execute command '/" + command + "' as player '" + playerName + "':", ex);
         }
     }
-
+    
     public static void runAsOperator(ICombatLogX plugin, Player player, String command) {
         if(player.isOp()) {
             runAsPlayer(plugin, player, command);
             return;
         }
-
+        
         try {
             player.setOp(true);
             player.performCommand(command);

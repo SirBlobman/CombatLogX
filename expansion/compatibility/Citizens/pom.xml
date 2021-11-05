@@ -11,7 +11,8 @@
 
     <artifactId>Citizens</artifactId>
     <name>Compatibility Expansion: Citizens</name>
-    <description>An expansion for CombatLogX that spawns combat NPCs and adds compatibility with the Citizens plugin.</description>
+    <description>An expansion for CombatLogX that spawns combat NPCs and adds compatibility with the Citizens plugin.
+    </description>
 
     <properties>
         <spigot.version>1.11.2-R0.1-SNAPSHOT</spigot.version>

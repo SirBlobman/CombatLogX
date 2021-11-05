@@ -40,17 +40,17 @@ public final class InventoryManager {
         if(player.hasMetadata("NPC")) {
             throw new IllegalArgumentException("player must not be an NPC!");
         }
-    
+        
         PlayerInventory playerInventory = player.getInventory();
         StoredInventory storedInventory = StoredInventory.createFrom(playerInventory);
         
         UUID playerId = player.getUniqueId();
         this.storedInventoryMap.put(playerId, storedInventory);
-    
+        
         PlayerDataManager playerDataManager = getPlayerDataManager();
         YamlConfiguration configuration = playerDataManager.get(player);
         ConfigurationSection section = configuration.createSection("citizens-compatibility.stored-inventory");
-    
+        
         CitizensExpansion expansion = getExpansion();
         storedInventory.save(expansion, section);
         playerDataManager.save(player);
@@ -72,7 +72,7 @@ public final class InventoryManager {
         if(section == null) {
             return null;
         }
-    
+        
         CitizensExpansion expansion = getExpansion();
         return StoredInventory.createFrom(expansion, section);
     }
@@ -108,7 +108,7 @@ public final class InventoryManager {
             ItemStack item = storedInventory.getItem(slot);
             playerInventory.setItem(slot, item);
         }
-    
+        
         playerInventory.setHelmet(storedInventory.getArmor(ArmorType.HELMET));
         playerInventory.setChestplate(storedInventory.getArmor(ArmorType.CHESTPLATE));
         playerInventory.setLeggings(storedInventory.getArmor(ArmorType.LEGGINGS));
@@ -131,12 +131,12 @@ public final class InventoryManager {
         
         World world = location.getWorld();
         Validate.notNull(world, "location must have a valid world!");
-    
+        
         StoredInventory storedInventory = getStoredInventory(player);
         if(storedInventory == null) {
             return;
         }
-    
+        
         for(int slot = 0; slot < 36; slot++) {
             ItemStack item = storedInventory.getItem(slot);
             if(item != null) {
@@ -163,7 +163,7 @@ public final class InventoryManager {
     public void equipNPC(OfflinePlayer player, NPC npc) {
         Validate.notNull(player, "player must not be null!");
         Validate.notNull(npc, "npc must not be null!");
-    
+        
         Equipment equipmentTrait = npc.getOrAddTrait(Equipment.class);
         StoredInventory storedInventory = getStoredInventory(player);
         if(storedInventory == null) {
@@ -228,12 +228,18 @@ public final class InventoryManager {
         }
         
         switch(slot) {
-            case HEAD: return EquipmentSlot.HELMET;
-            case CHEST: return EquipmentSlot.CHESTPLATE;
-            case LEGS: return EquipmentSlot.LEGGINGS;
-            case FEET: return EquipmentSlot.BOOTS;
-            case HAND: return EquipmentSlot.HAND;
-            default: return null;
+            case HEAD:
+                return EquipmentSlot.HELMET;
+            case CHEST:
+                return EquipmentSlot.CHESTPLATE;
+            case LEGS:
+                return EquipmentSlot.LEGGINGS;
+            case FEET:
+                return EquipmentSlot.BOOTS;
+            case HAND:
+                return EquipmentSlot.HAND;
+            default:
+                return null;
         }
     }
 }

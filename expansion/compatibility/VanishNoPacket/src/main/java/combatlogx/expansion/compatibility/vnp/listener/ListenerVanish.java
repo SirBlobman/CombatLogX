@@ -19,14 +19,14 @@ public final class ListenerVanish extends ExpansionListener {
     public ListenerVanish(VanishNoPacketExpansion expansion) {
         super(expansion);
     }
-
-    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+    
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void beforeCombat(PlayerPreTagEvent e) {
         Player player = e.getPlayer();
         if(isVanished(player) && preventVanishSelfTag()) {
             e.setCancelled(true);
         }
-
+        
         LivingEntity enemy = e.getEnemy();
         if(enemy instanceof Player) {
             Player other = (Player) enemy;
@@ -35,22 +35,22 @@ public final class ListenerVanish extends ExpansionListener {
             }
         }
     }
-
+    
     private YamlConfiguration getConfiguration() {
         ConfigurationManager configurationManager = getExpansionConfigurationManager();
         return configurationManager.get("config.yml");
     }
-
+    
     private boolean preventVanishSelfTag() {
         YamlConfiguration configuration = getConfiguration();
         return configuration.getBoolean("prevent-vanish-tagging-self");
     }
-
+    
     private boolean preventVanishOtherTag() {
         YamlConfiguration configuration = getConfiguration();
         return configuration.getBoolean("prevent-vanish-tagging-other");
     }
-
+    
     private boolean isVanished(Player player) {
         VanishPlugin vanishPlugin = JavaPlugin.getPlugin(VanishPlugin.class);
         VanishManager vanishManager = vanishPlugin.getManager();

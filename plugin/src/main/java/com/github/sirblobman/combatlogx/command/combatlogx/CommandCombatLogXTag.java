@@ -38,20 +38,20 @@ public final class CommandCombatLogXTag extends CombatLogCommand {
         if(args.length < 1) {
             return false;
         }
-    
+        
         Player target = findTarget(sender, args[0]);
         if(target == null) {
             return true;
         }
-    
+        
         String targetName = target.getName();
         Replacer replacer = message -> message.replace("{target}", targetName);
-    
+        
         ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = plugin.getCombatManager();
         boolean successfulTag = combatManager.tag(target, null, TagType.UNKNOWN, TagReason.UNKNOWN);
         String messagePath = ("command.combatlogx." + (successfulTag ? "tag-player" : "tag-failure"));
-    
+        
         sendMessageWithPrefix(sender, messagePath, replacer, true);
         return true;
     }

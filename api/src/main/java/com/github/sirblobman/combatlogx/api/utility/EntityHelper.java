@@ -40,17 +40,17 @@ public final class EntityHelper {
         
         return (Entity) animalTamer;
     }
-
+    
     public static Entity linkProjectile(ICombatLogX plugin, Entity original) {
         if(!(original instanceof Projectile)) {
             return original;
         }
-
+        
         Projectile projectile = (Projectile) original;
         if(isProjectileIgnored(plugin, projectile)) {
             return original;
         }
-
+        
         ProjectileSource shooter = projectile.getShooter();
         if(!(shooter instanceof Entity)) {
             return original;
@@ -58,7 +58,7 @@ public final class EntityHelper {
         
         return (Entity) shooter;
     }
-
+    
     public static boolean isNPC(@Nullable Entity entity) {
         if(entity == null) {
             return false;
@@ -66,19 +66,19 @@ public final class EntityHelper {
         
         return entity.hasMetadata("NPC");
     }
-
+    
     private static boolean isProjectileIgnored(ICombatLogX plugin, Projectile projectile) {
         if(projectile == null) {
             return true;
         }
-
+        
         ConfigurationManager configurationManager = plugin.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
         List<String> ignoredProjectileTypeList = configuration.getStringList("ignored-projectiles");
         if(ignoredProjectileTypeList.isEmpty()) {
             return false;
         }
-
+        
         EntityType projectileType = projectile.getType();
         String projectileTypeName = projectileType.name();
         return ignoredProjectileTypeList.contains(projectileTypeName);

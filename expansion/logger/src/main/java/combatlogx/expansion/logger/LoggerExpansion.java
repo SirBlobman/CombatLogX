@@ -10,23 +10,23 @@ public final class LoggerExpansion extends Expansion {
     public LoggerExpansion(ICombatLogX plugin) {
         super(plugin);
     }
-
+    
     @Override
     public void onLoad() {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.saveDefault("config.yml");
     }
-
+    
     @Override
     public void onEnable() {
         new ListenerLogger(this).register();
     }
-
+    
     @Override
     public void onDisable() {
         // Do Nothing
     }
-
+    
     @Override
     public void reloadConfig() {
         ConfigurationManager configurationManager = getConfigurationManager();

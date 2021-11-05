@@ -11,7 +11,8 @@
 
     <artifactId>rewards</artifactId>
     <name>Expansion: Rewards</name>
-    <description>An expansion for CombatLogX that gives rewards to players for killing other players and mobs.</description>
+    <description>An expansion for CombatLogX that gives rewards to players for killing other players and mobs.
+    </description>
 
     <repositories>
         <!-- SirBlobman Public Repository -->

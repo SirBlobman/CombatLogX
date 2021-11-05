@@ -15,16 +15,16 @@ public final class ListenerPreciousStones extends ExpansionListener {
     public ListenerPreciousStones(PreciousStonesExpansion expansion) {
         super(expansion);
     }
-
-    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+    
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void beforeFieldCreation(FieldPreCreationEvent e) {
         Player player = e.getPlayer();
         if(!isInCombat(player)) return;
-
+        
         ConfigurationManager configurationManager = getExpansionConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
         if(!configuration.getBoolean("prevent-field-creation")) return;
-
+        
         e.setCancelled(true);
         LanguageManager languageManager = getLanguageManager();
         languageManager.sendMessage(player, "expansion.region-protection.preciousstones.prevent-field-creation",

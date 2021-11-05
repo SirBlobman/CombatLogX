@@ -10,7 +10,7 @@ public class IridiumSkyblockExpansion extends Expansion {
     public IridiumSkyblockExpansion(ICombatLogX plugin) {
         super(plugin);
     }
-
+    
     @Override
     public void onEnable() {
         if(!checkDependency("IridiumSkyblock", true)) {
@@ -19,20 +19,20 @@ public class IridiumSkyblockExpansion extends Expansion {
             expansionManager.disableExpansion(this);
             return;
         }
-
+        
         new ListenerIridiumSkyblock(this).register();
     }
-
+    
     @Override
     public void onLoad() {
         // Do Nothing
     }
-
+    
     @Override
     public void onDisable() {
         // Do Nothing
     }
-
+    
     @Override
     public void reloadConfig() {
         // Do Nothing

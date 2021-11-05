@@ -8,12 +8,12 @@ public final class PlaceholderAPIExpansion extends Expansion {
     public PlaceholderAPIExpansion(ICombatLogX plugin) {
         super(plugin);
     }
-
+    
     @Override
     public void onLoad() {
         // Do Nothing
     }
-
+    
     @Override
     public void onEnable() {
         if(!checkDependency("PlaceholderAPI", true)) {
@@ -22,16 +22,16 @@ public final class PlaceholderAPIExpansion extends Expansion {
             expansionManager.disableExpansion(this);
             return;
         }
-
+        
         HookPlaceholderAPI hook = new HookPlaceholderAPI(this);
         hook.register();
     }
-
+    
     @Override
     public void onDisable() {
         // Do Nothing
     }
-
+    
     @Override
     public void reloadConfig() {
         // Do Nothing

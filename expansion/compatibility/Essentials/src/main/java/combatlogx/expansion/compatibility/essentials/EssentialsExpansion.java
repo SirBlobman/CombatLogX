@@ -11,13 +11,13 @@ public final class EssentialsExpansion extends Expansion {
     public EssentialsExpansion(ICombatLogX plugin) {
         super(plugin);
     }
-
+    
     @Override
     public void onLoad() {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.saveDefault("config.yml");
     }
-
+    
     @Override
     public void onEnable() {
         if(!checkDependency("Essentials", true)) {
@@ -26,15 +26,15 @@ public final class EssentialsExpansion extends Expansion {
             expansionManager.disableExpansion(this);
             return;
         }
-
+        
         new ListenerEssentials(this).register();
     }
-
+    
     @Override
     public void onDisable() {
         // Do Nothing
     }
-
+    
     @Override
     public void reloadConfig() {
         ConfigurationManager configurationManager = getConfigurationManager();

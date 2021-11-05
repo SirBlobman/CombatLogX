@@ -11,7 +11,8 @@
 
     <artifactId>MVdWPlaceholderAPI</artifactId>
     <name>Compatibility Expansion: MVdWPlaceholderAPI</name>
-    <description>An expansion for CombatLogX that adds placeholders to plugins that use MVdWPlaceholderAPI.</description>
+    <description>An expansion for CombatLogX that adds placeholders to plugins that use MVdWPlaceholderAPI.
+    </description>
 
     <repositories>
         <!-- MVdW Software Repository -->

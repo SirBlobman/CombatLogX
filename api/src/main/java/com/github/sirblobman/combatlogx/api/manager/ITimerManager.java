@@ -11,9 +11,10 @@ public interface ITimerManager {
      * @return A {@link Set} of {@link TimerUpdater}s that are currently registerd.
      */
     Set<TimerUpdater> getTimerUpdaters();
-
+    
     /**
      * Register a {@link TimerUpdater} instance.
+     *
      * @param task The instance to register.
      */
     void addUpdaterTask(TimerUpdater task);

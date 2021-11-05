@@ -120,7 +120,7 @@ public final class ListenerDamage extends ExpansionListener {
             if(shouldRemoveProtectionOnAttack()) {
                 protectionManager.setProtected(attacker, false);
                 String messagePath = ("expansion.newbie-helper.protection-disabled.attacker");
-                sendMessageWithPrefix(attacker, messagePath,null, true);
+                sendMessageWithPrefix(attacker, messagePath, null, true);
             }
         }
     }

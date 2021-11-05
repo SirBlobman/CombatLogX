@@ -18,9 +18,9 @@ import combatlogx.expansion.compatibility.citizens.manager.InventoryManager;
 public final class CitizensExpansion extends Expansion {
     private final CombatNpcManager combatNpcManager;
     private final InventoryManager inventoryManager;
-
+    
     private boolean sentinelEnabled;
-
+    
     public CitizensExpansion(ICombatLogX plugin) {
         super(plugin);
         
@@ -29,7 +29,7 @@ public final class CitizensExpansion extends Expansion {
         
         this.sentinelEnabled = false;
     }
-
+    
     @Override
     public void onLoad() {
         ConfigurationManager configurationManager = getConfigurationManager();
@@ -37,24 +37,24 @@ public final class CitizensExpansion extends Expansion {
         configurationManager.saveDefault("citizens.yml");
         configurationManager.saveDefault("sentinel.yml");
     }
-
+    
     @Override
     public void onEnable() {
         if(!checkDependency("Citizens", true, "2.0.28")) {
             selfDisable();
             return;
         }
-
+        
         this.sentinelEnabled = checkDependency("Sentinel", true);
         registerListeners();
     }
-
+    
     @Override
     public void onDisable() {
         CombatNpcManager combatNpcManager = getCombatNpcManager();
         combatNpcManager.removeAll();
     }
-
+    
     @Override
     public void reloadConfig() {
         ConfigurationManager configurationManager = getConfigurationManager();
@@ -62,7 +62,7 @@ public final class CitizensExpansion extends Expansion {
         configurationManager.reload("citizens.yml");
         configurationManager.reload("sentinel.yml");
     }
-
+    
     public CombatNpcManager getCombatNpcManager() {
         return this.combatNpcManager;
     }
@@ -70,12 +70,12 @@ public final class CitizensExpansion extends Expansion {
     public InventoryManager getInventoryManager() {
         return this.inventoryManager;
     }
-
+    
     public boolean isSentinelEnabled() {
         if(!this.sentinelEnabled) {
             return false;
         }
-
+        
         ConfigurationManager configurationManager = getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
         return configuration.getBoolean("enable-sentinel");
@@ -86,7 +86,7 @@ public final class CitizensExpansion extends Expansion {
         new ListenerDeath(this).register();
         new ListenerJoin(this).register();
         new ListenerPunish(this).register();
-    
+        
         // Totem of Undying was added in 1.11.
         int minorVersion = VersionUtility.getMinorVersion();
         if(minorVersion >= 11) {

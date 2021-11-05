@@ -19,18 +19,18 @@ import com.github.sirblobman.combatlogx.api.object.TagType;
 
 public final class RegionVulnerableListener extends ExpansionListener {
     private final RegionExpansion regionExpansion;
-
+    
     public RegionVulnerableListener(RegionExpansion expansion) {
         super(expansion);
         this.regionExpansion = expansion;
     }
-
-    @EventHandler(priority=EventPriority.HIGHEST)
+    
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onDamage(EntityDamageByEntityEvent e) {
         RegionHandler regionHandler = this.regionExpansion.getRegionHandler();
         NoEntryMode noEntryMode = regionHandler.getNoEntryMode();
         if(noEntryMode != NoEntryMode.VULNERABLE) return;
-
+        
         Entity damaged = e.getEntity();
         Player player = getPlayerOrPassenger(damaged);
         if(player == null) return;
@@ -39,14 +39,14 @@ public final class RegionVulnerableListener extends ExpansionListener {
             ICombatManager combatManager = getCombatManager();
             LivingEntity enemy = combatManager.getEnemy(player);
             TagType tagType = getTagType(enemy);
-
+            
             Location location = player.getLocation();
             if(regionHandler.isSafeZone(player, location, tagType)) {
                 e.setCancelled(false);
             }
         }
     }
-
+    
     private TagType getTagType(LivingEntity enemy) {
         if(enemy == null) return TagType.UNKNOWN;
         if(enemy instanceof Player) return TagType.PLAYER;

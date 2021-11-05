@@ -14,13 +14,13 @@ public final class ProtectionStonesListener extends ExpansionListener {
     public ProtectionStonesListener(Expansion expansion) {
         super(expansion);
     }
-
-    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+    
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onCreateRegion(PSCreateEvent e) {
         Player player = e.getPlayer();
         if(!isInCombat(player)) return;
         e.setCancelled(true);
-
+        
         LanguageManager languageManager = getLanguageManager();
         languageManager.sendMessage(player, "expansion.region-protection.protectionstones.prevent-area-creation",
                 null, true);

@@ -66,7 +66,7 @@ public final class CommandCombatLogXAbout extends CombatLogCommand {
         List<String> authorList = information.getAuthors();
         String authorString = String.join(", ", authorList);
         String version = information.getVersion();
-    
+        
         List<String> messageList = new ArrayList<>();
         messageList.add("&f");
         messageList.add("&f&lExpansion Information for &a" + name + "&f&l:");
@@ -86,7 +86,7 @@ public final class CommandCombatLogXAbout extends CombatLogCommand {
     private Set<String> getExpansionNames() {
         ExpansionManager expansionManager = getExpansionManager();
         Set<String> expansionNameSet = new HashSet<>();
-    
+        
         List<Expansion> expansionList = expansionManager.getAllExpansions();
         for(Expansion expansion : expansionList) {
             String expansionName = expansion.getName();

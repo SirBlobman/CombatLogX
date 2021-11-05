@@ -9,13 +9,13 @@ public final class MythicMobsExpansion extends Expansion {
     public MythicMobsExpansion(ICombatLogX plugin) {
         super(plugin);
     }
-
+    
     @Override
     public void onLoad() {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.saveDefault("config.yml");
     }
-
+    
     @Override
     public void onEnable() {
         if(!checkDependency("MythicMobs", true, "4.13")) {
@@ -24,15 +24,15 @@ public final class MythicMobsExpansion extends Expansion {
             expansionManager.disableExpansion(this);
             return;
         }
-
+        
         new ListenerMythicMobs(this).register();
     }
-
+    
     @Override
     public void onDisable() {
         // Do Nothing
     }
-
+    
     @Override
     public void reloadConfig() {
         ConfigurationManager configurationManager = getConfigurationManager();

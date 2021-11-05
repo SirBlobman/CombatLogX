@@ -38,7 +38,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.4</version>
-                
+
                 <configuration>
                     <relocations>
                         <relocation>
@@ -46,7 +46,7 @@
                             <shadedPattern>combatlogx.expansion.compatibility.region.world.guard.wrapper</shadedPattern>
                         </relocation>
                     </relocations>
-                    
+
                     <filters>
                         <filter>
                             <artifact>org.codemc.worldguardwrapper:worldguardwrapper</artifact>
@@ -56,7 +56,7 @@
                         </filter>
                     </filters>
                 </configuration>
-                
+
                 <executions>
                     <execution>
                         <phase>package</phase>

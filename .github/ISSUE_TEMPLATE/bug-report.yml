@@ -8,7 +8,7 @@ body:
       value: |-
         Please fill out the following form to the best of your ability.
         The better you fill this out, the faster we can resolve the problem.
-  
+
   - type: dropdown
     attributes:
       label: Server Implementation
@@ -21,7 +21,7 @@ body:
         - Paper
     validations:
       required: true
-  
+
   - type: dropdown
     attributes:
       label: Server Version
@@ -36,14 +36,14 @@ body:
         - 1.8.8
     validations:
       required: true
-  
+
   - type: textarea
     attributes:
       label: Describe the bug
       description: A clear and concise description of what the bug is.
     validations:
       required: true
-  
+
   - type: textarea
     attributes:
       label: Reproduction Steps
@@ -55,26 +55,26 @@ body:
         4. See error
     validations:
       required: true
-  
+
   - type: textarea
     attributes:
       label: Expected behaviour
       description: A clear and concise description of what you expected to happen.
     validations:
       required: true
-  
+
   - type: textarea
     attributes:
       label: Screenshots / Videos
       description: 'If applicable, add screenshots to help explain your problem.'
-  
+
   - type: input
     attributes:
       label: latest log file (if applicable)
       description: >-
         Please upload your '/logs/latest.log' file to a paste service and post
         the link here.
-  
+
   - type: textarea
     attributes:
       label: CombatLogX Version
@@ -83,7 +83,7 @@ body:
         here.
     validations:
       required: true
-  
+
   - type: textarea
     attributes:
       label: Anything else?

@@ -25,40 +25,40 @@ public final class GriefDefenderRegionHandler extends RegionHandler {
     public GriefDefenderRegionHandler(GriefDefenderExpansion expansion) {
         super(expansion);
     }
-
+    
     @Override
     public String getEntryDeniedMessagePath(TagType tagType) {
         return "expansion.region-protection.griefdefender-no-entry";
     }
-
+    
     @Override
     @SuppressWarnings("UnstableApiUsage")
     public boolean isSafeZone(Player player, Location location, TagType tagType) {
         if(tagType != TagType.PLAYER) return false;
-
+        
         Claim claim = getClaimAt(location);
         if(claim == null) return false;
-
+        
         UUID uuid = player.getUniqueId();
         Core core = GriefDefender.getCore();
         User user = core.getUser(uuid);
-
+        
         Set<Context> contexts = Collections.emptySet();
         TypeToken<Tristate> typeTokenTristate = TypeToken.of(Tristate.class);
         Tristate activeOptionValue = claim.getActiveOptionValue(typeTokenTristate, Options.PVP, user, contexts);
-
+        
         return (activeOptionValue != Tristate.TRUE);
     }
-
+    
     private Claim getClaimAt(Location location) {
         World world = location.getWorld();
         if(world == null) return null;
-
+        
         UUID worldId = world.getUID();
         int x = location.getBlockX();
         int y = location.getBlockY();
         int z = location.getBlockZ();
-
+        
         Core core = GriefDefender.getCore();
         ClaimManager claimManager = core.getClaimManager(worldId);
         return claimManager.getClaimAt(x, y, z);

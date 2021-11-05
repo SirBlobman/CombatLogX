@@ -17,7 +17,7 @@ public final class ListenerModernPortalCreate extends CheatPreventionListener {
         super(expansion);
     }
     
-    @EventHandler(priority= EventPriority.NORMAL, ignoreCancelled=true)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPortalCreate(PortalCreateEvent e) {
         Entity entity = e.getEntity();
         if(!(entity instanceof Player)) return;

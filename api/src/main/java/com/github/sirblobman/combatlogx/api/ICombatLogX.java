@@ -19,31 +19,46 @@ import com.github.sirblobman.combatlogx.api.manager.ITimerManager;
 
 public interface ICombatLogX extends IResourceHolder {
     JavaPlugin getPlugin();
+    
     ClassLoader getPluginClassLoader();
-
+    
     YamlConfiguration getConfig(String fileName);
+    
     void reloadConfig(String fileName);
+    
     void saveConfig(String fileName);
+    
     void saveDefaultConfig(String fileName);
-
+    
     YamlConfiguration getData(OfflinePlayer player);
+    
     void saveData(OfflinePlayer player);
-
+    
     MultiVersionHandler getMultiVersionHandler();
+    
     ConfigurationManager getConfigurationManager();
+    
     PlayerDataManager getPlayerDataManager();
+    
     LanguageManager getLanguageManager();
-
+    
     ExpansionManager getExpansionManager();
+    
     ICombatManager getCombatManager();
+    
     ITimerManager getTimerManager();
+    
     IPunishManager getPunishManager();
+    
     IDeathListener getDeathListener();
-
+    
     String getMessageWithPrefix(CommandSender sender, String key, Replacer replacer, boolean color);
+    
     void sendMessageWithPrefix(CommandSender sender, String key, Replacer replacer, boolean color);
+    
     void sendMessage(CommandSender sender, String... messageArray);
-
+    
     void printDebug(String... messageArray);
+    
     void printDebug(Throwable ex);
 }

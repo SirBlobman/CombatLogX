@@ -27,13 +27,13 @@ public final class ListenerDeathEffects extends ExpansionListener {
     public ListenerDeathEffects(Expansion expansion) {
         super(expansion);
     }
-
-    @EventHandler(priority=EventPriority.LOW, ignoreCancelled=true)
+    
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onDeath(PlayerDeathEvent e) {
         YamlConfiguration configuration = getConfiguration();
         List<String> enabledDeathEffectList = configuration.getStringList("death-effect-list");
         if(enabledDeathEffectList.isEmpty()) return;
-
+        
         Player player = e.getEntity();
         boolean requireCombatDeath = configuration.getBoolean("combat-death-only");
         if(requireCombatDeath) {
@@ -41,37 +41,37 @@ public final class ListenerDeathEffects extends ExpansionListener {
             IDeathListener deathListener = combatLogX.getDeathListener();
             if(!deathListener.contains(player)) return;
         }
-
+        
         if(enabledDeathEffectList.contains("BLOOD")) {
             playBloodEffect(player);
         }
-
+        
         if(enabledDeathEffectList.contains("LIGHTNING")) {
             playLightningEffect(player);
         }
     }
-
+    
     private YamlConfiguration getConfiguration() {
         ConfigurationManager configurationManager = getExpansionConfigurationManager();
         return configurationManager.get("config.yml");
     }
-
+    
     private void playLightningEffect(Player player) {
         YamlConfiguration configuration = getConfiguration();
         boolean effectOnly = configuration.getBoolean("lightning.effect-only");
         boolean silent = configuration.getBoolean("lightning.silent");
-
+        
         Location location = player.getLocation();
         World world = player.getWorld();
         Spigot spigot = world.spigot();
-
+        
         if(effectOnly) {
             spigot.strikeLightningEffect(location, silent);
         } else {
             spigot.strikeLightning(location, silent);
         }
     }
-
+    
     private void playBloodEffect(Player player) {
         Material bukkitMaterial = XMaterial.REDSTONE_BLOCK.parseMaterial();
         if(bukkitMaterial != null) {
@@ -79,7 +79,7 @@ public final class ListenerDeathEffects extends ExpansionListener {
             Location location = player.getLocation();
             world.playEffect(location, Effect.STEP_SOUND, bukkitMaterial);
         }
-
+        
         Location location = player.getLocation();
         List<Entity> nearbyEntityList = player.getNearbyEntities(200D, 20.0D, 20.0D);
         for(Entity entity : nearbyEntityList) {
@@ -88,18 +88,18 @@ public final class ListenerDeathEffects extends ExpansionListener {
             sendFakeRedstoneDust(other, location);
         }
     }
-
+    
     @SuppressWarnings("deprecation")
     private void sendFakeRedstoneDust(Player player, Location location) {
         Material bukkitMaterial = XMaterial.REDSTONE_WIRE.parseMaterial();
         if(bukkitMaterial == null) return;
-
+        
         int minorVersion = VersionUtility.getMinorVersion();
         if(minorVersion < 13) {
             player.sendBlockChange(location, bukkitMaterial, (byte) 0);
             return;
         }
-
+        
         BlockData blockData = bukkitMaterial.createBlockData();
         player.sendBlockChange(location, blockData);
     }

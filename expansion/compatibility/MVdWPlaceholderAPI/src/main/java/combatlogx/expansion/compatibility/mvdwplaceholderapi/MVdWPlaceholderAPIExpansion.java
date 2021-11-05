@@ -8,12 +8,12 @@ public final class MVdWPlaceholderAPIExpansion extends Expansion {
     public MVdWPlaceholderAPIExpansion(ICombatLogX plugin) {
         super(plugin);
     }
-
+    
     @Override
     public void onLoad() {
         // Do Nothing
     }
-
+    
     @Override
     public void onEnable() {
         if(!checkDependency("MVdWPlaceholderAPI", true)) {
@@ -22,16 +22,16 @@ public final class MVdWPlaceholderAPIExpansion extends Expansion {
             expansionManager.disableExpansion(this);
             return;
         }
-
+        
         HookMVdWPlaceholderAPI hook = new HookMVdWPlaceholderAPI(this);
         hook.register();
     }
-
+    
     @Override
     public void onDisable() {
         // Do Nothing
     }
-
+    
     @Override
     public void reloadConfig() {
         // Do Nothing

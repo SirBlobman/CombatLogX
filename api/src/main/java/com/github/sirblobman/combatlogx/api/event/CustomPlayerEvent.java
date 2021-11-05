@@ -6,17 +6,17 @@ import org.bukkit.event.player.PlayerEvent;
 
 public class CustomPlayerEvent extends PlayerEvent {
     private static final HandlerList handlerList = new HandlerList();
-
+    
+    public CustomPlayerEvent(Player player) {
+        super(player);
+    }
+    
     public static HandlerList getHandlerList() {
         return handlerList;
     }
-
+    
     @Override
     public HandlerList getHandlers() {
         return getHandlerList();
-    }
-
-    public CustomPlayerEvent(Player player) {
-        super(player);
     }
 }

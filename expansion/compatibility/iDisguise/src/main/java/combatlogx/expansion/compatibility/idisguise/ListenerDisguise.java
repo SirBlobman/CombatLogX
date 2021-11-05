@@ -14,25 +14,25 @@ public final class ListenerDisguise extends ExpansionListener {
     public ListenerDisguise(DisguiseExpansion expansion) {
         super(expansion);
     }
-
-    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+    
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onTag(PlayerTagEvent e) {
         Player player = e.getPlayer();
         if(isDisguised(player)) {
             undisguise(player);
         }
     }
-
+    
     private DisguiseAPI getAPI() {
         iDisguise disguisePlugin = iDisguise.getInstance();
         return disguisePlugin.getAPI();
     }
-
+    
     private boolean isDisguised(Player player) {
         DisguiseAPI api = getAPI();
         return api.isDisguised(player);
     }
-
+    
     private void undisguise(Player player) {
         DisguiseAPI api = getAPI();
         api.undisguise(player, false);

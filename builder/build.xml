@@ -16,7 +16,7 @@
         <!-- Create Build Directories -->
         <mkdir dir="${build.dir}"/>
         <mkdir dir="${build.expansion.dir}"/>
-        
+
         <!-- Download SirBlobmanCore -->
         <get dest="${build.dir}/SirBlobmanCore.jar" src="${jenkins.url}/${jenkins.artifact}"/>
 

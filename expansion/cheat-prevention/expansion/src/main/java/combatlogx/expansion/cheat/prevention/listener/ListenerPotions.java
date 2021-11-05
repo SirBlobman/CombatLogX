@@ -18,31 +18,31 @@ public final class ListenerPotions extends CheatPreventionListener {
     public ListenerPotions(Expansion expansion) {
         super(expansion);
     }
-
-    @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
+    
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onTag(PlayerTagEvent e) {
         Player player = e.getPlayer();
         Set<PotionEffectType> removeList = getBlockedPotionEffectTypes();
         removeList.forEach(player::removePotionEffect);
     }
-
+    
     private YamlConfiguration getConfiguration() {
         Expansion expansion = getExpansion();
         ConfigurationManager configurationManager = expansion.getConfigurationManager();
         return configurationManager.get("potions.yml");
     }
-
+    
     private Set<PotionEffectType> getBlockedPotionEffectTypes() {
         YamlConfiguration configuration = getConfiguration();
         List<String> potionEffectTypeNameList = configuration.getStringList("blocked-potion-type-list");
         Set<PotionEffectType> potionEffectTypeSet = new HashSet<>();
-
+        
         for(String potionEffectTypeName : potionEffectTypeNameList) {
             PotionEffectType potionEffectType = PotionEffectType.getByName(potionEffectTypeName);
             if(potionEffectType == null) continue;
             potionEffectTypeSet.add(potionEffectType);
         }
-
+        
         return potionEffectTypeSet;
     }
 }

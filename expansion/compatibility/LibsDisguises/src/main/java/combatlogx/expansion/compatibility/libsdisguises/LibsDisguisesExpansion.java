@@ -8,12 +8,12 @@ public final class LibsDisguisesExpansion extends Expansion {
     public LibsDisguisesExpansion(ICombatLogX plugin) {
         super(plugin);
     }
-
+    
     @Override
     public void onLoad() {
         // Do Nothing
     }
-
+    
     @Override
     public void onEnable() {
         if(!checkDependency("LibsDisguises", true, "10")) {
@@ -21,15 +21,15 @@ public final class LibsDisguisesExpansion extends Expansion {
             expansionManager.disableExpansion(this);
             return;
         }
-
+        
         new ListenerDisguise(this).register();
     }
-
+    
     @Override
     public void onDisable() {
         // Do Nothing
     }
-
+    
     @Override
     public void reloadConfig() {
         // Do Nothing

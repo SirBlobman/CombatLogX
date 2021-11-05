@@ -18,19 +18,19 @@ public final class ListenerFeatherBoard extends ExpansionListener {
     public ListenerFeatherBoard(FeatherBoardExpansion expansion) {
         super(expansion);
     }
-
-    @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
+    
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onTag(PlayerTagEvent e) {
         Player player = e.getPlayer();
         showTrigger(player);
     }
-
-    @EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
+    
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onUntag(PlayerUntagEvent e) {
         Player player = e.getPlayer();
         removeTrigger(player);
     }
-
+    
     @NotNull
     private String getTriggerName() {
         ConfigurationManager configurationManager = getExpansionConfigurationManager();
@@ -38,12 +38,12 @@ public final class ListenerFeatherBoard extends ExpansionListener {
         String triggerName = configuration.getString("trigger-name");
         return (triggerName == null || triggerName.isEmpty() ? "combatlogx" : triggerName);
     }
-
+    
     private void showTrigger(Player player) {
         String triggerName = getTriggerName();
         FeatherBoardAPI.showScoreboard(player, triggerName, true);
     }
-
+    
     private void removeTrigger(Player player) {
         String triggerName = getTriggerName();
         FeatherBoardAPI.hideScoreboard(player, triggerName, true);

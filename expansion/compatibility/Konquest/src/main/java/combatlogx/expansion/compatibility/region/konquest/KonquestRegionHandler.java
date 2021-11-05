@@ -29,7 +29,7 @@ public class KonquestRegionHandler extends RegionHandler {
         if(chunkTerritory == null) {
             return false;
         }
-    
+        
         KonKingdom locationKingdom = chunkTerritory.getKingdom();
         return (locationKingdom != null);
     }

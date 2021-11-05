@@ -10,12 +10,12 @@ public final class SuperiorSkyblockExpansion extends Expansion {
     public SuperiorSkyblockExpansion(ICombatLogX plugin) {
         super(plugin);
     }
-
+    
     @Override
     public void onLoad() {
         // Do Nothing
     }
-
+    
     @Override
     public void onEnable() {
         if(!checkDependency("SuperiorSkyblock2", true)) {
@@ -24,15 +24,15 @@ public final class SuperiorSkyblockExpansion extends Expansion {
             expansionManager.disableExpansion(this);
             return;
         }
-
+        
         new ListenerSuperiorSkyblock(this).register();
     }
-
+    
     @Override
     public void onDisable() {
         // Do Nothing
     }
-
+    
     @Override
     public void reloadConfig() {
         // Do Nothing

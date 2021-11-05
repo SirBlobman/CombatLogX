@@ -10,12 +10,12 @@ public final class CrackShotExpansion extends Expansion {
     public CrackShotExpansion(ICombatLogX plugin) {
         super(plugin);
     }
-
+    
     @Override
     public void onLoad() {
         // Do Nothing
     }
-
+    
     @Override
     public void onEnable() {
         if(!checkDependency("CrackShot", true)) {
@@ -24,15 +24,15 @@ public final class CrackShotExpansion extends Expansion {
             expansionManager.disableExpansion(this);
             return;
         }
-
+        
         new ListenerCrackShot(this).register();
     }
-
+    
     @Override
     public void onDisable() {
         // Do Nothing
     }
-
+    
     @Override
     public void reloadConfig() {
         // Do Nothing

@@ -37,22 +37,22 @@ public final class CommandCombatLogXUntag extends CombatLogCommand {
         if(args.length < 1) {
             return false;
         }
-    
+        
         Player target = findTarget(sender, args[0]);
         if(target == null) {
             return true;
         }
-    
+        
         String targetName = target.getName();
         Replacer replacer = message -> message.replace("{target}", targetName);
-    
+        
         ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = plugin.getCombatManager();
         if(!combatManager.isInCombat(target)) {
             sendMessageWithPrefix(sender, "error.target-not-in-combat", replacer, true);
             return true;
         }
-    
+        
         combatManager.untag(target, UntagReason.EXPIRE);
         sendMessageWithPrefix(sender, "command.combatlogx.untag-player", replacer, true);
         return true;

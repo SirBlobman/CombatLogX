@@ -29,34 +29,34 @@ public final class TownyRegionHandler extends RegionHandler {
     public TownyRegionHandler(TownyExpansion expansion) {
         super(expansion);
     }
-
+    
     @Override
     public String getEntryDeniedMessagePath(TagType tagType) {
         return "expansion.region-protection.towny-no-entry";
     }
-
+    
     @Override
     public boolean isSafeZone(Player player, Location location, TagType tagType) {
         if(tagType != TagType.PLAYER) return false;
-
+        
         RegionExpansion expansion = getExpansion();
         ConfigurationManager configurationManager = expansion.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-
+        
         TownBlock townBlock = getTownBlock(location);
         if(townBlock == null) return false;
-
+        
         if(configuration.getBoolean("prevent-all-town-entries", false)
                 && isOwnTown(townBlock, player)) {
             return true;
         }
-
+        
         TownyAPI townyAPI = TownyAPI.getInstance();
         if(townyAPI.isWarTime()) return false;
-
+        
         TownyWorld townyWorld = townBlock.getWorld();
         if(townyWorld == null || townyWorld.isForcePVP()) return false;
-
+        
         Town town;
         try {
             town = townBlock.getTown();
@@ -64,34 +64,34 @@ public final class TownyRegionHandler extends RegionHandler {
         } catch(NotRegisteredException ex) {
             return false;
         }
-
+        
         PluginManager pluginManager = Bukkit.getPluginManager();
         if(pluginManager.isPluginEnabled("FlagWar")) {
             if(FlagWarAPI.isUnderAttack(town)) return false;
         }
-
+        
         TownyPermission townBlockPermissions = townBlock.getPermissions();
         return !townBlockPermissions.pvp;
     }
-
+    
     private TownBlock getTownBlock(Location location) {
         TownyAPI townyAPI = TownyAPI.getInstance();
         return townyAPI.getTownBlock(location);
     }
-
+    
     private boolean isOwnTown(TownBlock townBlock, Player player) {
         if(townBlock == null) return false;
-
+        
         Town town;
         try {
             town = townBlock.getTown();
         } catch(NotRegisteredException ex) {
             return false;
         }
-
+        
         List<Resident> residentList = town.getResidents();
         Set<UUID> residentIdList = residentList.stream().map(Resident::getUUID).collect(Collectors.toSet());
-
+        
         UUID playerId = player.getUniqueId();
         return residentIdList.contains(playerId);
     }

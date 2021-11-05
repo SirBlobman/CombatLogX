@@ -15,20 +15,20 @@ import combatlogx.expansion.cheat.prevention.listener.ListenerEntities;
 import combatlogx.expansion.cheat.prevention.listener.ListenerFlight;
 import combatlogx.expansion.cheat.prevention.listener.ListenerGameMode;
 import combatlogx.expansion.cheat.prevention.listener.ListenerInventories;
-import combatlogx.expansion.cheat.prevention.listener.legacy.ListenerLegacyItemPickup;
-import combatlogx.expansion.cheat.prevention.listener.legacy.ListenerLegacyPortalCreate;
-import combatlogx.expansion.cheat.prevention.listener.modern.ListenerModernItemPickup;
-import combatlogx.expansion.cheat.prevention.listener.modern.ListenerModernPortalCreate;
 import combatlogx.expansion.cheat.prevention.listener.ListenerPotions;
 import combatlogx.expansion.cheat.prevention.listener.ListenerRiptide;
 import combatlogx.expansion.cheat.prevention.listener.ListenerTeleport;
 import combatlogx.expansion.cheat.prevention.listener.ListenerTotem;
+import combatlogx.expansion.cheat.prevention.listener.legacy.ListenerLegacyItemPickup;
+import combatlogx.expansion.cheat.prevention.listener.legacy.ListenerLegacyPortalCreate;
+import combatlogx.expansion.cheat.prevention.listener.modern.ListenerModernItemPickup;
+import combatlogx.expansion.cheat.prevention.listener.modern.ListenerModernPortalCreate;
 
 public final class CheatPreventionExpansion extends Expansion {
     public CheatPreventionExpansion(ICombatLogX plugin) {
         super(plugin);
     }
-
+    
     @Override
     public void onLoad() {
         ConfigurationManager configurationManager = getConfigurationManager();
@@ -45,7 +45,7 @@ public final class CheatPreventionExpansion extends Expansion {
         configurationManager.saveDefault("potions.yml");
         configurationManager.saveDefault("teleportation.yml");
     }
-
+    
     @Override
     public void onEnable() {
         new ListenerBlocks(this).register();
@@ -59,25 +59,25 @@ public final class CheatPreventionExpansion extends Expansion {
         new ListenerInventories(this).register();
         new ListenerPotions(this).register();
         new ListenerTeleport(this).register();
-
+        
         // 1.9: Elytra
         int minorVersion = VersionUtility.getMinorVersion();
         if(minorVersion >= 9) {
             new ListenerElytra(this).register();
         }
-
+        
         // 1.11: Totem of Undying
         if(minorVersion >= 11) {
             new ListenerTotem(this).register();
         }
-
+        
         // 1.12: PlayerPickupItemEvent --> EntityPickupItemEvent
         if(minorVersion < 12) {
             new ListenerLegacyItemPickup(this).register();
         } else {
             new ListenerModernItemPickup(this).register();
         }
-
+        
         // 1.13: Riptide Enchantment
         if(minorVersion >= 13) {
             new ListenerRiptide(this).register();
@@ -90,12 +90,12 @@ public final class CheatPreventionExpansion extends Expansion {
             new ListenerModernPortalCreate(this).register();
         }
     }
-
+    
     @Override
     public void onDisable() {
         // Do Nothing
     }
-
+    
     @Override
     public void reloadConfig() {
         ConfigurationManager configurationManager = getConfigurationManager();

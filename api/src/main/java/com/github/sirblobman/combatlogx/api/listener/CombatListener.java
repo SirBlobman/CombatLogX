@@ -29,74 +29,74 @@ import org.jetbrains.annotations.Nullable;
 
 public abstract class CombatListener implements Listener {
     private final ICombatLogX plugin;
-
+    
     public CombatListener(ICombatLogX plugin) {
         this.plugin = Validate.notNull(plugin, "plugin must not be null!");
     }
-
+    
     public void register() {
         ICombatLogX combatLogX = getCombatLogX();
         JavaPlugin plugin = combatLogX.getPlugin();
-
+        
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(this, plugin);
     }
-
+    
     public void unregister() {
         HandlerList.unregisterAll(this);
     }
-
+    
     protected final ICombatLogX getCombatLogX() {
         return this.plugin;
     }
-
+    
     protected final JavaPlugin getJavaPlugin() {
         ICombatLogX combatLogX = getCombatLogX();
         return combatLogX.getPlugin();
     }
-
+    
     protected final Logger getPluginLogger() {
         ICombatLogX plugin = getCombatLogX();
         return plugin.getLogger();
     }
-
+    
     protected final ConfigurationManager getPluginConfigurationManager() {
         ICombatLogX plugin = getCombatLogX();
         return plugin.getConfigurationManager();
     }
-
+    
     protected final LanguageManager getLanguageManager() {
         ICombatLogX combatLogX = getCombatLogX();
         return combatLogX.getLanguageManager();
     }
-
+    
     protected final PlayerDataManager getPlayerDataManager() {
         ICombatLogX combatLogX = getCombatLogX();
         return combatLogX.getPlayerDataManager();
     }
-
+    
     protected final ICombatManager getCombatManager() {
         ICombatLogX plugin = getCombatLogX();
         return plugin.getCombatManager();
     }
-
+    
     protected final boolean isInCombat(Player player) {
         ICombatManager combatManager = getCombatManager();
         return combatManager.isInCombat(player);
     }
-
+    
     protected final String getMessageWithPrefix(@Nullable CommandSender sender, @NotNull String key,
                                                 @Nullable Replacer replacer, boolean color) {
         ICombatLogX plugin = getCombatLogX();
         LanguageManager languageManager = plugin.getLanguageManager();
-
+        
         String message = languageManager.getMessage(sender, key, replacer, color);
         if(message.isEmpty()) return "";
-
+        
         String prefix = languageManager.getMessage(sender, "prefix", null, true);
-        return (prefix.isEmpty() ? message : String.format(Locale.US,"%s %s", prefix, message));
+        return (prefix.isEmpty() ? message : String.format(Locale.US, "%s %s", prefix, message));
     }
-
+    
     protected final void sendMessageWithPrefix(@NotNull CommandSender sender, @NotNull String key,
                                                @Nullable Replacer replacer, boolean color) {
         String message = getMessageWithPrefix(sender, key, replacer, color);
@@ -108,7 +108,7 @@ public abstract class CombatListener implements Listener {
         YamlConfiguration configuration = configurationManager.get("config.yml");
         return configuration.getBoolean("debug-mode", false);
     }
-
+    
     protected void printDebug(String message) {
         if(isDebugMode()) {
             Logger logger = getPluginLogger();

@@ -11,7 +11,8 @@
 
     <artifactId>SuperVanish</artifactId>
     <name>Compatibility Expansion: SuperVanish</name>
-    <description>An expansion for CombatLogX that adds compatibility for features in SuperVanish and PremiumVanish.</description>
+    <description>An expansion for CombatLogX that adds compatibility for features in SuperVanish and PremiumVanish.
+    </description>
 
     <repositories>
         <!-- JitPack Repository -->

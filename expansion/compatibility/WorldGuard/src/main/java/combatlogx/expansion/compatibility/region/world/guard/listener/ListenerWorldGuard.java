@@ -18,8 +18,8 @@ public final class ListenerWorldGuard extends ExpansionListener {
     public ListenerWorldGuard(WorldGuardExpansion expansion) {
         super(expansion);
     }
-
-    @EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+    
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void beforeCombat(PlayerPreTagEvent e) {
         Player player = e.getPlayer();
         Location location = player.getLocation();
@@ -27,11 +27,11 @@ public final class ListenerWorldGuard extends ExpansionListener {
             e.setCancelled(true);
         }
     }
-
+    
     private boolean isNoTaggingRegion(Player player, Location location) {
         if(player == null || location == null) return false;
         if(HookWorldGuard.NO_TAGGING == null) return false;
-
+        
         WorldGuardWrapper instance = WorldGuardWrapper.getInstance();
         Optional<Boolean> optionalFlag = instance.queryFlag(player, location, HookWorldGuard.NO_TAGGING);
         return optionalFlag.orElse(false);

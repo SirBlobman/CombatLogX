@@ -13,13 +13,13 @@ public final class ScoreboardUpdater implements TimerUpdater {
     public ScoreboardUpdater(ScoreboardExpansion expansion) {
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
     }
-
+    
     @Override
     public void update(Player player, long timeLeftMillis) {
         CustomScoreboardManager scoreboardManager = getScoreboardManager();
         scoreboardManager.updateScoreboard(player);
     }
-
+    
     @Override
     public void remove(Player player) {
         CustomScoreboardManager scoreboardManager = getScoreboardManager();

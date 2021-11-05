@@ -8,5 +8,6 @@ import com.github.sirblobman.combatlogx.api.object.UntagReason;
 
 public interface IPunishManager {
     boolean punish(Player player, UntagReason punishReason, LivingEntity previousEnemy);
+    
     long getPunishmentCount(OfflinePlayer player);
 }

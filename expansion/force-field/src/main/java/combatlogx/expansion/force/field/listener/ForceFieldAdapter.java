@@ -30,64 +30,67 @@ import com.comphenix.protocol.wrappers.MovingObjectPositionBlock;
 import com.comphenix.protocol.wrappers.WrappedBlockData;
 import org.jetbrains.annotations.Nullable;
 
-/** @author olivolja3 */
+/**
+ * @author olivolja3
+ */
 public class ForceFieldAdapter extends PacketAdapter {
     private final ICombatLogX plugin;
     private final ListenerForceField forceFieldListener;
+    
     public ForceFieldAdapter(ICombatLogX plugin, ListenerForceField forceFieldListener) {
         super(plugin.getPlugin(), ListenerPriority.NORMAL, Client.USE_ITEM, Client.BLOCK_DIG, Server.BLOCK_CHANGE);
         this.plugin = plugin;
         this.forceFieldListener = forceFieldListener;
     }
-
+    
     @Override
     public void onPacketReceiving(PacketEvent e) {
         if(e.isCancelled()) return;
-
+        
         Player player = e.getPlayer();
         if(player instanceof TemporaryPlayer) return;
-
+        
         ICombatManager combatManager = this.plugin.getCombatManager();
         if(!combatManager.isInCombat(player)) return;
-
+        
         World world = player.getWorld();
         PacketContainer packetContainer = e.getPacket();
         Location location = getLocation0(world, packetContainer);
         if(location == null) return;
-
+        
         if(isForceFieldBlock(player, location)) {
             PacketType packetType = packetContainer.getType();
             if(packetType == Client.BLOCK_DIG) {
                 StructureModifier<PlayerDigType> playerDigTypeModifier = packetContainer.getPlayerDigTypes();
                 PlayerDigType playerDigType = playerDigTypeModifier.readSafely(0);
                 GameMode gameMode = player.getGameMode();
-
+                
                 if(playerDigType == PlayerDigType.STOP_DESTROY_BLOCK
                         || (playerDigType == PlayerDigType.START_DESTROY_BLOCK && gameMode == GameMode.CREATIVE)) {
                     this.forceFieldListener.sendForceField(player, location);
                 }
             }
-
+            
             if(packetType == Client.USE_ITEM) {
                 this.forceFieldListener.sendForceField(player, location);
             }
         }
     }
-
+    
     @Override
     public void onPacketSending(PacketEvent e) {
         if(e.isCancelled()) return;
-
+        
         Player player = e.getPlayer();
         if(player instanceof TemporaryPlayer) return;
-
+        
         ICombatManager combatManager = this.plugin.getCombatManager();
         if(!combatManager.isInCombat(player)) return;
-
+        
         World world = player.getWorld();
         PacketContainer packetContainer = e.getPacket();
         Location location = getLocation0(world, packetContainer);
-
+        
         if(isForceFieldBlock(player, location)) {
             WrappedBlockData wrappedBlockData = getWrappedBlockData();
             if(wrappedBlockData != null) {
@@ -95,7 +98,7 @@ public class ForceFieldAdapter extends PacketAdapter {
             }
         }
     }
-
+    
     private boolean isForceFieldBlock(Player player, Location location) {
         UUID uuid = player.getUniqueId();
         if(this.forceFieldListener.fakeBlockMap.containsKey(uuid)) {
@@ -107,24 +110,24 @@ public class ForceFieldAdapter extends PacketAdapter {
                 return this.forceFieldListener.fakeBlockMap.get(uuid).contains(worldXYZ);
             }
         }
-
+        
         return false;
     }
-
+    
     private WrappedBlockData getWrappedBlockData() {
         XMaterial material = this.forceFieldListener.getForceFieldMaterial();
         Material bukkitMaterial = material.parseMaterial();
         if(bukkitMaterial == null) return null;
-
+        
         int minorVersion = VersionUtility.getMinorVersion();
         if(minorVersion < 13) {
             byte data = material.getData();
             return WrappedBlockData.createData(bukkitMaterial, data);
         }
-
+        
         return WrappedBlockData.createData(bukkitMaterial);
     }
-
+    
     @Nullable
     private Location getLocation0(World world, PacketContainer packetContainer) {
         try {
@@ -136,7 +139,7 @@ public class ForceFieldAdapter extends PacketAdapter {
             return getLocation1(world, packetContainer);
         }
     }
-
+    
     @Nullable
     private Location getLocation1(World world, PacketContainer packetContainer) {
         try {
@@ -144,7 +147,7 @@ public class ForceFieldAdapter extends PacketAdapter {
                     packetContainer.getMovingBlockPositions();
             MovingObjectPositionBlock movingObjectPositionBlock = movingBlockPositionModifier.readSafely(0);
             if(movingObjectPositionBlock == null) return null;
-
+            
             BlockPosition blockPosition = movingObjectPositionBlock.getBlockPosition();
             return (blockPosition == null ? null : blockPosition.toLocation(world));
         } catch(FieldAccessException ex) {

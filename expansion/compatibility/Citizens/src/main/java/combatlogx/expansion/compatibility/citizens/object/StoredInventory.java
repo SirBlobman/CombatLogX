@@ -21,6 +21,18 @@ import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
 import org.jetbrains.annotations.Nullable;
 
 public final class StoredInventory {
+    private final Map<Integer, ItemStack> contentMap;
+    private final Map<ArmorType, ItemStack> armorMap;
+    private ItemStack mainHand;
+    private ItemStack offHand;
+    
+    private StoredInventory() {
+        this.contentMap = new HashMap<>();
+        this.armorMap = new EnumMap<>(ArmorType.class);
+        this.mainHand = new ItemBuilder(XMaterial.AIR).withAmount(1).build();
+        this.offHand = new ItemBuilder(XMaterial.AIR).withAmount(1).build();
+    }
+    
     public static StoredInventory createFrom(PlayerInventory playerInventory) {
         Validate.notNull(playerInventory, "playerInventory must not be null!");
         
@@ -34,7 +46,7 @@ public final class StoredInventory {
             ItemStack item = playerInventory.getItem(slot);
             storedInventory.setItemStack(slot, item);
         }
-    
+        
         int minorVersion = VersionUtility.getMinorVersion();
         if(minorVersion < 9) {
             setHandLegacy(storedInventory, playerInventory);
@@ -48,7 +60,7 @@ public final class StoredInventory {
     public static StoredInventory createFrom(CitizensExpansion expansion, ConfigurationSection configuration) {
         Validate.notNull(configuration, "configuration must not be null!");
         StoredInventory storedInventory = new StoredInventory();
-    
+        
         ArmorType[] armorTypeArray = ArmorType.values();
         for(ArmorType armorType : armorTypeArray) {
             String armorTypeName = armorType.name();
@@ -71,19 +83,19 @@ public final class StoredInventory {
         
         return storedInventory;
     }
-    
+
     @SuppressWarnings("deprecation")
     private static void setHandLegacy(StoredInventory stored, PlayerInventory playerInventory) {
         ItemStack item = playerInventory.getItemInHand();
         stored.setMainHand(item);
         stored.setOffHand(null);
     }
-    
+
     private static void setHandModern(StoredInventory stored, PlayerInventory playerInventory) {
         stored.setMainHand(playerInventory.getItemInMainHand());
         stored.setOffHand(playerInventory.getItemInOffHand());
     }
-    
+
     @Nullable
     private static ItemStack loadItemStack(CitizensExpansion expansion, ConfigurationSection section, String path) {
         Validate.notNull(section, "section must not be null!");
@@ -101,7 +113,7 @@ public final class StoredInventory {
         if(value == null) {
             return null;
         }
-    
+        
         ICombatLogX plugin = expansion.getPlugin();
         MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
         ItemHandler itemHandler = multiVersionHandler.getItemHandler();
@@ -109,30 +121,18 @@ public final class StoredInventory {
     }
     
     private static void saveItemStack(CitizensExpansion expansion, ConfigurationSection section, String path,
-                                           ItemStack item) {
+                                      ItemStack item) {
         if(item == null) {
             section.set(path, null);
             return;
         }
-    
+        
         ICombatLogX plugin = expansion.getPlugin();
         MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
         ItemHandler itemHandler = multiVersionHandler.getItemHandler();
         
         String base64 = itemHandler.toBase64String(item);
         section.set(path, base64);
-    }
-    
-    private final Map<Integer, ItemStack> contentMap;
-    private final Map<ArmorType, ItemStack> armorMap;
-    private ItemStack mainHand;
-    private ItemStack offHand;
-    
-    private StoredInventory() {
-        this.contentMap = new HashMap<>();
-        this.armorMap = new EnumMap<>(ArmorType.class);
-        this.mainHand = new ItemBuilder(XMaterial.AIR).withAmount(1).build();
-        this.offHand = new ItemBuilder(XMaterial.AIR).withAmount(1).build();
     }
     
     @Nullable
