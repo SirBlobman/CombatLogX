@@ -1,12 +1,15 @@
 # CombatLogX Expansion: PlaceholderAPI Compatibility
+
 The PlaceholderAPI Compatibility expansion for CombatLogX adds placeholders to plugins that use PlaceholderAPI.
 
 ## Valid Placeholders
+
 | Placeholder | Description |
 | ----------- | ----------- |
 | `%combatlogx_time_left%` | This is the amount of time (in seconds) that a player has left in combat. The zero value can be customized in the language files. |
 | `%combatlogx_in_combat%` | This displays different configurable values when a player is in combat and when they are not. |
-| `%combatlogx_status%` | This displays different configurable values when a player is in combat and when they are not. *Different than in_combat* |
+| `%combatlogx_status%` | This displays different configurable values when a player is in combat and when they are not. *
+Different than in_combat* |
 | `%combatlogx_punishment_count%` | This displays the amount of times a player has been punished for logging out during combat. |
 | `%combatlogx_enemy_name%` | This shows the name of the current enemy entity (or unknown). |
 | `{combatlogx_enemy_diplay_name%` | This shows the display name of the current enemy entity (or unknown). |

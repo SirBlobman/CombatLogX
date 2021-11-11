@@ -31,6 +31,7 @@ public abstract class Expansion implements IResourceHolder {
     private ExpansionLogger logger;
     private ExpansionDescription description;
     private ConfigurationManager configurationManager;
+    
     public Expansion(ICombatLogX plugin) {
         this.plugin = Validate.notNull(plugin, "plugin must not be null!");
         this.listenerList = new ArrayList<>();

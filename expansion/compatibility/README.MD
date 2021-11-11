@@ -1,7 +1,9 @@
 # CombatLogX Compatibility Expansions
+
 Compatibility expansions add features to CombatLogX based on the plugin that they add compatibility for.
 
 ## Compatibility Table
+
 <table>
     <thead>
         <tr>
@@ -77,13 +79,15 @@ Compatibility expansions add features to CombatLogX based on the plugin that the
 </table>
 
 ## Placeholder List
+
 Surround with `%%` for PlaceholderAPI or `{}` for MVdWPlaceholderAPI.
 
 | Placeholder | Description |
 | ----------- | ----------- |
 | `combatlogx_time_left` | This is the amount of time (in seconds) that a player has left in combat. The zero value can be customized in the language files. |
 | `combatlogx_in_combat` | This displays different configurable values when a player is in combat and when they are not. |
-| `combatlogx_status` | This displays different configurable values when a player is in combat and when they are not. *Different than in_combat* |
+| `combatlogx_status` | This displays different configurable values when a player is in combat and when they are not. *
+Different than in_combat* |
 | `combatlogx_enemy_name` | This shows the name of the current enemy entity (or unknown). |
 | `combatlogx_enemy_health` | This displays the health decimal of the current enemy entity (or unknown) |
 | `combatlogx_enemy_health_rounded` | This shows the health integer of the current enemy entity (or unknown) |

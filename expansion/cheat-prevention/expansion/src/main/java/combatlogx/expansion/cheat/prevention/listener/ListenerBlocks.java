@@ -28,7 +28,7 @@ public final class ListenerBlocks extends CheatPreventionListener {
         if(action != Action.RIGHT_CLICK_BLOCK && action != Action.LEFT_CLICK_BLOCK) {
             return;
         }
-    
+        
         Block block = e.getClickedBlock();
         if(block == null) {
             return;

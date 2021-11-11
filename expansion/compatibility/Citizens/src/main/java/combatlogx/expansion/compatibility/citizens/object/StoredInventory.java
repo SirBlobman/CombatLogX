@@ -83,19 +83,19 @@ public final class StoredInventory {
         
         return storedInventory;
     }
-
+    
     @SuppressWarnings("deprecation")
     private static void setHandLegacy(StoredInventory stored, PlayerInventory playerInventory) {
         ItemStack item = playerInventory.getItemInHand();
         stored.setMainHand(item);
         stored.setOffHand(null);
     }
-
+    
     private static void setHandModern(StoredInventory stored, PlayerInventory playerInventory) {
         stored.setMainHand(playerInventory.getItemInMainHand());
         stored.setOffHand(playerInventory.getItemInOffHand());
     }
-
+    
     @Nullable
     private static ItemStack loadItemStack(CitizensExpansion expansion, ConfigurationSection section, String path) {
         Validate.notNull(section, "section must not be null!");

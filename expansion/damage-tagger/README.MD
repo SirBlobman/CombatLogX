@@ -1,7 +1,9 @@
 # CombatLogX Expansion: Damage Tagger
+
 The damage tagger expansion allows you to tag players for non-combat damage types.
 
 ## Available Damage Types:
+
 | Damage Type | Description |
 | ----------- | ----------- |
 | **CONTACT** | Touching a cactus or a berry bush. |
