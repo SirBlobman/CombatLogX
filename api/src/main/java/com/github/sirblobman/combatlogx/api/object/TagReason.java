@@ -2,7 +2,7 @@ package com.github.sirblobman.combatlogx.api.object;
 
 public enum TagReason {
     /**
-     * Unknown reason for being tagged. Usually occurs in the `Damage Tagger` expansion or from the tag command.
+     * Unknown reason for being tagged. Usually occurs from the tag command.
      */
     UNKNOWN,
     
