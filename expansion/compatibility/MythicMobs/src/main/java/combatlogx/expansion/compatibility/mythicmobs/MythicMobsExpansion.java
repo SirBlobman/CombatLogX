@@ -3,7 +3,6 @@ package combatlogx.expansion.compatibility.mythicmobs;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
 public final class MythicMobsExpansion extends Expansion {
     public MythicMobsExpansion(ICombatLogX plugin) {
@@ -19,9 +18,7 @@ public final class MythicMobsExpansion extends Expansion {
     @Override
     public void onEnable() {
         if(!checkDependency("MythicMobs", true, "4.13")) {
-            ICombatLogX plugin = getPlugin();
-            ExpansionManager expansionManager = plugin.getExpansionManager();
-            expansionManager.disableExpansion(this);
+            selfDisable();
             return;
         }
         

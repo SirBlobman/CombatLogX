@@ -3,6 +3,7 @@ package com.github.sirblobman.combatlogx.manager;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -65,7 +66,9 @@ public final class CombatManager implements ICombatManager {
         Validate.notNull(player, "player must not be null!");
         Validate.notNull(tagType, "tagType must not be null!");
         Validate.notNull(tagReason, "tagReason must not be null!");
-        if(player.hasMetadata("NPC")) return false;
+        if(player.hasMetadata("NPC")) {
+            return false;
+        }
         
         if(failsPreTagEvent(player, enemy, tagType, tagReason)) {
             this.plugin.printDebug("The PlayerPreTagEvent was cancelled.");
@@ -79,7 +82,10 @@ public final class CombatManager implements ICombatManager {
         if(alreadyInCombat) {
             PlayerReTagEvent event = new PlayerReTagEvent(player, enemy, tagType, tagReason, customEndMillis);
             pluginManager.callEvent(event);
-            if(event.isCancelled()) return false;
+            if(event.isCancelled()) {
+                return false;
+            }
+            
             customEndMillis = event.getEndTime();
         } else {
             PlayerTagEvent event = new PlayerTagEvent(player, enemy, tagType, tagReason, customEndMillis);
@@ -90,7 +96,9 @@ public final class CombatManager implements ICombatManager {
         
         UUID uuid = player.getUniqueId();
         this.combatMap.put(uuid, customEndMillis);
-        if(enemy != null) this.enemyMap.put(uuid, enemy);
+        if(enemy != null) {
+            this.enemyMap.put(uuid, enemy);
+        }
         
         String playerName = player.getName();
         this.plugin.printDebug("Successfully put player '" + playerName + "' into combat.");
@@ -272,6 +280,16 @@ public final class CombatManager implements ICombatManager {
         return entityHandler.getName(entity);
     }
     
+    private String getEntityType(Player player, LivingEntity entity) {
+        if(entity == null) {
+            LanguageManager languageManager = this.plugin.getLanguageManager();
+            return languageManager.getMessage(player, "placeholder.unknown-enemy", null, true);
+        }
+    
+        EntityType entityType = entity.getType();
+        return entityType.name();
+    }
+    
     private String replacePAPI(Player player, String string) {
         PluginManager pluginManager = Bukkit.getPluginManager();
         if(!pluginManager.isPluginEnabled("PlaceholderAPI")) return string;
@@ -292,19 +310,18 @@ public final class CombatManager implements ICombatManager {
     }
     
     private void sendTagMessage(Player player, LivingEntity enemy, TagType tagType, TagReason tagReason) {
-        if(tagType == TagType.UNKNOWN || tagReason == TagReason.UNKNOWN) {
-            this.plugin.sendMessageWithPrefix(player, "tagged.unknown", null, true);
+        if(tagType == TagType.DAMAGE) {
             return;
         }
         
         String enemyName = getEntityName(player, enemy);
-        String enemyType = (enemy == null ? EntityType.UNKNOWN.name() : enemy.getType().name());
-        String tagReasonString = tagReason.name().toLowerCase();
-        String tagTypeString = tagType.name().toLowerCase();
+        String enemyType = getEntityType(player, enemy);
+        String tagReasonString = tagReason.name().toLowerCase(Locale.US);
+        String tagTypeString = tagType.name().toLowerCase(Locale.US);
         
-        String languagePath = ("tagged." + tagReasonString + "." + tagTypeString);
         Replacer replacer = message -> message.replace("{enemy}", enemyName)
                 .replace("{mob_type}", enemyType);
+        String languagePath = ("tagged." + tagReasonString + "." + tagTypeString);
         this.plugin.sendMessageWithPrefix(player, languagePath, replacer, true);
     }
 }

@@ -32,13 +32,12 @@ public final class ListenerMythicMobs extends ExpansionListener {
         Entity damager = e.getDamager();
         
         ICombatManager combatManager = getCombatManager();
-        
         if(damaged instanceof Player && damager instanceof LivingEntity && isMythicMob(damager)) {
             String mobName = getMythicMobName(damager);
             if(isForceTag(mobName)) {
                 Player playerDamaged = (Player) damaged;
                 LivingEntity livingDamager = (LivingEntity) damager;
-                combatManager.tag(playerDamaged, livingDamager, TagType.MOB, TagReason.ATTACKED);
+                combatManager.tag(playerDamaged, livingDamager, TagType.MYTHIC_MOB, TagReason.ATTACKED);
             }
         }
         
@@ -47,15 +46,22 @@ public final class ListenerMythicMobs extends ExpansionListener {
             if(isForceTag(mobName)) {
                 Player playerDamager = (Player) damager;
                 LivingEntity livingDamaged = (LivingEntity) damaged;
-                combatManager.tag(playerDamager, livingDamaged, TagType.MOB, TagReason.ATTACKER);
+                combatManager.tag(playerDamager, livingDamaged, TagType.MYTHIC_MOB, TagReason.ATTACKER);
             }
         }
     }
     
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void beforeTag(PlayerPreTagEvent e) {
+        TagType tagType = e.getTagType();
+        if(tagType != TagType.MYTHIC_MOB) {
+            return;
+        }
+        
         LivingEntity enemy = e.getEnemy();
-        if(enemy == null || !isMythicMob(enemy)) return;
+        if(enemy == null || !isMythicMob(enemy)) {
+            return;
+        }
         
         String mobName = getMythicMobName(enemy);
         if(isNoTag(mobName)) {

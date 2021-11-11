@@ -3,5 +3,5 @@ prefix: "Mob Tagger"
 description: "${project.description}"
 
 main: "combatlogx.expansion.mob.tagger.MobTaggerExpansion"
-version: "16.1"
+version: "16.2"
 author: "SirBlobman"

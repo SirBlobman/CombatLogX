@@ -39,8 +39,15 @@ public final class ListenerDamage extends ExpansionListener {
     
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void beforeTag(PlayerPreTagEvent e) {
+        TagType tagType = e.getTagType();
+        if(tagType != TagType.MOB) {
+            return;
+        }
+        
         LivingEntity enemy = e.getEnemy();
-        if(enemy == null || enemy instanceof Player) return;
+        if(enemy == null || enemy instanceof Player) {
+            return;
+        }
         
         EntityType entityType = enemy.getType();
         if(isDisabled(entityType)) {
@@ -64,14 +71,21 @@ public final class ListenerDamage extends ExpansionListener {
     
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onFish(PlayerFishEvent e) {
-        YamlConfiguration configuration = getCombatLogX().getConfigurationManager().get("config.yml");
-        if(!configuration.getBoolean("link-fishing-rod")) return;
+        ConfigurationManager configurationManager = getPluginConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("config.yml");
+        if(!configuration.getBoolean("link-fishing-rod")) {
+            return;
+        }
         
         State state = e.getState();
-        if(state != State.CAUGHT_ENTITY) return;
+        if(state != State.CAUGHT_ENTITY) {
+            return;
+        }
         
         Entity caughtEntity = e.getCaught();
-        if(caughtEntity == null) return;
+        if(caughtEntity == null) {
+            return;
+        }
         
         Player player = e.getPlayer();
         checkTag(player, caughtEntity, TagReason.ATTACKER);
@@ -93,51 +107,77 @@ public final class ListenerDamage extends ExpansionListener {
         YamlConfiguration configuration = configurationManager.get("config.yml");
         
         Entity damager = e.getDamager();
-        if(configuration.getBoolean("link-projectiles"))
+        if(configuration.getBoolean("link-projectiles"))  {
             damager = EntityHelper.linkProjectile(getCombatLogX(), damager);
-        if(configuration.getBoolean("link-pets")) damager = EntityHelper.linkPet(damager);
+        }
+        
+        if(configuration.getBoolean("link-pets")) {
+            damager = EntityHelper.linkPet(damager);
+        }
+        
+        if(configuration.getBoolean("link-tnt")) {
+            damager = EntityHelper.linkTNT(damager);
+        }
+        
         return damager;
     }
     
     private boolean isDisabled(EntityType entityType) {
-        if(entityType == null || entityType == EntityType.PLAYER || !entityType.isAlive()) return true;
-        String entityTypeName = entityType.name();
+        if(entityType == null || entityType == EntityType.PLAYER || !entityType.isAlive()) {
+            return true;
+        }
         
         Expansion expansion = getExpansion();
         ConfigurationManager configurationManager = expansion.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
         
         List<String> mobList = configuration.getStringList("mob-list");
-        if(mobList.contains("*")) return false;
+        if(mobList.contains("*")) {
+            return false;
+        }
+        
+        String entityTypeName = entityType.name();
         return !mobList.contains(entityTypeName);
     }
     
     private boolean isDisabled(SpawnReason spawnReason) {
-        if(spawnReason == null) return true;
-        String spawnReasonName = spawnReason.name();
+        if(spawnReason == null) {
+            return true;
+        }
         
         Expansion expansion = getExpansion();
         ConfigurationManager configurationManager = expansion.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-        
         List<String> spawnReasonList = configuration.getStringList("spawn-reason-list");
+        
+        String spawnReasonName = spawnReason.name();
         return spawnReasonList.contains(spawnReasonName);
     }
     
     private void checkTag(Entity entity, Entity enemy, TagReason tagReason) {
-        if(!(entity instanceof Player)) return;
+        if(!(entity instanceof Player)) {
+            return;
+        }
         
         Player player = (Player) entity;
-        if(hasBypassPermission(player)) return;
+        if(hasBypassPermission(player)) {
+            return;
+        }
         
-        if(!(enemy instanceof LivingEntity)) return;
+        if(!(enemy instanceof LivingEntity)) {
+            return;
+        }
+        
         LivingEntity livingEnemy = (LivingEntity) enemy;
-        
         EntityType enemyType = livingEnemy.getType();
-        if(isDisabled(enemyType)) return;
+        if(isDisabled(enemyType)) {
+            return;
+        }
         
         SpawnReason spawnReason = getSpawnReason(livingEnemy);
-        if(isDisabled(spawnReason)) return;
+        if(isDisabled(spawnReason)) {
+            return;
+        }
         
         ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = plugin.getCombatManager();
@@ -145,12 +185,17 @@ public final class ListenerDamage extends ExpansionListener {
     }
     
     private SpawnReason getSpawnReason(LivingEntity entity) {
-        if(entity == null || !entity.hasMetadata("spawn_reason")) return SpawnReason.DEFAULT;
-        List<MetadataValue> metadataValueList = entity.getMetadata("spawn_reason");
+        if(entity == null || !entity.hasMetadata("spawn_reason")) {
+            return SpawnReason.DEFAULT;
+        }
         
+        List<MetadataValue> metadataValueList = entity.getMetadata("spawn_reason");
         for(MetadataValue metadataValue : metadataValueList) {
             Object value = metadataValue.value();
-            if(!(value instanceof SpawnReason)) continue;
+            if(!(value instanceof SpawnReason)) {
+                continue;
+            }
+            
             return (SpawnReason) value;
         }
         
@@ -163,9 +208,12 @@ public final class ListenerDamage extends ExpansionListener {
         YamlConfiguration configuration = configurationManager.get("config.yml");
         
         String permissionName = configuration.getString("bypass-permission");
-        if(permissionName == null || permissionName.isEmpty()) return false;
+        if(permissionName == null || permissionName.isEmpty()) {
+            return false;
+        }
         
-        Permission permission = new Permission(permissionName, "CombatLogX Bypass Permission: Mob Combat", PermissionDefault.FALSE);
+        String permissionDescription = "CombatLogX Bypass Permission: Mob Combat";
+        Permission permission = new Permission(permissionName, permissionDescription, PermissionDefault.FALSE);
         return player.hasPermission(permission);
     }
 }
