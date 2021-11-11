@@ -2,19 +2,25 @@
 # Default: false
 prevent-interaction: false
 
+# This is a list of blocks that players should not interact with during combat.
+# Spigot Material List: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+# This defaults to prevent all block interactions.
+prevent-interaction-list:
+  - "*"
+
 # Should players be prevented from breaking blocks during combat?
 # Default: true
 prevent-breaking: true
-
-# Should players be prevented from placing blocks during combat?
-# Default: true
-prevent-placing: true
 
 # This is a list of blocks that should be prevented from breaking
 # Spigot Material List: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
 # This defaults to prevent all block breaking
 prevent-breaking-list:
   - "*"
+
+# Should players be prevented from placing blocks during combat?
+# Default: true
+prevent-placing: true
 
 # This is a list of blocks that should be prevented from placing
 # Spigot Material List: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
