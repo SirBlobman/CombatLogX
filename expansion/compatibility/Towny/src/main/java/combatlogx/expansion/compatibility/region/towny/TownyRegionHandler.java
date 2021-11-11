@@ -1,9 +1,9 @@
 package combatlogx.expansion.compatibility.region.towny;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -37,37 +37,45 @@ public final class TownyRegionHandler extends RegionHandler {
     
     @Override
     public boolean isSafeZone(Player player, Location location, TagType tagType) {
-        if(tagType != TagType.PLAYER) return false;
+        if(tagType != TagType.PLAYER) {
+            return false;
+        }
         
         RegionExpansion expansion = getExpansion();
         ConfigurationManager configurationManager = expansion.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
         
         TownBlock townBlock = getTownBlock(location);
-        if(townBlock == null) return false;
-        
-        if(configuration.getBoolean("prevent-all-town-entries", false)
-                && isOwnTown(townBlock, player)) {
-            return true;
+        if(townBlock == null) {
+            return false;
         }
         
-        TownyAPI townyAPI = TownyAPI.getInstance();
-        if(townyAPI.isWarTime()) return false;
+        if(configuration.getBoolean("prevent-all-town-entries", false)) {
+            if(isOwnTown(townBlock, player)) {
+                return true;
+            }
+        }
         
         TownyWorld townyWorld = townBlock.getWorld();
-        if(townyWorld == null || townyWorld.isForcePVP()) return false;
+        if(townyWorld == null || townyWorld.isForcePVP()) {
+            return false;
+        }
         
         Town town;
         try {
             town = townBlock.getTown();
-            if(town == null || town.isPVP() || town.isAdminEnabledPVP()) return false;
+            if(town == null || town.isPVP() || town.isAdminEnabledPVP() || town.hasActiveWar()) {
+                return false;
+            }
         } catch(NotRegisteredException ex) {
             return false;
         }
         
         PluginManager pluginManager = Bukkit.getPluginManager();
         if(pluginManager.isPluginEnabled("FlagWar")) {
-            if(FlagWarAPI.isUnderAttack(town)) return false;
+            if(FlagWarAPI.isUnderAttack(town)) {
+                return false;
+            }
         }
         
         TownyPermission townBlockPermissions = townBlock.getPermissions();
@@ -80,7 +88,9 @@ public final class TownyRegionHandler extends RegionHandler {
     }
     
     private boolean isOwnTown(TownBlock townBlock, Player player) {
-        if(townBlock == null) return false;
+        if(townBlock == null) {
+            return false;
+        }
         
         Town town;
         try {
@@ -90,9 +100,13 @@ public final class TownyRegionHandler extends RegionHandler {
         }
         
         List<Resident> residentList = town.getResidents();
-        Set<UUID> residentIdList = residentList.stream().map(Resident::getUUID).collect(Collectors.toSet());
+        Set<UUID> residentIdSet = new HashSet<>();
+        for(Resident resident : residentList) {
+            UUID residentId = resident.getUUID();
+            residentIdSet.add(residentId);
+        }
         
         UUID playerId = player.getUniqueId();
-        return residentIdList.contains(playerId);
+        return residentIdSet.contains(playerId);
     }
 }
