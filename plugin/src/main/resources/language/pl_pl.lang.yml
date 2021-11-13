@@ -58,13 +58,21 @@ command:
     time-left-self: "&aPozostało Ci &7{time_left} sekund."
     time-left-other: "&7Graczowi {target}&a pozostało &7{time_left}&a."
 tagged:
-  unknown: "&cJesteś teraz w walce! Nie wylogowuj się."
+  unknown:
+    player: "&cJesteś teraz w walce z &f{enemy}&c z nieznanego powodu. Nie wylogowuj się!"
+    mob: "&cJesteś teraz w walce z &f{enemy}&c z nieznanego powodu. Nie wylogowuj się!"
+    mythic_mob: "&cJesteś teraz w walce z &f{mob_type}&c z nieznanego powodu. Nie wylogowuj się!"
+    unknown: "&cZostałeś postawiony do walki bez powodu. Nie wylogowuj się."
   attacked:
     player: "&cZostałeś zaatakowany przez &f{enemy}&c. Nie wylogowuj się!"
     mob: "&cZostałeś zaatakowany przez &f{mob_type}&c. Nie wylogowuj się!"
+    mythic_mob: "&cZostałeś zaatakowany przez &f{enemy}&c. Nie wylogowuj się!"
+    unknown: "&cJesteś atakowany przez nieznaną siłę. Nie wylogowuj się!"
   attacker:
     player: "&cZaatakowałeś &f{enemy}&c. Nie wylogowuj się!"
     mob: "&cZaatakowałeś &f{mob_type}&c. Nie wylogowuj się!"
+    mythic_mob: "&cZaatakowałeś &f{enemy}&c. Nie wylogowuj się!"
+    unknown: "&cAtakujesz nieznaną siłę. Nie wylogowuj się!"
 expansion:
   action-bar:
     #Valid 'timer' placeholders: {time_left}, {time_left_decimal}, {bars}
