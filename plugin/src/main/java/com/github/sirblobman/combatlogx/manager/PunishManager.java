@@ -1,9 +1,13 @@
 package com.github.sirblobman.combatlogx.manager;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -19,12 +23,33 @@ import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.IPunishManager;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 import com.github.sirblobman.combatlogx.api.utility.CommandHelper;
+import com.github.sirblobman.combatlogx.object.SpecialPunishment;
 
 public final class PunishManager implements IPunishManager {
     private final ICombatLogX plugin;
+    private final List<String> punishCommandList;
+    private final List<SpecialPunishment> specialPunishmentList;
     
     public PunishManager(ICombatLogX plugin) {
         this.plugin = Validate.notNull(plugin, "plugin must not be null!");
+        this.punishCommandList = new ArrayList<>();
+        this.specialPunishmentList = new ArrayList<>();
+    }
+    
+    @Override
+    public void loadPunishments() {
+        this.punishCommandList.clear();
+        this.specialPunishmentList.clear();
+    
+        ConfigurationManager configurationManager = this.plugin.getConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("commands.yml");
+        List<String> punishCommandList = configuration.getStringList("punish-command-list");
+        this.punishCommandList.addAll(punishCommandList);
+    
+        if(configuration.getBoolean("special-punish-commands-enabled")) {
+            ConfigurationSection section = configuration.getConfigurationSection("special-punish-commands");
+            loadSpecialPunishments(section);
+        }
     }
     
     @Override
@@ -33,14 +58,16 @@ public final class PunishManager implements IPunishManager {
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.callEvent(punishEvent);
         
-        if(!punishEvent.isCancelled()) {
-            increasePunishmentCount(player);
-            runKillCheck(player);
-            runPunishCommands(player, previousEnemy);
-            return true;
+        if(punishEvent.isCancelled()) {
+            return false;
         }
         
-        return false;
+        increasePunishmentCount(player);
+        runKillCheck(player);
+        
+        runPunishCommands(player, previousEnemy, this.punishCommandList);
+        runSpecialPunishments(player, previousEnemy);
+        return true;
     }
     
     @Override
@@ -71,11 +98,26 @@ public final class PunishManager implements IPunishManager {
         playerDataManager.save(player);
     }
     
+    private void resetPunishmentCount(OfflinePlayer player) {
+        ConfigurationManager configurationManager = this.plugin.getConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("punish.yml");
+        if(!configuration.getBoolean("enable-punishment-counter")) {
+            return;
+        }
+    
+        PlayerDataManager playerDataManager = this.plugin.getPlayerDataManager();
+        YamlConfiguration playerData = playerDataManager.get(player);
+        playerData.set("punishment-count", 0L);
+        playerDataManager.save(player);
+    }
+    
     private void runKillCheck(Player player) {
         ConfigurationManager configurationManager = this.plugin.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("punish.yml");
         String killOptionString = configuration.getString("kill-time");
-        if(killOptionString == null) killOptionString = "QUIT";
+        if(killOptionString == null) {
+            killOptionString = "QUIT";
+        }
         
         if(killOptionString.equals("QUIT")) {
             IDeathListener listenerDeath = this.plugin.getDeathListener();
@@ -90,11 +132,10 @@ public final class PunishManager implements IPunishManager {
         }
     }
     
-    private void runPunishCommands(Player player, LivingEntity previousEnemy) {
-        ConfigurationManager configurationManager = this.plugin.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("commands.yml");
-        List<String> punishCommandList = configuration.getStringList("punish-command-list");
-        if(punishCommandList.isEmpty()) return;
+    private void runPunishCommands(Player player, LivingEntity previousEnemy, List<String> punishCommandList) {
+        if(punishCommandList.isEmpty()) {
+            return;
+        }
         
         ICombatManager combatManager = this.plugin.getCombatManager();
         for(String punishCommand : punishCommandList) {
@@ -112,6 +153,76 @@ public final class PunishManager implements IPunishManager {
             }
             
             CommandHelper.runAsConsole(this.plugin, replacedCommand);
+        }
+    }
+    
+    private void loadSpecialPunishments(ConfigurationSection sectionSpecial) {
+        Validate.notNull(sectionSpecial, "sectionSpecial must not be null!");
+        Logger logger = this.plugin.getLogger();
+        logger.info("Loading special punishments...");
+    
+        Set<String> keySet = sectionSpecial.getKeys(false);
+        for(String key : keySet) {
+            ConfigurationSection section = sectionSpecial.getConfigurationSection(key);
+            if(section == null) {
+                logger.warning("Skipping special punishment '" + key + "' because the section is not valid.");
+                continue;
+            }
+    
+            int minAmount = section.getInt("amount.min");
+            if(minAmount < 1) {
+                logger.warning("Skipping special punishment '" + key + "' because min amount must be"
+                        + "greater than zero.");
+                continue;
+            }
+            
+            int maxAmount = section.getInt("amount.max");
+            if(maxAmount < minAmount) {
+                logger.warning("Skipping special punishment '" + key + "' because max amount must be"
+                        + "greater than or equal to the min amount.");
+                continue;
+            }
+            
+            boolean reset = section.getBoolean("reset");
+            List<String> commandList = section.getStringList("command-list");
+            if(commandList.isEmpty()) {
+                logger.warning("Skipping special punishment '" + key + "' because the command list is empty.");
+                continue;
+            }
+            
+            SpecialPunishment specialPunishment = new SpecialPunishment(minAmount, maxAmount, reset, commandList);
+            this.specialPunishmentList.add(specialPunishment);
+        }
+    
+        int specialPunishmentCount = this.specialPunishmentList.size();
+        logger.info("Successfully loaded " + specialPunishmentCount + " special punishment(s).");
+    }
+    
+    private void runSpecialPunishments(Player player, LivingEntity previousEnemy) {
+        long punishmentCount = getPunishmentCount(player);
+        boolean reset = false;
+    
+        for(SpecialPunishment specialPunishment : this.specialPunishmentList) {
+            int min = specialPunishment.getMinAmount();
+            if(punishmentCount < min) {
+                continue;
+            }
+            
+            int max = specialPunishment.getMaxAmount();
+            if(punishmentCount > max) {
+                continue;
+            }
+            
+            if(specialPunishment.isReset()) {
+                reset = true;
+            }
+    
+            List<String> commandList = specialPunishment.getCommandList();
+            runPunishCommands(player, previousEnemy, commandList);
+        }
+        
+        if(reset) {
+            resetPunishmentCount(player);
         }
     }
 }

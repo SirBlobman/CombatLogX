@@ -23,17 +23,7 @@ public final class CommandCombatLogXReload extends CombatLogCommand {
         }
         
         ICombatLogX plugin = getCombatLogX();
-        ConfigurationManager configurationManager = plugin.getConfigurationManager();
-        List<String> fileNameList = Arrays.asList("commands.yml", "config.yml", "language.yml", "punish.yml");
-        for(String fileName : fileNameList) {
-            configurationManager.reload(fileName);
-        }
-        
-        LanguageManager languageManager = getLanguageManager();
-        languageManager.reloadLanguages();
-        
-        ExpansionManager expansionManager = getExpansionManager();
-        expansionManager.reloadConfigs();
+        plugin.onReload();
         
         sendMessageWithPrefix(sender, "command.combatlogx.reload-success", null, true);
         return true;

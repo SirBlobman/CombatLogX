@@ -34,6 +34,8 @@ public interface ICombatLogX extends IResourceHolder {
     
     void saveData(OfflinePlayer player);
     
+    void onReload();
+    
     MultiVersionHandler getMultiVersionHandler();
     
     ConfigurationManager getConfigurationManager();

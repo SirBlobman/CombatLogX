@@ -1,5 +1,6 @@
 package com.github.sirblobman.combatlogx;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -156,6 +157,24 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     public void saveData(OfflinePlayer player) {
         PlayerDataManager playerDataManager = getPlayerDataManager();
         playerDataManager.save(player);
+    }
+    
+    @Override
+    public void onReload() {
+        ConfigurationManager configurationManager = getConfigurationManager();
+        List<String> fileNameList = Arrays.asList("commands.yml", "config.yml", "punish.yml");
+        for(String fileName : fileNameList) {
+            configurationManager.reload(fileName);
+        }
+    
+        LanguageManager languageManager = getLanguageManager();
+        languageManager.reloadLanguages();
+        
+        IPunishManager punishManager = getPunishManager();
+        punishManager.loadPunishments();
+    
+        ExpansionManager expansionManager = getExpansionManager();
+        expansionManager.reloadConfigs();
     }
     
     @Override

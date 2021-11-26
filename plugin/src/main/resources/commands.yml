@@ -29,3 +29,40 @@ untag-command-list:
 # {player} - The name of the player that is being punished
 punish-command-list:
   - "warn {player} You logged out during combat! -s"
+
+
+# Set this to true to enable the 'special-punish-commands' option below.
+# Make sure to also set 'enable-punishment-counter' in the 'punish.yml' file to use these properly.
+special-punish-commands-enabled: false
+
+# This is a list of special punishment commands.
+# These only execute if the player has logged out during combat X amount of times.
+special-punish-commands:
+  example01:
+    # How many combat logs are required to trigger this punishment?
+    amount:
+      min: 2
+      max: 4
+
+    # Should the player's count be set back to zero after this punishment?
+    reset: false
+
+    # What commands will be executed when this punishment is triggered?
+    command-list:
+      - "tempban {player} 15s You have been timed out for logging out during combat."
+
+  example02:
+    amount:
+      min: 5
+      max: 9
+    reset: false
+    command-list:
+      - "tempban {player} 30m You have been timed out for logging out during combat after being warned."
+
+  example03:
+    amount:
+      min: 10
+      max: 10
+    reset: true
+    command-list:
+      - "tempban {player} 1w You have been banned for one week due to logging out during combat multiple times."
