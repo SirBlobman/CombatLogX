@@ -1,6 +1,7 @@
 package combatlogx.expansion.action.bar;
 
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import net.md_5.bungee.api.ChatColor;
 
@@ -15,7 +16,6 @@ import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TimerUpdater;
-import com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper;
 
 public final class ActionBarUpdater implements TimerUpdater {
     private final ActionBarExpansion expansion;
@@ -103,24 +103,15 @@ public final class ActionBarUpdater implements TimerUpdater {
     }
     
     private String replacePlaceholders(Player player, String message, long timeLeftMillis) {
-        ICombatLogX plugin = getCombatLogX();
-        
-        if(message.contains("{time_left}")) {
-            String timeLeftNormal = PlaceholderHelper.getTimeLeft(plugin, player);
-            message = message.replace("{time_left}", timeLeftNormal);
-        }
-        
-        if(message.contains("{time_left_decimal}")) {
-            String timeLeftDecimal = PlaceholderHelper.getTimeLeftDecimal(plugin, player);
-            message = message.replace("{time_left_decimal}", timeLeftDecimal);
-        }
-        
         if(message.contains("{bars}")) {
             String bars = getBars(player, timeLeftMillis);
             message = message.replace("{bars}", bars);
         }
-        
-        return message;
+    
+        ICombatLogX combatLogX = getCombatLogX();
+        ICombatManager combatManager = combatLogX.getCombatManager();
+        LivingEntity enemy = combatManager.getEnemy(player);
+        return combatManager.replaceVariables(player, enemy, message);
     }
     
     private String getBars(Player player, long timeLeftMillis) {
