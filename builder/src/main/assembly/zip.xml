@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.1.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.1.0 http://maven.apache.org/xsd/assembly-2.1.0.xsd">
+    <id>zip</id>
+    <includeBaseDirectory>false</includeBaseDirectory>
+
+    <formats>
+        <format>zip</format>
+    </formats>
+
+    <fileSets>
+        <fileSet>
+            <directory>src/main/resources</directory>
+            <outputDirectory>/</outputDirectory>
+        </fileSet>
+    </fileSets>
+
+    <moduleSets>
+        <!-- CombatLogX.jar -->
+        <moduleSet>
+            <useAllReactorProjects>true</useAllReactorProjects>
+            <includes>
+                <include>${project.groupId}:plugin</include>
+            </includes>
+            <binaries>
+                <includeDependencies>false</includeDependencies>
+                <outputDirectory>/</outputDirectory>
+                <outputFileNameMapping>${artifact.build.finalName}.${artifact.extension}</outputFileNameMapping>
+                <unpack>false</unpack>
+            </binaries>
+        </moduleSet>
+
+        <!-- Expansion JARs -->
+        <moduleSet>
+            <useAllReactorProjects>true</useAllReactorProjects>
+            <includes>
+                <include>com.github.sirblobman.combatlogx.expansion:*</include>
+                <include>com.github.sirblobman.combatlogx.expansion.compatibility:*</include>
+            </includes>
+            <excludes>
+                <exclude>*:*:pom</exclude>
+            </excludes>
+            <binaries>
+                <includeDependencies>false</includeDependencies>
+                <outputDirectory>/CombatLogX/expansions</outputDirectory>
+                <outputFileNameMapping>${artifact.build.finalName}.${artifact.extension}</outputFileNameMapping>
+                <unpack>false</unpack>
+            </binaries>
+        </moduleSet>
+    </moduleSets>
+
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>/</outputDirectory>
+            <outputFileNameMapping>SirBlobmanCore.jar</outputFileNameMapping>
+            <includes>
+                <include>com.github.sirblobman.api:core:jar:*</include>
+            </includes>
+        </dependencySet>
+    </dependencySets>
+</assembly>
