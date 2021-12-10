@@ -13,12 +13,20 @@
     <name>Compatibility Expansion: IridiumSkyblock</name>
     <description>An expansion for CombatLogX that adds compatibility with the IridiumSkyblock plugin.</description>
 
+    <repositories>
+        <!-- SirBlobman Public Repository -->
+        <repository>
+            <id>sirblobman-public</id>
+            <url>https://nexus.sirblobman.xyz/repository/public/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <!-- Iridium Skyblock -->
         <dependency>
             <groupId>com.iridium</groupId>
             <artifactId>IridiumSkyblock</artifactId>
-            <version>3.1.1</version>
+            <version>3.2.2</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
