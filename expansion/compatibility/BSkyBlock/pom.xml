@@ -18,10 +18,10 @@
     </properties>
 
     <repositories>
-        <!-- SirBlobman Public Repository -->
+        <!-- CodeMC Public Repository -->
         <repository>
-            <id>sirblobman-public</id>
-            <url>https://nexus.sirblobman.xyz/repository/public/</url>
+            <id>codemc-public</id>
+            <url>https://repo.codemc.io/repository/maven-public/</url>
         </repository>
     </repositories>
 
