@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
-import com.google.common.reflect.TypeToken;
+import io.leangen.geantyref.TypeToken;
 import com.griefdefender.api.Core;
 import com.griefdefender.api.GriefDefender;
 import com.griefdefender.api.Tristate;
@@ -32,19 +32,22 @@ public final class GriefDefenderRegionHandler extends RegionHandler {
     }
     
     @Override
-    @SuppressWarnings("UnstableApiUsage")
     public boolean isSafeZone(Player player, Location location, TagType tagType) {
-        if(tagType != TagType.PLAYER) return false;
+        if(tagType != TagType.PLAYER) {
+            return false;
+        }
         
         Claim claim = getClaimAt(location);
-        if(claim == null) return false;
+        if(claim == null) {
+            return false;
+        }
         
-        UUID uuid = player.getUniqueId();
+        UUID playerId = player.getUniqueId();
         Core core = GriefDefender.getCore();
-        User user = core.getUser(uuid);
+        User user = core.getUser(playerId);
         
         Set<Context> contexts = Collections.emptySet();
-        TypeToken<Tristate> typeTokenTristate = TypeToken.of(Tristate.class);
+        TypeToken<Tristate> typeTokenTristate = TypeToken.get(Tristate.class);
         Tristate activeOptionValue = claim.getActiveOptionValue(typeTokenTristate, Options.PVP, user, contexts);
         
         return (activeOptionValue != Tristate.TRUE);
@@ -52,7 +55,9 @@ public final class GriefDefenderRegionHandler extends RegionHandler {
     
     private Claim getClaimAt(Location location) {
         World world = location.getWorld();
-        if(world == null) return null;
+        if(world == null) {
+            return null;
+        }
         
         UUID worldId = world.getUID();
         int x = location.getBlockX();
@@ -61,6 +66,10 @@ public final class GriefDefenderRegionHandler extends RegionHandler {
         
         Core core = GriefDefender.getCore();
         ClaimManager claimManager = core.getClaimManager(worldId);
+        if(claimManager == null) {
+            return null;
+        }
+        
         return claimManager.getClaimAt(x, y, z);
     }
 }
