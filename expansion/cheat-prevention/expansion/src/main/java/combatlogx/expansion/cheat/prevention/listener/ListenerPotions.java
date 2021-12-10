@@ -1,13 +1,13 @@
 package combatlogx.expansion.cheat.prevention.listener;
 
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
@@ -22,27 +22,32 @@ public final class ListenerPotions extends CheatPreventionListener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onTag(PlayerTagEvent e) {
         Player player = e.getPlayer();
-        Set<PotionEffectType> removeList = getBlockedPotionEffectTypes();
-        removeList.forEach(player::removePotionEffect);
+        Collection<PotionEffect> activePotionEffectCollection = player.getActivePotionEffects();
+        for(PotionEffect potionEffect : activePotionEffectCollection) {
+            PotionEffectType potionEffectType = potionEffect.getType();
+            if(isBlocked(potionEffectType)) {
+                player.removePotionEffect(potionEffectType);
+            }
+        }
     }
     
     private YamlConfiguration getConfiguration() {
-        Expansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
+        ConfigurationManager configurationManager = getExpansionConfigurationManager();
         return configurationManager.get("potions.yml");
     }
     
-    private Set<PotionEffectType> getBlockedPotionEffectTypes() {
+    private boolean isListInverted() {
+        YamlConfiguration configuration = getConfiguration();
+        return configuration.getBoolean("blocked-potion-type-list-inverted", false);
+    }
+    
+    private boolean isBlocked(PotionEffectType potionEffectType) {
         YamlConfiguration configuration = getConfiguration();
         List<String> potionEffectTypeNameList = configuration.getStringList("blocked-potion-type-list");
-        Set<PotionEffectType> potionEffectTypeSet = new HashSet<>();
+        String potionEffectTypeName = potionEffectType.getName();
         
-        for(String potionEffectTypeName : potionEffectTypeNameList) {
-            PotionEffectType potionEffectType = PotionEffectType.getByName(potionEffectTypeName);
-            if(potionEffectType == null) continue;
-            potionEffectTypeSet.add(potionEffectType);
-        }
-        
-        return potionEffectTypeSet;
+        boolean inverted = isListInverted();
+        boolean contains = potionEffectTypeNameList.contains(potionEffectTypeName);
+        return (inverted != contains);
     }
 }

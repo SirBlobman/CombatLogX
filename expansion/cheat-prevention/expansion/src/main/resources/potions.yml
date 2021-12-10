@@ -6,3 +6,6 @@
 blocked-potion-type-list:
   - INCREASE_DAMAGE
   - INVISIBILITY
+
+# Set this to 'true' to turn the 'blocked' list to an 'allowed' list.
+blocked-potion-type-list-inverted: false
