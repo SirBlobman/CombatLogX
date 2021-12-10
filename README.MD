@@ -13,8 +13,8 @@ things and change how the plugin works.
 
 # Dependencies
 
-- [Spigot 1.8.8 - 1.17.1](https://spigotmc.org/)
-- [SirBlobmanCore 2.3.1 or higher](https://jenkins.sirblobman.xyz/job/SirBlobman/job/SirBlobmanAPI/)
+- [Spigot 1.8.8 - 1.18.1](https://spigotmc.org/)
+- [SirBlobmanCore 2.3.4 or higher](https://jenkins.sirblobman.xyz/job/SirBlobman/job/SirBlobmanAPI/)
 
 ## Main Features
 
