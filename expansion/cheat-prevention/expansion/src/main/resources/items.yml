@@ -10,6 +10,9 @@ prevent-pickup: true
 # Default: true
 prevent-elytra: true
 
+# Should player's that are gliding have their elytra forcefully disabled when tagged?
+force-prevent-elytra: false
+
 # Should players be prevented from using Totems of Undying during combat?
 # Default: false
 prevent-totem: false
