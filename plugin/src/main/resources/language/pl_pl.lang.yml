@@ -10,7 +10,7 @@ placeholder:
   time-left-zero: "0"
   unknown-enemy: "Nieznany"
   status:
-    fighting: "&cWalczy"
+    fighting: "&cWalka"
     idle: "&aBezczynny"
     in-combat: "&aTak"
     not-in-combat: "&cNie"
