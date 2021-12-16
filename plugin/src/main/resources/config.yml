@@ -84,3 +84,8 @@ untag-on-death: true
 # Should players be removed from combat when their enemy dies/explodes?
 # Default: true
 untag-on-enemy-death: true
+
+# How long must players wait between requests?
+# This cooldown is for the `/clx request' command.
+# Default: 30 (seconds)
+request-cooldown: 30

@@ -17,6 +17,11 @@ public enum UntagReason {
     ENEMY_DEATH(true),
     
     /**
+     * The player's enemy typed `/clx forgive`.
+     */
+    ENEMY_FORIVE(true),
+    
+    /**
      * The player disconnected from the server
      */
     QUIT,

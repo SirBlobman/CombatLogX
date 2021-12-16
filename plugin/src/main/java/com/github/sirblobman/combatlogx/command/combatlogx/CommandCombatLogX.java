@@ -7,8 +7,10 @@ public final class CommandCombatLogX extends CombatLogCommand {
     public CommandCombatLogX(ICombatLogX plugin) {
         super(plugin, "combatlogx");
         addSubCommand(new CommandCombatLogXAbout(plugin));
+        addSubCommand(new CommandCombatLogXForgive(plugin));
         addSubCommand(new CommandCombatLogXHelp(plugin));
         addSubCommand(new CommandCombatLogXReload(plugin));
+        addSubCommand(new CommandCombatLogXRequest(plugin));
         addSubCommand(new CommandCombatLogXTag(plugin));
         addSubCommand(new CommandCombatLogXToggle(plugin));
         addSubCommand(new CommandCombatLogXUntag(plugin));
