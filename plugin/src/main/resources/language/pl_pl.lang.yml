@@ -10,7 +10,7 @@ placeholder:
   time-left-zero: "0"
   unknown-enemy: "Nieznany"
   status:
-    fighting: "&cWalczy"
+    fighting: "&cWalka"
     idle: "&aBezczynny"
     in-combat: "&aTak"
     not-in-combat: "&cNie"
@@ -179,6 +179,8 @@ expansion:
   essentials-compatibility:
     prevent-teleport-request-self: "&cNie możesz tworzyć żądań teleportacji podczas walki."
     prevent-teleport-request-other: "&cNie możesz wysłać prośby o teleportację do gracza, który jest w walce."
+  marriagemaster-compatiblity:
+    prevent-teleport: "&cNie możesz teleportować się do swojego partnera podczas walki."
   region-protection:
     factions-no-entry: "&cNie możesz wejść do tego obszaru podczas walki."
     griefdefender-no-entry: "&cNie możesz wejść do tego obszaru podczas walki."
