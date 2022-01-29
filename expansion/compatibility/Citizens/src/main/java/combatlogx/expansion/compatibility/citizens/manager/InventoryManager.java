@@ -142,34 +142,33 @@ public final class InventoryManager {
         
         for(int slot = 0; slot < 36; slot++) {
             ItemStack item = storedInventory.getItem(slot);
-            NPCDropItemEvent event = new NPCDropItemEvent(item, player, location, CitizensSlotType.INVENTORY);
-            
-            Bukkit.getPluginManager().callEvent(event);
-            
-            if (!event.isCancelled())
-                world.dropItemNaturally(location, event.getItem());
+            dropItem(item, player, location, CitizensSlotType.INVENTORY);
         }
         
         ArmorType[] armorTypeArray = ArmorType.values();
         for(ArmorType armorType : armorTypeArray) {
             ItemStack item = storedInventory.getArmor(armorType);
-            NPCDropItemEvent event = new NPCDropItemEvent(item, player, location, CitizensSlotType.ARMOR);
-            
-            Bukkit.getPluginManager().callEvent(event);
-            
-            if (!event.isCancelled())
-                world.dropItemNaturally(location, event.getItem());
+            dropItem(item, player, location, CitizensSlotType.ARMOR);
         }
         
         ItemStack item = storedInventory.getOffHandItem();
-        NPCDropItemEvent event = new NPCDropItemEvent(item, player, location, CitizensSlotType.OFFHAND);
-        
-        Bukkit.getPluginManager().callEvent(event);
-        
-        if (!event.isCancelled())
-            world.dropItemNaturally(location, event.getItem());
+        dropItem(item, player, location, CitizensSlotType.OFFHAND);
         
         removeStoredInventory(player);
+    }
+    
+    private void dropItem(ItemStack item, OfflinePlayer player, Location location, CitizensSlotType type) {
+        World world = location.getWorld();
+        
+        if (item == null)
+            return;
+        
+        NPCDropItemEvent event = new NPCDropItemEvent(item, player, location, type);
+    
+        Bukkit.getPluginManager().callEvent(event);
+    
+        if (!event.isCancelled())
+            world.dropItemNaturally(location, event.getItem());
     }
     
     public void equipNPC(OfflinePlayer player, NPC npc) {
