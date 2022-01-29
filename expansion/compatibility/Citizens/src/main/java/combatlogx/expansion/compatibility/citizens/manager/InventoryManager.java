@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import com.github.sirblobman.combatlogx.api.event.NPCDropItemEvent;
+import com.github.sirblobman.combatlogx.api.object.CitizensSlotType;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
@@ -139,23 +142,32 @@ public final class InventoryManager {
         
         for(int slot = 0; slot < 36; slot++) {
             ItemStack item = storedInventory.getItem(slot);
-            if(item != null) {
-                world.dropItemNaturally(location, item);
-            }
+            NPCDropItemEvent event = new NPCDropItemEvent(item, player, location, CitizensSlotType.INVENTORY);
+            
+            Bukkit.getPluginManager().callEvent(event);
+            
+            if (!event.isCancelled())
+                world.dropItemNaturally(location, event.getItem());
         }
         
         ArmorType[] armorTypeArray = ArmorType.values();
         for(ArmorType armorType : armorTypeArray) {
             ItemStack item = storedInventory.getArmor(armorType);
-            if(item != null) {
-                world.dropItemNaturally(location, item);
-            }
+            NPCDropItemEvent event = new NPCDropItemEvent(item, player, location, CitizensSlotType.ARMOR);
+            
+            Bukkit.getPluginManager().callEvent(event);
+            
+            if (!event.isCancelled())
+                world.dropItemNaturally(location, event.getItem());
         }
         
         ItemStack item = storedInventory.getOffHandItem();
-        if(item != null) {
-            world.dropItemNaturally(location, item);
-        }
+        NPCDropItemEvent event = new NPCDropItemEvent(item, player, location, CitizensSlotType.OFFHAND);
+        
+        Bukkit.getPluginManager().callEvent(event);
+        
+        if (!event.isCancelled())
+            world.dropItemNaturally(location, event.getItem());
         
         removeStoredInventory(player);
     }
