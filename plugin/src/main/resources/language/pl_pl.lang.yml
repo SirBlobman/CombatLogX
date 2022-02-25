@@ -15,18 +15,18 @@ placeholder:
     in-combat: "&aTak"
     not-in-combat: "&cNie"
   toggle:
-    enabled: "&aWł"
-    disabled: "&cWył"
+    enabled: "&aWłączony"
+    disabled: "&cWyłączony"
   pvp-status:
-    enabled: "&aWł"
-    disabled: "&cWył"
+    enabled: "&aWłączony"
+    disabled: "&cWyłączony"
 combat-timer:
   expire: "&aNie jesteś już w walce."
   enemy-death: "&aNie jesteś już w walce, ponieważ twój przeciwnik nie żyje."
 error:
   player-only: "&cTylko gracze mogą wykonać to polecenie."
   invalid-target: "&7{target}&c nie jest online lub nie istnieje."
-  disabled-world: "&cTa komenda nie jest dostępna w tym wymiarze."
+  disabled-world: "&cTa komenda nie jest dostępna w tym świecie."
   no-permission: "&cBrak uprawnień: &7{permission}"
   target-not-in-combat: "&7{target}&c nie jest w walce."
   self-not-in-combat: "&cNie jesteś w walce."
