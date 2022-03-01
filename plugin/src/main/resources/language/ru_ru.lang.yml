@@ -58,13 +58,21 @@ command:
     time-left-self: "&aОсталось &7{time_left} &aсекунд."
     time-left-other: "&7{target}&a осталось &7{time_left} &aсекунд."
 tagged:
-  unknown: "&cВы находитесь в бою! Не выходите из игры."
+  unknown:
+    player: "&cВы находитесь в бою с &f{enemy}&c по неизвестной причине. Не выходите из игры!"
+    mob: "&cВы находитесь в бою с &f{enemy}&c по неизвестной причине. Не выходите из игры!"
+    mythic_mob: "&cВы находитесь в бою с &f{mob_type}&c по неизвестной причине. Не выходите из игры!"
+    unknown: "&cВы попали в бой по неизвестной причине. Не выходите из игры."
   attacked:
     player: "&cВы были атакованы игроком &f{enemy}&c. Не выходите из игры!"
     mob: "&cВы были атакованы &f{mob_type}&c. Не выходите из игры!"
+    mythic_mob: "&cВы были атакованы &f{enemy}&c. Не выходите из игры!"
+    unknown: "&cВы были атакованы неизвестной силой. Не выходите из игры!"
   attacker:
     player: "&cВы атаковали игрока &f{enemy}&c. Не выходите из игры!"
     mob: "&cВы атаковали &f{mob_type}&c. Не выходите из игры!"
+    mythic_mob: "&cВы атаковали &f{enemy}&c. Не выходите из игры!"
+    unknown: "&cВы атакуете неизвестную силу. Не выходите из игры!"
 expansion:
   action-bar:
     #Valid 'timer' placeholders: {time_left}, {time_left_decimal}, {bars}
@@ -171,6 +179,8 @@ expansion:
   essentials-compatibility:
     prevent-teleport-request-self: "&cВы не можете отправлять запрос на телепортацию во время боя."
     prevent-teleport-request-other: "&cВы не можете отправлять запрос на телепортацию к игроку, находящемуся в бою."
+  marriagemaster-compatiblity:
+    prevent-teleport: "&cВы не можете телепортироваться к вашему партнёру во время боя."
   region-protection:
     factions-no-entry: "&cВам не разрешено входить в эту зону во время боя."
     griefdefender-no-entry: "&cВам не разрешено входить в эту зону во время боя."

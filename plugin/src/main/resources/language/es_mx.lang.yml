@@ -58,13 +58,21 @@ command:
     time-left-self: "&aTienes &7{time_left} segundos&a restantes."
     time-left-other: "&7{target}&a tiene &7{time_left} segundos&a restantes."
 tagged:
-  unknown: "&c¡Estás en combate! ¡No te desconectes!."
+  unknown:
+    player: "&cAhora estás en combate con &f{enemy}&c por una razón desconocida. ¡No te desconectes!"
+    mob: "&c Ahora estás en combate con un(a) &f{enemy}&c por una razón desconocida. ¡No cierre sesión!"
+    mythic_mob: "&cAhora estás en combate con &f{mob_type}&c por una razón desconocida. ¡No te desconectes!"
+    unknown: "&cFuiste puesto en combate sin motivo alguno. No cierre la sesión."
   attacked:
     player: "&cEstás siendo atacado por &f{enemy}&c. ¡No te desconectes!"
     mob: "&cEstás siendo atacado por un(os) &f{mob_type}&c. ¡No te desconectes!"
+    mythic_mob: "&cEstás siendo atacado por un(os) &f{enemy}&c. ¡No te desconectes!"
+    unknown: "&cEstás siendo atacado por una fuerza desconocida. ¡No cierre sesión!"
   attacker:
     player: "&cEstás atacando a &f{enemy}&c. ¡No te desconectes!"
     mob: "&cEstás atacando un(os) &f{mob_type}&c.¡No te salgas!"
+    mythic_mob: "&cEstás atacando un(os) &f{enemy}&c.¡No te salgas!"
+    unknown: "&cEstás atacando a una fuerza desconocida. ¡No cierre sesión!"
 expansion:
   action-bar:
     #Valid 'timer' placeholders: {time_left}, {time_left_decimal}, {bars}
@@ -171,6 +179,8 @@ expansion:
   essentials-compatibility:
     prevent-teleport-request-self: "&cNo puedes enviarte solicitudes de teletransportación durante el combate."
     prevent-teleport-request-other: "&cNo puedes enviar solicitudes de teletransportación durante el combate."
+  marriagemaster-compatiblity:
+    prevent-teleport: "&cNo puedes teletransportarte a tu compañero durante el combate."
   region-protection:
     factions-no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
     griefdefender-no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
