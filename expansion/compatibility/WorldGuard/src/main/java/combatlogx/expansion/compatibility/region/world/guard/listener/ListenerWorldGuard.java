@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
@@ -28,9 +29,25 @@ public final class ListenerWorldGuard extends ExpansionListener {
         }
     }
     
+    // Bug Fix: WorldGuard Invulnerability when teleport is cancelled during combat.
+    // Bug Reported and Patched by PhoenixZT#0278 on Discord.
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onTeleport(PlayerTeleportEvent e) {
+        Player player = e.getPlayer();
+        if(isInCombat(player)) {
+            Location location = player.getLocation();
+            player.teleport(location);
+        }
+    }
+    
     private boolean isNoTaggingRegion(Player player, Location location) {
-        if(player == null || location == null) return false;
-        if(HookWorldGuard.NO_TAGGING == null) return false;
+        if(player == null || location == null) {
+            return false;
+        }
+        
+        if(HookWorldGuard.NO_TAGGING == null) {
+            return false;
+        }
         
         WorldGuardWrapper instance = WorldGuardWrapper.getInstance();
         Optional<Boolean> optionalFlag = instance.queryFlag(player, location, HookWorldGuard.NO_TAGGING);
