@@ -1,0 +1,84 @@
+package com.github.sirblobman.combatlogx.api.event;
+
+import com.github.sirblobman.combatlogx.api.object.CitizensSlotType;
+import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.event.Cancellable;
+import org.bukkit.event.Event;
+import org.bukkit.event.HandlerList;
+import org.bukkit.inventory.ItemStack;
+
+/**
+ * NPCDropItemEvent is an event that will be called when an item is dropped from a combat logged
+ * NPC.
+ *
+ * @author SirBlobman
+ */
+public class NPCDropItemEvent extends Event implements Cancellable {
+    private static final HandlerList handlerList = new HandlerList();
+    
+    private final OfflinePlayer player;
+    private final Location location;
+    private final CitizensSlotType slotType;
+    
+    private boolean isCancelled = false;
+    private ItemStack item;
+    
+    public NPCDropItemEvent(ItemStack item, OfflinePlayer player, Location location, CitizensSlotType slotType) {
+        this.player = player;
+        this.location = location;
+        this.item = item;
+        this.slotType = slotType;
+    }
+    
+    public static HandlerList getHandlerList() {
+        return handlerList;
+    }
+    
+    public HandlerList getHandlers() {
+        return getHandlerList();
+    }
+    
+    /**
+     * @return The player who combat logged
+     */
+    public OfflinePlayer getPlayer() {
+        return player;
+    }
+    
+    /**
+     * @return The location at which the player combat logged
+     */
+    public Location getLocation() {
+        return location;
+    }
+    
+    /**
+     * @return The item being dropped from the location
+     * @see CitizensSlotType for various inventory slot locations this item could be from
+     */
+    public ItemStack getItem() {
+        return item;
+    }
+    
+    public void setItem(ItemStack item) {
+        this.item = item.clone();
+    }
+    
+    /**
+     * @return The type of slot the item is from
+     */
+    public CitizensSlotType getSlotType() {
+        return slotType;
+    }
+    
+    @Override
+    public boolean isCancelled() {
+        return isCancelled;
+    }
+    
+    @Override
+    public void setCancelled(boolean cancelled) {
+        this.isCancelled = cancelled;
+    }
+}

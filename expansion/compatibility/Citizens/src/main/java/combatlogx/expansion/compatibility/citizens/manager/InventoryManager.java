@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import com.github.sirblobman.combatlogx.api.event.NPCDropItemEvent;
+import com.github.sirblobman.combatlogx.api.object.CitizensSlotType;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
@@ -139,25 +142,33 @@ public final class InventoryManager {
         
         for(int slot = 0; slot < 36; slot++) {
             ItemStack item = storedInventory.getItem(slot);
-            if(item != null) {
-                world.dropItemNaturally(location, item);
-            }
+            dropItem(item, player, location, CitizensSlotType.INVENTORY);
         }
         
         ArmorType[] armorTypeArray = ArmorType.values();
         for(ArmorType armorType : armorTypeArray) {
             ItemStack item = storedInventory.getArmor(armorType);
-            if(item != null) {
-                world.dropItemNaturally(location, item);
-            }
+            dropItem(item, player, location, CitizensSlotType.ARMOR);
         }
         
         ItemStack item = storedInventory.getOffHandItem();
-        if(item != null) {
-            world.dropItemNaturally(location, item);
-        }
+        dropItem(item, player, location, CitizensSlotType.OFFHAND);
         
         removeStoredInventory(player);
+    }
+    
+    private void dropItem(ItemStack item, OfflinePlayer player, Location location, CitizensSlotType type) {
+        World world = location.getWorld();
+        
+        if (item == null)
+            return;
+        
+        NPCDropItemEvent event = new NPCDropItemEvent(item, player, location, type);
+    
+        Bukkit.getPluginManager().callEvent(event);
+    
+        if (!event.isCancelled())
+            world.dropItemNaturally(location, event.getItem());
     }
     
     public void equipNPC(OfflinePlayer player, NPC npc) {
