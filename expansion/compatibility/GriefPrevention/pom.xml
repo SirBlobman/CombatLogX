@@ -29,7 +29,7 @@
         <dependency>
             <groupId>com.github.TechFortress</groupId>
             <artifactId>GriefPrevention</artifactId>
-            <version>16.17.1</version>
+            <version>16.18</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
