@@ -29,6 +29,7 @@ body:
         not provide support for it.
       multiple: false
       options:
+        - 1.18.2
         - 1.17.1
         - 1.16.5
         - 1.12.2
