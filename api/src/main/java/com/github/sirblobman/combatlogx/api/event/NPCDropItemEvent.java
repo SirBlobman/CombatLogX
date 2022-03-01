@@ -1,6 +1,5 @@
 package com.github.sirblobman.combatlogx.api.event;
 
-import com.github.sirblobman.combatlogx.api.object.CitizensSlotType;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.Cancellable;
@@ -8,20 +7,20 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 
+import com.github.sirblobman.combatlogx.api.object.CitizensSlotType;
+
 /**
- * NPCDropItemEvent is an event that will be called when an item is dropped from a combat logged
- * NPC.
- *
- * @author SirBlobman
+ * NPCDropItemEvent is an event that will be called when an item is dropped from a combat logged NPC.
+ * @author SizzleMcGrizzle
  */
-public class NPCDropItemEvent extends Event implements Cancellable {
+public final class NPCDropItemEvent extends Event implements Cancellable {
     private static final HandlerList handlerList = new HandlerList();
     
     private final OfflinePlayer player;
     private final Location location;
     private final CitizensSlotType slotType;
     
-    private boolean isCancelled = false;
+    private boolean cancelled;
     private ItemStack item;
     
     public NPCDropItemEvent(ItemStack item, OfflinePlayer player, Location location, CitizensSlotType slotType) {
@@ -29,6 +28,7 @@ public class NPCDropItemEvent extends Event implements Cancellable {
         this.location = location;
         this.item = item;
         this.slotType = slotType;
+        this.cancelled = false;
     }
     
     public static HandlerList getHandlerList() {
@@ -74,11 +74,11 @@ public class NPCDropItemEvent extends Event implements Cancellable {
     
     @Override
     public boolean isCancelled() {
-        return isCancelled;
+        return cancelled;
     }
     
     @Override
     public void setCancelled(boolean cancelled) {
-        this.isCancelled = cancelled;
+        this.cancelled = cancelled;
     }
 }
