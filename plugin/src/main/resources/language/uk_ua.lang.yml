@@ -1,0 +1,194 @@
+---
+language-name: "uk_ua"
+decimal-format: "0.00"
+prefix: "&f&l[&6CombatLogX&f&l]&r"
+broadcast:
+  on-load: "&a&lCombatLogX успішно завантажено."
+  on-enable: "&a&lCombatLogX успішно увімкнено."
+  on-disable: "&c&lCombatLogX успішно відключено."
+placeholder:
+  time-left-zero: "0"
+  unknown-enemy: "Невідомий"
+  status:
+    fighting: "&cБоротьба"
+    idle: "&aБездіяльний"
+    in-combat: "&aТак"
+    not-in-combat: "&cНі"
+  toggle:
+    enabled: "&aУВІМК"
+    disabled: "&cВИМК"
+  pvp-status:
+    enabled: "&aУВІМК"
+    disabled: "&cВИМК"
+combat-timer:
+  expire: "&aВи більше не в бою."
+  enemy-death: "&aВи більше не в бою, тому що ваш ворог загинув."
+error:
+  player-only: "&cЦю команду можуть виконувати лише гравці."
+  invalid-target: "&7{target}&c не в мережі або не існує."
+  disabled-world: "&cЦя команда недоступна в цьому вимірі."
+  no-permission: "&cНемає дозволу: &7{permission}"
+  target-not-in-combat: "&7{target}&c не в бою."
+  self-not-in-combat: "&cВи не в бою."
+  unknown-expansion: "&7{target}&c не є розширенням або не встановлено."
+command:
+  combatlogx:
+    help-message-list:
+      - "&f"
+      - "&6&lCombatLogX Довідка команди:"
+      - "  &f&l/combatlogx help&7: Переглянути цю сторінку довідки."
+      - "  &f&l/combatlogx reload&7: Перезавантажте config.yml, language.yml та всі файли конфігурації розширення."
+      - "  &f&l/combatlogx about <expansion>&7: Перевірте інформацію про розширення."
+      - "  &f&l/combatlogx tag <player>&7: Примусити гравця вступити в бій."
+      - "  &f&l/combatlogx toggle bossbar/actionbar/scoreboard&7: Увімкнути або вимкнути тип сповіщення."
+      - "  &f&l/combatlogx untag <player>&7: Вимусити гравця вийти з бою."
+      - "  &f&l/combatlogx version&7: Перевірте свою версію CombatLogX."
+      - "&f"
+    reload-success:
+      - "&aУспішно перезавантажено всі файли конфігурації з CombatLogX."
+      - "&aУспішно перезавантажено всі мовні файли з CombatLogX."
+      - "&aУспішно перезавантажено всі файли конфігурації з розширень CombatLogX."
+    tag-player: "&aУспішно змусив гравця &7{target}&a вступити в бій."
+    tag-failure: "&7{target}&c не вдалося ввести в бій. (Може, у них обхід?)"
+    untag-player: "&aГравець &7{target}&a успішно виведений з бою."
+    toggle-bossbar: "&7&lБос Бар: {status}"
+    toggle-actionbar: "&7&lПанель дій: {status}"
+    toggle-scoreboard: "&7Табло: {status}"
+  combat-timer:
+    time-left-self: "&aУ вас залишається &7{time_left} секунд."
+    time-left-other: "&aУ &7{target}&a залишилося &7{time_left} секунд."
+tagged:
+  unknown: "&cВи зараз в бою! Не виходьте."
+  attacked:
+    player: "&cНа вас нападає &f{enemy}&c. Не виходьте!"
+    mob: "&cНа вас нападає &f{mob_type}&c. Не виходьте!"
+  attacker:
+    player: "&cВи атакуєте &f{enemy}&c. Не виходьте!"
+    mob: "&cВи атакуєте &f{mob_type}&c. Не виходьте!"
+expansion:
+  action-bar:
+    #Valid 'timer' placeholders: {time_left}, {time_left_decimal}, {bars}
+    timer: "&6&lБоротьба &7\u00BB &f{bars} &f{time_left_decimal} секунд."
+    ended: "&6&lБоротьба &7\u00BB &fТи більше не в бою."
+  boss-bar:
+    #Valid 'timer' placeholders: {time_left}, {time_left_decimal}
+    timer: "&6&lБоротьба &7\u00BB &c{time_left_decimal} секунд."
+    ended: "&6&lБоротьба &7\u00BB &aТи більше не в бою."
+  scoreboard:
+    #Make sure to follow your Spigot version's scoreboard character limit
+    title: "&6&lCombatLogX"
+    #Make sure to follow your Spigot version's scoreboard line/character limit
+    lines:
+      - "&f"
+      - "&f&lБойова статистика:"
+      - "&8\u00BB &f&lЗалишився час: &7{time_left}"
+      - "&8\u00BB &f&lВ бою: &7{in_combat}"
+      - "&8\u00BB &f&lСтатус: &7{status}"
+      - "&f"
+      - "&f&lСтатистика ворога"
+      - "&8\u00BB &f&lНазва: &7{enemy_name}"
+      - "&8\u00BB &f&lЗдоров'я: &7{enemy_health}"
+      - "&8\u00BB &f&lЗдоров'я округлене: &7{enemy_health_rounded}"
+      - "&8\u00BB &f&lСерця: &7{enemy_hearts}"
+      - "&f"
+  cheat-prevention:
+    command-blocked: "&cВи не маєте доступу до &a{command}&c під час бою."
+    no-riptide: "&cЗачарування тягун вимикається під час бою."
+    no-totem: "&cПід час бою не дозволяється використовувати тотеми безсмертя."
+    no-entity-interaction: "&cВам заборонено використовувати цей моб під час бою."
+    no-chat: "&cПід час бою не дозволяється надсилати повідомлення чату."
+    game-mode:
+      force-switch: "&cВаш режим гри був змінений на &f{game_mode}&c."
+      no-switch: "&cПід час бою не дозволяється змінювати режими гри."
+    flight:
+      force-disabled: "&cВаша здатність літати була видалена."
+      no-flying: "&cПід час бою вам заборонено літати."
+    elytra:
+      force-disabled: "&cВаші крила були вимкнені."
+      no-gliding: "&cПід час бою заборонено використовувати крила."
+    teleportation:
+      block-portal: "&cВам було заборонено користуватися порталом під час бою."
+      block-pearl: "&cПід час бою заборонено використовувати перлину ендера."
+      block-other: "&cВам заборонено телепортуватися під час бою."
+    inventory:
+      force-closed: "&cВаш інвентар закрили."
+      no-opening: "&cНе дозволяється відкривати запаси під час бою."
+    blocks:
+      prevent-breaking: "&cПід час бою не дозволяється розбивати блоки."
+      prevent-placing: "&cПід час бою заборонено розміщувати блоки."
+      prevent-interaction: "&cПід час бою заборонено використовувати блоки."
+      prevent-portal-creation: "&cНе дозволяється створювати портали під час бою."
+    items:
+      no-pickup: "&cПід час бою заборонено брати речі."
+      no-dropping: "&cПід час бою заборонено кидати предмети."
+    buckets:
+      no-empty: "&cПід час бою не можна спорожняти відра."
+      no-fill: "&cПід час бою не можна наповнювати відра."
+  damage-tagger:
+    unknown-damage: "&cВи отримали шкоду! Не виходьте!"
+    damage-type:
+      contact: "&cВас уколов кактус. Не виходьте!"
+      suffocation: "&cВи задихаєтесь у стіні. Не виходьте!"
+      fall: "&cВи отримали пошкодження при падінні. Не виходьте!"
+      fire: "&cВи увійшли в вогонь. Не виходьте!"
+      fire-tick: "&cВи горите. Не виходьте!"
+      lava: "&cВи кипите в лаве. Не виходьте!"
+      drowning: "&cВи тонете. Не виходьте!"
+      block-explosion: "&cВи були пошкоджені вибухом. Не виходьте!"
+      lightning: "&cВас вразило! Не виходьте!"
+      starvation: "&cВи надто голодні. Не виходьте!"
+      poison: "&cВи отримали пошкодження від отрути. Не виходьте!"
+      magic: "&cХтось кинув у вас зілля. Не виходьте!"
+      wither: "&cВи відмираєте. Не виходьте!"
+      falling-block: "&cНа вас упав блок. Не виходьте!"
+      custom: "&cВи взяли нестандартну шкоду. Не виходьте!"
+      fly-into-wall: "&cВи відчули кінетичну енергію. Не виходьте!"
+      hot-floor: "&cПідлога - це лава! Не виходьте!"
+      cramming: "&cВас розчавлюють. Не виходьте!"
+  newbie-helper:
+    togglepvp:
+      self: "&7PVP: {status}"
+      admin: "&7Ви змінили pvp &e{target}&7 на {status}&7."
+      cooldown: "&cЩоб знову використати цю команду, потрібно почекати &7{time_left} секунд."
+    no-pvp:
+      self: "&cВи не можете вдарити цього гравця, коли ваш PvP вимкнено."
+      other: "&cУ цього гравця відключено PvP."
+      protected: "&cЦей гравець захищений, вам поки заборонено атакувати його!"
+    protection-disabled:
+      attacker: "&cВи напали на когось, ваш захист новачка відключено."
+      expired: "&cТермін дії вашого захисту новачка закінчився."
+    check-format:
+      - "&f&lІнформація для &7{target}&f&l:"
+      - "&f&lЗахист: &7{protected}"
+      - "&f&lPvP: &7{pvp}"
+  loot-protection:
+    enemy-died: "&f{enemy} &aпомер. Здобуток буде захищений протягом &f{time} секунд&a."
+    protected: "&cНаразі цей предмет захищено, зачекайте &f{time} секунд&c, поки ви зможете його забрати."
+  citizens-compatibility:
+    prevent-join: "&cВам заборонено під'єднуваться до сервера, поки ваш NPC не буде вбитий або не знищиться."
+  disguise-compatibility:
+    remove-disguise: "&cВашу маску видалили."
+  essentials-compatibility:
+    prevent-teleport-request-self: "&cВи не можете створювати запити телепорту під час бою."
+    prevent-teleport-request-other: "&cВи не можете надсилати запит на телепорт гравцеві, який перебуває в бою."
+  region-protection:
+    factions-no-entry: "&cВам заборонено входити в цю зону під час бою."
+    griefdefender-no-entry: "&cВам заборонено входити в цю зону під час бою."
+    griefprevention-no-entry: "&cВам заборонено входити в цю зону під час бою."
+    kingdomsx-no-entry: "&cВам заборонено входити в цю зону під час бою."
+    lands-no-entry: "&cВам заборонено входити в цю зону під час бою."
+    konquest-no-entry: "&cВам заборонено входити в цю зону під час бою."
+    redprotect-no-entry: "&cВам заборонено входити в цю зону під час бою."
+    residence-no-entry: "&cВам заборонено входити в цю зону під час бою."
+    towny-no-entry: "&cВам заборонено входити в цю зону під час бою."
+    ultimateclaims-no-entry: "&cВам заборонено входити в цю зону під час бою."
+    protectionstones:
+      prevent-area-creation: "&cПід час бою не дозволяється створювати захищену територію."
+      no-entry: "&cВам заборонено входити в цю зону під час бою."
+    preciousstones:
+      prevent-field-creation: "&cВам заборонено створювати захисне поле під час бою."
+      no-entry: "&cВам заборонено входити в цю зону під час бою."
+    worldguard:
+      no-entry-mob-combat: "&cВи не можете увійти в зону, де заборонений PvE, під час бою."
+      no-entry-player-combat: "&cВи не можете увійти в зону, де заборонений PvP, під час бою."
+      no-entry-unknown-combat: "&cВам заборонено входити в цю зону під час бою."

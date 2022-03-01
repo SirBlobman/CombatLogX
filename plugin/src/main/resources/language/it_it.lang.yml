@@ -1,0 +1,164 @@
+language-name: "it_it"
+prefix: "&f&l[&6CombatLogX&f&l]&r"
+decimal-format: "0.00"
+
+broadcast:
+  on-load: "&a&lCombatLogX è stato caricato con successo."
+  on-enable: "&a&lCombatLogX è stato abilitato con successo."
+  on-disable: "&c&lCombatLogX è stato disabilitato con successo."
+
+placeholder:
+  time-left-zero: "0"
+  unknown-enemy: "Sconosciuto"
+  status:
+    fighting: "&cCombattimento"
+    idle: "&aIdle"
+    in-combat: "&aSì"
+    not-in-combat: "&cNo"
+  toggle:
+    enabled: "&aON"
+    disabled: "&cOFF"
+  pvp-status:
+    enabled: "&aON"
+    disabled: "&cOFF"
+
+combat-timer:
+  expire: "&aNon sei più in combattimento."
+  enemy-death: "&aNon sei più in combattimento perché il tuo nemico è morto."
+
+error:
+  player-only: "&cSolo i giocatori possono eseguire questo comando."
+  invalid-target: "&7{target}&c non è online o non esiste."
+  no-permission: "&cPermesso Mancante: &7{permission}"
+  target-not-in-combat: "&7{target}&c non è in combattimento."
+  self-not-in-combat: "&cNon sei in combattimento."
+  unknown-expansion: "&7{target}&c non è un'espansione o non è installato."
+
+command:
+  combatlogx:
+    help-message-list:
+      - "&f"
+      - "&6&lGuida CombatLogX Comando:"
+      - "  &f&l/combatlogx help&7: Visualizza questa pagina di aiuto."
+      - "  &f&l/combatlogx reload&7: Ricarica i file di configurazione config.yml, language.yml, e tutti i file di configurazione di espansione."
+      - "  &f&l/combatlogx su <expansion>&7: Verifica informazioni su un'espansione."
+      - "  &f&l/combatlogx tag <player>&7: Forza un giocatore in combattimento."
+      - "  &f&l/combatlogx toggle bossbar/actionbar/scoreboard&7: Abilita o disabilita un tipo di notifica."
+      - "  &f&l/combatlogx untag <player>&7: Forza un giocatore fuori combattimento."
+      - "  &f&l/combatlogx version&7: Verifica la tua versione di CombatLogX."
+      - "&f"
+    reload-success:
+      - "&aHai ricaricato con successo tutti i file di configurazione da CombatLogX."
+      - "&aRicaricato con successo tutti i file di lingua da CombatLogX."
+      - "&aRicaricata con successo tutti i file di configurazione dalle espansioni CombatLogX."
+    tag-player: "&aGiocatore forzato con successo &7{target}&a in combattimento."
+    tag-failure: "&7{target}&c non può essere posizionato in combattimento. (Maybe hanno un bypass?)"
+    untag-player: "&aGiocatore forzato con successo &7{target}&a fuori combattimento."
+  combat-timer:
+    time-left-self: "&aHai &7{time_left} secondi &a rimanenti."
+    time-left-other: "&7{target}&a ha &7{time_left} secondi &a rimanenti."
+
+tagged:
+  unknown: "&cOra sei in combattimento! Non disconnetterti."
+  attacked:
+    player: "&cSei stato attaccato da &f{enemy}&c. Non disconnetterti!"
+    mob: "&cSei stato attaccato da a(n) &f{mob_type}&c. Non disconnetterti!"
+  attacker:
+    player: "&cStai attaccando &f{enemy}&c. Non disconnetterti!"
+    mob: "&cStai attaccando a(n) &f{mob_type}&c. Non disconnetterti!"
+
+expansion:
+  cheat-prevention:
+    command-blocked: "&cNon hai accesso a &a{command}&c durante il combattimento."
+    no-riptide: "&cL'incantesimo di riptide è disabilitato durante il combattimento."
+    no-totem: "&cNon hai il permesso di usare i totem di inattività durante il combattimento."
+    no-entity-interaction: "&cNon hai il permesso di usare quel mob durante il combattimento."
+    no-chat: "&cNon sei autorizzato a inviare messaggi di chat durante il combattimento."
+    game-mode:
+      force-switch: "&cLa tua modalità di gioco è stata cambiata in &f{game_mode}&c."
+      no-switch: "&cNon sei autorizzato a cambiare modalità di gioco durante il combattimento."
+    flight:
+      force-disabled: "&cLa tua capacità di volare è stata rimossa."
+      no-flying: "&cNon sei autorizzato a volare durante il combattimento."
+    elytra:
+      force-disabled: "&cIl tuo elytra è stato disabilitato."
+      no-gliding: "&cNon hai il permesso di usare elytra durante il combattimento."
+    teleportation:
+      block-pearl: "&cNon hai il permesso di usare perle di ender durante il combattimento."
+      block-other: "&cNon sei autorizzato a teletrasportarti durante il combattimento."
+    inventory:
+      force-closed: "&cIl tuo inventario è stato chiuso."
+      no-opening: "&cNon sei autorizzato ad aprire gli inventari durante il combattimento."
+    blocks:
+      prevent-breaking: "&cNon sei autorizzato a rompere blocchi durante il combattimento."
+      prevent-placing: "&cNon sei autorizzato a posizionare blocchi durante il combattimento."
+      prevent-interaction: "&cNon hai il permesso di usare blocchi durante il combattimento."
+    items:
+      no-pickup: "&cNon sei autorizzato a raccogliere oggetti durante il combattimento."
+      no-dropping: "&cNon sei autorizzato a rilasciare oggetti durante il combattimento."
+    buckets:
+      no-empty: "&cYou can't empty buckets during combat."
+      no-fill: "&cYou can't fill up buckets during combat."
+  damage-tagger:
+    unknown-damage: "&cHai subito danno! Non disconnetterti!"
+    damage-type:
+      contact: "&cSei stato picchiato da un cactus. Non disconnetterti!"
+      suffocation: "&cStai soffocando in un muro. Non disconnetterti!"
+      fall: "&cHai subito danni da caduta. Non disconnetterti!"
+      fire: "&cSei entrato nel fuoco. Non disconnetterti!"
+      fire-tick: "&cStai bruciando. Non disconnetterti!"
+      lava: "&cStai bollendo in lava. Non disconnetterti!"
+      drowning: "&cStai annegando. Non disconnetterti!"
+      block-explosion: "&cSei stato danneggiato da un'esplosione. Non disconnetterti!"
+      lightning: "&cSei stato percosso! Non disconnetterti!"
+      starvation: "&cSei troppo affamato. Non disconnetterti!"
+      poison: "&cHai subito danni da veleno. Non disconnetterti!"
+      magic: "&cQualcuno ti ha gettato una pozione. Non disconnetterti!"
+      wither: "&cStai rimuovendo. Non disconnetterti!"
+      falling-block: "&cUn blocco è caduto su di te. Non disconnetterti!"
+      custom: "&cHai subito danni personalizzati. Non disconnetterti!"
+      fly-into-wall: "&cHai sperimentato energia cinetica. Non disconnetterti!"
+      hot-floor: "&cIl pavimento è lava! Non disconnetterti!"
+      cramming: "&cStai per essere schiacciato. Non disconnetterti!"
+  newbie-helper:
+    togglepvp:
+      self: "&7PVP: {status}"
+      admin: "&7Hai cambiato il pvp di &e{target}&7 a {status}&7."
+      cooldown: "&cYou must wait &7{time_left} seconds&c to use this command again."
+    no-pvp:
+      self: "&cNon sei autorizzato a colpire quel giocatore mentre il tuo PvP è disabilitato."
+      other: "&cQuel giocatore ha PvP disabilitato."
+      protected: "&cQuel giocatore è protetto, non ti è ancora permesso attaccarlo!"
+    protection-disabled:
+      attacker: "&cHai attaccato qualcuno, la tua protezione del novellino è ora disabilitata."
+      expired: "&cLa tua protezione del newbie è scaduta."
+    check-format:
+      - "&f&lInformazioni per &7{target}&f&l:"
+      - "&f&lProtezione: &7{protected}"
+      - "&f&lPvP: &7{pvp}"
+  toggle-bossbar: "&7&lBoss Bar: {status}"
+  toggle-actionbar: "&7&lAction Bar: {status}"
+  toggle-scoreboard: "&7Tabellone di valutazione: {status}"
+  citizens-join-deny: "&cCome punizione per la disconnessione durante il combattimento, non ti è permesso unirti fino a quando il tuo clone non viene ucciso o rimosso."
+  preciousstones-compatibility-no-field: "&cNon puoi creare un campo di protezione durante il combattimento."
+  disguise-compatibility-remove-disguise: "&cIl tuo travestimento è stato rimosso."
+  factions-compatibility-no-entry: "&cNon sei autorizzato ad entrare in quell'area durante il combattimento."
+  griefprevention-compatibility-no-entry: "&cNon sei autorizzato a inserire reclami durante il combattimento."
+  lands-compatibility-no-entry: "&cNon sei autorizzato ad entrare in quell'area durante il combattimento."
+  redprotect-compatibility-no-entry: "&cNon sei autorizzato ad entrare in quell'area durante il combattimento."
+  residence-compatibility-no-entry: "&cNon sei autorizzato ad entrare in quell'area durante il combattimento."
+  towny-compatibility-no-entry: "&cNon sei autorizzato ad entrare in quell'area durante il combattimento."
+  preciousstones-compatibility-no-entry: "&cNon sei autorizzato ad entrare in quell'area durante il combattimento."
+  protectionstones-compatibility-no-entry: "&cNon sei autorizzato ad entrare in quell'area durante il combattimento."
+  worldguard-compatibility-no-entry:
+    pvp: "&cNon sei autorizzato ad entrare in un'area di combattimento non giocatore-non durante il combattimento."
+    mob: "&cNon sei autorizzato ad entrare in un'area di combattimento non-mob durante il combattimento."
+    unknown: "&cYou are not allowed to enter that area during combat."
+  essentials-compatibility:
+    prevent-teleport-request-self: "&cNon puoi creare richieste di teletrasporto durante il combattimento."
+    prevent-teleport-request-other: "&cNon puoi inviare una richiesta di teletrasporto a un giocatore in combattimento."
+  protectionstones-compatibility:
+    place: "&cNon puoi creare un'area protetta durante il combattimento."
+  loot-protection:
+    enemy-died: "&f{enemy} &aè morto. Il bottino sarà protetto per &f{time} secondi&a."
+    protected: "&cQuesto oggetto è attualmente protetto aspetta &f{time} secondi &cfino a quando non puoi prenderlo."
