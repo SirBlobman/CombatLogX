@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: "Discord Server"
+    url: "https://discord.gg/XMq2agT"
+    about: "Get help through Discord."
+  - name: "E-Mail Support"
+    url: "mailto:support@sirblobman.xyz"
+    about: "Contact SirBlobman through e-mail. Response will be more delayed than GitHub/Discord."
