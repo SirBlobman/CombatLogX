@@ -29,7 +29,7 @@
         <dependency>
             <groupId>com.bgsoftware</groupId>
             <artifactId>SuperiorSkyblockAPI</artifactId>
-            <version>latest</version>
+            <version>1.8.4</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
