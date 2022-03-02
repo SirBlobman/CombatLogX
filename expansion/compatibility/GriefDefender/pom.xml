@@ -14,19 +14,25 @@
     <description>An expansion for CombatLogX that detects non-pvp areas from the GriefDefender plugin.</description>
 
     <repositories>
-        <!-- SirBlobman Public Repository -->
+        <!-- Sonatype Snapshots -->
         <repository>
-            <id>sirblobman-public</id>
-            <url>https://nexus.sirblobman.xyz/repository/public/</url>
+            <id>sonatype-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
+
+        <!-- GriefDefender Repository -->
+        <repository>
+            <id>bloodshot-repo</id>
+            <url>https://repo.glaremasters.me/repository/bloodshot/</url>
         </repository>
     </repositories>
 
     <dependencies>
         <!-- GriefDefender API -->
         <dependency>
-            <groupId>com.github.bloodmc</groupId>
-            <artifactId>GriefDefenderAPI</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
+            <groupId>com.griefdefender</groupId>
+            <artifactId>api</artifactId>
+            <version>2.1.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

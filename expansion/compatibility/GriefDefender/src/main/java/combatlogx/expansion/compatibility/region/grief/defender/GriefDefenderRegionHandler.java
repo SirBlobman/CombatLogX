@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
-import io.leangen.geantyref.TypeToken;
 import com.griefdefender.api.Core;
 import com.griefdefender.api.GriefDefender;
 import com.griefdefender.api.Tristate;
@@ -20,6 +19,7 @@ import com.griefdefender.api.claim.Claim;
 import com.griefdefender.api.claim.ClaimManager;
 import com.griefdefender.api.permission.Context;
 import com.griefdefender.api.permission.option.Options;
+import com.griefdefender.lib.geantyref.TypeToken;
 
 public final class GriefDefenderRegionHandler extends RegionHandler {
     public GriefDefenderRegionHandler(GriefDefenderExpansion expansion) {
