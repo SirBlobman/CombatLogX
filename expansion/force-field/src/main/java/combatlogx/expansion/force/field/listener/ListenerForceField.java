@@ -62,7 +62,9 @@ public class ListenerForceField extends ExpansionListener {
     
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onQuit(PlayerQuitEvent e) {
-        if(!isEnabled()) return;
+        if(!isEnabled()) {
+            return;
+        }
         
         Player player = e.getPlayer();
         UUID uuid = player.getUniqueId();
@@ -72,30 +74,47 @@ public class ListenerForceField extends ExpansionListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onMove(PlayerMoveEvent e) {
         Location toLocation = e.getTo();
-        if(toLocation == null || !isEnabled()) return;
+        if(toLocation == null || !isEnabled()) {
+            return;
+        }
         
         Player player = e.getPlayer();
-        if(canBypass(player)) return;
+        if(canBypass(player)) {
+            return;
+        }
         
         ICombatManager combatManager = getCombatManager();
-        if(!combatManager.isInCombat(player)) return;
+        if(!combatManager.isInCombat(player)) {
+            return;
+        }
         
         Location fromLocation = e.getFrom();
-        if(Objects.equals(WorldXYZ.from(toLocation), WorldXYZ.from(fromLocation))) return;
-        if(isSafe(player, toLocation)) return;
+        if(Objects.equals(WorldXYZ.from(toLocation), WorldXYZ.from(fromLocation))) {
+            return;
+        }
+        
+        if(isSafe(player, toLocation)) {
+            return;
+        }
         
         updateForceField(player);
     }
     
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onTag(PlayerTagEvent e) {
-        if(!isEnabled()) return;
+        if(!isEnabled()) {
+            return;
+        }
         
         Player player = e.getPlayer();
-        if(canBypass(player)) return;
+        if(canBypass(player)) {
+            return;
+        }
         
         Location location = player.getLocation();
-        if(isSafe(player, location)) return;
+        if(isSafe(player, location)) {
+            return;
+        }
         
         LivingEntity enemy = e.getEnemy();
         updateForceField(player, enemy);
@@ -103,7 +122,9 @@ public class ListenerForceField extends ExpansionListener {
     
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onUntag(PlayerUntagEvent e) {
-        if(!isEnabled()) return;
+        if(!isEnabled()) {
+            return;
+        }
         
         Player player = e.getPlayer();
         removeForceField(player);
@@ -142,7 +163,9 @@ public class ListenerForceField extends ExpansionListener {
     protected boolean canBypass(Player player) {
         YamlConfiguration configuration = getConfiguration();
         String bypassPermissionName = configuration.getString("bypass-permission");
-        if(bypassPermissionName == null || bypassPermissionName.isEmpty()) return false;
+        if(bypassPermissionName == null || bypassPermissionName.isEmpty()) {
+            return false;
+        }
         
         Permission permission = new Permission(bypassPermissionName, "CombatLogX Force Field Bypass", PermissionDefault.FALSE);
         return player.hasPermission(permission);
@@ -151,7 +174,9 @@ public class ListenerForceField extends ExpansionListener {
     protected XMaterial getForceFieldMaterial() {
         YamlConfiguration configuration = getConfiguration();
         String materialName = configuration.getString("material");
-        if(materialName == null) return XMaterial.RED_STAINED_GLASS;
+        if(materialName == null) {
+            return XMaterial.RED_STAINED_GLASS;
+        }
         
         return XMaterial.matchXMaterial(materialName).orElse(XMaterial.RED_STAINED_GLASS);
     }
@@ -167,17 +192,25 @@ public class ListenerForceField extends ExpansionListener {
     }
     
     protected boolean canPlace(WorldXYZ worldXYZ) {
-        if(worldXYZ == null) return false;
+        if(worldXYZ == null) {
+            return false;
+        }
         
         World world = worldXYZ.getWorld();
-        if(world == null) return false;
+        if(world == null) {
+            return false;
+        }
         
         int maxY = world.getMaxHeight();
         int locationY = worldXYZ.getY();
-        if(locationY > maxY) return false;
+        if(locationY > maxY) {
+            return false;
+        }
         
         Location location = worldXYZ.asLocation();
-        if(location == null) return false;
+        if(location == null) {
+            return false;
+        }
         
         Block block = location.getBlock();
         Material material = block.getType();
@@ -188,7 +221,9 @@ public class ListenerForceField extends ExpansionListener {
     protected void sendForceField(Player player, Location location) {
         XMaterial material = getForceFieldMaterial();
         Material bukkitMaterial = material.parseMaterial();
-        if(bukkitMaterial == null) return;
+        if(bukkitMaterial == null) {
+            return;
+        }
         
         int minorVersion = VersionUtility.getMinorVersion();
         if(minorVersion < 13) {
@@ -218,10 +253,14 @@ public class ListenerForceField extends ExpansionListener {
     
     protected void updateForceField(Player player) {
         ICombatManager combatManager = getCombatManager();
-        if(!combatManager.isInCombat(player)) return;
+        if(!combatManager.isInCombat(player)) {
+            return;
+        }
         
         Location playerLocation = player.getLocation();
-        if(isSafe(player, playerLocation)) return;
+        if(isSafe(player, playerLocation)) {
+            return;
+        }
         
         if(isSafeMode()) safeForceField(player);
         else this.forceFieldExecutor.submit(() -> safeForceField(player));
@@ -229,10 +268,14 @@ public class ListenerForceField extends ExpansionListener {
     
     protected void updateForceField(Player player, LivingEntity enemy) {
         ICombatManager combatManager = getCombatManager();
-        if(!combatManager.isInCombat(player)) return;
+        if(!combatManager.isInCombat(player)) {
+            return;
+        }
         
         Location playerLocation = player.getLocation();
-        if(isSafe(player, playerLocation)) return;
+        if(isSafe(player, playerLocation)) {
+            return;
+        }
         
         if(isSafeMode()) safeForceField(player, enemy);
         else this.forceFieldExecutor.submit(() -> safeForceField(player, enemy));
@@ -252,7 +295,10 @@ public class ListenerForceField extends ExpansionListener {
     }
     
     private TagType getTagType(LivingEntity enemy) {
-        if(enemy == null) return TagType.UNKNOWN;
+        if(enemy == null) {
+            return TagType.UNKNOWN;
+        }
+        
         return (enemy instanceof Player ? TagType.PLAYER : TagType.MOB);
     }
     
@@ -271,14 +317,24 @@ public class ListenerForceField extends ExpansionListener {
             for(int z = minZ; z <= maxZ; z++) {
                 WorldXYZ worldXYZ = WorldXYZ.from(world, x, playerY, z);
                 Location location = worldXYZ.asLocation();
-                if(location == null) continue;
+                if(location == null) {
+                    continue;
+                }
                 
-                if(!isSafe(player, location, tagType)) continue;
-                if(!isSafeSurround(player, location, tagType)) continue;
+                if(!isSafe(player, location, tagType)) {
+                    continue;
+                }
+                
+                if(!isSafeSurround(player, location, tagType)) {
+                    continue;
+                }
                 
                 for(int y = -radius; y < radius; y++) {
                     WorldXYZ worldXYZ2 = WorldXYZ.from(world, x, playerY + y, z);
-                    if(!canPlace(worldXYZ2)) continue;
+                    if(!canPlace(worldXYZ2)) {
+                        continue;
+                    }
+                    
                     area.add(worldXYZ2);
                 }
             }
@@ -319,7 +375,9 @@ public class ListenerForceField extends ExpansionListener {
     
     private void safeRemoveForceField(Player player) {
         UUID uuid = player.getUniqueId();
-        if(!this.fakeBlockMap.containsKey(uuid)) return;
+        if(!this.fakeBlockMap.containsKey(uuid)) {
+            return;
+        }
         
         Set<WorldXYZ> oldArea = new HashSet<>(this.fakeBlockMap.remove(uuid));
         for(WorldXYZ worldXYZ : oldArea) {

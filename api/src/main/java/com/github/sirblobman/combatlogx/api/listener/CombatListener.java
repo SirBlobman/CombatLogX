@@ -10,6 +10,7 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -23,6 +24,7 @@ import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
+import com.github.sirblobman.combatlogx.api.object.TagType;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -83,6 +85,18 @@ public abstract class CombatListener implements Listener {
     protected final boolean isInCombat(Player player) {
         ICombatManager combatManager = getCombatManager();
         return combatManager.isInCombat(player);
+    }
+    
+    protected final TagType getTagType(LivingEntity entity) {
+        if(entity == null) {
+            return TagType.UNKNOWN;
+        }
+        
+        if(entity instanceof Player) {
+            return TagType.PLAYER;
+        }
+        
+        return TagType.MOB;
     }
     
     protected final String getMessageWithPrefix(@Nullable CommandSender sender, @NotNull String key,

@@ -19,15 +19,19 @@ public final class RegionMoveListener extends RegionListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onMove(PlayerMoveEvent e) {
         Location toLocation = e.getTo();
-        if(toLocation == null) return;
+        if(toLocation == null) {
+            return;
+        }
         
         Player player = e.getPlayer();
         ICombatLogX combatLogX = getCombatLogX();
         ICombatManager combatManager = combatLogX.getCombatManager();
-        if(!combatManager.isInCombat(player)) return;
+        if(!combatManager.isInCombat(player)) {
+            return;
+        }
         
         LivingEntity enemy = combatManager.getEnemy(player);
-        TagType tagType = (enemy == null ? TagType.UNKNOWN : (enemy instanceof Player ? TagType.PLAYER : TagType.MOB));
+        TagType tagType = getTagType(enemy);
         
         RegionHandler regionHandler = getRegionHandler();
         if(regionHandler.isSafeZone(player, toLocation, tagType)) {

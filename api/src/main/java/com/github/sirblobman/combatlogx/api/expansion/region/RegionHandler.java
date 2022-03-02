@@ -61,12 +61,17 @@ public abstract class RegionHandler {
     }
     
     public final void preventEntry(Cancellable e, Player player, Location fromLocation, Location toLocation) {
-        if(player == null) return;
+        if(player == null) {
+            return;
+        }
+        
         ICombatLogX plugin = this.expansion.getPlugin();
         JavaPlugin javaPlugin = plugin.getPlugin();
         
         ICombatManager combatManager = plugin.getCombatManager();
-        if(!combatManager.isInCombat(player)) return;
+        if(!combatManager.isInCombat(player)) {
+            return;
+        }
         
         LivingEntity enemy = combatManager.getEnemy(player);
         sendEntryDeniedMessage(player, enemy);
@@ -88,9 +93,17 @@ public abstract class RegionHandler {
                 break;
             
             case KNOCKBACK_PLAYER:
+                if(player.isInsideVehicle()) {
+                    if(!player.leaveVehicle()) {
+                        e.setCancelled(true);
+                        break;
+                    }
+                }
+                
                 Runnable task = () -> knockbackPlayer(player, fromLocation, toLocation);
                 BukkitScheduler scheduler = Bukkit.getScheduler();
                 scheduler.runTaskLater(javaPlugin, task, 1L);
+                break;
             
             case DISABLED:
             case VULNERABLE:
