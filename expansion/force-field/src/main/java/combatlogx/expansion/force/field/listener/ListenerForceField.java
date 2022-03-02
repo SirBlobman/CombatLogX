@@ -294,14 +294,6 @@ public class ListenerForceField extends ExpansionListener {
         return isSafeSurround(player, location, tagType);
     }
     
-    private TagType getTagType(LivingEntity enemy) {
-        if(enemy == null) {
-            return TagType.UNKNOWN;
-        }
-        
-        return (enemy instanceof Player ? TagType.PLAYER : TagType.MOB);
-    }
-    
     private Set<WorldXYZ> getForceFieldArea(Player player, LivingEntity enemy) {
         World world = player.getWorld();
         WorldXYZ playerXYZ = WorldXYZ.from(player);

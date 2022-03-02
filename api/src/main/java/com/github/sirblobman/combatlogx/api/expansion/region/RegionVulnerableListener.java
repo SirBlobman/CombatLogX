@@ -47,12 +47,6 @@ public final class RegionVulnerableListener extends ExpansionListener {
         }
     }
     
-    private TagType getTagType(LivingEntity enemy) {
-        if(enemy == null) return TagType.UNKNOWN;
-        if(enemy instanceof Player) return TagType.PLAYER;
-        return TagType.MOB;
-    }
-    
     private Player getPlayerOrPassenger(Entity entity) {
         if(entity instanceof Player) {
             return (Player) entity;
