@@ -13,6 +13,14 @@
     <name>Expansion: Loot Protection</name>
     <description>An expansion for CombatLogX that protects loot from being lost or stolen.</description>
 
+    <pluginRepositories>
+        <!-- Apache Snapshots -->
+        <pluginRepository>
+            <id>apache.snapshots</id>
+            <url>https://repository.apache.org/snapshots/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <dependencies>
         <!-- ExpiringMap -->
         <!-- Included in jar -->

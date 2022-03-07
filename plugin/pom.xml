@@ -42,6 +42,14 @@
         </repository>
     </repositories>
 
+    <pluginRepositories>
+        <!-- Apache Snapshots -->
+        <pluginRepository>
+            <id>apache.snapshots</id>
+            <url>https://repository.apache.org/snapshots/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <dependencies>
         <!-- Spigot API -->
         <dependency>

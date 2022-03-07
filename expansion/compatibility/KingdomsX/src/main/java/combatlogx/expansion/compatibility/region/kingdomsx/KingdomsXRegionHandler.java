@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
-import org.kingdoms.constants.kingdom.Kingdom;
+import org.kingdoms.constants.group.Kingdom;
 import org.kingdoms.constants.land.Land;
 
 public final class KingdomsXRegionHandler extends RegionHandler {
