@@ -71,7 +71,7 @@
         <dependency>
             <groupId>org.zeroturnaround</groupId>
             <artifactId>zt-zip</artifactId>
-            <version>1.14</version>
+            <version>1.15</version>
             <scope>compile</scope>
             <exclusions>
                 <exclusion>
