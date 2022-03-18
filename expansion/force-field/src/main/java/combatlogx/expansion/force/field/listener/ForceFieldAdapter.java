@@ -21,7 +21,6 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.injector.server.TemporaryPlayer;
 import com.comphenix.protocol.reflect.FieldAccessException;
 import com.comphenix.protocol.reflect.StructureModifier;
 import com.comphenix.protocol.wrappers.BlockPosition;
@@ -45,18 +44,22 @@ public class ForceFieldAdapter extends PacketAdapter {
     
     @Override
     public void onPacketReceiving(PacketEvent e) {
-        if(e.isCancelled()) return;
+        if(e.isCancelled()) {
+            return;
+        }
         
         Player player = e.getPlayer();
-        if(player instanceof TemporaryPlayer) return;
-        
         ICombatManager combatManager = this.plugin.getCombatManager();
-        if(!combatManager.isInCombat(player)) return;
+        if(!combatManager.isInCombat(player)) {
+            return;
+        }
         
         World world = player.getWorld();
         PacketContainer packetContainer = e.getPacket();
         Location location = getLocation0(world, packetContainer);
-        if(location == null) return;
+        if(location == null) {
+            return;
+        }
         
         if(isForceFieldBlock(player, location)) {
             PacketType packetType = packetContainer.getType();
@@ -79,13 +82,15 @@ public class ForceFieldAdapter extends PacketAdapter {
     
     @Override
     public void onPacketSending(PacketEvent e) {
-        if(e.isCancelled()) return;
+        if(e.isCancelled()) {
+            return;
+        }
         
         Player player = e.getPlayer();
-        if(player instanceof TemporaryPlayer) return;
-        
         ICombatManager combatManager = this.plugin.getCombatManager();
-        if(!combatManager.isInCombat(player)) return;
+        if(!combatManager.isInCombat(player)) {
+            return;
+        }
         
         World world = player.getWorld();
         PacketContainer packetContainer = e.getPacket();
@@ -117,7 +122,9 @@ public class ForceFieldAdapter extends PacketAdapter {
     private WrappedBlockData getWrappedBlockData() {
         XMaterial material = this.forceFieldListener.getForceFieldMaterial();
         Material bukkitMaterial = material.parseMaterial();
-        if(bukkitMaterial == null) return null;
+        if(bukkitMaterial == null) {
+            return null;
+        }
         
         int minorVersion = VersionUtility.getMinorVersion();
         if(minorVersion < 13) {
@@ -133,7 +140,10 @@ public class ForceFieldAdapter extends PacketAdapter {
         try {
             StructureModifier<BlockPosition> blockPositionModifier = packetContainer.getBlockPositionModifier();
             BlockPosition blockPosition = blockPositionModifier.readSafely(0);
-            if(blockPosition == null) return getLocation1(world, packetContainer);
+            if(blockPosition == null) {
+                return getLocation1(world, packetContainer);
+            }
+            
             return blockPosition.toLocation(world);
         } catch(FieldAccessException ex) {
             return getLocation1(world, packetContainer);
@@ -146,7 +156,9 @@ public class ForceFieldAdapter extends PacketAdapter {
             StructureModifier<MovingObjectPositionBlock> movingBlockPositionModifier =
                     packetContainer.getMovingBlockPositions();
             MovingObjectPositionBlock movingObjectPositionBlock = movingBlockPositionModifier.readSafely(0);
-            if(movingObjectPositionBlock == null) return null;
+            if(movingObjectPositionBlock == null) {
+                return null;
+            }
             
             BlockPosition blockPosition = movingObjectPositionBlock.getBlockPosition();
             return (blockPosition == null ? null : blockPosition.toLocation(world));
