@@ -1,8 +1,12 @@
 package com.github.sirblobman.combatlogx.command.combatlogx;
 
+import java.math.BigInteger;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -24,6 +28,12 @@ public final class CommandCombatLogXTag extends CombatLogCommand {
         if(args.length == 1) {
             Set<String> valueSet = getOnlinePlayerNames();
             return getMatching(args[0], valueSet);
+        }
+        
+        if(args.length == 2) {
+            IntStream intValueSet = IntStream.rangeClosed(1, 60);
+            Set<String> valueSet = intValueSet.mapToObj(Integer::toString).collect(Collectors.toSet());
+            return getMatching(args[1], valueSet);
         }
         
         return Collections.emptyList();
@@ -49,9 +59,26 @@ public final class CommandCombatLogXTag extends CombatLogCommand {
         
         ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = plugin.getCombatManager();
-        boolean successfulTag = combatManager.tag(target, null, TagType.UNKNOWN, TagReason.UNKNOWN);
-        String messagePath = ("command.combatlogx." + (successfulTag ? "tag-player" : "tag-failure"));
+        boolean successfulTag;
         
+        
+        if(args.length < 2) {
+            successfulTag = combatManager.tag(target, null, TagType.UNKNOWN, TagReason.UNKNOWN);
+        } else {
+            BigInteger bigSeconds = parseInteger(sender, args[0]);
+            if(bigSeconds == null) {
+                return true;
+            }
+            
+            long seconds = bigSeconds.longValue();
+            long milliseconds = TimeUnit.SECONDS.toMillis(seconds);
+            long systemMillis = System.currentTimeMillis();
+            
+            long combatEndTime = (systemMillis + milliseconds);
+            successfulTag = combatManager.tag(target, null, TagType.UNKNOWN, TagReason.UNKNOWN, combatEndTime);
+        }
+        
+        String messagePath = ("command.combatlogx." + (successfulTag ? "tag-player" : "tag-failure"));
         sendMessageWithPrefix(sender, messagePath, replacer, true);
         return true;
     }

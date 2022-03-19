@@ -44,7 +44,7 @@ command:
       - "  &f&l/combatlogx help&7: View this help page."
       - "  &f&l/combatlogx reload&7: Reload the config.yml, language.yml, and all expansion config files."
       - "  &f&l/combatlogx about <expansion>&7: Check information about an expansion."
-      - "  &f&l/combatlogx tag <player>&7: Force a player into combat."
+      - "  &f&l/combatlogx tag <player> [seconds]&7: Force a player into combat."
       - "  &f&l/combatlogx toggle bossbar/actionbar/scoreboard&7: Enable or disable a notification type."
       - "  &f&l/combatlogx untag <player>&7: Force a player out of combat."
       - "  &f&l/combatlogx version&7: Check your version of CombatLogX."
