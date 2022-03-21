@@ -21,7 +21,6 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.injector.server.TemporaryPlayer;
 import com.comphenix.protocol.reflect.FieldAccessException;
 import com.comphenix.protocol.reflect.StructureModifier;
 import com.comphenix.protocol.wrappers.BlockPosition;
@@ -48,7 +47,6 @@ public class ForceFieldAdapter extends PacketAdapter {
         if(e.isCancelled()) return;
         
         Player player = e.getPlayer();
-        if(player instanceof TemporaryPlayer) return;
         
         ICombatManager combatManager = this.plugin.getCombatManager();
         if(!combatManager.isInCombat(player)) return;
@@ -82,7 +80,6 @@ public class ForceFieldAdapter extends PacketAdapter {
         if(e.isCancelled()) return;
         
         Player player = e.getPlayer();
-        if(player instanceof TemporaryPlayer) return;
         
         ICombatManager combatManager = this.plugin.getCombatManager();
         if(!combatManager.isInCombat(player)) return;
