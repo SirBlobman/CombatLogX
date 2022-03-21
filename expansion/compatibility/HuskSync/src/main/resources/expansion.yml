@@ -1,0 +1,10 @@
+name: "CompatHuskSync"
+prefix: "HuskSync Compatibility"
+description: "${project.description}"
+
+main: "combatlogx.expansion.compatibility.husksync.HuskSyncExpansion"
+version: "16.0"
+author: "olivolja3"
+
+plugin-depend:
+  - "HuskSync"
