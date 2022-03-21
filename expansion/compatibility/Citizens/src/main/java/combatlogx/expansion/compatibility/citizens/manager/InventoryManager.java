@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import com.github.sirblobman.api.utility.ItemUtility;
 import com.github.sirblobman.combatlogx.api.event.NPCDropItemEvent;
 import com.github.sirblobman.combatlogx.api.object.CitizensSlotType;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
@@ -160,7 +162,7 @@ public final class InventoryManager {
     private void dropItem(ItemStack item, OfflinePlayer player, Location location, CitizensSlotType type) {
         World world = location.getWorld();
         
-        if (item == null)
+        if (ItemUtility.isAir(item))
             return;
         
         NPCDropItemEvent event = new NPCDropItemEvent(item, player, location, type);
