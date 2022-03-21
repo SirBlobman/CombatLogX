@@ -205,17 +205,23 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     @Override
     public void sendMessageWithPrefix(CommandSender sender, String key, Replacer replacer, boolean color) {
         String message = getMessageWithPrefix(sender, key, replacer, color);
-        if(!message.isEmpty()) sender.sendMessage(message);
+        if(!message.isEmpty()) {
+            sender.sendMessage(message);
+        }
     }
     
     @Override
     public String getMessageWithPrefix(CommandSender sender, String key, Replacer replacer, boolean color) {
         LanguageManager languageManager = getLanguageManager();
         String message = languageManager.getMessage(sender, key, replacer, color);
-        if(message.isEmpty()) return "";
+        if(message.isEmpty()) {
+            return "";
+        }
         
         String prefix = languageManager.getMessage(sender, "prefix", null, true);
-        if(prefix.isEmpty()) return message;
+        if(prefix.isEmpty()) {
+            return message;
+        }
         
         if(!color) ChatColor.stripColor(prefix);
         return String.format(Locale.US, "%s %s", prefix, message);
@@ -224,7 +230,10 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     @Override
     public void sendMessage(CommandSender sender, String... messageArray) {
         for(String message : messageArray) {
-            if(message == null || message.isEmpty()) continue;
+            if(message == null || message.isEmpty()) {
+                continue;
+            }
+            
             sender.sendMessage(message);
         }
     }
@@ -232,7 +241,9 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     @Override
     public void printDebug(String... messageArray) {
         YamlConfiguration configuration = getConfig("config.yml");
-        if(!configuration.getBoolean("debug-mode")) return;
+        if(!configuration.getBoolean("debug-mode")) {
+            return;
+        }
         
         Logger logger = getLogger();
         for(String message : messageArray) {
@@ -244,7 +255,9 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     @Override
     public void printDebug(Throwable ex) {
         YamlConfiguration configuration = getConfig("config.yml");
-        if(!configuration.getBoolean("debug-mode")) return;
+        if(!configuration.getBoolean("debug-mode")) {
+            return;
+        }
         
         Logger logger = getLogger();
         logger.log(Level.WARNING, "Full Error Details:", ex);
@@ -261,7 +274,9 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     private void broadcastLoadMessage() {
         ConfigurationManager configurationManager = getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-        if(!configuration.getBoolean("broadcast.on-load")) return;
+        if(!configuration.getBoolean("broadcast.on-load")) {
+            return;
+        }
         
         LanguageManager languageManager = getLanguageManager();
         languageManager.broadcastMessage("broadcast.on-load", null, true);
@@ -270,7 +285,9 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     private void broadcastEnableMessage() {
         ConfigurationManager configurationManager = getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-        if(!configuration.getBoolean("broadcast.on-enable")) return;
+        if(!configuration.getBoolean("broadcast.on-enable")) {
+            return;
+        }
         
         LanguageManager languageManager = getLanguageManager();
         languageManager.broadcastMessage("broadcast.on-enable", null, true);
@@ -279,7 +296,9 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     private void broadcastDisableMessage() {
         ConfigurationManager configurationManager = getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-        if(!configuration.getBoolean("broadcast.on-disable")) return;
+        if(!configuration.getBoolean("broadcast.on-disable")) {
+            return;
+        }
         
         LanguageManager languageManager = getLanguageManager();
         languageManager.broadcastMessage("broadcast.on-disable", null, true);

@@ -34,7 +34,9 @@ public final class UntagTask implements Runnable {
         List<Player> playerCombatList = combatManager.getPlayersInCombat();
         for(Player player : playerCombatList) {
             long timeLeftMillis = combatManager.getTimerLeftMillis(player);
-            if(timeLeftMillis > 0) continue;
+            if(timeLeftMillis > 0) {
+                continue;
+            }
             
             combatManager.untag(player, UntagReason.EXPIRE);
         }

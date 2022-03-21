@@ -28,7 +28,9 @@ public final class ListenerUntag extends CombatListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onKick(PlayerKickEvent e) {
         Player player = e.getPlayer();
-        if(!isInCombat(player)) return;
+        if(!isInCombat(player)) {
+            return;
+        }
         
         String kickReason = e.getReason();
         UntagReason untagReason = (isKickReasonIgnored(kickReason) ? UntagReason.EXPIRE : UntagReason.KICK);
@@ -40,7 +42,9 @@ public final class ListenerUntag extends CombatListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
-        if(!isInCombat(player)) return;
+        if(!isInCombat(player)) {
+            return;
+        }
         
         ICombatManager combatManager = getCombatManager();
         combatManager.untag(player, UntagReason.QUIT);
@@ -66,14 +70,25 @@ public final class ListenerUntag extends CombatListener {
         YamlConfiguration configuration = configurationManager.get("punish.yml");
         
         List<String> kickIgnoreList = configuration.getStringList("kick-ignore-list");
-        if(kickIgnoreList.isEmpty()) return false;
-        return kickIgnoreList.stream().anyMatch(kickReason::contains);
+        if(kickIgnoreList.isEmpty()) {
+            return false;
+        }
+    
+        for(String kickIgnoreMessage : kickIgnoreList) {
+            if(kickReason.contains(kickIgnoreMessage)) {
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     private void sendUntagMessage(Player player, UntagReason untagReason) {
-        if(!untagReason.isExpire()) return;
-        ICombatLogX plugin = getCombatLogX();
+        if(!untagReason.isExpire()) {
+            return;
+        }
         
+        ICombatLogX plugin = getCombatLogX();
         String languagePath = ("combat-timer." + (untagReason == UntagReason.EXPIRE ? "expire" : "enemy-death"));
         plugin.sendMessageWithPrefix(player, languagePath, null, true);
     }
@@ -82,7 +97,9 @@ public final class ListenerUntag extends CombatListener {
         ConfigurationManager configurationManager = getPluginConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("commands.yml");
         List<String> untagCommandList = configuration.getStringList("untag-command-list");
-        if(untagCommandList.isEmpty()) return;
+        if(untagCommandList.isEmpty()) {
+            return;
+        }
         
         ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = getCombatManager();

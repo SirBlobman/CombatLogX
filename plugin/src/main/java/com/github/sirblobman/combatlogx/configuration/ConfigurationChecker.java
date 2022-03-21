@@ -82,8 +82,13 @@ public final class ConfigurationChecker {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void deleteFile(File parentFile) {
         String parentFileName = parentFile.getName();
-        if(parentFile.isDirectory() && parentFileName.equals("expansions")) return;
-        if(parentFileName.endsWith(".jar")) return;
+        if(parentFile.isDirectory() && parentFileName.equals("expansions")) {
+            return;
+        }
+        
+        if(parentFileName.endsWith(".jar")) {
+            return;
+        }
         
         if(!parentFile.isDirectory()) {
             parentFile.delete();
@@ -98,12 +103,20 @@ public final class ConfigurationChecker {
         
         for(File file : fileArray) {
             String fileName = file.getName();
-            if(file.isDirectory() && fileName.equals("expansions")) continue;
-            if(fileName.endsWith(".jar")) continue;
+            if(file.isDirectory() && fileName.equals("expansions")) {
+                continue;
+            }
+            
+            if(fileName.endsWith(".jar")) {
+                continue;
+            }
+            
             deleteFile(file);
         }
         
         File[] fileArray2 = parentFile.listFiles();
-        if(fileArray2 == null || fileArray2.length == 0) parentFile.delete();
+        if(fileArray2 == null || fileArray2.length == 0) {
+            parentFile.delete();
+        }
     }
 }

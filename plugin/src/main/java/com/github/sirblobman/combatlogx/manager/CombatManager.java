@@ -109,7 +109,9 @@ public final class CombatManager implements ICombatManager {
     public void untag(Player player, UntagReason untagReason) {
         Validate.notNull(player, "player must not be null!");
         Validate.notNull(untagReason, "untagReason must not be null!");
-        if(!isInCombat(player)) return;
+        if(!isInCombat(player)) {
+            return;
+        }
         
         UUID uuid = player.getUniqueId();
         this.combatMap.remove(uuid);
@@ -140,6 +142,7 @@ public final class CombatManager implements ICombatManager {
                 this.combatMap.remove(uuid);
                 continue;
             }
+            
             playerList.add(player);
         }
         return playerList;
@@ -155,12 +158,16 @@ public final class CombatManager implements ICombatManager {
     @Override
     public OfflinePlayer getByEnemy(LivingEntity enemy) {
         Validate.notNull(enemy, "enemy must not be null!");
-        if(!this.enemyMap.containsValue(enemy)) return null;
+        if(!this.enemyMap.containsValue(enemy)) {
+            return null;
+        }
         
         Set<Entry<UUID, LivingEntity>> entrySet = this.enemyMap.entrySet();
         for(Entry<UUID, LivingEntity> entry : entrySet) {
             LivingEntity value = entry.getValue();
-            if(!enemy.equals(value)) continue;
+            if(!enemy.equals(value)) {
+                continue;
+            }
             
             UUID uuid = entry.getKey();
             return Bukkit.getOfflinePlayer(uuid);
@@ -172,7 +179,9 @@ public final class CombatManager implements ICombatManager {
     @Override
     public long getTimerLeftMillis(Player player) {
         Validate.notNull(player, "player must not be null!");
-        if(!isInCombat(player)) return -1L;
+        if(!isInCombat(player)) {
+            return -1L;
+        }
         
         UUID uuid = player.getUniqueId();
         long endMillis = this.combatMap.get(uuid);
@@ -253,7 +262,9 @@ public final class CombatManager implements ICombatManager {
                 .filter(permission -> permission.startsWith("combatlogx.timer."))
                 .map(permission -> permission.substring("combatlogx.timer.".length()))
                 .collect(Collectors.toSet());
-        if(permissionSet.isEmpty()) return getGlobalTimerSeconds();
+        if(permissionSet.isEmpty()) {
+            return getGlobalTimerSeconds();
+        }
         
         int lowestTimer = Integer.MAX_VALUE;
         boolean foundValue = false;
@@ -262,8 +273,7 @@ public final class CombatManager implements ICombatManager {
                 int value = Integer.parseInt(permission);
                 lowestTimer = Math.min(lowestTimer, value);
                 foundValue = true;
-            } catch(NumberFormatException ignored) {
-            }
+            } catch(NumberFormatException ignored) {}
         }
         
         return (foundValue ? lowestTimer : getGlobalTimerSeconds());
@@ -292,13 +302,19 @@ public final class CombatManager implements ICombatManager {
     
     private String replacePAPI(Player player, String string) {
         PluginManager pluginManager = Bukkit.getPluginManager();
-        if(!pluginManager.isPluginEnabled("PlaceholderAPI")) return string;
+        if(!pluginManager.isPluginEnabled("PlaceholderAPI")) {
+            return string;
+        }
+        
         return me.clip.placeholderapi.PlaceholderAPI.setPlaceholders(player, string);
     }
     
     private String replaceMVdW(Player player, String string) {
         PluginManager pluginManager = Bukkit.getPluginManager();
-        if(!pluginManager.isPluginEnabled("MVdWPlaceholderAPI")) return string;
+        if(!pluginManager.isPluginEnabled("MVdWPlaceholderAPI")) {
+            return string;
+        }
+        
         return be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(player, string);
     }
     

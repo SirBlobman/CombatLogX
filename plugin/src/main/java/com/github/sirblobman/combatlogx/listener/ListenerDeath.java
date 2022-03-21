@@ -51,12 +51,16 @@ public final class ListenerDeath extends CombatListener implements IDeathListene
         ConfigurationManager configurationManager = getPluginConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("punish.yml");
         String killTime = configuration.getString("kill-time");
-        if(killTime == null || !killTime.equalsIgnoreCase("join")) return;
+        if(killTime == null || !killTime.equalsIgnoreCase("join")) {
+            return;
+        }
         
         Player player = e.getPlayer();
         PlayerDataManager playerDataManager = getPlayerDataManager();
         YamlConfiguration playerData = playerDataManager.get(player);
-        if(!playerData.getBoolean("kill-on-join", false)) return;
+        if(!playerData.getBoolean("kill-on-join", false)) {
+            return;
+        }
         
         playerData.set("kill-on-join", false);
         playerDataManager.save(player);
@@ -68,9 +72,11 @@ public final class ListenerDeath extends CombatListener implements IDeathListene
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onDeath(PlayerDeathEvent e) {
         Player player = e.getEntity();
-        if(!contains(player)) return;
-        remove(player);
+        if(!contains(player)) {
+            return;
+        }
         
+        remove(player);
         String message = getRandomDeathMessage(player);
         if(message != null) {
             String coloredMessage = MessageUtility.color(message);
@@ -83,7 +89,9 @@ public final class ListenerDeath extends CombatListener implements IDeathListene
         YamlConfiguration configuration = configurationManager.get("punish.yml");
         
         List<String> customDeathMessageList = configuration.getStringList("custom-death-message-list");
-        if(customDeathMessageList.isEmpty()) return null;
+        if(customDeathMessageList.isEmpty()) {
+            return null;
+        }
         
         ThreadLocalRandom random = ThreadLocalRandom.current();
         int customDeathMessageListSize = customDeathMessageList.size();
