@@ -39,7 +39,7 @@ command:
       - "  &f&l/combatlogx help&7: Смотреть эту страницу."
       - "  &f&l/combatlogx reload&7: Перезагрузка config.yml, language.yml, и всех конфигурационных файлов расширений."
       - "  &f&l/combatlogx about <expansion>&7: Проверьте информацию о расширении."
-      - "  &f&l/combatlogx tag <игрок>&7: Принудительно вводит игрока в бой."
+      - "  &f&l/combatlogx tag <player> [seconds]&7: Заставить игрока вступить в бой."
       - "  &f&l/combatlogx toggle bossbar/actionbar/scoreboard&7: Включает/выключает тип уведомления."
       - "  &f&l/combatlogx untag <игрок>&7: Принудительно выводит игрока из боя."
       - "  &f&l/combatlogx version&7: Узнайте вашу версию CombatLogX."
