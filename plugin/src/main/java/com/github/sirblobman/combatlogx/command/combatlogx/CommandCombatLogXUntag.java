@@ -15,7 +15,7 @@ import com.github.sirblobman.combatlogx.api.object.UntagReason;
 
 public final class CommandCombatLogXUntag extends CombatLogCommand {
     public CommandCombatLogXUntag(ICombatLogX plugin) {
-        super(plugin, "tag");
+        super(plugin, "untag");
     }
     
     @Override
