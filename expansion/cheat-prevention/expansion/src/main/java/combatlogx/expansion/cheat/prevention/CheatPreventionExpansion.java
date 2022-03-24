@@ -4,7 +4,6 @@ import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-
 import combatlogx.expansion.cheat.prevention.listener.ListenerBlocks;
 import combatlogx.expansion.cheat.prevention.listener.ListenerBuckets;
 import combatlogx.expansion.cheat.prevention.listener.ListenerChat;
@@ -15,14 +14,15 @@ import combatlogx.expansion.cheat.prevention.listener.ListenerEntities;
 import combatlogx.expansion.cheat.prevention.listener.ListenerFlight;
 import combatlogx.expansion.cheat.prevention.listener.ListenerGameMode;
 import combatlogx.expansion.cheat.prevention.listener.ListenerInventories;
-import combatlogx.expansion.cheat.prevention.listener.ListenerPotions;
 import combatlogx.expansion.cheat.prevention.listener.ListenerRiptide;
 import combatlogx.expansion.cheat.prevention.listener.ListenerTeleport;
 import combatlogx.expansion.cheat.prevention.listener.ListenerTotem;
 import combatlogx.expansion.cheat.prevention.listener.legacy.ListenerLegacyItemPickup;
 import combatlogx.expansion.cheat.prevention.listener.legacy.ListenerLegacyPortalCreate;
+import combatlogx.expansion.cheat.prevention.listener.legacy.ListenerLegacyPotions;
 import combatlogx.expansion.cheat.prevention.listener.modern.ListenerModernItemPickup;
 import combatlogx.expansion.cheat.prevention.listener.modern.ListenerModernPortalCreate;
+import combatlogx.expansion.cheat.prevention.listener.modern.ListenerModernPotions;
 
 public final class CheatPreventionExpansion extends Expansion {
     public CheatPreventionExpansion(ICombatLogX plugin) {
@@ -57,7 +57,6 @@ public final class CheatPreventionExpansion extends Expansion {
         new ListenerFlight(this).register();
         new ListenerGameMode(this).register();
         new ListenerInventories(this).register();
-        new ListenerPotions(this).register();
         new ListenerTeleport(this).register();
         
         // 1.9: Elytra
@@ -81,6 +80,13 @@ public final class CheatPreventionExpansion extends Expansion {
         // 1.13: Riptide Enchantment
         if(minorVersion >= 13) {
             new ListenerRiptide(this).register();
+        }
+
+        // 1.13: EntityPotionEffectEvent
+        if(minorVersion >= 13) {
+            new ListenerModernPotions(this).register();
+        } else {
+            new ListenerLegacyPotions(this).register();
         }
         
         // 1.14: EntityCreatePortalEvent --> PortalCreateEvent with getEntity
