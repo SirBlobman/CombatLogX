@@ -34,7 +34,7 @@ public final class ListenerWorldGuard extends ExpansionListener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onTeleport(PlayerTeleportEvent e) {
         Player player = e.getPlayer();
-        if(isInCombat(player)) {
+        if(e.isCancelled() && isInCombat(player)) {
             Location location = player.getLocation();
             player.teleport(location);
         }
