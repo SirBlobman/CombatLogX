@@ -39,7 +39,7 @@ command:
       - "  &f&l/combatlogx help&7: Muestra este menú."
       - "  &f&l/combatlogx reload&7: Reinicia los archivos config.yml, language.yml, y todos los archivos de configuración de sus expansiones."
       - "  &f&l/combatlogx about <expansion>&7: Revisa la información sobre una expansión."
-      - "  &f&l/combatlogx tag <player>&7: Forzar a un jugador a entrar en modo combate."
+      - "  [seconds]"
       - "  &f&l/combatlogx toggle bossbar/actionbar/scoreboard&7: Habilita o deshabilita alguno de estos mensajes."
       - "  &f&l/combatlogx untag <player>&7: Quitar forzosamente el modo combate."
       - "  &f&l/combatlogx version&7: Muestra la versión de CombatLogX."
