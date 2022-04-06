@@ -1,0 +1,168 @@
+---
+language-name: "hu_hu"
+decimal-format: "0,00"
+prefix: "&f&l[&6CombatLogX&f&l]&r"
+broadcast:
+  on-load: "&a&lA CombatLogX sikeresen betöltődött."
+  on-enable: "&a&lA CombatLogX sikeresen engedélyezve."
+  on-disable: "&c&lA CombatLogX sikeresen letiltva."
+placeholder:
+  time-left-zero: "0"
+  unknown-enemy: "Ismeretlen"
+  status:
+    fighting: "&cHarcol"
+    idle: "&aTétlen"
+    in-combat: "&aIgen"
+    not-in-combat: "&cNem"
+  toggle:
+    enabled: "&aBE"
+    disabled: "&cKI"
+  pvp-status:
+    enabled: "&aBE"
+    disabled: "&cKI"
+combat-timer:
+  expire: "&aMár nem vagy harcban."
+  enemy-death: "&aMár nem vagy harcban, mert az ellenséged meghalt."
+error:
+  player-only: "&cCsak a játékosok hajthatják végre ezt a parancsot."
+  invalid-target: "&7{target}&c nincs online vagy nem létezik."
+  no-permission: "&cHiáznyzó Engedély: &7{permission}"
+  target-not-in-combat: "&7{target}&c nincs harcban."
+  self-not-in-combat: "&cNem vagy harcban."
+  unknown-expansion: "&cA(z) &7{target}&c nem egy bővítmény, vagy nincs telepítve."
+command:
+  combatlogx:
+    help-message-list:
+      - "&f"
+      - "&6&lCombatLogX Parancs Segítség:"
+      - "  &f&l/combatlogx help&7: Megmutatja ezt a súgó oldalt."
+      - "  &f&l/combatlogx reload&7: Újra betölti a config.yml-t, language.yml-t és minden bővítmény konfigurációs fájlt."
+      - "  &f&l/combatlogx about <expansion>&7: Ellenőrzi a bővítménnyel kapcsolatos információkat."
+      - "  &f&l/combatlogx tag <player>&7: Kényszerít egy játékost a harcra."
+      - "  &f&l/combatlogx toggle bossbar/actionbar/scoreboard&7: Engedélyez vagy letilt egy értesítési típust."
+      - "  &f&l/combatlogx untag <player>&7: Kikényszerít egy játékost a harcból."
+      - "  &f&l/combatlogx version&7: Ellenőrzi a CombatLogX verzióját."
+      - "&f"
+    reload-success:
+      - "&aAz összes konfigurációs fájlt sikeresen újra betöltötted a CombatLogX-ből."
+      - "&aAz összes nyelvi fájlt sikeresen újra betöltötted a CombatLogX-ből."
+      - "&aAz összes konfigurációs fájlt sikeresen újra betöltötted a CombatLogX bővítményekből."
+    tag-player: "&aSikeresen harcba kényszerítetted &7{target}&a-t."
+    tag-failure: "&7{target}&c-t nem lehetett harcba állítani. (Talán van egy megkerülése?)"
+    untag-player: "&aSikeresen kikényszerítetted &7{target}&a-t a harcból."
+    toggle-bossbar: "&7&lBoss Sáv: {status}"
+    toggle-actionbar: "&7&lAction Sáv: {status}"
+    toggle-scoreboard: "&7Scoreboard: {status}"
+  combat-timer:
+    time-left-self: "&aMég &7{time_left} másodperc&a van hátra."
+    time-left-other: "&7{target}&a-nek/-nak még &7{time_left} másodperc&a van hátra."
+tagged:
+  unknown: "&cMost harcban vagy! Ne jelentkezz ki."
+  attacked:
+    player: "&f{enemy}&c megtámadott. Ne jelentkezz ki!"
+    mob: "&cMegtámadott egy &f{mob_type}&c. Ne jelentkezz ki!"
+  attacker:
+    player: "&cMegtámadtad &f{enemy}&c-t. Ne jelentkezz ki!"
+    mob: "&cMegtámadtál egy &f{mob_type}&c-t. Ne jelentkezz ki!"
+expansion:
+  cheat-prevention:
+    command-blocked: "&cA(z) &a{command}&c parancshoz nincs hozzáférésed harc közben."
+    no-riptide: "&cA szökőár varázslat harc közben le van tiltva."
+    no-totem: "&cHarc közben nem engedélyezett az életmentés toteme."
+    no-entity-interaction: "&cHarc közben nem engedélyezett használni ezt az élőlényt."
+    no-chat: "&cHarc közben nem engedélyezett chat üzeneteket küldeni."
+    game-mode:
+      force-switch: "&cA játékmódod megváltozott erre &f{game_mode}&c."
+      no-switch: "&cHarc közben nem engedélyezett játékmódot váltani."
+    flight:
+      force-disabled: "&cA repülési képességed törlésre került."
+      no-flying: "&cHarc közben nem engedélyezett a repülés."
+    elytra:
+      force-disabled: "&cA kitinszárnyad letiltásra került."
+      no-gliding: "&cHarc közben nem engedélyezett kitinszárnyat használni."
+    teleportation:
+      block-portal: "&cHarc közben nem engedélyezett portált használni."
+      block-pearl: "&cHarc közben nem engedélyezett endergyöngyöket használni."
+      block-other: "&cHarc közben nem engedélyezett a teleportálás."
+    inventory:
+      force-closed: "&cAz eszköztárad bezárásra került."
+      no-opening: "&cHarc közben nem engedélyezett eszköztárakat megnyitni."
+    blocks:
+      prevent-breaking: "&cHarc közben nem engedélyezett blokkokat kiütni."
+      prevent-placing: "&cHarc közben nem engedélyezett blokkokat lerakni."
+      prevent-interaction: "&cHarc közben nem engedélyezett blokkokat használni."
+      prevent-portal-creation: "&cHarc közben nem engedélyezett portált létrehozni."
+    items:
+      no-pickup: "&cHarc közben nem engedélyezett tárgyakat felvenni."
+      no-dropping: "&cHarc közben nem engedélyezett tárgyakat kidobni."
+    buckets:
+      no-empty: "&cHarc közben nem engedélyezett kiüríteni a vödröket."
+      no-fill: "&cHarc közben nem engedélyezett megtölteni a vödröket."
+  damage-tagger:
+    unknown-damage: "&cSérülést szenvedtél! Ne jelentkezz ki!"
+    damage-type:
+      contact: "&cMegszúrt egy kaktusz. Ne jelentkezz ki!"
+      suffocation: "&cBeragadtál egy falba. Ne jelentkezz ki!"
+      fall: "&cEsési sérülést szenvedtél. Ne jelentkezz ki!"
+      fire: "&cTűzbe sétáltál. Ne jelentkezz ki!"
+      fire-tick: "&cÉgsz. Ne jelentkezz ki!"
+      lava: "&cLávában forrsz. Ne jelentkezz ki!"
+      drowning: "&cFulladozol. Ne jelentkezz ki!"
+      block-explosion: "&cMegsérültél egy robbanásban. Ne jelentkezz ki!"
+      lightning: "&cBeléd csapott egy villám! Ne jelentkezz ki!"
+      starvation: "&cTúl éhes vagy. Ne jelentkezz ki!"
+      poison: "&cMéregkárosodást szenvedtél. Ne jelentkezz ki!"
+      magic: "&cValaki megdobott egy bájitallal. Ne jelentkezz ki!"
+      wither: "&cElsorvadsz. Ne jelentkezz ki!"
+      falling-block: "&cEgy blokk esett rád. Ne jelentkezz ki!"
+      custom: "&cEgyedi sérülést szenvedtél. Ne jelentkezz ki!"
+      fly-into-wall: "&cKinetikus energiát tapasztaltál. Ne jelentkezz ki!"
+      hot-floor: "&cA padló láva! Ne jelentkezz ki!"
+      cramming: "&cTéged összezsúfoltak. Ne jelentkezz ki!"
+  newbie-helper:
+    togglepvp:
+      self: "&7PVP: {status}"
+      admin: "&e{target}&7 pvp-je átállítva erre {status}&7."
+      cooldown: "&cA parancs újbóli használatához várnod kell &7{time_left} másodpercet&c."
+    no-pvp:
+      self: "&cNem ütheted meg ezt a játékost, ameddig a PvP-d le van tiltva."
+      other: "&cEnnek a játékosnak le van tiltva a PvP-je."
+      protected: "&cEz a játékos védett, még nem engedélyezett megtámadni őt!"
+    protection-disabled:
+      attacker: "&cMegtámadtál valakit, az újonc védelmed letiltásra került."
+      expired: "&cAz újonc védelmed lejárt."
+    check-format:
+      - "&7{target} &f&információi &f&l:"
+      - "&f&lVédelem &7{protected}"
+      - "&f&lPvP: &7{pvp}"
+  loot-protection:
+    enemy-died: "&f{enemy} &ameghalt. A zsákmány &f{time} másodpercig&a védett."
+    protected: "&cEz a tárgy jelenleg védett. Várj &f{time} másodpercet, &chogy feltudd venni."
+  citizens-compatibility:
+    prevent-join: "&cAddig nem csatlakozhatsz, ameddig a klónod meg nem ölték vagy el nem tűnt."
+  disguise-compatibility:
+    remove-disguise: "&cAz álcád eltávolításra került."
+  essentials-compatibility:
+    prevent-teleport-request-self: "&cHarc közben nem engedélyezett teleport kéréseket létrehozni."
+    prevent-teleport-request-other: "&cHarc közben nem engedélyezett teleport kérést küldeni egy játékosnak."
+  region-protection:
+    factions-no-entry: "&cHarc közben nem engedélyezett belépni erre a területre."
+    griefdefender-no-entry: "&cHarc közben nem engedélyezett belépni erre a területre."
+    griefprevention-no-entry: "&cHarc közben nem engedélyezett belépni erre a területre."
+    kingdomsx-no-entry: "&cHarc közben nem engedélyezett belépni erre a területre."
+    lands-no-entry: "&cHarc közben nem engedélyezett belépni erre a területre."
+    konquest-no-entry: "&cHarc közben nem engedélyezett belépni erre a területre."
+    redprotect-no-entry: "&cHarc közben nem engedélyezett belépni erre a területre."
+    residence-no-entry: "&cHarc közben nem engedélyezett belépni erre a területre."
+    towny-no-entry: "&cHarc közben nem engedélyezett belépni erre a területre."
+    ultimateclaims-no-entry: "&cHarc közben nem engedélyezett belépni erre a területre."
+    protectionstones:
+      prevent-area-creation: "&cHarc közben nem engedélyezett védett területet létrehozni."
+      no-entry: "&cHarc közben nem engedélyezett belépni erre a területre."
+    preciousstones:
+      prevent-field-creation: "&cHarc közben nem engedélyezett védőmezőt létrehozni."
+      no-entry: "&cHarc közben nem engedélyezett belépni erre a területre."
+    worldguard:
+      no-entry-mob-combat: "&cHarc közben nem engedélyezett belépni egy non-mob-combat területre."
+      no-entry-player-combat: "&cHarc közben nem engedélyezett belépni egy non-player-combat területre."
+      no-entry-unknown-combat: "&cHarc közben nem engedélyezett belépni erre a területre."
