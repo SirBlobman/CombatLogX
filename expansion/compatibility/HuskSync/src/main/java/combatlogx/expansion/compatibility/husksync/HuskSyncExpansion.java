@@ -2,10 +2,8 @@ package combatlogx.expansion.compatibility.husksync;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
 public final class HuskSyncExpansion extends Expansion {
-
     public HuskSyncExpansion(ICombatLogX plugin) {
         super(plugin);
     }
@@ -17,14 +15,12 @@ public final class HuskSyncExpansion extends Expansion {
 
     @Override
     public void onEnable() {
-        ICombatLogX clx = getPlugin();
         if(!checkDependency("HuskSync", true)) {
-            ExpansionManager expansionManager = clx.getExpansionManager();
-            expansionManager.disableExpansion(this);
+            selfDisable();
             return;
         }
-
-        registerListener(new ExpansionListener(clx.getPlugin(), this));
+        
+        new ListenerHuskSync(this).register();
     }
 
     @Override
