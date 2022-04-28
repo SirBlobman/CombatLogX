@@ -14,11 +14,8 @@ import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerFishEvent.State;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -31,10 +28,22 @@ import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.github.sirblobman.combatlogx.api.utility.EntityHelper;
 
 import combatlogx.expansion.mob.tagger.MobTaggerExpansion;
+import combatlogx.expansion.mob.tagger.manager.ISpawnReasonManager;
 
 public final class ListenerDamage extends ExpansionListener {
+    private final MobTaggerExpansion expansion;
     public ListenerDamage(MobTaggerExpansion expansion) {
         super(expansion);
+        this.expansion = expansion;
+    }
+
+    private MobTaggerExpansion getMobTaggerExpansion() {
+        return this.expansion;
+    }
+
+    private ISpawnReasonManager getSpawnReasonManager() {
+        MobTaggerExpansion expansion = getMobTaggerExpansion();
+        return expansion.getSpawnReasonManager();
     }
     
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -95,10 +104,9 @@ public final class ListenerDamage extends ExpansionListener {
     public void onSpawn(CreatureSpawnEvent e) {
         LivingEntity entity = e.getEntity();
         SpawnReason spawnReason = e.getSpawnReason();
-        
-        JavaPlugin plugin = getJavaPlugin();
-        MetadataValue metadataValue = new FixedMetadataValue(plugin, spawnReason);
-        entity.setMetadata("spawn_reason", metadataValue);
+
+        ISpawnReasonManager spawnReasonManager = getSpawnReasonManager();
+        spawnReasonManager.setSpawnReason(entity, spawnReason);
     }
     
     private Entity getDamager(EntityDamageByEntityEvent e) {
@@ -185,26 +193,16 @@ public final class ListenerDamage extends ExpansionListener {
     }
     
     private SpawnReason getSpawnReason(LivingEntity entity) {
-        if(entity == null || !entity.hasMetadata("spawn_reason")) {
+        if(entity == null) {
             return SpawnReason.DEFAULT;
         }
-        
-        List<MetadataValue> metadataValueList = entity.getMetadata("spawn_reason");
-        for(MetadataValue metadataValue : metadataValueList) {
-            Object value = metadataValue.value();
-            if(!(value instanceof SpawnReason)) {
-                continue;
-            }
-            
-            return (SpawnReason) value;
-        }
-        
-        return SpawnReason.DEFAULT;
+
+        ISpawnReasonManager spawnReasonManager = getSpawnReasonManager();
+        return spawnReasonManager.getSpawnReason(entity);
     }
     
     private boolean hasBypassPermission(Player player) {
-        Expansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
+        ConfigurationManager configurationManager = getExpansionConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
         
         String permissionName = configuration.getString("bypass-permission");
