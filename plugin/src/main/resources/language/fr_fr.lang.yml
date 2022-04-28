@@ -1,0 +1,149 @@
+# French Language Translation for CombatLogX
+# Created by Kyufrr on GitHub for v10.4.2.4
+# Updated to v11.0.0.0 by SirBlobman
+language-name: "fr_fr"
+decimal-format: "0.00"
+
+prefix: "&f&l[&6CombatLogX&f&l]&r"
+
+broadcast:
+  on-load: "&a&lCombatLogX chargé avec succès."
+  on-enable: "&a&lCombatLogX est maintenant activé."
+  on-disable: "&f&lCombatLogX est maintenant désactivé."
+
+placeholder:
+  time-left-zero: "0"
+  unknown-enemy: "Inconnu"
+  status:
+    fighting: "&fCombattre"
+    idle: "&aIdle"
+    in-combat: "&aOui"
+    not-in-combat: "&fNon"
+  toggle:
+    enabled: "&aON"
+    disabled: "&fOFF"
+  pvp-status:
+    enabled: "&aON"
+    disabled: "&fOFF"
+
+combat-timer:
+  expire: "&aVous n'êtes plus en combat."
+  enemy-death: "&aVotre ennemi est mort."
+
+error:
+  player-only: "&f&oVous n'êtes pas un joueur."
+  invalid-target: "&f&oImpossible de trouver la cible &a{target}&f&o."
+  no-permission: "&f&oVous n'avez pas la permission : &a{permission}&f."
+  target-not-in-combat: "&a{target}&f&o n'est pas en combat."
+  self-not-in-combat: "&f&oVous n'êtes pas en combat."
+
+command:
+  combatlogx:
+    help-message-list:
+    - "&f"
+    - "&6&lCombatLogX Commandes Help:"
+    - "  &f&l/combatlogx help&7: Voir cette page d'aide."
+    - "  &f&l/combatlogx reload&7: Rechargez le fichier config.yml, language.yml et tous les fichiers de configuration de l'expansion."
+    - "  &f&l/combatlogx version&7: Vérifiez votre version de Combatlogx."
+    - "  &f&l/combatlogx tag <player>&7: Forcer un joueur a être en combat."
+    - "  &f&l/combatlogx untag <player>&7: Forcer un joueur à être hors du combat."
+    - "&f"
+
+    reload-success:
+    - "&aRechargé avec succès tous les fichiers de configuration de Combatlogx et des expansions."
+
+    tag-player: "&aVous venez de forcer &f{target}&a d'être en combat. Cela peut causer des problèmes."
+    tag-failure: "&f&oImpossible de taguer le joueur &a{target}&f&o."
+    untag-player: "&aVous venez de forcer &f{target}&a d'être hors de combat. Cela peut causer des problèmes."
+
+  combat-timer:
+    time-left-self: "&aVous avez &f{time} secondes&a restant."
+    time-left-other: "&f{target} &aa &f{time} seconds&a restant."
+
+tagged:
+  unknown:
+    unknown: "&fVous êtes maintenant au combat. Ne vous déconnectez pas!"
+  attacked:
+    player: "&fVous êtes attaqué par &f{name}&f. Ne vous déconnectez pas!"
+    mob: "&fVous êtes attaqué par un(e) &f{mob_type}&f. Ne vous déconnectez pas!"
+  attacker:
+    player: "&fVous attaquez &f{name}&f. Ne vous déconnectez pas!"
+    mob: "&fVous attaquez un(e) &f{mob_type}&f. Ne vous déconnectez pas!"
+
+# Messages after this point are only for Expansions
+
+expansion:
+  cheat-prevention:
+    command-blocked: "&fVous n'avez pas accès à la commande : &a{command}&f pendant le combat."
+    no-riptide: "&fL'enchantement de la riptide est désactivé pendant le combat."
+    no-totem: "&fVous n'êtes pas autorisé à utiliser des totems d'immortalité pendant le combat."
+    no-entity-interaction: "&fVous n'êtes pas autorisé à utiliser ce mob pendant le combat."
+    no-chat: "&fVous n'êtes pas autorisé à envoyer des messages de discussion Pendent Le Combat."
+
+    game-mode:
+      force-switch: "&fVotre mode de jeu a été changé en &f{game_mode}&f."
+      no-switch: "&fVous n'êtes pas autorisé à changer de jeu de jeux pendant le combat."
+
+    flight:
+      force-disabled: "&fVotre capacité à voler a été supprimée."
+      no-flying: "&fVous n'êtes pas autorisé à voler pendant le combat."
+
+    elytra:
+      force-disabled: "&fVos Elytra a été désactivée."
+      no-gliding: "&fVous n'êtes pas autorisé à utiliser vos Elytra pendant le combat."
+
+    teleportation:
+      block-pearl: "&fVous n'êtes pas autorisé à utiliser vos enders pearls pendant le combat."
+      block-other: "&fVous n'êtes pas autorisé à vous téléporter pendant le combat."
+
+    inventory:
+      force-closed: "&fVotre inventaire a été fermé."
+      no-opening: "&fVous n'êtes pas autorisé à ouvrir votre inventaire pendant le combat."
+
+    blocks:
+      prevent-breaking: "&fVous n'êtes pas autorisé à casser des blocs pendant le combat."
+      prevent-placing: "&fVous n'êtes pas autorisé à placer des blocs pendant le combat."
+      prevent-interaction: "&fVous n'êtes pas autorisé à utiliser des blocs pendant le combat."
+
+    items:
+      no-pickup: "&fVous n'êtes pas autorisé à récupérer des objets pendant le combat."
+      no-dropping: "&fVous n'êtes pas autorisé à laisser tomber des objets pendant le combat."
+
+  damage-tagger:
+    unknown-damage: "&fVous avez pris des dégâts !Ne vous déconnectez pas !"
+    damage-type:
+      contact: "&fVous avez été piqué par un cactus. Ne vous déconnectez pas!"
+      suffocation: "&fVous avez suffoqué dans un mur. Ne vous déconnectez pas!"
+      fall: "&fVous avez pris des dégâts de chute. Ne vous déconnectez pas!"
+      fire: "&fVous êtes entré dans le feu. Ne vous déconnectez pas!"
+      fire-tick: "&fVous brûlez. Ne vous déconnectez pas!"
+      lava: "&fVous faites bouillir en lave. Ne vous déconnectez pas!"
+      drowning: "&fVous vous noyez. Ne vous déconnectez pas!"
+      block-explosion: "&fVous avez reçu des dégats par une explosion. Ne vous déconnectez pas!"
+      lightning: "&fTu as été frappé! Ne vous déconnectez pas!"
+      starvation: "&fTu as trop faim. Ne vous déconnectez pas!"
+      poison: "&fVous avez pris des dégâts de poisons. Ne vous déconnectez pas!"
+      magic: "&fQuelqu'un a jeté une potion sur vous. Ne vous déconnectez pas!"
+      wither: "&fVous avez reçu des dégats de withers. Ne vous déconnectez pas!"
+      falling-block: "&fUn bloc est tombé sur vous. Ne vous déconnectez pas!"
+      custom: "&fVous avez pris des dommages personnalisés. Ne vous déconnectez pas!"
+      fly-into-wall: "&fVous avez eu une énergie cinétique. Ne vous déconnectez pas!"
+      hot-floor: "&fLe sol est la lave ! Ne vous déconnectez pas!"
+      cramming: "&fVous êtes schémé. Ne vous déconnectez pas!"
+
+  newbie-helper:
+    togglepvp:
+      self: "&7&lPvP: &a{status}"
+      admin: "&7Vous définissez le PVP de &e{target}&7 en &a{status}"
+    no-pvp:
+      self: "&fVous n'êtes pas autorisé à frapper ce joueur pendant que votre PvP est désactivé."
+      other: "&fCe joueur a le PVP désactivé."
+      protected: "&fCe joueur est protégé, vous n'êtes pas autorisé à l'attaquer!"
+    protection-disabled:
+      attacker: "&fVous avez attaqué quelqu'un, votre protection Newbie est maintenant désactivée."
+      expired: "&fVotre protection Newbie a expiré."
+
+  region-protection:
+    worldguard:
+      no-entry-player-combat: "&fVous n'êtes pas autorisé à entrer dans une zone de combat sans joueur pendant le combat."
+      no-entry-mob-combat: "&fVous n'êtes pas autorisé à entrer dans une zone de combat sans mob pendant le combat."
