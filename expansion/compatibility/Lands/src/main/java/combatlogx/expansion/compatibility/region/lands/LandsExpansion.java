@@ -1,8 +1,14 @@
 package combatlogx.expansion.compatibility.region.lands;
 
+import java.util.Optional;
+
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
+
+import combatlogx.expansion.compatibility.region.lands.listener.ListenerLands;
 
 public final class LandsExpansion extends RegionExpansion {
     private RegionHandler regionHandler;
@@ -16,7 +22,17 @@ public final class LandsExpansion extends RegionExpansion {
     public boolean checkDependencies() {
         return checkDependency("Lands", true);
     }
-    
+
+    @Override
+    public void afterEnable() {
+        ICombatLogX plugin = getPlugin();
+        ExpansionManager expansionManager = plugin.getExpansionManager();
+        Optional<Expansion> optionalNewbieHelper = expansionManager.getExpansion("NewbieHelper");
+        if(optionalNewbieHelper.isPresent()) {
+            new ListenerLands(this).register();
+        }
+    }
+
     @Override
     public RegionHandler getRegionHandler() {
         if(this.regionHandler == null) {

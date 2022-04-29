@@ -217,7 +217,6 @@ expansion:
     griefdefender-no-entry: "&cYou are not allowed to enter that area during combat."
     griefprevention-no-entry: "&cYou are not allowed to enter that area during combat."
     kingdomsx-no-entry: "&cYou are not allowed to enter that area during combat."
-    lands-no-entry: "&cYou are not allowed to enter that area during combat."
     konquest-no-entry: "&cYou are not allowed to enter that area during combat."
     redprotect-no-entry: "&cYou are not allowed to enter that area during combat."
     residence-no-entry: "&cYou are not allowed to enter that area during combat."
@@ -236,3 +235,7 @@ expansion:
       no-entry-mob-combat: "&cYou are not allowed to enter a non-mob-combat area during combat."
       no-entry-player-combat: "&cYou are not allowed to enter a non-player-combat area during combat."
       no-entry-unknown-combat: "&cYou are not allowed to enter that area during combat."
+
+    lands:
+      no-entry: "&cYou are not allowed to enter that area during combat."
+      war-disable-newbie-protection: "&ePvP is now force enabled due to a war declaration."

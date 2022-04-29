@@ -3,8 +3,11 @@ prefix: "Lands Compatibility"
 description: "${project.description}"
 
 main: "combatlogx.expansion.compatibility.region.lands.LandsExpansion"
-version: "16.2"
+version: "16.3"
 author: "SirBlobman"
 
 plugin-depend:
   - "Lands"
+
+expansion-soft-depend:
+  - "NewbieHelper"

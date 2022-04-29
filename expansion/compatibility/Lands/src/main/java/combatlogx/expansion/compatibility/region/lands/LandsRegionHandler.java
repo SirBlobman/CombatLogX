@@ -25,14 +25,16 @@ public final class LandsRegionHandler extends RegionHandler {
     
     @Override
     public String getEntryDeniedMessagePath(TagType tagType) {
-        return "expansion.region-protection.lands-no-entry";
+        return "expansion.region-protection.lands.no-entry";
     }
     
     @Override
     public boolean isSafeZone(Player player, Location location, TagType tagType) {
-        if(tagType == TagType.UNKNOWN) return false;
+        if(tagType == TagType.UNKNOWN) {
+            return false;
+        }
+
         Area area = this.landsIntegration.getAreaByLoc(location);
-        
         RoleFlag flag = (tagType == TagType.PLAYER ? Flags.ATTACK_PLAYER : Flags.ATTACK_ANIMAL);
         return (area != null && !area.hasFlag(player, flag, false));
     }
