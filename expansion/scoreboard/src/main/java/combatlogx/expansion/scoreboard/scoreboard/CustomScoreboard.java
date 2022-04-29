@@ -101,19 +101,27 @@ public final class CustomScoreboard {
             String value = lineList.get(index);
             setLine(line, value);
         }
+
+        Player player = getPlayer();
+        LanguageManager languageManager = getLanguageManager();
+        String title = languageManager.getMessage(player, "expansion.scoreboard.title", null, true);
+        String titleReplaced = replacePlaceholders(title);
+        this.objective.setDisplayName(titleReplaced);
     }
     
     private void createObjective() {
         Player player = getPlayer();
         LanguageManager languageManager = getLanguageManager();
         String title = languageManager.getMessage(player, "expansion.scoreboard.title", null, true);
+        String titleReplaced = replacePlaceholders(title);
         
-        ICombatLogX plugin = expansion.getPlugin();
+        ICombatLogX plugin = this.expansion.getPlugin();
         MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
         ScoreboardHandler scoreboardHandler = multiVersionHandler.getScoreboardHandler();
         
         Scoreboard scoreboard = getScoreboard();
-        this.objective = scoreboardHandler.createObjective(scoreboard, "combatlogx", "dummy", title);
+        this.objective = scoreboardHandler.createObjective(scoreboard, "combatlogx", "dummy",
+                titleReplaced);
         this.objective.setDisplaySlot(DisplaySlot.SIDEBAR);
     }
     
