@@ -186,7 +186,6 @@ expansion:
     griefdefender-no-entry: "&cNie możesz wejść do tego obszaru podczas walki."
     griefprevention-no-entry: "&cNie możesz wejść do tego obszaru podczas walki."
     kingdomsx-no-entry: "&cNie możesz wejść do tego obszaru podczas walki."
-    lands-no-entry: "&cNie możesz wejść do tego obszaru podczas walki."
     konquest-no-entry: "&cNie możesz wejść do tego obszaru podczas walki."
     redprotect-no-entry: "&cNie możesz wejść do tego obszaru podczas walki."
     residence-no-entry: "&cNie możesz wejść do tego obszaru podczas walki."
@@ -202,3 +201,6 @@ expansion:
       no-entry-mob-combat: "&cNie możesz wejść do strefy, gdzie zostało wyłączone PvP mobów podczas walki."
       no-entry-player-combat: "&cNie możesz wejść do strefy, gdzie zostało wyłączone PvP podczas walki."
       no-entry-unknown-combat: "&cNie możesz wejść do tego obszaru podczas walki."
+    lands:
+      no-entry: "&cNie możesz wejść do tego obszaru podczas walki."
+      war-disable-newbie-protection: "&ePvP jest teraz włączone z powodu deklaracji wojennej."
