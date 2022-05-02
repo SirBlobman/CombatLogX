@@ -40,7 +40,7 @@ public final class ListenerHuskSync extends ExpansionListener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPunish(PlayerPunishEvent event) {
-        ConfigurationManager configurationManager = getExpansionConfigurationManager();
+        ConfigurationManager configurationManager = getPluginConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("punish.yml");
         String killOptionString = configuration.getString("kill-time");
 
