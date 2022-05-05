@@ -1,6 +1,6 @@
 package combatlogx.expansion.compatibility.region.grief.defender;
 
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -46,7 +46,7 @@ public final class GriefDefenderRegionHandler extends RegionHandler {
         Core core = GriefDefender.getCore();
         User user = core.getUser(playerId);
         
-        Set<Context> contexts = Collections.emptySet();
+        Set<Context> contexts = new HashSet<>();
         TypeToken<Tristate> typeTokenTristate = TypeToken.get(Tristate.class);
         Tristate activeOptionValue = claim.getActiveOptionValue(typeTokenTristate, Options.PVP, user, contexts);
         
