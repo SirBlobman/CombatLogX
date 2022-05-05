@@ -2,5 +2,5 @@ name: "Glowing"
 description: "${project.description}"
 
 main: "combatlogx.expansion.glowing.GlowingExpansion"
-version: "16.0"
+version: "16.1"
 author: "SirBlobman"
