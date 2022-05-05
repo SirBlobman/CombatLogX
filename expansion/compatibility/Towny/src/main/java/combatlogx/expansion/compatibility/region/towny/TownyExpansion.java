@@ -14,7 +14,7 @@ public final class TownyExpansion extends RegionExpansion {
     
     @Override
     public boolean checkDependencies() {
-        return checkDependency("Towny", true, "0.97");
+        return checkDependency("Towny", true, "0.98");
     }
     
     @Override
