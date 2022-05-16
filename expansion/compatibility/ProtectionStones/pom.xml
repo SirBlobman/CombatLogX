@@ -28,7 +28,7 @@
         <dependency>
             <groupId>dev.espi</groupId>
             <artifactId>protectionstones</artifactId>
-            <version>2.10.1</version>
+            <version>2.10.2</version>
             <scope>provided</scope>
         </dependency>
 
