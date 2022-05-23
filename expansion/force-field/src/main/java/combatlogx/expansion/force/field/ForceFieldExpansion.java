@@ -31,12 +31,7 @@ public final class ForceFieldExpansion extends Expansion {
             return;
         }
         
-        ListenerForceField listenerForceField = getListenerForceField();
-        if(listenerForceField.isEnabled()) {
-            listenerForceField.register();
-            listenerForceField.registerProtocol();
-        }
-        
+        registerForceFieldListener();
         this.successfullyEnabled = true;
     }
     
@@ -62,10 +57,7 @@ public final class ForceFieldExpansion extends Expansion {
         listenerForceField.removeProtocol();
         listenerForceField.clearData();
         
-        if(listenerForceField.isEnabled()) {
-            listenerForceField.register();
-            listenerForceField.registerProtocol();
-        }
+        registerForceFieldListener();
     }
     
     public ListenerForceField getListenerForceField() {
@@ -74,5 +66,14 @@ public final class ForceFieldExpansion extends Expansion {
         }
         
         return this.listenerForceField;
+    }
+    
+    private void registerForceFieldListener() {
+        ListenerForceField listenerForceField = getListenerForceField();
+        if(listenerForceField.isEnabled()) {
+            listenerForceField.register();
+            listenerForceField.registerProtocol();
+            listenerForceField.onReload();
+        }
     }
 }

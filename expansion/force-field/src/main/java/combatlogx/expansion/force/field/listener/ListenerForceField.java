@@ -46,6 +46,7 @@ import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import combatlogx.expansion.force.field.ForceFieldExpansion;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author olivolja3
@@ -53,6 +54,8 @@ import combatlogx.expansion.force.field.ForceFieldExpansion;
 public class ListenerForceField extends ExpansionListener {
     protected final Map<UUID, Set<WorldXYZ>> fakeBlockMap;
     private final ExecutorService forceFieldExecutor;
+    
+    private Permission bypassPermission;
     
     public ListenerForceField(ForceFieldExpansion expansion) {
         super(expansion);
@@ -151,6 +154,18 @@ public class ListenerForceField extends ExpansionListener {
         return configuration.getBoolean("enabled", true);
     }
     
+    public void onReload() {
+        YamlConfiguration configuration = getConfiguration();
+        String bypassPermissionName = configuration.getString("bypass-permission");
+        if(bypassPermissionName == null || bypassPermissionName.isEmpty()) {
+            this.bypassPermission = null;
+            return;
+        }
+        
+        String description = "CombatLogX Force Field Bypass";
+        this.bypassPermission = new Permission(bypassPermissionName, description, PermissionDefault.FALSE);
+    }
+    
     public void clearData() {
         this.fakeBlockMap.clear();
     }
@@ -160,14 +175,17 @@ public class ListenerForceField extends ExpansionListener {
         return configurationManager.get("config.yml");
     }
     
+    @Nullable
+    private Permission getBypassPermission() {
+        return this.bypassPermission;
+    }
+    
     protected boolean canBypass(Player player) {
-        YamlConfiguration configuration = getConfiguration();
-        String bypassPermissionName = configuration.getString("bypass-permission");
-        if(bypassPermissionName == null || bypassPermissionName.isEmpty()) {
+        Permission permission = getBypassPermission();
+        if(permission == null) {
             return false;
         }
         
-        Permission permission = new Permission(bypassPermissionName, "CombatLogX Force Field Bypass", PermissionDefault.FALSE);
         return player.hasPermission(permission);
     }
     
