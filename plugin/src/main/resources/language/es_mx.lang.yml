@@ -186,7 +186,6 @@ expansion:
     griefdefender-no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
     griefprevention-no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
     kingdomsx-no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
-    lands-no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
     konquest-no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
     redprotect-no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
     residence-no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
@@ -202,3 +201,6 @@ expansion:
       no-entry-mob-combat: "&cNo tienes permitido entrar a zonas que no admitan PvE durante el combate."
       no-entry-player-combat: "&cNo tienes permitido entrar a zonas que no admitan PvP durante el combate."
       no-entry-unknown-combat: "&cNo tienes permitido entrar a este lugar durante el combate."
+    lands:
+      no-entry: "&cNo tienes permitido entrar a este lugar durante el combate."
+      war-disable-newbie-protection: "&ePvP esta activada debido a una declaración de guerra."
