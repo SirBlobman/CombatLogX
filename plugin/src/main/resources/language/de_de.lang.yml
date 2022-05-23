@@ -1,0 +1,151 @@
+# German Translation for CombatLogX
+# Made by wegGehamstert#7554 for v10.4.2.4
+# Updated to v11.0.0.0 by SirBlobman
+
+language-name: "de_de"
+decimal-format: "0.00"
+
+prefix: "&f&l[&6CombatLogX&f&l]&r"
+
+broadcast:
+  on-load: "&a&lCombatLogX wurde erfolgreich geladen."
+  on-enable: "&a&lCombatLogX wurde aktiviert."
+  on-disable: "&c&lCombatLogX ist nun deaktiviert"
+
+placeholder:
+  time-left-zero: "0"
+  unknown-enemy: "Unbekannt"
+  status:
+    fighting: "&cIm Kampf"
+    idling: "&aUntätig"
+    in-combat: "&aJa"
+    not-in-combat: "&cNein"
+  toggle:
+    enabled: "&aAn"
+    disabled: "&cAus"
+
+combat-timer:
+  expire: "&aDu bist nicht mehr im Kampf."
+  enemy-death: "&aDein Feind ist tot."
+
+error:
+  no-permission: "&c&oDu hast nicht die Berechtigungen &a{permission}&c&o dafür."
+  player-only: "&c&oDu bist kein Spieler"
+  invalid-target: "&c&oKonnte den Spieler &a{target}&c&o nicht finden."
+  target-not-in-combat: "&a{target}&c&o ist nicht im Kampf."
+  self-not-in-combat: "&c&oDu bist nicht im Kampf."
+
+commands:
+  combatlogx:
+    help-message-list:
+      - "&f"
+      - "&6&lCombatLogX Command Help:"
+      - "  &f&l/combatlogx help&7: Zeige dir diese Seite an."
+      - "  &f&l/combatlogx reload&7: Laden Sie die config.yml, language.yml und alle Erweiterungskonfigurationsdateien neu."
+      - "  &f&l/combatlogx version&7: Überprüfen Sie Ihre Version von CombatLogX."
+      - "  &f&l/combatlogx tag <player>&7: Zwinge einen Spieler in den Kampf."
+      - "  &f&l/combatlogx untag <player>&7: Zwinge einen Spieler aus dem Kampf."
+      - "&f"
+    
+    reloaded-success: "&aAlle Konfigurationsdateien von CombatLogX und Erweiterungen erfolgreich neu geladen."
+    
+    tag-player: "&aDu hast &f{target}&a in den Kampf gezwungen. Dabei können Fehler auftreten."
+    tag-failure: "&c&oKonnte den Spieler &a{target}&c&o nicht in den Kampf schicken."
+    untag-player: "&aDu hast gerade &f{target}&a aus dem Kampf gezogen. Dabei könnte Fehler auftreten"
+  
+  combat-timer:
+    time-left-self: "&aDu hast &c{time} Sekunden&a verbleibend"
+    time-left-other: "&f{target} &ahat &c{time} Sekunden&a verbleibend"
+
+
+tagged:
+  unknown:
+    unknown: "&cDu befindest dich jetzt im Kampf. Melde dich sich nicht ab!"
+  attacked:
+    player: "&cDu wirst angegriffen von &f{name}&c. Melde dich nicht ab!"
+    mob: "&cDu wirst angegriffen von a(n) &f{mob_type}&c. Melde dich nicht ab!"
+  attacker:
+    player: "&cDu wirst angegriffen von &f{name}&c. Melde dich nicht ab!"
+    mob: "&cWir wirst attakiert von &f{mob_type}&c. Melde dich nicht ab!"
+
+expansion:
+  cheat-prevention:
+    command-blocked: "&cDu kannst diesen Command &a{command}&c jetzt nicht benutzen."
+    no-riptide: "&cRiptide ist deaktiviert während dem Kampf."
+    no-totem: "&cDu darfst kein Totem-Of-Undying im Kampf benutzen."
+    no-entity-interaction: "&cDu darfst das Mob nicht benutzen."
+    no-chat: "&cDu darfst keine Nachrichten schicken.."
+
+    game-mode:
+      force-switch: "&cDein Game-Mode wurde zu &f{game_mode}&c gewechselt."
+      no-switch: "&cDu darfst den Game-Mode nicht wechseln während dem Kampf."
+
+    flight:
+      force-disabled: "&cDeine Fähigkeit zu fliegen wurde deaktiviert."
+      no-flying: "&cDu darfst nicht fliegen während des Kampfes."
+
+    elytra:
+      force-disabled: "&cDeine Elytra wurde deaktiviert."
+      no-gliding: "&cDu darfst keine Elytra benutzen während des Kampes."
+
+    teleportation:
+      block-pearl: "&cDu darfst keine Enderperle während des Kampfes benutzen."
+      block-other: "&cDu darfst dich nicht teleportieren während des Kampfes."
+
+    inventory:
+      force-closed: "&cDein Inventar wurde geschlossen."
+      no-opening: "&cDu darfst das Inventar nicht während des Kampfes öffnen."
+
+    blocks:
+      prevent-breaking: "&cDu darfst keine Blöcke abbauen während des Kampfes."
+      prevent-placing: "&cDu darfst keine Blöcke platzieren während des Kampfes."
+      prevent-interaction: "&cDu darfst keine Blöcke benutzen während des Kampfes."
+
+    items:
+      no-pickup: "&cDu darfst keine Items aufnehmen während des Kampfes."
+      no-dropping: "&cDu darfst keine Items droppen während des Kampfes."
+
+  damage-tagger:
+    unknown-damage: "&cDu hast Schaden genommen.!"
+    damage-type:
+      contact: "&cDu wurdest von einem Kaktus gestochen. Melden Sie sich nicht ab!"
+      suffocation: "&cDu erstickst in einer Wand. Melden Sie sich nicht ab!"
+      fall: "&cDu hast Sturzschaden erlitten. Melden Sie sich nicht ab!"
+      fire: "&cDu bist ins Feuer gegangen. Nicht abmelden!"
+      fire-tick: "Du bist ins Feuer gegangen. Nicht abmelden!"
+      lava: "&cDu kochst in Lava. Nicht abmelden!"
+      drowning: "&cDu ertrinkst. Nicht abmelden!"
+      block-explosion: "&cSie wurden durch eine Explosion beschädigt. Nicht abmelden!"
+      lightning: "&cDu wurdest vom Blitz getroffen! Nicht abmelden!"
+      starvation: "&cDu bist zu hungrig. Nicht abmelden!"
+      poison: "&cDu hast Giftschaden erlitten. Nicht abmelden!"
+      magic: "&cJemand hat einen Trank nach dir geworfen. Nicht abmelden!"
+      wither: "&cDu hast Wither. Nicht abmelden!"
+      falling-block: "&cEin Block ist auf dich gefallen. Nicht abmelden!"
+      custom: "&cDu hast benutzerdefinierten Schaden erlitten. Nicht abmelden!"
+      fly-into-wall: "&cDu hast kinetische Energie erfahren. Nicht abmelden!"
+      hot-floor: "&cDer Boden ist Lava! Nicht abmelden!"
+      cramming: "&cDu wirst gequetscht. Nicht abmelden!"
+
+  newbie-helper:
+    status:
+      protected: "&aGeschützt"
+      not-protected: "&cNicht Geschützt"
+    togglepvp:
+      self: "&7&lPvP: {status}"
+      admin: "&7Du hast PVP bei &e{target}&7 {status}&7."
+    no-pvp:
+      self: "&cDu darfst diesen Spieler nicht treffen, während dein PvP deaktiviert ist."
+      other: "&cDieser Spieler hat PvP deaktiviert."
+      protected: "&cDieser Spieler ist geschützt, du darfst ihn noch nicht angreifen!"
+    protection-disabled:
+      attacker: "&cSie haben jemanden angegriffen, Ihr Anfängerschutz ist jetzt deaktiviert."
+      expired: "&cIhr Anfängerschutz ist abgelaufen."
+
+  citizens-compatibility:
+    prevent-join: "&cAls Strafe für das Abmelden während des Kampfes dürfen Sie nicht beitreten, bis Ihr Klon getötet oder entfernt wurde."
+
+  region-protection:
+    worldguard:
+      no-entry-player-combat: "&cEs ist dir nicht gestattet, während des Kampfes ein Nicht-Spieler-Kampfgebiet zu betreten."
+      no-entry-mob-combat: "&cEs ist dir nicht gestattet, während des Kampfes ein Nicht-Mob-Kampfgebiet zu betreten."
