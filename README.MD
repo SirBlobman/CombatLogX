@@ -13,8 +13,8 @@ things and change how the plugin works.
 
 # Dependencies
 
-- [Spigot 1.8.8 - 1.18.1](https://spigotmc.org/)
-- [SirBlobmanCore 2.3.4 or higher](https://jenkins.sirblobman.xyz/job/SirBlobman/job/SirBlobmanAPI/)
+- [Spigot](https://spigotmc.org/) or [Paper](https://papermc.io/) 1.8.8 - 1.18.2
+- [SirBlobmanCore](https://jenkins.sirblobman.xyz/job/SirBlobman/job/SirBlobmanAPI/) 2.3.6 or higher.
 
 ## Main Features
 
@@ -42,7 +42,7 @@ things and change how the plugin works.
 ## Localization
 
 A translation project for CombatLogX V11 is in progress. If you wish to help out, please visit the Crowdin page below:  
-https://crowdin.com/project/combatlogx-spigot-plugin
+<https://crowdin.com/project/combatlogx-spigot-plugin>
 
 ### Localization Credits
 
@@ -57,7 +57,7 @@ You can also open the README files in each expansion folder.
 
 ## Developer API
 
-If you are looking for the source for the current version on Spigot (10.3.8.3), please check the "old/10.0.0.0"
+If you are looking for the source for the current version on Spigot (10.4.2.4), please check the "old/10.0.0.0"
 branch.  
 If you want to create expansions or learn how to use the CombatLogX API for V11/Beta, please visit this page:  
 [API README](api/README.MD)
