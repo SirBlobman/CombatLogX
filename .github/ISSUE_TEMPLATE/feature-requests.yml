@@ -1,6 +1,7 @@
 name: Feature Request
-description: Make a suggestion or submit  a feature you already coded
-labels: Feature Request
+description: Make a suggestion or submit a feature you already coded
+labels:
+  - Feature Request
 
 body:
   - type: markdown
@@ -34,7 +35,7 @@ body:
         - 1.17.1
         - 1.16.5
         - 1.12.2
-        - 1.8.9
+        - 1.8.8
     validations:
       required: true
 
