@@ -8,6 +8,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.william278.husksync.bukkit.util.PlayerSetter;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -24,9 +25,9 @@ import com.github.sirblobman.combatlogx.api.event.PlayerPunishEvent;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
-import me.william278.husksync.PlayerData;
-import me.william278.husksync.bukkit.api.HuskSyncAPI;
-import me.william278.husksync.bukkit.data.DataSerializer;
+import net.william278.husksync.PlayerData;
+import net.william278.husksync.bukkit.api.HuskSyncAPI;
+import net.william278.husksync.bukkit.data.DataSerializer;
 
 public final class ListenerHuskSync extends ExpansionListener {
     private final HuskSyncAPI huskSyncApi;
