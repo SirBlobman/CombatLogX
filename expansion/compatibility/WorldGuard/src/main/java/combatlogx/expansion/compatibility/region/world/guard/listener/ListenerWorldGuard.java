@@ -9,6 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
@@ -44,6 +45,13 @@ public final class ListenerWorldGuard extends ExpansionListener {
             Location location = player.getLocation();
             player.teleport(location);
         }
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent e) {
+        Player player = e.getPlayer();
+        UUID uniqueId = player.getUniqueId();
+        preventTeleportLoop.remove(uniqueId);
     }
     
     private boolean isNoTaggingRegion(Player player, Location location) {
