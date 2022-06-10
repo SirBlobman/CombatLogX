@@ -93,7 +93,7 @@ expansion:
   angel-chest:
     prevent-opening: "&cYou are not allowed to to open angel chests during combat."
     prevent-breaking: "&cYou are not allowed to break angel chests during combat."
-    prevent-fast-loot: "&cYou are not allowed to fast loot angel chests during combat."
+    prevent-fast-looting: "&cYou are not allowed to fast loot angel chests during combat."
 
   boss-bar:
     # Valid 'timer' placeholders: {time_left}, {time_left_decimal}
