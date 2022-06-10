@@ -16,6 +16,9 @@ public final class ListenerAngelChest extends ExpansionListener {
     @EventHandler
     public void onAngelChestOpen(AngelChestOpenEvent event) {
         Player player = event.getPlayer();
+
+        if(!isInCombat(player)) return;
+
         ConfigurationManager configurationManager = getExpansionConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
 
