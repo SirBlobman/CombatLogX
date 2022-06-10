@@ -1,6 +1,9 @@
 package combatlogx.expansion.compatibility.region.world.guard.listener;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -16,6 +19,7 @@ import combatlogx.expansion.compatibility.region.world.guard.hook.HookWorldGuard
 import org.codemc.worldguardwrapper.WorldGuardWrapper;
 
 public final class ListenerWorldGuard extends ExpansionListener {
+    private final Set<UUID> preventTeleportLoop = new HashSet<>();
     public ListenerWorldGuard(WorldGuardExpansion expansion) {
         super(expansion);
     }
@@ -34,7 +38,9 @@ public final class ListenerWorldGuard extends ExpansionListener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onTeleport(PlayerTeleportEvent e) {
         Player player = e.getPlayer();
-        if(e.isCancelled() && isInCombat(player)) {
+        UUID uniqueId = player.getUniqueId();
+        if(!preventTeleportLoop.remove(uniqueId) && e.isCancelled() && isInCombat(player)) {
+            preventTeleportLoop.add(uniqueId);
             Location location = player.getLocation();
             player.teleport(location);
         }
