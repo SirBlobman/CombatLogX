@@ -18,6 +18,7 @@
     <description>This is the parent POM for the CombatLogX compatibility expansion modules.</description>
 
     <modules>
+        <module>AngelChest</module>
         <module>CrackShot</module>
         <module>Citizens</module>
         <module>FeatherBoard</module>

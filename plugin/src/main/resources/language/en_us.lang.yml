@@ -90,6 +90,11 @@ expansion:
     timer: "&6&lCombat &7\u00BB &f{bars} &f{time_left_decimal} seconds."
     ended: "&6&lCombat &7\u00BB &fYou are no longer in combat."
 
+  angel-chest:
+    prevent-opening: "&cYou are not allowed to to open angel chests during combat."
+    prevent-breaking: "&cYou are not allowed to break angel chests during combat."
+    prevent-fast-loot: "&cYou are not allowed to fast loot angel chests during combat."
+
   boss-bar:
     # Valid 'timer' placeholders: {time_left}, {time_left_decimal}
     timer: "&6&lCombat &7\u00BB &c{time_left_decimal} seconds."
