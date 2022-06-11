@@ -28,7 +28,7 @@
         <dependency>
             <groupId>at.pcgamingfreaks</groupId>
             <artifactId>MarriageMaster-API</artifactId>
-            <version>2.5.6</version>
+            <version>2.6.2</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
