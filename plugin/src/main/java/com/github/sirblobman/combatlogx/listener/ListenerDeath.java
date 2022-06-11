@@ -16,6 +16,8 @@ import com.github.sirblobman.api.utility.MessageUtility;
 import com.github.sirblobman.combatlogx.CombatPlugin;
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
 import com.github.sirblobman.combatlogx.api.manager.IDeathManager;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 public final class ListenerDeath extends CombatListener {
     
@@ -47,9 +49,15 @@ public final class ListenerDeath extends CombatListener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onMonitorDeath(PlayerDeathEvent e) {
+    public void onRespawn(PlayerRespawnEvent e) {
         IDeathManager deathManager = getCombatLogX().getDeathManager();
-        deathManager.stopTracking(e.getEntity());
+        deathManager.stopTracking(e.getPlayer());
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent e) {
+        IDeathManager deathManager = getCombatLogX().getDeathManager();
+        deathManager.stopTracking(e.getPlayer());
     }
     
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
