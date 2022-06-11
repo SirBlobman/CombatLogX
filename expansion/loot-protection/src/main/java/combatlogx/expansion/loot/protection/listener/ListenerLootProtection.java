@@ -36,7 +36,7 @@ import com.github.sirblobman.combatlogx.api.event.PlayerPunishEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
-import com.github.sirblobman.combatlogx.api.listener.IDeathListener;
+import com.github.sirblobman.combatlogx.api.manager.IDeathManager;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 
 import combatlogx.expansion.loot.protection.event.QueryPickupEvent;
@@ -154,13 +154,13 @@ public class ListenerLootProtection extends ExpansionListener {
     public void onDeath(EntityDeathEvent e) {
         LivingEntity entity = e.getEntity();
         ICombatLogX combatLogX = getCombatLogX();
-        IDeathListener deathListener = combatLogX.getDeathListener();
+        IDeathManager deathManager = combatLogX.getDeathManager();
         YamlConfiguration configuration = getExpansionConfigurationManager().get("config.yml");
         
         if(entity instanceof Player) {
             Player player = (Player) entity;
             if(configuration.getBoolean("only-protect-after-log", false)
-                    && !deathListener.contains(player)) {
+                    && !deathManager.wasPunishKilled(player)) {
                 return;
             }
         }

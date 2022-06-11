@@ -12,8 +12,8 @@ import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
-import com.github.sirblobman.combatlogx.api.listener.IDeathListener;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
+import com.github.sirblobman.combatlogx.api.manager.IDeathManager;
 import com.github.sirblobman.combatlogx.api.manager.IPunishManager;
 import com.github.sirblobman.combatlogx.api.manager.ITimerManager;
 
@@ -52,7 +52,7 @@ public interface ICombatLogX extends IResourceHolder {
     
     IPunishManager getPunishManager();
     
-    IDeathListener getDeathListener();
+    IDeathManager getDeathManager();
     
     String getMessageWithPrefix(CommandSender sender, String key, Replacer replacer, boolean color);
     

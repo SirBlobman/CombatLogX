@@ -37,6 +37,7 @@ import com.github.sirblobman.combatlogx.listener.ListenerDeath;
 import com.github.sirblobman.combatlogx.listener.ListenerPunish;
 import com.github.sirblobman.combatlogx.listener.ListenerUntag;
 import com.github.sirblobman.combatlogx.manager.CombatManager;
+import com.github.sirblobman.combatlogx.manager.DeathManager;
 import com.github.sirblobman.combatlogx.manager.PunishManager;
 import com.github.sirblobman.combatlogx.task.TimerUpdateTask;
 import com.github.sirblobman.combatlogx.task.UntagTask;
@@ -45,14 +46,14 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     private final CombatManager combatManager;
     private final PunishManager punishManager;
     private final ExpansionManager expansionManager;
-    private final ListenerDeath listenerDeath;
+    private final DeathManager deathManager;
     private final TimerUpdateTask timerUpdateTask;
     
     public CombatPlugin() {
         this.expansionManager = new ExpansionManager(this);
         this.combatManager = new CombatManager(this);
         this.punishManager = new PunishManager(this);
-        this.listenerDeath = new ListenerDeath(this);
+        this.deathManager = new DeathManager();
         this.timerUpdateTask = new TimerUpdateTask(this);
     }
     
@@ -86,7 +87,7 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         new ListenerDamage(this).register();
         new ListenerPunish(this).register();
         new ListenerUntag(this).register();
-        getDeathListener().register();
+        new ListenerDeath(this).register();
         
         this.timerUpdateTask.register();
         new UntagTask(this).register();
@@ -191,15 +192,15 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     public IPunishManager getPunishManager() {
         return this.punishManager;
     }
-    
+
     @Override
     public TimerUpdateTask getTimerManager() {
         return this.timerUpdateTask;
     }
-    
+
     @Override
-    public ListenerDeath getDeathListener() {
-        return this.listenerDeath;
+    public DeathManager getDeathManager() {
+        return this.deathManager;
     }
     
     @Override

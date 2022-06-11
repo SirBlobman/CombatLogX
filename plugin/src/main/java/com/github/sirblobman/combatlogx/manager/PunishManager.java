@@ -18,8 +18,8 @@ import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.event.PlayerPunishEvent;
-import com.github.sirblobman.combatlogx.api.listener.IDeathListener;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
+import com.github.sirblobman.combatlogx.api.manager.IDeathManager;
 import com.github.sirblobman.combatlogx.api.manager.IPunishManager;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 import com.github.sirblobman.combatlogx.api.utility.CommandHelper;
@@ -120,9 +120,8 @@ public final class PunishManager implements IPunishManager {
         }
         
         if(killOptionString.equals("QUIT")) {
-            IDeathListener listenerDeath = this.plugin.getDeathListener();
-            listenerDeath.add(player);
-            player.setHealth(0.0D);
+            IDeathManager deathManager = this.plugin.getDeathManager();
+            deathManager.kill(player);
         }
         
         if(killOptionString.equals("JOIN")) {
