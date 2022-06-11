@@ -1,9 +1,6 @@
 package com.github.sirblobman.combatlogx.listener;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -18,32 +15,12 @@ import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.utility.MessageUtility;
 import com.github.sirblobman.combatlogx.CombatPlugin;
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
-import com.github.sirblobman.combatlogx.api.listener.IDeathListener;
+import com.github.sirblobman.combatlogx.api.manager.IDeathManager;
 
-public final class ListenerDeath extends CombatListener implements IDeathListener {
-    private final Set<UUID> customDeathSet;
+public final class ListenerDeath extends CombatListener {
     
     public ListenerDeath(CombatPlugin plugin) {
         super(plugin);
-        this.customDeathSet = new HashSet<>();
-    }
-    
-    @Override
-    public void add(Player player) {
-        UUID uuid = player.getUniqueId();
-        this.customDeathSet.add(uuid);
-    }
-    
-    @Override
-    public void remove(Player player) {
-        UUID uuid = player.getUniqueId();
-        this.customDeathSet.remove(uuid);
-    }
-    
-    @Override
-    public boolean contains(Player player) {
-        UUID uuid = player.getUniqueId();
-        return this.customDeathSet.contains(uuid);
     }
     
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -64,19 +41,25 @@ public final class ListenerDeath extends CombatListener implements IDeathListene
         
         playerData.set("kill-on-join", false);
         playerDataManager.save(player);
-        
-        add(player);
-        player.setHealth(0.0D);
+
+        IDeathManager deathManager = getCombatLogX().getDeathManager();
+        deathManager.kill(player);
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onMonitorDeath(PlayerDeathEvent e) {
+        IDeathManager deathManager = getCombatLogX().getDeathManager();
+        deathManager.stopTracking(e.getEntity());
     }
     
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onDeath(PlayerDeathEvent e) {
         Player player = e.getEntity();
-        if(!contains(player)) {
+        IDeathManager deathManager = getCombatLogX().getDeathManager();
+        if(!deathManager.wasPunishKilled(player)) {
             return;
         }
-        
-        remove(player);
+
         String message = getRandomDeathMessage(player);
         if(message != null) {
             String coloredMessage = MessageUtility.color(message);

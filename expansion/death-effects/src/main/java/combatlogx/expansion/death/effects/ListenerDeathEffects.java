@@ -21,7 +21,7 @@ import com.github.sirblobman.api.xseries.XMaterial;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
-import com.github.sirblobman.combatlogx.api.listener.IDeathListener;
+import com.github.sirblobman.combatlogx.api.manager.IDeathManager;
 
 public final class ListenerDeathEffects extends ExpansionListener {
     public ListenerDeathEffects(Expansion expansion) {
@@ -38,8 +38,8 @@ public final class ListenerDeathEffects extends ExpansionListener {
         boolean requireCombatDeath = configuration.getBoolean("combat-death-only");
         if(requireCombatDeath) {
             ICombatLogX combatLogX = getCombatLogX();
-            IDeathListener deathListener = combatLogX.getDeathListener();
-            if(!deathListener.contains(player)) return;
+            IDeathManager deathManager = combatLogX.getDeathManager();
+            if(!deathManager.wasPunishKilled(player)) return;
         }
         
         if(enabledDeathEffectList.contains("BLOOD")) {
