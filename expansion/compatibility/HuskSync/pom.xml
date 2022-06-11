@@ -26,9 +26,9 @@
     <dependencies>
         <!-- HuskSync -->
         <dependency>
-            <groupId>com.github.WiIIiam278</groupId>
+            <groupId>net.william278</groupId>
             <artifactId>HuskSync</artifactId>
-            <version>1.3</version>
+            <version>1.4</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

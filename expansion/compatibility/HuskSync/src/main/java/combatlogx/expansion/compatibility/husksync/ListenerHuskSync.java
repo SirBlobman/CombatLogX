@@ -8,25 +8,22 @@ import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.api.utility.ItemUtility;
 import com.github.sirblobman.combatlogx.api.event.PlayerPunishEvent;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
-import me.william278.husksync.PlayerData;
-import me.william278.husksync.bukkit.api.HuskSyncAPI;
-import me.william278.husksync.bukkit.data.DataSerializer;
+import net.william278.husksync.bukkit.events.SyncEvent;
+import net.william278.husksync.PlayerData;
+import net.william278.husksync.bukkit.api.HuskSyncAPI;
+import net.william278.husksync.bukkit.data.DataSerializer;
 
 public final class ListenerHuskSync extends ExpansionListener {
     private final HuskSyncAPI huskSyncApi;
@@ -65,46 +62,37 @@ public final class ListenerHuskSync extends ExpansionListener {
 
         try {
             CompletableFuture<PlayerData> futurePlayerData = huskSyncApi.getPlayerData(playerId);
-            futurePlayerData.thenAcceptAsync(playerData -> new BukkitRunnable() {
-                @Override
-                public void run() {
-                    try {
-                        if(!keepInventory) {
-                            ItemStack[] inventory = DataSerializer.deserializeInventory(playerData.getSerializedInventory());
-
-                            World world = player.getWorld();
-                            Location location = player.getLocation();
-
-                            for(final ItemStack itemStack : inventory) {
-                                if(ItemUtility.isAir(itemStack)) {
-                                    continue;
-                                }
-                                
-                                world.dropItemNaturally(location, itemStack);
-                            }
-
-                            String serializedInventory = DataSerializer.serializeInventory(new ItemStack[0]);
-                            playerData.setSerializedInventory(serializedInventory);
-                        }
-
-                        if(!keepLevel) {
-                            playerData.setTotalExperience(event.getNewTotalExp());
-                            playerData.setExpLevel(event.getNewLevel());
-                            playerData.setExpProgress(event.getNewExp());
-                        }
-
-                        playerData.setHealth(0);
-
-                        huskSyncApi.updatePlayerData(playerData);
-                    } catch(IOException | ClassNotFoundException ex) {
-                        Logger logger = getExpansionLogger();
-                        logger.log(Level.SEVERE, "An error occurred saving player data!", ex);
-                    }
+            futurePlayerData.thenAcceptAsync(playerData -> {
+                if(!keepInventory) {
+                    String serializedInventory = DataSerializer.serializeInventory(new ItemStack[0]);
+                    playerData.setSerializedInventory(serializedInventory);
                 }
-            }.runTask(getJavaPlugin()));
+
+                if(!keepLevel) {
+                    playerData.setTotalExperience(event.getNewTotalExp());
+                    playerData.setExpLevel(event.getNewLevel());
+                    playerData.setExpProgress(event.getNewExp());
+                }
+
+                playerData.setHealth(0);
+
+                try {
+                    huskSyncApi.updatePlayerData(playerData);
+                } catch(IOException ex) {
+                    Logger logger = getExpansionLogger();
+                    logger.log(Level.SEVERE, "An error occurred saving player data!", ex);
+                }
+            });
         } catch(IOException ex) {
             Logger logger = getExpansionLogger();
             logger.log(Level.SEVERE, "An error occurred fetching player data!", ex);
         }
+    }
+
+    @EventHandler
+    public void onSync(SyncEvent event) {
+        Player player = event.getPlayer();
+        PlayerData data = event.getData();
+        if(player.getHealth() <= 0 && data.getHealth() > 0) player.spigot().respawn();
     }
 }
