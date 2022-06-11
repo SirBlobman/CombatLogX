@@ -20,10 +20,10 @@ import com.github.sirblobman.combatlogx.api.event.PlayerPunishEvent;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
-import net.william278.husksync.bukkit.events.SyncEvent;
 import net.william278.husksync.PlayerData;
 import net.william278.husksync.bukkit.api.HuskSyncAPI;
 import net.william278.husksync.bukkit.data.DataSerializer;
+import net.william278.husksync.bukkit.events.SyncEvent;
 
 public final class ListenerHuskSync extends ExpansionListener {
     private final HuskSyncAPI huskSyncApi;

@@ -16,10 +16,10 @@
     <description>An expansion for CombatLogX that adds support for HuskSync.</description>
 
     <repositories>
-        <!-- JitPack Repository -->
+        <!-- SirBlobman Private Repository -->
         <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
+            <id>sirblobman-private</id>
+            <url>https://nexus.sirblobman.xyz/repository/private/</url>
         </repository>
     </repositories>
 
