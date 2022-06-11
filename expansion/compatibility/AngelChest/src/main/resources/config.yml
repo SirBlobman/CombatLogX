@@ -1,0 +1,11 @@
+# Should players be prevented from breaking AngelChests during combat?
+# Default: true
+prevent-breaking: true
+
+# Should players be prevented from opening AngelChests during combat?
+# Default: true
+prevent-opening: true
+
+# Should players be prevented from fast looting AngelChests during combat?
+# Default: true
+prevent-fast-looting: true
