@@ -78,6 +78,10 @@ expansion:
     #Valid 'timer' placeholders: {time_left}, {time_left_decimal}, {bars}
     timer: "&6&lWalka &7\u00BB &f{bars} &f{time_left_decimal} sekund."
     ended: "&6&lWalka &7\u00BB &fNie jesteś już w walce."
+  angel-chest:
+    prevent-opening: "&cNie możesz otwierać skrzyń aniołowych podczas walki."
+    prevent-breaking: "&cNie możesz niszczyć skrzyni aniołowych podczas walki."
+    prevent-fast-looting: "&cNie możesz zabierać przedmiotów ze skrzyń aniołowych podczas walki."
   boss-bar:
     #Valid 'timer' placeholders: {time_left}, {time_left_decimal}
     timer: "&6&lWalka &7\u00BB &c{time_left_decimal} sekund."
