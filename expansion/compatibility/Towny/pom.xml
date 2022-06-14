@@ -31,7 +31,7 @@
         <dependency>
             <groupId>com.github.TownyAdvanced</groupId>
             <artifactId>Towny</artifactId>
-            <version>0.98.2.3</version>
+            <version>0.98.2.4</version>
             <scope>provided</scope>
         </dependency>
 
