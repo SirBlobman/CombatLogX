@@ -5,10 +5,13 @@ import java.util.List;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
+
+import org.jetbrains.annotations.Nullable;
 
 public interface ICombatManager {
     boolean tag(Player player, LivingEntity enemy, TagType tagType, TagReason tagReason);
@@ -32,4 +35,10 @@ public interface ICombatManager {
     int getMaxTimerSeconds(Player player);
     
     String replaceVariables(Player player, LivingEntity enemy, String string);
+
+    @Nullable Permission getBypassPermission();
+
+    boolean canBypass(Player player);
+
+    void onReload();
 }

@@ -17,7 +17,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachmentInfo;
+import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginManager;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
@@ -39,15 +41,20 @@ import com.github.sirblobman.combatlogx.api.object.TimerType;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 import com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper;
 
+import org.jetbrains.annotations.Nullable;
+
 public final class CombatManager implements ICombatManager {
     private final ICombatLogX plugin;
     private final Map<UUID, Long> combatMap;
     private final Map<UUID, LivingEntity> enemyMap;
+
+    private Permission bypassPermission;
     
     public CombatManager(ICombatLogX plugin) {
         this.plugin = Validate.notNull(plugin, "plugin must not be null!");
         this.combatMap = new ConcurrentHashMap<>();
         this.enemyMap = new ConcurrentHashMap<>();
+        this.bypassPermission = null;
     }
     
     @Override
@@ -247,7 +254,36 @@ public final class CombatManager implements ICombatManager {
         
         return replaceMVdW(player, replacePAPI(player, newString));
     }
-    
+
+    @Override
+    public Permission getBypassPermission() {
+        return this.bypassPermission;
+    }
+
+    @Override
+    public boolean canBypass(Player player) {
+        Permission bypassPermission = getBypassPermission();
+        if(bypassPermission == null) {
+            return false;
+        }
+
+        return player.hasPermission(bypassPermission);
+    }
+
+    @Override
+    public void onReload() {
+        ConfigurationManager configurationManager = this.plugin.getConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("config.yml");
+
+        String permissionName = configuration.getString("bypass-permission");
+        if(permissionName == null || permissionName.isEmpty()) {
+            this.bypassPermission = null;
+        } else {
+            String description = "CombatLogX Bypass Permission";
+            this.bypassPermission = new Permission(permissionName, description, PermissionDefault.FALSE);
+        }
+    }
+
     private int getGlobalTimerSeconds() {
         ConfigurationManager configurationManager = this.plugin.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");

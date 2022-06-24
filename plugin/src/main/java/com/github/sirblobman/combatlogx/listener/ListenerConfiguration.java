@@ -89,7 +89,9 @@ public final class ListenerConfiguration extends CombatListener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onExplode(EntityExplodeEvent e) {
         Entity entity = e.getEntity();
-        if(!(entity instanceof LivingEntity)) return;
+        if(!(entity instanceof LivingEntity)) {
+            return;
+        }
         
         LivingEntity livingEntity = (LivingEntity) entity;
         checkEnemyDeathUntag(livingEntity);
@@ -109,19 +111,14 @@ public final class ListenerConfiguration extends CombatListener {
     }
     
     private boolean checkBypass(Player player) {
-        ConfigurationManager configurationManager = getPluginConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        
-        String bypassPermissionName = configuration.getString("bypass-permission");
-        if(bypassPermissionName == null || bypassPermissionName.isEmpty()) return false;
-        
-        Permission bypassPermission = new Permission(bypassPermissionName, "CombatLogX Bypass Permission",
-                PermissionDefault.FALSE);
-        return player.hasPermission(bypassPermission);
+        ICombatManager combatManager = getCombatManager();
+        return combatManager.canBypass(player);
     }
     
     private boolean isSelfCombatDisabled(Player player, LivingEntity enemy) {
-        if(enemy == null || doesNotEqual(player, enemy)) return false;
+        if(enemy == null || doesNotEqual(player, enemy)) {
+            return false;
+        }
         
         ConfigurationManager configurationManager = getPluginConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
@@ -129,17 +126,21 @@ public final class ListenerConfiguration extends CombatListener {
     }
     
     private boolean doesNotEqual(Entity entity1, Entity entity2) {
-        if(entity1 == entity2) return false;
+        if(entity1 == entity2) {
+            return false;
+        }
         
-        UUID uuid1 = entity1.getUniqueId();
-        UUID uuid2 = entity2.getUniqueId();
-        return !uuid1.equals(uuid2);
+        UUID entityId1 = entity1.getUniqueId();
+        UUID entityId2 = entity2.getUniqueId();
+        return !entityId1.equals(entityId2);
     }
     
     private void checkDeathUntag(Player player) {
         ConfigurationManager configurationManager = getPluginConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-        if(!configuration.getBoolean("untag-on-death")) return;
+        if(!configuration.getBoolean("untag-on-death")) {
+            return;
+        }
         
         ICombatManager combatManager = getCombatManager();
         if(combatManager.isInCombat(player)) {
@@ -150,11 +151,15 @@ public final class ListenerConfiguration extends CombatListener {
     private void checkEnemyDeathUntag(LivingEntity enemy) {
         ConfigurationManager configurationManager = getPluginConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-        if(!configuration.getBoolean("untag-on-enemy-death")) return;
+        if(!configuration.getBoolean("untag-on-enemy-death")) {
+            return;
+        }
         
         ICombatManager combatManager = getCombatManager();
         OfflinePlayer offlinePlayer = combatManager.getByEnemy(enemy);
-        if(offlinePlayer == null || !offlinePlayer.isOnline()) return;
+        if(offlinePlayer == null || !offlinePlayer.isOnline()) {
+            return;
+        }
         
         Player player = offlinePlayer.getPlayer();
         if(player != null && combatManager.isInCombat(player)) combatManager.untag(player, UntagReason.ENEMY_DEATH);

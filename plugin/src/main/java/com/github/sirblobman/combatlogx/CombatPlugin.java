@@ -176,6 +176,9 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     
         ExpansionManager expansionManager = getExpansionManager();
         expansionManager.reloadConfigs();
+
+        ICombatManager combatManager = getCombatManager();
+        combatManager.onReload();
     }
     
     @Override
