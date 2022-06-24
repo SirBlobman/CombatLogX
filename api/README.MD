@@ -49,13 +49,42 @@ You can see more information about them below:
 CombatLogX has many uses, but some common examples are provided below.  
 Good luck with your coding!
 
-**Example 01: Check if a player is in combat.**
+**Example 01: Check if CombatLogX is enabled and get an instance of it.**
+```java
+public boolean isEnabled() {
+    PluginManager pluginManager = Bukkit.getPluginManager();
+    return pluginManager.isPluginEnabled("CombatLogX");
+}
+
+public ICombatLogX getAPI() {
+    PluginManager pluginManager = Bukkit.getPluginManager();
+    Plugin plugin = pluginManager.getPlugin("CombatLogX");
+    return (ICombatLogX) plugin;
+}
+```
+
+**Example 02: Check if a player is in combat.**
 
 ```java
 public boolean isInCombat(Player player) {
-    // You need to ensure that CombatLogX is enabled before using it for anything.
-    ICombatLogX plugin = (ICombatLogX) Bukkit.getPluginManager().getPlugin("CombatLogX");
+    ICombatLogX plugin = getAPI();
     ICombatManager combatManager = plugin.getCombatManager();
     return combatManager.isInCombat(player);
+}
+```
+
+**Example 03: Check if a player was killed by CombatLogX.**
+
+```java
+@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+public void onDeath(PlayerDeathEvent e) {
+    Player player = e.getEntity();
+    ICombatLogX plugin = getAPI();
+    IDeathManager deathManager = plugin.getDeathManager();
+    
+    if(deathManager.wasPunishKilled(player)) {
+        // Player was killed by CombatLogX
+        e.setDeathMessage(player.getName() + " was killed for logging out during combat.");
+    }
 }
 ```
