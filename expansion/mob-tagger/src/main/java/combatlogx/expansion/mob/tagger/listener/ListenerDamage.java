@@ -202,16 +202,11 @@ public final class ListenerDamage extends ExpansionListener {
     }
     
     private boolean hasBypassPermission(Player player) {
-        ConfigurationManager configurationManager = getExpansionConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        
-        String permissionName = configuration.getString("bypass-permission");
-        if(permissionName == null || permissionName.isEmpty()) {
+        Permission bypassPermission = this.expansion.getMobCombatBypassPermission();
+        if(bypassPermission == null) {
             return false;
         }
-        
-        String permissionDescription = "CombatLogX Bypass Permission: Mob Combat";
-        Permission permission = new Permission(permissionName, permissionDescription, PermissionDefault.FALSE);
-        return player.hasPermission(permission);
+
+        return player.hasPermission(bypassPermission);
     }
 }
