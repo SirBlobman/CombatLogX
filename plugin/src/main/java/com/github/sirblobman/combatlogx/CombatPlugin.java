@@ -68,8 +68,7 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         configurationManager.saveDefault("punish.yml");
         
         LanguageManager languageManager = getLanguageManager();
-        languageManager.saveDefaultLanguages();
-        languageManager.reloadLanguages();
+        languageManager.saveDefaultLanguageFiles();
         
         ExpansionManager expansionManager = getExpansionManager();
         expansionManager.loadExpansions();
@@ -79,26 +78,14 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     
     @Override
     public void onEnable() {
-        new CommandCombatLogX(this).register();
-        new CommandCombatTimer(this).register();
-        new CommandTogglePVP(this).register();
-        
-        new ListenerConfiguration(this).register();
-        new ListenerDamage(this).register();
-        new ListenerPunish(this).register();
-        new ListenerUntag(this).register();
-        new ListenerDeath(this).register();
-        
-        this.timerUpdateTask.register();
-        new UntagTask(this).register();
-        
-        ExpansionManager expansionManager = getExpansionManager();
-        expansionManager.enableExpansions();
+        reloadLanguage();
+        registerCommands();
+        registerListeners();
+        registerTasks();
+        registerExpansions();
+        registerUpdates();
+
         broadcastEnableMessage();
-        
-        CorePlugin corePlugin = JavaPlugin.getPlugin(CorePlugin.class);
-        UpdateManager updateManager = corePlugin.getUpdateManager();
-        updateManager.addResource(this, 31689L);
     }
     
     @Override
@@ -167,9 +154,8 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         for(String fileName : fileNameList) {
             configurationManager.reload(fileName);
         }
-    
-        LanguageManager languageManager = getLanguageManager();
-        languageManager.reloadLanguages();
+
+        reloadLanguage();
         
         IPunishManager punishManager = getPunishManager();
         punishManager.loadPunishments();
@@ -266,6 +252,41 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         Logger logger = getLogger();
         logger.log(Level.WARNING, "Full Error Details:", ex);
     }
+
+    private void reloadLanguage() {
+        LanguageManager languageManager = getLanguageManager();
+        languageManager.reloadLanguageFiles();
+    }
+
+    private void registerCommands() {
+        new CommandCombatLogX(this).register();
+        new CommandCombatTimer(this).register();
+        new CommandTogglePVP(this).register();
+    }
+
+    private void registerListeners() {
+        new ListenerConfiguration(this).register();
+        new ListenerDamage(this).register();
+        new ListenerPunish(this).register();
+        new ListenerUntag(this).register();
+        new ListenerDeath(this).register();
+    }
+
+    private void registerTasks() {
+        this.timerUpdateTask.register();
+        new UntagTask(this).register();
+    }
+
+    private void registerExpansions() {
+        ExpansionManager expansionManager = getExpansionManager();
+        expansionManager.enableExpansions();
+    }
+
+    private void registerUpdates() {
+        CorePlugin corePlugin = JavaPlugin.getPlugin(CorePlugin.class);
+        UpdateManager updateManager = corePlugin.getUpdateManager();
+        updateManager.addResource(this, 31689L);
+    }
     
     private void untagAllPlayers() {
         ICombatManager combatManager = getCombatManager();
@@ -283,7 +304,7 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         }
         
         LanguageManager languageManager = getLanguageManager();
-        languageManager.broadcastMessage("broadcast.on-load", null, true);
+        languageManager.broadcastMessage("broadcast.on-load", null, true, null);
     }
     
     private void broadcastEnableMessage() {
@@ -294,7 +315,7 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         }
         
         LanguageManager languageManager = getLanguageManager();
-        languageManager.broadcastMessage("broadcast.on-enable", null, true);
+        languageManager.broadcastMessage("broadcast.on-enable", null, true, null);
     }
     
     private void broadcastDisableMessage() {
@@ -305,6 +326,6 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         }
         
         LanguageManager languageManager = getLanguageManager();
-        languageManager.broadcastMessage("broadcast.on-disable", null, true);
+        languageManager.broadcastMessage("broadcast.on-disable", null, true, null);
     }
 }
