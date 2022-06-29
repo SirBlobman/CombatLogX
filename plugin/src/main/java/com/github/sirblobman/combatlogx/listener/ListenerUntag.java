@@ -25,7 +25,7 @@ public final class ListenerUntag extends CombatListener {
         super(plugin);
     }
     
-    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onKick(PlayerKickEvent e) {
         Player player = e.getPlayer();
         if(!isInCombat(player)) {
@@ -39,7 +39,7 @@ public final class ListenerUntag extends CombatListener {
         combatManager.untag(player, untagReason);
     }
     
-    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
         if(!isInCombat(player)) {
