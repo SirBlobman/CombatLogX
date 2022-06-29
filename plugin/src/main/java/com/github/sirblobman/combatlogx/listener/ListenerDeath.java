@@ -3,6 +3,7 @@ package com.github.sirblobman.combatlogx.listener;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,6 +12,8 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
@@ -56,8 +59,14 @@ public final class ListenerDeath extends CombatListener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
-        IDeathManager deathManager = getCombatLogX().getDeathManager();
-        deathManager.stopTracking(e.getPlayer());
+        Player player = e.getPlayer();
+        JavaPlugin javaPlugin = getJavaPlugin();
+        IDeathManager deathManager = getDeathManager();
+
+        BukkitScheduler scheduler = Bukkit.getScheduler();
+        scheduler.scheduleSyncDelayedTask(javaPlugin, () -> {
+            deathManager.stopTracking(player);
+        }, 1L);
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)

@@ -24,6 +24,7 @@ import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
+import com.github.sirblobman.combatlogx.api.manager.IDeathManager;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
 import org.jetbrains.annotations.NotNull;
@@ -80,6 +81,11 @@ public abstract class CombatListener implements Listener {
     protected final ICombatManager getCombatManager() {
         ICombatLogX plugin = getCombatLogX();
         return plugin.getCombatManager();
+    }
+
+    protected final IDeathManager getDeathManager() {
+        ICombatLogX plugin = getCombatLogX();
+        return plugin.getDeathManager();
     }
 
     protected final boolean isInCombat(Player player) {
