@@ -30,6 +30,7 @@ import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
 import combatlogx.expansion.compatibility.citizens.object.CombatNPC;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.npc.NPC.Metadata;
 import net.citizensnpcs.api.npc.NPCRegistry;
 import net.citizensnpcs.api.trait.trait.Owner;
 import org.mcmonkey.sentinel.SentinelTrait;
@@ -131,6 +132,7 @@ public final class CombatNpcManager {
         
         LivingEntity livingEntity = (LivingEntity) entity;
         npc.setProtected(false);
+        npc.data().set(Metadata.SHOULD_SAVE, false);
         
         if(npc.hasTrait(Owner.class)) {
             npc.removeTrait(Owner.class);
