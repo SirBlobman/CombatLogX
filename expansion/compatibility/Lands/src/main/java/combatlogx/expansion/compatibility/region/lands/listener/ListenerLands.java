@@ -45,7 +45,7 @@ public final class ListenerLands extends ExpansionListener {
         NewbieHelperExpansion newbieHelperExpansion = getNewbieHelperExpansion();
         ProtectionManager protectionManager = newbieHelperExpansion.getProtectionManager();
         PVPManager pvpManager = newbieHelperExpansion.getPVPManager();
-        if(protectionManager.isProtected(player) || pvpManager.isDisabled(player)) {
+        if (protectionManager.isProtected(player) || pvpManager.isDisabled(player)) {
             protectionManager.setProtected(player, false);
             pvpManager.setPVP(player, true);
 
@@ -59,12 +59,12 @@ public final class ListenerLands extends ExpansionListener {
         ICombatLogX combatLogX = getCombatLogX();
         ExpansionManager expansionManager = combatLogX.getExpansionManager();
         Optional<Expansion> optionalExpansion = expansionManager.getExpansion("NewbieHelper");
-        if(!optionalExpansion.isPresent()) {
+        if (!optionalExpansion.isPresent()) {
             throw new IllegalArgumentException("NewbieHelper expansion is missing.");
         }
 
         Expansion expansion = optionalExpansion.get();
-        if(!(expansion instanceof NewbieHelperExpansion)) {
+        if (!(expansion instanceof NewbieHelperExpansion)) {
             throw new IllegalArgumentException("NewbieHelper expansion is not a proper instance.");
         }
 

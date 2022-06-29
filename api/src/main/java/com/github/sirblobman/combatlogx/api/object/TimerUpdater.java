@@ -18,7 +18,7 @@ public interface TimerUpdater {
      * @param timeLeftMillis The amount of time left in combat for this player.
      */
     void update(Player player, long timeLeftMillis);
-    
+
     /**
      * This method is executed whenever a player is untagged.
      *

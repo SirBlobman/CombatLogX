@@ -29,83 +29,83 @@ public final class TownyRegionHandler extends RegionHandler {
     public TownyRegionHandler(TownyExpansion expansion) {
         super(expansion);
     }
-    
+
     @Override
     public String getEntryDeniedMessagePath(TagType tagType) {
         return "expansion.region-protection.towny-no-entry";
     }
-    
+
     @Override
     public boolean isSafeZone(Player player, Location location, TagType tagType) {
-        if(tagType != TagType.PLAYER) {
+        if (tagType != TagType.PLAYER) {
             return false;
         }
-        
+
         RegionExpansion expansion = getExpansion();
         ConfigurationManager configurationManager = expansion.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-        
+
         TownBlock townBlock = getTownBlock(location);
-        if(townBlock == null) {
+        if (townBlock == null) {
             return false;
         }
-        
-        if(configuration.getBoolean("prevent-all-town-entries", false)) {
-            if(isOwnTown(townBlock, player)) {
+
+        if (configuration.getBoolean("prevent-all-town-entries", false)) {
+            if (isOwnTown(townBlock, player)) {
                 return true;
             }
         }
-        
+
         TownyWorld townyWorld = townBlock.getWorld();
-        if(townyWorld == null || townyWorld.isForcePVP()) {
+        if (townyWorld == null || townyWorld.isForcePVP()) {
             return false;
         }
-        
+
         Town town;
         try {
             town = townBlock.getTown();
-            if(town == null || town.isPVP() || town.isAdminEnabledPVP() || town.hasActiveWar()) {
+            if (town == null || town.isPVP() || town.isAdminEnabledPVP() || town.hasActiveWar()) {
                 return false;
             }
-        } catch(NotRegisteredException ex) {
+        } catch (NotRegisteredException ex) {
             return false;
         }
-        
+
         PluginManager pluginManager = Bukkit.getPluginManager();
-        if(pluginManager.isPluginEnabled("FlagWar")) {
-            if(FlagWarAPI.isUnderAttack(town)) {
+        if (pluginManager.isPluginEnabled("FlagWar")) {
+            if (FlagWarAPI.isUnderAttack(town)) {
                 return false;
             }
         }
-        
+
         TownyPermission townBlockPermissions = townBlock.getPermissions();
         return !townBlockPermissions.pvp;
     }
-    
+
     private TownBlock getTownBlock(Location location) {
         TownyAPI townyAPI = TownyAPI.getInstance();
         return townyAPI.getTownBlock(location);
     }
-    
+
     private boolean isOwnTown(TownBlock townBlock, Player player) {
-        if(townBlock == null) {
+        if (townBlock == null) {
             return false;
         }
-        
+
         Town town;
         try {
             town = townBlock.getTown();
-        } catch(NotRegisteredException ex) {
+        } catch (NotRegisteredException ex) {
             return false;
         }
-        
+
         List<Resident> residentList = town.getResidents();
         Set<UUID> residentIdSet = new HashSet<>();
-        for(Resident resident : residentList) {
+        for (Resident resident : residentList) {
             UUID residentId = resident.getUUID();
             residentIdSet.add(residentId);
         }
-        
+
         UUID playerId = player.getUniqueId();
         return residentIdSet.contains(playerId);
     }

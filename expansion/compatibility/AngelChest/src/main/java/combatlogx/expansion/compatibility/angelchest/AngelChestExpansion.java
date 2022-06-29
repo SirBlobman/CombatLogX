@@ -17,7 +17,7 @@ public final class AngelChestExpansion extends Expansion {
 
     @Override
     public void onEnable() {
-        if(!checkDependency("AngelChest", true)) {
+        if (!checkDependency("AngelChest", true)) {
             selfDisable();
             return;
         }

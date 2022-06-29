@@ -14,16 +14,16 @@ public final class ListenerMarriageMaster extends ExpansionListener {
     public ListenerMarriageMaster(Expansion expansion) {
         super(expansion);
     }
-    
+
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onTeleport(TPEvent e) {
         MarriagePlayer marriagePlayer = e.getPlayer();
         Player bukkitPlayer = marriagePlayer.getPlayerOnline();
-        if(bukkitPlayer == null) {
+        if (bukkitPlayer == null) {
             return;
         }
-        
-        if(isInCombat(bukkitPlayer)) {
+
+        if (isInCombat(bukkitPlayer)) {
             e.setCancelled(true);
             String messagePath = ("expansion.marriagemaster-compatibility.prevent-teleport");
             sendMessageWithPrefix(bukkitPlayer, messagePath, null, true);

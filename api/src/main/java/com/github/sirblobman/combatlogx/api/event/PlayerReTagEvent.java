@@ -17,7 +17,7 @@ public class PlayerReTagEvent extends CustomPlayerEventCancellable {
     private final TagType tagType;
     private final TagReason tagReason;
     private long combatEndMillis;
-    
+
     public PlayerReTagEvent(Player player, LivingEntity enemy, TagType tagType, TagReason tagReason, long combatEndMillis) {
         super(player);
         this.enemy = enemy;
@@ -25,7 +25,7 @@ public class PlayerReTagEvent extends CustomPlayerEventCancellable {
         this.tagReason = Validate.notNull(tagReason, "tagReason must not be null!");
         this.combatEndMillis = combatEndMillis;
     }
-    
+
     /**
      * @return The enemy that will tag the player or null if an enemy does not exist
      * @see #getPlayer()
@@ -33,7 +33,7 @@ public class PlayerReTagEvent extends CustomPlayerEventCancellable {
     public LivingEntity getEnemy() {
         return this.enemy;
     }
-    
+
     /**
      * @return The type of entity that will cause this player to be tagged
      * @see #getPlayer()
@@ -41,7 +41,7 @@ public class PlayerReTagEvent extends CustomPlayerEventCancellable {
     public TagType getTagType() {
         return this.tagType;
     }
-    
+
     /**
      * @return The reason that will cause this player to be tagged.
      * @see #getPlayer()
@@ -49,7 +49,7 @@ public class PlayerReTagEvent extends CustomPlayerEventCancellable {
     public TagReason getTagReason() {
         return this.tagReason;
     }
-    
+
     /**
      * @return The time (in millis) that the combat timer will end. This can change if the player is tagged again
      * @see #getPlayer()
@@ -57,7 +57,7 @@ public class PlayerReTagEvent extends CustomPlayerEventCancellable {
     public long getEndTime() {
         return this.combatEndMillis;
     }
-    
+
     /**
      * Set the amount of time to wait before the player escapes from combat The default is {@code
      * System.getCurrentTimeMillis() + 30_000L}

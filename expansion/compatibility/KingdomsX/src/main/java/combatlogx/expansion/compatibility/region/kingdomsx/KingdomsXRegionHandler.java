@@ -16,28 +16,28 @@ public final class KingdomsXRegionHandler extends RegionHandler {
     public KingdomsXRegionHandler(KingdomsXExpansion expansion) {
         super(expansion);
     }
-    
+
     @Override
     public String getEntryDeniedMessagePath(TagType tagType) {
         return "expansion.region-protection.kingdomsx-no-entry";
     }
-    
+
     @Override
     public boolean isSafeZone(Player player, Location location, TagType tagType) {
-        if(tagType != TagType.PLAYER) {
+        if (tagType != TagType.PLAYER) {
             return false;
         }
-        
+
         Land land = Land.getLand(location);
-        if(land == null || !land.isClaimed() || land.isBeingInvaded()) {
+        if (land == null || !land.isClaimed() || land.isBeingInvaded()) {
             return false;
         }
-        
+
         Kingdom kingdom = land.getKingdom();
-        if(kingdom == null) {
+        if (kingdom == null) {
             return false;
         }
-        
+
         UUID playerId = player.getUniqueId();
         Set<UUID> memberSet = kingdom.getMembers();
         return !memberSet.contains(playerId);

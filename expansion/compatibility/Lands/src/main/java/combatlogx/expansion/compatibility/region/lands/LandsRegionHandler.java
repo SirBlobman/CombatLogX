@@ -15,22 +15,22 @@ import me.angeschossen.lands.api.land.Area;
 
 public final class LandsRegionHandler extends RegionHandler {
     private final LandsIntegration landsIntegration;
-    
+
     public LandsRegionHandler(LandsExpansion expansion) {
         super(expansion);
         ICombatLogX plugin = expansion.getPlugin();
         JavaPlugin javaPlugin = plugin.getPlugin();
         this.landsIntegration = new LandsIntegration(javaPlugin);
     }
-    
+
     @Override
     public String getEntryDeniedMessagePath(TagType tagType) {
         return "expansion.region-protection.lands.no-entry";
     }
-    
+
     @Override
     public boolean isSafeZone(Player player, Location location, TagType tagType) {
-        if(tagType == TagType.UNKNOWN) {
+        if (tagType == TagType.UNKNOWN) {
             return false;
         }
 

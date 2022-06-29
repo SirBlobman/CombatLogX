@@ -43,11 +43,11 @@ public final class SpawnReasonManager_New implements ISpawnReasonManager {
 
         NamespacedKey spawnReasonKey = getSpawnReasonKey();
         PersistentDataContainer persistentDataContainer = entity.getPersistentDataContainer();
-        if(persistentDataContainer.has(spawnReasonKey, PersistentDataType.STRING)) {
+        if (persistentDataContainer.has(spawnReasonKey, PersistentDataType.STRING)) {
             String spawnReasonName = persistentDataContainer.get(spawnReasonKey, PersistentDataType.STRING);
             try {
                 return SpawnReason.valueOf(spawnReasonName);
-            } catch(IllegalArgumentException ex) {
+            } catch (IllegalArgumentException ex) {
                 return SpawnReason.DEFAULT;
             }
         }

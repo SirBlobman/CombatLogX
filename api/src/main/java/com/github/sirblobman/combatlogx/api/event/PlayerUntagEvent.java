@@ -13,13 +13,13 @@ import com.github.sirblobman.combatlogx.api.object.UntagReason;
 public class PlayerUntagEvent extends CustomPlayerEvent {
     private final UntagReason untagReason;
     private final LivingEntity previousEnemy;
-    
+
     public PlayerUntagEvent(Player player, UntagReason untagReason, LivingEntity previousEnemy) {
         super(player);
         this.untagReason = untagReason;
         this.previousEnemy = previousEnemy;
     }
-    
+
     /**
      * @return The reason that the player was removed from combat.
      * @see #getPlayer()
@@ -27,7 +27,7 @@ public class PlayerUntagEvent extends CustomPlayerEvent {
     public UntagReason getUntagReason() {
         return this.untagReason;
     }
-    
+
     /**
      * @return The previous enemy of the player, or null if one did not exist.
      */

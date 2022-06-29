@@ -11,18 +11,19 @@ import com.github.sirblobman.combatlogx.api.object.CitizensSlotType;
 
 /**
  * NPCDropItemEvent is an event that will be called when an item is dropped from a combat logged NPC.
+ *
  * @author SizzleMcGrizzle
  */
 public final class NPCDropItemEvent extends Event implements Cancellable {
     private static final HandlerList handlerList = new HandlerList();
-    
+
     private final OfflinePlayer player;
     private final Location location;
     private final CitizensSlotType slotType;
-    
+
     private boolean cancelled;
     private ItemStack item;
-    
+
     public NPCDropItemEvent(ItemStack item, OfflinePlayer player, Location location, CitizensSlotType slotType) {
         this.player = player;
         this.location = location;
@@ -30,29 +31,29 @@ public final class NPCDropItemEvent extends Event implements Cancellable {
         this.slotType = slotType;
         this.cancelled = false;
     }
-    
+
     public static HandlerList getHandlerList() {
         return handlerList;
     }
-    
+
     public HandlerList getHandlers() {
         return getHandlerList();
     }
-    
+
     /**
      * @return The player who combat logged
      */
     public OfflinePlayer getPlayer() {
         return player;
     }
-    
+
     /**
      * @return The location at which the player combat logged
      */
     public Location getLocation() {
         return location;
     }
-    
+
     /**
      * @return The item being dropped from the location
      * @see CitizensSlotType for various inventory slot locations this item could be from
@@ -60,23 +61,23 @@ public final class NPCDropItemEvent extends Event implements Cancellable {
     public ItemStack getItem() {
         return item;
     }
-    
+
     public void setItem(ItemStack item) {
         this.item = item.clone();
     }
-    
+
     /**
      * @return The type of slot the item is from
      */
     public CitizensSlotType getSlotType() {
         return slotType;
     }
-    
+
     @Override
     public boolean isCancelled() {
         return cancelled;
     }
-    
+
     @Override
     public void setCancelled(boolean cancelled) {
         this.cancelled = cancelled;

@@ -19,33 +19,33 @@ public final class ListenerASkyBlock extends ExpansionListener {
     public ListenerASkyBlock(Expansion expansion) {
         super(expansion);
     }
-    
+
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void beforeTag(PlayerPreTagEvent e) {
         LivingEntity enemy = e.getEnemy();
-        if(!(enemy instanceof Player)) return;
+        if (!(enemy instanceof Player)) return;
         Player playerEnemy = (Player) enemy;
-        
+
         Player player = e.getPlayer();
-        if(doesTeamMatch(player, playerEnemy)) e.setCancelled(true);
+        if (doesTeamMatch(player, playerEnemy)) e.setCancelled(true);
     }
-    
+
     private Island getIsland(Player player) {
-        if(player == null) return null;
+        if (player == null) return null;
         UUID uuid = player.getUniqueId();
-        
+
         ASkyBlockAPI api = ASkyBlockAPI.getInstance();
         return api.getIslandOwnedBy(uuid);
     }
-    
+
     private boolean doesTeamMatch(Player player1, Player player2) {
         UUID uuid1 = player1.getUniqueId();
         UUID uuid2 = player2.getUniqueId();
-        if(uuid1.equals(uuid2)) return true;
-        
+        if (uuid1.equals(uuid2)) return true;
+
         Island island = getIsland(player1);
-        if(island == null) return false;
-        
+        if (island == null) return false;
+
         List<UUID> memberList = island.getMembers();
         return memberList.contains(uuid2);
     }

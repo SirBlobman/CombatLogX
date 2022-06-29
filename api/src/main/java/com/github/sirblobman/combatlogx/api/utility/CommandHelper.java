@@ -14,32 +14,32 @@ public final class CommandHelper {
         try {
             CommandSender console = Bukkit.getConsoleSender();
             Bukkit.dispatchCommand(console, command);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             Logger logger = plugin.getLogger();
             logger.log(Level.SEVERE, "Failed to execute command '/" + command + "' in console:", ex);
         }
     }
-    
+
     public static void runAsPlayer(ICombatLogX plugin, Player player, String command) {
         try {
             player.performCommand(command);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             Logger logger = plugin.getLogger();
             String playerName = player.getName();
             logger.log(Level.SEVERE, "Failed to execute command '/" + command + "' as player '" + playerName + "':", ex);
         }
     }
-    
+
     public static void runAsOperator(ICombatLogX plugin, Player player, String command) {
-        if(player.isOp()) {
+        if (player.isOp()) {
             runAsPlayer(plugin, player, command);
             return;
         }
-        
+
         try {
             player.setOp(true);
             player.performCommand(command);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             Logger logger = plugin.getLogger();
             String playerName = player.getName();
             logger.log(Level.SEVERE, "Failed to execute command '/" + command + "' as player '" + playerName + "' with OP:", ex);

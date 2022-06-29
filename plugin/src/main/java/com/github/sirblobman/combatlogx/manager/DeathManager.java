@@ -1,13 +1,12 @@
 package com.github.sirblobman.combatlogx.manager;
 
-import com.github.sirblobman.api.utility.Validate;
-import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.manager.IDeathManager;
-import org.bukkit.entity.Player;
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+
+import org.bukkit.entity.Player;
+
+import com.github.sirblobman.combatlogx.api.manager.IDeathManager;
 
 public class DeathManager implements IDeathManager {
     private final Set<UUID> killedPlayersSet;

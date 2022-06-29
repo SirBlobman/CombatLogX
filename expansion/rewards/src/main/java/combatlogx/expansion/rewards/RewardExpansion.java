@@ -16,84 +16,84 @@ import combatlogx.expansion.rewards.manager.RewardManager;
 public final class RewardExpansion extends Expansion {
     private final RewardManager rewardManager;
     private HookVault hookVault;
-    
+
     public RewardExpansion(ICombatLogX plugin) {
         super(plugin);
         this.rewardManager = new RewardManager(this);
         this.hookVault = null;
     }
-    
+
     @Override
     public void onLoad() {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.saveDefault("config.yml");
     }
-    
+
     @Override
     public void onEnable() {
         ICombatLogX plugin = getPlugin();
         ExpansionManager expansionManager = plugin.getExpansionManager();
-        if(!checkDependency("Vault", true)) {
+        if (!checkDependency("Vault", true)) {
             expansionManager.disableExpansion(this);
             return;
         }
-        
+
         this.hookVault = new HookVault(this);
-        if(!this.hookVault.setupEconomy()) {
+        if (!this.hookVault.setupEconomy()) {
             expansionManager.disableExpansion(this);
             return;
         }
-        
+
         RewardManager rewardManager = getRewardManager();
         rewardManager.loadRewards();
-        
+
         new ListenerRewards(this).register();
     }
-    
+
     @Override
     public void onDisable() {
         // Do Nothing
     }
-    
+
     @Override
     public void reloadConfig() {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.reload("config.yml");
-        
+
         RewardManager rewardManager = getRewardManager();
         rewardManager.loadRewards();
     }
-    
+
     public RewardManager getRewardManager() {
         return this.rewardManager;
     }
-    
+
     public HookVault getVaultHook() {
         return this.hookVault;
     }
-    
+
     public boolean usePlaceholderAPI() {
         ConfigurationManager configurationManager = getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
         boolean usePlaceholderAPI = configuration.getBoolean("hooks.placeholderapi");
-        if(usePlaceholderAPI) {
+        if (usePlaceholderAPI) {
             PluginManager pluginManager = Bukkit.getPluginManager();
             return pluginManager.isPluginEnabled("PlaceholderAPI");
         }
-        
+
         return false;
     }
-    
+
     public boolean useMVdWPlaceholderAPI() {
         ConfigurationManager configurationManager = getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-        
+
         boolean useMVdWPlaceholderAPI = configuration.getBoolean("hooks.mvdwplaceholderapi");
-        if(useMVdWPlaceholderAPI) {
+        if (useMVdWPlaceholderAPI) {
             PluginManager pluginManager = Bukkit.getPluginManager();
             return pluginManager.isPluginEnabled("MVdWPlaceholderAPI");
         }
-        
+
         return false;
     }
 }

@@ -17,37 +17,37 @@ public final class ListenerGlow extends ExpansionListener {
     public ListenerGlow(Expansion expansion) {
         super(expansion);
     }
-    
+
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onTag(PlayerTagEvent e) {
         Player player = e.getPlayer();
         player.setGlowing(true);
     }
-    
+
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onUntag(PlayerUntagEvent e) {
         Player player = e.getPlayer();
         player.setGlowing(false);
     }
-    
+
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
         player.setGlowing(false);
     }
-    
+
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onKick(PlayerKickEvent e) {
         Player player = e.getPlayer();
         player.setGlowing(false);
     }
-    
+
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onDeath(PlayerDeathEvent e) {
         Player player = e.getEntity();
         player.setGlowing(false);
     }
-    
+
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();

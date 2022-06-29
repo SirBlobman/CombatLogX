@@ -11,31 +11,31 @@ public final class SuperVanishExpansion extends Expansion {
     public SuperVanishExpansion(ICombatLogX plugin) {
         super(plugin);
     }
-    
+
     @Override
     public void onLoad() {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.saveDefault("config.yml");
     }
-    
+
     @Override
     public void onEnable() {
-        if(!checkDependency("SuperVanish", true)
+        if (!checkDependency("SuperVanish", true)
                 && !checkDependency("PremiumVanish", true)) {
             ICombatLogX plugin = getPlugin();
             ExpansionManager expansionManager = plugin.getExpansionManager();
             expansionManager.disableExpansion(this);
             return;
         }
-        
+
         new ListenerVanish(this).register();
     }
-    
+
     @Override
     public void onDisable() {
         // Do Nothing
     }
-    
+
     @Override
     public void reloadConfig() {
         ConfigurationManager configurationManager = getConfigurationManager();

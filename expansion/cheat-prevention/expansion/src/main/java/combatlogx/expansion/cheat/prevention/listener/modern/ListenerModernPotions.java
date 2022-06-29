@@ -1,9 +1,8 @@
 package combatlogx.expansion.cheat.prevention.listener.modern;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
+import java.util.Collection;
+import java.util.List;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -13,8 +12,10 @@ import org.bukkit.event.entity.EntityPotionEffectEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.Collection;
-import java.util.List;
+import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
+import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 public class ListenerModernPotions extends ExpansionListener {
     public ListenerModernPotions(final Expansion expansion) {
@@ -25,9 +26,9 @@ public class ListenerModernPotions extends ExpansionListener {
     public void onTag(PlayerTagEvent e) {
         Player player = e.getPlayer();
         Collection<PotionEffect> activePotionEffectCollection = player.getActivePotionEffects();
-        for(PotionEffect potionEffect : activePotionEffectCollection) {
+        for (PotionEffect potionEffect : activePotionEffectCollection) {
             PotionEffectType potionEffectType = potionEffect.getType();
-            if(isBlocked(potionEffectType)) {
+            if (isBlocked(potionEffectType)) {
                 player.removePotionEffect(potionEffectType);
             }
         }
@@ -35,11 +36,11 @@ public class ListenerModernPotions extends ExpansionListener {
 
     @EventHandler
     public void onAddEffect(EntityPotionEffectEvent e) {
-        if(e.getAction() != EntityPotionEffectEvent.Action.ADDED) return;
-        if(e.getEntityType() != EntityType.PLAYER) return;
+        if (e.getAction() != EntityPotionEffectEvent.Action.ADDED) return;
+        if (e.getEntityType() != EntityType.PLAYER) return;
         Player player = (Player) e.getEntity();
-        if(!isInCombat(player)) return;
-        if(!isBlocked(e.getModifiedType())) return;
+        if (!isInCombat(player)) return;
+        if (!isBlocked(e.getModifiedType())) return;
         e.setCancelled(true);
     }
 

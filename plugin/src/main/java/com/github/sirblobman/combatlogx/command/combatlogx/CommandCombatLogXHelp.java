@@ -9,13 +9,13 @@ public final class CommandCombatLogXHelp extends CombatLogCommand {
     public CommandCombatLogXHelp(ICombatLogX plugin) {
         super(plugin, "help");
     }
-    
+
     @Override
     protected boolean execute(CommandSender sender, String[] args) {
-        if(!checkPermission(sender, "combatlogx.command.combatlogx.help", true)) {
+        if (!checkPermission(sender, "combatlogx.command.combatlogx.help", true)) {
             return true;
         }
-        
+
         sendMessage(sender, "command.combatlogx.help-message-list", null, true);
         return true;
     }

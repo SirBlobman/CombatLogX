@@ -15,25 +15,25 @@ import org.jetbrains.annotations.Nullable;
 
 public interface ICombatManager {
     boolean tag(Player player, LivingEntity enemy, TagType tagType, TagReason tagReason);
-    
+
     boolean tag(Player player, LivingEntity enemy, TagType tagType, TagReason tagReason, long customEndMillis);
-    
+
     void untag(Player player, UntagReason untagReason);
-    
+
     boolean isInCombat(Player player);
-    
+
     List<Player> getPlayersInCombat();
-    
+
     LivingEntity getEnemy(Player player);
-    
+
     OfflinePlayer getByEnemy(LivingEntity enemy);
-    
+
     long getTimerLeftMillis(Player player);
-    
+
     int getTimerLeftSeconds(Player player);
-    
+
     int getMaxTimerSeconds(Player player);
-    
+
     String replaceVariables(Player player, LivingEntity enemy, String string);
 
     @Nullable Permission getBypassPermission();

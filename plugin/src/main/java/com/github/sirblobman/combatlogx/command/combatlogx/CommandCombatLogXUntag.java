@@ -17,42 +17,42 @@ public final class CommandCombatLogXUntag extends CombatLogCommand {
     public CommandCombatLogXUntag(ICombatLogX plugin) {
         super(plugin, "untag");
     }
-    
+
     @Override
     protected List<String> onTabComplete(CommandSender sender, String[] args) {
-        if(args.length == 1) {
+        if (args.length == 1) {
             Set<String> valueSet = getOnlinePlayerNames();
             return getMatching(args[0], valueSet);
         }
-        
+
         return Collections.emptyList();
     }
-    
+
     @Override
     protected boolean execute(CommandSender sender, String[] args) {
-        if(!checkPermission(sender, "combatlogx.command.combatlogx.untag", true)) {
+        if (!checkPermission(sender, "combatlogx.command.combatlogx.untag", true)) {
             return true;
         }
-        
-        if(args.length < 1) {
+
+        if (args.length < 1) {
             return false;
         }
-        
+
         Player target = findTarget(sender, args[0]);
-        if(target == null) {
+        if (target == null) {
             return true;
         }
-        
+
         String targetName = target.getName();
         Replacer replacer = message -> message.replace("{target}", targetName);
-        
+
         ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = plugin.getCombatManager();
-        if(!combatManager.isInCombat(target)) {
+        if (!combatManager.isInCombat(target)) {
             sendMessageWithPrefix(sender, "error.target-not-in-combat", replacer, true);
             return true;
         }
-        
+
         combatManager.untag(target, UntagReason.EXPIRE);
         sendMessageWithPrefix(sender, "command.combatlogx.untag-player", replacer, true);
         return true;

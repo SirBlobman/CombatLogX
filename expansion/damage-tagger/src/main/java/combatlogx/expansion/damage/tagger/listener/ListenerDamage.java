@@ -25,51 +25,51 @@ public final class ListenerDamage extends ExpansionListener {
     public ListenerDamage(DamageTaggerExpansion expansion) {
         super(expansion);
     }
-    
+
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onDamage(EntityDamageEvent e) {
         Entity entity = e.getEntity();
-        if(!(entity instanceof Player)) return;
-        if(checkDamageByEntity(e)) return;
+        if (!(entity instanceof Player)) return;
+        if (checkDamageByEntity(e)) return;
         Player player = (Player) entity;
-        
+
         DamageCause damageCause = e.getCause();
-        if(isDisabled(damageCause)) return;
-        
+        if (isDisabled(damageCause)) return;
+
         ICombatLogX combatLogX = getCombatLogX();
         ICombatManager combatManager = combatLogX.getCombatManager();
         boolean wasInCombat = combatManager.isInCombat(player);
         boolean tagged = combatManager.tag(player, null, TagType.UNKNOWN, TagReason.UNKNOWN);
-        if(tagged && !wasInCombat) sendMessage(player, damageCause);
+        if (tagged && !wasInCombat) sendMessage(player, damageCause);
     }
-    
+
     private boolean checkDamageByEntity(EntityDamageEvent e) {
-        if(!(e instanceof EntityDamageByEntityEvent)) return false;
+        if (!(e instanceof EntityDamageByEntityEvent)) return false;
         EntityDamageByEntityEvent event = (EntityDamageByEntityEvent) e;
-        
+
         Entity damager = EntityHelper.linkProjectile(getCombatLogX(), event.getDamager());
         return (damager instanceof LivingEntity);
     }
-    
+
     private boolean isDisabled(DamageCause damageCause) {
         Expansion expansion = getExpansion();
         ConfigurationManager configurationManager = expansion.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-        if(configuration.getBoolean("all-damage")) return false;
-        
+        if (configuration.getBoolean("all-damage")) return false;
+
         String damageCauseName = damageCause.name().toLowerCase();
         return !configuration.getBoolean("damage-type." + damageCauseName);
     }
-    
+
     private void sendMessage(Player player, DamageCause damageCause) {
         ConfigurationManager configurationManager = getExpansionConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-        
-        if(configuration.getBoolean("all-damage")) {
+
+        if (configuration.getBoolean("all-damage")) {
             sendMessageWithPrefix(player, "expansion.damage-tagger.unknown-damage", null, true);
             return;
         }
-        
+
         String damageCauseName = damageCause.name().toLowerCase();
         String messagePath = ("expansion.damage-tagger.damage-type." + damageCauseName);
         sendMessageWithPrefix(player, messagePath, null, true);

@@ -5,8 +5,6 @@ import org.bukkit.entity.Player;
 import com.github.sirblobman.api.utility.ExperienceUtility;
 
 import combatlogx.expansion.rewards.RewardExpansion;
-import combatlogx.expansion.rewards.hook.HookVault;
-import net.milkbowl.vault.economy.Economy;
 
 public final class ExperienceRequirement extends Requirement {
     private final int amount;
@@ -15,11 +13,11 @@ public final class ExperienceRequirement extends Requirement {
         super(expansion, enemy);
         this.amount = Math.max(0, amount);
     }
-    
+
     public int getAmount() {
         return this.amount;
     }
-    
+
     @Override
     public boolean meetsRequirement(Player player) {
         int amount = getAmount();

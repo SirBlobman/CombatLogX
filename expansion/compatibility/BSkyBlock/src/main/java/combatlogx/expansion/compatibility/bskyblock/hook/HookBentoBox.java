@@ -16,21 +16,21 @@ public final class HookBentoBox {
     public static boolean findBSkyBlock(BSkyBlockExpansion expansion) {
         Logger logger = expansion.getLogger();
         logger.info("Checking BentoBox for BSkyBlock...");
-        
+
         BentoBox bentoBox = JavaPlugin.getPlugin(BentoBox.class);
         AddonsManager addonsManager = bentoBox.getAddonsManager();
         Optional<Addon> optionalAddon = addonsManager.getAddonByName("BSkyBlock");
-        
-        if(optionalAddon.isEmpty()) {
+
+        if (optionalAddon.isEmpty()) {
             logger.info("Failed to find BSkyBlock in BentoBox.");
             return false;
         }
-        
+
         Addon addon = optionalAddon.get();
         AddonDescription description = addon.getDescription();
         String addonName = description.getName();
         String addonVersion = description.getVersion();
-        
+
         String message = String.format(Locale.US, "Successfully found a dependency: %s v%s", addonName,
                 addonVersion);
         logger.info(message);

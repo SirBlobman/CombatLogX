@@ -41,10 +41,10 @@ public final class ListenerHuskSync extends ExpansionListener {
         YamlConfiguration configuration = configurationManager.get("punish.yml");
         String killOptionString = configuration.getString("kill-time");
 
-        if(!(killOptionString == null || killOptionString.equals("QUIT"))) {
+        if (!(killOptionString == null || killOptionString.equals("QUIT"))) {
             return;
         }
-        
+
         UUID playerId = event.getPlayer().getUniqueId();
         this.punishedPlayers.add(playerId);
     }
@@ -56,19 +56,19 @@ public final class ListenerHuskSync extends ExpansionListener {
         boolean keepInventory = event.getKeepInventory();
         boolean keepLevel = event.getKeepLevel();
 
-        if(!punishedPlayers.remove(playerId)) {
+        if (!punishedPlayers.remove(playerId)) {
             return;
         }
 
         try {
             CompletableFuture<PlayerData> futurePlayerData = huskSyncApi.getPlayerData(playerId);
             futurePlayerData.thenAcceptAsync(playerData -> {
-                if(!keepInventory) {
+                if (!keepInventory) {
                     String serializedInventory = DataSerializer.serializeInventory(new ItemStack[0]);
                     playerData.setSerializedInventory(serializedInventory);
                 }
 
-                if(!keepLevel) {
+                if (!keepLevel) {
                     playerData.setTotalExperience(event.getNewTotalExp());
                     playerData.setExpLevel(event.getNewLevel());
                     playerData.setExpProgress(event.getNewExp());
@@ -78,12 +78,12 @@ public final class ListenerHuskSync extends ExpansionListener {
 
                 try {
                     huskSyncApi.updatePlayerData(playerData);
-                } catch(IOException ex) {
+                } catch (IOException ex) {
                     Logger logger = getExpansionLogger();
                     logger.log(Level.SEVERE, "An error occurred saving player data!", ex);
                 }
             });
-        } catch(IOException ex) {
+        } catch (IOException ex) {
             Logger logger = getExpansionLogger();
             logger.log(Level.SEVERE, "An error occurred fetching player data!", ex);
         }
@@ -93,6 +93,6 @@ public final class ListenerHuskSync extends ExpansionListener {
     public void onSync(SyncEvent event) {
         Player player = event.getPlayer();
         PlayerData data = event.getData();
-        if(player.getHealth() <= 0 && data.getHealth() > 0) player.spigot().respawn();
+        if (player.getHealth() <= 0 && data.getHealth() > 0) player.spigot().respawn();
     }
 }

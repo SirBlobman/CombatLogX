@@ -13,35 +13,35 @@ public final class ActionBarExpansion extends Expansion {
     public ActionBarExpansion(ICombatLogX plugin) {
         super(plugin);
     }
-    
+
     @Override
     public void onLoad() {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.saveDefault("config.yml");
     }
-    
+
     @Override
     public void onEnable() {
         ICombatLogX plugin = getPlugin();
         int minorVersion = VersionUtility.getMinorVersion();
-        if(minorVersion < 8) {
+        if (minorVersion < 8) {
             Logger logger = getLogger();
             logger.warning("This expansion requires Spigot 1.8.8 or higher.");
-            
+
             ExpansionManager expansionManager = plugin.getExpansionManager();
             expansionManager.disableExpansion(this);
             return;
         }
-        
+
         ITimerManager timerManager = plugin.getTimerManager();
         timerManager.addUpdaterTask(new ActionBarUpdater(this));
     }
-    
+
     @Override
     public void onDisable() {
         // Do Nothing
     }
-    
+
     @Override
     public void reloadConfig() {
         ConfigurationManager configurationManager = getConfigurationManager();

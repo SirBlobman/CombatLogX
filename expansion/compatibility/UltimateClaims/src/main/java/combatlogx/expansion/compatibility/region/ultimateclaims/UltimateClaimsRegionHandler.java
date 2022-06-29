@@ -17,23 +17,23 @@ public final class UltimateClaimsRegionHandler extends RegionHandler {
     public UltimateClaimsRegionHandler(UltimateClaimsExpansion expansion) {
         super(expansion);
     }
-    
+
     @Override
     public String getEntryDeniedMessagePath(TagType tagType) {
         return "expansion.region-protection.ultimateclaims-no-entry";
     }
-    
+
     @Override
     public boolean isSafeZone(Player player, Location location, TagType tagType) {
-        if(tagType != TagType.PLAYER) return false;
-        
+        if (tagType != TagType.PLAYER) return false;
+
         UltimateClaims ultimateClaims = UltimateClaims.getInstance();
         ClaimManager claimManager = ultimateClaims.getClaimManager();
-        
+
         Chunk chunk = location.getChunk();
         Claim claim = claimManager.getClaim(chunk);
-        if(claim == null) return false;
-        
+        if (claim == null) return false;
+
         ClaimSettings claimSettings = claim.getClaimSettings();
         return !claimSettings.isEnabled(ClaimSetting.PVP);
     }

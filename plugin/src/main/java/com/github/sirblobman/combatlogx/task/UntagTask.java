@@ -17,27 +17,27 @@ import com.github.sirblobman.combatlogx.api.object.UntagReason;
  */
 public final class UntagTask implements Runnable {
     private final ICombatLogX plugin;
-    
+
     public UntagTask(ICombatLogX plugin) {
         this.plugin = Validate.notNull(plugin, "plugin must not be null!");
     }
-    
+
     public void register() {
         JavaPlugin plugin = this.plugin.getPlugin();
         BukkitScheduler scheduler = Bukkit.getScheduler();
         scheduler.scheduleSyncRepeatingTask(plugin, this, 5L, 10L);
     }
-    
+
     @Override
     public void run() {
         ICombatManager combatManager = this.plugin.getCombatManager();
         List<Player> playerCombatList = combatManager.getPlayersInCombat();
-        for(Player player : playerCombatList) {
+        for (Player player : playerCombatList) {
             long timeLeftMillis = combatManager.getTimerLeftMillis(player);
-            if(timeLeftMillis > 0) {
+            if (timeLeftMillis > 0) {
                 continue;
             }
-            
+
             combatManager.untag(player, UntagReason.EXPIRE);
         }
     }

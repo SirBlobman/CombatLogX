@@ -12,12 +12,12 @@ import combatlogx.expansion.compatibility.region.lands.listener.ListenerLands;
 
 public final class LandsExpansion extends RegionExpansion {
     private RegionHandler regionHandler;
-    
+
     public LandsExpansion(ICombatLogX plugin) {
         super(plugin);
         this.regionHandler = null;
     }
-    
+
     @Override
     public boolean checkDependencies() {
         return checkDependency("Lands", true);
@@ -28,17 +28,17 @@ public final class LandsExpansion extends RegionExpansion {
         ICombatLogX plugin = getPlugin();
         ExpansionManager expansionManager = plugin.getExpansionManager();
         Optional<Expansion> optionalNewbieHelper = expansionManager.getExpansion("NewbieHelper");
-        if(optionalNewbieHelper.isPresent()) {
+        if (optionalNewbieHelper.isPresent()) {
             new ListenerLands(this).register();
         }
     }
 
     @Override
     public RegionHandler getRegionHandler() {
-        if(this.regionHandler == null) {
+        if (this.regionHandler == null) {
             this.regionHandler = new LandsRegionHandler(this);
         }
-        
+
         return this.regionHandler;
     }
 }

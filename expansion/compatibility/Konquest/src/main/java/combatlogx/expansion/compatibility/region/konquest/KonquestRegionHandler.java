@@ -19,45 +19,45 @@ public class KonquestRegionHandler extends RegionHandler {
     public KonquestRegionHandler(KonquestExpansion expansion) {
         super(expansion);
     }
-    
+
     @Override
     public String getEntryDeniedMessagePath(TagType tagType) {
         return "expansion.region-protection.konquest-no-entry";
     }
-    
+
     @Override
     public boolean isSafeZone(Player player, Location location, TagType tagType) {
         KonquestAPI api = getAPI();
-        if(api == null) {
+        if (api == null) {
             return false;
         }
-        
+
         KonquestKingdomManager kingdomManager = api.getKingdomManager();
-        if(kingdomManager == null) {
+        if (kingdomManager == null) {
             return false;
         }
-        
+
         KonquestTerritory territory = kingdomManager.getChunkTerritory(location);
-        if(territory == null) {
+        if (territory == null) {
             return false;
         }
-    
+
         KonquestKingdom kingdom = territory.getKingdom();
         return (kingdom != null);
     }
-    
+
     private KonquestAPI getAPI() {
         PluginManager pluginManager = Bukkit.getPluginManager();
-        if(!pluginManager.isPluginEnabled("Konquest")) {
+        if (!pluginManager.isPluginEnabled("Konquest")) {
             return null;
         }
-    
+
         ServicesManager servicesManager = Bukkit.getServicesManager();
         RegisteredServiceProvider<KonquestAPI> registration = servicesManager.getRegistration(KonquestAPI.class);
-        if(registration == null) {
+        if (registration == null) {
             return null;
         }
-        
+
         return registration.getProvider();
     }
 }

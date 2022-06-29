@@ -10,29 +10,29 @@ public class FabledSkyBlockExpansion extends Expansion {
     public FabledSkyBlockExpansion(ICombatLogX plugin) {
         super(plugin);
     }
-    
+
     @Override
     public void onLoad() {
         // Do Nothing
     }
-    
+
     @Override
     public void onEnable() {
-        if(!checkDependency("FabledSkyBlock", true)) {
+        if (!checkDependency("FabledSkyBlock", true)) {
             ICombatLogX plugin = getPlugin();
             ExpansionManager expansionManager = plugin.getExpansionManager();
             expansionManager.disableExpansion(this);
             return;
         }
-        
+
         new ListenerFabledSkyBlock(this).register();
     }
-    
+
     @Override
     public void onDisable() {
         // Do Nothing
     }
-    
+
     @Override
     public void reloadConfig() {
         // Do Nothing

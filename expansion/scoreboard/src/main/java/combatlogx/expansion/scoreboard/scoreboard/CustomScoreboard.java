@@ -31,73 +31,73 @@ public final class CustomScoreboard {
     private final Scoreboard scoreboard;
     private final Player player;
     private Objective objective;
-    
+
     public CustomScoreboard(ScoreboardExpansion expansion, Player player) {
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
         this.player = Validate.notNull(player, "player must not be null!");
-        
+
         ScoreboardManager bukkitScoreboardManager = Bukkit.getScoreboardManager();
-        if(bukkitScoreboardManager == null) {
+        if (bukkitScoreboardManager == null) {
             throw new IllegalStateException("The Bukkit scoreboard manager is not ready yet!");
         }
-        
+
         this.scoreboard = bukkitScoreboardManager.getNewScoreboard();
         this.customLineList = new ArrayList<>();
-        
+
         createObjective();
         initializeScoreboard();
     }
-    
+
     private ScoreboardExpansion getExpansion() {
         return this.expansion;
     }
-    
+
     private ICombatLogX getCombatLogX() {
         ScoreboardExpansion expansion = getExpansion();
         return expansion.getPlugin();
     }
-    
+
     private LanguageManager getLanguageManager() {
         ICombatLogX combatLogX = getCombatLogX();
         return combatLogX.getLanguageManager();
     }
-    
+
     public Player getPlayer() {
         return this.player;
     }
-    
+
     public Scoreboard getScoreboard() {
         return this.scoreboard;
     }
-    
+
     public void enableScoreboard() {
         Player player = getPlayer();
         Scoreboard scoreboard = getScoreboard();
         player.setScoreboard(scoreboard);
     }
-    
+
     public void disableScoreboard() {
         ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
-        if(scoreboardManager == null) {
+        if (scoreboardManager == null) {
             throw new IllegalStateException("The Bukkit scoreboard manager is not ready yet!");
         }
-        
+
         Player player = getPlayer();
         Scoreboard scoreboard = scoreboardManager.getMainScoreboard();
         player.setScoreboard(scoreboard);
     }
-    
+
     public void updateScoreboard() {
         List<String> lineList = getLines();
         int lineListSize = lineList.size();
-        
-        for(int line = 16; line > 0; line--) {
+
+        for (int line = 16; line > 0; line--) {
             int index = (16 - line);
-            if(index >= lineListSize) {
+            if (index >= lineListSize) {
                 removeLine(line);
                 continue;
             }
-            
+
             String value = lineList.get(index);
             setLine(line, value);
         }
@@ -108,23 +108,23 @@ public final class CustomScoreboard {
         String titleReplaced = replacePlaceholders(title);
         this.objective.setDisplayName(titleReplaced);
     }
-    
+
     private void createObjective() {
         Player player = getPlayer();
         LanguageManager languageManager = getLanguageManager();
         String title = languageManager.getMessage(player, "expansion.scoreboard.title", null, true);
         String titleReplaced = replacePlaceholders(title);
-        
+
         ICombatLogX plugin = this.expansion.getPlugin();
         MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
         ScoreboardHandler scoreboardHandler = multiVersionHandler.getScoreboardHandler();
-        
+
         Scoreboard scoreboard = getScoreboard();
         this.objective = scoreboardHandler.createObjective(scoreboard, "combatlogx", "dummy",
                 titleReplaced);
         this.objective.setDisplaySlot(DisplaySlot.SIDEBAR);
     }
-    
+
     private void initializeScoreboard() {
         Scoreboard scoreboard = getScoreboard();
         ChatColor[] chatColorArray = {
@@ -134,93 +134,93 @@ public final class CustomScoreboard {
                 ChatColor.WHITE
         };
         int chatColorArrayLength = chatColorArray.length;
-        
-        for(int i = 0; i < chatColorArrayLength; i++) {
+
+        for (int i = 0; i < chatColorArrayLength; i++) {
             ChatColor chatColor = chatColorArray[i];
             String chatColorString = chatColor.toString();
-            
+
             String teamName = ("line" + i);
             Team team = scoreboard.registerNewTeam(teamName);
             team.addEntry(chatColorString);
-            
+
             CustomLine customLine = new CustomLine(chatColor, team, i + 1);
             this.customLineList.add(customLine);
         }
     }
-    
+
     private CustomLine getLine(int line) {
         return this.customLineList.get(line - 1);
     }
-    
+
     private void setLine(int line, String value) {
         CustomLine customLine = getLine(line);
         Validate.notNull(customLine, "Could not find scoreboard line '" + line + "'.");
-        
+
         ChatColor chatColor = customLine.getChatColor();
         String chatColorString = chatColor.toString();
         Score score = this.objective.getScore(chatColorString);
         score.setScore(line);
-        
+
         int lengthLimit = getLineLengthLimit();
         int valueLength = value.length();
-        if(valueLength <= lengthLimit) {
+        if (valueLength <= lengthLimit) {
             Team team = customLine.getTeam();
             team.setPrefix(value);
             team.setSuffix("");
             return;
         }
-        
+
         String partOne = value.substring(0, lengthLimit);
         String partTwo = value.substring(lengthLimit);
-        
+
         String partOneFinalColors = ChatColor.getLastColors(partOne);
         partTwo = (partOneFinalColors + partTwo);
-        if(partTwo.length() > lengthLimit) partTwo = partTwo.substring(0, lengthLimit);
-        
+        if (partTwo.length() > lengthLimit) partTwo = partTwo.substring(0, lengthLimit);
+
         Team team = customLine.getTeam();
         team.setPrefix(partOne);
         team.setSuffix(partTwo);
     }
-    
+
     private void removeLine(int line) {
         CustomLine customLine = getLine(line);
         Validate.notNull(customLine, "Could not find scoreboard line '" + line + "'.");
-        
+
         ChatColor chatColor = customLine.getChatColor();
         String chatColorString = chatColor.toString();
         Scoreboard scoreboard = getScoreboard();
         scoreboard.resetScores(chatColorString);
     }
-    
+
     private int getLineLengthLimit() {
         int minorVersion = VersionUtility.getMinorVersion();
         return (minorVersion > 12 ? 64 : 16);
     }
-    
+
     private List<String> getLines() {
         Player player = getPlayer();
         LanguageManager languageManager = getLanguageManager();
         String lines = languageManager.getMessage(player, "expansion.scoreboard.lines", null, true);
-        
+
         String[] split = lines.split("\n");
         List<String> lineList = new ArrayList<>();
-        
-        for(String line : split) {
+
+        for (String line : split) {
             String replaced = replacePlaceholders(line);
             lineList.add(replaced);
         }
-        
+
         return lineList;
     }
-    
+
     private String replacePlaceholders(String string) {
         ScoreboardExpansion expansion = getExpansion();
         ICombatLogX plugin = expansion.getPlugin();
         ICombatManager combatManager = plugin.getCombatManager();
-        
+
         Player player = getPlayer();
         LivingEntity enemy = combatManager.getEnemy(player);
-        
+
         String color = MessageUtility.color(string);
         return combatManager.replaceVariables(player, enemy, color);
     }

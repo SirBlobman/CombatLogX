@@ -41,28 +41,28 @@ import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.get
 
 public final class HookMVdWPlaceholderAPI implements PlaceholderReplacer {
     private final MVdWPlaceholderAPIExpansion expansion;
-    
+
     public HookMVdWPlaceholderAPI(MVdWPlaceholderAPIExpansion expansion) {
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
     }
-    
+
     public void register() {
         ICombatLogX combatLogX = this.expansion.getPlugin();
         JavaPlugin plugin = combatLogX.getPlugin();
         PlaceholderAPI.registerPlaceholder(plugin, "combatlogx_*", this);
     }
-    
+
     @Override
     public String onPlaceholderReplace(PlaceholderReplaceEvent e) {
         ICombatLogX plugin = this.expansion.getPlugin();
         Player player = e.getPlayer();
-        if(player == null) return null;
-        
+        if (player == null) return null;
+
         String id = e.getPlaceholder();
-        if(!id.startsWith("combatlogx_")) return null;
+        if (!id.startsWith("combatlogx_")) return null;
         String placeholder = id.substring("combatlogx_".length());
-        
-        switch(placeholder) {
+
+        switch (placeholder) {
             case "time_left":
                 return getTimeLeft(plugin, player);
             case "in_combat":
@@ -78,10 +78,10 @@ public final class HookMVdWPlaceholderAPI implements PlaceholderReplacer {
             default:
                 break;
         }
-        
-        if(placeholder.startsWith("enemy_")) {
+
+        if (placeholder.startsWith("enemy_")) {
             String enemyPlaceholder = placeholder.substring("enemy_".length());
-            switch(enemyPlaceholder) {
+            switch (enemyPlaceholder) {
                 case "name":
                     return getEnemyName(plugin, player);
                 case "type":
@@ -107,67 +107,67 @@ public final class HookMVdWPlaceholderAPI implements PlaceholderReplacer {
                 default:
                     break;
             }
-            
+
             return getEnemyPlaceholder(player, enemyPlaceholder);
         }
-        
+
         return null;
     }
-    
+
     private String getEnemyPlaceholder(Player player, String enemyPlaceholder) {
         ICombatLogX plugin = this.expansion.getPlugin();
         ICombatManager combatManager = plugin.getCombatManager();
         LivingEntity enemy = combatManager.getEnemy(player);
-        
-        if(enemy instanceof Player) {
+
+        if (enemy instanceof Player) {
             Player playerEnemy = (Player) enemy;
             String placeholder = String.format(Locale.US, "{%s}", enemyPlaceholder);
             return PlaceholderAPI.replacePlaceholders(playerEnemy, placeholder);
         }
-        
+
         return getUnknownEnemy(plugin, player);
     }
-    
+
     private String getNewbieHelperPVPStatus(Player player) {
         ICombatLogX plugin = this.expansion.getPlugin();
         LanguageManager languageManager = plugin.getLanguageManager();
         boolean pvp = true;
-        
+
         Expansion expansion = getNewbieHelper();
-        if(expansion != null) {
+        if (expansion != null) {
             NewbieHelperExpansion newbieHelperExpansion = (NewbieHelperExpansion) expansion;
             PVPManager pvpManager = newbieHelperExpansion.getPVPManager();
             pvp = !pvpManager.isDisabled(player);
         }
-        
+
         String messagePath = ("placeholder.pvp-status." + (pvp ? "enabled" : "disabled"));
         return languageManager.getMessage(player, messagePath, null, true);
     }
-    
+
     private String getNewbieHelperProtected(Player player) {
         boolean isProtected = false;
-        
+
         Expansion expansion = getNewbieHelper();
-        if(expansion != null) {
+        if (expansion != null) {
             NewbieHelperExpansion newbieHelperExpansion = (NewbieHelperExpansion) expansion;
             ProtectionManager protectionManager = newbieHelperExpansion.getProtectionManager();
             isProtected = protectionManager.isProtected(player);
         }
-        
+
         return Boolean.toString(isProtected);
     }
-    
+
     private Expansion getNewbieHelper() {
         ICombatLogX plugin = this.expansion.getPlugin();
         ExpansionManager expansionManager = plugin.getExpansionManager();
-        
+
         Optional<Expansion> optionalExpansion = expansionManager.getExpansion("NewbieHelper");
-        if(optionalExpansion.isPresent()) {
+        if (optionalExpansion.isPresent()) {
             Expansion expansion = optionalExpansion.get();
             State state = expansion.getState();
-            if(state == State.ENABLED) return expansion;
+            if (state == State.ENABLED) return expansion;
         }
-        
+
         return null;
     }
 }

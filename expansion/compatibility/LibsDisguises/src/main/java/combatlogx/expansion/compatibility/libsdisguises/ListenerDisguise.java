@@ -13,19 +13,19 @@ public final class ListenerDisguise extends ExpansionListener {
     public ListenerDisguise(LibsDisguisesExpansion expansion) {
         super(expansion);
     }
-    
+
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onTag(PlayerTagEvent e) {
         Player player = e.getPlayer();
-        if(isDisguised(player)) {
+        if (isDisguised(player)) {
             undisguise(player);
         }
     }
-    
+
     private boolean isDisguised(Player player) {
         return DisguiseAPI.isDisguised(player);
     }
-    
+
     private void undisguise(Player player) {
         DisguiseAPI.undisguiseToAll(player);
         sendMessageWithPrefix(player, "expansion.disguise-compatibility.remove-disguise",

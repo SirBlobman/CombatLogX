@@ -48,7 +48,7 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     private final ExpansionManager expansionManager;
     private final DeathManager deathManager;
     private final TimerUpdateTask timerUpdateTask;
-    
+
     public CombatPlugin() {
         this.expansionManager = new ExpansionManager(this);
         this.combatManager = new CombatManager(this);
@@ -56,26 +56,26 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         this.deathManager = new DeathManager();
         this.timerUpdateTask = new TimerUpdateTask(this);
     }
-    
+
     @Override
     public void onLoad() {
         ConfigurationChecker configurationChecker = new ConfigurationChecker(this);
         configurationChecker.checkVersion();
-        
+
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.saveDefault("config.yml");
         configurationManager.saveDefault("commands.yml");
         configurationManager.saveDefault("punish.yml");
-        
+
         LanguageManager languageManager = getLanguageManager();
         languageManager.saveDefaultLanguageFiles();
-        
+
         ExpansionManager expansionManager = getExpansionManager();
         expansionManager.loadExpansions();
-        
+
         broadcastLoadMessage();
     }
-    
+
     @Override
     public void onEnable() {
         reloadLanguage();
@@ -87,96 +87,96 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
 
         broadcastEnableMessage();
     }
-    
+
     @Override
     public void onDisable() {
         untagAllPlayers();
-        
+
         ExpansionManager expansionManager = getExpansionManager();
         expansionManager.disableExpansions();
-        
+
         Bukkit.getScheduler().cancelTasks(this);
         HandlerList.unregisterAll(this);
-        
+
         broadcastDisableMessage();
     }
-    
+
     @Override
     public CombatPlugin getPlugin() {
         return this;
     }
-    
+
     @Override
     public ClassLoader getPluginClassLoader() {
         return getClassLoader();
     }
-    
+
     @Override
     public YamlConfiguration getConfig(String fileName) {
         ConfigurationManager configurationManager = getConfigurationManager();
         return configurationManager.get(fileName);
     }
-    
+
     @Override
     public void reloadConfig(String fileName) {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.reload(fileName);
     }
-    
+
     @Override
     public void saveConfig(String fileName) {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.save(fileName);
     }
-    
+
     @Override
     public void saveDefaultConfig(String fileName) {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.saveDefault(fileName);
     }
-    
+
     @Override
     public YamlConfiguration getData(OfflinePlayer player) {
         PlayerDataManager playerDataManager = getPlayerDataManager();
         return playerDataManager.get(player);
     }
-    
+
     @Override
     public void saveData(OfflinePlayer player) {
         PlayerDataManager playerDataManager = getPlayerDataManager();
         playerDataManager.save(player);
     }
-    
+
     @Override
     public void onReload() {
         ConfigurationManager configurationManager = getConfigurationManager();
         List<String> fileNameList = Arrays.asList("commands.yml", "config.yml", "punish.yml");
-        for(String fileName : fileNameList) {
+        for (String fileName : fileNameList) {
             configurationManager.reload(fileName);
         }
 
         reloadLanguage();
-        
+
         IPunishManager punishManager = getPunishManager();
         punishManager.loadPunishments();
-    
+
         ExpansionManager expansionManager = getExpansionManager();
         expansionManager.reloadConfigs();
 
         ICombatManager combatManager = getCombatManager();
         combatManager.onReload();
     }
-    
+
     @Override
     public ExpansionManager getExpansionManager() {
         return this.expansionManager;
     }
-    
+
     @Override
     public CombatManager getCombatManager() {
         return this.combatManager;
     }
-    
+
     @Override
     public IPunishManager getPunishManager() {
         return this.punishManager;
@@ -191,64 +191,64 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     public DeathManager getDeathManager() {
         return this.deathManager;
     }
-    
+
     @Override
     public void sendMessageWithPrefix(CommandSender sender, String key, Replacer replacer, boolean color) {
         String message = getMessageWithPrefix(sender, key, replacer, color);
-        if(!message.isEmpty()) {
+        if (!message.isEmpty()) {
             sender.sendMessage(message);
         }
     }
-    
+
     @Override
     public String getMessageWithPrefix(CommandSender sender, String key, Replacer replacer, boolean color) {
         LanguageManager languageManager = getLanguageManager();
         String message = languageManager.getMessage(sender, key, replacer, color);
-        if(message.isEmpty()) {
+        if (message.isEmpty()) {
             return "";
         }
-        
+
         String prefix = languageManager.getMessage(sender, "prefix", null, true);
-        if(prefix.isEmpty()) {
+        if (prefix.isEmpty()) {
             return message;
         }
-        
-        if(!color) ChatColor.stripColor(prefix);
+
+        if (!color) ChatColor.stripColor(prefix);
         return String.format(Locale.US, "%s %s", prefix, message);
     }
-    
+
     @Override
     public void sendMessage(CommandSender sender, String... messageArray) {
-        for(String message : messageArray) {
-            if(message == null || message.isEmpty()) {
+        for (String message : messageArray) {
+            if (message == null || message.isEmpty()) {
                 continue;
             }
-            
+
             sender.sendMessage(message);
         }
     }
-    
+
     @Override
     public void printDebug(String... messageArray) {
         YamlConfiguration configuration = getConfig("config.yml");
-        if(!configuration.getBoolean("debug-mode")) {
+        if (!configuration.getBoolean("debug-mode")) {
             return;
         }
-        
+
         Logger logger = getLogger();
-        for(String message : messageArray) {
+        for (String message : messageArray) {
             String realMessage = ("[Debug] " + message);
             logger.info(realMessage);
         }
     }
-    
+
     @Override
     public void printDebug(Throwable ex) {
         YamlConfiguration configuration = getConfig("config.yml");
-        if(!configuration.getBoolean("debug-mode")) {
+        if (!configuration.getBoolean("debug-mode")) {
             return;
         }
-        
+
         Logger logger = getLogger();
         logger.log(Level.WARNING, "Full Error Details:", ex);
     }
@@ -287,44 +287,44 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         UpdateManager updateManager = corePlugin.getUpdateManager();
         updateManager.addResource(this, 31689L);
     }
-    
+
     private void untagAllPlayers() {
         ICombatManager combatManager = getCombatManager();
         List<Player> playerCombatList = combatManager.getPlayersInCombat();
-        for(Player player : playerCombatList) {
+        for (Player player : playerCombatList) {
             combatManager.untag(player, UntagReason.EXPIRE);
         }
     }
-    
+
     private void broadcastLoadMessage() {
         ConfigurationManager configurationManager = getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-        if(!configuration.getBoolean("broadcast.on-load")) {
+        if (!configuration.getBoolean("broadcast.on-load")) {
             return;
         }
-        
+
         LanguageManager languageManager = getLanguageManager();
         languageManager.broadcastMessage("broadcast.on-load", null, true, null);
     }
-    
+
     private void broadcastEnableMessage() {
         ConfigurationManager configurationManager = getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-        if(!configuration.getBoolean("broadcast.on-enable")) {
+        if (!configuration.getBoolean("broadcast.on-enable")) {
             return;
         }
-        
+
         LanguageManager languageManager = getLanguageManager();
         languageManager.broadcastMessage("broadcast.on-enable", null, true, null);
     }
-    
+
     private void broadcastDisableMessage() {
         ConfigurationManager configurationManager = getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-        if(!configuration.getBoolean("broadcast.on-disable")) {
+        if (!configuration.getBoolean("broadcast.on-disable")) {
             return;
         }
-        
+
         LanguageManager languageManager = getLanguageManager();
         languageManager.broadcastMessage("broadcast.on-disable", null, true, null);
     }

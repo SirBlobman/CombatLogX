@@ -24,17 +24,17 @@ public final class MobTaggerExpansion extends Expansion {
         this.spawnReasonManager = null;
         this.mobCombatBypassPermission = null;
     }
-    
+
     @Override
     public void onLoad() {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.saveDefault("config.yml");
     }
-    
+
     @Override
     public void onEnable() {
         int minorVersion = VersionUtility.getMinorVersion();
-        if(minorVersion < 14) {
+        if (minorVersion < 14) {
             this.spawnReasonManager = new SpawnReasonManager_Legacy(this);
         } else {
             this.spawnReasonManager = new SpawnReasonManager_New(this);
@@ -42,15 +42,15 @@ public final class MobTaggerExpansion extends Expansion {
 
         new ListenerDamage(this).register();
     }
-    
+
     @Override
     public void onDisable() {
         ISpawnReasonManager spawnReasonManager = getSpawnReasonManager();
-        if(spawnReasonManager != null) {
+        if (spawnReasonManager != null) {
             spawnReasonManager.clear();
         }
     }
-    
+
     @Override
     public void reloadConfig() {
         ConfigurationManager configurationManager = getConfigurationManager();
@@ -72,7 +72,7 @@ public final class MobTaggerExpansion extends Expansion {
         YamlConfiguration configuration = configurationManager.get("config.yml");
 
         String permissionName = configuration.getString("bypass-permission");
-        if(permissionName == null || permissionName.isEmpty()) {
+        if (permissionName == null || permissionName.isEmpty()) {
             this.mobCombatBypassPermission = null;
             return;
         }

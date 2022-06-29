@@ -15,11 +15,11 @@ public final class HuskSyncExpansion extends Expansion {
 
     @Override
     public void onEnable() {
-        if(!checkDependency("HuskSync", true)) {
+        if (!checkDependency("HuskSync", true)) {
             selfDisable();
             return;
         }
-        
+
         new ListenerHuskSync(this).register();
     }
 

@@ -4,6 +4,7 @@ import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+
 import combatlogx.expansion.cheat.prevention.listener.ListenerBlocks;
 import combatlogx.expansion.cheat.prevention.listener.ListenerBuckets;
 import combatlogx.expansion.cheat.prevention.listener.ListenerChat;
@@ -28,7 +29,7 @@ public final class CheatPreventionExpansion extends Expansion {
     public CheatPreventionExpansion(ICombatLogX plugin) {
         super(plugin);
     }
-    
+
     @Override
     public void onLoad() {
         ConfigurationManager configurationManager = getConfigurationManager();
@@ -45,7 +46,7 @@ public final class CheatPreventionExpansion extends Expansion {
         configurationManager.saveDefault("potions.yml");
         configurationManager.saveDefault("teleportation.yml");
     }
-    
+
     @Override
     public void onEnable() {
         new ListenerBlocks(this).register();
@@ -58,50 +59,50 @@ public final class CheatPreventionExpansion extends Expansion {
         new ListenerGameMode(this).register();
         new ListenerInventories(this).register();
         new ListenerTeleport(this).register();
-        
+
         // 1.9: Elytra
         int minorVersion = VersionUtility.getMinorVersion();
-        if(minorVersion >= 9) {
+        if (minorVersion >= 9) {
             new ListenerElytra(this).register();
         }
-        
+
         // 1.11: Totem of Undying
-        if(minorVersion >= 11) {
+        if (minorVersion >= 11) {
             new ListenerTotem(this).register();
         }
-        
+
         // 1.12: PlayerPickupItemEvent --> EntityPickupItemEvent
-        if(minorVersion < 12) {
+        if (minorVersion < 12) {
             new ListenerLegacyItemPickup(this).register();
         } else {
             new ListenerModernItemPickup(this).register();
         }
-        
+
         // 1.13: Riptide Enchantment
-        if(minorVersion >= 13) {
+        if (minorVersion >= 13) {
             new ListenerRiptide(this).register();
         }
 
         // 1.13: EntityPotionEffectEvent
-        if(minorVersion >= 13) {
+        if (minorVersion >= 13) {
             new ListenerModernPotions(this).register();
         } else {
             new ListenerLegacyPotions(this).register();
         }
-        
+
         // 1.14: EntityCreatePortalEvent --> PortalCreateEvent with getEntity
-        if(minorVersion < 14) {
+        if (minorVersion < 14) {
             new ListenerLegacyPortalCreate(this).register();
         } else {
             new ListenerModernPortalCreate(this).register();
         }
     }
-    
+
     @Override
     public void onDisable() {
         // Do Nothing
     }
-    
+
     @Override
     public void reloadConfig() {
         ConfigurationManager configurationManager = getConfigurationManager();

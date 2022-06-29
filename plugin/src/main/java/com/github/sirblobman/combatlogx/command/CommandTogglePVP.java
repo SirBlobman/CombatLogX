@@ -12,12 +12,12 @@ public final class CommandTogglePVP extends CombatLogCommand {
     public CommandTogglePVP(ICombatLogX plugin) {
         super(plugin, "togglepvp");
     }
-    
+
     @Override
     protected List<String> onTabComplete(CommandSender sender, String[] args) {
         return Collections.emptyList();
     }
-    
+
     @Override
     protected boolean execute(CommandSender sender, String[] args) {
         sender.sendMessage("This command requires the 'Newbie Helper' expansion.");

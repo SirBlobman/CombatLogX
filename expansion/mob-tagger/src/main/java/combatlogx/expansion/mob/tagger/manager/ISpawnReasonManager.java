@@ -9,6 +9,8 @@ public interface ISpawnReasonManager {
     MobTaggerExpansion getExpansion();
 
     SpawnReason getSpawnReason(Entity entity);
+
     void setSpawnReason(Entity entity, SpawnReason spawnReason);
+
     void clear();
 }

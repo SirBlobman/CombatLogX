@@ -14,16 +14,16 @@ public final class PreciousStonesRegionHandler extends RegionHandler {
     public PreciousStonesRegionHandler(PreciousStonesExpansion expansion) {
         super(expansion);
     }
-    
+
     @Override
     public String getEntryDeniedMessagePath(TagType tagType) {
         return "expansion.region-protection.preciousstones.no-entry";
     }
-    
+
     @Override
     public boolean isSafeZone(Player player, Location location, TagType tagType) {
-        if(tagType != TagType.PLAYER) return false;
-        
+        if (tagType != TagType.PLAYER) return false;
+
         IApi api = PreciousStones.API();
         return api.isFieldProtectingArea(FieldFlag.PREVENT_PVP, location);
     }

@@ -14,16 +14,16 @@ public final class GriefPreventionRegionHandler extends RegionHandler {
     public GriefPreventionRegionHandler(GriefPreventionExpansion expansion) {
         super(expansion);
     }
-    
+
     @Override
     public String getEntryDeniedMessagePath(TagType tagType) {
         return "expansion.region-protection.griefprevention-no-entry";
     }
-    
+
     @Override
     public boolean isSafeZone(Player player, Location location, TagType tagType) {
-        if(tagType != TagType.PLAYER) return false;
-        
+        if (tagType != TagType.PLAYER) return false;
+
         GriefPrevention griefPrevention = JavaPlugin.getPlugin(GriefPrevention.class);
         Claim claim = griefPrevention.dataStore.getClaimAt(location, false, null);
         return (claim != null && griefPrevention.claimIsPvPSafeZone(claim));

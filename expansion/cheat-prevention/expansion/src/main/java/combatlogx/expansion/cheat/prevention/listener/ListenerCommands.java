@@ -21,115 +21,115 @@ import com.github.sirblobman.combatlogx.api.object.UntagReason;
 
 public final class ListenerCommands extends CheatPreventionListener {
     private final Map<UUID, Long> cooldownMap;
-    
+
     public ListenerCommands(Expansion expansion) {
         super(expansion);
         this.cooldownMap = new HashMap<>();
     }
-    
+
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void beforeCommandLowest(PlayerCommandPreprocessEvent e) {
         checkEvent(e);
     }
-    
+
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void beforeCommandHigh(PlayerCommandPreprocessEvent e) {
         checkEvent(e);
     }
-    
+
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onUntag(PlayerUntagEvent e) {
         UntagReason untagReason = e.getUntagReason();
-        if(!untagReason.isExpire()) return;
-        
+        if (!untagReason.isExpire()) return;
+
         Player player = e.getPlayer();
         addCooldown(player);
     }
-    
+
     private YamlConfiguration getConfiguration() {
         Expansion expansion = getExpansion();
         ConfigurationManager configurationManager = expansion.getConfigurationManager();
         return configurationManager.get("commands.yml");
     }
-    
+
     private boolean hasBypassPermission(Player player) {
         YamlConfiguration configuration = getConfiguration();
         String permissionName = configuration.getString("bypass-permission");
-        if(permissionName == null || permissionName.isEmpty()) return false;
-        
+        if (permissionName == null || permissionName.isEmpty()) return false;
+
         Permission permission = new Permission(permissionName, "CombatLogX Bypass Permission: Cheat Prevention Blocked Commands", PermissionDefault.FALSE);
         return player.hasPermission(permission);
     }
-    
+
     private long getNewExpireTime() {
         YamlConfiguration configuration = getConfiguration();
         long cooldownSeconds = configuration.getLong("delay-after-combat");
         long cooldownMillis = (cooldownSeconds * 1_000L);
-        
+
         long systemMillis = System.currentTimeMillis();
         return (systemMillis + cooldownMillis);
     }
-    
+
     private boolean isInCooldown(Player player) {
         UUID uuid = player.getUniqueId();
-        if(this.cooldownMap.containsKey(uuid)) {
+        if (this.cooldownMap.containsKey(uuid)) {
             long expireMillis = this.cooldownMap.get(uuid);
             long systemMillis = System.currentTimeMillis();
-            if(systemMillis < expireMillis) return true;
-            
+            if (systemMillis < expireMillis) return true;
+
             this.cooldownMap.remove(uuid);
             return false;
         }
-        
+
         return false;
     }
-    
+
     private void addCooldown(Player player) {
         UUID uuid = player.getUniqueId();
         long expireMillis = getNewExpireTime();
         this.cooldownMap.put(uuid, expireMillis);
     }
-    
+
     private String fixCommand(String command) {
-        if(command.startsWith("/")) return command;
+        if (command.startsWith("/")) return command;
         return ("/" + command);
     }
-    
+
     private boolean matchesAny(String string, Iterable<String> valueList) {
         String stringLower = string.toLowerCase();
-        for(String value : valueList) {
-            if(value.equals("*")) return true;
-            if(value.equals("/*")) return true;
-            
+        for (String value : valueList) {
+            if (value.equals("*")) return true;
+            if (value.equals("/*")) return true;
+
             String valueLower = value.toLowerCase();
-            if(stringLower.equals(valueLower)) return true;
-            if(stringLower.startsWith(valueLower + " ")) return true;
+            if (stringLower.equals(valueLower)) return true;
+            if (stringLower.startsWith(valueLower + " ")) return true;
         }
-        
+
         return false;
     }
-    
+
     private boolean isBlocked(String command) {
         YamlConfiguration configuration = getConfiguration();
         List<String> blockedCommandList = configuration.getStringList("blocked-command-list");
         return matchesAny(command, blockedCommandList);
     }
-    
+
     private boolean isAllowed(String command) {
         YamlConfiguration configuration = getConfiguration();
         List<String> allowedCommandList = configuration.getStringList("allowed-command-list");
         return matchesAny(command, allowedCommandList);
     }
-    
+
     private void checkEvent(PlayerCommandPreprocessEvent e) {
         Player player = e.getPlayer();
-        if(!isInCombat(player) && !isInCooldown(player)) return;
-        if(hasBypassPermission(player)) return;
-        
+        if (!isInCombat(player) && !isInCooldown(player)) return;
+        if (hasBypassPermission(player)) return;
+
         String command = e.getMessage();
         String realCommand = fixCommand(command);
-        if(isAllowed(realCommand) || !isBlocked(realCommand)) return;
-        
+        if (isAllowed(realCommand) || !isBlocked(realCommand)) return;
+
         e.setCancelled(true);
         Replacer replacer = message -> message.replace("{command}", realCommand);
         sendMessageIgnoreCooldown(player, "expansion.cheat-prevention.command-blocked", replacer);

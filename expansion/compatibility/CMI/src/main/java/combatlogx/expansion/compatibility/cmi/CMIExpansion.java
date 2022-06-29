@@ -11,30 +11,30 @@ public final class CMIExpansion extends Expansion {
     public CMIExpansion(ICombatLogX plugin) {
         super(plugin);
     }
-    
+
     @Override
     public void onLoad() {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.saveDefault("config.yml");
     }
-    
+
     @Override
     public void onEnable() {
-        if(!checkDependency("CMI", true)) {
+        if (!checkDependency("CMI", true)) {
             ICombatLogX plugin = getPlugin();
             ExpansionManager expansionManager = plugin.getExpansionManager();
             expansionManager.disableExpansion(this);
             return;
         }
-        
+
         new ListenerCMI(this).register();
     }
-    
+
     @Override
     public void onDisable() {
         // Do Nothing
     }
-    
+
     @Override
     public void reloadConfig() {
         ConfigurationManager configurationManager = getConfigurationManager();

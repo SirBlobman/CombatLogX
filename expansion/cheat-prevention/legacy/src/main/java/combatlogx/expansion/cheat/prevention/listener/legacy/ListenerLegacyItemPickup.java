@@ -15,17 +15,17 @@ public final class ListenerLegacyItemPickup extends CheatPreventionListener {
     public ListenerLegacyItemPickup(Expansion expansion) {
         super(expansion);
     }
-    
+
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPickup(PlayerPickupItemEvent e) {
         Player player = e.getPlayer();
-        if(!isInCombat(player)) return;
-        if(isAllowed()) return;
-        
+        if (!isInCombat(player)) return;
+        if (isAllowed()) return;
+
         e.setCancelled(true);
         sendMessage(player, "expansion.cheat-prevention.items.no-pickup", null);
     }
-    
+
     private boolean isAllowed() {
         Expansion expansion = getExpansion();
         ConfigurationManager configurationManager = expansion.getConfigurationManager();

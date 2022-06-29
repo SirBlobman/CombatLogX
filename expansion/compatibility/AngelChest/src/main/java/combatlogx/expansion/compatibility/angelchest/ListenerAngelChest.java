@@ -1,12 +1,14 @@
 package combatlogx.expansion.compatibility.angelchest;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
-import de.jeff_media.angelchest.events.AngelChestOpenEvent;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+
+import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
+
+import de.jeff_media.angelchest.events.AngelChestOpenEvent;
 
 public final class ListenerAngelChest extends ExpansionListener {
     public ListenerAngelChest(final Expansion expansion) {
@@ -17,14 +19,14 @@ public final class ListenerAngelChest extends ExpansionListener {
     public void onAngelChestOpen(AngelChestOpenEvent event) {
         Player player = event.getPlayer();
 
-        if(!isInCombat(player)) return;
+        if (!isInCombat(player)) return;
 
         ConfigurationManager configurationManager = getExpansionConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
 
-        switch(event.getReason()) {
+        switch (event.getReason()) {
             case BREAK: {
-                if(configuration.getBoolean("prevent-breaking", true)) {
+                if (configuration.getBoolean("prevent-breaking", true)) {
                     sendMessageWithPrefix(player, "expansion.angel-chest.prevent-breaking", null, true);
                     event.setCancelled(true);
                 }
@@ -32,7 +34,7 @@ public final class ListenerAngelChest extends ExpansionListener {
             }
 
             case OPEN_GUI: {
-                if(configuration.getBoolean("prevent-opening", true)) {
+                if (configuration.getBoolean("prevent-opening", true)) {
                     sendMessageWithPrefix(player, "expansion.angel-chest.prevent-opening", null, true);
                     event.setCancelled(true);
                 }
@@ -40,7 +42,7 @@ public final class ListenerAngelChest extends ExpansionListener {
             }
 
             case FAST_LOOT: {
-                if(configuration.getBoolean("prevent-fast-looting", true)) {
+                if (configuration.getBoolean("prevent-fast-looting", true)) {
                     sendMessageWithPrefix(player, "expansion.angel-chest.prevent-fast-looting", null, true);
                     event.setCancelled(true);
                 }

@@ -13,7 +13,7 @@ public final class HookWorldGuard {
     public static IWrappedFlag<WrappedState> PLAYER_COMBAT = null;
     public static IWrappedFlag<WrappedState> MOB_COMBAT = null;
     public static IWrappedFlag<Boolean> NO_TAGGING = null;
-    
+
     public static void registerFlags(WorldGuardExpansion expansion) {
         try {
             WorldGuardWrapper instance = WorldGuardWrapper.getInstance();
@@ -25,7 +25,7 @@ public final class HookWorldGuard {
                     .orElse(null);
             NO_TAGGING = instance.registerFlag("no-tagging", Boolean.TYPE, false)
                     .orElse(null);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             Logger logger = expansion.getLogger();
             logger.log(Level.WARNING, "Failed to register custom WorldGuard flags because an error occurred:",
                     ex);

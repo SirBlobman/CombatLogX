@@ -24,73 +24,73 @@ public final class ListenerEssentials extends ExpansionListener {
     public ListenerEssentials(EssentialsExpansion expansion) {
         super(expansion);
     }
-    
+
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onTeleportRequest(TPARequestEvent e) {
-        if(isTeleportRequestEnabled()) return;
-        
+        if (isTeleportRequestEnabled()) return;
+
         ICombatManager combatManager = getCombatManager();
         LanguageManager languageManager = getLanguageManager();
-        
+
         CommandSource requester = e.getRequester();
         Player player = requester.getPlayer();
-        if(player == null) return;
-        
-        if(combatManager.isInCombat(player)) {
+        if (player == null) return;
+
+        if (combatManager.isInCombat(player)) {
             sendMessageWithPrefix(player, "expansion.essentials-compatibility.prevent-teleport-request-self",
                     null, true);
             e.setCancelled(true);
             return;
         }
-        
+
         IUser targetUser = e.getTarget();
         Player target = targetUser.getBase();
-        if(target == null) return;
-        
-        if(combatManager.isInCombat(target)) {
+        if (target == null) return;
+
+        if (combatManager.isInCombat(target)) {
             sendMessageWithPrefix(player, "expansion.essentials-compatibility.prevent-teleport-request-other",
                     null, true);
             e.setCancelled(true);
             // return;
         }
     }
-    
+
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void beforeCombat(PlayerPreTagEvent e) {
         Player player = e.getPlayer();
-        if(isVanished(player) && preventVanishSelfTag()) {
+        if (isVanished(player) && preventVanishSelfTag()) {
             e.setCancelled(true);
         }
-        
+
         LivingEntity enemy = e.getEnemy();
-        if(enemy instanceof Player) {
+        if (enemy instanceof Player) {
             Player other = (Player) enemy;
-            if(isVanished(other) && preventVanishOtherTag()) {
+            if (isVanished(other) && preventVanishOtherTag()) {
                 e.setCancelled(true);
             }
         }
     }
-    
+
     private YamlConfiguration getConfiguration() {
         ConfigurationManager configurationManager = getExpansionConfigurationManager();
         return configurationManager.get("config.yml");
     }
-    
+
     private boolean isTeleportRequestEnabled() {
         YamlConfiguration configuration = getConfiguration();
         return !configuration.getBoolean("prevent-teleport-request");
     }
-    
+
     private boolean preventVanishSelfTag() {
         YamlConfiguration configuration = getConfiguration();
         return configuration.getBoolean("prevent-vanish-tagging-self");
     }
-    
+
     private boolean preventVanishOtherTag() {
         YamlConfiguration configuration = getConfiguration();
         return configuration.getBoolean("prevent-vanish-tagging-other");
     }
-    
+
     private boolean isVanished(Player player) {
         Essentials plugin = JavaPlugin.getPlugin(Essentials.class);
         User user = plugin.getUser(player);

@@ -9,27 +9,27 @@ public final class MarriageMasterExpansion extends Expansion {
     public MarriageMasterExpansion(ICombatLogX plugin) {
         super(plugin);
     }
-    
+
     @Override
     public void onLoad() {
         // Do Nothing
     }
-    
+
     @Override
     public void onEnable() {
-        if(!checkDependency("MarriageMaster", true)) {
+        if (!checkDependency("MarriageMaster", true)) {
             selfDisable();
             return;
         }
-        
+
         new ListenerMarriageMaster(this).register();
     }
-    
+
     @Override
     public void onDisable() {
         // Do Nothing
     }
-    
+
     @Override
     public void reloadConfig() {
         // Do Nothing

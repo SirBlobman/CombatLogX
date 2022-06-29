@@ -14,19 +14,19 @@ public class RedProtectRegionHandler extends RegionHandler {
     public RedProtectRegionHandler(RedProtectExpansion expansion) {
         super(expansion);
     }
-    
+
     @Override
     public String getEntryDeniedMessagePath(TagType tagType) {
         return "expansion.region-protection.redprotect-no-entry";
     }
-    
+
     @Override
     public boolean isSafeZone(Player player, Location location, TagType tagType) {
-        if(tagType != TagType.PLAYER) return false;
-        
+        if (tagType != TagType.PLAYER) return false;
+
         RedProtect redProtect = RedProtect.get();
         RedProtectAPI redProtectApi = redProtect.getAPI();
-        
+
         Region region = redProtectApi.getRegion(location);
         return (region != null && !region.getFlagBool("pvp"));
     }
