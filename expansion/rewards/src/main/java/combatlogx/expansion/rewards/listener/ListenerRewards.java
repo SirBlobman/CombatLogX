@@ -23,7 +23,9 @@ public final class ListenerRewards extends ExpansionListener {
     public void onDeath(EntityDeathEvent e) {
         LivingEntity entity = e.getEntity();
         Player killer = entity.getKiller();
-        if(killer == null) return;
+        if(killer == null) {
+            return;
+        }
         
         RewardManager rewardManager = this.expansion.getRewardManager();
         rewardManager.checkAll(killer, entity);

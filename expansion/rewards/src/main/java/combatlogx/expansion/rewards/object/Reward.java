@@ -27,21 +27,33 @@ public final class Reward {
     private final int chance, maxChance;
     private final boolean randomCommand;
     private final List<String> commandList;
+
     private List<String> worldList, mobList;
     private List<Requirement> requirementList;
     private boolean mobWhiteList, worldWhiteList;
     
     public Reward(RewardExpansion expansion, int chance, int maxChance, boolean randomCommand, List<String> commandList) {
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
-        if(chance <= 0) throw new IllegalArgumentException("chance must be greater than zero!");
-        if(maxChance <= 0) throw new IllegalArgumentException("maxChance must be greater than zero!");
-        if(chance > maxChance) throw new IllegalArgumentException("chance must be less than or equal to maxChance!");
+        if(chance <= 0) {
+            throw new IllegalArgumentException("chance must be greater than zero!");
+        }
+
+        if(maxChance <= 0) {
+            throw new IllegalArgumentException("maxChance must be greater than zero!");
+        }
+
+        if(chance > maxChance) {
+            throw new IllegalArgumentException("chance must be less than or equal to maxChance!");
+        }
+
         this.chance = chance;
         this.maxChance = maxChance;
         this.randomCommand = randomCommand;
         
-        if(commandList == null || commandList.isEmpty())
+        if(commandList == null || commandList.isEmpty()) {
             throw new IllegalArgumentException("commandList cannot be empty or null!");
+        }
+
         this.commandList = new ArrayList<>(commandList);
         this.requirementList = new ArrayList<>();
         
@@ -53,17 +65,26 @@ public final class Reward {
     }
     
     public void setRequirements(List<Requirement> requirementList) {
-        if(requirementList == null) throw new IllegalArgumentException("requirementList must not be null!");
+        if(requirementList == null) {
+            throw new IllegalArgumentException("requirementList must not be null!");
+        }
+
         this.requirementList = new ArrayList<>(requirementList);
     }
     
     public void setWorldList(List<String> worldList) {
-        if(worldList == null) throw new IllegalArgumentException("worldList must not be null!");
+        if(worldList == null) {
+            throw new IllegalArgumentException("worldList must not be null!");
+        }
+
         this.worldList = new ArrayList<>(worldList);
     }
     
     public void setMobList(List<String> mobList) {
-        if(mobList == null) throw new IllegalArgumentException("mobList must not be null!");
+        if(mobList == null) {
+            throw new IllegalArgumentException("mobList must not be null!");
+        }
+
         this.mobList = new ArrayList<>(mobList);
     }
     
@@ -82,7 +103,10 @@ public final class Reward {
     }
     
     private boolean canActivate(Player player, LivingEntity enemy) {
-        if(player == null || enemy == null) return false;
+        if(player == null || enemy == null) {
+            return false;
+        }
+
         boolean checkWorld = checkWorld(player);
         boolean checkMobType = checkMobType(enemy);
         boolean checkRequirements = checkRequirements(player, enemy);
@@ -107,7 +131,10 @@ public final class Reward {
     private boolean checkRequirements(Player player, LivingEntity enemy) {
         for(Requirement requirement : this.requirementList) {
             LivingEntity toCheck = (requirement.isEnemy() ? enemy : player);
-            if(requirement.meetsRequirement(toCheck)) continue;
+            if(requirement.meetsRequirement(toCheck)) {
+                continue;
+            }
+
             return false;
         }
         
@@ -115,9 +142,11 @@ public final class Reward {
     }
     
     private boolean calculateChance() {
-        if(this.chance >= this.maxChance) return true;
+        if(this.chance >= this.maxChance) {
+            return true;
+        }
+
         ThreadLocalRandom random = ThreadLocalRandom.current();
-        
         int randomValue = random.nextInt(1, this.maxChance + 1);
         return (randomValue <= this.chance);
     }
@@ -136,16 +165,27 @@ public final class Reward {
     }
     
     private void runCommands(Player player, LivingEntity enemy) {
-        if(player == null || enemy == null) return;
+        if(player == null || enemy == null) {
+            return;
+        }
+
         String playerName = player.getName();
         String enemyName = getEntityName(enemy);
         String enemyType = enemy.getType().name();
         
         List<String> commandList = getCommands();
         for(String command : commandList) {
-            String realCommand = command.replace("{player}", playerName).replace("{enemy}", enemyName).replace("{enemy_type}", enemyType);
-            if(this.expansion.usePlaceholderAPI()) realCommand = replacePlaceholderAPI(player, realCommand);
-            if(this.expansion.useMVdWPlaceholderAPI()) realCommand = replaceMVdWPlaceholderAPI(player, realCommand);
+            String realCommand = command.replace("{player}", playerName).replace("{enemy}", enemyName)
+                    .replace("{enemy_type}", enemyType);
+
+            if(this.expansion.usePlaceholderAPI()) {
+                realCommand = replacePlaceholderAPI(player, realCommand);
+            }
+
+            if(this.expansion.useMVdWPlaceholderAPI()) {
+                realCommand = replaceMVdWPlaceholderAPI(player, realCommand);
+            }
+
             runCommand(realCommand);
         }
     }
@@ -171,7 +211,8 @@ public final class Reward {
             Bukkit.dispatchCommand(console, command);
         } catch(Exception ex) {
             Logger logger = this.expansion.getLogger();
-            logger.log(Level.WARNING, "An error occurred while running the '/" + command + "' command in console:", ex);
+            logger.log(Level.WARNING, "An error occurred while running the '/" + command
+                    + "' command in console:", ex);
         }
     }
 }

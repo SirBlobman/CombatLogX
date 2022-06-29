@@ -18,6 +18,7 @@ import com.github.sirblobman.api.utility.Validate;
 import combatlogx.expansion.rewards.RewardExpansion;
 import combatlogx.expansion.rewards.object.Reward;
 import combatlogx.expansion.rewards.requirement.EconomyRequirement;
+import combatlogx.expansion.rewards.requirement.ExperienceRequirement;
 import combatlogx.expansion.rewards.requirement.Requirement;
 
 public final class RewardManager {
@@ -45,7 +46,9 @@ public final class RewardManager {
         for(String id : idSet) {
             ConfigurationSection rewardSection = rewards.getConfigurationSection(id);
             Reward reward = loadReward(id, rewardSection);
-            if(reward != null) this.rewardSet.add(reward);
+            if(reward != null) {
+                this.rewardSet.add(reward);
+            }
         }
         
         int rewardSetSize = this.rewardSet.size();
@@ -60,7 +63,10 @@ public final class RewardManager {
     
     private Reward loadReward(String id, ConfigurationSection section) {
         try {
-            if(section == null) return null;
+            if(section == null) {
+                return null;
+            }
+
             int chance = section.getInt("chance", 1);
             int maxChance = section.getInt("max-chance", 1);
             boolean randomCommand = section.getBoolean("random-command", false);
@@ -99,33 +105,53 @@ public final class RewardManager {
     }
     
     private List<Requirement> loadRequirements(ConfigurationSection section) {
-        if(section == null) return null;
+        if(section == null) {
+            return null;
+        }
+
         ConfigurationSection sectionRequirements = section.getConfigurationSection("requirements");
-        if(sectionRequirements == null) return null;
+        if(sectionRequirements == null) {
+            return null;
+        }
         
         Set<String> keySet = sectionRequirements.getKeys(false);
         List<Requirement> requirementList = new ArrayList<>();
         for(String key : keySet) {
             ConfigurationSection sectionRequirement = sectionRequirements.getConfigurationSection(key);
             Requirement requirement = loadRequirement(sectionRequirement);
-            if(requirement != null) requirementList.add(requirement);
+            if(requirement != null) {
+                requirementList.add(requirement);
+            }
         }
         
         return requirementList;
     }
     
     private Requirement loadRequirement(ConfigurationSection section) {
-        if(section == null) return null;
-        boolean enemy = section.getBoolean("check-enemy");
-        
-        String type = section.getString("type");
-        if(type == null) return null;
-        
-        if(type.equals("economy")) {
-            double amount = section.getDouble("amount");
-            return new EconomyRequirement(this.expansion, enemy, amount);
+        if(section == null) {
+            return null;
         }
-        
-        return null;
+
+        boolean enemy = section.getBoolean("check-enemy");
+        String type = section.getString("type");
+        if(type == null) {
+            return null;
+        }
+
+        switch(type) {
+            case "economy": return loadEconomyRequirement(section, enemy);
+            case "experience": return loadExperienceRequirement(section, enemy);
+            default: return null;
+        }
+    }
+
+    private Requirement loadEconomyRequirement(ConfigurationSection section, boolean enemy) {
+        double amount = section.getDouble("amount");
+        return new EconomyRequirement(this.expansion, enemy, amount);
+    }
+
+    private Requirement loadExperienceRequirement(ConfigurationSection section, boolean enemy) {
+        int amount = section.getInt("amount");
+        return new ExperienceRequirement(this.expansion, enemy, amount);
     }
 }
