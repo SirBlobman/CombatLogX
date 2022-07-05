@@ -51,3 +51,7 @@ stay-until-no-damage: false
 # Should combat NPCs be prevented from using totems of undying?
 # Default: true
 prevent-resurrect: true
+
+# Should players receive a combat tag when they log back in?
+# This only applies if their NPC still had health when it respawned.
+tag-player: true

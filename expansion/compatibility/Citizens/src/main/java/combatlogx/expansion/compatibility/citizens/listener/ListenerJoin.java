@@ -24,6 +24,9 @@ import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
+import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
+import com.github.sirblobman.combatlogx.api.object.TagReason;
+import com.github.sirblobman.combatlogx.api.object.TagType;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
 import combatlogx.expansion.compatibility.citizens.manager.CombatNpcManager;
@@ -43,9 +46,9 @@ public final class ListenerJoin extends ExpansionListener {
     public void beforeLogin(AsyncPlayerPreLoginEvent e) {
         printDebug("Detected AsyncPlayerPreLoginEvent...");
 
-        UUID uuid = e.getUniqueId();
-        printDebug("Checking if player with uuid=" + uuid + " can login...");
-        if (shouldAllowLogin(uuid)) {
+        UUID playerId = e.getUniqueId();
+        printDebug("Checking if player with uuid=" + playerId + " can login...");
+        if (shouldAllowLogin(playerId)) {
             printDebug("Login allowed, ignoring event.");
             return;
         }
@@ -166,6 +169,11 @@ public final class ListenerJoin extends ExpansionListener {
             printDebug("Restoring player inventory if possible.");
             InventoryManager inventoryManager = expansion.getInventoryManager();
             inventoryManager.restoreInventory(player);
+        }
+
+        if(configuration.getBoolean("tag-player", true) && health > 0.0D) {
+            ICombatManager combatManager = getCombatManager();
+            combatManager.tag(player, null, TagType.UNKNOWN, TagReason.UNKNOWN);
         }
     }
 
