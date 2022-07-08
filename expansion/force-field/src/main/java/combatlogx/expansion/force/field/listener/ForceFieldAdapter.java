@@ -32,7 +32,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * @author olivolja3
  */
-public class ForceFieldAdapter extends PacketAdapter {
+public final class ForceFieldAdapter extends PacketAdapter {
     private final ICombatLogX plugin;
     private final ListenerForceField forceFieldListener;
 
