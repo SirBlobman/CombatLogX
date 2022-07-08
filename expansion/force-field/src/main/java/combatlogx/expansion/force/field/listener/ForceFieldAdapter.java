@@ -106,13 +106,13 @@ public final class ForceFieldAdapter extends PacketAdapter {
 
     private boolean isForceFieldBlock(Player player, Location location) {
         UUID uuid = player.getUniqueId();
-        if (this.forceFieldListener.fakeBlockMap.containsKey(uuid)) {
+        if (this.forceFieldListener.getFakeBlockMap().containsKey(uuid)) {
             boolean isSafe = this.forceFieldListener.isSafe(player, location);
             boolean isSafeSurround = this.forceFieldListener.isSafeSurround(player, location);
             boolean canPlace = this.forceFieldListener.canPlace(WorldXYZ.from(location));
             if (isSafe && isSafeSurround && canPlace) {
                 WorldXYZ worldXYZ = WorldXYZ.from(location);
-                return this.forceFieldListener.fakeBlockMap.get(uuid).contains(worldXYZ);
+                return this.forceFieldListener.getFakeBlockMap().get(uuid).contains(worldXYZ);
             }
         }
 

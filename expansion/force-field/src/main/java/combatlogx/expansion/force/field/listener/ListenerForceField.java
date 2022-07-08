@@ -51,8 +51,8 @@ import org.jetbrains.annotations.Nullable;
 /**
  * @author olivolja3
  */
-public class ListenerForceField extends ExpansionListener {
-    protected final Map<UUID, Set<WorldXYZ>> fakeBlockMap;
+public final class ListenerForceField extends ExpansionListener {
+    private final Map<UUID, Set<WorldXYZ>> fakeBlockMap;
     private final ExecutorService forceFieldExecutor;
 
     private Permission bypassPermission;
@@ -61,6 +61,10 @@ public class ListenerForceField extends ExpansionListener {
         super(expansion);
         this.fakeBlockMap = new HashMap<>();
         this.forceFieldExecutor = Executors.newSingleThreadExecutor();
+    }
+
+    Map<UUID, Set<WorldXYZ>> getFakeBlockMap() {
+        return this.fakeBlockMap;
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
