@@ -8,6 +8,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -17,6 +18,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
@@ -84,13 +86,15 @@ public final class CombatNpcManager {
         try {
             combatNPC.cancel();
         } catch (IllegalStateException ignored) {
+            // Do Nothing
         }
 
         saveNPC(owner, originalNPC);
-        originalNPC.destroy();
-
         this.playerNpcMap.remove(owner.getUniqueId());
         this.npcCombatMap.remove(originalNPC.getUniqueId());
+
+        BukkitScheduler scheduler = Bukkit.getScheduler();
+        scheduler.runTask(getCombatLogX().getPlugin(), originalNPC::destroy);
     }
 
     public void removeAll() {
