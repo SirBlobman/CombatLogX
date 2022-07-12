@@ -1,0 +1,10 @@
+name: "CompatHuskTowns"
+prefix: "HuskTowns Compatibility"
+description: "${project.description}"
+
+main: "combatlogx.expansion.compatibility.region.husktowns.HuskTownsExpansion"
+version: "16.0"
+author: "SirBlobman"
+
+plugin-depend:
+  - "HuskTowns"
