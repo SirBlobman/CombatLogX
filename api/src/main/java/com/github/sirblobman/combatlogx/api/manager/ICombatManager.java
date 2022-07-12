@@ -11,6 +11,7 @@ import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public interface ICombatManager {
@@ -22,11 +23,11 @@ public interface ICombatManager {
 
     boolean isInCombat(Player player);
 
-    List<Player> getPlayersInCombat();
+    @NotNull List<Player> getPlayersInCombat();
 
-    LivingEntity getEnemy(Player player);
+    @Nullable LivingEntity getEnemy(Player player);
 
-    OfflinePlayer getByEnemy(LivingEntity enemy);
+    @Nullable OfflinePlayer getByEnemy(LivingEntity enemy);
 
     long getTimerLeftMillis(Player player);
 

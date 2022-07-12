@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityPotionEffectEvent;
+import org.bukkit.event.entity.EntityPotionEffectEvent.Action;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -34,13 +35,28 @@ public class ListenerModernPotions extends ExpansionListener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onAddEffect(EntityPotionEffectEvent e) {
-        if (e.getAction() != EntityPotionEffectEvent.Action.ADDED) return;
-        if (e.getEntityType() != EntityType.PLAYER) return;
+        Action action = e.getAction();
+        if(action != Action.ADDED) {
+            return;
+        }
+
+        EntityType entityType = e.getEntityType();
+        if(entityType != EntityType.PLAYER) {
+            return;
+        }
+
         Player player = (Player) e.getEntity();
-        if (!isInCombat(player)) return;
-        if (!isBlocked(e.getModifiedType())) return;
+        if(!isInCombat(player)) {
+            return;
+        }
+
+        PotionEffectType potionEffectType = e.getModifiedType();
+        if(!isBlocked(potionEffectType)) {
+            return;
+        }
+
         e.setCancelled(true);
     }
 

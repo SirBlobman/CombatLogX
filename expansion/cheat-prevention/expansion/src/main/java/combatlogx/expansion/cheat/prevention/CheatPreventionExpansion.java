@@ -24,6 +24,7 @@ import combatlogx.expansion.cheat.prevention.listener.legacy.ListenerLegacyPotio
 import combatlogx.expansion.cheat.prevention.listener.modern.ListenerModernItemPickup;
 import combatlogx.expansion.cheat.prevention.listener.modern.ListenerModernPortalCreate;
 import combatlogx.expansion.cheat.prevention.listener.modern.ListenerModernPotions;
+import combatlogx.expansion.cheat.prevention.task.FlightRetagTask;
 
 public final class CheatPreventionExpansion extends Expansion {
     public CheatPreventionExpansion(ICombatLogX plugin) {
@@ -49,53 +50,12 @@ public final class CheatPreventionExpansion extends Expansion {
 
     @Override
     public void onEnable() {
-        new ListenerBlocks(this).register();
-        new ListenerBuckets(this).register();
-        new ListenerChat(this).register();
-        new ListenerCommands(this).register();
-        new ListenerDrop(this).register();
-        new ListenerEntities(this).register();
-        new ListenerFlight(this).register();
-        new ListenerGameMode(this).register();
-        new ListenerInventories(this).register();
-        new ListenerTeleport(this).register();
+        registerListeners();
 
-        // 1.9: Elytra
         int minorVersion = VersionUtility.getMinorVersion();
-        if (minorVersion >= 9) {
-            new ListenerElytra(this).register();
-        }
+        registerVersionListeners(minorVersion);
 
-        // 1.11: Totem of Undying
-        if (minorVersion >= 11) {
-            new ListenerTotem(this).register();
-        }
-
-        // 1.12: PlayerPickupItemEvent --> EntityPickupItemEvent
-        if (minorVersion < 12) {
-            new ListenerLegacyItemPickup(this).register();
-        } else {
-            new ListenerModernItemPickup(this).register();
-        }
-
-        // 1.13: Riptide Enchantment
-        if (minorVersion >= 13) {
-            new ListenerRiptide(this).register();
-        }
-
-        // 1.13: EntityPotionEffectEvent
-        if (minorVersion >= 13) {
-            new ListenerModernPotions(this).register();
-        } else {
-            new ListenerLegacyPotions(this).register();
-        }
-
-        // 1.14: EntityCreatePortalEvent --> PortalCreateEvent with getEntity
-        if (minorVersion < 14) {
-            new ListenerLegacyPortalCreate(this).register();
-        } else {
-            new ListenerModernPortalCreate(this).register();
-        }
+        registerTasks();
     }
 
     @Override
@@ -118,5 +78,60 @@ public final class CheatPreventionExpansion extends Expansion {
         configurationManager.reload("items.yml");
         configurationManager.reload("potions.yml");
         configurationManager.reload("teleportation.yml");
+    }
+
+    private void registerListeners() {
+        new ListenerBlocks(this).register();
+        new ListenerBuckets(this).register();
+        new ListenerChat(this).register();
+        new ListenerCommands(this).register();
+        new ListenerDrop(this).register();
+        new ListenerEntities(this).register();
+        new ListenerFlight(this).register();
+        new ListenerGameMode(this).register();
+        new ListenerInventories(this).register();
+        new ListenerTeleport(this).register();
+    }
+
+    private void registerVersionListeners(int minorVersion) {
+        // Elytra were added in 1.9.
+        if (minorVersion >= 9) {
+            new ListenerElytra(this).register();
+        }
+
+        // Totem of Undying was added in 1.11.
+        if (minorVersion >= 11) {
+            new ListenerTotem(this).register();
+        }
+
+        // PlayerPickupItemEvent was deprecated in favor of EntityPickupItemEvent in 1.12.
+        if (minorVersion < 12) {
+            new ListenerLegacyItemPickup(this).register();
+        } else {
+            new ListenerModernItemPickup(this).register();
+        }
+
+        // The Riptide enchantment was added in 1.13.
+        if (minorVersion >= 13) {
+            new ListenerRiptide(this).register();
+        }
+
+        // EntityPotionEffect was added in 1.13.
+        if (minorVersion >= 13) {
+            new ListenerModernPotions(this).register();
+        } else {
+            new ListenerLegacyPotions(this).register();
+        }
+
+        // EntityCreatePortalEvent was replaced with PortalCreateEvent#getEntity in 1.14.
+        if (minorVersion < 14) {
+            new ListenerLegacyPortalCreate(this).register();
+        } else {
+            new ListenerModernPortalCreate(this).register();
+        }
+    }
+
+    private void registerTasks() {
+        new FlightRetagTask(this).register();
     }
 }

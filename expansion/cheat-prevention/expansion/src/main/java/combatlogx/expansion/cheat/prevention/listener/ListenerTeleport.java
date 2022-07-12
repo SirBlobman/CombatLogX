@@ -26,7 +26,9 @@ public final class ListenerTeleport extends CheatPreventionListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onTeleport(PlayerTeleportEvent e) {
         Player player = e.getPlayer();
-        if (!isInCombat(player)) return;
+        if (!isInCombat(player)) {
+            return;
+        }
 
         checkPrevention(e);
         checkEnderPearlRetag(e);
@@ -36,7 +38,9 @@ public final class ListenerTeleport extends CheatPreventionListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPortal(PlayerPortalEvent e) {
         Player player = e.getPlayer();
-        if (!isInCombat(player)) return;
+        if (!isInCombat(player)) {
+            return;
+        }
 
         YamlConfiguration configuration = getConfiguration();
         if (configuration.getBoolean("prevent-portals")) {
@@ -100,13 +104,13 @@ public final class ListenerTeleport extends CheatPreventionListener {
 
     private void checkEnderPearlRetag(PlayerTeleportEvent e) {
         printDebug("Checking if ender pearl should re-tag player...");
-        if (!shouldRetag()) {
-            printDebug("Re-tag option is disabled.");
+        if (e.isCancelled()) {
+            printDebug("Event was cancelled, ignoring.");
             return;
         }
 
-        if (e.isCancelled()) {
-            printDebug("Event was cancelled, ignoring.");
+        if (!shouldRetag()) {
+            printDebug("Re-tag option is disabled.");
             return;
         }
 
@@ -118,8 +122,9 @@ public final class ListenerTeleport extends CheatPreventionListener {
 
         Player player = e.getPlayer();
         ICombatManager combatManager = getCombatManager();
-        LivingEntity enemy = combatManager.getEnemy(player);
-        combatManager.tag(player, enemy, TagType.UNKNOWN, TagReason.UNKNOWN);
+        LivingEntity currentEnemy = combatManager.getEnemy(player);
+
+        combatManager.tag(player, currentEnemy, TagType.UNKNOWN, TagReason.UNKNOWN);
         printDebug("Player will be re-tagged. Done.");
     }
 

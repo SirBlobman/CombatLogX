@@ -11,3 +11,8 @@ prevent-fall-damage: true
 # This may prevent toggle spam but players won't be able to fly after combat ends.
 # Default: false
 force-disable-flight: false
+
+# Should flying cause a player's timer to reset during combat?
+# This option is not useful unless you set 'prevent-flying' and 'force-disable-flight' to 'false'.
+# Default: false
+flight-retag: false

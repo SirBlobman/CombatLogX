@@ -41,6 +41,8 @@ import com.github.sirblobman.combatlogx.api.object.TimerType;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 import com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper;
 
+import org.jetbrains.annotations.NotNull;
+
 public final class CombatManager implements ICombatManager {
     private final ICombatLogX plugin;
     private final Map<UUID, Long> combatMap;
@@ -137,27 +139,30 @@ public final class CombatManager implements ICombatManager {
         return this.combatMap.containsKey(uuid);
     }
 
+    @NotNull
     @Override
     public List<Player> getPlayersInCombat() {
         List<Player> playerList = new ArrayList<>();
-        Set<UUID> keySet = new HashSet<>(this.combatMap.keySet());
-        for (UUID uuid : keySet) {
-            Player player = Bukkit.getPlayer(uuid);
-            if (player == null) {
-                this.combatMap.remove(uuid);
+        Set<UUID> playerIdSet = new HashSet<>(this.combatMap.keySet());
+
+        for (UUID playerId : playerIdSet) {
+            Player player = Bukkit.getPlayer(playerId);
+            if(player == null) {
+                this.combatMap.remove(playerId);
                 continue;
             }
 
             playerList.add(player);
         }
+
         return playerList;
     }
 
     @Override
     public LivingEntity getEnemy(Player player) {
         Validate.notNull(player, "player must not be null!");
-        UUID uuid = player.getUniqueId();
-        return this.enemyMap.getOrDefault(uuid, null);
+        UUID playerId = player.getUniqueId();
+        return this.enemyMap.get(playerId);
     }
 
     @Override

@@ -3,10 +3,10 @@ package combatlogx.expansion.cheat.prevention.listener.legacy;
 import java.util.Collection;
 import java.util.List;
 
-import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.ThrownPotion;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PotionSplashEvent;
@@ -20,6 +20,7 @@ import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 
+import com.cryptomorin.xseries.XMaterial;
 import combatlogx.expansion.cheat.prevention.listener.CheatPreventionListener;
 
 public final class ListenerLegacyPotions extends CheatPreventionListener {
@@ -39,29 +40,52 @@ public final class ListenerLegacyPotions extends CheatPreventionListener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onSplash(PotionSplashEvent e) {
-        for (LivingEntity affectedEntity : e.getAffectedEntities()) {
-            if (!(affectedEntity instanceof Player)) continue;
+        ThrownPotion thrownPotion = e.getPotion();
+        Collection<PotionEffect> potionEffectCollection = thrownPotion.getEffects();
+
+        Collection<LivingEntity> affectedEntityCollection = e.getAffectedEntities();
+        for (LivingEntity affectedEntity : affectedEntityCollection) {
+            if(!(affectedEntity instanceof Player)) {
+                continue;
+            }
+
             Player player = (Player) affectedEntity;
-            if (!isInCombat(player)) continue;
-            for (final PotionEffect effect : e.getPotion().getEffects()) {
-                if (!isBlocked(effect.getType())) continue;
+            if(!isInCombat(player)) {
+                continue;
+            }
+
+            for (PotionEffect potionEffect : potionEffectCollection) {
+                PotionEffectType potionEffectType = potionEffect.getType();
+                if(!isBlocked(potionEffectType)) {
+                    continue;
+                }
+
                 e.setIntensity(player, 0);
                 break;
             }
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPotionConsume(PlayerItemConsumeEvent e) {
-        if (!isInCombat(e.getPlayer())) return;
+        Player player = e.getPlayer();
+        if(!isInCombat(player)) {
+            return;
+        }
 
-        ItemStack stack = e.getItem();
-        if (stack.getType() != Material.POTION) return;
-        Potion potion = Potion.fromItemStack(stack);
-        for (final PotionEffect effect : potion.getEffects()) {
-            if (isBlocked(effect.getType())) {
+        ItemStack item = e.getItem();
+        XMaterial material = XMaterial.matchXMaterial(item);
+        if(material != XMaterial.POTION) {
+            return;
+        }
+
+        Potion potion = Potion.fromItemStack(item);
+        Collection<PotionEffect> potionEffectCollection = potion.getEffects();
+        for(PotionEffect potionEffect : potionEffectCollection) {
+            PotionEffectType potionEffectType = potionEffect.getType();
+            if(isBlocked(potionEffectType)) {
                 e.setCancelled(true);
                 return;
             }
