@@ -226,6 +226,7 @@ expansion:
     redprotect-no-entry: "&cYou are not allowed to enter that area during combat."
     residence-no-entry: "&cYou are not allowed to enter that area during combat."
     towny-no-entry: "&cYou are not allowed to enter that area during combat."
+    husktowns-no-entry: "&cYou are not allowed to enter that area during combat."
     ultimateclaims-no-entry: "&cYou are not allowed to enter that area during combat."
 
     protectionstones:
