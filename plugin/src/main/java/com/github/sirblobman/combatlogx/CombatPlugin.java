@@ -78,7 +78,8 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
 
     @Override
     public void onEnable() {
-        reloadLanguage();
+        onReload();
+
         registerCommands();
         registerListeners();
         registerTasks();
