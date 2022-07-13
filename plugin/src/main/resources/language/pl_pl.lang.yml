@@ -194,6 +194,7 @@ expansion:
     redprotect-no-entry: "&cNie możesz wejść do tego obszaru podczas walki."
     residence-no-entry: "&cNie możesz wejść do tego obszaru podczas walki."
     towny-no-entry: "&cNie możesz wejść do tego obszaru podczas walki."
+    husktowns-no-entry: "&cNie możesz wejść do tego obszaru podczas walki."
     ultimateclaims-no-entry: "&cNie możesz wejść do tego obszaru podczas walki."
     protectionstones:
       prevent-area-creation: "&cNie możesz tworzyć obszaru chronionego podczas walki."
