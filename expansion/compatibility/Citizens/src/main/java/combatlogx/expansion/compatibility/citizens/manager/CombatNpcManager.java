@@ -120,6 +120,10 @@ public final class CombatNpcManager {
         NPC npc = npcRegistry.createNPC(entityType, playerName);
         printDebug("Created NPC with entity type " + entityType + ".");
 
+        npc.setProtected(false);
+        npc.data().set(Metadata.KEEP_CHUNK_LOADED, true);
+        npc.data().set(Metadata.SHOULD_SAVE, false);
+
         Location location = player.getLocation();
         boolean spawn = npc.spawn(location);
         if (!spawn) {
@@ -135,8 +139,6 @@ public final class CombatNpcManager {
         }
 
         LivingEntity livingEntity = (LivingEntity) entity;
-        npc.setProtected(false);
-        npc.data().set(Metadata.SHOULD_SAVE, false);
 
         if (npc.hasTrait(Owner.class)) {
             npc.removeTrait(Owner.class);
