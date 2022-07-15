@@ -114,7 +114,7 @@ public interface ICombatManager {
      * {enemy_world}, {enemy_x}, {enemy_y}, {enemy_z}
      *
      * @param player The {@link Player} to use.
-     * @param enemy The current enemy of the player. Can be {@link null}.
+     * @param enemy The current enemy of the player. Can be {@code null}.
      * @param string The string that will have variables replaced.
      * @return A new string with certain variables replaced.
      */
