@@ -14,10 +14,12 @@ public final class ListenerRiptide extends CheatPreventionListener {
         super(expansion);
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onMove(PlayerMoveEvent e) {
         Player player = e.getPlayer();
-        if (!player.isRiptiding() || !isInCombat(player) || isAllowed()) return;
+        if (!player.isRiptiding() || !isInCombat(player) || isAllowed()) {
+            return;
+        }
 
         e.setCancelled(true);
         sendMessage(player, "expansion.cheat-prevention.no-riptide", null);
