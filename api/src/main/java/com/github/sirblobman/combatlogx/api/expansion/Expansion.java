@@ -80,7 +80,10 @@ public abstract class Expansion implements IResourceHolder {
 
     final void setDataFolder(File dataFolder) {
         Validate.notNull(dataFolder, "dataFolder must not be null!");
-        if (!dataFolder.isDirectory()) throw new IllegalArgumentException("dataFolder must be a directory!");
+        if (!dataFolder.isDirectory()) {
+            throw new IllegalArgumentException("dataFolder must be a directory!");
+        }
+
         this.dataFolder = dataFolder;
     }
 
@@ -90,7 +93,10 @@ public abstract class Expansion implements IResourceHolder {
 
     final void setFile(File file) {
         Validate.notNull(file, "file must not be null!");
-        if (file.isDirectory()) throw new IllegalArgumentException("file must not be a directory!");
+        if (file.isDirectory()) {
+            throw new IllegalArgumentException("file must not be a directory!");
+        }
+
         this.file = file;
     }
 
@@ -120,7 +126,9 @@ public abstract class Expansion implements IResourceHolder {
             URLClassLoader classLoader = (URLClassLoader) thisClass.getClassLoader();
 
             URL url = classLoader.findResource(name);
-            if (url == null) return null;
+            if (url == null) {
+                return null;
+            }
 
             URLConnection connection = url.openConnection();
             connection.setUseCaches(false);
@@ -154,12 +162,17 @@ public abstract class Expansion implements IResourceHolder {
     }
 
     protected final boolean checkDependency(String pluginName, boolean checkEnabled, String versionStartsWith) {
-        if (!checkDependency(pluginName, checkEnabled)) return false;
+        if (!checkDependency(pluginName, checkEnabled)) {
+            return false;
+        }
+
         PluginManager pluginManager = Bukkit.getPluginManager();
         Logger logger = getLogger();
 
         Plugin plugin = pluginManager.getPlugin(pluginName);
-        if (plugin == null) return false;
+        if (plugin == null) {
+            return false;
+        }
 
         PluginDescriptionFile description = plugin.getDescription();
         String version = description.getVersion();

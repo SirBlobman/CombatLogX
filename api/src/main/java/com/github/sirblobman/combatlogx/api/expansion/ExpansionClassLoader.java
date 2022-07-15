@@ -76,7 +76,9 @@ class ExpansionClassLoader extends URLClassLoader {
         Class<?> mainClass;
         try {
             String mainClassName = description.getString("main");
-            if (mainClassName == null) throw new IllegalStateException("Could not find `main` in expansion.yml");
+            if (mainClassName == null) {
+                throw new IllegalStateException("Could not find `main` in expansion.yml");
+            }
 
             mainClass = Class.forName(mainClassName, true, this);
         } catch (ReflectiveOperationException ex) {
@@ -93,7 +95,8 @@ class ExpansionClassLoader extends URLClassLoader {
         }
 
         try {
-            Constructor<? extends Expansion> declaredConstructor = expansionClass.getDeclaredConstructor(ICombatLogX.class);
+            Constructor<? extends Expansion> declaredConstructor = expansionClass.getDeclaredConstructor(
+                    ICombatLogX.class);
             this.expansion = declaredConstructor.newInstance(this.manager.getPlugin());
 
             ExpansionDescription expansionDescription = createDescription(description);
@@ -106,31 +109,52 @@ class ExpansionClassLoader extends URLClassLoader {
 
     private ExpansionDescription createDescription(YamlConfiguration configuration) throws IllegalStateException {
         String mainClassName = configuration.getString("main");
-        if (mainClassName == null) throw new IllegalStateException("'main' is required in expansion.yml");
+        if (mainClassName == null) {
+            throw new IllegalStateException("'main' is required in expansion.yml");
+        }
 
         String unlocalizedName = configuration.getString("name");
-        if (unlocalizedName == null) throw new IllegalStateException("'name' is required in expansion.yml");
+        if (unlocalizedName == null) {
+            throw new IllegalStateException("'name' is required in expansion.yml");
+        }
 
         String version = configuration.getString("version");
-        if (version == null) throw new IllegalStateException("'version' is required in expansion.yml");
+        if (version == null) {
+            throw new IllegalStateException("'version' is required in expansion.yml");
+        }
 
         ExpansionDescriptionBuilder builder = new ExpansionDescriptionBuilder(mainClassName, unlocalizedName, version);
         String displayName = configuration.getString("display-name", null);
-        if (displayName == null) displayName = configuration.getString("prefix", null);
-        if (displayName == null) displayName = unlocalizedName;
+        if (displayName == null) {
+            displayName = configuration.getString("prefix", null);
+        }
+
+        if (displayName == null) {
+            displayName = unlocalizedName;
+        }
+
         builder.withDisplayName(displayName);
 
         String description = configuration.getString("description", null);
-        if (description != null) builder.withDescription(description);
+        if (description != null) {
+            builder.withDescription(description);
+        }
 
         String website = configuration.getString("website", null);
-        if (website != null) builder.withWebsite(website);
+        if (website != null) {
+            builder.withWebsite(website);
+        }
 
         List<String> authorList = configuration.getStringList("authors");
-        if (authorList.isEmpty()) authorList = new ArrayList<>();
+        if (authorList.isEmpty()) {
+            authorList = new ArrayList<>();
+        }
 
         String author = configuration.getString("author", null);
-        if (author != null) authorList.add(author);
+        if (author != null) {
+            authorList.add(author);
+        }
+
         builder.withAuthors(authorList);
 
         List<String> pluginDependList = configuration.getStringList("plugin-depend");

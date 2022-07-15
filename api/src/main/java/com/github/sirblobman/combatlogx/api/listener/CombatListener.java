@@ -111,7 +111,9 @@ public abstract class CombatListener implements Listener {
         LanguageManager languageManager = plugin.getLanguageManager();
 
         String message = languageManager.getMessage(sender, key, replacer, color);
-        if (message.isEmpty()) return "";
+        if (message.isEmpty()) {
+            return "";
+        }
 
         String prefix = languageManager.getMessage(sender, "prefix", null, true);
         return (prefix.isEmpty() ? message : String.format(Locale.US, "%s %s", prefix, message));

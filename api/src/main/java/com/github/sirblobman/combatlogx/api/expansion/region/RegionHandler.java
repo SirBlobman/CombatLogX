@@ -36,17 +36,23 @@ public abstract class RegionHandler {
     }
 
     public final void sendEntryDeniedMessage(Player player, LivingEntity enemy) {
-        if (player == null) return;
+        if (player == null) {
+            return;
+        }
 
         TagType tagType = getTagType(enemy);
         String messagePath = getEntryDeniedMessagePath(tagType);
-        if (messagePath == null) return;
+        if (messagePath == null) {
+            return;
+        }
 
         UUID playerId = player.getUniqueId();
         if (this.cooldownMap.containsKey(playerId)) {
             long expireMillis = this.cooldownMap.getOrDefault(playerId, 0L);
             long systemMillis = System.currentTimeMillis();
-            if (systemMillis < expireMillis) return;
+            if (systemMillis < expireMillis) {
+                return;
+            }
         }
 
         ICombatLogX plugin = this.expansion.getPlugin();
@@ -81,17 +87,14 @@ public abstract class RegionHandler {
             case KILL_PLAYER:
                 player.setHealth(0.0D);
                 break;
-
             case TELEPORT_TO_ENEMY:
                 if (enemy != null) {
                     player.teleport(enemy);
                     break;
                 }
-
             case CANCEL_EVENT:
                 e.setCancelled(true);
                 break;
-
             case KNOCKBACK_PLAYER:
                 if (player.isInsideVehicle()) {
                     if (!player.leaveVehicle()) {
@@ -104,9 +107,6 @@ public abstract class RegionHandler {
                 BukkitScheduler scheduler = Bukkit.getScheduler();
                 scheduler.runTaskLater(javaPlugin, task, 1L);
                 break;
-
-            case DISABLED:
-            case VULNERABLE:
             default:
                 break;
         }
@@ -129,7 +129,10 @@ public abstract class RegionHandler {
     }
 
     private void knockbackPlayer(Player player, Location fromLocation, Location toLocation) {
-        if (player == null || fromLocation == null || toLocation == null) return;
+        if (player == null || fromLocation == null || toLocation == null) {
+            return;
+        }
+
         Vector velocity = getKnockback(fromLocation, toLocation);
         player.setVelocity(velocity);
     }
@@ -160,8 +163,14 @@ public abstract class RegionHandler {
     }
 
     private double makeFinite(double original) {
-        if (Double.isNaN(original)) return 0.0D;
-        if (Double.isInfinite(original)) return (original < 0 ? -1.0D : 1.0D);
+        if (Double.isNaN(original)) {
+            return 0.0D;
+        }
+
+        if (Double.isInfinite(original)) {
+            return (original < 0 ? -1.0D : 1.0D);
+        }
+
         return original;
     }
 
@@ -172,7 +181,10 @@ public abstract class RegionHandler {
     }
 
     private TagType getTagType(LivingEntity enemy) {
-        if (enemy == null) return TagType.UNKNOWN;
+        if (enemy == null) {
+            return TagType.UNKNOWN;
+        }
+
         return (enemy instanceof Player ? TagType.PLAYER : TagType.MOB);
     }
 

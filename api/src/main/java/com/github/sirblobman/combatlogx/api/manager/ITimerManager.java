@@ -8,7 +8,7 @@ import com.github.sirblobman.combatlogx.api.object.TimerUpdater;
 
 public interface ITimerManager {
     /**
-     * @return A {@link Set} of {@link TimerUpdater}s that are currently registerd.
+     * @return A {@link Set} of {@link TimerUpdater}s that are currently registered.
      */
     Set<TimerUpdater> getTimerUpdaters();
 
@@ -19,5 +19,10 @@ public interface ITimerManager {
      */
     void addUpdaterTask(TimerUpdater task);
 
+    /**
+     * Remove all timers in this manager from the player.
+     *
+     * @param player The {@link Player} to remove the timers from.
+     */
     void remove(Player player);
 }

@@ -36,7 +36,9 @@ public abstract class RegionExpansion extends Expansion {
 
     @Override
     public final void onDisable() {
-        if (!this.enabledSuccessfully) return;
+        if (!this.enabledSuccessfully) {
+            return;
+        }
 
         afterDisable();
         this.enabledSuccessfully = false;

@@ -29,11 +29,15 @@ public final class RegionVulnerableListener extends ExpansionListener {
     public void onDamage(EntityDamageByEntityEvent e) {
         RegionHandler regionHandler = this.regionExpansion.getRegionHandler();
         NoEntryMode noEntryMode = regionHandler.getNoEntryMode();
-        if (noEntryMode != NoEntryMode.VULNERABLE) return;
+        if (noEntryMode != NoEntryMode.VULNERABLE) {
+            return;
+        }
 
         Entity damaged = e.getEntity();
         Player player = getPlayerOrPassenger(damaged);
-        if (player == null) return;
+        if (player == null) {
+            return;
+        }
 
         if (isInCombat(player)) {
             ICombatManager combatManager = getCombatManager();
@@ -71,7 +75,10 @@ public final class RegionVulnerableListener extends ExpansionListener {
         int minorVersion = VersionUtility.getMinorVersion();
         if (minorVersion < 11) {
             Entity passenger = entity.getPassenger();
-            if (passenger == null) return Collections.emptyList();
+            if (passenger == null) {
+                return Collections.emptyList();
+            }
+
             return Collections.singletonList(passenger);
         }
 
