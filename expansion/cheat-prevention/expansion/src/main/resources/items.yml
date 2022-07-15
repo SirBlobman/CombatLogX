@@ -13,6 +13,11 @@ prevent-elytra: true
 # Should player's that are gliding have their elytra forcefully disabled when tagged?
 force-prevent-elytra: false
 
+# Should gliding cause a player's timer to reset during combat?
+# This option is not useful unless you set 'prevent-elytra' and 'force-prevent-elytra' to 'false'.
+# Default: false
+elytra-retag: false
+
 # Should players be prevented from using Totems of Undying during combat?
 # Default: false
 prevent-totem: false
