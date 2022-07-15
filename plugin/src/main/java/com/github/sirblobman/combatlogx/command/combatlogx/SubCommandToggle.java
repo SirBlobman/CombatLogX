@@ -14,9 +14,10 @@ import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.command.CombatLogPlayerCommand;
 
-public final class CommandCombatLogXToggle extends CombatLogPlayerCommand {
-    public CommandCombatLogXToggle(ICombatLogX plugin) {
+public final class SubCommandToggle extends CombatLogPlayerCommand {
+    public SubCommandToggle(ICombatLogX plugin) {
         super(plugin, "toggle");
+        setPermissionName("combatlogx.command.combatlogx.toggle");
     }
 
     @Override
@@ -30,10 +31,6 @@ public final class CommandCombatLogXToggle extends CombatLogPlayerCommand {
 
     @Override
     protected boolean execute(Player player, String[] args) {
-        if (!checkPermission(player, "combatlogx.command.combatlogx.toggle", true)) {
-            return true;
-        }
-
         if (args.length < 1) {
             return false;
         }

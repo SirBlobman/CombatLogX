@@ -30,6 +30,8 @@ public final class CommandTogglePVP extends CombatLogCommand {
 
     public CommandTogglePVP(NewbieHelperExpansion expansion) {
         super(expansion.getPlugin(), "togglepvp");
+        setPermissionName("combatlogx.command.combatlogx.forgive");
+
         this.expansion = expansion;
         this.cooldownMap = new HashMap<>();
     }
@@ -88,6 +90,7 @@ public final class CommandTogglePVP extends CombatLogCommand {
         switch (sub) {
             case "admin":
                 return commandAdmin(sender, newArgs);
+
             case "check":
                 return commandCheck(sender, newArgs);
 

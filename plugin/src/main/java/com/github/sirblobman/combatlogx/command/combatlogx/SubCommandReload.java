@@ -5,17 +5,14 @@ import org.bukkit.command.CommandSender;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.command.CombatLogCommand;
 
-public final class CommandCombatLogXReload extends CombatLogCommand {
-    public CommandCombatLogXReload(ICombatLogX plugin) {
+public final class SubCommandReload extends CombatLogCommand {
+    public SubCommandReload(ICombatLogX plugin) {
         super(plugin, "reload");
+        setPermissionName("combatlogx.command.combatlogx.reload");
     }
 
     @Override
     protected boolean execute(CommandSender sender, String[] args) {
-        if (!checkPermission(sender, "combatlogx.command.combatlogx.reload", true)) {
-            return true;
-        }
-
         ICombatLogX plugin = getCombatLogX();
         plugin.onReload();
 

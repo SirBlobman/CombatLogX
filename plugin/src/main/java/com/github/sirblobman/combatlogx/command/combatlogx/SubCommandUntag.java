@@ -13,9 +13,10 @@ import com.github.sirblobman.combatlogx.api.command.CombatLogCommand;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 
-public final class CommandCombatLogXUntag extends CombatLogCommand {
-    public CommandCombatLogXUntag(ICombatLogX plugin) {
+public final class SubCommandUntag extends CombatLogCommand {
+    public SubCommandUntag(ICombatLogX plugin) {
         super(plugin, "untag");
+        setPermissionName("combatlogx.command.combatlogx.untag");
     }
 
     @Override
@@ -30,10 +31,6 @@ public final class CommandCombatLogXUntag extends CombatLogCommand {
 
     @Override
     protected boolean execute(CommandSender sender, String[] args) {
-        if (!checkPermission(sender, "combatlogx.command.combatlogx.untag", true)) {
-            return true;
-        }
-
         if (args.length < 1) {
             return false;
         }

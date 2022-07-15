@@ -5,17 +5,14 @@ import org.bukkit.command.CommandSender;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.command.CombatLogCommand;
 
-public final class CommandCombatLogXHelp extends CombatLogCommand {
-    public CommandCombatLogXHelp(ICombatLogX plugin) {
+public final class SubCommandHelp extends CombatLogCommand {
+    public SubCommandHelp(ICombatLogX plugin) {
         super(plugin, "help");
+        setPermissionName("combatlogx.command.combatlogx.help");
     }
 
     @Override
     protected boolean execute(CommandSender sender, String[] args) {
-        if (!checkPermission(sender, "combatlogx.command.combatlogx.help", true)) {
-            return true;
-        }
-
         sendMessage(sender, "command.combatlogx.help-message-list", null, true);
         return true;
     }

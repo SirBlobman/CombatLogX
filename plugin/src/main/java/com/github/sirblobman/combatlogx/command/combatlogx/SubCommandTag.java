@@ -18,9 +18,10 @@ import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
-public final class CommandCombatLogXTag extends CombatLogCommand {
-    public CommandCombatLogXTag(ICombatLogX plugin) {
+public final class SubCommandTag extends CombatLogCommand {
+    public SubCommandTag(ICombatLogX plugin) {
         super(plugin, "tag");
+        setPermissionName("combatlogx.command.combatlogx.tag");
     }
 
     @Override
@@ -41,10 +42,6 @@ public final class CommandCombatLogXTag extends CombatLogCommand {
 
     @Override
     protected boolean execute(CommandSender sender, String[] args) {
-        if (!checkPermission(sender, "combatlogx.command.combatlogx.tag", true)) {
-            return true;
-        }
-
         if (args.length < 1) {
             return false;
         }

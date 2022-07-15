@@ -16,6 +16,7 @@ import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 public final class CommandCombatTimer extends CombatLogPlayerCommand {
     public CommandCombatTimer(ICombatLogX plugin) {
         super(plugin, "combat-timer");
+        setPermissionName("combatlogx.command.combat-timer");
     }
 
     @Override
