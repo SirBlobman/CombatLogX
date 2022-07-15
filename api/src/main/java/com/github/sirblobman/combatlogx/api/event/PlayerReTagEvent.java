@@ -2,17 +2,33 @@ package com.github.sirblobman.combatlogx.api.event;
 
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
 /**
- * {@link PlayerReTagEvent} is an event that will be fired when a player's timer is extended
+ * A custom event that will be fired when a player's timer is extended
  *
  * @author SirBlobman
  */
-public class PlayerReTagEvent extends CustomPlayerEventCancellable {
+public final class PlayerReTagEvent extends CustomPlayerEventCancellable {
+    private static final HandlerList HANDLER_LIST;
+
+    static {
+        HANDLER_LIST = new HandlerList();
+    }
+
+    public static HandlerList getHandlerList() {
+        return HANDLER_LIST;
+    }
+
+    @Override
+    public HandlerList getHandlers() {
+        return HANDLER_LIST;
+    }
+
     private final LivingEntity enemy;
     private final TagType tagType;
     private final TagReason tagReason;

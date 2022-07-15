@@ -2,18 +2,34 @@ package com.github.sirblobman.combatlogx.api.event;
 
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
 /**
- * PlayerPreTagEvent is an event that will be fired before a player is put into combat. If the event is cancelled, the
- * player will not be tagged.
+ * A custom event that will be fired before a player is put into combat.
+ * If the event is cancelled, the player will not be tagged.
  *
  * @author SirBlobman
  */
-public class PlayerPreTagEvent extends CustomPlayerEventCancellable {
+public final class PlayerPreTagEvent extends CustomPlayerEventCancellable {
+    private static final HandlerList HANDLER_LIST;
+
+    static {
+        HANDLER_LIST = new HandlerList();
+    }
+
+    public static HandlerList getHandlerList() {
+        return HANDLER_LIST;
+    }
+
+    @Override
+    public HandlerList getHandlers() {
+        return HANDLER_LIST;
+    }
+
     private final LivingEntity enemy;
     private final TagType tagType;
     private final TagReason tagReason;

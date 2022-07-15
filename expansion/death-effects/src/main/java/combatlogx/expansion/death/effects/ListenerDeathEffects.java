@@ -32,14 +32,18 @@ public final class ListenerDeathEffects extends ExpansionListener {
     public void onDeath(PlayerDeathEvent e) {
         YamlConfiguration configuration = getConfiguration();
         List<String> enabledDeathEffectList = configuration.getStringList("death-effect-list");
-        if (enabledDeathEffectList.isEmpty()) return;
+        if (enabledDeathEffectList.isEmpty()) {
+            return;
+        }
 
         Player player = e.getEntity();
         boolean requireCombatDeath = configuration.getBoolean("combat-death-only");
         if (requireCombatDeath) {
             ICombatLogX combatLogX = getCombatLogX();
             IDeathManager deathManager = combatLogX.getDeathManager();
-            if (!deathManager.wasPunishKilled(player)) return;
+            if (!deathManager.wasPunishKilled(player)) {
+                return;
+            }
         }
 
         if (enabledDeathEffectList.contains("BLOOD")) {
@@ -83,7 +87,10 @@ public final class ListenerDeathEffects extends ExpansionListener {
         Location location = player.getLocation();
         List<Entity> nearbyEntityList = player.getNearbyEntities(200D, 20.0D, 20.0D);
         for (Entity entity : nearbyEntityList) {
-            if (!(entity instanceof Player)) continue;
+            if (!(entity instanceof Player)) {
+                continue;
+            }
+
             Player other = (Player) entity;
             sendFakeRedstoneDust(other, location);
         }
@@ -92,7 +99,9 @@ public final class ListenerDeathEffects extends ExpansionListener {
     @SuppressWarnings("deprecation")
     private void sendFakeRedstoneDust(Player player, Location location) {
         Material bukkitMaterial = XMaterial.REDSTONE_WIRE.parseMaterial();
-        if (bukkitMaterial == null) return;
+        if (bukkitMaterial == null) {
+            return;
+        }
 
         int minorVersion = VersionUtility.getMinorVersion();
         if (minorVersion < 13) {
