@@ -58,11 +58,10 @@ public final class SubCommandTag extends CombatLogCommand {
         ICombatManager combatManager = plugin.getCombatManager();
         boolean successfulTag;
 
-
         if (args.length < 2) {
             successfulTag = combatManager.tag(target, null, TagType.UNKNOWN, TagReason.UNKNOWN);
         } else {
-            BigInteger bigSeconds = parseInteger(sender, args[0]);
+            BigInteger bigSeconds = parseInteger(sender, args[1]);
             if (bigSeconds == null) {
                 return true;
             }

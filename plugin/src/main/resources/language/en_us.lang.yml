@@ -30,8 +30,9 @@ combat-timer:
 error:
   player-only: "&cOnly players can execute this command."
   invalid-target: "&7{target}&c is not online or does not exist."
-  disabled-world: "&cThat command is not available in this dimension."
+  invalid-integer: "&7{value}&c is not a valid integer."
   no-permission: "&cMissing Permission: &7{permission}"
+  disabled-world: "&cThat command is not available in this dimension."
   target-not-in-combat: "&7{target}&c is not in combat."
   self-not-in-combat: "&cYou are not in combat."
   unknown-expansion: "&7{target}&c is not an expansion or is not installed."

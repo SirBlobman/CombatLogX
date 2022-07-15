@@ -37,7 +37,9 @@ public final class CommandCombatTimer extends CombatLogPlayerCommand {
         }
 
         Player target = findTarget(player, args[0]);
-        if (target == null) return true;
+        if (target == null) {
+            return true;
+        }
 
         checkOther(player, target);
         return true;
