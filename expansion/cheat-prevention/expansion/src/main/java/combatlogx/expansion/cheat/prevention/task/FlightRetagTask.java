@@ -47,7 +47,7 @@ public final class FlightRetagTask extends BukkitRunnable {
 
     public void register() {
         JavaPlugin plugin = getPlugin();
-        runTaskTimerAsynchronously(plugin, 10L, 10L);
+        runTaskTimer(plugin, 10L, 10L);
     }
 
     private CheatPreventionExpansion getExpansion() {
