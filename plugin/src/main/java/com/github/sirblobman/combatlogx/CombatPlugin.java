@@ -34,6 +34,7 @@ import com.github.sirblobman.combatlogx.configuration.ConfigurationChecker;
 import com.github.sirblobman.combatlogx.listener.ListenerConfiguration;
 import com.github.sirblobman.combatlogx.listener.ListenerDamage;
 import com.github.sirblobman.combatlogx.listener.ListenerDeath;
+import com.github.sirblobman.combatlogx.listener.ListenerInvulnerable;
 import com.github.sirblobman.combatlogx.listener.ListenerPunish;
 import com.github.sirblobman.combatlogx.listener.ListenerUntag;
 import com.github.sirblobman.combatlogx.manager.CombatManager;
@@ -271,10 +272,13 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         new ListenerPunish(this).register();
         new ListenerUntag(this).register();
         new ListenerDeath(this).register();
+        new ListenerInvulnerable(this).register();
     }
 
     private void registerTasks() {
-        this.timerUpdateTask.register();
+        TimerUpdateTask timerManager = getTimerManager();
+        timerManager.register();
+
         new UntagTask(this).register();
     }
 
