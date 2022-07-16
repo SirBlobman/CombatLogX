@@ -7,6 +7,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 
+import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
@@ -64,8 +65,20 @@ public interface ICombatManager {
      *
      * @param player The {@link Player} to check.
      * @return The current enemy of the player or {@code null} if the player does not have one.
+     * @deprecated CombatLogX now supports multiple enemies
+     * @see #getTagInformation(Player)
      */
-    @Nullable LivingEntity getEnemy(Player player);
+    @Nullable
+    @Deprecated
+    LivingEntity getEnemy(Player player);
+
+    /**
+     * Get combat tag information for the specified player.
+     * @param player The {@link Player} to check.
+     * @return Information about a players combat tag, or {@code null} if the player is not tagged into combat.
+     */
+    @Nullable
+    TagInformation getTagInformation(Player player);
 
     /**
      * Attempt to get a player based on an enemy entity.
@@ -73,8 +86,12 @@ public interface ICombatManager {
      *
      * @param enemy The enemy to check.
      * @return The current {@link Player} linked to this enemy, or {@code null} if one does not exist.
+     * @deprecated CombatLogX now supports multiple enemies
+     * @see #getTagInformation(Player)
      */
-    @Nullable OfflinePlayer getByEnemy(LivingEntity enemy);
+    @Nullable
+    @Deprecated
+    OfflinePlayer getByEnemy(LivingEntity enemy);
 
     /**
      * Get the amount of milliseconds a player has left until their combat tag expires.
