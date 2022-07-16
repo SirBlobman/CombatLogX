@@ -15,7 +15,7 @@
         <java.version>1.8</java.version>
         <spigot.version>1.16.5-R0.1-SNAPSHOT</spigot.version>
         <blue.slime.core.version>2.4-SNAPSHOT</blue.slime.core.version>
-        <combatlogx.version>11.0.0.0-Beta-${build.number}</combatlogx.version>
+        <combatlogx.version>11.0.0.0-Beta-ME-${build.number}</combatlogx.version>
         <build.number>unofficial</build.number>
 
         <maven.compiler.source>${java.version}</maven.compiler.source>

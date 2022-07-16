@@ -16,6 +16,8 @@
     <description>The plugin module for CombatLogX</description>
 
     <properties>
+        <spigot.version>1.8.8-R0.1-SNAPSHOT</spigot.version>
+
         <bukkit.plugin.name>CombatLogX</bukkit.plugin.name>
         <bukkit.plugin.prefix>CombatLogX</bukkit.plugin.prefix>
         <bukkit.plugin.description>A modular combat tagging plugin.</bukkit.plugin.description>

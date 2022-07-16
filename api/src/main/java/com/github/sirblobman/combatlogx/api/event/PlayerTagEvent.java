@@ -1,6 +1,6 @@
 package com.github.sirblobman.combatlogx.api.event;
 
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
@@ -30,12 +30,12 @@ public final class PlayerTagEvent extends CustomPlayerEvent {
         return HANDLER_LIST;
     }
 
-    private final LivingEntity enemy;
+    private final Entity enemy;
     private final TagType tagType;
     private final TagReason tagReason;
     private long combatEndMillis;
 
-    public PlayerTagEvent(Player player, LivingEntity enemy, TagType tagType, TagReason tagReason, long combatEndMillis) {
+    public PlayerTagEvent(Player player, Entity enemy, TagType tagType, TagReason tagReason, long combatEndMillis) {
         super(player);
         this.enemy = enemy;
         this.tagType = Validate.notNull(tagType, "tagType must not be null!");
@@ -47,7 +47,7 @@ public final class PlayerTagEvent extends CustomPlayerEvent {
      * @return The enemy that will tag the player or null if an enemy does not exist
      * @see #getPlayer()
      */
-    public LivingEntity getEnemy() {
+    public Entity getEnemy() {
         return this.enemy;
     }
 

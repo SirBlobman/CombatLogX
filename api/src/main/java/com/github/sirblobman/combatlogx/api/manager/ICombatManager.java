@@ -1,8 +1,10 @@
 package com.github.sirblobman.combatlogx.api.manager;
 
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
-import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
@@ -25,7 +27,7 @@ public interface ICombatManager {
      * @param tagReason The reason for being tagged, can be {@link TagReason#UNKNOWN}
      * @return {@code true} if the player was successfully tagged.
      */
-    boolean tag(Player player, LivingEntity enemy, TagType tagType, TagReason tagReason);
+    boolean tag(Player player, Entity enemy, TagType tagType, TagReason tagReason);
 
     /**
      * Tag a player into combat.
@@ -37,15 +39,24 @@ public interface ICombatManager {
      * @param customEndMillis A custom timestamp for ending combat if the player is not tagged again.
      * @return {@code true} if the player was successfully tagged.
      */
-    boolean tag(Player player, LivingEntity enemy, TagType tagType, TagReason tagReason, long customEndMillis);
+    boolean tag(Player player, Entity enemy, TagType tagType, TagReason tagReason, long customEndMillis);
 
     /**
-     * Remove a player from combat.
+     * Remove a player from combat with all enemies.
      *
      * @param player The {@link Player} to remove.
      * @param untagReason The reason for removing the player. Usually {@link UntagReason#EXPIRE}
      */
     void untag(Player player, UntagReason untagReason);
+
+    /**
+     * Remove a player from combat with a specific enemy.
+     *
+     * @param player The {@link Player} to remove.
+     * @param enemy The enemy to remove.
+     * @param untagReason The reason for removing the player. Usually {@link UntagReason#EXPIRE}
+     */
+    void untag(Player player, Entity enemy, UntagReason untagReason);
 
     /**
      * Check if a player is tagged into combat.
@@ -55,10 +66,18 @@ public interface ICombatManager {
      */
     boolean isInCombat(Player player);
 
+
+    /**
+     * @return A list of player ids that are currently tagged into combat.
+     */
+    @NotNull
+    Set<UUID> getPlayerIdsInCombat();
+
     /**
      * @return A list of players that are currently tagged into combat.
      */
-    @NotNull List<Player> getPlayersInCombat();
+    @NotNull
+    List<Player> getPlayersInCombat();
 
     /**
      * Get the current enemy of a player.
@@ -70,7 +89,7 @@ public interface ICombatManager {
      */
     @Nullable
     @Deprecated
-    LivingEntity getEnemy(Player player);
+    Entity getEnemy(Player player);
 
     /**
      * Get combat tag information for the specified player.
@@ -91,15 +110,18 @@ public interface ICombatManager {
      */
     @Nullable
     @Deprecated
-    OfflinePlayer getByEnemy(LivingEntity enemy);
+    Player getByEnemy(Entity enemy);
 
     /**
      * Get the amount of milliseconds a player has left until their combat tag expires.
      *
      * @param player The {@link Player} to check.
      * @return When the player is tagged into combat, this will return an amount of milliseconds.
-     * When the player is not in combat, this method will return {@code -1}
+     * When the player is not in combat, this method will return {@code 0}.
+     * @deprecated CombatLogX now supports multiple enemies
+     * @see #getTagInformation(Player)
      */
+    @Deprecated
     long getTimerLeftMillis(Player player);
 
     /**
@@ -107,9 +129,11 @@ public interface ICombatManager {
      *
      * @param player The {@link Player} to check.
      * @return When the player is tagged into combat, a positive number will be returned.
-     * When the player is not in combat, this method will return a negative value.
-     * @see #getTimerLeftMillis(Player)
+     * When the player is not in combat, this method will return {@code 0}.
+     * @deprecated CombatLogX now supports multiple enemies
+     * @see #getTagInformation(Player)
      */
+    @Deprecated
     int getTimerLeftSeconds(Player player);
 
     /**

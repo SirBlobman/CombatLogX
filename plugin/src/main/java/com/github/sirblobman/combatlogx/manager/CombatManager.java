@@ -1,19 +1,18 @@
 package com.github.sirblobman.combatlogx.manager;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -29,12 +28,14 @@ import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.event.PlayerEnemyRemoveEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerReTagEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.ITimerManager;
+import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.github.sirblobman.combatlogx.api.object.TimerType;
@@ -42,23 +43,22 @@ import com.github.sirblobman.combatlogx.api.object.UntagReason;
 import com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public final class CombatManager implements ICombatManager {
     private final ICombatLogX plugin;
-    private final Map<UUID, Long> combatMap;
-    private final Map<UUID, LivingEntity> enemyMap;
+    private final Map<UUID, TagInformation> combatMap;
 
     private Permission bypassPermission;
 
     public CombatManager(ICombatLogX plugin) {
         this.plugin = Validate.notNull(plugin, "plugin must not be null!");
         this.combatMap = new ConcurrentHashMap<>();
-        this.enemyMap = new ConcurrentHashMap<>();
         this.bypassPermission = null;
     }
 
     @Override
-    public boolean tag(Player player, LivingEntity enemy, TagType tagType, TagReason tagReason) {
+    public boolean tag(Player player, Entity enemy, TagType tagType, TagReason tagReason) {
         int timerSeconds = getMaxTimerSeconds(player);
         long timerMillis = (timerSeconds * 1_000L);
 
@@ -68,7 +68,7 @@ public final class CombatManager implements ICombatManager {
     }
 
     @Override
-    public boolean tag(Player player, LivingEntity enemy, TagType tagType, TagReason tagReason,
+    public boolean tag(Player player, Entity enemy, TagType tagType, TagReason tagReason,
                        long customEndMillis) {
         Validate.notNull(player, "player must not be null!");
         Validate.notNull(tagType, "tagType must not be null!");
@@ -97,15 +97,24 @@ public final class CombatManager implements ICombatManager {
         } else {
             PlayerTagEvent event = new PlayerTagEvent(player, enemy, tagType, tagReason, customEndMillis);
             pluginManager.callEvent(event);
+
             customEndMillis = event.getEndTime();
             sendTagMessage(player, enemy, tagType, tagReason);
         }
 
-        UUID uuid = player.getUniqueId();
-        this.combatMap.put(uuid, customEndMillis);
-        if (enemy != null) {
-            this.enemyMap.put(uuid, enemy);
+        TagInformation tagInformation = getTagInformation(player);
+        if(tagInformation == null) {
+            tagInformation = new TagInformation(player);
         }
+
+        if(enemy == null) {
+            tagInformation.addNoEnemy(customEndMillis);
+        } else {
+            tagInformation.addEnemy(enemy, customEndMillis);
+        }
+
+        UUID playerId = player.getUniqueId();
+        this.combatMap.put(playerId, tagInformation);
 
         String playerName = player.getName();
         this.plugin.printDebug("Successfully put player '" + playerName + "' into combat.");
@@ -120,89 +129,157 @@ public final class CombatManager implements ICombatManager {
             return;
         }
 
-        UUID uuid = player.getUniqueId();
-        this.combatMap.remove(uuid);
+        TagInformation tagInformation = getTagInformation(player);
+        if(tagInformation == null) {
+            return;
+        }
+
+        UUID playerId = player.getUniqueId();
+        this.combatMap.remove(playerId);
 
         ITimerManager timerManager = this.plugin.getTimerManager();
         timerManager.remove(player);
 
-        LivingEntity previousEnemy = this.enemyMap.remove(uuid);
-        PlayerUntagEvent event = new PlayerUntagEvent(player, untagReason, previousEnemy);
         PluginManager pluginManager = Bukkit.getPluginManager();
+        List<Entity> enemyList = tagInformation.getEnemies();
+        for (Entity entity : enemyList) {
+            PlayerEnemyRemoveEvent event = new PlayerEnemyRemoveEvent(player, untagReason, entity);
+            pluginManager.callEvent(event);
+        }
+
+        PlayerUntagEvent event = new PlayerUntagEvent(player, untagReason);
         pluginManager.callEvent(event);
+    }
+
+    @Override
+    public void untag(Player player, Entity enemy, UntagReason untagReason) {
+        Validate.notNull(player, "player must not be null!");
+        Validate.notNull(enemy, "enemy must not be null!");
+        Validate.notNull(untagReason, "untagReason must not be null!");
+        if (!isInCombat(player)) {
+            return;
+        }
+
+        TagInformation tagInformation = getTagInformation(player);
+        if(tagInformation == null || !tagInformation.isEnemy(enemy)) {
+            return;
+        }
+
+        tagInformation.removeEnemy(enemy);
+        PluginManager pluginManager = Bukkit.getPluginManager();
+        PlayerEnemyRemoveEvent event = new PlayerEnemyRemoveEvent(player, untagReason, enemy);
+        pluginManager.callEvent(event);
+
+        long expireMillis = tagInformation.getExpireMillisCombined();
+        if(expireMillis <= 0L) {
+            untag(player, untagReason);
+        }
     }
 
     @Override
     public boolean isInCombat(Player player) {
         Validate.notNull(player, "player must not be null!");
-        UUID uuid = player.getUniqueId();
-        return this.combatMap.containsKey(uuid);
+
+        TagInformation tagInformation = getTagInformation(player);
+        return (tagInformation != null);
+    }
+
+    @NotNull
+    @Override
+    public Set<UUID> getPlayerIdsInCombat() {
+        Set<UUID> playerIdSet = this.combatMap.keySet();
+        return Collections.unmodifiableSet(playerIdSet);
     }
 
     @NotNull
     @Override
     public List<Player> getPlayersInCombat() {
+        Set<UUID> playerIdSet = getPlayerIdsInCombat();
         List<Player> playerList = new ArrayList<>();
-        Set<UUID> playerIdSet = new HashSet<>(this.combatMap.keySet());
 
         for (UUID playerId : playerIdSet) {
             Player player = Bukkit.getPlayer(playerId);
-            if(player == null) {
-                this.combatMap.remove(playerId);
-                continue;
+            if(player != null) {
+                playerList.add(player);
             }
-
-            playerList.add(player);
         }
 
-        return playerList;
+        return Collections.unmodifiableList(playerList);
     }
 
+    @Nullable
     @Override
-    public LivingEntity getEnemy(Player player) {
+    @Deprecated
+    public Entity getEnemy(Player player) {
         Validate.notNull(player, "player must not be null!");
-        UUID playerId = player.getUniqueId();
-        return this.enemyMap.get(playerId);
-    }
 
-    @Override
-    public OfflinePlayer getByEnemy(LivingEntity enemy) {
-        Validate.notNull(enemy, "enemy must not be null!");
-        if (!this.enemyMap.containsValue(enemy)) {
+        TagInformation tagInformation = getTagInformation(player);
+        if(tagInformation == null) {
             return null;
         }
 
-        Set<Entry<UUID, LivingEntity>> entrySet = this.enemyMap.entrySet();
-        for (Entry<UUID, LivingEntity> entry : entrySet) {
-            LivingEntity value = entry.getValue();
-            if (!enemy.equals(value)) {
+        List<Entity> enemyList = tagInformation.getEnemies();
+        if(enemyList.isEmpty()) {
+            return null;
+        }
+
+        return enemyList.get(0);
+    }
+
+    @Override
+    public TagInformation getTagInformation(Player player) {
+        Validate.notNull(player, "player must not be null!");
+
+        UUID playerId = player.getUniqueId();
+        return this.combatMap.get(playerId);
+    }
+
+    @Nullable
+    @Override
+    @Deprecated
+    public Player getByEnemy(Entity enemy) {
+        Validate.notNull(enemy, "enemy must not be null!");
+
+        List<Player> playerList = getPlayersInCombat();
+        for (Player player : playerList) {
+            TagInformation tagInformation = getTagInformation(player);
+            if(tagInformation == null) {
                 continue;
             }
 
-            UUID uuid = entry.getKey();
-            return Bukkit.getOfflinePlayer(uuid);
+            if(tagInformation.isEnemy(enemy)) {
+                return player;
+            }
         }
 
         return null;
     }
 
     @Override
+    @Deprecated
     public long getTimerLeftMillis(Player player) {
         Validate.notNull(player, "player must not be null!");
-        if (!isInCombat(player)) {
-            return -1L;
+
+        TagInformation tagInformation = getTagInformation(player);
+        if(tagInformation == null) {
+            return 0L;
         }
 
-        UUID uuid = player.getUniqueId();
-        long endMillis = this.combatMap.get(uuid);
+        long expireMillis = tagInformation.getExpireMillisCombined();
         long systemMillis = System.currentTimeMillis();
-        return (endMillis - systemMillis);
+        long subtractMillis = (expireMillis - systemMillis);
+        return Math.max(0L, subtractMillis);
     }
 
     @Override
+    @Deprecated
     public int getTimerLeftSeconds(Player player) {
-        double millisLeft = getTimerLeftMillis(player);
-        double secondsLeft = (millisLeft / 1_000.0D);
+        double timerLeftMillis = getTimerLeftMillis(player);
+        if(timerLeftMillis <= 0.0D) {
+            return 0;
+        }
+
+        double secondsLeft = (timerLeftMillis / 1_000.0D);
         return (int) Math.ceil(secondsLeft);
     }
 
@@ -319,7 +396,7 @@ public final class CombatManager implements ICombatManager {
         return (foundValue ? lowestTimer : getGlobalTimerSeconds());
     }
 
-    private String getEntityName(Player player, LivingEntity entity) {
+    private String getEntityName(Player player, Entity entity) {
         if (entity == null) {
             LanguageManager languageManager = this.plugin.getLanguageManager();
             return languageManager.getMessage(player, "placeholder.unknown-enemy", null, true);
@@ -330,7 +407,7 @@ public final class CombatManager implements ICombatManager {
         return entityHandler.getName(entity);
     }
 
-    private String getEntityType(Player player, LivingEntity entity) {
+    private String getEntityType(Player player, Entity entity) {
         if (entity == null) {
             LanguageManager languageManager = this.plugin.getLanguageManager();
             return languageManager.getMessage(player, "placeholder.unknown-enemy", null, true);
@@ -358,14 +435,14 @@ public final class CombatManager implements ICombatManager {
         return be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(player, string);
     }
 
-    private boolean failsPreTagEvent(Player player, LivingEntity enemy, TagType tagType, TagReason tagReason) {
+    private boolean failsPreTagEvent(Player player, Entity enemy, TagType tagType, TagReason tagReason) {
         PlayerPreTagEvent event = new PlayerPreTagEvent(player, enemy, tagType, tagReason);
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.callEvent(event);
         return event.isCancelled();
     }
 
-    private void sendTagMessage(Player player, LivingEntity enemy, TagType tagType, TagReason tagReason) {
+    private void sendTagMessage(Player player, Entity enemy, TagType tagType, TagReason tagReason) {
         if (tagType == TagType.DAMAGE) {
             return;
         }
