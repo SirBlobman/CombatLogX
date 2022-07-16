@@ -1,42 +1,48 @@
 # All commands in this configuration have some prefixes available
-# [PLAYER] - Run the command as the player
-# [OP] - Run the command as the player, but with "Server Operator" permissions (NOT recommended)
-# If you do not put a prefix, the command will be executed by the server console
-
-# If you want to remove all commands from a list, set it to []
-# Example:
-# disabled-command-list: []
+# [PLAYER] - Run the command as the player.
+# [OP] - Run the command as the player, but with "Server Operator" permissions (NOT recommended).
+# Any commands without a prefix will be executed by the server console.
 
 
 # This is a list of commands that will be executed whenever a player is tagged.
 # Valid Placeholders:
-# {player} - The name of the player that was tagged
-# {enemy} - The name of the enemy that tagged the player (may be unknown)
+# {player} - The name of the player that was tagged.
+# {enemy} - The name of the enemy that tagged the player. The enemy can be unknown.
+#
+# Set this to an empty list to disable all tag commands.
+# tag-command-list: []
 tag-command-list:
   - "msg {player} You are now in combat! Do not log out."
   - "[PLAYER]say I am in combat!"
 
 # This is a list of commands that will be executed whenever a player is untagged.
 # Valid Placeholders:
-# {player} - The name of the player that was untagged
-# {enemy} - The name of the last known enemy that tagged the player (may be unknown)
+# {player} - The name of the player that was untagged.
+# {enemy} - The name of the last known enemy that tagged the player. The enemy can be unknown.
+#
+# Set this to an empty list to disable all untag commands.
+# untag-command-list: []
 untag-command-list:
   - "msg {player} You are no longer in combat!"
   - "[PLAYER]say I am no longer in combat!"
 
 # This is a list of commands that will be used to punish players that log out during combat
 # Valid Placeholders:
-# {player} - The name of the player that is being punished
+# {player} - The name of the player that is being punished.
+#
+# Set this to an empty list to disable all punishment commands.
+# punish-command-list: []
 punish-command-list:
   - "warn {player} You logged out during combat! -s"
 
 
-# Set this to true to enable the 'special-punish-commands' option below.
+# Set this option to 'true' to enable the 'special-punish-commands' option below.
 # Make sure to also set 'enable-punishment-counter' in the 'punish.yml' file to use these properly.
 special-punish-commands-enabled: false
 
 # This is a list of special punishment commands.
-# These only execute if the player has logged out during combat X amount of times.
+# These commands will only execute if the player has logged out during combat for a specific amount of times.
+# Set the 'special-punish-commands-enabled' option to 'false' if you do not need these commands.
 special-punish-commands:
   example01:
     # How many combat logs are required to trigger this punishment?
@@ -44,7 +50,7 @@ special-punish-commands:
       min: 2
       max: 4
 
-    # Should the player's count be set back to zero after this punishment?
+    # Should CombatLogX reset the punishment counter for the player to zero after executing this punishment?
     reset: false
 
     # What commands will be executed when this punishment is triggered?

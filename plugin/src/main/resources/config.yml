@@ -2,11 +2,12 @@
 generated-by-version: "${combatlogx.version}"
 
 # Should debug messages be sent to the console?
-# This option is not really useful unless you are reporting a bug
+# This option should be enabled if you are reporting an error or bug.
 # Default: false
 debug-mode: false
 
-# Should the plugin be allowed to check for updates?
+# Should CombatLogX check for updates on SpigotMC?
+# CombatLogX will only inform you that an update exists, it does not download any jar files.
 # Default: true
 update-checker: true
 
@@ -16,28 +17,29 @@ broadcast:
   on-enable: true
   on-disable: true
 
-# This is a list of worlds that players should not be tagged in.
-# World names are case sensitive. "world" is not the same as "WoRlD"
+# This is a list of worlds that CombatLogX will ignore when tagging players.
+# World names are case-sensitive. "world" is not the same as "WoRlD"
 # Make sure you are not using the world aliases from Multiverse
 disabled-world-list:
   - "disabled_world_1"
   - "DiSaBlEd_WoRlD_2"
 
-# If this option is set to 'true', the 'disabled-world-list' will change into
-# the list of enabled worlds.
+# This option changes the 'disabled-world-list' to a list of enabled worlds.
+# You can use this when you have fewer combat worlds than disabled worlds.
+# Default: false
 disabled-world-list-inverted: false
 
-# Should tameable entities be linked to their owners? (e.g. Wolf, Horse)
+# CombatLogX can link pets, such as wolves, cats, and other animals that can be tamed, to their owner.
 # This will only link the attacker, not the entity that was attacked.
 # Default: true
 link-pets: true
 
-# Should projectile entities be linked to the entity that shot them? (e.g. Skeleton)
+# CombatLogX can link projectiles, such as arrows from skeletons, to their shooter.
 # This will only link the attacker, not the entity that was attacked.
 # Default: true
 link-projectiles: true
 
-# Which projectiles will be ignored in the 'link-projectiles' option?
+# Which projectiles will be ignored when the 'link-projectiles' option is enabled?
 # If 'link-projectiles' is false, all projectiles will be ignored.
 # You can find a list of valid projectile types on the Spigot javadocs:
 # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
@@ -46,19 +48,28 @@ ignored-projectiles:
   - ENDER_PEARL
   - SNOWBALL
 
-# Should entities pulled by fishing rods be tagged by the player using the fishing rod?
+# CombatLogX can link a fishing rod to the entity that cast it.
+# This will only link the attacker, not the entity that was attacked.
+# Default: true
 link-fishing-rod: true
 
-# Should TNT be linked to entity that caused it to explode?
-# Dispenser and other types of tnt will be ignored.
+# CombatLogX can sometimes link TNT to the entity that caused it to explode.
+# This will only link the attacker, not the entity that was attacked.
+# Default: true
 link-tnt: true
 
 timer:
-  # This is the type of timer that CombatLogX will use
-  # GLOBAL: Every player will be tagged for the length of the 'default-timer' value
-  # PERMISSION: Each player will be tagged for a different amount of time based on a permission
-  #             Permission Format: "combatlogx.timer.<seconds>"
-  #             Permission Example: combatlogx.timer.30
+  # CombatLogX has two different types of timers that you can select.
+  #
+  # GLOBAL:
+  # Every player will be tagged for the length of the 'default-timer' value.
+  #
+  # PERMISSION:
+  # Each player will be tagged for a different amount of time based on a permission.
+  # Permission Format: "combatlogx.timer.<seconds>"
+  # Permission Example: "combatlogx.timer.30"
+  # Any player that does not have a permission will be tagged with the 'default-timer' value.
+  #
   # Default: GLOBAL
   type: GLOBAL
 
@@ -67,25 +78,32 @@ timer:
   # Default: 10
   default-timer: 10
 
-# Which permission will be added to players to prevent them from being tagged?
-# This permission is NOT given to OPs by default
-# If you set this value to "", bypass will be disabled
+# Which permission will prevent players from being tagged into combat?
+# You must add this permission manually.
+# OPs do not have this permission by default.
+#
+# Setting the value of this option to "" will disable the bypass feature.
 # Default: "combatlogx.bypass"
 bypass-permission: "combatlogx.bypass"
 
-# Should players be allowed to tag themselves with their own projectiles?
+# Should CombatLogX tag players when they shoot themselves with a projectile?
 # Default: false
 self-combat: false
 
-# Should players be removed from combat when they die?
+# Should CombatLogX remove players from combat when they are killed?
 # Default: true
 untag-on-death: true
 
-# Should players be removed from combat when their enemy dies/explodes?
+# Should CombatLogX remove players from combat when their enemy is killed?
+# This also removed combat if the enemy is a creeper and decides to explode.
 # Default: true
 untag-on-enemy-death: true
+
+# Should CombatLogX attempt to remove any damage cooldown effects from players during login and teleport events?
+# Default: true
+remove-no-damage-cooldown: true
 
 # How long must players wait between requests?
 # This cooldown is for the `/clx request' command.
 # Default: 30 (seconds)
-request-cooldown: 30
+forgive-request-cooldown: 30
