@@ -17,10 +17,10 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.xseries.XMaterial;
 import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 
-import com.cryptomorin.xseries.XMaterial;
 import combatlogx.expansion.cheat.prevention.listener.CheatPreventionListener;
 
 public final class ListenerLegacyPotions extends CheatPreventionListener {
