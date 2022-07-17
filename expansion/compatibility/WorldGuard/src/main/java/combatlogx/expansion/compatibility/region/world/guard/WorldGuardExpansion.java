@@ -20,7 +20,10 @@ public final class WorldGuardExpansion extends RegionExpansion {
     public void onLoad() {
         super.onLoad();
 
-        if (!checkDependency("WorldGuard", false)) return;
+        if (!checkDependency("WorldGuard", false)) {
+            return;
+        }
+
         HookWorldGuard.registerFlags(this);
     }
 

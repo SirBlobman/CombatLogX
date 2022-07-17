@@ -34,7 +34,9 @@ public final class CombatNPC extends BukkitRunnable {
     @Override
     public void run() {
         this.survivalTicks--;
-        if (this.survivalTicks > 0) return;
+        if (this.survivalTicks > 0) {
+            return;
+        }
 
         YamlConfiguration configuration = this.expansion.getConfigurationManager().get("citizens.yml");
         if (configuration.getBoolean("stay-until-enemy-escape") && this.enemyId != null) {
