@@ -127,14 +127,14 @@ public abstract class CombatListener implements Listener {
         }
     }
 
-    protected final boolean isDebugMode() {
+    protected final boolean isDebugModeDisabled() {
         ConfigurationManager configurationManager = getPluginConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-        return configuration.getBoolean("debug-mode", false);
+        return !configuration.getBoolean("debug-mode", false);
     }
 
     protected void printDebug(String message) {
-        if(!isDebugMode()) {
+        if(isDebugModeDisabled()) {
             return;
         }
 
