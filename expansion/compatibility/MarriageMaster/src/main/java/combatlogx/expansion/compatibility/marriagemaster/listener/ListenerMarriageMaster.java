@@ -18,17 +18,23 @@ public final class ListenerMarriageMaster extends ExpansionListener {
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onTeleport(TPEvent e) {
+        printDebug("Detected MarriageMaster TPEvent...");
+
         MarriagePlayer teleporter = e.getPlayer();
         Player bukkitTeleporter = teleporter.getPlayerOnline();
         if(bukkitTeleporter == null) {
+            printDebug("Teleporter is null, ignoring.");
             return;
         }
 
+        printDebug("Checking partner....");
         Marriage marriageData = e.getMarriageData();
         MarriagePlayer partner = marriageData.getPartner(teleporter);
         if(partner != null) {
             Player bukkitPartner = partner.getPlayerOnline();
             if(bukkitPartner != null && isInCombat(bukkitPartner)) {
+                printDebug("Partner is in combat, preventing teleport.");
+
                 e.setCancelled(true);
                 String messagePath = ("expansion.marriagemaster-compatibility.prevent-teleport-partner");
                 sendMessageWithPrefix(bukkitTeleporter, messagePath, null, true);
@@ -36,7 +42,10 @@ public final class ListenerMarriageMaster extends ExpansionListener {
             }
         }
 
+        printDebug("Partner was not in combat, checking teleporter...");
         if(isInCombat(bukkitTeleporter)) {
+            printDebug("Teleporter is in combat, preventing teleport.");
+
             e.setCancelled(true);
             String messagePath = ("expansion.marriagemaster-compatibility.prevent-teleport-self");
             sendMessageWithPrefix(bukkitTeleporter, messagePath, null, true);
