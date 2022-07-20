@@ -134,7 +134,7 @@ public abstract class CombatListener implements Listener {
     }
 
     protected void printDebug(String message) {
-        if(isDebugModeDisabled()) {
+        if (isDebugModeDisabled()) {
             return;
         }
 

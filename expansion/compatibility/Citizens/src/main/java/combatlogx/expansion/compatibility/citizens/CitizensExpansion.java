@@ -79,7 +79,7 @@ public final class CitizensExpansion extends Expansion {
 
         ConfigurationManager configurationManager = getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-        if(!configuration.getBoolean("enable-sentinel")) {
+        if (!configuration.getBoolean("enable-sentinel")) {
             this.sentinelEnabled = false;
             return false;
         }

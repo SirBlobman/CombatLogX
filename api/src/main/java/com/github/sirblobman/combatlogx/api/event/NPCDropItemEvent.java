@@ -21,19 +21,9 @@ public final class NPCDropItemEvent extends Event implements Cancellable {
         HANDLER_LIST = new HandlerList();
     }
 
-    public static HandlerList getHandlerList() {
-        return HANDLER_LIST;
-    }
-
-    @Override
-    public HandlerList getHandlers() {
-        return HANDLER_LIST;
-    }
-
     private final OfflinePlayer player;
     private final Location location;
     private final CitizensSlotType slotType;
-
     private boolean cancelled;
     private ItemStack item;
 
@@ -43,6 +33,15 @@ public final class NPCDropItemEvent extends Event implements Cancellable {
         this.item = item;
         this.slotType = slotType;
         this.cancelled = false;
+    }
+
+    public static HandlerList getHandlerList() {
+        return HANDLER_LIST;
+    }
+
+    @Override
+    public HandlerList getHandlers() {
+        return HANDLER_LIST;
     }
 
     /**

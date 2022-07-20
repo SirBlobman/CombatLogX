@@ -23,7 +23,7 @@ public abstract class ExpansionListener extends CombatListener {
 
     @Override
     protected final void printDebug(String message) {
-        if(isDebugModeDisabled()) {
+        if (isDebugModeDisabled()) {
             return;
         }
 

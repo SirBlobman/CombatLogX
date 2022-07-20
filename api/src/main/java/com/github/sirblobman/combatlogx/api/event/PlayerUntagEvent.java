@@ -18,15 +18,6 @@ public final class PlayerUntagEvent extends CustomPlayerEvent {
         HANDLER_LIST = new HandlerList();
     }
 
-    public static HandlerList getHandlerList() {
-        return HANDLER_LIST;
-    }
-
-    @Override
-    public HandlerList getHandlers() {
-        return HANDLER_LIST;
-    }
-
     private final UntagReason untagReason;
     private final LivingEntity previousEnemy;
 
@@ -34,6 +25,15 @@ public final class PlayerUntagEvent extends CustomPlayerEvent {
         super(player);
         this.untagReason = untagReason;
         this.previousEnemy = previousEnemy;
+    }
+
+    public static HandlerList getHandlerList() {
+        return HANDLER_LIST;
+    }
+
+    @Override
+    public HandlerList getHandlers() {
+        return HANDLER_LIST;
     }
 
     /**

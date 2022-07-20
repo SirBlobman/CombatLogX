@@ -16,8 +16,8 @@ public interface IPunishManager {
      * Punish a player for logging out during combat.
      * Also called when expire punishing is enabled in the configuration.
      *
-     * @param player The {@link Player} to punish.
-     * @param punishReason The original reason that the player was removed from combat.
+     * @param player        The {@link Player} to punish.
+     * @param punishReason  The original reason that the player was removed from combat.
      * @param previousEnemy The original enemy of the player.
      * @return {@code true} if the plugin was able to punish the player successfully.
      */

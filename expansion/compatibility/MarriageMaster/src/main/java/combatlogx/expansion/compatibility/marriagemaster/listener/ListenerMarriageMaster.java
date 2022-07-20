@@ -22,7 +22,7 @@ public final class ListenerMarriageMaster extends ExpansionListener {
 
         MarriagePlayer teleporter = e.getPlayer();
         Player bukkitTeleporter = teleporter.getPlayerOnline();
-        if(bukkitTeleporter == null) {
+        if (bukkitTeleporter == null) {
             printDebug("Teleporter is null, ignoring.");
             return;
         }
@@ -30,9 +30,9 @@ public final class ListenerMarriageMaster extends ExpansionListener {
         printDebug("Checking partner....");
         Marriage marriageData = e.getMarriageData();
         MarriagePlayer partner = marriageData.getPartner(teleporter);
-        if(partner != null) {
+        if (partner != null) {
             Player bukkitPartner = partner.getPlayerOnline();
-            if(bukkitPartner != null && isInCombat(bukkitPartner)) {
+            if (bukkitPartner != null && isInCombat(bukkitPartner)) {
                 printDebug("Partner is in combat, preventing teleport.");
 
                 e.setCancelled(true);
@@ -43,7 +43,7 @@ public final class ListenerMarriageMaster extends ExpansionListener {
         }
 
         printDebug("Partner was not in combat, checking teleporter...");
-        if(isInCombat(bukkitTeleporter)) {
+        if (isInCombat(bukkitTeleporter)) {
             printDebug("Teleporter is in combat, preventing teleport.");
 
             e.setCancelled(true);

@@ -20,15 +20,6 @@ public final class PlayerPunishEvent extends CustomPlayerEventCancellable {
         HANDLER_LIST = new HandlerList();
     }
 
-    public static HandlerList getHandlerList() {
-        return HANDLER_LIST;
-    }
-
-    @Override
-    public HandlerList getHandlers() {
-        return HANDLER_LIST;
-    }
-
     private final UntagReason punishReason;
     private final LivingEntity previousEnemy;
 
@@ -36,6 +27,15 @@ public final class PlayerPunishEvent extends CustomPlayerEventCancellable {
         super(player);
         this.previousEnemy = previousEnemy;
         this.punishReason = Validate.notNull(punishReason, "punishReason must not be null!");
+    }
+
+    public static HandlerList getHandlerList() {
+        return HANDLER_LIST;
+    }
+
+    @Override
+    public HandlerList getHandlers() {
+        return HANDLER_LIST;
     }
 
     /**

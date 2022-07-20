@@ -147,7 +147,7 @@ public final class CombatManager implements ICombatManager {
 
         for (UUID playerId : playerIdSet) {
             Player player = Bukkit.getPlayer(playerId);
-            if(player == null) {
+            if (player == null) {
                 this.combatMap.remove(playerId);
                 continue;
             }

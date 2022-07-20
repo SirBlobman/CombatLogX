@@ -18,9 +18,9 @@ public interface ICombatManager {
     /**
      * Tag a player into combat.
      *
-     * @param player The {@link Player} to tag.
-     * @param enemy The enemy that caused the player to be tagged. Can be {@code null}
-     * @param tagType The type of tag, can be {@link TagType#UNKNOWN}
+     * @param player    The {@link Player} to tag.
+     * @param enemy     The enemy that caused the player to be tagged. Can be {@code null}
+     * @param tagType   The type of tag, can be {@link TagType#UNKNOWN}
      * @param tagReason The reason for being tagged, can be {@link TagReason#UNKNOWN}
      * @return {@code true} if the player was successfully tagged.
      */
@@ -29,10 +29,10 @@ public interface ICombatManager {
     /**
      * Tag a player into combat.
      *
-     * @param player The {@link Player} to tag.
-     * @param enemy The enemy that caused the player to be tagged. Can be {@code null}
-     * @param tagType The type of tag, can be {@link TagType#UNKNOWN}
-     * @param tagReason The reason for being tagged, can be {@link TagReason#UNKNOWN}
+     * @param player          The {@link Player} to tag.
+     * @param enemy           The enemy that caused the player to be tagged. Can be {@code null}
+     * @param tagType         The type of tag, can be {@link TagType#UNKNOWN}
+     * @param tagReason       The reason for being tagged, can be {@link TagReason#UNKNOWN}
      * @param customEndMillis A custom timestamp for ending combat if the player is not tagged again.
      * @return {@code true} if the player was successfully tagged.
      */
@@ -41,7 +41,7 @@ public interface ICombatManager {
     /**
      * Remove a player from combat.
      *
-     * @param player The {@link Player} to remove.
+     * @param player      The {@link Player} to remove.
      * @param untagReason The reason for removing the player. Usually {@link UntagReason#EXPIRE}
      */
     void untag(Player player, UntagReason untagReason);
@@ -114,7 +114,7 @@ public interface ICombatManager {
      * {enemy_world}, {enemy_x}, {enemy_y}, {enemy_z}
      *
      * @param player The {@link Player} to use.
-     * @param enemy The current enemy of the player. Can be {@code null}.
+     * @param enemy  The current enemy of the player. Can be {@code null}.
      * @param string The string that will have variables replaced.
      * @return A new string with certain variables replaced.
      */
@@ -127,6 +127,7 @@ public interface ICombatManager {
 
     /**
      * Check if a player is able to bypass a combat tag.
+     *
      * @param player The {@link Player} to check.
      * @return {@code true} if the player can bypass a combat tag.
      */

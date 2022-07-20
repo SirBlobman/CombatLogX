@@ -21,6 +21,18 @@ public final class PlayerTagEvent extends CustomPlayerEvent {
         HANDLER_LIST = new HandlerList();
     }
 
+    private final LivingEntity enemy;
+    private final TagType tagType;
+    private final TagReason tagReason;
+    private long combatEndMillis;
+    public PlayerTagEvent(Player player, LivingEntity enemy, TagType tagType, TagReason tagReason, long combatEndMillis) {
+        super(player);
+        this.enemy = enemy;
+        this.tagType = Validate.notNull(tagType, "tagType must not be null!");
+        this.tagReason = Validate.notNull(tagReason, "tagReason must not be null!");
+        this.combatEndMillis = combatEndMillis;
+    }
+
     public static HandlerList getHandlerList() {
         return HANDLER_LIST;
     }
@@ -28,19 +40,6 @@ public final class PlayerTagEvent extends CustomPlayerEvent {
     @Override
     public HandlerList getHandlers() {
         return HANDLER_LIST;
-    }
-
-    private final LivingEntity enemy;
-    private final TagType tagType;
-    private final TagReason tagReason;
-    private long combatEndMillis;
-
-    public PlayerTagEvent(Player player, LivingEntity enemy, TagType tagType, TagReason tagReason, long combatEndMillis) {
-        super(player);
-        this.enemy = enemy;
-        this.tagType = Validate.notNull(tagType, "tagType must not be null!");
-        this.tagReason = Validate.notNull(tagReason, "tagReason must not be null!");
-        this.combatEndMillis = combatEndMillis;
     }
 
     /**

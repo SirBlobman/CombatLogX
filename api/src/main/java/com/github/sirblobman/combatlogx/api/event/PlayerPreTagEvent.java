@@ -21,6 +21,16 @@ public final class PlayerPreTagEvent extends CustomPlayerEventCancellable {
         HANDLER_LIST = new HandlerList();
     }
 
+    private final LivingEntity enemy;
+    private final TagType tagType;
+    private final TagReason tagReason;
+    public PlayerPreTagEvent(Player player, LivingEntity enemy, TagType tagType, TagReason tagReason) {
+        super(player);
+        this.enemy = enemy;
+        this.tagType = Validate.notNull(tagType, "tagType must not be null!");
+        this.tagReason = Validate.notNull(tagReason, "tagReason must not be null!");
+    }
+
     public static HandlerList getHandlerList() {
         return HANDLER_LIST;
     }
@@ -28,17 +38,6 @@ public final class PlayerPreTagEvent extends CustomPlayerEventCancellable {
     @Override
     public HandlerList getHandlers() {
         return HANDLER_LIST;
-    }
-
-    private final LivingEntity enemy;
-    private final TagType tagType;
-    private final TagReason tagReason;
-
-    public PlayerPreTagEvent(Player player, LivingEntity enemy, TagType tagType, TagReason tagReason) {
-        super(player);
-        this.enemy = enemy;
-        this.tagType = Validate.notNull(tagType, "tagType must not be null!");
-        this.tagReason = Validate.notNull(tagReason, "tagReason must not be null!");
     }
 
     /**

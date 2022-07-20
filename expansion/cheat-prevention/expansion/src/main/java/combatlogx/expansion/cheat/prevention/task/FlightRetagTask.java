@@ -28,7 +28,7 @@ public final class FlightRetagTask extends BukkitRunnable {
     public void run() {
         ConfigurationManager configurationManager = getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("flight.yml");
-        if(!configuration.getBoolean("flight-retag", false)) {
+        if (!configuration.getBoolean("flight-retag", false)) {
             return;
         }
 
