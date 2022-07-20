@@ -2,7 +2,6 @@ package combatlogx.expansion.compatibility.libsdisguises;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
 public final class LibsDisguisesExpansion extends Expansion {
     public LibsDisguisesExpansion(ICombatLogX plugin) {
@@ -17,8 +16,7 @@ public final class LibsDisguisesExpansion extends Expansion {
     @Override
     public void onEnable() {
         if (!checkDependency("LibsDisguises", true, "10")) {
-            ExpansionManager expansionManager = getPlugin().getExpansionManager();
-            expansionManager.disableExpansion(this);
+            selfDisable();
             return;
         }
 

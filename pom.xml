@@ -63,7 +63,8 @@
     </dependencies>
 
     <build>
-        <defaultGoal>clean install</defaultGoal>
+        <defaultGoal>clean package</defaultGoal>
+
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
