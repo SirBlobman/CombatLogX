@@ -215,8 +215,9 @@ expansion:
     prevent-teleport-request-self: "&cYou can't create teleport requests during combat."
     prevent-teleport-request-other: "&cYou can't send a teleport request to a player that is in combat."
 
-  marriagemaster-compatiblity:
-    prevent-teleport: "&cYou are not allowed to teleport to your partner during combat."
+  marriagemaster-compatibility:
+    prevent-teleport-self: "&cYou are not allowed to teleport to your partner during combat."
+    prevent-teleport-partner: "&cYou are not allowed to teleport to your partner while they are in combat."
 
   region-protection:
     factions-no-entry: "&cYou are not allowed to enter that area during combat."
