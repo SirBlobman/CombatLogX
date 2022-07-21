@@ -41,11 +41,11 @@ public final class ListenerMythicMobs extends ExpansionListener {
             }
         }
 
-        if (damager instanceof Player && damaged instanceof LivingEntity && isMythicMob(damaged)) {
+        if (damager instanceof Player && isMythicMob(damaged)) {
             String mobName = getMythicMobName(damaged);
             if (isForceTag(mobName)) {
                 Player playerDamager = (Player) damager;
-                LivingEntity livingDamaged = (LivingEntity) damaged;
+                LivingEntity livingDamaged = (damaged instanceof LivingEntity ? ((LivingEntity) damaged) : null);
                 combatManager.tag(playerDamager, livingDamaged, TagType.MYTHIC_MOB, TagReason.ATTACKER);
             }
         }
