@@ -53,7 +53,7 @@ public final class HookWorldGuard {
             this.damageCombatFlag = wrapper.registerFlag("damage-combat", stateClass, state).orElse(null);
             this.mobCombatFlag = wrapper.registerFlag("mob-combat", stateClass, state).orElse(null);
             this.noTaggingFlag = wrapper.registerFlag("no-tagging", booleanClass, false).orElse(null);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             Logger logger = getLogger();
             logger.log(Level.WARNING, "An error occurred while registering custom WorldGuard flags:", ex);
         }

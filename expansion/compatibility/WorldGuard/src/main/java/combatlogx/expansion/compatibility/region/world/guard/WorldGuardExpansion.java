@@ -41,7 +41,7 @@ public final class WorldGuardExpansion extends RegionExpansion {
 
     @Override
     public RegionHandler getRegionHandler() {
-        if(this.regionHandler == null) {
+        if (this.regionHandler == null) {
             this.regionHandler = new WorldGuardRegionHandler(this);
         }
 

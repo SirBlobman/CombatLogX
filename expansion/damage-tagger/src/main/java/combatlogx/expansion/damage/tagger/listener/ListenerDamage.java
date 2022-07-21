@@ -30,30 +30,30 @@ public final class ListenerDamage extends ExpansionListener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onDamage(EntityDamageEvent e) {
         Entity entity = e.getEntity();
-        if(!(entity instanceof Player)) {
+        if (!(entity instanceof Player)) {
             return;
         }
 
         Player player = (Player) entity;
         DamageCause damageCause = e.getCause();
 
-        if(e instanceof EntityDamageByEntityEvent) {
+        if (e instanceof EntityDamageByEntityEvent) {
             EntityDamageByEntityEvent ee = (EntityDamageByEntityEvent) e;
-            if(damageCause == DamageCause.ENTITY_EXPLOSION) {
+            if (damageCause == DamageCause.ENTITY_EXPLOSION) {
                 Entity damager = ee.getDamager();
-                if(damager instanceof EnderCrystal && isCrystalDamageEnabled()) {
+                if (damager instanceof EnderCrystal && isCrystalDamageEnabled()) {
                     tag(player, damageCause);
                 }
             }
 
             return;
         }
-        if(isAllDamageEnabled()) {
+        if (isAllDamageEnabled()) {
             tag(player, null);
             return;
         }
 
-        if(isEnabled(damageCause)) {
+        if (isEnabled(damageCause)) {
             tag(player, damageCause);
         }
     }
@@ -69,7 +69,7 @@ public final class ListenerDamage extends ExpansionListener {
     }
 
     private boolean isCrystalDamageEnabled() {
-        if(isAllDamageEnabled()) {
+        if (isAllDamageEnabled()) {
             return true;
         }
 
@@ -78,7 +78,7 @@ public final class ListenerDamage extends ExpansionListener {
     }
 
     private boolean isEnabled(DamageCause damageCause) {
-        if(isAllDamageEnabled()) {
+        if (isAllDamageEnabled()) {
             return true;
         }
 

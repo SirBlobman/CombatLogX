@@ -24,6 +24,7 @@ public final class PlayerReTagEvent extends CustomPlayerEventCancellable {
     private final TagType tagType;
     private final TagReason tagReason;
     private long combatEndMillis;
+
     public PlayerReTagEvent(Player player, LivingEntity enemy, TagType tagType, TagReason tagReason, long combatEndMillis) {
         super(player);
         this.enemy = enemy;

@@ -71,7 +71,7 @@ public final class ListenerWorldGuard extends ExpansionListener {
         WorldGuardExpansion expansion = getWorldGuardExpansion();
         HookWorldGuard hook = expansion.getHookWorldGuard();
         IWrappedFlag<Boolean> noTaggingFlag = hook.getNoTaggingFlag();
-        if(noTaggingFlag == null) {
+        if (noTaggingFlag == null) {
             return false;
         }
 
