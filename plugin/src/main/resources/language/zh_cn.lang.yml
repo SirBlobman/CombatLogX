@@ -63,16 +63,19 @@ tagged:
     player: "&c你不知道为什么正在和 &f{enemy}&c 战斗，请不要登出游戏"
     mob: "&c你不知道为什么正在和 &f{enemy}&c 战斗，请不要登出游戏"
     mythic_mob: "&c您现在正在与 a(n) &f{mob_type}&c 作战，原因不详。不要注销！"
+    damage: "&c你因为受到伤害而处于战斗中。请不要登出！"
     unknown: "&c你被无缘无故地投入战斗，请勿登出游戏。"
   attacked:
     player: "&c您正在被&f{enemy}&c攻击。不要登出！"
     mob: "&c您正在被&f{mob_type}&c攻击。不要登出！"
     mythic_mob: "&c您正在被&f{enemy}&c攻击。不要登出！"
+    damage: "&c你因为受到伤害而处于战斗中。请不要登出！"
     unknown: "&c你正受到一股未知力量的攻击，请勿登出游戏！"
   attacker:
     player: "&c你正在攻击&f{enemy}&c. 不要登出！"
     mob: "&c你正在攻击一只&f{mob_type}&c. 不要登出！"
     mythic_mob: "&c你正在攻击一只&f{enemy}&c. 不要登出！"
+    damage: "&c你因为受到伤害而处于战斗中。请不要登出！"
     unknown: "&c你正在攻击一股未知的力量，请勿注销！"
 expansion:
   action-bar:
