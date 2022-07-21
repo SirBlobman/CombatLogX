@@ -16,8 +16,15 @@ import org.codemc.worldguardwrapper.flag.IWrappedFlag;
 import org.codemc.worldguardwrapper.flag.WrappedState;
 
 public final class WorldGuardRegionHandler extends RegionHandler {
+    private final WorldGuardExpansion expansion;
+
     public WorldGuardRegionHandler(WorldGuardExpansion expansion) {
         super(expansion);
+        this.expansion = expansion;
+    }
+
+    private WorldGuardExpansion getWorldGuardExpansion() {
+        return this.expansion;
     }
 
     @Override
@@ -31,7 +38,9 @@ public final class WorldGuardRegionHandler extends RegionHandler {
     public boolean isSafeZone(Player player, Location location, TagType tagType) {
         WorldGuardWrapper wrappedWorldGuard = WorldGuardWrapper.getInstance();
         IWrappedFlag<WrappedState> wrappedFlag = getFlag(tagType);
-        if (wrappedFlag == null) return false;
+        if (wrappedFlag == null) {
+            return false;
+        }
 
         Optional<WrappedState> optionalWrappedState = wrappedWorldGuard.queryFlag(player, location, wrappedFlag);
         if (optionalWrappedState.isPresent()) {
@@ -43,13 +52,20 @@ public final class WorldGuardRegionHandler extends RegionHandler {
     }
 
     private IWrappedFlag<WrappedState> getFlag(TagType tagType) {
+        WorldGuardExpansion expansion = getWorldGuardExpansion();
+        HookWorldGuard hook = expansion.getHookWorldGuard();
+
         switch (tagType) {
             case PLAYER:
-                return HookWorldGuard.PLAYER_COMBAT;
+                return hook.getPlayerCombatFlag();
             case MOB:
-                return HookWorldGuard.MOB_COMBAT;
+                return hook.getMobCombatFlag();
+            case MYTHIC_MOB:
+                return hook.getMythicMobCombatFlag();
+            case DAMAGE:
+                return hook.getDamageCombatFlag();
             case UNKNOWN:
-                return HookWorldGuard.UNKNOWN_COMBAT;
+                return hook.getUnknownCombatFlag();
             default:
                 break;
         }
