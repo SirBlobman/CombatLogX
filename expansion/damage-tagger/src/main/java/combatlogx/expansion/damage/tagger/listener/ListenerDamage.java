@@ -95,7 +95,7 @@ public final class ListenerDamage extends ExpansionListener {
         ICombatManager combatManager = combatLogX.getCombatManager();
 
         boolean wasInCombat = combatManager.isInCombat(player);
-        boolean tagged = combatManager.tag(player, null, TagType.UNKNOWN, TagReason.UNKNOWN);
+        boolean tagged = combatManager.tag(player, null, TagType.DAMAGE, TagReason.UNKNOWN);
         if (!wasInCombat && tagged) {
             sendMessage(player, damageCause);
         }
