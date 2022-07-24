@@ -45,14 +45,8 @@ public final class CombatTag implements Comparable<CombatTag> {
     }
 
     public boolean doesEnemyMatch(Entity entity) {
-        Validate.notNull(entity, "entity must not be null!");
-
         Entity enemy = getEnemy();
-        if(enemy == null) {
-            return false;
-        }
-
-        return (enemy == entity);
+        return (entity == enemy);
     }
 
     public TagType getTagType() {

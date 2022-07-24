@@ -166,7 +166,7 @@ public final class HookPlaceholderAPI extends PlaceholderExpansion {
         }
 
         if(placeholder.startsWith("specific_enemy_")) {
-            String subPlaceholder = placeholder.substring("current_enemy_".length());
+            String subPlaceholder = placeholder.substring("specific_enemy_".length());
             int nextUnderscore = subPlaceholder.indexOf('_');
             if(nextUnderscore == -1) {
                 return null;

@@ -127,6 +127,7 @@ public final class TagInformation {
             throw new IllegalArgumentException("The player already has that combat tag.");
         }
 
+        this.tagList.removeIf(otherTag -> otherTag.doesEnemyMatch(combatTag.getEnemy()));
         this.tagList.add(combatTag);
     }
 
