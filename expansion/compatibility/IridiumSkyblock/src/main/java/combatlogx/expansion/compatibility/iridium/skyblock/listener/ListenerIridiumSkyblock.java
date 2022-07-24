@@ -15,6 +15,7 @@ import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 import com.iridium.iridiumskyblock.api.IridiumSkyblockAPI;
 import com.iridium.iridiumskyblock.database.Island;
 import com.iridium.iridiumskyblock.database.User;
+import org.jetbrains.annotations.Nullable;
 
 public final class ListenerIridiumSkyblock extends ExpansionListener {
     public ListenerIridiumSkyblock(Expansion expansion) {
@@ -24,15 +25,22 @@ public final class ListenerIridiumSkyblock extends ExpansionListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void beforeTag(PlayerPreTagEvent e) {
         LivingEntity enemy = e.getEnemy();
-        if (!(enemy instanceof Player)) return;
-        Player playerEnemy = (Player) enemy;
+        if (!(enemy instanceof Player)) {
+            return;
+        }
 
+        Player playerEnemy = (Player) enemy;
         Player player = e.getPlayer();
-        if (doesTeamMatch(player, playerEnemy)) e.setCancelled(true);
+        if (doesTeamMatch(player, playerEnemy)) {
+            e.setCancelled(true);
+        }
     }
 
+    @Nullable
     private Island getIsland(Player player) {
-        if (player == null) return null;
+        if (player == null) {
+            return null;
+        }
 
         IridiumSkyblockAPI api = IridiumSkyblockAPI.getInstance();
         User user = api.getUser(player);
@@ -42,15 +50,21 @@ public final class ListenerIridiumSkyblock extends ExpansionListener {
     }
 
     private boolean doesTeamMatch(Player player1, Player player2) {
-        UUID uuid1 = player1.getUniqueId();
-        UUID uuid2 = player2.getUniqueId();
-        if (uuid1.equals(uuid2)) return true;
+        UUID playerId1 = player1.getUniqueId();
+        UUID playerId2 = player2.getUniqueId();
+        if (playerId1.equals(playerId2)) {
+            return true;
+        }
 
         Island island1 = getIsland(player1);
-        if (island1 == null) return false;
+        if (island1 == null) {
+            return false;
+        }
 
         Island island2 = getIsland(player2);
-        if (island2 == null) return false;
+        if (island2 == null) {
+            return false;
+        }
 
         int islandId1 = island1.getId();
         int islandId2 = island2.getId();

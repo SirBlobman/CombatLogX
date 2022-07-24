@@ -15,12 +15,20 @@
         <java.version>1.8</java.version>
         <spigot.version>1.16.5-R0.1-SNAPSHOT</spigot.version>
         <blue.slime.core.version>2.4-SNAPSHOT</blue.slime.core.version>
-        <combatlogx.version>11.0.0.0-Beta-ME-${build.number}</combatlogx.version>
         <build.number>unofficial</build.number>
 
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- CombatLogX Version Information -->
+        <!-- API.Major.Minor.Expansion.Build -->
+        <!-- API: The API version for the plugin. This will rarely change. -->
+        <!-- Major: This will change when a big change occurs to the plugin. -->
+        <!-- Minor: This will change when a small change occurs to the plugin. -->
+        <!-- Expansion: This will change when an expansion is updated. -->
+        <!-- Build: This will be automatically changed by the Jenkins build system -->
+        <combatlogx.version>11.0.0.0.${build.number}</combatlogx.version>
     </properties>
 
     <pluginRepositories>
@@ -63,7 +71,8 @@
     </dependencies>
 
     <build>
-        <defaultGoal>clean install</defaultGoal>
+        <defaultGoal>clean package</defaultGoal>
+
         <resources>
             <resource>
                 <directory>src/main/resources</directory>

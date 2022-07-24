@@ -20,7 +20,7 @@ public final class PlayerPreTagEvent extends CustomPlayerEventCancellable {
     static {
         HANDLER_LIST = new HandlerList();
     }
-
+    
     public static HandlerList getHandlerList() {
         return HANDLER_LIST;
     }
@@ -39,6 +39,15 @@ public final class PlayerPreTagEvent extends CustomPlayerEventCancellable {
         this.enemy = enemy;
         this.tagType = Validate.notNull(tagType, "tagType must not be null!");
         this.tagReason = Validate.notNull(tagReason, "tagReason must not be null!");
+    }
+
+    public static HandlerList getHandlerList() {
+        return HANDLER_LIST;
+    }
+
+    @Override
+    public HandlerList getHandlers() {
+        return HANDLER_LIST;
     }
 
     /**

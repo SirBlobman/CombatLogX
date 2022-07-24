@@ -15,6 +15,10 @@
     <name>Expansion: Damage Tagger</name>
     <description>An expansion for CombatLogX that tags players when they are damaged.</description>
 
+    <properties>
+        <spigot.version>1.19-R0.1-SNAPSHOT</spigot.version>
+    </properties>
+
     <build>
         <finalName>Damage Tagger</finalName>
     </build>

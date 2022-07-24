@@ -17,9 +17,9 @@ import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
-import io.lumine.xikage.mythicmobs.MythicMobs;
-import io.lumine.xikage.mythicmobs.api.bukkit.BukkitAPIHelper;
-import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
+import io.lumine.mythic.bukkit.BukkitAPIHelper;
+import io.lumine.mythic.bukkit.MythicBukkit;
+import io.lumine.mythic.core.mobs.ActiveMob;
 
 public final class ListenerMythicMobs extends ExpansionListener {
     public ListenerMythicMobs(MythicMobsExpansion expansion) {
@@ -41,11 +41,11 @@ public final class ListenerMythicMobs extends ExpansionListener {
             }
         }
 
-        if (damager instanceof Player && damaged instanceof LivingEntity && isMythicMob(damaged)) {
+        if (damager instanceof Player && isMythicMob(damaged)) {
             String mobName = getMythicMobName(damaged);
             if (isForceTag(mobName)) {
                 Player playerDamager = (Player) damager;
-                LivingEntity livingDamaged = (LivingEntity) damaged;
+                LivingEntity livingDamaged = (damaged instanceof LivingEntity ? ((LivingEntity) damaged) : null);
                 combatManager.tag(playerDamager, livingDamaged, TagType.MYTHIC_MOB, TagReason.ATTACKER);
             }
         }
@@ -70,8 +70,8 @@ public final class ListenerMythicMobs extends ExpansionListener {
     }
 
     private BukkitAPIHelper getAPI() {
-        MythicMobs mythicMobs = MythicMobs.inst();
-        return mythicMobs.getAPIHelper();
+        MythicBukkit mythicBukkit = MythicBukkit.inst();
+        return mythicBukkit.getAPIHelper();
     }
 
     private boolean isMythicMob(Entity entity) {

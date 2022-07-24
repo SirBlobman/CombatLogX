@@ -20,7 +20,7 @@ public final class PlayerTagEvent extends CustomPlayerEvent {
     static {
         HANDLER_LIST = new HandlerList();
     }
-
+    
     public static HandlerList getHandlerList() {
         return HANDLER_LIST;
     }
@@ -41,6 +41,15 @@ public final class PlayerTagEvent extends CustomPlayerEvent {
         this.tagType = Validate.notNull(tagType, "tagType must not be null!");
         this.tagReason = Validate.notNull(tagReason, "tagReason must not be null!");
         this.combatEndMillis = combatEndMillis;
+    }
+
+    public static HandlerList getHandlerList() {
+        return HANDLER_LIST;
+    }
+
+    @Override
+    public HandlerList getHandlers() {
+        return HANDLER_LIST;
     }
 
     /**

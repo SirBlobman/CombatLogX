@@ -18,12 +18,16 @@ import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 import combatlogx.expansion.compatibility.region.world.guard.WorldGuardExpansion;
 import combatlogx.expansion.compatibility.region.world.guard.hook.HookWorldGuard;
 import org.codemc.worldguardwrapper.WorldGuardWrapper;
+import org.codemc.worldguardwrapper.flag.IWrappedFlag;
 
 public final class ListenerWorldGuard extends ExpansionListener {
-    private final Set<UUID> preventTeleportLoop = new HashSet<>();
+    private final WorldGuardExpansion expansion;
+    private final Set<UUID> preventTeleportLoop;
 
     public ListenerWorldGuard(WorldGuardExpansion expansion) {
         super(expansion);
+        this.expansion = expansion;
+        this.preventTeleportLoop = new HashSet<>();
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -40,19 +44,23 @@ public final class ListenerWorldGuard extends ExpansionListener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onTeleport(PlayerTeleportEvent e) {
         Player player = e.getPlayer();
-        UUID uniqueId = player.getUniqueId();
-        if (!preventTeleportLoop.remove(uniqueId) && e.isCancelled() && isInCombat(player)) {
-            preventTeleportLoop.add(uniqueId);
+        UUID playerId = player.getUniqueId();
+        if (!this.preventTeleportLoop.remove(playerId) && e.isCancelled() && isInCombat(player)) {
+            this.preventTeleportLoop.add(playerId);
             Location location = player.getLocation();
             player.teleport(location);
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
-        UUID uniqueId = player.getUniqueId();
-        preventTeleportLoop.remove(uniqueId);
+        UUID playerId = player.getUniqueId();
+        this.preventTeleportLoop.remove(playerId);
+    }
+
+    private WorldGuardExpansion getWorldGuardExpansion() {
+        return this.expansion;
     }
 
     private boolean isNoTaggingRegion(Player player, Location location) {
@@ -60,12 +68,15 @@ public final class ListenerWorldGuard extends ExpansionListener {
             return false;
         }
 
-        if (HookWorldGuard.NO_TAGGING == null) {
+        WorldGuardExpansion expansion = getWorldGuardExpansion();
+        HookWorldGuard hook = expansion.getHookWorldGuard();
+        IWrappedFlag<Boolean> noTaggingFlag = hook.getNoTaggingFlag();
+        if (noTaggingFlag == null) {
             return false;
         }
 
         WorldGuardWrapper instance = WorldGuardWrapper.getInstance();
-        Optional<Boolean> optionalFlag = instance.queryFlag(player, location, HookWorldGuard.NO_TAGGING);
+        Optional<Boolean> optionalFlag = instance.queryFlag(player, location, noTaggingFlag);
         return optionalFlag.orElse(false);
     }
 }

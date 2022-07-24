@@ -22,7 +22,7 @@ public final class HuskTownsRegionHandler extends RegionHandler {
     @Override
     public boolean isSafeZone(Player player, Location location, TagType tagType) {
         HuskTownsAPI api = HuskTownsAPI.getInstance();
-        return switch(tagType) {
+        return switch (tagType) {
             case PLAYER -> !api.isActionAllowed(location, ActionType.PVP);
             case MOB -> !api.isActionAllowed(location, ActionType.PVE);
             default -> false;

@@ -14,6 +14,13 @@ public final class QueryPickupEvent extends CustomPlayerEventCancellable {
         HANDLER_LIST = new HandlerList();
     }
 
+    private final ProtectedItem protectedItem;
+
+    public QueryPickupEvent(final Player player, final ProtectedItem protectedItem) {
+        super(player);
+        this.protectedItem = protectedItem;
+    }
+
     public static HandlerList getHandlerList() {
         return HANDLER_LIST;
     }
@@ -21,13 +28,6 @@ public final class QueryPickupEvent extends CustomPlayerEventCancellable {
     @Override
     public HandlerList getHandlers() {
         return HANDLER_LIST;
-    }
-
-    private final ProtectedItem protectedItem;
-
-    public QueryPickupEvent(final Player player, final ProtectedItem protectedItem) {
-        super(player);
-        this.protectedItem = protectedItem;
     }
 
     public ProtectedItem getProtectedItem() {

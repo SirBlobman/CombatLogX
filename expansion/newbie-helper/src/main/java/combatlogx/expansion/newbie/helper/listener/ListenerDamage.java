@@ -42,7 +42,7 @@ public final class ListenerDamage extends ExpansionListener {
         }
 
         ProtectionManager protectionManager = this.expansion.getProtectionManager();
-        if (protectionManager.isProtected(player)) {
+        if (protectionManager.isProtected(player) && isMobProtectionEnabled()) {
             e.setCancelled(true);
         }
     }
@@ -65,10 +65,12 @@ public final class ListenerDamage extends ExpansionListener {
         }
 
         ProtectionManager protectionManager = this.expansion.getProtectionManager();
-        if (protectionManager.isProtected(player) && shouldRemoveProtectionOnAttack()) {
-            protectionManager.setProtected(player, false);
-            String messagePath = ("expansion.newbie-helper.protection-disabled.attacker");
-            sendMessageWithPrefix(player, messagePath, null, true);
+        if (protectionManager.isProtected(player) && isMobProtectionEnabled()) {
+            if (shouldRemoveProtectionOnAttack()) {
+                protectionManager.setProtected(player, false);
+                String messagePath = ("expansion.newbie-helper.protection-disabled.attacker");
+                sendMessageWithPrefix(player, messagePath, null, true);
+            }
         }
     }
 
@@ -142,9 +144,18 @@ public final class ListenerDamage extends ExpansionListener {
         return damager;
     }
 
-    private boolean shouldRemoveProtectionOnAttack() {
+    private YamlConfiguration getConfiguration() {
         ConfigurationManager configurationManager = getExpansionConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
+        return configurationManager.get("config.yml");
+    }
+
+    private boolean shouldRemoveProtectionOnAttack() {
+        YamlConfiguration configuration = getConfiguration();
         return configuration.getBoolean("remove-protection-on-attack", true);
+    }
+
+    private boolean isMobProtectionEnabled() {
+        YamlConfiguration configuration = getConfiguration();
+        return configuration.getBoolean("mob-protection", false);
     }
 }

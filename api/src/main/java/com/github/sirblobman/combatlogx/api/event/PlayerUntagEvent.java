@@ -17,6 +17,13 @@ public final class PlayerUntagEvent extends CustomPlayerEvent {
         HANDLER_LIST = new HandlerList();
     }
 
+    private final UntagReason untagReason;
+
+    public PlayerUntagEvent(Player player, UntagReason untagReason) {
+        super(player);
+        this.untagReason = untagReason;
+    }
+
     public static HandlerList getHandlerList() {
         return HANDLER_LIST;
     }
@@ -24,13 +31,6 @@ public final class PlayerUntagEvent extends CustomPlayerEvent {
     @Override
     public HandlerList getHandlers() {
         return HANDLER_LIST;
-    }
-
-    private final UntagReason untagReason;
-
-    public PlayerUntagEvent(Player player, UntagReason untagReason) {
-        super(player);
-        this.untagReason = untagReason;
     }
 
     /**

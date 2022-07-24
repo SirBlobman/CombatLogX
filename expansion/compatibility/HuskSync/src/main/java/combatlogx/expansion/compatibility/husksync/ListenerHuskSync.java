@@ -1,15 +1,17 @@
 package combatlogx.expansion.compatibility.husksync;
 
-import java.io.IOException;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Player.Spigot;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -20,10 +22,13 @@ import com.github.sirblobman.combatlogx.api.event.PlayerPunishEvent;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
-import net.william278.husksync.PlayerData;
-import net.william278.husksync.bukkit.api.HuskSyncAPI;
-import net.william278.husksync.bukkit.data.DataSerializer;
-import net.william278.husksync.bukkit.events.SyncEvent;
+import net.william278.husksync.api.HuskSyncAPI;
+import net.william278.husksync.data.ItemData;
+import net.william278.husksync.data.StatusData;
+import net.william278.husksync.data.UserData;
+import net.william278.husksync.event.BukkitPreSyncEvent;
+import net.william278.husksync.player.OnlineUser;
+import net.william278.husksync.util.BukkitLogger;
 
 public final class ListenerHuskSync extends ExpansionListener {
     private final HuskSyncAPI huskSyncApi;
@@ -33,6 +38,10 @@ public final class ListenerHuskSync extends ExpansionListener {
         super(expansion);
         this.huskSyncApi = HuskSyncAPI.getInstance();
         this.punishedPlayers = new HashSet<>();
+    }
+
+    private HuskSyncAPI getHuskSyncAPI() {
+        return this.huskSyncApi;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -56,43 +65,56 @@ public final class ListenerHuskSync extends ExpansionListener {
         boolean keepInventory = event.getKeepInventory();
         boolean keepLevel = event.getKeepLevel();
 
-        if (!punishedPlayers.remove(playerId)) {
+        if (!this.punishedPlayers.remove(playerId)) {
             return;
         }
 
-        try {
-            CompletableFuture<PlayerData> futurePlayerData = huskSyncApi.getPlayerData(playerId);
-            futurePlayerData.thenAcceptAsync(playerData -> {
-                if (!keepInventory) {
-                    String serializedInventory = DataSerializer.serializeInventory(new ItemStack[0]);
-                    playerData.setSerializedInventory(serializedInventory);
-                }
-
-                if (!keepLevel) {
-                    playerData.setTotalExperience(event.getNewTotalExp());
-                    playerData.setExpLevel(event.getNewLevel());
-                    playerData.setExpProgress(event.getNewExp());
-                }
-
-                playerData.setHealth(0);
-
-                try {
-                    huskSyncApi.updatePlayerData(playerData);
-                } catch (IOException ex) {
-                    Logger logger = getExpansionLogger();
-                    logger.log(Level.SEVERE, "An error occurred saving player data!", ex);
-                }
-            });
-        } catch (IOException ex) {
-            Logger logger = getExpansionLogger();
-            logger.log(Level.SEVERE, "An error occurred fetching player data!", ex);
+        HuskSyncAPI huskSyncAPI = getHuskSyncAPI();
+        OnlineUser playerUser = huskSyncAPI.getUser(player);
+        if(!keepInventory) {
+            String emptyItems = huskSyncAPI.serializeItemStackArray(new ItemStack[0]).join();
+            ItemData emptyData = new ItemData(emptyItems);
+            playerUser.setInventory(emptyData);
         }
+
+        Logger logger = getExpansionLogger();
+        BukkitLogger huskSyncLogger = new BukkitLogger(logger);
+
+        CompletableFuture<Optional<UserData>> futureUserData = playerUser.getUserData(huskSyncLogger);
+        futureUserData.whenComplete((optionalUserData, error) -> {
+            if (error != null) {
+                logger.log(Level.WARNING, "An error occurred while fetching/saving player data!", error);
+            } else {
+                if (optionalUserData.isPresent()) {
+                    UserData userData = optionalUserData.get();
+                    StatusData statusData = userData.getStatusData();
+                    if(!keepLevel) {
+                        statusData.totalExperience = event.getNewTotalExp();
+                        statusData.expLevel = event.getNewLevel();
+                        statusData.expProgress = event.getNewExp();
+                    }
+
+                    statusData.health = 0.0D;
+                }
+            }
+        });
     }
 
     @EventHandler
-    public void onSync(SyncEvent event) {
-        Player player = event.getPlayer();
-        PlayerData data = event.getData();
-        if (player.getHealth() <= 0 && data.getHealth() > 0) player.spigot().respawn();
+    public void onSync(BukkitPreSyncEvent e) {
+        OnlineUser onlineUser = e.getUser();
+        Player player = Bukkit.getPlayer(onlineUser.uuid);
+        if(player == null) {
+            return;
+        }
+
+        UserData userData = e.getUserData();
+        StatusData statusData = userData.getStatusData();
+        double playerHealth = player.getHealth();
+
+        if(playerHealth <= 0.0D && statusData.health >= 0.0D) {
+            Spigot spigot = player.spigot();
+            spigot.respawn();
+        }
     }
 }

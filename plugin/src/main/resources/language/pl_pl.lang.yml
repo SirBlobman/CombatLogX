@@ -26,8 +26,9 @@ combat-timer:
 error:
   player-only: "&cTylko gracze mogą wykonać to polecenie."
   invalid-target: "&7{target}&c nie jest online lub nie istnieje."
-  disabled-world: "&cTa komenda nie jest dostępna w tym świecie."
+  invalid-integer: "&7{value}&c nie jest prawidłową liczbą całkowitą."
   no-permission: "&cBrak uprawnień: &7{permission}"
+  disabled-world: "&cTa komenda nie jest dostępna w tym świecie."
   target-not-in-combat: "&7{target}&c nie jest w walce."
   self-not-in-combat: "&cNie jesteś w walce."
   unknown-expansion: "&7{target}&c nie jest rozszerzeniem lub nie jest zainstalowane."
@@ -62,16 +63,19 @@ tagged:
     player: "&cJesteś teraz w walce z &f{enemy}&c z nieznanego powodu. Nie wylogowuj się!"
     mob: "&cJesteś teraz w walce z &f{enemy}&c z nieznanego powodu. Nie wylogowuj się!"
     mythic_mob: "&cJesteś teraz w walce z &f{mob_type}&c z nieznanego powodu. Nie wylogowuj się!"
+    damage: "&cJesteś teraz w walce z powodu otrzymywania obrażeń. Nie wylogowywuj się!"
     unknown: "&cZostałeś postawiony do walki bez powodu. Nie wylogowuj się."
   attacked:
     player: "&cZostałeś zaatakowany przez &f{enemy}&c. Nie wylogowuj się!"
     mob: "&cZostałeś zaatakowany przez &f{mob_type}&c. Nie wylogowuj się!"
     mythic_mob: "&cZostałeś zaatakowany przez &f{enemy}&c. Nie wylogowuj się!"
+    damage: "&cJesteś teraz w walce z powodu otrzymywania obrażeń. Nie wylogowywuj się!"
     unknown: "&cJesteś atakowany przez nieznaną siłę. Nie wylogowuj się!"
   attacker:
     player: "&cZaatakowałeś &f{enemy}&c. Nie wylogowuj się!"
     mob: "&cZaatakowałeś &f{mob_type}&c. Nie wylogowuj się!"
     mythic_mob: "&cZaatakowałeś &f{enemy}&c. Nie wylogowuj się!"
+    damage: "&cJesteś teraz w walce z powodu otrzymywania obrażeń. Nie wylogowywuj się!"
     unknown: "&cAtakujesz nieznaną siłę. Nie wylogowuj się!"
 expansion:
   action-bar:
@@ -183,8 +187,9 @@ expansion:
   essentials-compatibility:
     prevent-teleport-request-self: "&cNie możesz tworzyć żądań teleportacji podczas walki."
     prevent-teleport-request-other: "&cNie możesz wysłać prośby o teleportację do gracza, który jest w walce."
-  marriagemaster-compatiblity:
-    prevent-teleport: "&cNie możesz teleportować się do swojego partnera podczas walki."
+  marriagemaster-compatibility:
+    prevent-teleport-self: "&cNie możesz teleportować się do swojego partnera podczas walki."
+    prevent-teleport-partner: "&cNie możesz teleportować się do swojego partnera podczas walki."
   region-protection:
     factions-no-entry: "&cNie możesz wejść do tego obszaru podczas walki."
     griefdefender-no-entry: "&cNie możesz wejść do tego obszaru podczas walki."

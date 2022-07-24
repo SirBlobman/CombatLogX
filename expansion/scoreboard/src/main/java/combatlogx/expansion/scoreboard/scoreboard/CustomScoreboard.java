@@ -175,7 +175,9 @@ public final class CustomScoreboard {
 
         String partOneFinalColors = ChatColor.getLastColors(partOne);
         partTwo = (partOneFinalColors + partTwo);
-        if (partTwo.length() > lengthLimit) partTwo = partTwo.substring(0, lengthLimit);
+        if (partTwo.length() > lengthLimit) {
+            partTwo = partTwo.substring(0, lengthLimit);
+        }
 
         Team team = customLine.getTeam();
         team.setPrefix(partOne);

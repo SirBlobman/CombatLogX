@@ -3,7 +3,6 @@ package combatlogx.expansion.compatibility.essentials;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
 import combatlogx.expansion.compatibility.essentials.listener.ListenerEssentials;
 
@@ -21,9 +20,7 @@ public final class EssentialsExpansion extends Expansion {
     @Override
     public void onEnable() {
         if (!checkDependency("Essentials", true)) {
-            ICombatLogX plugin = getPlugin();
-            ExpansionManager expansionManager = plugin.getExpansionManager();
-            expansionManager.disableExpansion(this);
+            selfDisable();
             return;
         }
 

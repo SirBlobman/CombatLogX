@@ -19,15 +19,14 @@ public final class CitizensExpansion extends Expansion {
     private final CombatNpcManager combatNpcManager;
     private final InventoryManager inventoryManager;
 
-    private boolean sentinelEnabled;
+    private Boolean sentinelEnabled;
 
     public CitizensExpansion(ICombatLogX plugin) {
         super(plugin);
 
         this.combatNpcManager = new CombatNpcManager(this);
         this.inventoryManager = new InventoryManager(this);
-
-        this.sentinelEnabled = false;
+        this.sentinelEnabled = null;
     }
 
     @Override
@@ -61,6 +60,8 @@ public final class CitizensExpansion extends Expansion {
         configurationManager.reload("config.yml");
         configurationManager.reload("citizens.yml");
         configurationManager.reload("sentinel.yml");
+
+        this.sentinelEnabled = null;
     }
 
     public CombatNpcManager getCombatNpcManager() {
@@ -72,13 +73,19 @@ public final class CitizensExpansion extends Expansion {
     }
 
     public boolean isSentinelEnabled() {
-        if (!this.sentinelEnabled) {
-            return false;
+        if (this.sentinelEnabled != null) {
+            return this.sentinelEnabled;
         }
 
         ConfigurationManager configurationManager = getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-        return configuration.getBoolean("enable-sentinel");
+        if (!configuration.getBoolean("enable-sentinel")) {
+            this.sentinelEnabled = false;
+            return false;
+        }
+
+        this.sentinelEnabled = checkDependency("Sentinel", true);
+        return this.sentinelEnabled;
     }
 
     private void registerListeners() {

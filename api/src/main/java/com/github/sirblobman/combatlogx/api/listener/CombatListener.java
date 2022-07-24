@@ -122,21 +122,28 @@ public abstract class CombatListener implements Listener {
     protected final void sendMessageWithPrefix(@NotNull CommandSender sender, @NotNull String key,
                                                @Nullable Replacer replacer, boolean color) {
         String message = getMessageWithPrefix(sender, key, replacer, color);
-        if (!message.isEmpty()) sender.sendMessage(message);
+        if (!message.isEmpty()) {
+            sender.sendMessage(message);
+        }
     }
 
-    protected final boolean isDebugMode() {
+    protected final boolean isDebugModeDisabled() {
         ConfigurationManager configurationManager = getPluginConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-        return configuration.getBoolean("debug-mode", false);
+        return !configuration.getBoolean("debug-mode", false);
     }
 
     protected void printDebug(String message) {
-        if (isDebugMode()) {
-            Logger logger = getPluginLogger();
-            String logMessage = String.format(Locale.US, "[Debug] %s", message);
-            logger.info(logMessage);
+        if (isDebugModeDisabled()) {
+            return;
         }
+
+        Class<?> thisClass = getClass();
+        String className = thisClass.getSimpleName();
+        String logMessage = String.format(Locale.US, "[Debug] [%s] %s", className, message);
+
+        Logger pluginLogger = getPluginLogger();
+        pluginLogger.info(logMessage);
     }
 
     protected final boolean isWorldDisabled(Entity entity) {

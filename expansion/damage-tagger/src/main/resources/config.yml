@@ -1,7 +1,10 @@
 # Set this to true if players should be tagged by all types of damage.
-# If this is true, all of the damage-type settings will be ignored.
+# If this is true, damage-type settings will be ignored.
 # Default: false
 all-damage: false
+
+# Should CombatLogX tag players when they are blown up by end crystals?
+end-crystals: true
 
 damage-type:
   # Cactus Damage / Touching a block that hurts you

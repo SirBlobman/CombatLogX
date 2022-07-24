@@ -3,7 +3,7 @@ prefix: "AngelChest Compatibility"
 description: "${project.description}"
 
 main: "combatlogx.expansion.compatibility.angelchest.AngelChestExpansion"
-version: "1.0"
+version: "16.0"
 author: "olivolja3"
 
 plugin-depend:

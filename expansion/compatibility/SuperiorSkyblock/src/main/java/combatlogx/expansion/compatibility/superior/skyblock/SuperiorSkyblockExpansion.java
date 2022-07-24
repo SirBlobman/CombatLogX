@@ -2,7 +2,6 @@ package combatlogx.expansion.compatibility.superior.skyblock;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
 import combatlogx.expansion.compatibility.superior.skyblock.listener.ListenerSuperiorSkyblock;
 
@@ -19,9 +18,7 @@ public final class SuperiorSkyblockExpansion extends Expansion {
     @Override
     public void onEnable() {
         if (!checkDependency("SuperiorSkyblock2", true)) {
-            ICombatLogX plugin = getPlugin();
-            ExpansionManager expansionManager = plugin.getExpansionManager();
-            expansionManager.disableExpansion(this);
+            selfDisable();
             return;
         }
 

@@ -3,6 +3,7 @@ package combatlogx.expansion.cheat.prevention.listener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -17,7 +18,7 @@ public abstract class CheatPreventionListener extends ExpansionListener {
 
     public CheatPreventionListener(Expansion expansion) {
         super(expansion);
-        this.messageCooldownMap = new HashMap<>();
+        this.messageCooldownMap = new ConcurrentHashMap<>();
     }
 
     protected final void sendMessageIgnoreCooldown(Player player, String key, Replacer replacer) {
@@ -28,7 +29,9 @@ public abstract class CheatPreventionListener extends ExpansionListener {
     protected final void sendMessage(Player player, String key, Replacer replacer) {
         long systemMillis = System.currentTimeMillis();
         long expireMillis = getCooldownExpireTime(player, key);
-        if (systemMillis < expireMillis) return;
+        if (systemMillis < expireMillis) {
+            return;
+        }
 
         sendMessageIgnoreCooldown(player, key, replacer);
     }
@@ -45,15 +48,15 @@ public abstract class CheatPreventionListener extends ExpansionListener {
     }
 
     private long getCooldownExpireTime(Player player, String key) {
-        UUID uuid = player.getUniqueId();
-        Map<String, Long> expireTimeMap = this.messageCooldownMap.getOrDefault(uuid, new HashMap<>());
+        UUID playerId = player.getUniqueId();
+        Map<String, Long> expireTimeMap = this.messageCooldownMap.getOrDefault(playerId, new HashMap<>());
         return expireTimeMap.getOrDefault(key, 0L);
     }
 
     private void addMessageCooldown(Player player, String key) {
-        UUID uuid = player.getUniqueId();
-        Map<String, Long> expireTimeMap = this.messageCooldownMap.getOrDefault(uuid, new HashMap<>());
+        UUID playerId = player.getUniqueId();
+        Map<String, Long> expireTimeMap = this.messageCooldownMap.getOrDefault(playerId, new HashMap<>());
         expireTimeMap.put(key, getNewMessageCooldownExpireTime());
-        this.messageCooldownMap.put(uuid, expireTimeMap);
+        this.messageCooldownMap.put(playerId, expireTimeMap);
     }
 }

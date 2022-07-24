@@ -31,7 +31,7 @@ public final class ListenerInvulnerable extends CombatListener {
     }
 
     private void checkEvent(PlayerEvent e) {
-        if(isDisabled()) {
+        if (isDisabled()) {
             return;
         }
 
