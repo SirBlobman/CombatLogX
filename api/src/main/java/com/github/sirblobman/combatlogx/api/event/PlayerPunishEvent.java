@@ -1,6 +1,6 @@
 package com.github.sirblobman.combatlogx.api.event;
 
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
@@ -21,9 +21,9 @@ public final class PlayerPunishEvent extends CustomPlayerEventCancellable {
     }
 
     private final UntagReason punishReason;
-    private final LivingEntity previousEnemy;
+    private final Entity previousEnemy;
 
-    public PlayerPunishEvent(Player player, UntagReason punishReason, LivingEntity previousEnemy) {
+    public PlayerPunishEvent(Player player, UntagReason punishReason, Entity previousEnemy) {
         super(player);
         this.previousEnemy = previousEnemy;
         this.punishReason = Validate.notNull(punishReason, "punishReason must not be null!");
@@ -41,7 +41,7 @@ public final class PlayerPunishEvent extends CustomPlayerEventCancellable {
     /**
      * @return The previous enemy of the player, or null if one did not exist.
      */
-    public LivingEntity getPreviousEnemy() {
+    public Entity getPreviousEnemy() {
         return this.previousEnemy;
     }
 

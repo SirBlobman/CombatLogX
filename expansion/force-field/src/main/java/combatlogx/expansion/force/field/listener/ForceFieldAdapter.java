@@ -13,6 +13,7 @@ import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.api.xseries.XMaterial;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
+import com.github.sirblobman.combatlogx.api.object.TagInformation;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.PacketType.Play.Client;
@@ -54,6 +55,11 @@ public final class ForceFieldAdapter extends PacketAdapter {
             return;
         }
 
+        TagInformation tagInformation = combatManager.getTagInformation(player);
+        if(tagInformation == null) {
+            return;
+        }
+
         World world = player.getWorld();
         PacketContainer packetContainer = e.getPacket();
         Location location = getLocation0(world, packetContainer);
@@ -61,7 +67,7 @@ public final class ForceFieldAdapter extends PacketAdapter {
             return;
         }
 
-        if (isForceFieldBlock(player, location)) {
+        if (isForceFieldBlock(player, location, tagInformation)) {
             PacketType packetType = packetContainer.getType();
             if (packetType == Client.BLOCK_DIG) {
                 StructureModifier<PlayerDigType> playerDigTypeModifier = packetContainer.getPlayerDigTypes();
@@ -92,11 +98,16 @@ public final class ForceFieldAdapter extends PacketAdapter {
             return;
         }
 
+        TagInformation tagInformation = combatManager.getTagInformation(player);
+        if(tagInformation == null) {
+            return;
+        }
+
         World world = player.getWorld();
         PacketContainer packetContainer = e.getPacket();
         Location location = getLocation0(world, packetContainer);
 
-        if (isForceFieldBlock(player, location)) {
+        if (isForceFieldBlock(player, location, tagInformation)) {
             WrappedBlockData wrappedBlockData = getWrappedBlockData();
             if (wrappedBlockData != null) {
                 packetContainer.getBlockData().writeSafely(0, wrappedBlockData);
@@ -104,15 +115,15 @@ public final class ForceFieldAdapter extends PacketAdapter {
         }
     }
 
-    private boolean isForceFieldBlock(Player player, Location location) {
-        UUID uuid = player.getUniqueId();
-        if (this.forceFieldListener.getFakeBlockMap().containsKey(uuid)) {
+    private boolean isForceFieldBlock(Player player, Location location, TagInformation tagInformation) {
+        UUID playerId = player.getUniqueId();
+        if (this.forceFieldListener.getFakeBlockMap().containsKey(playerId)) {
             boolean isSafe = this.forceFieldListener.isSafe(player, location);
-            boolean isSafeSurround = this.forceFieldListener.isSafeSurround(player, location);
+            boolean isSafeSurround = this.forceFieldListener.isSafeSurround(player, location, tagInformation);
             boolean canPlace = this.forceFieldListener.canPlace(WorldXYZ.from(location));
             if (isSafe && isSafeSurround && canPlace) {
                 WorldXYZ worldXYZ = WorldXYZ.from(location);
-                return this.forceFieldListener.getFakeBlockMap().get(uuid).contains(worldXYZ);
+                return this.forceFieldListener.getFakeBlockMap().get(playerId).contains(worldXYZ);
             }
         }
 

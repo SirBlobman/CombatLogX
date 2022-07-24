@@ -1,7 +1,7 @@
 package combatlogx.expansion.compatibility.citizens.listener;
 
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
@@ -27,7 +27,7 @@ public final class ListenerCombat extends ExpansionListener {
             return;
         }
 
-        LivingEntity entity = e.getEnemy();
+        Entity entity = e.getEnemy();
         if (EntityHelper.isNPC(entity)) {
             printDebug("enemy is NPC, cancelling event.");
             e.setCancelled(true);

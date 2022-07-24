@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,7 +14,7 @@ import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.NoEntryMode;
-import com.github.sirblobman.combatlogx.api.object.TagType;
+import com.github.sirblobman.combatlogx.api.object.TagInformation;
 
 public final class RegionVulnerableListener extends ExpansionListener {
     private final RegionExpansion regionExpansion;
@@ -39,15 +38,19 @@ public final class RegionVulnerableListener extends ExpansionListener {
             return;
         }
 
-        if (isInCombat(player)) {
-            ICombatManager combatManager = getCombatManager();
-            LivingEntity enemy = combatManager.getEnemy(player);
-            TagType tagType = getTagType(enemy);
+        if(!isInCombat(player)) {
+            return;
+        }
 
-            Location location = player.getLocation();
-            if (regionHandler.isSafeZone(player, location, tagType)) {
-                e.setCancelled(false);
-            }
+        ICombatManager combatManager = getCombatManager();
+        TagInformation tagInformation = combatManager.getTagInformation(player);
+        if(tagInformation == null) {
+            return;
+        }
+
+        Location location = player.getLocation();
+        if (regionHandler.isSafeZone(player, location, tagInformation)) {
+            e.setCancelled(false);
         }
     }
 

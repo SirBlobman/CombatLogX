@@ -3,7 +3,6 @@ package combatlogx.expansion.cheat.prevention.task;
 import java.util.List;
 
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -40,8 +39,7 @@ public final class FlightRetagTask extends BukkitRunnable {
                 continue;
             }
 
-            LivingEntity currentEnemy = combatManager.getEnemy(player);
-            combatManager.tag(player, currentEnemy, TagType.UNKNOWN, TagReason.UNKNOWN);
+            combatManager.tag(player, null, TagType.UNKNOWN, TagReason.UNKNOWN);
         }
     }
 

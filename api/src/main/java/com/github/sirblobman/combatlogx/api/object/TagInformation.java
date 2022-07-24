@@ -1,14 +1,9 @@
 package com.github.sirblobman.combatlogx.api.object;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -22,57 +17,87 @@ import org.jetbrains.annotations.Nullable;
 
 public final class TagInformation {
     private final UUID playerId;
-    private final Map<UUID, Long> enemyMap;
-    private final Map<UUID, WeakReference<Entity>> entityMap;
-    private long noEnemyExpireMillis;
+    private final List<CombatTag> tagList;
 
     public TagInformation(OfflinePlayer player) {
         Validate.notNull(player, "player must not be null!");
         this.playerId = player.getUniqueId();
-        this.enemyMap = new ConcurrentHashMap<>();
-        this.entityMap = new ConcurrentHashMap<>();
-        this.noEnemyExpireMillis = 0L;
+        this.tagList = new ArrayList<>();
     }
 
+    /**
+     * @return The {@link UUID} of the player that is tagged.
+     */
     @NotNull
     public UUID getPlayerId() {
         return this.playerId;
     }
 
+    /**
+     * @return The {@link OfflinePlayer} that is tagged.
+     * Can be null if the server cache is removed or the player doesn't exist.
+     * @see #getPlayerId()
+     */
     @Nullable
     public OfflinePlayer getOfflinePlayer() {
         UUID playerId = getPlayerId();
         return Bukkit.getOfflinePlayer(playerId);
     }
 
+
+    /**
+     * @return The {@link Player} that is tagged.
+     * Can be null if the player is offline.
+     * @see #getPlayerId()
+     */
     @Nullable
     public Player getPlayer() {
         UUID playerId = getPlayerId();
         return Bukkit.getPlayer(playerId);
     }
 
-    public Set<UUID> getEnemyIds() {
-        Set<UUID> enemyIdSet = this.enemyMap.keySet();
-        return Collections.unmodifiableSet(enemyIdSet);
+    /**
+     * @return A list of tags the player currently has.
+     * The list is sorted by descending expire time.
+     */
+    public List<CombatTag> getTags() {
+        List<CombatTag> tagList = new ArrayList<>(this.tagList);
+        tagList.sort(Collections.reverseOrder());
+
+        return Collections.unmodifiableList(tagList);
     }
 
+    /**
+     * @return A list of entity {@link UUID}s that the player is currently tagged with.
+     * The list is sorted by descending expire time.
+     */
+    public List<UUID> getEnemyIds() {
+        List<CombatTag> tagList = getTags();
+        List<UUID> enemyIdList = new ArrayList<>();
+
+        for (CombatTag combatTag : tagList) {
+            UUID enemyId = combatTag.getEnemyId();
+            if(enemyId != null) {
+                enemyIdList.add(enemyId);
+            }
+        }
+
+        return Collections.unmodifiableList(enemyIdList);
+    }
+
+    /**
+     * @return A list of {@link Entity} objects that the player is currently tagged with.
+     * The list is sorted by descending expire time.
+     */
     public List<Entity> getEnemies() {
-        Set<UUID> enemyIdSet = getEnemyIds();
+        List<CombatTag> tagList = getTags();
         List<Entity> enemyList = new ArrayList<>();
 
-        for (UUID enemyId : enemyIdSet) {
-            WeakReference<Entity> weakReference = this.entityMap.get(enemyId);
-            if(weakReference == null) {
-                continue;
+        for (CombatTag combatTag : tagList) {
+            Entity enemy = combatTag.getEnemy();
+            if(enemy != null) {
+                enemyList.add(enemy);
             }
-
-            Entity entity = weakReference.get();
-            if(entity == null) {
-                this.entityMap.remove(enemyId);
-                continue;
-            }
-
-            enemyList.add(entity);
         }
 
         return Collections.unmodifiableList(enemyList);
@@ -81,61 +106,79 @@ public final class TagInformation {
     public boolean isEnemy(Entity entity) {
         Validate.notNull(entity, "entity must not be null!");
 
-        UUID entityId = entity.getUniqueId();
-        return this.enemyMap.containsKey(entityId);
-    }
-
-    public void addEnemy(Entity entity, long expireMillis) {
-        Validate.notNull(entity, "entity must not be null!");
-
-        long systemMillis = System.currentTimeMillis();
-        if(systemMillis >= expireMillis) {
-            throw new IllegalArgumentException("expireMillis is already expired!");
+        List<CombatTag> tagList = getTags();
+        for (CombatTag combatTag : tagList) {
+            if (combatTag.doesEnemyMatch(entity)) {
+                return true;
+            }
         }
 
-        UUID entityId = entity.getUniqueId();
-        this.enemyMap.put(entityId, expireMillis);
-
-        WeakReference<Entity> weakReference = new WeakReference<>(entity);
-        this.entityMap.put(entityId, weakReference);
+        return false;
     }
 
-    public void addNoEnemy(long expireMillis) {
-        long systemMillis = System.currentTimeMillis();
-        if(systemMillis >= expireMillis) {
-            throw new IllegalArgumentException("expireMillis is already expired!");
+    public void addTag(CombatTag combatTag) {
+        Validate.notNull(combatTag, "combatTag must not be null!");
+
+        if(combatTag.isExpired()) {
+            throw new IllegalArgumentException("combatTag is already expired!");
         }
 
-        this.noEnemyExpireMillis = expireMillis;
+        if(this.tagList.contains(combatTag)) {
+            throw new IllegalArgumentException("The player already has that combat tag.");
+        }
+
+        this.tagList.add(combatTag);
     }
 
     public void removeEnemy(Entity entity) {
         Validate.notNull(entity, "entity must not be null!");
-
-        UUID entityId = entity.getUniqueId();
-        this.enemyMap.remove(entityId);
-        this.entityMap.remove(entityId);
-    }
-
-    public long getNoEnemyExpireMillis() {
-        return this.noEnemyExpireMillis;
-    }
-
-    public long getExpireMillis(Entity entity) {
-        Validate.notNull(entity, "entity must not be null!");
-
-        UUID entityId = entity.getUniqueId();
-        return this.enemyMap.getOrDefault(entityId, 0L);
+        this.tagList.removeIf(combatTag -> combatTag.doesEnemyMatch(entity));
     }
 
     public long getExpireMillisCombined() {
-        long expireMillis = getNoEnemyExpireMillis();
-
-        Collection<Long> valueCollection = this.enemyMap.values();
-        for (Long value : valueCollection) {
-            expireMillis = Math.max(expireMillis, value);
+        List<CombatTag> tagList = getTags();
+        if(tagList.isEmpty()) {
+            return 0L;
         }
 
-        return expireMillis;
+        CombatTag latestTag = tagList.get(0);
+        return latestTag.getExpireMillis();
+    }
+
+    public boolean isExpired() {
+        this.tagList.removeIf(CombatTag::isExpired);
+        return this.tagList.isEmpty();
+    }
+
+    public List<TagType> getTagTypes() {
+        List<CombatTag> tagList = getTags();
+        List<TagType> tagTypeList = new ArrayList<>();
+
+        for (CombatTag combatTag : tagList) {
+            TagType tagType = combatTag.getTagType();
+            tagTypeList.add(tagType);
+        }
+
+        return Collections.unmodifiableList(tagTypeList);
+    }
+
+    @NotNull
+    public TagType getCurrentTagType() {
+        List<TagType> tagTypeList = getTagTypes();
+        if(tagTypeList.isEmpty()) {
+            return TagType.UNKNOWN;
+        }
+
+        return tagTypeList.get(0);
+    }
+
+    @Nullable
+    public Entity getCurrentEnemy() {
+        List<Entity> enemyList = getEnemies();
+        if(enemyList.isEmpty()) {
+            return null;
+        }
+
+        return enemyList.get(0);
     }
 }

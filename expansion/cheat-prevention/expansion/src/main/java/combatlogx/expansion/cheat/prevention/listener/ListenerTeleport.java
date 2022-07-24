@@ -3,7 +3,6 @@ package combatlogx.expansion.cheat.prevention.listener;
 import java.util.List;
 
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -122,9 +121,7 @@ public final class ListenerTeleport extends CheatPreventionListener {
 
         Player player = e.getPlayer();
         ICombatManager combatManager = getCombatManager();
-        LivingEntity currentEnemy = combatManager.getEnemy(player);
-
-        combatManager.tag(player, currentEnemy, TagType.UNKNOWN, TagReason.UNKNOWN);
+        combatManager.tag(player, null, TagType.UNKNOWN, TagReason.UNKNOWN);
         printDebug("Player will be re-tagged. Done.");
     }
 

@@ -10,6 +10,7 @@ import org.bukkit.scheduler.BukkitScheduler;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
+import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 
 /**
@@ -33,12 +34,12 @@ public final class UntagTask implements Runnable {
         ICombatManager combatManager = this.plugin.getCombatManager();
         List<Player> playerCombatList = combatManager.getPlayersInCombat();
         for (Player player : playerCombatList) {
-            long timeLeftMillis = combatManager.getTimerLeftMillis(player);
-            if (timeLeftMillis > 0) {
-                continue;
+            TagInformation tagInformation = combatManager.getTagInformation(player);
+            if(tagInformation != null) {
+                if(tagInformation.isExpired()) {
+                    combatManager.untag(player, UntagReason.EXPIRE);
+                }
             }
-
-            combatManager.untag(player, UntagReason.EXPIRE);
         }
     }
 }

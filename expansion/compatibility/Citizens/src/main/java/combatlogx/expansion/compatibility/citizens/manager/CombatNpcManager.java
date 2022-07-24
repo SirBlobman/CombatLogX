@@ -28,6 +28,7 @@ import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
+import com.github.sirblobman.combatlogx.api.object.TagInformation;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
 import combatlogx.expansion.compatibility.citizens.object.CombatNPC;
@@ -177,29 +178,32 @@ public final class CombatNpcManager {
         this.npcCombatMap.put(npc.getUniqueId(), combatNPC);
 
         ICombatManager combatManager = plugin.getCombatManager();
-        LivingEntity enemyEntity = combatManager.getEnemy(player);
-        if (enemyEntity instanceof Player) {
-            combatNPC.setEnemy((Player) enemyEntity);
+        TagInformation tagInformation = combatManager.getTagInformation(player);
+        if(tagInformation != null) {
+            Entity enemyEntity = tagInformation.getCurrentEnemy();
+            if (enemyEntity instanceof Player) {
+                combatNPC.setEnemy((Player) enemyEntity);
+            }
+
+            CitizensExpansion citizensExpansion = getExpansion();
+            if (citizensExpansion.isSentinelEnabled()) {
+                if (enemyEntity != null && configuration.getBoolean("attack-first")) {
+                    SentinelTrait sentinelTrait = npc.getOrAddTrait(SentinelTrait.class);
+                    sentinelTrait.setInvincible(false);
+                    sentinelTrait.respawnTime = -1;
+
+                    UUID enemyId = enemyEntity.getUniqueId();
+                    String enemyIdString = enemyId.toString();
+
+                    SentinelTargetLabel targetLabel = new SentinelTargetLabel("uuid:" + enemyIdString);
+                    targetLabel.addToList(sentinelTrait.allTargets);
+                }
+            }
         }
 
         saveLocation(player, npc);
         saveInventory(player);
         equipNPC(player, npc);
-
-        CitizensExpansion citizensExpansion = getExpansion();
-        if (citizensExpansion.isSentinelEnabled()) {
-            if (enemyEntity != null && configuration.getBoolean("attack-first")) {
-                SentinelTrait sentinelTrait = npc.getOrAddTrait(SentinelTrait.class);
-                sentinelTrait.setInvincible(false);
-                sentinelTrait.respawnTime = -1;
-
-                UUID enemyId = enemyEntity.getUniqueId();
-                String enemyIdString = enemyId.toString();
-
-                SentinelTargetLabel targetLabel = new SentinelTargetLabel("uuid:" + enemyIdString);
-                targetLabel.addToList(sentinelTrait.allTargets);
-            }
-        }
 
         combatNPC.start();
     }

@@ -7,22 +7,22 @@ public enum TagType {
     UNKNOWN,
 
     /**
-     * Tag was caused by another player or themselves.
+     * CombatTag was caused by another player or themselves.
      */
     PLAYER,
 
     /**
-     * Tag was caused by a mob.
+     * CombatTag was caused by a mob.
      */
     MOB,
 
     /**
-     * Tag was caused by the Damage Tagger expansion.
+     * CombatTag was caused by the Damage Tagger expansion.
      */
     DAMAGE,
 
     /**
-     * Tag was caused by a custom mob from the MythicMobs plugin.
+     * CombatTag was caused by a custom mob from the MythicMobs plugin.
      */
     MYTHIC_MOB;
 }

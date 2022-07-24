@@ -53,7 +53,7 @@ public final class ListenerDamage extends ExpansionListener {
             return;
         }
 
-        LivingEntity enemy = e.getEnemy();
+        Entity enemy = e.getEnemy();
         if (enemy == null || enemy instanceof Player) {
             return;
         }
@@ -192,7 +192,7 @@ public final class ListenerDamage extends ExpansionListener {
         combatManager.tag(player, livingEnemy, TagType.MOB, tagReason);
     }
 
-    private SpawnReason getSpawnReason(LivingEntity entity) {
+    private SpawnReason getSpawnReason(Entity entity) {
         if (entity == null) {
             return SpawnReason.DEFAULT;
         }

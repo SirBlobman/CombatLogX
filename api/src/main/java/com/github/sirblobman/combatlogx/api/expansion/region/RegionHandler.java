@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,6 +20,7 @@ import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.NoEntryMode;
+import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
 public abstract class RegionHandler {
@@ -35,12 +36,12 @@ public abstract class RegionHandler {
         return this.expansion;
     }
 
-    public final void sendEntryDeniedMessage(Player player, LivingEntity enemy) {
+    public final void sendEntryDeniedMessage(Player player, TagInformation tagInformation) {
         if (player == null) {
             return;
         }
 
-        TagType tagType = getTagType(enemy);
+        TagType tagType = tagInformation.getCurrentTagType();
         String messagePath = getEntryDeniedMessagePath(tagType);
         if (messagePath == null) {
             return;
@@ -66,7 +67,8 @@ public abstract class RegionHandler {
         this.cooldownMap.put(playerId, expireMillis);
     }
 
-    public final void preventEntry(Cancellable e, Player player, Location fromLocation, Location toLocation) {
+    public final void preventEntry(Cancellable e, Player player, TagInformation tagInformation,
+                                   Location fromLocation, Location toLocation) {
         if (player == null) {
             return;
         }
@@ -79,9 +81,7 @@ public abstract class RegionHandler {
             return;
         }
 
-        LivingEntity enemy = combatManager.getEnemy(player);
-        sendEntryDeniedMessage(player, enemy);
-
+        Entity enemy = tagInformation.getCurrentEnemy();
         NoEntryMode noEntryMode = getNoEntryMode();
         switch (noEntryMode) {
             case KILL_PLAYER:
@@ -90,8 +90,10 @@ public abstract class RegionHandler {
             case TELEPORT_TO_ENEMY:
                 if (enemy != null) {
                     player.teleport(enemy);
-                    break;
+                } else {
+                    e.setCancelled(true);
                 }
+                break;
             case CANCEL_EVENT:
                 e.setCancelled(true);
                 break;
@@ -110,6 +112,8 @@ public abstract class RegionHandler {
             default:
                 break;
         }
+
+        sendEntryDeniedMessage(player, tagInformation);
     }
 
     public final long getEntryDeniedMessageCooldown() {
@@ -180,15 +184,7 @@ public abstract class RegionHandler {
         return configurationManager.get("config.yml");
     }
 
-    private TagType getTagType(LivingEntity enemy) {
-        if (enemy == null) {
-            return TagType.UNKNOWN;
-        }
-
-        return (enemy instanceof Player ? TagType.PLAYER : TagType.MOB);
-    }
-
     public abstract String getEntryDeniedMessagePath(TagType tagType);
 
-    public abstract boolean isSafeZone(Player player, Location location, TagType tagType);
+    public abstract boolean isSafeZone(Player player, Location location, TagInformation tagInformation);
 }

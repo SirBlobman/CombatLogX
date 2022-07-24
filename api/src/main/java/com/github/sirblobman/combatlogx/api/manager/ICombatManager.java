@@ -5,7 +5,6 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 
@@ -19,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 
 public interface ICombatManager {
     /**
-     * Tag a player into combat.
+     * CombatTag a player into combat.
      *
      * @param player    The {@link Player} to tag.
      * @param enemy     The enemy that caused the player to be tagged. Can be {@code null}
@@ -30,7 +29,7 @@ public interface ICombatManager {
     boolean tag(Player player, Entity enemy, TagType tagType, TagReason tagReason);
 
     /**
-     * Tag a player into combat.
+     * CombatTag a player into combat.
      *
      * @param player          The {@link Player} to tag.
      * @param enemy           The enemy that caused the player to be tagged. Can be {@code null}
@@ -159,7 +158,7 @@ public interface ICombatManager {
      * @param string The string that will have variables replaced.
      * @return A new string with certain variables replaced.
      */
-    String replaceVariables(Player player, LivingEntity enemy, String string);
+    String replaceVariables(Player player, Entity enemy, String string);
 
     /**
      * @return The current bypass permission, or {@code null} if one is not set.

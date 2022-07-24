@@ -124,7 +124,7 @@ public final class ListenerDamage extends CombatListener {
         plugin.printDebug("Triggering tag for player " + getName(playerEntity) + " with enemy "
                 + getName(playerEnemy) + "...");
         boolean tag = combatManager.tag(playerEntity, playerEnemy, TagType.PLAYER, tagReason);
-        plugin.printDebug("Tag Status: " + tag);
+        plugin.printDebug("CombatTag Status: " + tag);
     }
 
     private String getName(Entity entity) {

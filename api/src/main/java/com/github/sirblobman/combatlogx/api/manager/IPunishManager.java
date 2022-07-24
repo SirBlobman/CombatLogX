@@ -1,7 +1,7 @@
 package com.github.sirblobman.combatlogx.api.manager;
 
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
@@ -21,7 +21,7 @@ public interface IPunishManager {
      * @param previousEnemy The original enemy of the player.
      * @return {@code true} if the plugin was able to punish the player successfully.
      */
-    boolean punish(Player player, UntagReason punishReason, LivingEntity previousEnemy);
+    boolean punish(Player player, UntagReason punishReason, Entity previousEnemy);
 
     /**
      * Get the total amount of times a player was punished.

@@ -19,7 +19,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -53,9 +52,12 @@ public final class ListenerLogger extends ExpansionListener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void beforeTag(PlayerPreTagEvent e) {
-        if (isDisabled("log-pretag")) return;
+        if (isDisabled("log-pretag")) {
+            return;
+        }
+
         Player player = e.getPlayer();
-        LivingEntity enemy = e.getEnemy();
+        Entity enemy = e.getEnemy();
         TagReason tagReason = e.getTagReason();
         TagType tagType = e.getTagType();
 
@@ -74,9 +76,12 @@ public final class ListenerLogger extends ExpansionListener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onTag(PlayerTagEvent e) {
-        if (isDisabled("log-tag")) return;
+        if (isDisabled("log-tag")) {
+            return;
+        }
+
         Player player = e.getPlayer();
-        LivingEntity enemy = e.getEnemy();
+        Entity enemy = e.getEnemy();
         TagReason tagReason = e.getTagReason();
         TagType tagType = e.getTagType();
 
@@ -93,9 +98,12 @@ public final class ListenerLogger extends ExpansionListener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onReTag(PlayerReTagEvent e) {
-        if (isDisabled("log-retag")) return;
+        if (isDisabled("log-retag")) {
+            return;
+        }
+
         Player player = e.getPlayer();
-        LivingEntity enemy = e.getEnemy();
+        Entity enemy = e.getEnemy();
         TagReason tagReason = e.getTagReason();
         TagType tagType = e.getTagType();
 
@@ -114,28 +122,32 @@ public final class ListenerLogger extends ExpansionListener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onUntag(PlayerUntagEvent e) {
-        if (isDisabled("log-untag")) return;
+        if (isDisabled("log-untag")) {
+            return;
+        }
+
         Player player = e.getPlayer();
-        LivingEntity enemy = e.getPreviousEnemy();
         UntagReason untagReason = e.getUntagReason();
         boolean isExpire = untagReason.isExpire();
 
         String format = getLoggerFormat("untag-format");
         String playerName = player.getName();
-        String enemyName = getEntityName(enemy);
         String untagReasonName = untagReason.name();
         String expireString = Boolean.toString(isExpire);
 
-        String message = format.replace("{player}", playerName).replace("{enemy}", enemyName)
-                .replace("{untag_reason}", untagReasonName).replace("{was_expire}", expireString);
+        String message = format.replace("{player}", playerName).replace("{untag_reason}", untagReasonName)
+                .replace("{was_expire}", expireString);
         appendLog(message);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPunish(PlayerPunishEvent e) {
-        if (isDisabled("log-punish")) return;
+        if (isDisabled("log-punish")) {
+            return;
+        }
+
         Player player = e.getPlayer();
-        LivingEntity enemy = e.getPreviousEnemy();
+        Entity enemy = e.getPreviousEnemy();
         UntagReason untagReason = e.getPunishReason();
 
         String format = getLoggerFormat("untag-format");
@@ -151,7 +163,10 @@ public final class ListenerLogger extends ExpansionListener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onDamage(EntityDamageByEntityEvent e) {
-        if (isDisabled("log-entity-damage-event")) return;
+        if (isDisabled("log-entity-damage-event")) {
+            return;
+        }
+
         Entity damaged = e.getEntity();
         Entity damager = e.getDamager();
 
@@ -194,13 +209,17 @@ public final class ListenerLogger extends ExpansionListener {
         YamlConfiguration configuration = configurationManager.get("config.yml");
 
         String prefixFormat = configuration.getString("log-entry-options.prefix-format");
-        if (prefixFormat == null) prefixFormat = "[MMMM dd, YYYY HH:mm:ss.SSSa zzz] ";
+        if (prefixFormat == null) {
+            prefixFormat = "[MMMM dd, YYYY HH:mm:ss.SSSa zzz] ";
+        }
 
         SimpleDateFormat format = new SimpleDateFormat(prefixFormat);
         String prefix = format.format(new Date(System.currentTimeMillis()));
 
         String messageFormat = configuration.getString("log-entry-options." + path);
-        if (messageFormat == null) messageFormat = "";
+        if (messageFormat == null) {
+            messageFormat = "";
+        }
 
         return (prefix + messageFormat);
     }

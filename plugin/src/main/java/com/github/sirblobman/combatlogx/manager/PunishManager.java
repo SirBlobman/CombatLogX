@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
@@ -53,7 +54,7 @@ public final class PunishManager implements IPunishManager {
     }
 
     @Override
-    public boolean punish(Player player, UntagReason punishReason, LivingEntity previousEnemy) {
+    public boolean punish(Player player, UntagReason punishReason, Entity previousEnemy) {
         PlayerPunishEvent punishEvent = new PlayerPunishEvent(player, punishReason, previousEnemy);
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.callEvent(punishEvent);
@@ -131,7 +132,7 @@ public final class PunishManager implements IPunishManager {
         }
     }
 
-    private void runPunishCommands(Player player, LivingEntity previousEnemy, List<String> punishCommandList) {
+    private void runPunishCommands(Player player, Entity previousEnemy, List<String> punishCommandList) {
         if (punishCommandList.isEmpty()) {
             return;
         }
@@ -197,7 +198,7 @@ public final class PunishManager implements IPunishManager {
         logger.info("Successfully loaded " + specialPunishmentCount + " special punishment(s).");
     }
 
-    private void runSpecialPunishments(Player player, LivingEntity previousEnemy) {
+    private void runSpecialPunishments(Player player, Entity previousEnemy) {
         long punishmentCount = getPunishmentCount(player);
         boolean reset = false;
 

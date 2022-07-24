@@ -3,7 +3,6 @@ package com.github.sirblobman.combatlogx.listener;
 import java.util.List;
 import java.util.UUID;
 
-import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
@@ -49,7 +48,7 @@ public final class ListenerConfiguration extends CombatListener {
             return;
         }
 
-        LivingEntity enemy = e.getEnemy();
+        Entity enemy = e.getEnemy();
         if (isSelfCombatDisabled(player, enemy)) {
             printDebug("Self combat is disabled, cancelling.");
             e.setCancelled(true);
@@ -62,7 +61,7 @@ public final class ListenerConfiguration extends CombatListener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onTag(PlayerTagEvent e) {
         Player player = e.getPlayer();
-        LivingEntity enemy = e.getEnemy();
+        Entity enemy = e.getEnemy();
         runTagCommands(player, enemy);
     }
 
@@ -113,7 +112,7 @@ public final class ListenerConfiguration extends CombatListener {
         return combatManager.canBypass(player);
     }
 
-    private boolean isSelfCombatDisabled(Player player, LivingEntity enemy) {
+    private boolean isSelfCombatDisabled(Player player, Entity enemy) {
         if (enemy == null || doesNotEqual(player, enemy)) {
             return false;
         }
@@ -154,16 +153,13 @@ public final class ListenerConfiguration extends CombatListener {
         }
 
         ICombatManager combatManager = getCombatManager();
-        OfflinePlayer offlinePlayer = combatManager.getByEnemy(enemy);
-        if (offlinePlayer == null || !offlinePlayer.isOnline()) {
-            return;
+        List<Player> playerList = combatManager.getPlayersInCombat();
+        for (Player player : playerList) {
+            combatManager.untag(player, enemy, UntagReason.ENEMY_DEATH);
         }
-
-        Player player = offlinePlayer.getPlayer();
-        if (player != null && combatManager.isInCombat(player)) combatManager.untag(player, UntagReason.ENEMY_DEATH);
     }
 
-    private void runTagCommands(Player player, LivingEntity enemy) {
+    private void runTagCommands(Player player, Entity enemy) {
         ConfigurationManager configurationManager = getPluginConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("commands.yml");
 

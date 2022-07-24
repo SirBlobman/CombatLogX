@@ -58,7 +58,7 @@ public final class ListenerMythicMobs extends ExpansionListener {
             return;
         }
 
-        LivingEntity enemy = e.getEnemy();
+        Entity enemy = e.getEnemy();
         if (enemy == null || !isMythicMob(enemy)) {
             return;
         }

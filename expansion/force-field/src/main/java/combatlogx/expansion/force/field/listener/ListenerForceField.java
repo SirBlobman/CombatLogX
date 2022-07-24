@@ -18,7 +18,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -41,7 +40,7 @@ import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
-import com.github.sirblobman.combatlogx.api.object.TagType;
+import com.github.sirblobman.combatlogx.api.object.TagInformation;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
@@ -123,8 +122,7 @@ public final class ListenerForceField extends ExpansionListener {
             return;
         }
 
-        LivingEntity enemy = e.getEnemy();
-        updateForceField(player, enemy);
+        updateForceField(player);
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -174,7 +172,7 @@ public final class ListenerForceField extends ExpansionListener {
         this.fakeBlockMap.clear();
     }
 
-    protected YamlConfiguration getConfiguration() {
+    private YamlConfiguration getConfiguration() {
         ConfigurationManager configurationManager = getExpansionConfigurationManager();
         return configurationManager.get("config.yml");
     }
@@ -184,7 +182,7 @@ public final class ListenerForceField extends ExpansionListener {
         return this.bypassPermission;
     }
 
-    protected boolean canBypass(Player player) {
+    private boolean canBypass(Player player) {
         Permission permission = getBypassPermission();
         if (permission == null) {
             return false;
@@ -193,7 +191,7 @@ public final class ListenerForceField extends ExpansionListener {
         return player.hasPermission(permission);
     }
 
-    protected XMaterial getForceFieldMaterial() {
+    XMaterial getForceFieldMaterial() {
         YamlConfiguration configuration = getConfiguration();
         String materialName = configuration.getString("material");
         if (materialName == null) {
@@ -203,17 +201,17 @@ public final class ListenerForceField extends ExpansionListener {
         return XMaterial.matchXMaterial(materialName).orElse(XMaterial.RED_STAINED_GLASS);
     }
 
-    protected int getForceFieldRadius() {
+    private int getForceFieldRadius() {
         YamlConfiguration configuration = getConfiguration();
         return configuration.getInt("radius", 8);
     }
 
-    protected boolean isSafeMode() {
+    private boolean isSafeMode() {
         YamlConfiguration configuration = getConfiguration();
         return !configuration.getBoolean("unsafe-mode", false);
     }
 
-    protected boolean canPlace(WorldXYZ worldXYZ) {
+    boolean canPlace(WorldXYZ worldXYZ) {
         if (worldXYZ == null) {
             return false;
         }
@@ -240,7 +238,7 @@ public final class ListenerForceField extends ExpansionListener {
     }
 
     @SuppressWarnings("deprecation")
-    protected void sendForceField(Player player, Location location) {
+    void sendForceField(Player player, Location location) {
         XMaterial material = getForceFieldMaterial();
         Material bukkitMaterial = material.parseMaterial();
         if (bukkitMaterial == null) {
@@ -259,7 +257,7 @@ public final class ListenerForceField extends ExpansionListener {
     }
 
     @SuppressWarnings("deprecation")
-    protected void resetBlock(Player player, Location location) {
+    private void resetBlock(Player player, Location location) {
         Block block = location.getBlock();
         int minorVersion = VersionUtility.getMinorVersion();
         if (minorVersion < 13) {
@@ -273,7 +271,7 @@ public final class ListenerForceField extends ExpansionListener {
         player.sendBlockChange(location, blockData);
     }
 
-    protected void updateForceField(Player player) {
+    private void updateForceField(Player player) {
         ICombatManager combatManager = getCombatManager();
         if (!combatManager.isInCombat(player)) {
             return;
@@ -284,42 +282,29 @@ public final class ListenerForceField extends ExpansionListener {
             return;
         }
 
-        if (isSafeMode()) safeForceField(player);
-        else this.forceFieldExecutor.submit(() -> safeForceField(player));
-    }
-
-    protected void updateForceField(Player player, LivingEntity enemy) {
-        ICombatManager combatManager = getCombatManager();
-        if (!combatManager.isInCombat(player)) {
+        TagInformation tagInformation = combatManager.getTagInformation(player);
+        if(tagInformation == null) {
             return;
         }
 
-        Location playerLocation = player.getLocation();
-        if (isSafe(player, playerLocation)) {
-            return;
+        if (isSafeMode()) {
+            safeForceField(player, tagInformation);
+        } else  {
+            this.forceFieldExecutor.submit(() -> safeForceField(player, tagInformation));
         }
-
-        if (isSafeMode()) safeForceField(player, enemy);
-        else this.forceFieldExecutor.submit(() -> safeForceField(player, enemy));
     }
 
-    protected void removeForceField(Player player) {
-        if (isSafeMode()) safeRemoveForceField(player);
-        else this.forceFieldExecutor.submit(() -> safeRemoveForceField(player));
+    private void removeForceField(Player player) {
+        if (isSafeMode()) {
+            safeRemoveForceField(player);
+        } else {
+            this.forceFieldExecutor.submit(() -> safeRemoveForceField(player));
+        }
     }
 
-    protected boolean isSafeSurround(Player player, Location location) {
-        ICombatManager combatManager = getCombatManager();
-        LivingEntity enemy = combatManager.getEnemy(player);
-
-        TagType tagType = getTagType(enemy);
-        return isSafeSurround(player, location, tagType);
-    }
-
-    private Set<WorldXYZ> getForceFieldArea(Player player, LivingEntity enemy) {
+    private Set<WorldXYZ> getForceFieldArea(Player player, TagInformation tagInformation) {
         World world = player.getWorld();
         WorldXYZ playerXYZ = WorldXYZ.from(player);
-        TagType tagType = getTagType(enemy);
         int radius = getForceFieldRadius();
 
         Set<WorldXYZ> area = new HashSet<>();
@@ -335,11 +320,11 @@ public final class ListenerForceField extends ExpansionListener {
                     continue;
                 }
 
-                if (!isSafe(player, location, tagType)) {
+                if (!isSafe(player, location, tagInformation)) {
                     continue;
                 }
 
-                if (!isSafeSurround(player, location, tagType)) {
+                if (!isSafeSurround(player, location, tagInformation)) {
                     continue;
                 }
 
@@ -359,13 +344,15 @@ public final class ListenerForceField extends ExpansionListener {
 
     private void safeForceField(Player player) {
         ICombatManager combatManager = getCombatManager();
-        LivingEntity enemy = combatManager.getEnemy(player);
-        safeForceField(player, enemy);
+        TagInformation tagInformation = combatManager.getTagInformation(player);
+        if(tagInformation != null) {
+            safeForceField(player, tagInformation);
+        }
     }
 
-    private void safeForceField(Player player, LivingEntity enemy) {
+    private void safeForceField(Player player, TagInformation tagInformation) {
         Set<WorldXYZ> oldArea = new HashSet<>();
-        Set<WorldXYZ> newArea = getForceFieldArea(player, enemy);
+        Set<WorldXYZ> newArea = getForceFieldArea(player, tagInformation);
         Set<WorldXYZ> fullArea = new HashSet<>(newArea);
 
         UUID uuid = player.getUniqueId();
@@ -400,12 +387,12 @@ public final class ListenerForceField extends ExpansionListener {
         }
     }
 
-    private boolean isSafeSurround(Player player, Location location, TagType tagType) {
+    boolean isSafeSurround(Player player, Location location, TagInformation tagInformation) {
         Block blockLocation = location.getBlock();
         BlockFace[] blockFaceArray = {BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST};
         for (BlockFace blockFace : blockFaceArray) {
             Location relativeLocation = blockLocation.getRelative(blockFace).getLocation();
-            if (!isSafe(player, relativeLocation, tagType)) {
+            if (!isSafe(player, relativeLocation, tagInformation)) {
                 return true;
             }
         }
@@ -413,7 +400,7 @@ public final class ListenerForceField extends ExpansionListener {
         return false;
     }
 
-    private boolean isSafe(Player player, Location location, TagType tagType) {
+    private boolean isSafe(Player player, Location location, TagInformation tagInformation) {
         ICombatLogX plugin = getCombatLogX();
         ExpansionManager expansionManager = plugin.getExpansionManager();
         List<Expansion> enabledExpansionList = expansionManager.getEnabledExpansions();
@@ -422,7 +409,7 @@ public final class ListenerForceField extends ExpansionListener {
             if (expansion instanceof RegionExpansion) {
                 RegionExpansion regionExpansion = (RegionExpansion) expansion;
                 RegionHandler regionHandler = regionExpansion.getRegionHandler();
-                if (regionHandler.isSafeZone(player, location, tagType)) {
+                if (regionHandler.isSafeZone(player, location, tagInformation)) {
                     return true;
                 }
             }
@@ -431,11 +418,13 @@ public final class ListenerForceField extends ExpansionListener {
         return false;
     }
 
-    protected boolean isSafe(Player player, Location location) {
+    boolean isSafe(Player player, Location location) {
         ICombatManager combatManager = getCombatManager();
-        LivingEntity enemy = combatManager.getEnemy(player);
+        TagInformation tagInformation = combatManager.getTagInformation(player);
+        if(tagInformation == null) {
+            return false;
+        }
 
-        TagType tagType = getTagType(enemy);
-        return isSafe(player, location, tagType);
+        return isSafe(player, location, tagInformation);
     }
 }

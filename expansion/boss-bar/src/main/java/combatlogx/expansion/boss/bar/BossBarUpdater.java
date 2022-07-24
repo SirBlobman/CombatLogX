@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -16,6 +16,7 @@ import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.bossbar.BossBarHandler;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
+import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TimerUpdater;
 
 public final class BossBarUpdater implements TimerUpdater {
@@ -154,7 +155,13 @@ public final class BossBarUpdater implements TimerUpdater {
     private String replacePlaceholders(Player player, String message) {
         ICombatLogX combatLogX = getCombatLogX();
         ICombatManager combatManager = combatLogX.getCombatManager();
-        LivingEntity enemy = combatManager.getEnemy(player);
+
+        TagInformation tagInformation = combatManager.getTagInformation(player);
+        if(tagInformation == null) {
+            return message;
+        }
+
+        Entity enemy = tagInformation.getCurrentEnemy();
         return combatManager.replaceVariables(player, enemy, message);
     }
 }

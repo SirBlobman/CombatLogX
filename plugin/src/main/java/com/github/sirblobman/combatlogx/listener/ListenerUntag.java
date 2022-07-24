@@ -3,6 +3,7 @@ package com.github.sirblobman.combatlogx.listener;
 import java.util.List;
 
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,7 +14,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.CombatPlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
+import com.github.sirblobman.combatlogx.api.event.PlayerEnemyRemoveEvent;
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.IPunishManager;
@@ -51,9 +52,9 @@ public final class ListenerUntag extends CombatListener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onUntag(PlayerUntagEvent e) {
+    public void onUntag(PlayerEnemyRemoveEvent e) {
         Player player = e.getPlayer();
-        LivingEntity previousEnemy = e.getPreviousEnemy();
+        Entity previousEnemy = e.getEnemy();
         UntagReason untagReason = e.getUntagReason();
 
         ICombatLogX plugin = getCombatLogX();
@@ -93,7 +94,7 @@ public final class ListenerUntag extends CombatListener {
         plugin.sendMessageWithPrefix(player, languagePath, null, true);
     }
 
-    private void runUntagCommands(Player player, LivingEntity previousEnemy) {
+    private void runUntagCommands(Player player, Entity previousEnemy) {
         ConfigurationManager configurationManager = getPluginConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("commands.yml");
         List<String> untagCommandList = configuration.getStringList("untag-command-list");

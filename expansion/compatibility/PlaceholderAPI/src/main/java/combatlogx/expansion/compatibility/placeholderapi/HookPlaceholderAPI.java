@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,6 +17,7 @@ import com.github.sirblobman.combatlogx.api.expansion.Expansion.State;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionDescription;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
+import com.github.sirblobman.combatlogx.api.object.TagInformation;
 
 import combatlogx.expansion.newbie.helper.NewbieHelperExpansion;
 import combatlogx.expansion.newbie.helper.manager.PVPManager;
@@ -143,8 +144,13 @@ public final class HookPlaceholderAPI extends PlaceholderExpansion {
     private String getEnemyPlaceholder(Player player, String enemyPlaceholder) {
         ICombatLogX plugin = this.expansion.getPlugin();
         ICombatManager combatManager = plugin.getCombatManager();
-        LivingEntity enemy = combatManager.getEnemy(player);
 
+        TagInformation tagInformation = combatManager.getTagInformation(player);
+        if(tagInformation == null) {
+            return getUnknownEnemy(plugin, player);
+        }
+
+        Entity enemy = tagInformation.getCurrentEnemy();
         if (enemy instanceof Player) {
             Player playerEnemy = (Player) enemy;
             String placeholder = String.format(Locale.US, "{%s}", enemyPlaceholder);

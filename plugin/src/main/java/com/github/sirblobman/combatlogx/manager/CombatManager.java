@@ -14,7 +14,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachmentInfo;
@@ -35,6 +34,7 @@ import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.ITimerManager;
+import com.github.sirblobman.combatlogx.api.object.CombatTag;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
@@ -102,19 +102,11 @@ public final class CombatManager implements ICombatManager {
             sendTagMessage(player, enemy, tagType, tagReason);
         }
 
-        TagInformation tagInformation = getTagInformation(player);
-        if(tagInformation == null) {
-            tagInformation = new TagInformation(player);
-        }
-
-        if(enemy == null) {
-            tagInformation.addNoEnemy(customEndMillis);
-        } else {
-            tagInformation.addEnemy(enemy, customEndMillis);
-        }
 
         UUID playerId = player.getUniqueId();
-        this.combatMap.put(playerId, tagInformation);
+        CombatTag combatTag = new CombatTag(enemy, tagType, tagReason, customEndMillis);
+        TagInformation tagInformation = this.combatMap.computeIfAbsent(playerId, key -> new TagInformation(player));
+        tagInformation.addTag(combatTag);
 
         String playerName = player.getName();
         this.plugin.printDebug("Successfully put player '" + playerName + "' into combat.");
@@ -294,7 +286,7 @@ public final class CombatManager implements ICombatManager {
     }
 
     @Override
-    public String replaceVariables(Player player, LivingEntity enemy, String string) {
+    public String replaceVariables(Player player, Entity enemy, String string) {
         String playerName = player.getName();
         String enemyName = getEntityName(player, enemy);
 

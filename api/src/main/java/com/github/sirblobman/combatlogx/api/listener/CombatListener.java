@@ -1,5 +1,7 @@
 package com.github.sirblobman.combatlogx.api.listener;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Logger;
@@ -10,7 +12,6 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -25,6 +26,8 @@ import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.IDeathManager;
+import com.github.sirblobman.combatlogx.api.object.CombatTag;
+import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
 import org.jetbrains.annotations.NotNull;
@@ -93,18 +96,6 @@ public abstract class CombatListener implements Listener {
         return combatManager.isInCombat(player);
     }
 
-    protected final TagType getTagType(LivingEntity entity) {
-        if (entity == null) {
-            return TagType.UNKNOWN;
-        }
-
-        if (entity instanceof Player) {
-            return TagType.PLAYER;
-        }
-
-        return TagType.MOB;
-    }
-
     protected final String getMessageWithPrefix(@Nullable CommandSender sender, @NotNull String key,
                                                 @Nullable Replacer replacer, boolean color) {
         ICombatLogX plugin = getCombatLogX();
@@ -171,5 +162,21 @@ public abstract class CombatListener implements Listener {
         String worldName = world.getName();
         boolean contains = disabledWorldList.contains(worldName);
         return (inverted != contains);
+    }
+
+    @Nullable
+    protected final Entity getCurrentEnemy(ICombatLogX plugin, Player player) {
+        ICombatManager combatManager = plugin.getCombatManager();
+        TagInformation tagInformation = combatManager.getTagInformation(player);
+        if(tagInformation == null) {
+            return null;
+        }
+
+        List<Entity> enemyList = tagInformation.getEnemies();
+        if(enemyList.isEmpty()) {
+            return null;
+        }
+
+        return enemyList.get(0);
     }
 }

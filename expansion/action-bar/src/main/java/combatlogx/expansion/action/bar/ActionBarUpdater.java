@@ -1,7 +1,7 @@
 package combatlogx.expansion.action.bar;
 
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import net.md_5.bungee.api.ChatColor;
 
@@ -15,6 +15,7 @@ import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
+import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TimerUpdater;
 
 public final class ActionBarUpdater implements TimerUpdater {
@@ -110,7 +111,13 @@ public final class ActionBarUpdater implements TimerUpdater {
 
         ICombatLogX combatLogX = getCombatLogX();
         ICombatManager combatManager = combatLogX.getCombatManager();
-        LivingEntity enemy = combatManager.getEnemy(player);
+
+        TagInformation tagInformation = combatManager.getTagInformation(player);
+        if(tagInformation == null) {
+            return message;
+        }
+
+        Entity enemy = tagInformation.getCurrentEnemy();
         return combatManager.replaceVariables(player, enemy, message);
     }
 

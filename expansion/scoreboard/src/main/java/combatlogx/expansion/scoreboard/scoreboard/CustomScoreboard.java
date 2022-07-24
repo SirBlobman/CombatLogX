@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -17,11 +17,11 @@ import org.bukkit.scoreboard.Team;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.api.nms.scoreboard.ScoreboardHandler;
-import com.github.sirblobman.api.utility.MessageUtility;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
+import com.github.sirblobman.combatlogx.api.object.TagInformation;
 
 import combatlogx.expansion.scoreboard.ScoreboardExpansion;
 
@@ -215,15 +215,18 @@ public final class CustomScoreboard {
         return lineList;
     }
 
-    private String replacePlaceholders(String string) {
+    private String replacePlaceholders(String message) {
         ScoreboardExpansion expansion = getExpansion();
         ICombatLogX plugin = expansion.getPlugin();
         ICombatManager combatManager = plugin.getCombatManager();
 
         Player player = getPlayer();
-        LivingEntity enemy = combatManager.getEnemy(player);
+        TagInformation tagInformation = combatManager.getTagInformation(player);
+        if(tagInformation == null) {
+            return message;
+        }
 
-        String color = MessageUtility.color(string);
-        return combatManager.replaceVariables(player, enemy, color);
+        Entity enemy = tagInformation.getCurrentEnemy();
+        return combatManager.replaceVariables(player, enemy, message);
     }
 }
