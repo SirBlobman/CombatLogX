@@ -1,51 +1,57 @@
 [SIZE=5][B]Supported Spigot Versions:[/B][/SIZE]
-1.8.8, 1.12.2, 1.16.5, 1.17.1
+1.8.8, 1.12.2, 1.16.5, 1.18.2, 1.19
 
 [SIZE=5][COLOR=#FF0000][B]Dependencies:[/B][/COLOR][/SIZE]
 [LIST]
 [*][URL='https://www.spigotmc.org/resources/83189/']SirBlobmanCore[/URL]
 [/LIST]
 
-[SIZE=5][B][COLOR=#FF0000]Notification:[/COLOR][/B][/SIZE]
-If you are using a host or service provider that prevents you from editing certain files, then you may have problems using CombatLogX on your server. Please consider choosing a different host or contacting the support team of your current one and requesting full file access.
-
-[SIZE=5][B][COLOR=#FF0000]CombatLogX Beta:[/COLOR][/B][/SIZE]
-If you're using SirBlobmanCore 2.4.0 or 1.18.2/1.19, you must use CombatLogX Beta. This version is a developer build and may contain bugs or issues.
-
-You can also use the beta on other versions if you just want the latest features.
-
-If you would like to test the latest version or help with issues, you can download it through the link below. Please report any bugs for the beta version on my GitHub.
-[URL='https://jenkins.sirblobman.xyz/job/SirBlobman/job/CombatLogX/']CombatLogX Beta Jenkins[/URL]
-
 [SIZE=5][B][COLOR=#FF0000]Description:[/COLOR][/B][/SIZE]
 CombatLogX is a pvp-based plugin that punishes players for logging out during combat.
 There are many configuration options, such as punishment type and commands.
 CombatLogX also has a lot of expansions that are used to add extra features and keep the main plugin lightweight.
 
+[SIZE=5][B][COLOR=#FF0000]Installation Guide:[/COLOR][/B][/SIZE]
+CombatLogX has different installation steps than other plugins.
+Please read this guide before trying to add CombatLogX to your server!
+[LIST=1]
+[*]Download the [U]CombatLogX.zip[/U] file from Jenkins or SpigotMC
+[*]Stop your server. (Click the stop button on the panel or type `stop` into the console if your server doesn't use a panel.)
+[*]Upload the contents of CombatLogX.zip to your server.
+[*]Delete the CombatLogX.zip file.
+[*]If the files were uploaded and extracted correctly, your server should have the following files:
+[LIST]
+[*]File: [ICODE]/plugins/CombatLogX.jar[/ICODE]
+[*]File [ICODE]/plugins/SirBlobmanCore.jar[/ICODE]
+[*]Folder: [ICODE]/plugins/CombatLogX/[/ICODE]
+[*]Folder: [ICODE]/plugins/CombatLogX/expansions/[/ICODE]
+[*]Multiple Files: [ICODE]/plugins/CombatLogX/expansions/*.jar[/ICODE]
+[/LIST]
+[*]Start your server. (Click the start button on the panel or execute the script if your server doesn't use a panel.)
+[*]Edit the configuration files for the main plugin, languages, and expansions.
+[*]Type the command [ICODE]/clx reload[/ICODE] to reload the configuration files.
+[/LIST]
+
+[SIZE=5][B][COLOR=#FF0000]Notification:[/COLOR][/B][/SIZE]
+Some Minecraft server providers prevent you from editing files.
+If you are using one of these providers, then you will have problems using CombatLogX.
+Please choose a different provider or contact your current provider and request full file access.
+
+[SIZE=5][B][COLOR=#FF0000]CombatLogX Beta:[/COLOR][/B][/SIZE]
+CombatLogX has a beta version. These versions are released for testing before they are uploaded to SpigotMC.
+If you would like to test the beta version, you can download it through the link below:
+[URL='https://jenkins.sirblobman.xyz/job/SirBlobman/job/CombatLogX/']CombatLogX Beta Jenkins[/URL]
+Please report any bugs in the beta version on the GitHub page for CombatLogX.
+
 [SIZE=5][B][COLOR=#FF0000]Expansions:[/COLOR][/B][/SIZE]
 CombatLogX uses expansions to load extra features and keep the main plugin from getting bloated with content.
 If you want to find out more information about each expansion, click the link to the wiki page that is provided below:
-[URL='https://www.spigotmc.org/wiki/combatlogx/']SpigotMC - CombatLogX Wiki[/URL]
-
-[SIZE=5][B][COLOR=#FF0000]Installation Guide:[/COLOR][/B][/SIZE]
-CombatLogX has different installation steps than other plugins, please read this guide before trying to add the plugin to your server!
-[LIST=1]
-[*]Make sure your server is completely stopped.
-[*]Make sure all dependencies listed above are installed on your server.
-[*]Download the 'CombatLogX.zip' file through SpigotMC (Stable) or Jenkins (Beta).
-[*]Extract the 'CombatLogX.jar' file from the zip into the '/plugins/' folder of your server.
-[*]Create a new folder called '/plugins/CombatLogX/expansions/' on your server.
-[*]Extract the expansion jar files into your '/plugins/CombatLogX/expansions/' folder of your server.
-[*]Start your server so that the configuration files can be generated.
-[*]Stop your server and then edit the configuration files with the settings that you wish to use.
-[*]While your server is stopped, you can also remove any expansion jar files that you will not be using.
-[*]Start your server and enjoy using CombatLogX!
-[/LIST]
+[URL='https://www.spigotmc.org/resources/31689/field?field=documentation']SpigotMC - CombatLogX Wiki[/URL]
 
 [SIZE=5][B][COLOR=#FF0000]Source Code / Developer API:[/COLOR][/B][/SIZE]
-CombatLogX is an open source project licensed with GPL 3.0. You can find the source code and API in the links below:
-[URL='https://github.com/SirBlobman/CombatLogX/tree/old/10.0.0.0']GitHub - CombatLogX Source[/URL]
-[URL='https://github.com/SirBlobman/CombatLogX/blob/old/10.0.0.0/api/README.MD']GitHub - CombatLogX API README[/URL]
+CombatLogX is an open source project licensed with GPL-3.0. You can find the source code and API in the links below:
+[URL='https://github.com/SirBlobman/CombatLogX/']GitHub - CombatLogX Source[/URL]
+[URL='https://github.com/SirBlobman/CombatLogX/blob/main/api/README.MD']GitHub - CombatLogX API README[/URL]
 
 [SIZE=5][B][COLOR=#FF0000]Help and Support:[/COLOR][/B][/SIZE]
 If you need help with CombatLogX, there are multiple ways to contact me.
@@ -56,8 +62,8 @@ However, The fastest way to get support is through my Discord server. You can jo
 
 [SIZE=5][B][COLOR=#FF0000]Sponsorships[/COLOR][/B][/SIZE]
 My projects are sponsored by Iceline Hosting. Click the banner to get awesome deals on server hosting!
-[URL='https://iceline-hosting.com/billing/aff.php?aff=90'][IMG]https://cdn.discordapp.com/attachments/715691697320886293/759923620511481906/728-raw.gif[/IMG][/URL]
+[URL='https://iceline-hosting.com/billing/aff.php?aff=90'][IMG]https://sirblobman.xyz/image/iceline.gif[/IMG][/URL]
 
 [SIZE=5][B][COLOR=#FF0000]Extra Information:[/COLOR][/B][/SIZE]
 Please do not use a review to leave bug reports or errors. I am not able to help you through a review.
-If you need help please use the contact methods provided above. 
+If you need help please use the contact methods provided above.
