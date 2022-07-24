@@ -40,7 +40,6 @@ import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.github.sirblobman.combatlogx.api.object.TimerType;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
-import com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -287,44 +286,7 @@ public final class CombatManager implements ICombatManager {
 
     @Override
     public String replaceVariables(Player player, Entity enemy, String string) {
-        String playerName = player.getName();
-        String enemyName = getEntityName(player, enemy);
-
-        String timeLeft = PlaceholderHelper.getTimeLeft(this.plugin, player);
-        String timeLeftDecimal = PlaceholderHelper.getTimeLeftDecimal(this.plugin, player);
-        String inCombat = PlaceholderHelper.getInCombat(this.plugin, player);
-        String combatStatus = PlaceholderHelper.getStatus(this.plugin, player);
-        String punishmentCount = PlaceholderHelper.getPunishmentCount(this.plugin, player);
-
-        String enemyDisplayName = PlaceholderHelper.getEnemyDisplayName(this.plugin, player);
-        String enemyHealth = PlaceholderHelper.getEnemyHealth(this.plugin, player);
-        String enemyHearts = PlaceholderHelper.getEnemyHearts(this.plugin, player);
-        String enemyHeartsCount = PlaceholderHelper.getEnemyHeartsCount(this.plugin, player);
-        String enemyHealthRounded = PlaceholderHelper.getEnemyHealthRounded(this.plugin, player);
-        String enemyWorldName = PlaceholderHelper.getEnemyWorld(this.plugin, player);
-        String enemyX = PlaceholderHelper.getEnemyX(this.plugin, player);
-        String enemyY = PlaceholderHelper.getEnemyY(this.plugin, player);
-        String enemyZ = PlaceholderHelper.getEnemyZ(this.plugin, player);
-
-        String newString = string.replace("{player}", playerName)
-                .replace("{time_left}", timeLeft)
-                .replace("{time_left_decimal}", timeLeftDecimal)
-                .replace("{in_combat}", inCombat)
-                .replace("{status}", combatStatus)
-                .replace("{punishment_count}", punishmentCount)
-                .replace("{enemy}", enemyName)
-                .replace("{enemy_name}", enemyName)
-                .replace("{enemy_display_name}", enemyDisplayName)
-                .replace("{enemy_health}", enemyHealth)
-                .replace("{enemy_hearts}", enemyHearts)
-                .replace("{enemy_hearts_count}", enemyHeartsCount)
-                .replace("{enemy_health_rounded}", enemyHealthRounded)
-                .replace("{enemy_world}", enemyWorldName)
-                .replace("{enemy_x}", enemyX)
-                .replace("{enemy_y}", enemyY)
-                .replace("{enemy_z}", enemyZ);
-
-        return replaceMVdW(player, replacePAPI(player, newString));
+        return replacePAPI(player, string);
     }
 
     @Override
@@ -416,15 +378,6 @@ public final class CombatManager implements ICombatManager {
         }
 
         return me.clip.placeholderapi.PlaceholderAPI.setPlaceholders(player, string);
-    }
-
-    private String replaceMVdW(Player player, String string) {
-        PluginManager pluginManager = Bukkit.getPluginManager();
-        if (!pluginManager.isPluginEnabled("MVdWPlaceholderAPI")) {
-            return string;
-        }
-
-        return be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(player, string);
     }
 
     private boolean failsPreTagEvent(Player player, Entity enemy, TagType tagType, TagReason tagReason) {

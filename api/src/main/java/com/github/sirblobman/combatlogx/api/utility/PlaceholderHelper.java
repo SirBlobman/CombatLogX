@@ -5,6 +5,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Location;
@@ -22,6 +23,7 @@ import com.github.sirblobman.api.utility.MessageUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.IPunishManager;
+import com.github.sirblobman.combatlogx.api.object.CombatTag;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
 
 import org.jetbrains.annotations.Nullable;
@@ -41,6 +43,27 @@ public final class PlaceholderHelper {
         }
 
         return enemyList.get(0);
+    }
+
+    @Nullable
+    public static Entity getSpecificEnemy(ICombatLogX plugin, Player player, int index) {
+        ICombatManager combatManager = plugin.getCombatManager();
+        TagInformation tagInformation = combatManager.getTagInformation(player);
+        if(tagInformation == null) {
+            return null;
+        }
+
+        List<Entity> enemyList = tagInformation.getEnemies();
+        if(enemyList.isEmpty()) {
+            return null;
+        }
+
+        int enemyListSize = enemyList.size();
+        if(index < 0 || index >= enemyListSize) {
+            return null;
+        }
+
+        return enemyList.get(index);
     }
 
     public static String getPunishmentCount(ICombatLogX plugin, Player player) {
@@ -74,6 +97,75 @@ public final class PlaceholderHelper {
         }
 
         return Long.toString(secondsLeft);
+    }
+
+    public static String getTimeLeftSpecific(ICombatLogX plugin, Player player, int index) {
+        LanguageManager languageManager = plugin.getLanguageManager();
+        String zeroMessage = languageManager.getMessage(player, "placeholder.time-left-zero",
+                null, true);
+
+        ICombatManager combatManager = plugin.getCombatManager();
+        TagInformation tagInformation = combatManager.getTagInformation(player);
+        if(tagInformation == null) {
+            return zeroMessage;
+        }
+
+        List<CombatTag> tagList = tagInformation.getTags();
+        int tagListSize = tagList.size();
+        if(index < 0 || index >= tagListSize) {
+            return zeroMessage;
+        }
+
+        CombatTag combatTag = tagList.get(index);
+        long expireMillis = combatTag.getExpireMillis();
+        long systemMillis = System.currentTimeMillis();
+        long subtractMillis = (expireMillis - systemMillis);
+        long timeLeftMillis = Math.max(0L, subtractMillis);
+        if(timeLeftMillis <= 0L) {
+            return zeroMessage;
+        }
+
+        long secondsLeft = TimeUnit.MILLISECONDS.toSeconds(timeLeftMillis);
+        if(secondsLeft <= 0L) {
+            return zeroMessage;
+        }
+
+        return Long.toString(secondsLeft);
+    }
+
+    public static String getTimeLeftDecimalSpecific(ICombatLogX plugin, Player player, int index) {
+        LanguageManager languageManager = plugin.getLanguageManager();
+        String zeroMessage = languageManager.getMessage(player, "placeholder.time-left-zero",
+                null, true);
+
+        ICombatManager combatManager = plugin.getCombatManager();
+        TagInformation tagInformation = combatManager.getTagInformation(player);
+        if(tagInformation == null) {
+            return zeroMessage;
+        }
+
+        List<CombatTag> tagList = tagInformation.getTags();
+        int tagListSize = tagList.size();
+        if(index < 0 || index >= tagListSize) {
+            return zeroMessage;
+        }
+
+        CombatTag combatTag = tagList.get(index);
+        long expireMillis = combatTag.getExpireMillis();
+        long systemMillis = System.currentTimeMillis();
+        long subtractMillis = (expireMillis - systemMillis);
+        double timeLeftMillis = Math.max(0.0D, subtractMillis);
+        if(timeLeftMillis <= 0.0D) {
+            return zeroMessage;
+        }
+
+        double secondsLeft = (timeLeftMillis / 1_000.0D);
+        if(secondsLeft <= 0.0D) {
+            return zeroMessage;
+        }
+
+        DecimalFormat decimalFormat = getDecimalFormat(plugin, player);
+        return decimalFormat.format(secondsLeft);
     }
 
     public static String getTimeLeftDecimal(ICombatLogX plugin, Player player) {
@@ -122,8 +214,7 @@ public final class PlaceholderHelper {
         return languageManager.getMessage(player, key, null, true);
     }
 
-    public static String getEnemyType(ICombatLogX plugin, Player player) {
-        Entity enemy = getCurrentEnemy(plugin, player);
+    public static String getEnemyType(ICombatLogX plugin, Player player, Entity enemy) {
         if (enemy == null) {
             return getUnknownEnemy(plugin, player);
         }
@@ -132,8 +223,7 @@ public final class PlaceholderHelper {
         return entityType.name();
     }
 
-    public static String getEnemyName(ICombatLogX plugin, Player player) {
-        Entity enemy = getCurrentEnemy(plugin, player);
+    public static String getEnemyName(ICombatLogX plugin, Player player, Entity enemy) {
         if (enemy == null) {
             return getUnknownEnemy(plugin, player);
         }
@@ -143,8 +233,7 @@ public final class PlaceholderHelper {
         return entityHandler.getName(enemy);
     }
 
-    public static String getEnemyDisplayName(ICombatLogX plugin, Player player) {
-        Entity enemy = getCurrentEnemy(plugin, player);
+    public static String getEnemyDisplayName(ICombatLogX plugin, Player player, Entity enemy) {
         if (enemy == null) {
             return getUnknownEnemy(plugin, player);
         }
@@ -154,11 +243,10 @@ public final class PlaceholderHelper {
             return enemyPlayer.getDisplayName();
         }
 
-        return getEnemyName(plugin, player);
+        return getEnemyName(plugin, player, enemy);
     }
 
-    public static String getEnemyHealth(ICombatLogX plugin, Player player) {
-        Entity enemy = getCurrentEnemy(plugin, player);
+    public static String getEnemyHealth(ICombatLogX plugin, Player player, Entity enemy) {
         if (enemy == null) {
             return getUnknownEnemy(plugin, player);
         }
@@ -174,8 +262,7 @@ public final class PlaceholderHelper {
         return decimalFormat.format(enemyHealth);
     }
 
-    public static String getEnemyHealthRounded(ICombatLogX plugin, Player player) {
-        Entity enemy = getCurrentEnemy(plugin, player);
+    public static String getEnemyHealthRounded(ICombatLogX plugin, Player player, Entity enemy) {
         if (enemy == null) {
             return getUnknownEnemy(plugin, player);
         }
@@ -191,8 +278,7 @@ public final class PlaceholderHelper {
         return Long.toString(enemyHealthRounded);
     }
 
-    public static String getEnemyHeartsCount(ICombatLogX plugin, Player player) {
-        Entity enemy = getCurrentEnemy(plugin, player);
+    public static String getEnemyHeartsCount(ICombatLogX plugin, Player player, Entity enemy) {
         if (enemy == null) {
             return getUnknownEnemy(plugin, player);
         }
@@ -209,8 +295,7 @@ public final class PlaceholderHelper {
         return Long.toString(enemyHeartsRounded);
     }
 
-    public static String getEnemyHearts(ICombatLogX plugin, Player player) {
-        Entity enemy = getCurrentEnemy(plugin, player);
+    public static String getEnemyHearts(ICombatLogX plugin, Player player, Entity enemy) {
         if (enemy == null) {
             return getUnknownEnemy(plugin, player);
         }
@@ -253,13 +338,12 @@ public final class PlaceholderHelper {
     }
 
     @Nullable
-    public static Location getEnemyLocation(ICombatLogX plugin, Player player) {
-        Entity enemy = getCurrentEnemy(plugin, player);
+    public static Location getEnemyLocation(Entity enemy) {
         return (enemy == null ? null : enemy.getLocation());
     }
 
-    public static String getEnemyWorld(ICombatLogX plugin, Player player) {
-        Location location = getEnemyLocation(plugin, player);
+    public static String getEnemyWorld(ICombatLogX plugin, Player player, Entity enemy) {
+        Location location = getEnemyLocation(enemy);
         if (location == null) {
             return getUnknownEnemy(plugin, player);
         }
@@ -272,8 +356,8 @@ public final class PlaceholderHelper {
         return world.getName();
     }
 
-    public static String getEnemyX(ICombatLogX plugin, Player player) {
-        Location location = getEnemyLocation(plugin, player);
+    public static String getEnemyX(ICombatLogX plugin, Player player, Entity enemy) {
+        Location location = getEnemyLocation(enemy);
         if (location == null) {
             return getUnknownEnemy(plugin, player);
         }
@@ -282,8 +366,8 @@ public final class PlaceholderHelper {
         return Integer.toString(x);
     }
 
-    public static String getEnemyY(ICombatLogX plugin, Player player) {
-        Location location = getEnemyLocation(plugin, player);
+    public static String getEnemyY(ICombatLogX plugin, Player player, Entity enemy) {
+        Location location = getEnemyLocation(enemy);
         if (location == null) {
             return getUnknownEnemy(plugin, player);
         }
@@ -292,13 +376,37 @@ public final class PlaceholderHelper {
         return Integer.toString(y);
     }
 
-    public static String getEnemyZ(ICombatLogX plugin, Player player) {
-        Location location = getEnemyLocation(plugin, player);
+    public static String getEnemyZ(ICombatLogX plugin, Player player, Entity enemy) {
+        Location location = getEnemyLocation(enemy);
         if (location == null) {
             return getUnknownEnemy(plugin, player);
         }
 
         int z = location.getBlockZ();
         return Integer.toString(z);
+    }
+
+    public static String getTagCount(ICombatLogX plugin, Player player) {
+        ICombatManager combatManager = plugin.getCombatManager();
+        TagInformation tagInformation = combatManager.getTagInformation(player);
+        if(tagInformation == null || tagInformation.isExpired()) {
+            return Integer.toString(0);
+        }
+
+        List<CombatTag> tagList = tagInformation.getTags();
+        int tagListSize = tagList.size();
+        return Integer.toString(tagListSize);
+    }
+
+    public static String getEnemyCount(ICombatLogX plugin, Player player) {
+        ICombatManager combatManager = plugin.getCombatManager();
+        TagInformation tagInformation = combatManager.getTagInformation(player);
+        if(tagInformation == null || tagInformation.isExpired()) {
+            return Integer.toString(0);
+        }
+
+        List<UUID> enemyIdList = tagInformation.getEnemyIds();
+        int enemyIdListSize = enemyIdList.size();
+        return Integer.toString(enemyIdListSize);
     }
 }

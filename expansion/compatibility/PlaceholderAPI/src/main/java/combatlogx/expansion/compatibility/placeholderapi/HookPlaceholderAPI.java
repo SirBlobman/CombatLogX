@@ -16,15 +16,16 @@ import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion.State;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionDescription;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
-import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
-import com.github.sirblobman.combatlogx.api.object.TagInformation;
 
 import combatlogx.expansion.newbie.helper.NewbieHelperExpansion;
 import combatlogx.expansion.newbie.helper.manager.PVPManager;
 import combatlogx.expansion.newbie.helper.manager.ProtectionManager;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import org.jetbrains.annotations.NotNull;
 
+import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getCurrentEnemy;
+import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyCount;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyDisplayName;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyHealth;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyHealthRounded;
@@ -38,8 +39,12 @@ import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.get
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getEnemyZ;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getInCombat;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getPunishmentCount;
+import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getSpecificEnemy;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getStatus;
+import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getTagCount;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getTimeLeft;
+import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getTimeLeftDecimalSpecific;
+import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getTimeLeftSpecific;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getUnknownEnemy;
 
 public final class HookPlaceholderAPI extends PlaceholderExpansion {
@@ -59,6 +64,7 @@ public final class HookPlaceholderAPI extends PlaceholderExpansion {
         return true;
     }
 
+    @NotNull
     @Override
     public String getIdentifier() {
         PluginDescriptionFile descriptionFile = getDescriptionFile();
@@ -66,6 +72,7 @@ public final class HookPlaceholderAPI extends PlaceholderExpansion {
         return pluginName.toLowerCase();
     }
 
+    @NotNull
     @Override
     public String getAuthor() {
         PluginDescriptionFile descriptionFile = getDescriptionFile();
@@ -73,6 +80,7 @@ public final class HookPlaceholderAPI extends PlaceholderExpansion {
         return String.join(", ", authorList);
     }
 
+    @NotNull
     @Override
     public String getVersion() {
         ExpansionDescription description = this.expansion.getDescription();
@@ -84,14 +92,18 @@ public final class HookPlaceholderAPI extends PlaceholderExpansion {
         ICombatLogX plugin = this.expansion.getPlugin();
 
         switch (placeholder) {
+            case "tag_count":
+                return getTagCount(plugin, player);
+            case "enemy_count":
+                return getEnemyCount(plugin, player);
+            case "punishment_count":
+                return getPunishmentCount(plugin, player);
             case "time_left":
                 return getTimeLeft(plugin, player);
             case "in_combat":
                 return getInCombat(plugin, player);
             case "status":
                 return getStatus(plugin, player);
-            case "punishment_count":
-                return getPunishmentCount(plugin, player);
             case "newbie_helper_pvp_status":
                 return getNewbieHelperPVPStatus(player);
             case "newbie_helper_protected":
@@ -100,36 +112,101 @@ public final class HookPlaceholderAPI extends PlaceholderExpansion {
                 break;
         }
 
-        if (placeholder.startsWith("enemy_")) {
-            String enemyPlaceholder = placeholder.substring("enemy_".length());
+        if(placeholder.startsWith("time_left_")) {
+            String numberString = placeholder.substring("time_left_".length());
+            try {
+                int index = (Integer.parseInt(numberString) - 1);
+                return getTimeLeftSpecific(plugin, player, index);
+            } catch(NumberFormatException ignored) {
+                // Do Nothing
+            }
+        }
+
+        if(placeholder.startsWith("time_left_decimal_")) {
+            String numberString = placeholder.substring("time_left_decimal_".length());
+            try {
+                int index = (Integer.parseInt(numberString) - 1);
+                return getTimeLeftDecimalSpecific(plugin, player, index);
+            } catch(NumberFormatException ignored) {
+                // Do Nothing
+            }
+        }
+
+        if (placeholder.startsWith("current_enemy_")) {
+            Entity currentEnemy = getCurrentEnemy(plugin, player);
+            String enemyPlaceholder = placeholder.substring("current_enemy_".length());
             switch (enemyPlaceholder) {
                 case "name":
-                    return getEnemyName(plugin, player);
+                    return getEnemyName(plugin, player, currentEnemy);
                 case "type":
-                    return getEnemyType(plugin, player);
+                    return getEnemyType(plugin, player, currentEnemy);
                 case "display_name":
-                    return getEnemyDisplayName(plugin, player);
+                    return getEnemyDisplayName(plugin, player, currentEnemy);
                 case "health":
-                    return getEnemyHealth(plugin, player);
+                    return getEnemyHealth(plugin, player, currentEnemy);
                 case "health_rounded":
-                    return getEnemyHealthRounded(plugin, player);
+                    return getEnemyHealthRounded(plugin, player, currentEnemy);
                 case "hearts":
-                    return getEnemyHearts(plugin, player);
+                    return getEnemyHearts(plugin, player, currentEnemy);
                 case "hearts_count":
-                    return getEnemyHeartsCount(plugin, player);
+                    return getEnemyHeartsCount(plugin, player, currentEnemy);
                 case "world":
-                    return getEnemyWorld(plugin, player);
+                    return getEnemyWorld(plugin, player, currentEnemy);
                 case "x":
-                    return getEnemyX(plugin, player);
+                    return getEnemyX(plugin, player, currentEnemy);
                 case "y":
-                    return getEnemyY(plugin, player);
+                    return getEnemyY(plugin, player, currentEnemy);
                 case "z":
-                    return getEnemyZ(plugin, player);
+                    return getEnemyZ(plugin, player, currentEnemy);
                 default:
                     break;
             }
 
-            return getEnemyPlaceholder(player, enemyPlaceholder);
+            return getEnemyPlaceholder(player, enemyPlaceholder, currentEnemy);
+        }
+
+        if(placeholder.startsWith("specific_enemy_")) {
+            String subPlaceholder = placeholder.substring("current_enemy_".length());
+            int nextUnderscore = subPlaceholder.indexOf('_');
+            if(nextUnderscore == -1) {
+                return null;
+            }
+
+            try {
+                String enemyIdString = subPlaceholder.substring(0, nextUnderscore);
+                int index = (Integer.parseInt(enemyIdString) - 1);
+
+                Entity specificEnemy = getSpecificEnemy(plugin, player, index);
+                String enemyPlaceholder = placeholder.substring(nextUnderscore + 1, subPlaceholder.length());
+                switch (enemyPlaceholder) {
+                    case "name":
+                        return getEnemyName(plugin, player, specificEnemy);
+                    case "type":
+                        return getEnemyType(plugin, player, specificEnemy);
+                    case "display_name":
+                        return getEnemyDisplayName(plugin, player, specificEnemy);
+                    case "health":
+                        return getEnemyHealth(plugin, player, specificEnemy);
+                    case "health_rounded":
+                        return getEnemyHealthRounded(plugin, player, specificEnemy);
+                    case "hearts":
+                        return getEnemyHearts(plugin, player, specificEnemy);
+                    case "hearts_count":
+                        return getEnemyHeartsCount(plugin, player, specificEnemy);
+                    case "world":
+                        return getEnemyWorld(plugin, player, specificEnemy);
+                    case "x":
+                        return getEnemyX(plugin, player, specificEnemy);
+                    case "y":
+                        return getEnemyY(plugin, player, specificEnemy);
+                    case "z":
+                        return getEnemyZ(plugin, player, specificEnemy);
+                    default:
+                        break;
+                }
+            } catch(NumberFormatException ignored) {
+                // Do Nothing
+            }
         }
 
         return null;
@@ -141,16 +218,12 @@ public final class HookPlaceholderAPI extends PlaceholderExpansion {
         return plugin.getDescription();
     }
 
-    private String getEnemyPlaceholder(Player player, String enemyPlaceholder) {
+    private String getEnemyPlaceholder(Player player, String enemyPlaceholder, Entity enemy) {
         ICombatLogX plugin = this.expansion.getPlugin();
-        ICombatManager combatManager = plugin.getCombatManager();
-
-        TagInformation tagInformation = combatManager.getTagInformation(player);
-        if(tagInformation == null) {
+        if(enemy == null) {
             return getUnknownEnemy(plugin, player);
         }
 
-        Entity enemy = tagInformation.getCurrentEnemy();
         if (enemy instanceof Player) {
             Player playerEnemy = (Player) enemy;
             String placeholder = String.format(Locale.US, "{%s}", enemyPlaceholder);
@@ -197,7 +270,9 @@ public final class HookPlaceholderAPI extends PlaceholderExpansion {
         if (optionalExpansion.isPresent()) {
             Expansion expansion = optionalExpansion.get();
             State state = expansion.getState();
-            if (state == State.ENABLED) return expansion;
+            if (state == State.ENABLED) {
+                return expansion;
+            }
         }
 
         return null;

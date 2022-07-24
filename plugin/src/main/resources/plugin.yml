@@ -36,7 +36,6 @@ softdepend:
   - "Lands"
   - "LibsDisguises"
   - "MarriageMaster"
-  - "MVdWPlaceholderAPI"
   - "MythicMobs"
   - "PlaceholderAPI"
   - "PreciousStones"
