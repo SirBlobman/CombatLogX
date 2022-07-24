@@ -157,24 +157,102 @@ Rewards can be used to execute commands whenever a player kills a mob or another
 [*]Customizable title and lines with no flickering.
 [/LIST]
 
-[SIZE=5][B]Region Compatibility Expansions[/B][/SIZE]
+[SIZE=5][B]Compatibility Expansions[/B][/SIZE]
+[SIZE=4][B]Region Compatibility Expansions[/B][/SIZE]
 The following expansions link into a region plugin and can be used to prevent entry into non-pvp areas.
 [LIST]
-[*]Konquest Compatibility
-[*]KingdomsX Compatibility
-[*]Residence Compatibility
-[*]HuskTowns Compatibility
-[*]GriefDefender Compatibility
-[*]RedProtect Compatibility
-[*]UltimateClaims Compatibility
-[*]GriefPrevention Compatibility
-[*]PreciousStones Compatibility
-[*]Towny Compatibility
-[*]ProtectionStones Compatibility
-[*]WorldGuard Compatibility
 [*]Factions Compatibility
+[*]GriefDefender Compatibility
+[*]GriefPrevention Compatibility
+[*]HuskTowns Compatibility
+[*]KingdomsX Compatibility
+[*]Konquest Compatibility
 [*]Lands Compatibility
+[*]PreciousStones Compatibility
+[*]ProtectionStones Compatibility
+[*]RedProtect Compatibility
+[*]Residence Compatibility
+[*]Towny Compatibility
+[*]UltimateClaims Compatibility
+[*]WorldGuard Compatibility
 [/LIST]
 
-[SIZE=5][B]Compatibility Expansions[/B][/SIZE]
-This section is currently being worked on, please check it out later.
+[SIZE=4][B]SkyBlock Compatibility Expansions[/B][/SIZE]
+The following expansions link into a SkyBlock plugin and prevent teams from tagging each other.
+[LIST]
+[*]ASkyBlock Compatibility
+[*]BSkyBlock Compatibility
+[*]FabledSkyBlock Compatibility
+[*]IridiumSkyblock Compatibility
+[*]SuperiorSkyblock Compatibility
+[*]uSkyBlock Compatibility
+[/LIST]
+
+[SIZE=4][B]Vanish Compatibility Expansions[/B][/SIZE]
+The following expansions link into a vanish plugin and prevent vanished players from getting into combat.
+[LIST]
+[*]CMI Compatibility
+[*]EssentialsX Compatibility
+[*]SuperVanish Compatibility
+[*]VanishNoPacket Compatibility
+[/LIST]
+
+[SIZE=4][B]Disguise Compatibility Expansions[/B][/SIZE]
+The following expansions link into a disguise plugin and remove disguises when player are tagged.
+[LIST]
+[*]iDisguise Compatibility
+[*]LibsDisguises Compatibility
+[/LIST]
+
+[SIZE=4][B]AngelChest Compatibility[/B][/SIZE]
+[LIST]
+[*]Prevent players from opening angel chests during combat.
+[*]Prevent players from breaking angel chests during combat.
+[*]Prevent players from fast looting angel chests during combat.
+[/LIST]
+
+[SIZE=4][B]Citizens Compatibility[/B][/SIZE]
+[LIST]
+[*]Create an NPC instead of running the normal player punishments.
+[*]Store last location, health, and inventory items.
+[*]Support for Sentinel to make NPCs attack players.
+[*]Prevent players from logging in until their NPC is removed.
+[/LIST]
+
+[SIZE=4][B]CrackShot Compatibility[/B][/SIZE]
+[LIST]
+[*]Link CrackShot weapons to their shooter for tagging.
+[/LIST]
+
+[SIZE=4][B]EssentialsX Compatibility[/B][/SIZE]
+[LIST]
+[*]Vanish compatibility support.
+[*]Prevent players from creating teleport requests during combat.
+[/LIST]
+
+[SIZE=4][B]FeatherBoard Compatibility[/B][/SIZE]
+[LIST]
+[*]Sends trigger for FeatherBoard when players are tagged and untagged.
+[/LIST]
+
+[SIZE=4][B]HuskSync Compatibility[/B][/SIZE]
+[LIST]
+[*]Fixes some bugs caused when using CombatLogX and HuskSync together.
+[/LIST]
+
+[SIZE=4][B]MarriageMaster Compatibility[/B][/SIZE]
+[LIST]
+[*]Prevent partners from teleporting to each other during combat.
+[/LIST]
+
+[SIZE=4][B]MythicMobs Compatibility[/B][/SIZE]
+[LIST]
+[*]Prevent some mythic mobs from tagging players.
+[*]Force some mythic mobs to always tag players.
+[/LIST]
+
+[SIZE=4][B]PlaceholderAPI Compatibility[/B][/SIZE]
+[LIST]
+[*]Add support for placeholder from CombatLogX.
+[*]You can find a list of placeholders [URL=https://github.com/SirBlobman/CombatLogX/blob/main/expansion/compatibility/PlaceholderAPI/README.MD]here[/URL].
+[/LIST]
