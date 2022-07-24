@@ -15,7 +15,7 @@ public final class HuskSyncExpansion extends Expansion {
 
     @Override
     public void onEnable() {
-        if (!checkDependency("HuskSync", true, "2.")) {
+        if (!checkDependency("HuskSync", true, "2.0.1")) {
             selfDisable();
             return;
         }
