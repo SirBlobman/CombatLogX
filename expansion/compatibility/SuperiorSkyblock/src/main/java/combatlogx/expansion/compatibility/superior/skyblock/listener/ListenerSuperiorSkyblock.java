@@ -1,5 +1,6 @@
 package combatlogx.expansion.compatibility.superior.skyblock.listener;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +18,7 @@ import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 import com.bgsoftware.superiorskyblock.api.SuperiorSkyblockAPI;
 import com.bgsoftware.superiorskyblock.api.island.Island;
 import com.bgsoftware.superiorskyblock.api.wrappers.SuperiorPlayer;
+import org.jetbrains.annotations.Nullable;
 
 public final class ListenerSuperiorSkyblock extends ExpansionListener {
     public ListenerSuperiorSkyblock(Expansion expansion) {
@@ -26,36 +28,55 @@ public final class ListenerSuperiorSkyblock extends ExpansionListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void beforeTag(PlayerPreTagEvent e) {
         LivingEntity enemy = e.getEnemy();
-        if (!(enemy instanceof Player)) return;
-        Player playerEnemy = (Player) enemy;
+        if (!(enemy instanceof Player)) {
+            return;
+        }
 
+        Player playerEnemy = (Player) enemy;
         Player player = e.getPlayer();
-        if (doesTeamMatch(player, playerEnemy)) e.setCancelled(true);
+        if (doesTeamMatch(player, playerEnemy)) {
+            e.setCancelled(true);
+        }
     }
 
+    @Nullable
     private Island getIsland(Player player) {
-        if (player == null) return null;
+        if (player == null) {
+            return null;
+        }
 
         SuperiorPlayer superiorPlayer = SuperiorSkyblockAPI.getPlayer(player);
         return superiorPlayer.getIsland();
     }
 
-    private boolean doesTeamMatch(Player player1, Player player2) {
-        UUID uuid1 = player1.getUniqueId();
-        UUID uuid2 = player2.getUniqueId();
-        if (uuid1.equals(uuid2)) return true;
-
-        Island island = getIsland(player1);
-        if (island == null) return false;
-
-        List<SuperiorPlayer> islandMemberList = island.getIslandMembers(true);
-        Set<UUID> islandMemberIdList = new HashSet<>();
-
-        for (SuperiorPlayer islandMember : islandMemberList) {
-            UUID uuid = islandMember.getUniqueId();
-            islandMemberIdList.add(uuid);
+    private Set<UUID> getMemberIds(Island island) {
+        if(island == null) {
+            return Collections.emptySet();
         }
 
-        return islandMemberIdList.contains(uuid2);
+        List<SuperiorPlayer> islandMemberList = island.getIslandMembers(true);
+        Set<UUID> islandMemberIdSet = new HashSet<>();
+        for (SuperiorPlayer islandMember : islandMemberList) {
+            UUID islandMemberId = islandMember.getUniqueId();
+            islandMemberIdSet.add(islandMemberId);
+        }
+
+        return Collections.unmodifiableSet(islandMemberIdSet);
+    }
+
+    private boolean doesTeamMatch(Player player1, Player player2) {
+        UUID playerId1 = player1.getUniqueId();
+        UUID playerId2 = player2.getUniqueId();
+        if (playerId1.equals(playerId2)) {
+            return true;
+        }
+
+        Island island = getIsland(player1);
+        if (island == null) {
+            return false;
+        }
+
+        Set<UUID> islandMemberIdSet = getMemberIds(island);
+        return islandMemberIdSet.contains(playerId2);
     }
 }

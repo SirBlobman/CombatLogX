@@ -2,7 +2,6 @@ package combatlogx.expansion.compatibility.bskyblock;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
 import combatlogx.expansion.compatibility.bskyblock.hook.HookBentoBox;
 import combatlogx.expansion.compatibility.bskyblock.listener.ListenerBSkyBlock;
@@ -20,16 +19,12 @@ public final class BSkyBlockExpansion extends Expansion {
     @Override
     public void onEnable() {
         if (!checkDependency("BentoBox", true)) {
-            ICombatLogX plugin = getPlugin();
-            ExpansionManager expansionManager = plugin.getExpansionManager();
-            expansionManager.disableExpansion(this);
+            selfDisable();
             return;
         }
 
         if (!HookBentoBox.findBSkyBlock(this)) {
-            ICombatLogX plugin = getPlugin();
-            ExpansionManager expansionManager = plugin.getExpansionManager();
-            expansionManager.disableExpansion(this);
+            selfDisable();
             return;
         }
 

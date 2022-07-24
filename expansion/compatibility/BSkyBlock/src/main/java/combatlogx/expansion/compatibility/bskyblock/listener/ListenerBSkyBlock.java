@@ -29,16 +29,22 @@ public final class ListenerBSkyBlock extends ExpansionListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void beforeTag(PlayerPreTagEvent e) {
         LivingEntity enemy = e.getEnemy();
-        if (!(enemy instanceof Player playerEnemy)) return;
+        if (!(enemy instanceof Player playerEnemy)) {
+            return;
+        }
 
         Player player = e.getPlayer();
-        if (doesTeamMatch(player, playerEnemy)) e.setCancelled(true);
+        if (doesTeamMatch(player, playerEnemy)) {
+            e.setCancelled(true);
+        }
     }
 
     private Island getIsland(Player player) {
-        if (player == null) return null;
+        if (player == null) {
+            return null;
+        }
 
-        UUID uuid = player.getUniqueId();
+        UUID playerId = player.getUniqueId();
         World world = player.getWorld();
 
         BentoBox bentoBox = JavaPlugin.getPlugin(BentoBox.class);
@@ -48,7 +54,7 @@ public final class ListenerBSkyBlock extends ExpansionListener {
         if (optionalAddon.isPresent()) {
             Addon addon = optionalAddon.get();
             IslandsManager islandManager = addon.getIslands();
-            return islandManager.getIsland(world, uuid);
+            return islandManager.getIsland(world, playerId);
         }
 
         return null;
@@ -56,19 +62,26 @@ public final class ListenerBSkyBlock extends ExpansionListener {
 
     private boolean doesTeamMatch(Player player1, Player player2) {
         World world1 = player1.getWorld();
-        UUID worldId1 = world1.getUID();
         World world2 = player2.getWorld();
-        UUID worldId2 = world2.getUID();
-        if (!worldId1.equals(worldId2)) return false;
 
-        UUID uuid1 = player1.getUniqueId();
-        UUID uuid2 = player2.getUniqueId();
-        if (uuid1.equals(uuid2)) return true;
+        UUID worldId1 = world1.getUID();
+        UUID worldId2 = world2.getUID();
+        if (!worldId1.equals(worldId2)) {
+            return false;
+        }
+
+        UUID playerId1 = player1.getUniqueId();
+        UUID playerId2 = player2.getUniqueId();
+        if (playerId1.equals(playerId2)) {
+            return true;
+        }
 
         Island island = getIsland(player1);
-        if (island == null) return false;
+        if (island == null) {
+            return false;
+        }
 
         Set<UUID> memberSet = island.getMemberSet();
-        return memberSet.contains(uuid2);
+        return memberSet.contains(playerId2);
     }
 }

@@ -3,7 +3,7 @@ prefix: "SuperiorSkyblock Compatibility"
 description: "${project.description}"
 
 main: "combatlogx.expansion.compatibility.superior.skyblock.SuperiorSkyblockExpansion"
-version: "16.0"
+version: "16.1"
 author: "SirBlobman"
 
 plugin-depend:
