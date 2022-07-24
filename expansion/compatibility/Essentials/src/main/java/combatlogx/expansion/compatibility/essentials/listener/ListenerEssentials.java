@@ -8,10 +8,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
-import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 
 import com.earth2me.essentials.CommandSource;
 import com.earth2me.essentials.Essentials;
@@ -27,31 +25,33 @@ public final class ListenerEssentials extends ExpansionListener {
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onTeleportRequest(TPARequestEvent e) {
-        if (isTeleportRequestEnabled()) return;
-
-        ICombatManager combatManager = getCombatManager();
-        LanguageManager languageManager = getLanguageManager();
+        if (isTeleportRequestEnabled()) {
+            return;
+        }
 
         CommandSource requester = e.getRequester();
         Player player = requester.getPlayer();
-        if (player == null) return;
+        if (player == null) {
+            return;
+        }
 
-        if (combatManager.isInCombat(player)) {
-            sendMessageWithPrefix(player, "expansion.essentials-compatibility.prevent-teleport-request-self",
-                    null, true);
+        if (isInCombat(player)) {
+            String messagePath = "expansion.essentials-compatibility.prevent-teleport-request-self";
+            sendMessageWithPrefix(player, messagePath,null, true);
             e.setCancelled(true);
             return;
         }
 
         IUser targetUser = e.getTarget();
         Player target = targetUser.getBase();
-        if (target == null) return;
+        if (target == null) {
+            return;
+        }
 
-        if (combatManager.isInCombat(target)) {
-            sendMessageWithPrefix(player, "expansion.essentials-compatibility.prevent-teleport-request-other",
-                    null, true);
+        if (isInCombat(target)) {
+            String messagePath = "expansion.essentials-compatibility.prevent-teleport-request-other";
+            sendMessageWithPrefix(player, messagePath, null, true);
             e.setCancelled(true);
-            // return;
         }
     }
 
