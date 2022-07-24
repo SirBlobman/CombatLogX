@@ -31,7 +31,6 @@
         <module>LibsDisguises</module>
 
         <!-- Placeholder Compatibility -->
-        <module>MVdWPlaceholderAPI</module>
         <module>PlaceholderAPI</module>
 
         <!-- Region Compatibility -->
