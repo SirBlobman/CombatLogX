@@ -43,15 +43,6 @@ public final class PlayerTagEvent extends CustomPlayerEvent {
         this.combatEndMillis = combatEndMillis;
     }
 
-    public static HandlerList getHandlerList() {
-        return HANDLER_LIST;
-    }
-
-    @Override
-    public HandlerList getHandlers() {
-        return HANDLER_LIST;
-    }
-
     /**
      * @return The enemy that will tag the player or null if an enemy does not exist
      * @see #getPlayer()

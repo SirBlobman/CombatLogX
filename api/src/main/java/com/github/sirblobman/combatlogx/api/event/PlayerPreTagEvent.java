@@ -41,15 +41,6 @@ public final class PlayerPreTagEvent extends CustomPlayerEventCancellable {
         this.tagReason = Validate.notNull(tagReason, "tagReason must not be null!");
     }
 
-    public static HandlerList getHandlerList() {
-        return HANDLER_LIST;
-    }
-
-    @Override
-    public HandlerList getHandlers() {
-        return HANDLER_LIST;
-    }
-
     /**
      * @return The enemy that will tag the player or null if an enemy does not exist
      * @see #getPlayer()
