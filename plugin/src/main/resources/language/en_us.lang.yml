@@ -30,8 +30,9 @@ combat-timer:
 error:
   player-only: "&cOnly players can execute this command."
   invalid-target: "&7{target}&c is not online or does not exist."
-  disabled-world: "&cThat command is not available in this dimension."
+  invalid-integer: "&7{value}&c is not a valid integer."
   no-permission: "&cMissing Permission: &7{permission}"
+  disabled-world: "&cThat command is not available in this dimension."
   target-not-in-combat: "&7{target}&c is not in combat."
   self-not-in-combat: "&cYou are not in combat."
   unknown-expansion: "&7{target}&c is not an expansion or is not installed."
@@ -72,16 +73,19 @@ tagged:
     player: "&cYou are now in combat with &f{enemy}&c for an unknown reason. Do not log out!"
     mob: "&cYou are now in combat with a(n) &f{enemy}&c for an unknown reason. Do not log out!"
     mythic_mob: "&cYou are now in combat with a(n) &f{mob_type}&c for an unknown reason. Do not log out!"
+    damage: "&cYou are now in combat due to taking damage. Do not log out!"
     unknown: "&cYou were placed into combat without a reason. Do not log out."
   attacked:
     player: "&cYou are being attacked by &f{enemy}&c. Do not log out!"
     mob: "&cYou are being attacked by a(n) &f{mob_type}&c. Do not log out!"
     mythic_mob: "&cYou are being attacked by a(n) &f{enemy}&c. Do not log out!"
+    damage: "&cYou are now in combat due to taking damage. Do not log out!"
     unknown: "&cYou are being attacked by an unknown force. Do not log out!"
   attacker:
     player: "&cYou are attacking &f{enemy}&c. Do not log out!"
     mob: "&cYou are attacking a(n) &f{mob_type}&c. Do not log out!"
     mythic_mob: "&cYou are attacking a(n) &f{enemy}&c. Do not log out!"
+    damage: "&cYou are now in combat due to taking damage. Do not log out!"
     unknown: "&cYou are attacking an unknown force. Do not log out!"
 
 expansion:
@@ -214,8 +218,9 @@ expansion:
     prevent-teleport-request-self: "&cYou can't create teleport requests during combat."
     prevent-teleport-request-other: "&cYou can't send a teleport request to a player that is in combat."
 
-  marriagemaster-compatiblity:
-    prevent-teleport: "&cYou are not allowed to teleport to your partner during combat."
+  marriagemaster-compatibility:
+    prevent-teleport-self: "&cYou are not allowed to teleport to your partner during combat."
+    prevent-teleport-partner: "&cYou are not allowed to teleport to your partner while they are in combat."
 
   region-protection:
     factions-no-entry: "&cYou are not allowed to enter that area during combat."

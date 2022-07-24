@@ -16,7 +16,8 @@
     <description>An expansion for CombatLogX that adds compatibility with the BentoBox BSkyBlock addon.</description>
 
     <properties>
-        <java.version>16</java.version>
+        <spigot.version>1.18.2-R0.1-SNAPSHOT</spigot.version>
+        <java.version>17</java.version>
     </properties>
 
     <repositories>
@@ -34,12 +35,6 @@
             <artifactId>bentobox</artifactId>
             <version>1.20.1</version>
             <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <!-- BentoBox BSkyBlock -->
@@ -48,20 +43,6 @@
             <artifactId>bskyblock</artifactId>
             <version>1.15.2</version>
             <scope>provided</scope>
-        </dependency>
-
-        <!-- Google Guava -->
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>31.1-jre</version>
-            <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 

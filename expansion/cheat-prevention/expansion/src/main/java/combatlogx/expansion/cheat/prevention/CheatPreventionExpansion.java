@@ -24,6 +24,7 @@ import combatlogx.expansion.cheat.prevention.listener.legacy.ListenerLegacyPotio
 import combatlogx.expansion.cheat.prevention.listener.modern.ListenerModernItemPickup;
 import combatlogx.expansion.cheat.prevention.listener.modern.ListenerModernPortalCreate;
 import combatlogx.expansion.cheat.prevention.listener.modern.ListenerModernPotions;
+import combatlogx.expansion.cheat.prevention.task.ElytraRetagTask;
 import combatlogx.expansion.cheat.prevention.task.FlightRetagTask;
 
 public final class CheatPreventionExpansion extends Expansion {
@@ -133,5 +134,6 @@ public final class CheatPreventionExpansion extends Expansion {
 
     private void registerTasks() {
         new FlightRetagTask(this).register();
+        new ElytraRetagTask(this).register();
     }
 }

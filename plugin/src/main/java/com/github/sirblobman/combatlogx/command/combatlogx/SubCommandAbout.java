@@ -18,9 +18,10 @@ import com.github.sirblobman.combatlogx.api.expansion.Expansion.State;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionDescription;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
-public final class CommandCombatLogXAbout extends CombatLogCommand {
-    public CommandCombatLogXAbout(ICombatLogX plugin) {
+public final class SubCommandAbout extends CombatLogCommand {
+    public SubCommandAbout(ICombatLogX plugin) {
         super(plugin, "about");
+        setPermissionName("combatlogx.command.combatlogx.about");
     }
 
     @Override
@@ -35,10 +36,6 @@ public final class CommandCombatLogXAbout extends CombatLogCommand {
 
     @Override
     protected boolean execute(CommandSender sender, String[] args) {
-        if (!checkPermission(sender, "combatlogx.command.combatlogx.about", true)) {
-            return true;
-        }
-
         if (args.length < 1) {
             return false;
         }

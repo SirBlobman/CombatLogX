@@ -11,6 +11,7 @@ import com.github.sirblobman.combatlogx.api.command.CombatLogCommand;
 public final class CommandTogglePVP extends CombatLogCommand {
     public CommandTogglePVP(ICombatLogX plugin) {
         super(plugin, "togglepvp");
+        setPermissionName("combatlogx.command.togglepvp");
     }
 
     @Override

@@ -171,7 +171,7 @@ public final class ListenerJoin extends ExpansionListener {
             inventoryManager.restoreInventory(player);
         }
 
-        if(configuration.getBoolean("tag-player", true) && health > 0.0D) {
+        if (configuration.getBoolean("tag-player", true) && health > 0.0D) {
             ICombatManager combatManager = getCombatManager();
             combatManager.tag(player, null, TagType.UNKNOWN, TagReason.UNKNOWN);
         }

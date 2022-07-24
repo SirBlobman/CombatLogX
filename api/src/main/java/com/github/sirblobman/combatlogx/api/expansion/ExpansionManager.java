@@ -76,7 +76,10 @@ public final class ExpansionManager {
         }
 
         for (File file : fileArray) {
-            if (file.isDirectory()) continue;
+            if (file.isDirectory()) {
+                continue;
+            }
+
             loadExpansion(file);
             logger.info(" ");
         }
@@ -167,7 +170,10 @@ public final class ExpansionManager {
     }
 
     public Optional<Expansion> getExpansion(String name) {
-        if (name == null) return Optional.empty();
+        if (name == null) {
+            return Optional.empty();
+        }
+
         Expansion expansion = this.expansionMap.getOrDefault(name, null);
         return Optional.ofNullable(expansion);
     }
@@ -228,7 +234,9 @@ public final class ExpansionManager {
                 List<String> pluginDependList = description.getStringList("plugin-depend");
                 for (String pluginName : pluginDependList) {
                     Plugin dependencyPlugin = pluginManager.getPlugin(pluginName);
-                    if (dependencyPlugin != null) continue;
+                    if (dependencyPlugin != null) {
+                        continue;
+                    }
 
                     logger.warning("Failed to load expansion '" + expansionFile + "' because a plugin " +
                             "dependency was not loaded: " + pluginName);
@@ -239,7 +247,10 @@ public final class ExpansionManager {
             if (description.isList("expansion-depend")) {
                 List<String> expansionDependList = description.getStringList("expansion-depend");
                 for (String expansionName : expansionDependList) {
-                    if (this.expansionMap.containsKey(expansionName)) continue;
+                    if (this.expansionMap.containsKey(expansionName)) {
+                        continue;
+                    }
+
                     logger.warning("Failed to load expansion '" + expansionFile + "' because an expansion" +
                             " dependency was missing: " + expansionName);
                     return;
@@ -286,7 +297,9 @@ public final class ExpansionManager {
 
     public void enableExpansion(Expansion expansion) {
         State state = expansion.getState();
-        if (state == State.ENABLED) return;
+        if (state == State.ENABLED) {
+            return;
+        }
 
         ICombatLogX plugin = getPlugin();
         Logger logger = plugin.getLogger();
@@ -305,7 +318,9 @@ public final class ExpansionManager {
 
     public void disableExpansion(Expansion expansion) {
         State state = expansion.getState();
-        if (state != State.ENABLED) return;
+        if (state != State.ENABLED) {
+            return;
+        }
 
         ICombatLogX plugin = getPlugin();
         Logger logger = plugin.getLogger();

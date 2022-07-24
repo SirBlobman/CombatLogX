@@ -2,11 +2,10 @@ package combatlogx.expansion.compatibility.fabled.skyblock;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
 import combatlogx.expansion.compatibility.fabled.skyblock.listener.ListenerFabledSkyBlock;
 
-public class FabledSkyBlockExpansion extends Expansion {
+public final class FabledSkyBlockExpansion extends Expansion {
     public FabledSkyBlockExpansion(ICombatLogX plugin) {
         super(plugin);
     }
@@ -19,9 +18,7 @@ public class FabledSkyBlockExpansion extends Expansion {
     @Override
     public void onEnable() {
         if (!checkDependency("FabledSkyBlock", true)) {
-            ICombatLogX plugin = getPlugin();
-            ExpansionManager expansionManager = plugin.getExpansionManager();
-            expansionManager.disableExpansion(this);
+            selfDisable();
             return;
         }
 

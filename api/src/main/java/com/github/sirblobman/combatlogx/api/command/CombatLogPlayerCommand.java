@@ -55,7 +55,9 @@ public abstract class CombatLogPlayerCommand extends PlayerCommand {
         LanguageManager languageManager = plugin.getLanguageManager();
 
         String message = languageManager.getMessage(sender, key, replacer, color);
-        if (message.isEmpty()) return "";
+        if (message.isEmpty()) {
+            return "";
+        }
 
         String prefix = languageManager.getMessage(sender, "prefix", null, true);
         return (prefix.isEmpty() ? message : String.format(Locale.US, "%s %s", prefix, message));
@@ -64,6 +66,8 @@ public abstract class CombatLogPlayerCommand extends PlayerCommand {
     protected final void sendMessageWithPrefix(@NotNull CommandSender sender, @NotNull String key,
                                                @Nullable Replacer replacer, boolean color) {
         String message = getMessageWithPrefix(sender, key, replacer, color);
-        if (!message.isEmpty()) sender.sendMessage(message);
+        if (!message.isEmpty()) {
+            sender.sendMessage(message);
+        }
     }
 }

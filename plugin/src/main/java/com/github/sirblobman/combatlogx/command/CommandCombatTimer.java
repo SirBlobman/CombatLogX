@@ -16,6 +16,7 @@ import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 public final class CommandCombatTimer extends CombatLogPlayerCommand {
     public CommandCombatTimer(ICombatLogX plugin) {
         super(plugin, "combat-timer");
+        setPermissionName("combatlogx.command.combat-timer");
     }
 
     @Override
@@ -36,7 +37,9 @@ public final class CommandCombatTimer extends CombatLogPlayerCommand {
         }
 
         Player target = findTarget(player, args[0]);
-        if (target == null) return true;
+        if (target == null) {
+            return true;
+        }
 
         checkOther(player, target);
         return true;

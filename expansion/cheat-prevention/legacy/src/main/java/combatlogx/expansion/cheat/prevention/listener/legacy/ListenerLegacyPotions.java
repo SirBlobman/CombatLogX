@@ -17,10 +17,10 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.xseries.XMaterial;
 import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 
-import com.cryptomorin.xseries.XMaterial;
 import combatlogx.expansion.cheat.prevention.listener.CheatPreventionListener;
 
 public final class ListenerLegacyPotions extends CheatPreventionListener {
@@ -47,18 +47,18 @@ public final class ListenerLegacyPotions extends CheatPreventionListener {
 
         Collection<LivingEntity> affectedEntityCollection = e.getAffectedEntities();
         for (LivingEntity affectedEntity : affectedEntityCollection) {
-            if(!(affectedEntity instanceof Player)) {
+            if (!(affectedEntity instanceof Player)) {
                 continue;
             }
 
             Player player = (Player) affectedEntity;
-            if(!isInCombat(player)) {
+            if (!isInCombat(player)) {
                 continue;
             }
 
             for (PotionEffect potionEffect : potionEffectCollection) {
                 PotionEffectType potionEffectType = potionEffect.getType();
-                if(!isBlocked(potionEffectType)) {
+                if (!isBlocked(potionEffectType)) {
                     continue;
                 }
 
@@ -71,21 +71,21 @@ public final class ListenerLegacyPotions extends CheatPreventionListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPotionConsume(PlayerItemConsumeEvent e) {
         Player player = e.getPlayer();
-        if(!isInCombat(player)) {
+        if (!isInCombat(player)) {
             return;
         }
 
         ItemStack item = e.getItem();
         XMaterial material = XMaterial.matchXMaterial(item);
-        if(material != XMaterial.POTION) {
+        if (material != XMaterial.POTION) {
             return;
         }
 
         Potion potion = Potion.fromItemStack(item);
         Collection<PotionEffect> potionEffectCollection = potion.getEffects();
-        for(PotionEffect potionEffect : potionEffectCollection) {
+        for (PotionEffect potionEffect : potionEffectCollection) {
             PotionEffectType potionEffectType = potionEffect.getType();
-            if(isBlocked(potionEffectType)) {
+            if (isBlocked(potionEffectType)) {
                 e.setCancelled(true);
                 return;
             }

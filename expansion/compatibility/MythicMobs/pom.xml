@@ -16,19 +16,20 @@
     <description>An expansion for CombatLogX that allows you to set which MythicMobs entities tag players.</description>
 
     <repositories>
-        <!-- SirBlobman Public Repository -->
+        <!-- Lumine Releases -->
         <repository>
-            <id>sirblobman-public</id>
-            <url>https://nexus.sirblobman.xyz/repository/public/</url>
+            <id>lumine-releases</id>
+            <url>https://mvn.lumine.io/repository/maven-public/</url>
         </repository>
+
     </repositories>
 
     <dependencies>
         <!-- MythicMobs -->
         <dependency>
-            <groupId>io.lumine.xikage</groupId>
-            <artifactId>MythicMobs</artifactId>
-            <version>4.13.0</version>
+            <groupId>io.lumine</groupId>
+            <artifactId>Mythic-Dist</artifactId>
+            <version>5.1.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

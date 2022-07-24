@@ -21,8 +21,8 @@ import com.github.sirblobman.combatlogx.api.command.CombatLogCommand;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
-public final class CommandCombatLogXVersion extends CombatLogCommand {
-    public CommandCombatLogXVersion(ICombatLogX plugin) {
+public final class SubCommandVersion extends CombatLogCommand {
+    public SubCommandVersion(ICombatLogX plugin) {
         super(plugin, "version");
     }
 

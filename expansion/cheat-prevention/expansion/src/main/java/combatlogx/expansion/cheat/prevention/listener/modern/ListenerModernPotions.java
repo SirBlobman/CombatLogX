@@ -38,22 +38,22 @@ public class ListenerModernPotions extends ExpansionListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onAddEffect(EntityPotionEffectEvent e) {
         Action action = e.getAction();
-        if(action != Action.ADDED) {
+        if (action != Action.ADDED) {
             return;
         }
 
         EntityType entityType = e.getEntityType();
-        if(entityType != EntityType.PLAYER) {
+        if (entityType != EntityType.PLAYER) {
             return;
         }
 
         Player player = (Player) e.getEntity();
-        if(!isInCombat(player)) {
+        if (!isInCombat(player)) {
             return;
         }
 
         PotionEffectType potionEffectType = e.getModifiedType();
-        if(!isBlocked(potionEffectType)) {
+        if (!isBlocked(potionEffectType)) {
             return;
         }
 

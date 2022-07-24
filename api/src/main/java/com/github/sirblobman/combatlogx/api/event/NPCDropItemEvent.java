@@ -10,17 +10,20 @@ import org.bukkit.inventory.ItemStack;
 import com.github.sirblobman.combatlogx.api.object.CitizensSlotType;
 
 /**
- * NPCDropItemEvent is an event that will be called when an item is dropped from a combat logged NPC.
+ * A custom event that will be called when an item is dropped from a combat logged NPC.
  *
  * @author SizzleMcGrizzle
  */
 public final class NPCDropItemEvent extends Event implements Cancellable {
-    private static final HandlerList handlerList = new HandlerList();
+    private static final HandlerList HANDLER_LIST;
+
+    static {
+        HANDLER_LIST = new HandlerList();
+    }
 
     private final OfflinePlayer player;
     private final Location location;
     private final CitizensSlotType slotType;
-
     private boolean cancelled;
     private ItemStack item;
 
@@ -33,11 +36,12 @@ public final class NPCDropItemEvent extends Event implements Cancellable {
     }
 
     public static HandlerList getHandlerList() {
-        return handlerList;
+        return HANDLER_LIST;
     }
 
+    @Override
     public HandlerList getHandlers() {
-        return getHandlerList();
+        return HANDLER_LIST;
     }
 
     /**

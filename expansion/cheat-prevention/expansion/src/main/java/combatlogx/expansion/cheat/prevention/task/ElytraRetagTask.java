@@ -17,18 +17,18 @@ import com.github.sirblobman.combatlogx.api.object.TagType;
 
 import combatlogx.expansion.cheat.prevention.CheatPreventionExpansion;
 
-public final class FlightRetagTask extends BukkitRunnable {
+public final class ElytraRetagTask extends BukkitRunnable {
     private final CheatPreventionExpansion expansion;
 
-    public FlightRetagTask(CheatPreventionExpansion expansion) {
+    public ElytraRetagTask(CheatPreventionExpansion expansion) {
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
     }
 
     @Override
     public void run() {
         ConfigurationManager configurationManager = getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("flight.yml");
-        if (!configuration.getBoolean("flight-retag", false)) {
+        YamlConfiguration configuration = configurationManager.get("items.yml");
+        if (!configuration.getBoolean("elytra-retag", false)) {
             return;
         }
 
@@ -36,7 +36,7 @@ public final class FlightRetagTask extends BukkitRunnable {
         ICombatManager combatManager = combatLogX.getCombatManager();
         List<Player> playerList = combatManager.getPlayersInCombat();
         for (Player player : playerList) {
-            if (!player.isFlying()) {
+            if (!player.isGliding()) {
                 continue;
             }
 

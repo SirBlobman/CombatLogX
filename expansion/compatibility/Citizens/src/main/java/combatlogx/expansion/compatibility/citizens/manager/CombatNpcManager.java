@@ -3,6 +3,7 @@ package combatlogx.expansion.compatibility.citizens.manager;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -117,12 +118,11 @@ public final class CombatNpcManager {
 
         EntityType entityType = getEntityType();
         NPCRegistry npcRegistry = CitizensAPI.getNPCRegistry();
-        NPC npc = npcRegistry.createNPC(entityType, playerName);
-        printDebug("Created NPC with entity type " + entityType + ".");
 
+        NPC npc = npcRegistry.createNPC(entityType, playerName);
         npc.setProtected(false);
-        npc.data().set(Metadata.KEEP_CHUNK_LOADED, true);
         npc.data().set(Metadata.SHOULD_SAVE, false);
+        printDebug("Created NPC with entity type " + entityType + ".");
 
         Location location = player.getLocation();
         boolean spawn = npc.spawn(location);
@@ -139,6 +139,8 @@ public final class CombatNpcManager {
         }
 
         LivingEntity livingEntity = (LivingEntity) entity;
+        livingEntity.setNoDamageTicks(0);
+        livingEntity.setMaximumNoDamageTicks(0);
 
         if (npc.hasTrait(Owner.class)) {
             npc.removeTrait(Owner.class);
@@ -150,9 +152,11 @@ public final class CombatNpcManager {
 
         double health = player.getHealth();
         double maxHealth = entityHandler.getMaxHealth(livingEntity);
-        if (maxHealth < health) entityHandler.setMaxHealth(livingEntity, health);
-        livingEntity.setHealth(health);
+        if (maxHealth < health) {
+            entityHandler.setMaxHealth(livingEntity, health);
+        }
 
+        livingEntity.setHealth(health);
         YamlConfiguration configuration = getConfiguration();
         if (configuration.getBoolean("mob-target")) {
             npc.data().set(Metadata.TARGETABLE, true);
@@ -174,7 +178,9 @@ public final class CombatNpcManager {
 
         ICombatManager combatManager = plugin.getCombatManager();
         LivingEntity enemyEntity = combatManager.getEnemy(player);
-        if (enemyEntity instanceof Player) combatNPC.setEnemy((Player) enemyEntity);
+        if (enemyEntity instanceof Player) {
+            combatNPC.setEnemy((Player) enemyEntity);
+        }
 
         saveLocation(player, npc);
         saveInventory(player);
@@ -259,9 +265,14 @@ public final class CombatNpcManager {
     }
 
     private double getHealth(NPC npc) {
-        if (!npc.isSpawned()) return 0.0D;
+        if (!npc.isSpawned()) {
+            return 0.0D;
+        }
+
         Entity entity = npc.getEntity();
-        if (!(entity instanceof LivingEntity)) return 0.0D;
+        if (!(entity instanceof LivingEntity)) {
+            return 0.0D;
+        }
 
         LivingEntity livingEntity = (LivingEntity) entity;
         return livingEntity.getHealth();
@@ -285,11 +296,15 @@ public final class CombatNpcManager {
         YamlConfiguration configuration = getConfiguration();
         String entityTypeName = configuration.getString("mob-type");
         try {
-            if (entityTypeName == null) throw new IllegalStateException();
-            String value = entityTypeName.toUpperCase();
+            if (entityTypeName == null) {
+                throw new IllegalStateException();
+            }
 
+            String value = entityTypeName.toUpperCase(Locale.US);
             EntityType entityType = EntityType.valueOf(value);
-            if (!entityType.isAlive()) throw new IllegalStateException();
+            if (!entityType.isAlive()) {
+                throw new IllegalStateException();
+            }
 
             return entityType;
         } catch (Exception ex) {
@@ -302,9 +317,12 @@ public final class CombatNpcManager {
     }
 
     private void printDebug(String message) {
-        ConfigurationManager pluginConfigurationManager = getCombatLogX().getConfigurationManager();
+        ICombatLogX combatLogX = getCombatLogX();
+        ConfigurationManager pluginConfigurationManager = combatLogX.getConfigurationManager();
         YamlConfiguration configuration = pluginConfigurationManager.get("config.yml");
-        if (!configuration.getBoolean("debug-mode")) return;
+        if (!configuration.getBoolean("debug-mode")) {
+            return;
+        }
 
         Logger logger = getExpansion().getLogger();
         logger.info("[Debug] " + message);

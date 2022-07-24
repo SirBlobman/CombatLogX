@@ -17,7 +17,7 @@ public final class MythicMobsExpansion extends Expansion {
 
     @Override
     public void onEnable() {
-        if (!checkDependency("MythicMobs", true, "4.13")) {
+        if (!checkDependency("MythicMobs", true, "5.1")) {
             selfDisable();
             return;
         }

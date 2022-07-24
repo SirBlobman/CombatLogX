@@ -6,14 +6,15 @@ import com.github.sirblobman.combatlogx.api.command.CombatLogCommand;
 public final class CommandCombatLogX extends CombatLogCommand {
     public CommandCombatLogX(ICombatLogX plugin) {
         super(plugin, "combatlogx");
-        addSubCommand(new CommandCombatLogXAbout(plugin));
-        addSubCommand(new CommandCombatLogXForgive(plugin));
-        addSubCommand(new CommandCombatLogXHelp(plugin));
-        addSubCommand(new CommandCombatLogXReload(plugin));
-        addSubCommand(new CommandCombatLogXRequest(plugin));
-        addSubCommand(new CommandCombatLogXTag(plugin));
-        addSubCommand(new CommandCombatLogXToggle(plugin));
-        addSubCommand(new CommandCombatLogXUntag(plugin));
-        addSubCommand(new CommandCombatLogXVersion(plugin));
+        setPermissionName("combatlogx.command.combatlogx");
+
+        addSubCommand(new SubCommandAbout(plugin));
+        addSubCommand(new SubCommandForgive(plugin));
+        addSubCommand(new SubCommandHelp(plugin));
+        addSubCommand(new SubCommandReload(plugin));
+        addSubCommand(new SubCommandTag(plugin));
+        addSubCommand(new SubCommandToggle(plugin));
+        addSubCommand(new SubCommandUntag(plugin));
+        addSubCommand(new SubCommandVersion(plugin));
     }
 }

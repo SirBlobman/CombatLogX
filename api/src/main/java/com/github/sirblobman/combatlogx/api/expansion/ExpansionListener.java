@@ -23,11 +23,16 @@ public abstract class ExpansionListener extends CombatListener {
 
     @Override
     protected final void printDebug(String message) {
-        if (isDebugMode()) {
-            Logger logger = getExpansionLogger();
-            String logMessage = String.format(Locale.US, "[Debug] %s", message);
-            logger.info(logMessage);
+        if (isDebugModeDisabled()) {
+            return;
         }
+
+        Class<?> thisClass = getClass();
+        String className = thisClass.getSimpleName();
+        String logMessage = String.format(Locale.US, "[Debug] [%s] %s", className, message);
+
+        Logger expansionLogger = getExpansionLogger();
+        expansionLogger.info(logMessage);
     }
 
     protected final Expansion getExpansion() {

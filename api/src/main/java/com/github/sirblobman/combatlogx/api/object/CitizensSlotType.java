@@ -12,7 +12,7 @@ public enum CitizensSlotType {
     INVENTORY,
 
     /**
-     * Represents an item from the offhand of an inventory
+     * Represents an item from the off-hand of an inventory
      */
     OFFHAND
 }

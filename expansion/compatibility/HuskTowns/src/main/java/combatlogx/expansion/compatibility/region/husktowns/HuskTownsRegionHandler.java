@@ -6,8 +6,8 @@ import org.bukkit.entity.Player;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
-import me.william278.husktowns.HuskTownsAPI;
-import me.william278.husktowns.listener.ActionType;
+import net.william278.husktowns.HuskTownsAPI;
+import net.william278.husktowns.listener.ActionType;
 
 public final class HuskTownsRegionHandler extends RegionHandler {
     public HuskTownsRegionHandler(HuskTownsExpansion expansion) {
@@ -22,7 +22,7 @@ public final class HuskTownsRegionHandler extends RegionHandler {
     @Override
     public boolean isSafeZone(Player player, Location location, TagType tagType) {
         HuskTownsAPI api = HuskTownsAPI.getInstance();
-        return switch(tagType) {
+        return switch (tagType) {
             case PLAYER -> !api.isActionAllowed(location, ActionType.PVP);
             case MOB -> !api.isActionAllowed(location, ActionType.PVE);
             default -> false;

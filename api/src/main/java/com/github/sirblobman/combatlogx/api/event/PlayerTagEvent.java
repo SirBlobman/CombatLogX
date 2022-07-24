@@ -2,18 +2,25 @@ package com.github.sirblobman.combatlogx.api.event;
 
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
 /**
- * {@link PlayerTagEvent} is an event that will be fired when a player is put into combat. If you want to prevent a
- * player from being tagged, check {@link PlayerPreTagEvent}
+ * A custom event that will be fired when a player is put into combat.
+ * If you want to prevent a player from being tagged, check {@link PlayerPreTagEvent}
  *
  * @author SirBlobman
  */
-public class PlayerTagEvent extends CustomPlayerEvent {
+public final class PlayerTagEvent extends CustomPlayerEvent {
+    private static final HandlerList HANDLER_LIST;
+
+    static {
+        HANDLER_LIST = new HandlerList();
+    }
+
     private final LivingEntity enemy;
     private final TagType tagType;
     private final TagReason tagReason;
@@ -25,6 +32,15 @@ public class PlayerTagEvent extends CustomPlayerEvent {
         this.tagType = Validate.notNull(tagType, "tagType must not be null!");
         this.tagReason = Validate.notNull(tagReason, "tagReason must not be null!");
         this.combatEndMillis = combatEndMillis;
+    }
+
+    public static HandlerList getHandlerList() {
+        return HANDLER_LIST;
+    }
+
+    @Override
+    public HandlerList getHandlers() {
+        return HANDLER_LIST;
     }
 
     /**

@@ -14,11 +14,18 @@ public final class ExpansionComparator implements Comparator<Expansion> {
 
         List<String> expansionDependencyList1 = description1.getExpansionDependencies();
         List<String> expansionDependencyList2 = description2.getExpansionDependencies();
-        if (expansionDependencyList1.contains(expansionName2) && expansionDependencyList2.contains(expansionName1))
+        if (expansionDependencyList1.contains(expansionName2) && expansionDependencyList2.contains(expansionName1)) {
             throw new IllegalStateException("Cyclic Dependency: " + expansionName1 + ", " + expansionName2);
+        }
 
-        if (expansionDependencyList1.contains(expansionName2)) return -1;
-        if (expansionDependencyList2.contains(expansionName1)) return 1;
+        if (expansionDependencyList1.contains(expansionName2)) {
+            return -1;
+        }
+
+        if (expansionDependencyList2.contains(expansionName1)) {
+            return 1;
+        }
+
         return expansionName1.compareTo(expansionName2);
     }
 }

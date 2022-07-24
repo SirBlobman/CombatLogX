@@ -112,11 +112,16 @@ public final class CustomScoreboardManager {
     public void removeScoreboard(Player player) {
         UUID uuid = player.getUniqueId();
         CustomScoreboard customScoreboard = this.combatScoreboardMap.remove(uuid);
-        if (customScoreboard == null) return;
+        if (customScoreboard == null) {
+            return;
+        }
 
         Scoreboard oldScoreboard = this.oldScoreboardMap.remove(uuid);
-        if (oldScoreboard != null) player.setScoreboard(oldScoreboard);
-        else customScoreboard.disableScoreboard();
+        if (oldScoreboard != null) {
+            player.setScoreboard(oldScoreboard);
+        } else {
+            customScoreboard.disableScoreboard();
+        }
     }
 
     public void removeAll() {
@@ -148,7 +153,6 @@ public final class CustomScoreboardManager {
         }
 
         Scoreboard oldScoreboard = player.getScoreboard();
-
         Objective objective = oldScoreboard.getObjective(DisplaySlot.SIDEBAR);
         if (objective != null) {
             String objectiveName = objective.getName();
@@ -157,7 +161,7 @@ public final class CustomScoreboardManager {
             }
         }
 
-        UUID uuid = player.getUniqueId();
-        this.oldScoreboardMap.put(uuid, oldScoreboard);
+        UUID playerId = player.getUniqueId();
+        this.oldScoreboardMap.put(playerId, oldScoreboard);
     }
 }

@@ -170,7 +170,9 @@ public final class ListenerConfiguration extends CombatListener {
         ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = getCombatManager();
         List<String> tagCommandList = configuration.getStringList("tag-command-list");
-        if (tagCommandList.isEmpty()) return;
+        if (tagCommandList.isEmpty()) {
+            return;
+        }
 
         for (String tagCommand : tagCommandList) {
             String replacedCommand = combatManager.replaceVariables(player, enemy, tagCommand);
