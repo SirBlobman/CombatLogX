@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -26,7 +26,7 @@ public final class ListeneruSkyBlock extends ExpansionListener {
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void beforeTag(PlayerPreTagEvent e) {
-        LivingEntity enemy = e.getEnemy();
+        Entity enemy = e.getEnemy();
         if (!(enemy instanceof Player)) {
             return;
         }

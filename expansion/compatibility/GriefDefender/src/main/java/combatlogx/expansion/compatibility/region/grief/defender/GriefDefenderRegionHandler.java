@@ -9,6 +9,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
+import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
 import com.griefdefender.api.Core;
@@ -32,7 +33,8 @@ public final class GriefDefenderRegionHandler extends RegionHandler {
     }
 
     @Override
-    public boolean isSafeZone(Player player, Location location, TagType tagType) {
+    public boolean isSafeZone(Player player, Location location, TagInformation tagInformation) {
+        TagType tagType = tagInformation.getCurrentTagType();
         if (tagType != TagType.PLAYER) {
             return false;
         }

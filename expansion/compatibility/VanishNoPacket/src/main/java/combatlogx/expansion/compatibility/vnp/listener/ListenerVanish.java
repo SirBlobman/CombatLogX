@@ -1,7 +1,7 @@
 package combatlogx.expansion.compatibility.vnp.listener;
 
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -27,7 +27,7 @@ public final class ListenerVanish extends ExpansionListener {
             e.setCancelled(true);
         }
 
-        LivingEntity enemy = e.getEnemy();
+        Entity enemy = e.getEnemy();
         if (enemy instanceof Player) {
             Player other = (Player) enemy;
             if (isVanished(other) && preventVanishOtherTag()) {

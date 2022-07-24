@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
+import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
 import net.sacredlabyrinth.Phaed.PreciousStones.PreciousStones;
@@ -21,8 +22,11 @@ public final class PreciousStonesRegionHandler extends RegionHandler {
     }
 
     @Override
-    public boolean isSafeZone(Player player, Location location, TagType tagType) {
-        if (tagType != TagType.PLAYER) return false;
+    public boolean isSafeZone(Player player, Location location, TagInformation tagInformation) {
+        TagType tagType = tagInformation.getCurrentTagType();
+        if (tagType != TagType.PLAYER) {
+            return false;
+        }
 
         IApi api = PreciousStones.API();
         return api.isFieldProtectingArea(FieldFlag.PREVENT_PVP, location);

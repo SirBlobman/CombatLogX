@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
+import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
 import com.sk89q.worldguard.protection.flags.Flags;
@@ -22,14 +23,21 @@ public final class ProtectionStonesRegionHandler extends RegionHandler {
     }
 
     @Override
-    public boolean isSafeZone(Player player, Location location, TagType tagType) {
-        if (tagType != TagType.PLAYER) return false;
+    public boolean isSafeZone(Player player, Location location, TagInformation tagInformation) {
+        TagType tagType = tagInformation.getCurrentTagType();
+        if (tagType != TagType.PLAYER) {
+            return false;
+        }
 
         PSRegion region = PSRegion.fromLocation(location);
-        if (region == null) return false;
+        if (region == null) {
+            return false;
+        }
 
         ProtectedRegion wgRegion = region.getWGRegion();
-        if (wgRegion == null) return false;
+        if (wgRegion == null) {
+            return false;
+        }
 
         State pvpState = wgRegion.getFlag(Flags.PVP);
         return (pvpState == State.DENY);

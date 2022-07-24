@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
+import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
 import com.songoda.ultimateclaims.UltimateClaims;
@@ -24,15 +25,20 @@ public final class UltimateClaimsRegionHandler extends RegionHandler {
     }
 
     @Override
-    public boolean isSafeZone(Player player, Location location, TagType tagType) {
-        if (tagType != TagType.PLAYER) return false;
+    public boolean isSafeZone(Player player, Location location, TagInformation tagInformation) {
+        TagType tagType = tagInformation.getCurrentTagType();
+        if (tagType != TagType.PLAYER) {
+            return false;
+        }
 
         UltimateClaims ultimateClaims = UltimateClaims.getInstance();
         ClaimManager claimManager = ultimateClaims.getClaimManager();
 
         Chunk chunk = location.getChunk();
         Claim claim = claimManager.getClaim(chunk);
-        if (claim == null) return false;
+        if (claim == null) {
+            return false;
+        }
 
         ClaimSettings claimSettings = claim.getClaimSettings();
         return !claimSettings.isEnabled(ClaimSetting.PVP);

@@ -8,6 +8,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicesManager;
 
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
+import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
 import konquest.api.KonquestAPI;
@@ -26,7 +27,7 @@ public class KonquestRegionHandler extends RegionHandler {
     }
 
     @Override
-    public boolean isSafeZone(Player player, Location location, TagType tagType) {
+    public boolean isSafeZone(Player player, Location location, TagInformation tagInformation) {
         KonquestAPI api = getAPI();
         if (api == null) {
             return false;

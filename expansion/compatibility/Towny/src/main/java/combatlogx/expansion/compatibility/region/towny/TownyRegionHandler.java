@@ -14,6 +14,7 @@ import org.bukkit.plugin.PluginManager;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
+import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
 import com.palmergames.bukkit.towny.TownyAPI;
@@ -36,7 +37,8 @@ public final class TownyRegionHandler extends RegionHandler {
     }
 
     @Override
-    public boolean isSafeZone(Player player, Location location, TagType tagType) {
+    public boolean isSafeZone(Player player, Location location, TagInformation tagInformation) {
+        TagType tagType = tagInformation.getCurrentTagType();
         if (tagType != TagType.PLAYER) {
             return false;
         }

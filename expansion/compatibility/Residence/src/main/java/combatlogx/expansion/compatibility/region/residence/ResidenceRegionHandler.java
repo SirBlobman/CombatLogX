@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
+import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
 import com.bekvon.bukkit.residence.api.ResidenceApi;
@@ -23,12 +24,17 @@ public final class ResidenceRegionHandler extends RegionHandler {
     }
 
     @Override
-    public boolean isSafeZone(Player player, Location location, TagType tagType) {
-        if (tagType != TagType.PLAYER) return false;
+    public boolean isSafeZone(Player player, Location location, TagInformation tagInformation) {
+        TagType tagType = tagInformation.getCurrentTagType();
+        if (tagType != TagType.PLAYER) {
+            return false;
+        }
 
         ResidenceInterface residenceManager = ResidenceApi.getResidenceManager();
         ClaimedResidence claimedResidence = residenceManager.getByLoc(location);
-        if (claimedResidence == null) return false;
+        if (claimedResidence == null) {
+            return false;
+        }
 
         ResidencePermissions residencePermissions = claimedResidence.getPermissions();
         return !residencePermissions.has(Flags.pvp, true);

@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 
 import com.github.sirblobman.api.factions.FactionsHandler;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
+import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
 public final class FactionsRegionHandler extends RegionHandler {
@@ -21,7 +22,7 @@ public final class FactionsRegionHandler extends RegionHandler {
     }
 
     @Override
-    public boolean isSafeZone(Player player, Location location, TagType tagType) {
+    public boolean isSafeZone(Player player, Location location, TagInformation tagInformation) {
         FactionsHandler factionsHandler = getFactionsHandler();
         return factionsHandler.isSafeZone(location);
     }

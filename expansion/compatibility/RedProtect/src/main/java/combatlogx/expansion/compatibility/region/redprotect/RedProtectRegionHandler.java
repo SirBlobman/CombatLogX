@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
+import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
 import br.net.fabiozumbi12.RedProtect.Bukkit.API.RedProtectAPI;
@@ -21,8 +22,11 @@ public class RedProtectRegionHandler extends RegionHandler {
     }
 
     @Override
-    public boolean isSafeZone(Player player, Location location, TagType tagType) {
-        if (tagType != TagType.PLAYER) return false;
+    public boolean isSafeZone(Player player, Location location, TagInformation tagInformation) {
+        TagType tagType = tagInformation.getCurrentTagType();
+        if (tagType != TagType.PLAYER) {
+            return false;
+        }
 
         RedProtect redProtect = RedProtect.get();
         RedProtectAPI redProtectApi = redProtect.getAPI();

@@ -3,7 +3,7 @@ package combatlogx.expansion.compatibility.iridium.skyblock.listener;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -24,7 +24,7 @@ public final class ListenerIridiumSkyblock extends ExpansionListener {
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void beforeTag(PlayerPreTagEvent e) {
-        LivingEntity enemy = e.getEnemy();
+        Entity enemy = e.getEnemy();
         if (!(enemy instanceof Player)) {
             return;
         }
