@@ -26,7 +26,9 @@ combat-timer:
 error:
   player-only: "&c此命令仅玩家可用。"
   invalid-target: "&7{target}&c 不在线或不存在。"
+  invalid-integer: "&7{value}&c 不是一个有效的整数"
   no-permission: "&c缺少权限： &7{permission}"
+  disabled-world: "&c该命令在此维度中不可用"
   target-not-in-combat: "&7{target}&c 未在战斗中。"
   self-not-in-combat: "&a您未处于战斗状态。"
   unknown-expansion: "&7{target}&c 不是扩展或未安装。"
@@ -38,7 +40,7 @@ command:
       - "  &f&l/CombatLogX help&7：查看该帮助页面。"
       - "  &f&l/CombatLogX reload&7: 重新装入config.yml, language.yml和所有扩展配置文件。"
       - "  &f&l/combatlogx about <expansion>&7: 检查扩展的信息。"
-      - "  &f&l/combatlogx tag <player>&7: 强制使玩家进入战斗状态。"
+      - "  &f&l/combatlogx tag <player> [seconds]&7: 强制玩家进入战斗状态"
       - "  &f&l/combatlogx toggle bossbar/actionbar/scoreboard&7: 启用或禁用通知类型。"
       - "  &f&l/combatlogx untag <player>&7: 强制使玩家退出战斗状态。"
       - "  &f&l/combatlogx version&7: 检查您的 CombatLogX 版本。"
@@ -57,14 +59,54 @@ command:
     time-left-self: "&a你还剩下&7{time_left} 秒。&a"
     time-left-other: "&7{target}&a 还剩下&7{time_left} 秒。&a"
 tagged:
-  unknown: "&c您现在正在战斗中！不要登出。"
+  unknown:
+    player: "&c你不知道为什么正在和 &f{enemy}&c 战斗，请不要登出游戏"
+    mob: "&c你不知道为什么正在和 &f{enemy}&c 战斗，请不要登出游戏"
+    mythic_mob: "&c您现在正在与 a(n) &f{mob_type}&c 作战，原因不详。不要注销！"
+    damage: "&c你因为受到伤害而处于战斗中。请不要登出！"
+    unknown: "&c你被无缘无故地投入战斗，请勿登出游戏。"
   attacked:
     player: "&c您正在被&f{enemy}&c攻击。不要登出！"
     mob: "&c您正在被&f{mob_type}&c攻击。不要登出！"
+    mythic_mob: "&c您正在被&f{enemy}&c攻击。不要登出！"
+    damage: "&c你因为受到伤害而处于战斗中。请不要登出！"
+    unknown: "&c你正受到一股未知力量的攻击，请勿登出游戏！"
   attacker:
     player: "&c你正在攻击&f{enemy}&c. 不要登出！"
     mob: "&c你正在攻击一只&f{mob_type}&c. 不要登出！"
+    mythic_mob: "&c你正在攻击一只&f{enemy}&c. 不要登出！"
+    damage: "&c你因为受到伤害而处于战斗中。请不要登出！"
+    unknown: "&c你正在攻击一股未知的力量，请勿注销！"
 expansion:
+  action-bar:
+    #Valid 'timer' placeholders: {time_left}, {time_left_decimal}, {bars}
+    timer: "&6&l Combat &7\u00BB &f{bars} &f{time_left_decimal} seconds."
+    ended: "&6&lCombat &7\u00BB &f你已不再在战斗中。"
+  angel-chest:
+    prevent-opening: "&c你不能再战斗中打开天使箱子"
+    prevent-breaking: "&c你不能再战斗中破坏天使箱子"
+    prevent-fast-looting: "&c你不能在战斗中获取战利品宝箱."
+  boss-bar:
+    #Valid 'timer' placeholders: {time_left}, {time_left_decimal}
+    timer: "&6&l战斗还剩 &7\u00BB &c{time_left_decimal} 秒"
+    ended: "&6&lCombat &7\u00BB &f你已不再在战斗中。"
+  scoreboard:
+    #Make sure to follow your Spigot version's scoreboard character limit
+    title: "&6&lCombatLogX"
+    #Make sure to follow your Spigot version's scoreboard line/character limit
+    lines:
+      - "&f"
+      - "&f&l战斗状态："
+      - "&8\u00BB &f&ltime 剩余时间: &7{time_left}"
+      - "&8\u00BB &f&l战斗中: &7{in_combat}"
+      - "&8\u00BB &f&l状态: &7{status}"
+      - "&f"
+      - "&f&l敌人状态"
+      - "&8\u00BB &f&l名字: &7{enemy_name}"
+      - "&8\u00BB &f&l血量: &7{enemy_health}"
+      - "&8\u00BB &f&l血量R: &7{enemy_health_rounded}"
+      - "&8\u00BB &f&l红心❤: &7{enemy_hearts}"
+      - "&f"
   cheat-prevention:
     command-blocked: "&c您不能在战斗中使用 &a{command}&c"
     no-riptide: "&c战斗期间禁用 riptie 附魔。"
@@ -145,16 +187,19 @@ expansion:
   essentials-compatibility:
     prevent-teleport-request-self: "&c您不能在战斗中创建传送请求。"
     prevent-teleport-request-other: "&c您不能向战斗中的玩家发送传送请求。"
+  marriagemaster-compatibility:
+    prevent-teleport-self: "&c你不能在战斗中传送至你的伙伴"
+    prevent-teleport-partner: "&c你不能传送至正在战斗中的伙伴"
   region-protection:
     factions-no-entry: "&c您不能在战斗中进入那片区域。"
     griefdefender-no-entry: "&c您不能在战斗中进入那片区域。"
     griefprevention-no-entry: "&c您不能在战斗中进入那片区域。"
     kingdomsx-no-entry: "&c您不能在战斗中进入那片区域。"
-    lands-no-entry: "&c您不能在战斗中进入那片区域。"
     konquest-no-entry: "&c您不能在战斗中进入那片区域。"
     redprotect-no-entry: "&c您不能在战斗中进入那片区域。"
     residence-no-entry: "&c您不能在战斗中进入那片区域。"
     towny-no-entry: "&c您不能在战斗中进入那片区域。"
+    husktowns-no-entry: "&c您不能在战斗中进入那片区域。"
     ultimateclaims-no-entry: "&c您不能在战斗中进入那片区域。"
     protectionstones:
       prevent-area-creation: "&c您不能在战斗中创建保护区域。"
@@ -166,3 +211,6 @@ expansion:
       no-entry-mob-combat: "&c您不能在战斗中进入非怪物战斗区域。"
       no-entry-player-combat: "&c您不能在战斗中进入非玩家战斗区域。"
       no-entry-unknown-combat: "&c您不能在战斗中进入那片区域。"
+    lands:
+      no-entry: "&c您不能在战斗中进入那片区域。"
+      war-disable-newbie-protection: "&e由于宣战，PvP模式已被开启"
