@@ -105,6 +105,12 @@ public abstract class RegionHandler {
                     }
                 }
 
+                if(player.isGliding()) {
+                    player.setGliding(false);
+                    Vector zero = new Vector(0.0D, 0.0D, 0.0D);
+                    player.setVelocity(zero);
+                }
+
                 Runnable task = () -> knockbackPlayer(player, fromLocation, toLocation);
                 BukkitScheduler scheduler = Bukkit.getScheduler();
                 scheduler.runTaskLater(javaPlugin, task, 1L);
