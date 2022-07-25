@@ -56,7 +56,7 @@ public final class ForceFieldAdapter extends PacketAdapter {
         }
 
         TagInformation tagInformation = combatManager.getTagInformation(player);
-        if(tagInformation == null) {
+        if (tagInformation == null) {
             return;
         }
 
@@ -99,7 +99,7 @@ public final class ForceFieldAdapter extends PacketAdapter {
         }
 
         TagInformation tagInformation = combatManager.getTagInformation(player);
-        if(tagInformation == null) {
+        if (tagInformation == null) {
             return;
         }
 

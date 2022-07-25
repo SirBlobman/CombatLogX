@@ -23,15 +23,6 @@ public final class PlayerEnemyRemoveEvent extends CustomPlayerEvent {
         HANDLER_LIST = new HandlerList();
     }
 
-    public static HandlerList getHandlerList() {
-        return HANDLER_LIST;
-    }
-
-    @Override
-    public HandlerList getHandlers() {
-        return HANDLER_LIST;
-    }
-
     private final UntagReason untagReason;
     private final Entity enemy;
 
@@ -40,6 +31,15 @@ public final class PlayerEnemyRemoveEvent extends CustomPlayerEvent {
 
         this.untagReason = Validate.notNull(untagReason, "untagReason must not be null!");
         this.enemy = Validate.notNull(enemy, "enemy must not be null!");
+    }
+
+    public static HandlerList getHandlerList() {
+        return HANDLER_LIST;
+    }
+
+    @Override
+    public HandlerList getHandlers() {
+        return HANDLER_LIST;
     }
 
     /**

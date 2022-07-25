@@ -17,7 +17,7 @@ public final class CombatTag implements Comparable<CombatTag> {
     private final long expireMillis;
 
     public CombatTag(@Nullable Entity enemy, TagType tagType, TagReason tagReason, long expireMillis) {
-        if(enemy != null) {
+        if (enemy != null) {
             this.enemyId = enemy.getUniqueId();
             this.enemyReference = new WeakReference<>(enemy);
         } else {
@@ -37,7 +37,7 @@ public final class CombatTag implements Comparable<CombatTag> {
 
     @Nullable
     public Entity getEnemy() {
-        if(this.enemyReference == null) {
+        if (this.enemyReference == null) {
             return null;
         }
 

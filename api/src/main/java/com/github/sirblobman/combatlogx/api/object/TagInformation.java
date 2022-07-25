@@ -77,7 +77,7 @@ public final class TagInformation {
 
         for (CombatTag combatTag : tagList) {
             UUID enemyId = combatTag.getEnemyId();
-            if(enemyId != null) {
+            if (enemyId != null) {
                 enemyIdList.add(enemyId);
             }
         }
@@ -95,7 +95,7 @@ public final class TagInformation {
 
         for (CombatTag combatTag : tagList) {
             Entity enemy = combatTag.getEnemy();
-            if(enemy != null) {
+            if (enemy != null) {
                 enemyList.add(enemy);
             }
         }
@@ -119,11 +119,11 @@ public final class TagInformation {
     public void addTag(CombatTag combatTag) {
         Validate.notNull(combatTag, "combatTag must not be null!");
 
-        if(combatTag.isExpired()) {
+        if (combatTag.isExpired()) {
             throw new IllegalArgumentException("combatTag is already expired!");
         }
 
-        if(this.tagList.contains(combatTag)) {
+        if (this.tagList.contains(combatTag)) {
             throw new IllegalArgumentException("The player already has that combat tag.");
         }
 
@@ -138,7 +138,7 @@ public final class TagInformation {
 
     public long getExpireMillisCombined() {
         List<CombatTag> tagList = getTags();
-        if(tagList.isEmpty()) {
+        if (tagList.isEmpty()) {
             return 0L;
         }
 
@@ -166,7 +166,7 @@ public final class TagInformation {
     @NotNull
     public TagType getCurrentTagType() {
         List<TagType> tagTypeList = getTagTypes();
-        if(tagTypeList.isEmpty()) {
+        if (tagTypeList.isEmpty()) {
             return TagType.UNKNOWN;
         }
 
@@ -176,7 +176,7 @@ public final class TagInformation {
     @Nullable
     public Entity getCurrentEnemy() {
         List<Entity> enemyList = getEnemies();
-        if(enemyList.isEmpty()) {
+        if (enemyList.isEmpty()) {
             return null;
         }
 

@@ -35,8 +35,8 @@ public final class UntagTask implements Runnable {
         List<Player> playerCombatList = combatManager.getPlayersInCombat();
         for (Player player : playerCombatList) {
             TagInformation tagInformation = combatManager.getTagInformation(player);
-            if(tagInformation != null) {
-                if(tagInformation.isExpired()) {
+            if (tagInformation != null) {
+                if (tagInformation.isExpired()) {
                     combatManager.untag(player, UntagReason.EXPIRE);
                 }
             }

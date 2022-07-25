@@ -51,8 +51,8 @@ public interface ICombatManager {
     /**
      * Remove a player from combat with a specific enemy.
      *
-     * @param player The {@link Player} to remove.
-     * @param enemy The enemy to remove.
+     * @param player      The {@link Player} to remove.
+     * @param enemy       The enemy to remove.
      * @param untagReason The reason for removing the player. Usually {@link UntagReason#EXPIRE}
      */
     void untag(Player player, Entity enemy, UntagReason untagReason);
@@ -83,8 +83,8 @@ public interface ICombatManager {
      *
      * @param player The {@link Player} to check.
      * @return The current enemy of the player or {@code null} if the player does not have one.
-     * @deprecated CombatLogX now supports multiple enemies
      * @see #getTagInformation(Player)
+     * @deprecated CombatLogX now supports multiple enemies
      */
     @Nullable
     @Deprecated
@@ -92,6 +92,7 @@ public interface ICombatManager {
 
     /**
      * Get combat tag information for the specified player.
+     *
      * @param player The {@link Player} to check.
      * @return Information about a players combat tag, or {@code null} if the player is not tagged into combat.
      */
@@ -104,8 +105,8 @@ public interface ICombatManager {
      *
      * @param enemy The enemy to check.
      * @return The current {@link Player} linked to this enemy, or {@code null} if one does not exist.
-     * @deprecated CombatLogX now supports multiple enemies
      * @see #getTagInformation(Player)
+     * @deprecated CombatLogX now supports multiple enemies
      */
     @Nullable
     @Deprecated
@@ -117,8 +118,8 @@ public interface ICombatManager {
      * @param player The {@link Player} to check.
      * @return When the player is tagged into combat, this will return an amount of milliseconds.
      * When the player is not in combat, this method will return {@code 0}.
-     * @deprecated CombatLogX now supports multiple enemies
      * @see #getTagInformation(Player)
+     * @deprecated CombatLogX now supports multiple enemies
      */
     @Deprecated
     long getTimerLeftMillis(Player player);
@@ -129,8 +130,8 @@ public interface ICombatManager {
      * @param player The {@link Player} to check.
      * @return When the player is tagged into combat, a positive number will be returned.
      * When the player is not in combat, this method will return {@code 0}.
-     * @deprecated CombatLogX now supports multiple enemies
      * @see #getTagInformation(Player)
+     * @deprecated CombatLogX now supports multiple enemies
      */
     @Deprecated
     int getTimerLeftSeconds(Player player);

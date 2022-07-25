@@ -283,13 +283,13 @@ public final class ListenerForceField extends ExpansionListener {
         }
 
         TagInformation tagInformation = combatManager.getTagInformation(player);
-        if(tagInformation == null) {
+        if (tagInformation == null) {
             return;
         }
 
         if (isSafeMode()) {
             safeForceField(player, tagInformation);
-        } else  {
+        } else {
             this.forceFieldExecutor.submit(() -> safeForceField(player, tagInformation));
         }
     }
@@ -345,7 +345,7 @@ public final class ListenerForceField extends ExpansionListener {
     private void safeForceField(Player player) {
         ICombatManager combatManager = getCombatManager();
         TagInformation tagInformation = combatManager.getTagInformation(player);
-        if(tagInformation != null) {
+        if (tagInformation != null) {
             safeForceField(player, tagInformation);
         }
     }
@@ -421,7 +421,7 @@ public final class ListenerForceField extends ExpansionListener {
     boolean isSafe(Player player, Location location) {
         ICombatManager combatManager = getCombatManager();
         TagInformation tagInformation = combatManager.getTagInformation(player);
-        if(tagInformation == null) {
+        if (tagInformation == null) {
             return false;
         }
 

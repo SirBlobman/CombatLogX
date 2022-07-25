@@ -113,7 +113,7 @@ public final class ActionBarUpdater implements TimerUpdater {
         ICombatManager combatManager = combatLogX.getCombatManager();
 
         TagInformation tagInformation = combatManager.getTagInformation(player);
-        if(tagInformation == null) {
+        if (tagInformation == null) {
             return message;
         }
 

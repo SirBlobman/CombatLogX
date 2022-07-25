@@ -3,6 +3,7 @@ package combatlogx.expansion.compatibility.placeholderapi;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -43,6 +44,7 @@ import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.get
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getStatus;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getTagCount;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getTimeLeft;
+import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getTimeLeftDecimal;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getTimeLeftDecimalSpecific;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getTimeLeftSpecific;
 import static com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper.getUnknownEnemy;
@@ -100,6 +102,8 @@ public final class HookPlaceholderAPI extends PlaceholderExpansion {
                 return getPunishmentCount(plugin, player);
             case "time_left":
                 return getTimeLeft(plugin, player);
+            case "time_left_decimal":
+                return getTimeLeftDecimal(plugin, player);
             case "in_combat":
                 return getInCombat(plugin, player);
             case "status":
@@ -112,22 +116,22 @@ public final class HookPlaceholderAPI extends PlaceholderExpansion {
                 break;
         }
 
-        if(placeholder.startsWith("time_left_")) {
+        if (placeholder.startsWith("time_left_")) {
             String numberString = placeholder.substring("time_left_".length());
             try {
                 int index = (Integer.parseInt(numberString) - 1);
                 return getTimeLeftSpecific(plugin, player, index);
-            } catch(NumberFormatException ignored) {
+            } catch (NumberFormatException ignored) {
                 // Do Nothing
             }
         }
 
-        if(placeholder.startsWith("time_left_decimal_")) {
+        if (placeholder.startsWith("time_left_decimal_")) {
             String numberString = placeholder.substring("time_left_decimal_".length());
             try {
                 int index = (Integer.parseInt(numberString) - 1);
                 return getTimeLeftDecimalSpecific(plugin, player, index);
-            } catch(NumberFormatException ignored) {
+            } catch (NumberFormatException ignored) {
                 // Do Nothing
             }
         }
@@ -165,19 +169,27 @@ public final class HookPlaceholderAPI extends PlaceholderExpansion {
             return getEnemyPlaceholder(player, enemyPlaceholder, currentEnemy);
         }
 
-        if(placeholder.startsWith("specific_enemy_")) {
+        if (placeholder.startsWith("specific_enemy_")) {
+            Logger logger = this.expansion.getLogger();
+            logger.info("Detected Placeholder '" + placeholder + "'.");
+
             String subPlaceholder = placeholder.substring("specific_enemy_".length());
+            logger.info("Detected Sub Placeholder '" + subPlaceholder + "'.");
+
             int nextUnderscore = subPlaceholder.indexOf('_');
-            if(nextUnderscore == -1) {
+            if (nextUnderscore == -1) {
                 return null;
             }
 
             try {
                 String enemyIdString = subPlaceholder.substring(0, nextUnderscore);
+                logger.info("Enemy ID '" + enemyIdString + "'.");
                 int index = (Integer.parseInt(enemyIdString) - 1);
+                logger.info("Enemy Index '" + index + "'.");
 
                 Entity specificEnemy = getSpecificEnemy(plugin, player, index);
-                String enemyPlaceholder = placeholder.substring(nextUnderscore + 1, subPlaceholder.length());
+                String enemyPlaceholder = subPlaceholder.substring(nextUnderscore + 1);
+                logger.info("Enemy Placeholder '" + enemyPlaceholder + "'.");
                 switch (enemyPlaceholder) {
                     case "name":
                         return getEnemyName(plugin, player, specificEnemy);
@@ -204,7 +216,7 @@ public final class HookPlaceholderAPI extends PlaceholderExpansion {
                     default:
                         break;
                 }
-            } catch(NumberFormatException ignored) {
+            } catch (NumberFormatException ignored) {
                 // Do Nothing
             }
         }
@@ -220,7 +232,7 @@ public final class HookPlaceholderAPI extends PlaceholderExpansion {
 
     private String getEnemyPlaceholder(Player player, String enemyPlaceholder, Entity enemy) {
         ICombatLogX plugin = this.expansion.getPlugin();
-        if(enemy == null) {
+        if (enemy == null) {
             return getUnknownEnemy(plugin, player);
         }
 

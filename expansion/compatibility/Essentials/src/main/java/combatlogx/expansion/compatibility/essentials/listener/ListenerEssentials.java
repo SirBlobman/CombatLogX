@@ -37,7 +37,7 @@ public final class ListenerEssentials extends ExpansionListener {
 
         if (isInCombat(player)) {
             String messagePath = "expansion.essentials-compatibility.prevent-teleport-request-self";
-            sendMessageWithPrefix(player, messagePath,null, true);
+            sendMessageWithPrefix(player, messagePath, null, true);
             e.setCancelled(true);
             return;
         }

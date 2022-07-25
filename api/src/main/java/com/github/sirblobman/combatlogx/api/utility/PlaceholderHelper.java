@@ -33,12 +33,12 @@ public final class PlaceholderHelper {
     public static Entity getCurrentEnemy(ICombatLogX plugin, Player player) {
         ICombatManager combatManager = plugin.getCombatManager();
         TagInformation tagInformation = combatManager.getTagInformation(player);
-        if(tagInformation == null) {
+        if (tagInformation == null) {
             return null;
         }
 
         List<Entity> enemyList = tagInformation.getEnemies();
-        if(enemyList.isEmpty()) {
+        if (enemyList.isEmpty()) {
             return null;
         }
 
@@ -49,17 +49,17 @@ public final class PlaceholderHelper {
     public static Entity getSpecificEnemy(ICombatLogX plugin, Player player, int index) {
         ICombatManager combatManager = plugin.getCombatManager();
         TagInformation tagInformation = combatManager.getTagInformation(player);
-        if(tagInformation == null) {
+        if (tagInformation == null) {
             return null;
         }
 
         List<Entity> enemyList = tagInformation.getEnemies();
-        if(enemyList.isEmpty()) {
+        if (enemyList.isEmpty()) {
             return null;
         }
 
         int enemyListSize = enemyList.size();
-        if(index < 0 || index >= enemyListSize) {
+        if (index < 0 || index >= enemyListSize) {
             return null;
         }
 
@@ -79,7 +79,7 @@ public final class PlaceholderHelper {
 
         ICombatManager combatManager = plugin.getCombatManager();
         TagInformation tagInformation = combatManager.getTagInformation(player);
-        if(tagInformation == null) {
+        if (tagInformation == null) {
             return zeroMessage;
         }
 
@@ -87,12 +87,12 @@ public final class PlaceholderHelper {
         long systemMillis = System.currentTimeMillis();
         long subtractMillis = (expireMillis - systemMillis);
         long timeLeftMillis = Math.max(0L, subtractMillis);
-        if(timeLeftMillis <= 0L) {
+        if (timeLeftMillis <= 0L) {
             return zeroMessage;
         }
 
         long secondsLeft = TimeUnit.MILLISECONDS.toSeconds(timeLeftMillis);
-        if(secondsLeft <= 0L) {
+        if (secondsLeft <= 0L) {
             return zeroMessage;
         }
 
@@ -106,13 +106,13 @@ public final class PlaceholderHelper {
 
         ICombatManager combatManager = plugin.getCombatManager();
         TagInformation tagInformation = combatManager.getTagInformation(player);
-        if(tagInformation == null) {
+        if (tagInformation == null) {
             return zeroMessage;
         }
 
         List<CombatTag> tagList = tagInformation.getTags();
         int tagListSize = tagList.size();
-        if(index < 0 || index >= tagListSize) {
+        if (index < 0 || index >= tagListSize) {
             return zeroMessage;
         }
 
@@ -121,12 +121,12 @@ public final class PlaceholderHelper {
         long systemMillis = System.currentTimeMillis();
         long subtractMillis = (expireMillis - systemMillis);
         long timeLeftMillis = Math.max(0L, subtractMillis);
-        if(timeLeftMillis <= 0L) {
+        if (timeLeftMillis <= 0L) {
             return zeroMessage;
         }
 
         long secondsLeft = TimeUnit.MILLISECONDS.toSeconds(timeLeftMillis);
-        if(secondsLeft <= 0L) {
+        if (secondsLeft <= 0L) {
             return zeroMessage;
         }
 
@@ -140,13 +140,13 @@ public final class PlaceholderHelper {
 
         ICombatManager combatManager = plugin.getCombatManager();
         TagInformation tagInformation = combatManager.getTagInformation(player);
-        if(tagInformation == null) {
+        if (tagInformation == null) {
             return zeroMessage;
         }
 
         List<CombatTag> tagList = tagInformation.getTags();
         int tagListSize = tagList.size();
-        if(index < 0 || index >= tagListSize) {
+        if (index < 0 || index >= tagListSize) {
             return zeroMessage;
         }
 
@@ -155,12 +155,12 @@ public final class PlaceholderHelper {
         long systemMillis = System.currentTimeMillis();
         long subtractMillis = (expireMillis - systemMillis);
         double timeLeftMillis = Math.max(0.0D, subtractMillis);
-        if(timeLeftMillis <= 0.0D) {
+        if (timeLeftMillis <= 0.0D) {
             return zeroMessage;
         }
 
         double secondsLeft = (timeLeftMillis / 1_000.0D);
-        if(secondsLeft <= 0.0D) {
+        if (secondsLeft <= 0.0D) {
             return zeroMessage;
         }
 
@@ -175,7 +175,7 @@ public final class PlaceholderHelper {
 
         ICombatManager combatManager = plugin.getCombatManager();
         TagInformation tagInformation = combatManager.getTagInformation(player);
-        if(tagInformation == null) {
+        if (tagInformation == null) {
             return zeroMessage;
         }
 
@@ -183,12 +183,12 @@ public final class PlaceholderHelper {
         long systemMillis = System.currentTimeMillis();
         long subtractMillis = (expireMillis - systemMillis);
         double timeLeftMillis = Math.max(0.0D, subtractMillis);
-        if(timeLeftMillis <= 0.0D) {
+        if (timeLeftMillis <= 0.0D) {
             return zeroMessage;
         }
 
         double secondsLeft = (timeLeftMillis / 1_000.0D);
-        if(secondsLeft <= 0.0D) {
+        if (secondsLeft <= 0.0D) {
             return zeroMessage;
         }
 
@@ -252,7 +252,7 @@ public final class PlaceholderHelper {
         }
 
         double enemyHealth;
-        if(enemy instanceof LivingEntity) {
+        if (enemy instanceof LivingEntity) {
             enemyHealth = ((LivingEntity) enemy).getHealth();
         } else {
             enemyHealth = 0.0D;
@@ -268,7 +268,7 @@ public final class PlaceholderHelper {
         }
 
         double enemyHealth;
-        if(enemy instanceof LivingEntity) {
+        if (enemy instanceof LivingEntity) {
             enemyHealth = ((LivingEntity) enemy).getHealth();
         } else {
             enemyHealth = 0.0D;
@@ -284,7 +284,7 @@ public final class PlaceholderHelper {
         }
 
         double enemyHealth;
-        if(enemy instanceof LivingEntity) {
+        if (enemy instanceof LivingEntity) {
             enemyHealth = ((LivingEntity) enemy).getHealth();
         } else {
             enemyHealth = 0.0D;
@@ -301,7 +301,7 @@ public final class PlaceholderHelper {
         }
 
         double enemyHealth;
-        if(enemy instanceof LivingEntity) {
+        if (enemy instanceof LivingEntity) {
             enemyHealth = ((LivingEntity) enemy).getHealth();
         } else {
             enemyHealth = 0.0D;
@@ -329,7 +329,7 @@ public final class PlaceholderHelper {
     public static DecimalFormat getDecimalFormat(ICombatLogX plugin, Player player) {
         LanguageManager languageManager = plugin.getLanguageManager();
         Language language = languageManager.getLanguage(player);
-        if(language == null) {
+        if (language == null) {
             DecimalFormatSymbols usSymbols = DecimalFormatSymbols.getInstance(Locale.US);
             return new DecimalFormat("0.00", usSymbols);
         }
@@ -389,7 +389,7 @@ public final class PlaceholderHelper {
     public static String getTagCount(ICombatLogX plugin, Player player) {
         ICombatManager combatManager = plugin.getCombatManager();
         TagInformation tagInformation = combatManager.getTagInformation(player);
-        if(tagInformation == null || tagInformation.isExpired()) {
+        if (tagInformation == null || tagInformation.isExpired()) {
             return Integer.toString(0);
         }
 
@@ -401,7 +401,7 @@ public final class PlaceholderHelper {
     public static String getEnemyCount(ICombatLogX plugin, Player player) {
         ICombatManager combatManager = plugin.getCombatManager();
         TagInformation tagInformation = combatManager.getTagInformation(player);
-        if(tagInformation == null || tagInformation.isExpired()) {
+        if (tagInformation == null || tagInformation.isExpired()) {
             return Integer.toString(0);
         }
 

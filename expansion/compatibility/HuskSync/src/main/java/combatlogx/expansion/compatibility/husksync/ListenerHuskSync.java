@@ -71,7 +71,7 @@ public final class ListenerHuskSync extends ExpansionListener {
 
         HuskSyncAPI huskSyncAPI = getHuskSyncAPI();
         OnlineUser playerUser = huskSyncAPI.getUser(player);
-        if(!keepInventory) {
+        if (!keepInventory) {
             String emptyItems = huskSyncAPI.serializeItemStackArray(new ItemStack[0]).join();
             ItemData emptyData = new ItemData(emptyItems);
             playerUser.setInventory(emptyData);
@@ -88,7 +88,7 @@ public final class ListenerHuskSync extends ExpansionListener {
                 if (optionalUserData.isPresent()) {
                     UserData userData = optionalUserData.get();
                     StatusData statusData = userData.getStatusData();
-                    if(!keepLevel) {
+                    if (!keepLevel) {
                         statusData.totalExperience = event.getNewTotalExp();
                         statusData.expLevel = event.getNewLevel();
                         statusData.expProgress = event.getNewExp();
@@ -104,7 +104,7 @@ public final class ListenerHuskSync extends ExpansionListener {
     public void onSync(BukkitPreSyncEvent e) {
         OnlineUser onlineUser = e.getUser();
         Player player = Bukkit.getPlayer(onlineUser.uuid);
-        if(player == null) {
+        if (player == null) {
             return;
         }
 
@@ -112,7 +112,7 @@ public final class ListenerHuskSync extends ExpansionListener {
         StatusData statusData = userData.getStatusData();
         double playerHealth = player.getHealth();
 
-        if(playerHealth <= 0.0D && statusData.health >= 0.0D) {
+        if (playerHealth <= 0.0D && statusData.health >= 0.0D) {
             Spigot spigot = player.spigot();
             spigot.respawn();
         }

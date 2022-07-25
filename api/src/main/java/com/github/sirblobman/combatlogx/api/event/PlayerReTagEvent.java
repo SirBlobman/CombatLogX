@@ -20,6 +20,18 @@ public final class PlayerReTagEvent extends CustomPlayerEventCancellable {
         HANDLER_LIST = new HandlerList();
     }
 
+    private final Entity enemy;
+    private final TagType tagType;
+    private final TagReason tagReason;
+    private long combatEndMillis;
+    public PlayerReTagEvent(Player player, Entity enemy, TagType tagType, TagReason tagReason, long combatEndMillis) {
+        super(player);
+        this.enemy = enemy;
+        this.tagType = Validate.notNull(tagType, "tagType must not be null!");
+        this.tagReason = Validate.notNull(tagReason, "tagReason must not be null!");
+        this.combatEndMillis = combatEndMillis;
+    }
+
     public static HandlerList getHandlerList() {
         return HANDLER_LIST;
     }
@@ -27,19 +39,6 @@ public final class PlayerReTagEvent extends CustomPlayerEventCancellable {
     @Override
     public HandlerList getHandlers() {
         return HANDLER_LIST;
-    }
-
-    private final Entity enemy;
-    private final TagType tagType;
-    private final TagReason tagReason;
-    private long combatEndMillis;
-
-    public PlayerReTagEvent(Player player, Entity enemy, TagType tagType, TagReason tagReason, long combatEndMillis) {
-        super(player);
-        this.enemy = enemy;
-        this.tagType = Validate.notNull(tagType, "tagType must not be null!");
-        this.tagReason = Validate.notNull(tagReason, "tagReason must not be null!");
-        this.combatEndMillis = combatEndMillis;
     }
 
     /**

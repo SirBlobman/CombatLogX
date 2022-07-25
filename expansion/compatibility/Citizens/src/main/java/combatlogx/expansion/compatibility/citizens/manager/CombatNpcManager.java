@@ -179,7 +179,7 @@ public final class CombatNpcManager {
 
         ICombatManager combatManager = plugin.getCombatManager();
         TagInformation tagInformation = combatManager.getTagInformation(player);
-        if(tagInformation != null) {
+        if (tagInformation != null) {
             Entity enemyEntity = tagInformation.getCurrentEnemy();
             if (enemyEntity instanceof Player) {
                 combatNPC.setEnemy((Player) enemyEntity);

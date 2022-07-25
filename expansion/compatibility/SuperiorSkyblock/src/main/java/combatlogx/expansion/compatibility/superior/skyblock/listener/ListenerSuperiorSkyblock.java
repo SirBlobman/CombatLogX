@@ -50,7 +50,7 @@ public final class ListenerSuperiorSkyblock extends ExpansionListener {
     }
 
     private Set<UUID> getMemberIds(Island island) {
-        if(island == null) {
+        if (island == null) {
             return Collections.emptySet();
         }
 

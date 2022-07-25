@@ -25,14 +25,14 @@ public final class RegionMoveListener extends RegionListener {
         }
 
         Player player = e.getPlayer();
-        if(!isInCombat(player)) {
+        if (!isInCombat(player)) {
             return;
         }
 
         ICombatLogX combatLogX = getCombatLogX();
         ICombatManager combatManager = combatLogX.getCombatManager();
         TagInformation tagInformation = combatManager.getTagInformation(player);
-        if(tagInformation == null) {
+        if (tagInformation == null) {
             return;
         }
 
@@ -48,7 +48,7 @@ public final class RegionMoveListener extends RegionListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onTeleport(PlayerTeleportEvent e) {
         TeleportCause teleportCause = e.getCause();
-        if(teleportCause != TeleportCause.ENDER_PEARL) {
+        if (teleportCause != TeleportCause.ENDER_PEARL) {
             return;
         }
 
@@ -58,14 +58,14 @@ public final class RegionMoveListener extends RegionListener {
         }
 
         Player player = e.getPlayer();
-        if(!isInCombat(player)) {
+        if (!isInCombat(player)) {
             return;
         }
 
         ICombatLogX combatLogX = getCombatLogX();
         ICombatManager combatManager = combatLogX.getCombatManager();
         TagInformation tagInformation = combatManager.getTagInformation(player);
-        if(tagInformation == null) {
+        if (tagInformation == null) {
             return;
         }
 

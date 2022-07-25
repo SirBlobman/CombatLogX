@@ -121,7 +121,7 @@ public final class CombatManager implements ICombatManager {
         }
 
         TagInformation tagInformation = getTagInformation(player);
-        if(tagInformation == null) {
+        if (tagInformation == null) {
             return;
         }
 
@@ -152,7 +152,7 @@ public final class CombatManager implements ICombatManager {
         }
 
         TagInformation tagInformation = getTagInformation(player);
-        if(tagInformation == null || !tagInformation.isEnemy(enemy)) {
+        if (tagInformation == null || !tagInformation.isEnemy(enemy)) {
             return;
         }
 
@@ -162,7 +162,7 @@ public final class CombatManager implements ICombatManager {
         pluginManager.callEvent(event);
 
         long expireMillis = tagInformation.getExpireMillisCombined();
-        if(expireMillis <= 0L) {
+        if (expireMillis <= 0L) {
             untag(player, untagReason);
         }
     }
@@ -190,7 +190,7 @@ public final class CombatManager implements ICombatManager {
 
         for (UUID playerId : playerIdSet) {
             Player player = Bukkit.getPlayer(playerId);
-            if(player != null) {
+            if (player != null) {
                 playerList.add(player);
             }
         }
@@ -205,12 +205,12 @@ public final class CombatManager implements ICombatManager {
         Validate.notNull(player, "player must not be null!");
 
         TagInformation tagInformation = getTagInformation(player);
-        if(tagInformation == null) {
+        if (tagInformation == null) {
             return null;
         }
 
         List<Entity> enemyList = tagInformation.getEnemies();
-        if(enemyList.isEmpty()) {
+        if (enemyList.isEmpty()) {
             return null;
         }
 
@@ -234,11 +234,11 @@ public final class CombatManager implements ICombatManager {
         List<Player> playerList = getPlayersInCombat();
         for (Player player : playerList) {
             TagInformation tagInformation = getTagInformation(player);
-            if(tagInformation == null) {
+            if (tagInformation == null) {
                 continue;
             }
 
-            if(tagInformation.isEnemy(enemy)) {
+            if (tagInformation.isEnemy(enemy)) {
                 return player;
             }
         }
@@ -252,7 +252,7 @@ public final class CombatManager implements ICombatManager {
         Validate.notNull(player, "player must not be null!");
 
         TagInformation tagInformation = getTagInformation(player);
-        if(tagInformation == null) {
+        if (tagInformation == null) {
             return 0L;
         }
 
@@ -266,7 +266,7 @@ public final class CombatManager implements ICombatManager {
     @Deprecated
     public int getTimerLeftSeconds(Player player) {
         double timerLeftMillis = getTimerLeftMillis(player);
-        if(timerLeftMillis <= 0.0D) {
+        if (timerLeftMillis <= 0.0D) {
             return 0;
         }
 

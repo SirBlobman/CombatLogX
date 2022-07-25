@@ -1,7 +1,5 @@
 package com.github.sirblobman.combatlogx.api.listener;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Logger;
@@ -26,9 +24,7 @@ import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.IDeathManager;
-import com.github.sirblobman.combatlogx.api.object.CombatTag;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
-import com.github.sirblobman.combatlogx.api.object.TagType;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -168,12 +164,12 @@ public abstract class CombatListener implements Listener {
     protected final Entity getCurrentEnemy(ICombatLogX plugin, Player player) {
         ICombatManager combatManager = plugin.getCombatManager();
         TagInformation tagInformation = combatManager.getTagInformation(player);
-        if(tagInformation == null) {
+        if (tagInformation == null) {
             return null;
         }
 
         List<Entity> enemyList = tagInformation.getEnemies();
-        if(enemyList.isEmpty()) {
+        if (enemyList.isEmpty()) {
             return null;
         }
 

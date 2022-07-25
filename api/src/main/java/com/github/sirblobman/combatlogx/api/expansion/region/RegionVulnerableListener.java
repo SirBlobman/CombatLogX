@@ -38,13 +38,13 @@ public final class RegionVulnerableListener extends ExpansionListener {
             return;
         }
 
-        if(!isInCombat(player)) {
+        if (!isInCombat(player)) {
             return;
         }
 
         ICombatManager combatManager = getCombatManager();
         TagInformation tagInformation = combatManager.getTagInformation(player);
-        if(tagInformation == null) {
+        if (tagInformation == null) {
             return;
         }
 

@@ -157,7 +157,7 @@ public final class BossBarUpdater implements TimerUpdater {
         ICombatManager combatManager = combatLogX.getCombatManager();
 
         TagInformation tagInformation = combatManager.getTagInformation(player);
-        if(tagInformation == null) {
+        if (tagInformation == null) {
             return message;
         }
 

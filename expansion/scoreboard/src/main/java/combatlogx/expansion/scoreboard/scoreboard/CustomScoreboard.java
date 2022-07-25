@@ -222,7 +222,7 @@ public final class CustomScoreboard {
 
         Player player = getPlayer();
         TagInformation tagInformation = combatManager.getTagInformation(player);
-        if(tagInformation == null) {
+        if (tagInformation == null) {
             return message;
         }
 
