@@ -170,12 +170,7 @@ public final class HookPlaceholderAPI extends PlaceholderExpansion {
         }
 
         if (placeholder.startsWith("specific_enemy_")) {
-            Logger logger = this.expansion.getLogger();
-            logger.info("Detected Placeholder '" + placeholder + "'.");
-
             String subPlaceholder = placeholder.substring("specific_enemy_".length());
-            logger.info("Detected Sub Placeholder '" + subPlaceholder + "'.");
-
             int nextUnderscore = subPlaceholder.indexOf('_');
             if (nextUnderscore == -1) {
                 return null;
@@ -183,13 +178,10 @@ public final class HookPlaceholderAPI extends PlaceholderExpansion {
 
             try {
                 String enemyIdString = subPlaceholder.substring(0, nextUnderscore);
-                logger.info("Enemy ID '" + enemyIdString + "'.");
                 int index = (Integer.parseInt(enemyIdString) - 1);
-                logger.info("Enemy Index '" + index + "'.");
 
                 Entity specificEnemy = getSpecificEnemy(plugin, player, index);
                 String enemyPlaceholder = subPlaceholder.substring(nextUnderscore + 1);
-                logger.info("Enemy Placeholder '" + enemyPlaceholder + "'.");
                 switch (enemyPlaceholder) {
                     case "name":
                         return getEnemyName(plugin, player, specificEnemy);
