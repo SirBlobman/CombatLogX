@@ -52,6 +52,10 @@ public final class BossBarUpdater implements TimerUpdater {
         update(player, 0L);
 
         JavaPlugin plugin = getCombatLogX().getPlugin();
+        if(!plugin.isEnabled()) {
+            return;
+        }
+
         BukkitScheduler scheduler = Bukkit.getScheduler();
         scheduler.scheduleSyncDelayedTask(plugin, () -> actualRemove(player), 10L);
     }
