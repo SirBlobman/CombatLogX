@@ -30,7 +30,7 @@ public final class CommandTogglePVP extends CombatLogCommand {
 
     public CommandTogglePVP(NewbieHelperExpansion expansion) {
         super(expansion.getPlugin(), "togglepvp");
-        setPermissionName("combatlogx.command.combatlogx.forgive");
+        setPermissionName("combatlogx.command.togglepvp");
 
         this.expansion = expansion;
         this.cooldownMap = new HashMap<>();

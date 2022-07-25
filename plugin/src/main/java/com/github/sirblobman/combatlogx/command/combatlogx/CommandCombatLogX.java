@@ -9,7 +9,7 @@ public final class CommandCombatLogX extends CombatLogCommand {
         setPermissionName("combatlogx.command.combatlogx");
 
         addSubCommand(new SubCommandAbout(plugin));
-        addSubCommand(new SubCommandForgive(plugin));
+        // addSubCommand(new SubCommandForgive(plugin));
         addSubCommand(new SubCommandHelp(plugin));
         addSubCommand(new SubCommandReload(plugin));
         addSubCommand(new SubCommandTag(plugin));
