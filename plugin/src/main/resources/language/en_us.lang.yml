@@ -112,7 +112,7 @@ expansion:
       - "&f&lCombat Stats:"
       - "&8\u00BB &f&lTime Left: &7%combatlogx_time_left%"
       - "&8\u00BB &f&lIn Combat: &7%combatlogx_time_left_decimal%"
-      - "&8\u00BB &f&lStatus: &7{status}"
+      - "&8\u00BB &f&lStatus: &7%combatlogx_status%"
       - "&f"
       - "&f&lEnemies"
       - "&8\u00BB &7%combatlogx_specific_enemy_1_name%"
