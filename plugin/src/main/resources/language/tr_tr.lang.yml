@@ -26,8 +26,9 @@ combat-timer:
 error:
   player-only: "&cBu komutu sadece oyuncular kullanabilir."
   invalid-target: "&7{target}&c çevrimiçi değil ya da mevcut değil."
-  disabled-world: "Bu komut bu boyutta kullanılamaz."
+  invalid-integer: "&7{value}&c geçerli bir tam sayı değil."
   no-permission: "&cEksik Yetki: &7{permission}"
+  disabled-world: "Bu komut bu boyutta kullanılamaz."
   target-not-in-combat: "&7{target}&c savaşta değil."
   self-not-in-combat: "&cSavaşta değilsin."
   unknown-expansion: "&7{target}&c bir eklenti değil ya da yüklenmedi."
@@ -62,29 +63,30 @@ tagged:
     player: "&cArtık &f{enemy}&c ile bilinmeyen bir sebepten savaştasın. Çıkış yapma!"
     mob: "&cArtık bir &f{enemy}&c ile bilinmeyen bir sebepten savaştasın. Çıkış yapma!"
     mythic_mob: "&cBilinmeyen sebeple, bir &f{mob_type}&c ile savaş halindesin. Çıkış yapma!"
+    damage: "&cArtık hasar aldığınız için savaştasınız. Çıkış yapmayın!"
     unknown: "&cBilinmeyen bir sebepten savaşa girdin. Çıkış yapma."
   attacked:
     player: "&f{enemy} &c tarafından saldırıya uğradın. Oturumu kapatma!"
     mob: "&f{mob_type}&c tarafından saldırıya uğradın. Oturumu kapatma!"
     mythic_mob: "&f{enemy}&c tarafından saldırıya uğradın. Oturumu kapatma!"
+    damage: "&cArtık hasar aldığınız için savaştasınız. Çıkış yapmayın!"
     unknown: "&cBilinmeyen bir güç sana saldırıyor. Çıkış yapma!"
   attacker:
     player: "&f{enemy}&c adlı oyuncuya saldırıyorsun. Oturumu kapatma!"
     mob: "&f{mob_type}&c adlı canlıya saldırıyorsun. Oturumu kapatma!"
     mythic_mob: "&f{enemy}&c adlı canlıya saldırıyorsun. Oturumu kapatma!"
+    damage: "&cArtık hasar aldığınız için savaştasınız. Çıkış yapmayın!"
     unknown: "&cBilinmeyen bir güce saldırıyorsun. Çıkış yapma!"
 expansion:
   action-bar:
-    #Valid 'timer' placeholders: {time_left}, {time_left_decimal}, {bars}
-    timer: "&6&lSavaş &7\u00BB &f{bars} &f{time_left_decimal} saniye."
+    timer: "&6&lSavaş &7\u00BB &f{bars} &f%combatlogx_time_left_decimal% saniye."
     ended: "&6&lSavaş &7\u00BB &fArtık savaşta değilsiniz."
   angel-chest:
     prevent-opening: "&cSavaş sırasında ölü sandıklarını açman yasak."
     prevent-breaking: "&cSavaş sırasında ölü sandıklarını kırman yasak."
     prevent-fast-looting: "&cSavaş sırasında ölü sandıklarını hızlı yağmalamak yasak."
   boss-bar:
-    #Valid 'timer' placeholders: {time_left}, {time_left_decimal}
-    timer: "&6&lSavaş &7\u00BB &c{time_left_decimal} saniye."
+    timer: "&6&lSavaş &7\u00BB &c%combatlogx_time_left_decimal% saniye."
     ended: "&6&lSavaş &7\u00BB &aArtık savaşta değilsiniz."
   scoreboard:
     #Make sure to follow your Spigot version's scoreboard character limit
@@ -93,15 +95,14 @@ expansion:
     lines:
       - "&f"
       - "&f&lSavaş İstatistikleri:"
-      - "&8\u00BB &f&lKalan Zaman: &7{time_left}"
-      - "&8\u00BB &f&lIn Savaş: &7{in_combat}"
-      - "&8\u00BB &f&lDurum: &7{status}"
+      - "&8\u00BB &f&lKalan Süre: &7%combatlogx_time_left%"
+      - "&8\u00BB &f&lSavaşta: &7%combatlogx_time_left_decimal%"
+      - "&8\u00BB &f&lDurum: &7%combatlogx_status%"
       - "&f"
-      - "&f&lDüşman İstatistikleri"
-      - "&8\u00BB &f&lİsim: &7{enemy_name}"
-      - "&8\u00BB &f&lSağlık: &7{enemy_health}"
-      - "&8\u00BB &f&lCan: &7{enemy_health_rounded}"
-      - "&8\u00BB &7{enemy_hearts} &f&lKalp"
+      - "&f&lDüşmanlar"
+      - "&8\u00BB &7%combatlogx_specific_enemy_1_name%"
+      - "&8\u00BB &7%combatlogx_specific_enemy_2_name%"
+      - "&8\u00BB &7%combatlogx_specific_enemy_3_name%"
       - "&f"
   cheat-prevention:
     command-blocked: "&cSavaş sırasında &a{command} &ckomutuna erişemezsiniz."
@@ -183,8 +184,9 @@ expansion:
   essentials-compatibility:
     prevent-teleport-request-self: "&cSavaş sırasında ışınlanma isteği oluşturamazsınız."
     prevent-teleport-request-other: "&cSavaş sırasında bir oyuncuya ışınlanma isteği gönderemezsiniz."
-  marriagemaster-compatiblity:
-    prevent-teleport: "&cSavaş sırasında birine ışınlanamazsın."
+  marriagemaster-compatibility:
+    prevent-teleport-self: "&cSavaş sırasında birine ışınlanamazsın."
+    prevent-teleport-partner: "&cSavaş içerisinde olan birine ışınlanamazsın."
   region-protection:
     factions-no-entry: "&cSavaş sırasında bu alana girmenize izin verilmiyor."
     griefdefender-no-entry: "&cSavaş sırasında bu alana girmenize izin verilmiyor."
