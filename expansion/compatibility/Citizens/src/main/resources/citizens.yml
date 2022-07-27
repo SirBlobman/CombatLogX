@@ -55,3 +55,6 @@ prevent-resurrect: true
 # Should players receive a combat tag when they log back in?
 # This only applies if their NPC still had health when it respawned.
 tag-player: true
+
+# Should CombatLogX always spawn an NPC, even if the player is not tagged?
+always-spawn-npc-on-quit: false

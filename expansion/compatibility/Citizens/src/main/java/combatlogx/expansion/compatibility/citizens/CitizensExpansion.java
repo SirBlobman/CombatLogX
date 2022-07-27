@@ -11,6 +11,7 @@ import combatlogx.expansion.compatibility.citizens.listener.ListenerCombat;
 import combatlogx.expansion.compatibility.citizens.listener.ListenerDeath;
 import combatlogx.expansion.compatibility.citizens.listener.ListenerJoin;
 import combatlogx.expansion.compatibility.citizens.listener.ListenerPunish;
+import combatlogx.expansion.compatibility.citizens.listener.ListenerQuit;
 import combatlogx.expansion.compatibility.citizens.listener.ListenerResurrect;
 import combatlogx.expansion.compatibility.citizens.manager.CombatNpcManager;
 import combatlogx.expansion.compatibility.citizens.manager.InventoryManager;
@@ -44,7 +45,6 @@ public final class CitizensExpansion extends Expansion {
             return;
         }
 
-        this.sentinelEnabled = checkDependency("Sentinel", true);
         registerListeners();
     }
 
@@ -93,6 +93,7 @@ public final class CitizensExpansion extends Expansion {
         new ListenerDeath(this).register();
         new ListenerJoin(this).register();
         new ListenerPunish(this).register();
+        new ListenerQuit(this).register();
 
         // Totem of Undying was added in 1.11.
         int minorVersion = VersionUtility.getMinorVersion();
