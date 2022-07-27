@@ -56,14 +56,14 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
     public String getReplacement(Player player, List<Entity> enemyList, String placeholder) {
         ICombatLogX plugin = getCombatLogX();
         switch(placeholder) {
-            case "player": return player.getName();
-            case "tag_count": return getTagCount(plugin, player);
             case "enemy_count": return getEnemyCount(plugin, player);
+            case "in_combat": return getInCombat(plugin, player);
+            case "player": return player.getName();
+            case "punishment_count": return getPunishmentCount(plugin, player);
+            case "status": return getStatus(plugin, player);
+            case "tag_count": return getTagCount(plugin, player);
             case "time_left": return getTimeLeft(plugin, player);
             case "time_left_decimal": return getTimeLeftDecimal(plugin, player);
-            case "in_combat": return getInCombat(plugin, player);
-            case "status": return getStatus(plugin, player);
-            case "punishment_count": return getPunishmentCount(plugin, player);
             default: break;
         }
 

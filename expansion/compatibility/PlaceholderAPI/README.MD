@@ -1,82 +1,51 @@
-<!DOCTYPE html>
-<html>
-    <body>
-        <h1>CombatLogX Expansion: PlaceholderAPI Compatibility</h1>
-        <p>The PlaceholderAPI Compatibility expansion for CombatLogX adds placeholders to plugins that use PlaceholderAPI.</p>
-        <h2>Valid Placeholders</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Placeholder</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>%combatlogx_time_left%</code></td>
-                    <td>This is the amount of time (in seconds) that a player has left in combat. The zero value can be customized in the language files.</td>
-                </tr>
-                <tr>
-                    <td><code>%combatlogx_in_combat%</code></td>
-                    <td>This displays different configurable values when a player is in combat and when they are not.</td>
-                </tr>
-                <tr>
-                    <td><code>%combatlogx_status%</code></td>
-                    <td>This displays different configurable values when a player is in combat and when they are not.</td>
-                </tr>
-                <tr>
-                    <td><code>%combatlogx_punishment_count%</code></td>
-                    <td>This displays the amount of times a player has been punished for logging out during combat.</td>
-                </tr>
-                <tr>
-                    <td><code>%combatlogx_enemy_name%</code></td>
-                    <td>This shows the name of the current enemy entity (or unknown).</td>
-                </tr>
-                <tr>
-                    <td><code>%combatlogx_enemy_diplay_name%</code></td>
-                    <td>This shows the display name of the current enemy entity (or unknown).</td>
-                </tr>
-                <tr>
-                    <td><code>%combatlogx_enemy_health%</code></td>
-                    <td>This displays the health decimal of the current enemy entity (or unknown)</td>
-                </tr>
-                <tr>
-                    <td><code>%combatlogx_enemy_health_rounded%</code></td>
-                    <td>This shows the health integer of the current enemy entity (or unknown)</td>
-                </tr>
-                <tr>
-                    <td><code>%combatlogx_enemy_hearts%</code></td>
-                    <td>This shows the hearts of the current enemy entity (or unknown). If an enemy has more than 10 hearts an integer will be shown.</td>
-                </tr>
-                <tr>
-                    <td><code>%combatlogx_enemy_world%</code></td>
-                    <td>This shows the world that the enemy is currently in (or unknown).</td>
-                </tr>
-                <tr>
-                    <td><code>%combatlogx_enemy_x%</code></td>
-                    <td>This shows the x position of the enemy (or unknown).</td>
-                </tr>
-                <tr>
-                    <td><code>%combatlogx_enemy_y%</code></td>
-                    <td>This shows the y position of the enemy (or unknown).</td>
-                </tr>
-                <tr>
-                    <td><code>%combatlogx_enemy_z%</code></td>
-                    <td>This shows the z position of the enemy (or unknown).</td>
-                </tr>
-                <tr>
-                    <td><code>%combatlogx_newbie_helper_pvp_status%</code></td>
-                    <td>(Requires Newbie Helper) This placeholder shows whether a player has pvp enabled or not.</td>
-                </tr>
-                <tr>
-                    <td><code>%combatlogx_newbie_helper_protected%</code></td>
-                    <td>(Requires Newbie Helper) This placeholder shows a boolean (true/false). The value is true when the player has newbie protection and false when they do not.</td>
-                </tr>
-                <tr>
-                    <td><code>%combatlogx_enemy_&lt;placeholder_without_%&gt;%</code></td>
-                    <td>This placeholder will show any other PlaceholderAPI placeholder from the enemy. If the enemy is not a player, "Unknown" will be shown instead.</td>
-                </tr>
-            </tbody>
-        </table>
-    </body>
-</html>
+# CombatLogX Expansion: PlaceholderAPI Compatibility
+The PlaceholderAPI Compatibility expansion for CombatLogX adds placeholders to plugins that use PlaceholderAPI.
+
+## Basic Placeholders
+These placeholders don't require anything special to be used.
+
+| PlaceholderAPI Placeholder     | Description                                                                           |
+|--------------------------------|---------------------------------------------------------------------------------------|
+| %combatlogx_enemy_count%       | The amount of player/entity enemies the player has.                                   |
+| %combatlogx_in_combat%         | The amount of combat tags the player has.                                             |
+| %combatlogx_player%            | The name of the player.                                                               |
+| %combatlogx_punishment_count%  | The amount of combat tags the player has.                                             |
+| %combatlogx_status%            | The amount of combat tags the player has.                                             |
+| %combatlogx_tag_count%         | The amount of combat tags the player has.                                             |
+| %combatlogx_time_left%         | The total amount of seconds the player has left in combat with all enemies. (Integer) |
+| %combatlogx_time_left_decimal% | The total amount of seconds the player has left in combat with all enemies. (Decimal) |
+
+## Enemy Placeholders
+Players can have multiple enemies.
+These placeholders can have an index to view information about a specific enemy.
+Example: %combatlogx_time_left_1% to get the time left with the first enemy.
+
+| PlaceholderAPI Placeholder                                 | Description                                                                                                 |
+|------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
+| %combatlogx_time_left_&lt;index&gt;%                       | Get the total amount of seconds left in combat with a specific enemy. (Integer)                             |
+| %combatlogx_time_left_decimal_&lt;index&gt;%               | Get the total amount of seconds left in combat with a specific enemy. (Decimal)                             |
+| %combatlogx_current_enemy_&lt;placeholder&gt;%             | Get a placeholder for the current enemy. If the player doesn't have an enemy, it will show N/A              |
+| %combatlogx_specific_enemy_&lt;index>_&lt;placeholder&gt;% | Get a placeholder for a specific enemy number. If a player doesn't have that many enemies, it will show N/A |
+
+| Enemy Placeholder      | Description                                                                                      | Example                          |
+|------------------------|--------------------------------------------------------------------------------------------------|----------------------------------|
+| name                   | The name of the enemy.                                                                           | SirBlobman                       |
+| type                   | The entity type of the enemy.                                                                    | PLAYER                           |
+| display_name           | The display name of the enemy.                                                                   | &a&oBlobman                      |
+| health                 | The current health of the enemy.                                                                 | 8.46                             |
+| health_rounded         | The current health of the enemy, but rounded.                                                    | 9                                |
+| hearts                 | The current hearts of the enemy (Symbol)                                                         | &#x2764;&#x2764;&#x2764;&#x2764; |
+| hearts_count           | The current hearts of the enemy (Integer)                                                        | 4                                |
+| world                  | The name of the world that the enemy is in.                                                      | world_the_end                    |
+| x                      | The current x position of the enemy.                                                             | -257                             |
+| y                      | The current y position of the enemy.                                                             | 11                               |
+| z                      | The current z position of the enemy.                                                             | 500                              |
+| &lt;placeholderapi&gt; | Any other valid PlaceholderAPI placeholder without the % symbols. Only works for player enemies. | &lt;varies&gt;                   |
+
+## Newbie Helper Placeholders
+These placeholders require the `Newbie Helper` expansion.
+
+| Placeholder                           | Description                                                                   |
+|---------------------------------------|-------------------------------------------------------------------------------|
+| %combatlogx_newbie_helper_pvp_status% | Shows if the player has pvp enabled or disabled via the `/togglepvp` command. |
+| %combatlogx_newbie_helper_protected%  | Shows if the player is currently protected or not.                            |
