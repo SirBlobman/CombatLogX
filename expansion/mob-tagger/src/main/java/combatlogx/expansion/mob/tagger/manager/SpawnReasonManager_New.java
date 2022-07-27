@@ -52,7 +52,7 @@ public final class SpawnReasonManager_New implements ISpawnReasonManager {
             }
         }
 
-        return null;
+        return SpawnReason.DEFAULT;
     }
 
     @Override

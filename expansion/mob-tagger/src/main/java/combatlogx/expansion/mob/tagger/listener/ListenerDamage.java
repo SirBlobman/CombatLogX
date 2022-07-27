@@ -48,24 +48,30 @@ public final class ListenerDamage extends ExpansionListener {
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void beforeTag(PlayerPreTagEvent e) {
+        printDebug("Detected PlayerPreTagEvent...");
+
         TagType tagType = e.getTagType();
         if (tagType != TagType.MOB) {
+            printDebug("TagType is not MOB, ignoring.");
             return;
         }
 
         Entity enemy = e.getEnemy();
         if (enemy == null || enemy instanceof Player) {
+            printDebug("Enemy is null or player, ignoring.");
             return;
         }
 
         EntityType entityType = enemy.getType();
         if (isDisabled(entityType)) {
+            printDebug("EntityType " + entityType + " is disabled, cancelling event.");
             e.setCancelled(true);
             return;
         }
 
         SpawnReason spawnReason = getSpawnReason(enemy);
         if (isDisabled(spawnReason)) {
+            printDebug("SpawnReason " + spawnReason + " is disabled, cancelling event.");
             e.setCancelled(true);
         }
     }
@@ -163,33 +169,35 @@ public final class ListenerDamage extends ExpansionListener {
     }
 
     private void checkTag(Entity entity, Entity enemy, TagReason tagReason) {
+        printDebug("Checking tag between entity " + entity + " and enemy " + enemy + " with reason "
+                + tagReason + "...");
         if (!(entity instanceof Player)) {
+            printDebug("entity is not player, ignoring.");
             return;
         }
 
         Player player = (Player) entity;
         if (hasBypassPermission(player)) {
+            printDebug("Player has bypass permission, ignoring.");
             return;
         }
 
-        if (!(enemy instanceof LivingEntity)) {
-            return;
-        }
-
-        LivingEntity livingEnemy = (LivingEntity) enemy;
-        EntityType enemyType = livingEnemy.getType();
+        EntityType enemyType = enemy.getType();
         if (isDisabled(enemyType)) {
+            printDebug("Enemy type '" + enemyType + "' is disabled, ignoring.");
             return;
         }
 
-        SpawnReason spawnReason = getSpawnReason(livingEnemy);
+        SpawnReason spawnReason = getSpawnReason(enemy);
         if (isDisabled(spawnReason)) {
+            printDebug("Enemy spawn reason '" + spawnReason + "' is disabled, ignoring.");
             return;
         }
 
         ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = plugin.getCombatManager();
-        combatManager.tag(player, livingEnemy, TagType.MOB, tagReason);
+        combatManager.tag(player, enemy, TagType.MOB, tagReason);
+        printDebug("Tagged player with type MOB.");
     }
 
     private SpawnReason getSpawnReason(Entity entity) {
