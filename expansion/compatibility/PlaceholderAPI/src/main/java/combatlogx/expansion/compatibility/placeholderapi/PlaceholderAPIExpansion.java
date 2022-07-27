@@ -2,7 +2,6 @@ package combatlogx.expansion.compatibility.placeholderapi;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
 public final class PlaceholderAPIExpansion extends Expansion {
     public PlaceholderAPIExpansion(ICombatLogX plugin) {
@@ -17,14 +16,11 @@ public final class PlaceholderAPIExpansion extends Expansion {
     @Override
     public void onEnable() {
         if (!checkDependency("PlaceholderAPI", true)) {
-            ICombatLogX plugin = getPlugin();
-            ExpansionManager expansionManager = plugin.getExpansionManager();
-            expansionManager.disableExpansion(this);
+            selfDisable();
             return;
         }
 
-        HookPlaceholderAPI hook = new HookPlaceholderAPI(this);
-        hook.register();
+        new HookPlaceholderAPI(this).register();
     }
 
     @Override

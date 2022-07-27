@@ -3,11 +3,8 @@ prefix: "PlaceholderAPI Compatibility"
 description: "${project.description}"
 
 main: "combatlogx.expansion.compatibility.placeholderapi.PlaceholderAPIExpansion"
-version: "16.7"
+version: "16.8"
 author: "SirBlobman"
 
 plugin-depend:
   - "PlaceholderAPI"
-
-expansion-soft-depend:
-  - "NewbieHelper"

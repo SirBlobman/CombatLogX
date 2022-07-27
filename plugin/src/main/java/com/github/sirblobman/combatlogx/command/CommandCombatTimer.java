@@ -7,11 +7,14 @@ import java.util.Set;
 
 import org.bukkit.entity.Player;
 
+import com.github.sirblobman.api.language.Language;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.language.Replacer;
+import com.github.sirblobman.api.language.SimpleReplacer;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.command.CombatLogPlayerCommand;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
+import com.github.sirblobman.combatlogx.api.object.TagInformation;
 
 public final class CommandCombatTimer extends CombatLogPlayerCommand {
     public CommandCombatTimer(ICombatLogX plugin) {
@@ -50,21 +53,25 @@ public final class CommandCombatTimer extends CombatLogPlayerCommand {
         ICombatManager combatManager = plugin.getCombatManager();
         LanguageManager languageManager = getLanguageManager();
 
-        if (combatManager.isInCombat(player)) {
-            double timeLeftMillis = combatManager.getTimerLeftMillis(player);
-            double timeLeftSeconds = (timeLeftMillis / 1_000.0D);
-
-            String decimalFormatString = languageManager.getMessage(player, "decimal-format", null,
-                    false);
-            DecimalFormat decimalFormat = new DecimalFormat(decimalFormatString);
-            String timeLeftString = decimalFormat.format(timeLeftSeconds);
-
-            Replacer replacer = message -> message.replace("{time_left}", timeLeftString);
-            sendMessageWithPrefix(player, "command.combat-timer.time-left-self", replacer, true);
+        Language language = languageManager.getLanguage(player);
+        if(language == null) {
+            getLogger().warning("Null language for player '" + player.getName() + "'.");
             return;
         }
 
-        sendMessageWithPrefix(player, "error.self-not-in-combat", null, true);
+        TagInformation tagInformation = combatManager.getTagInformation(player);
+        if(tagInformation == null || tagInformation.isExpired()) {
+            sendMessageWithPrefix(player, "error.self-not-in-combat", null, true);
+            return;
+        }
+
+        double timeLeftMillis = tagInformation.getMillisLeftCombined();
+        double timeLeftSeconds = (timeLeftMillis / 1_000.0D);
+
+        DecimalFormat decimalFormat = language.getDecimalFormat();
+        String timeLeftString = decimalFormat.format(timeLeftSeconds);
+        Replacer replacer = new SimpleReplacer("{time_left}", timeLeftString);
+        sendMessageWithPrefix(player, "command.combat-timer.time-left-self", replacer, true);
     }
 
     private void checkOther(Player player, Player target) {
@@ -72,20 +79,24 @@ public final class CommandCombatTimer extends CombatLogPlayerCommand {
         ICombatManager combatManager = plugin.getCombatManager();
         LanguageManager languageManager = getLanguageManager();
 
-        if (combatManager.isInCombat(target)) {
-            double timeLeftMillis = combatManager.getTimerLeftMillis(target);
-            double timeLeftSeconds = (timeLeftMillis / 1_000.0D);
-
-            String decimalFormatString = languageManager.getMessage(player, "decimal-format",
-                    null, false);
-            DecimalFormat decimalFormat = new DecimalFormat(decimalFormatString);
-            String timeLeftString = decimalFormat.format(timeLeftSeconds);
-
-            Replacer replacer = message -> message.replace("{time_left}", timeLeftString);
-            sendMessageWithPrefix(player, "command.combat-timer.time-left-other", replacer, true);
+        Language language = languageManager.getLanguage(player);
+        if(language == null) {
+            getLogger().warning("Null language for player '" + player.getName() + "'.");
             return;
         }
 
-        sendMessageWithPrefix(player, "error.target-not-in-combat", null, true);
+        TagInformation tagInformation = combatManager.getTagInformation(target);
+        if(tagInformation == null || tagInformation.isExpired()) {
+            sendMessageWithPrefix(player, "error.target-not-in-combat", null, true);
+            return;
+        }
+
+        double timeLeftMillis = tagInformation.getMillisLeftCombined();
+        double timeLeftSeconds = (timeLeftMillis / 1_000.0D);
+
+        DecimalFormat decimalFormat = language.getDecimalFormat();
+        String timeLeftString = decimalFormat.format(timeLeftSeconds);
+        Replacer replacer = new SimpleReplacer("{time_left}", timeLeftString);
+        sendMessageWithPrefix(player, "command.combat-timer.time-left-other", replacer, true);
     }
 }

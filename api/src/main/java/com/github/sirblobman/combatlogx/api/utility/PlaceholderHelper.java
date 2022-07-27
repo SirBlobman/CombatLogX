@@ -3,6 +3,7 @@ package com.github.sirblobman.combatlogx.api.utility;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -421,7 +422,10 @@ public final class PlaceholderHelper {
             placeholder = ("combatlogx_" + placeholder);
         }
 
-        return placeholderManager.getPlaceholderReplacement(player, null, placeholder);
+        ICombatManager combatManager = plugin.getCombatManager();
+        TagInformation tagInformation = combatManager.getTagInformation(player);
+        List<Entity> enemyList = (tagInformation == null ? Collections.emptyList() : tagInformation.getEnemies());
+        return placeholderManager.getPlaceholderReplacement(player, enemyList, placeholder);
     }
 
     public static String replacePlaceholderAPI(Player player, String string) {
