@@ -10,6 +10,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import com.github.sirblobman.api.utility.Validate;
 
 import combatlogx.expansion.mob.tagger.MobTaggerExpansion;
+import org.jetbrains.annotations.NotNull;
 
 public final class SpawnReasonManager_Legacy implements ISpawnReasonManager {
     private final MobTaggerExpansion expansion;
@@ -25,6 +26,7 @@ public final class SpawnReasonManager_Legacy implements ISpawnReasonManager {
         return this.expansion;
     }
 
+    @NotNull
     @Override
     public SpawnReason getSpawnReason(Entity entity) {
         Validate.notNull(entity, "entity must not be null!");

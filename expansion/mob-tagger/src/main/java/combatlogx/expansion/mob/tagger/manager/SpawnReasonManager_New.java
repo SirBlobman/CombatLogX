@@ -11,7 +11,7 @@ import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 
 import combatlogx.expansion.mob.tagger.MobTaggerExpansion;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 public final class SpawnReasonManager_New implements ISpawnReasonManager {
     private final MobTaggerExpansion expansion;
@@ -36,7 +36,7 @@ public final class SpawnReasonManager_New implements ISpawnReasonManager {
         return this.expansion;
     }
 
-    @Nullable
+    @NotNull
     @Override
     public SpawnReason getSpawnReason(Entity entity) {
         Validate.notNull(entity, "entity must not be null!");
