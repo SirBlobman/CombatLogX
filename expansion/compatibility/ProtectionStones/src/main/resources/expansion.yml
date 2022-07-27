@@ -3,7 +3,7 @@ prefix: "ProtectionStones Compatibility"
 description: "${project.description}"
 
 main: "combatlogx.expansion.compatibility.region.protectionstones.ProtectionStonesExpansion"
-version: "16.2"
+version: "16.3"
 author: "olivolja3 (Olivo#3313)"
 
 plugin-depend:

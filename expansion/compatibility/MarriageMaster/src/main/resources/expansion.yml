@@ -3,7 +3,7 @@ prefix: "MarriageMaster Compatibility"
 description: "${project.description}"
 
 main: "combatlogx.expansion.compatibility.marriagemaster.MarriageMasterExpansion"
-version: "16.1"
+version: "16.2"
 author: "SirBlobman"
 
 plugin-depend:

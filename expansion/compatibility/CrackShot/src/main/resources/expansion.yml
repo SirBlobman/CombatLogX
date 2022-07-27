@@ -3,7 +3,7 @@ prefix: "CrackShot Compatibility"
 description: "${project.description}"
 
 main: "combatlogx.expansion.compatibility.crackshot.CrackShotExpansion"
-version: "16.0"
+version: "16.1"
 author: "SirBlobman"
 
 plugin-depend:

@@ -3,5 +3,5 @@ prefix: "Damage Tagger"
 description: "${project.description}"
 
 main: "combatlogx.expansion.damage.tagger.DamageTaggerExpansion"
-version: "16.3"
+version: "16.4"
 author: "SirBlobman"

@@ -3,7 +3,7 @@ prefix: "ASkyBlock Compatibility"
 description: "${project.description}"
 
 main: "combatlogx.expansion.compatibility.askyblock.ASkyBlockExpansion"
-version: "16.1"
+version: "16.2"
 author: "SirBlobman"
 
 plugin-depend:

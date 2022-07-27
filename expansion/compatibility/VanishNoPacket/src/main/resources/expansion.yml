@@ -3,7 +3,7 @@ prefix: "VanishNoPacket Compatibility"
 description: "${project.description}"
 
 main: "combatlogx.expansion.compatibility.vnp.VanishNoPacketExpansion"
-version: "16.0"
+version: "16.1"
 author: "SirBlobman"
 
 plugin-depend:
