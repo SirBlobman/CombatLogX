@@ -14,10 +14,15 @@ import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.IDeathManager;
+import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 import com.github.sirblobman.combatlogx.api.manager.IPunishManager;
 import com.github.sirblobman.combatlogx.api.manager.ITimerManager;
 
 public interface ICombatLogX extends IResourceHolder {
+    default ICombatLogX getCombatLogX() {
+        return this;
+    }
+
     JavaPlugin getPlugin();
 
     ClassLoader getPluginClassLoader();
@@ -53,6 +58,8 @@ public interface ICombatLogX extends IResourceHolder {
     IPunishManager getPunishManager();
 
     IDeathManager getDeathManager();
+
+    IPlaceholderManager getPlaceholderManager();
 
     String getMessageWithPrefix(CommandSender sender, String key, Replacer replacer, boolean color);
 

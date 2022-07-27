@@ -1,5 +1,7 @@
 package combatlogx.expansion.action.bar;
 
+import java.util.List;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -15,6 +17,7 @@ import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
+import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TimerUpdater;
 
@@ -117,8 +120,9 @@ public final class ActionBarUpdater implements TimerUpdater {
             return message;
         }
 
-        Entity enemy = tagInformation.getCurrentEnemy();
-        return combatManager.replaceVariables(player, enemy, message);
+        List<Entity> enemyList = tagInformation.getEnemies();
+        IPlaceholderManager placeholderManager = combatLogX.getPlaceholderManager();
+        return placeholderManager.replaceAll(player, enemyList, message);
     }
 
     private String getBars(Player player, long timeLeftMillis) {

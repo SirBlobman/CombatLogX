@@ -14,6 +14,7 @@ import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.ITimerManager;
+import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TimerUpdater;
 
 public final class TimerUpdateTask implements ITimerManager, Runnable {
@@ -25,10 +26,9 @@ public final class TimerUpdateTask implements ITimerManager, Runnable {
         this.timerUpdaterSet = new HashSet<>();
     }
 
-    public void register() {
-        JavaPlugin plugin = this.plugin.getPlugin();
-        BukkitScheduler scheduler = Bukkit.getScheduler();
-        scheduler.scheduleSyncRepeatingTask(plugin, this, 5L, 10L);
+    @Override
+    public ICombatLogX getCombatLogX() {
+        return this.plugin;
     }
 
     @Override
@@ -56,13 +56,25 @@ public final class TimerUpdateTask implements ITimerManager, Runnable {
         }
     }
 
+    public void register() {
+        JavaPlugin plugin = getPlugin();
+        BukkitScheduler scheduler = Bukkit.getScheduler();
+        scheduler.scheduleSyncRepeatingTask(plugin, this, 5L, 10L);
+    }
+
     private void update(Player player) {
-        ICombatManager combatManager = this.plugin.getCombatManager();
-        long timeLeftMillis = combatManager.getTimerLeftMillis(player);
-        if (timeLeftMillis <= 0L) {
+        ICombatLogX plugin = getCombatLogX();
+        ICombatManager combatManager = plugin.getCombatManager();
+        TagInformation tagInformation = combatManager.getTagInformation(player);
+        if(tagInformation == null) {
             return;
         }
 
+        if(tagInformation.isExpired()) {
+            return;
+        }
+
+        long timeLeftMillis = tagInformation.getMillisLeftCombined();
         Set<TimerUpdater> timerUpdaterSet = getTimerUpdaters();
         for (TimerUpdater timerUpdater : timerUpdaterSet) {
             timerUpdater.update(player, timeLeftMillis);

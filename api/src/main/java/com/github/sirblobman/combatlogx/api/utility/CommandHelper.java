@@ -26,7 +26,8 @@ public final class CommandHelper {
         } catch (Exception ex) {
             Logger logger = plugin.getLogger();
             String playerName = player.getName();
-            logger.log(Level.SEVERE, "Failed to execute command '/" + command + "' as player '" + playerName + "':", ex);
+            logger.log(Level.SEVERE, "Failed to execute command '/" + command + "' as player '"
+                    + playerName + "':", ex);
         }
     }
 
@@ -42,7 +43,8 @@ public final class CommandHelper {
         } catch (Exception ex) {
             Logger logger = plugin.getLogger();
             String playerName = player.getName();
-            logger.log(Level.SEVERE, "Failed to execute command '/" + command + "' as player '" + playerName + "' with OP:", ex);
+            logger.log(Level.SEVERE, "Failed to execute command '/" + command + "' as player '"
+                    + playerName + "' with operator permissions:", ex);
         } finally {
             player.setOp(false);
         }

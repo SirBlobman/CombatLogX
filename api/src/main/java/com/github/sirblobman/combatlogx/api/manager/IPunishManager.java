@@ -1,12 +1,15 @@
 package com.github.sirblobman.combatlogx.api.manager;
 
+import java.util.List;
+
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import com.github.sirblobman.combatlogx.api.ICombatLogXNeeded;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 
-public interface IPunishManager {
+public interface IPunishManager extends ICombatLogXNeeded {
     /**
      * Load all known punishments from the configuration
      */
@@ -16,12 +19,12 @@ public interface IPunishManager {
      * Punish a player for logging out during combat.
      * Also called when expire punishing is enabled in the configuration.
      *
-     * @param player        The {@link Player} to punish.
-     * @param punishReason  The original reason that the player was removed from combat.
-     * @param previousEnemy The original enemy of the player.
+     * @param player          The {@link Player} to punish.
+     * @param punishReason    The original reason that the player was removed from combat.
+     * @param previousEnemies The list of enemies that the player had when they were untagged.
      * @return {@code true} if the plugin was able to punish the player successfully.
      */
-    boolean punish(Player player, UntagReason punishReason, Entity previousEnemy);
+    boolean punish(Player player, UntagReason punishReason, List<Entity> previousEnemies);
 
     /**
      * Get the total amount of times a player was punished.

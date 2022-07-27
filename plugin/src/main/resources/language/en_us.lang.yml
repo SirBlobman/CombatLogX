@@ -90,7 +90,7 @@ tagged:
 
 expansion:
   action-bar:
-    timer: "&6&lCombat &7\u00BB &f{bars} &f%combatlogx_time_left_decimal% seconds."
+    timer: "&6&lCombat &7\u00BB &f{bars} &f{combatlogx_time_left_decimal} seconds."
     ended: "&6&lCombat &7\u00BB &fYou are no longer in combat."
 
   angel-chest:
@@ -99,7 +99,7 @@ expansion:
     prevent-fast-looting: "&cYou are not allowed to fast loot angel chests during combat."
 
   boss-bar:
-    timer: "&6&lCombat &7\u00BB &c%combatlogx_time_left_decimal% seconds."
+    timer: "&6&lCombat &7\u00BB &c{combatlogx_time_left_decimal} seconds."
     ended: "&6&lCombat &7\u00BB &aYou are no longer in combat."
 
   scoreboard:
@@ -110,14 +110,14 @@ expansion:
     lines:
       - "&f"
       - "&f&lCombat Stats:"
-      - "&8\u00BB &f&lTime Left: &7%combatlogx_time_left%"
-      - "&8\u00BB &f&lIn Combat: &7%combatlogx_time_left_decimal%"
-      - "&8\u00BB &f&lStatus: &7%combatlogx_status%"
+      - "&8\u00BB &f&lTime Left: &7{combatlogx_time_left}"
+      - "&8\u00BB &f&lIn Combat: &7{combatlogx_time_left_decimal}"
+      - "&8\u00BB &f&lStatus: &7{combatlogx_status}"
       - "&f"
       - "&f&lEnemies"
-      - "&8\u00BB &7%combatlogx_specific_enemy_1_name%"
-      - "&8\u00BB &7%combatlogx_specific_enemy_2_name%"
-      - "&8\u00BB &7%combatlogx_specific_enemy_3_name%"
+      - "&8\u00BB &7{combatlogx_specific_enemy_1_name}"
+      - "&8\u00BB &7{combatlogx_specific_enemy_2_name}"
+      - "&8\u00BB &7{combatlogx_specific_enemy_3_name}"
       - "&f"
 
   cheat-prevention:

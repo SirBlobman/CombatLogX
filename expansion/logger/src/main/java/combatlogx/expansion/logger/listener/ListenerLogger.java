@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -147,16 +148,16 @@ public final class ListenerLogger extends ExpansionListener {
         }
 
         Player player = e.getPlayer();
-        Entity enemy = e.getPreviousEnemy();
+        List<Entity> enemyList = e.getEnemies();
         UntagReason untagReason = e.getPunishReason();
 
         String format = getLoggerFormat("untag-format");
         String playerName = player.getName();
-        String enemyName = getEntityName(enemy);
+        String enemyNames = enemyList.stream().map(this::getEntityName).collect(Collectors.joining(", "));
         String untagReasonName = untagReason.name();
         String cancelledString = Boolean.toString(e.isCancelled());
 
-        String message = format.replace("{player}", playerName).replace("{enemy}", enemyName)
+        String message = format.replace("{player}", playerName).replace("{enemy}", enemyNames)
                 .replace("{punish_reason}", untagReasonName).replace("{was_cancelled}", cancelledString);
         appendLog(message);
     }

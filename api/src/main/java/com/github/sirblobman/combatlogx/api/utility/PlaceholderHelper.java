@@ -8,12 +8,14 @@ import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 
 import com.github.sirblobman.api.language.Language;
 import com.github.sirblobman.api.language.LanguageManager;
@@ -22,10 +24,12 @@ import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.api.utility.MessageUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
+import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 import com.github.sirblobman.combatlogx.api.manager.IPunishManager;
 import com.github.sirblobman.combatlogx.api.object.CombatTag;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.jetbrains.annotations.Nullable;
 
 public final class PlaceholderHelper {
@@ -408,5 +412,24 @@ public final class PlaceholderHelper {
         List<UUID> enemyIdList = tagInformation.getEnemyIds();
         int enemyIdListSize = enemyIdList.size();
         return Integer.toString(enemyIdListSize);
+    }
+
+    @Nullable
+    public static String getPlaceholder(ICombatLogX plugin, Player player, String placeholder) {
+        IPlaceholderManager placeholderManager = plugin.getPlaceholderManager();
+        if(!placeholder.startsWith("newbie_helper_")) {
+            placeholder = ("combatlogx_" + placeholder);
+        }
+
+        return placeholderManager.getPlaceholderReplacement(player, null, placeholder);
+    }
+
+    public static String replacePlaceholderAPI(Player player, String string) {
+        PluginManager pluginManager = Bukkit.getPluginManager();
+        if(pluginManager.isPluginEnabled("PlaceholderAPI")) {
+            return PlaceholderAPI.setPlaceholders(player, string);
+        }
+
+        return string;
     }
 }

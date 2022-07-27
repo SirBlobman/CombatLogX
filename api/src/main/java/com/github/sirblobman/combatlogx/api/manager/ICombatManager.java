@@ -8,6 +8,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 
+import com.github.sirblobman.combatlogx.api.ICombatLogXNeeded;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
@@ -16,7 +17,7 @@ import com.github.sirblobman.combatlogx.api.object.UntagReason;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public interface ICombatManager {
+public interface ICombatManager extends ICombatLogXNeeded {
     /**
      * CombatTag a player into combat.
      *
@@ -143,23 +144,6 @@ public interface ICombatManager {
      * @return A number of seconds based on a permission or a global configuration setting.
      */
     int getMaxTimerSeconds(Player player);
-
-    /**
-     * Replace variables in a string related to a player's combat status.
-     * <br/>
-     * Known Variables:
-     * <br/>
-     * {player}, {time_left}, {time_left_decimal}, {in_combat}, {status},
-     * {punishment_count}, {enemy}, {enemy_name}, {enemy_display_name},
-     * {enemy_health}, {enemy_hearts}, {enemy_hearts_count}, {enemy_health_rounded},
-     * {enemy_world}, {enemy_x}, {enemy_y}, {enemy_z}
-     *
-     * @param player The {@link Player} to use.
-     * @param enemy  The current enemy of the player. Can be {@code null}.
-     * @param string The string that will have variables replaced.
-     * @return A new string with certain variables replaced.
-     */
-    String replaceVariables(Player player, Entity enemy, String string);
 
     /**
      * @return The current bypass permission, or {@code null} if one is not set.

@@ -45,6 +45,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public final class CombatManager implements ICombatManager {
+
     private final ICombatLogX plugin;
     private final Map<UUID, TagInformation> combatMap;
 
@@ -54,6 +55,11 @@ public final class CombatManager implements ICombatManager {
         this.plugin = Validate.notNull(plugin, "plugin must not be null!");
         this.combatMap = new ConcurrentHashMap<>();
         this.bypassPermission = null;
+    }
+
+    @Override
+    public ICombatLogX getCombatLogX() {
+        return this.plugin;
     }
 
     @Override
@@ -138,7 +144,7 @@ public final class CombatManager implements ICombatManager {
             pluginManager.callEvent(event);
         }
 
-        PlayerUntagEvent event = new PlayerUntagEvent(player, untagReason);
+        PlayerUntagEvent event = new PlayerUntagEvent(player, untagReason, enemyList);
         pluginManager.callEvent(event);
     }
 
@@ -161,8 +167,7 @@ public final class CombatManager implements ICombatManager {
         PlayerEnemyRemoveEvent event = new PlayerEnemyRemoveEvent(player, untagReason, enemy);
         pluginManager.callEvent(event);
 
-        long expireMillis = tagInformation.getExpireMillisCombined();
-        if (expireMillis <= 0L) {
+        if(tagInformation.isExpired()) {
             untag(player, untagReason);
         }
     }
@@ -256,10 +261,7 @@ public final class CombatManager implements ICombatManager {
             return 0L;
         }
 
-        long expireMillis = tagInformation.getExpireMillisCombined();
-        long systemMillis = System.currentTimeMillis();
-        long subtractMillis = (expireMillis - systemMillis);
-        return Math.max(0L, subtractMillis);
+        return tagInformation.getMillisLeftCombined();
     }
 
     @Override
@@ -282,11 +284,6 @@ public final class CombatManager implements ICombatManager {
 
         TimerType timerType = TimerType.parse(timerTypeString);
         return (timerType == TimerType.PERMISSION ? getPermissionTimerSeconds(player) : getGlobalTimerSeconds());
-    }
-
-    @Override
-    public String replaceVariables(Player player, Entity enemy, String string) {
-        return replacePAPI(player, string);
     }
 
     @Override
@@ -369,15 +366,6 @@ public final class CombatManager implements ICombatManager {
 
         EntityType entityType = entity.getType();
         return entityType.name();
-    }
-
-    private String replacePAPI(Player player, String string) {
-        PluginManager pluginManager = Bukkit.getPluginManager();
-        if (!pluginManager.isPluginEnabled("PlaceholderAPI")) {
-            return string;
-        }
-
-        return me.clip.placeholderapi.PlaceholderAPI.setPlaceholders(player, string);
     }
 
     private boolean failsPreTagEvent(Player player, Entity enemy, TagType tagType, TagReason tagReason) {

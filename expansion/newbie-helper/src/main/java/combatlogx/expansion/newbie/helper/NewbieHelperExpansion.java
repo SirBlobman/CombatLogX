@@ -3,12 +3,14 @@ package combatlogx.expansion.newbie.helper;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 
 import combatlogx.expansion.newbie.helper.command.CommandTogglePVP;
 import combatlogx.expansion.newbie.helper.listener.ListenerDamage;
 import combatlogx.expansion.newbie.helper.listener.ListenerJoin;
 import combatlogx.expansion.newbie.helper.manager.PVPManager;
 import combatlogx.expansion.newbie.helper.manager.ProtectionManager;
+import combatlogx.expansion.newbie.helper.placeholder.NewbieHelperPlaceholderExpansion;
 
 public final class NewbieHelperExpansion extends Expansion {
     private final PVPManager pvpManager;
@@ -31,6 +33,10 @@ public final class NewbieHelperExpansion extends Expansion {
         new ListenerJoin(this).register();
         new ListenerDamage(this).register();
         new CommandTogglePVP(this).register();
+
+        ICombatLogX plugin = getPlugin();
+        IPlaceholderManager placeholderManager = plugin.getPlaceholderManager();
+        placeholderManager.registerPlaceholderExpansion(new NewbieHelperPlaceholderExpansion(this));
     }
 
     @Override

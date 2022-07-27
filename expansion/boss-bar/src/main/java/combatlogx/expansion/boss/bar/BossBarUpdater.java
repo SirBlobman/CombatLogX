@@ -1,5 +1,6 @@
 package combatlogx.expansion.boss.bar;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
@@ -16,6 +17,7 @@ import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.bossbar.BossBarHandler;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
+import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TimerUpdater;
 
@@ -165,7 +167,8 @@ public final class BossBarUpdater implements TimerUpdater {
             return message;
         }
 
-        Entity enemy = tagInformation.getCurrentEnemy();
-        return combatManager.replaceVariables(player, enemy, message);
+        List<Entity> enemyList = tagInformation.getEnemies();
+        IPlaceholderManager placeholderManager = combatLogX.getPlaceholderManager();
+        return placeholderManager.replaceAll(player, enemyList, message);
     }
 }

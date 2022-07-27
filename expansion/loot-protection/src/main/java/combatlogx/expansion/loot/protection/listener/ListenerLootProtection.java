@@ -32,8 +32,8 @@ import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.api.object.WorldXYZ;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.event.PlayerEnemyRemoveEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerPunishEvent;
+import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 import com.github.sirblobman.combatlogx.api.manager.IDeathManager;
@@ -110,7 +110,12 @@ public class ListenerLootProtection extends ExpansionListener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPunish(PlayerPunishEvent e) {
-        Entity previousEnemy = e.getPreviousEnemy();
+        List<Entity> enemyList = e.getEnemies();
+        if(enemyList.isEmpty()) {
+            return;
+        }
+
+        Entity previousEnemy = enemyList.get(0);
         if (previousEnemy == null) {
             return;
         }
@@ -134,8 +139,17 @@ public class ListenerLootProtection extends ExpansionListener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onUntag(PlayerEnemyRemoveEvent e) {
-        Entity previousEnemy = e.getEnemy();
+    public void onUntag(PlayerUntagEvent e) {
+        List<Entity> enemyList = e.getPreviousEnemies();
+        if(enemyList.isEmpty()) {
+            return;
+        }
+
+        Entity previousEnemy = enemyList.get(0);
+        if (previousEnemy == null) {
+            return;
+        }
+
         Player player = e.getPlayer();
         UUID playerId = player.getUniqueId();
         UUID previousEnemyId = previousEnemy.getUniqueId();

@@ -1,5 +1,9 @@
 package com.github.sirblobman.combatlogx.api.event;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -21,12 +25,12 @@ public final class PlayerPunishEvent extends CustomPlayerEventCancellable {
     }
 
     private final UntagReason punishReason;
-    private final Entity previousEnemy;
+    private final List<Entity> enemyList;
 
-    public PlayerPunishEvent(Player player, UntagReason punishReason, Entity previousEnemy) {
+    public PlayerPunishEvent(Player player, UntagReason punishReason, List<Entity> enemyList) {
         super(player);
-        this.previousEnemy = previousEnemy;
         this.punishReason = Validate.notNull(punishReason, "punishReason must not be null!");
+        this.enemyList = new ArrayList<>(enemyList);
     }
 
     public static HandlerList getHandlerList() {
@@ -39,16 +43,16 @@ public final class PlayerPunishEvent extends CustomPlayerEventCancellable {
     }
 
     /**
-     * @return The previous enemy of the player, or null if one did not exist.
-     */
-    public Entity getPreviousEnemy() {
-        return this.previousEnemy;
-    }
-
-    /**
      * @return The original {@link UntagReason} that the player was punished for.
      */
     public UntagReason getPunishReason() {
         return this.punishReason;
+    }
+
+    /**
+     * @return The list of enemies the player had when punished.
+     */
+    public List<Entity> getEnemies() {
+        return Collections.unmodifiableList(this.enemyList);
     }
 }

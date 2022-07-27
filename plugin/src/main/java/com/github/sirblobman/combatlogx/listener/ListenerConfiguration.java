@@ -1,5 +1,6 @@
 package com.github.sirblobman.combatlogx.listener;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,8 +22,8 @@ import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
+import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
-import com.github.sirblobman.combatlogx.api.utility.CommandHelper;
 
 public final class ListenerConfiguration extends CombatListener {
     public ListenerConfiguration(ICombatLogX plugin) {
@@ -162,29 +163,13 @@ public final class ListenerConfiguration extends CombatListener {
     private void runTagCommands(Player player, Entity enemy) {
         ConfigurationManager configurationManager = getPluginConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("commands.yml");
-
-        ICombatLogX plugin = getCombatLogX();
-        ICombatManager combatManager = getCombatManager();
         List<String> tagCommandList = configuration.getStringList("tag-command-list");
         if (tagCommandList.isEmpty()) {
             return;
         }
 
-        for (String tagCommand : tagCommandList) {
-            String replacedCommand = combatManager.replaceVariables(player, enemy, tagCommand);
-            if (replacedCommand.startsWith("[PLAYER]")) {
-                String command = replacedCommand.substring("[PLAYER]".length());
-                CommandHelper.runAsPlayer(plugin, player, command);
-                continue;
-            }
-
-            if (replacedCommand.startsWith("[OP]")) {
-                String command = replacedCommand.substring("[OP]".length());
-                CommandHelper.runAsOperator(plugin, player, command);
-                continue;
-            }
-
-            CommandHelper.runAsConsole(plugin, replacedCommand);
-        }
+        ICombatLogX plugin = getCombatLogX();
+        IPlaceholderManager placeholderManager = plugin.getPlaceholderManager();
+        placeholderManager.runReplacedCommands(player, Collections.singletonList(enemy), tagCommandList);
     }
 }

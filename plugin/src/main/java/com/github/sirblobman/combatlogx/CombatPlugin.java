@@ -39,23 +39,27 @@ import com.github.sirblobman.combatlogx.listener.ListenerPunish;
 import com.github.sirblobman.combatlogx.listener.ListenerUntag;
 import com.github.sirblobman.combatlogx.manager.CombatManager;
 import com.github.sirblobman.combatlogx.manager.DeathManager;
+import com.github.sirblobman.combatlogx.manager.PlaceholderManager;
 import com.github.sirblobman.combatlogx.manager.PunishManager;
+import com.github.sirblobman.combatlogx.placeholder.BasePlaceholderExpansion;
 import com.github.sirblobman.combatlogx.task.TimerUpdateTask;
 import com.github.sirblobman.combatlogx.task.UntagTask;
 
 public final class CombatPlugin extends ConfigurablePlugin implements ICombatLogX {
+    private final TimerUpdateTask timerUpdateTask;
     private final CombatManager combatManager;
     private final PunishManager punishManager;
     private final ExpansionManager expansionManager;
+    private final PlaceholderManager placeholderManager;
     private final DeathManager deathManager;
-    private final TimerUpdateTask timerUpdateTask;
 
     public CombatPlugin() {
+        this.timerUpdateTask = new TimerUpdateTask(this);
         this.expansionManager = new ExpansionManager(this);
+        this.placeholderManager = new PlaceholderManager(this);
         this.combatManager = new CombatManager(this);
         this.punishManager = new PunishManager(this);
-        this.deathManager = new DeathManager();
-        this.timerUpdateTask = new TimerUpdateTask(this);
+        this.deathManager = new DeathManager(this);
     }
 
     @Override
@@ -86,6 +90,7 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         registerTasks();
         registerExpansions();
         registerUpdates();
+        registerBasePlaceholders();
 
         broadcastEnableMessage();
     }
@@ -192,6 +197,11 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     @Override
     public DeathManager getDeathManager() {
         return this.deathManager;
+    }
+
+    @Override
+    public PlaceholderManager getPlaceholderManager() {
+        return this.placeholderManager;
     }
 
     @Override
@@ -332,5 +342,11 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
 
         LanguageManager languageManager = getLanguageManager();
         languageManager.broadcastMessage("broadcast.on-disable", null, true, null);
+    }
+
+    private void registerBasePlaceholders() {
+        BasePlaceholderExpansion placeholderExpansion = new BasePlaceholderExpansion(this);
+        PlaceholderManager placeholderManager = getPlaceholderManager();
+        placeholderManager.registerPlaceholderExpansion(placeholderExpansion);
     }
 }

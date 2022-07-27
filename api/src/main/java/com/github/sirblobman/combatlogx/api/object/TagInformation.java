@@ -146,6 +146,17 @@ public final class TagInformation {
         return latestTag.getExpireMillis();
     }
 
+    public long getMillisLeftCombined() {
+        long expireMillis = getExpireMillisCombined();
+        if(expireMillis == 0L) {
+            return 0L;
+        }
+
+        long systemMillis = System.currentTimeMillis();
+        long subtractMillis = (expireMillis - systemMillis);
+        return Math.max(0L, subtractMillis);
+    }
+
     public boolean isExpired() {
         this.tagList.removeIf(CombatTag::isExpired);
         return this.tagList.isEmpty();

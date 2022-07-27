@@ -1,6 +1,7 @@
 package com.github.sirblobman.combatlogx.listener;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
@@ -13,12 +14,12 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.CombatPlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.event.PlayerEnemyRemoveEvent;
+import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
+import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 import com.github.sirblobman.combatlogx.api.manager.IPunishManager;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
-import com.github.sirblobman.combatlogx.api.utility.CommandHelper;
 
 public final class ListenerUntag extends CombatListener {
     public ListenerUntag(CombatPlugin plugin) {
@@ -51,17 +52,17 @@ public final class ListenerUntag extends CombatListener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onUntag(PlayerEnemyRemoveEvent e) {
+    public void onUntag(PlayerUntagEvent e) {
         Player player = e.getPlayer();
-        Entity previousEnemy = e.getEnemy();
         UntagReason untagReason = e.getUntagReason();
+        sendUntagMessage(player, untagReason);
+
+        List<Entity> previousEnemies = e.getPreviousEnemies();
+        runUntagCommands(player, previousEnemies);
 
         ICombatLogX plugin = getCombatLogX();
         IPunishManager punishManager = plugin.getPunishManager();
-        punishManager.punish(player, untagReason, previousEnemy);
-
-        sendUntagMessage(player, untagReason);
-        runUntagCommands(player, previousEnemy);
+        punishManager.punish(player, untagReason, previousEnemies);
     }
 
     private boolean isKickReasonIgnored(String kickReason) {
@@ -88,12 +89,16 @@ public final class ListenerUntag extends CombatListener {
             return;
         }
 
+        String untagReasonName = untagReason.name();
+        String untagReasonLower = untagReasonName.toLowerCase(Locale.US);
+        String untagReasonReplaced = untagReasonLower.replace('_', '-');
+
         ICombatLogX plugin = getCombatLogX();
-        String languagePath = ("combat-timer." + (untagReason == UntagReason.EXPIRE ? "expire" : "enemy-death"));
+        String languagePath = ("combat-timer." + untagReasonReplaced);
         plugin.sendMessageWithPrefix(player, languagePath, null, true);
     }
 
-    private void runUntagCommands(Player player, Entity previousEnemy) {
+    private void runUntagCommands(Player player, List<Entity> enemyList) {
         ConfigurationManager configurationManager = getPluginConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("commands.yml");
         List<String> untagCommandList = configuration.getStringList("untag-command-list");
@@ -102,22 +107,7 @@ public final class ListenerUntag extends CombatListener {
         }
 
         ICombatLogX plugin = getCombatLogX();
-        ICombatManager combatManager = getCombatManager();
-        for (String untagCommand : untagCommandList) {
-            String replacedCommand = combatManager.replaceVariables(player, previousEnemy, untagCommand);
-            if (replacedCommand.startsWith("[PLAYER]")) {
-                String command = replacedCommand.substring("[PLAYER]".length());
-                CommandHelper.runAsPlayer(plugin, player, command);
-                continue;
-            }
-
-            if (replacedCommand.startsWith("[OP]")) {
-                String command = replacedCommand.substring("[OP]".length());
-                CommandHelper.runAsOperator(plugin, player, command);
-                continue;
-            }
-
-            CommandHelper.runAsConsole(plugin, replacedCommand);
-        }
+        IPlaceholderManager placeholderManager = plugin.getPlaceholderManager();
+        placeholderManager.runReplacedCommands(player, enemyList, untagCommandList);
     }
 }

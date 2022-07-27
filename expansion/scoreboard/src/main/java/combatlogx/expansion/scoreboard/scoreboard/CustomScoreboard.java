@@ -21,6 +21,7 @@ import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
+import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
 
 import combatlogx.expansion.scoreboard.ScoreboardExpansion;
@@ -226,7 +227,8 @@ public final class CustomScoreboard {
             return message;
         }
 
-        Entity enemy = tagInformation.getCurrentEnemy();
-        return combatManager.replaceVariables(player, enemy, message);
+        List<Entity> enemyList = tagInformation.getEnemies();
+        IPlaceholderManager placeholderManager = plugin.getPlaceholderManager();
+        return placeholderManager.replaceAll(player, enemyList, message);
     }
 }
