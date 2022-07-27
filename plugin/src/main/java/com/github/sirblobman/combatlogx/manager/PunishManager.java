@@ -60,7 +60,7 @@ public final class PunishManager extends Manager implements IPunishManager {
         }
 
         increasePunishmentCount(player);
-        runKillCheck(player);
+        runKillCheck(player, enemyList);
 
         runPunishCommands(player, enemyList, this.punishCommandList);
         runSpecialPunishments(player, enemyList);
@@ -108,7 +108,7 @@ public final class PunishManager extends Manager implements IPunishManager {
         playerDataManager.save(player);
     }
 
-    private void runKillCheck(Player player) {
+    private void runKillCheck(Player player, List<Entity> enemyList) {
         ConfigurationManager configurationManager = getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("punish.yml");
         String killOptionString = configuration.getString("kill-time");
@@ -119,7 +119,7 @@ public final class PunishManager extends Manager implements IPunishManager {
         ICombatLogX plugin = getCombatLogX();
         if (killOptionString.equals("QUIT")) {
             IDeathManager deathManager = plugin.getDeathManager();
-            deathManager.kill(player);
+            deathManager.kill(player, enemyList);
         }
 
         if (killOptionString.equals("JOIN")) {

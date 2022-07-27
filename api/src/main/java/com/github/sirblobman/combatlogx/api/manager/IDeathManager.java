@@ -1,8 +1,13 @@
 package com.github.sirblobman.combatlogx.api.manager;
 
+import java.util.List;
+
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogXNeeded;
+
+import org.jetbrains.annotations.NotNull;
 
 public interface IDeathManager extends ICombatLogXNeeded {
     /**
@@ -10,7 +15,7 @@ public interface IDeathManager extends ICombatLogXNeeded {
      * The player will be killed by setting their health to zero.
      * @param player The {@link Player} to kill.
      */
-    void kill(Player player);
+    void kill(Player player, List<Entity> enemyList);
 
     /**
      * Check if a player was killed while tracked.
@@ -26,4 +31,6 @@ public interface IDeathManager extends ICombatLogXNeeded {
      * @return {@code true} if the player was previously being tracked.
      */
     boolean stopTracking(Player player);
+
+    @NotNull List<Entity> getTrackedEnemies(Player player);
 }

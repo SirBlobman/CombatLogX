@@ -29,11 +29,15 @@ kill-time: QUIT
 # This is a list of custom death messages that CombatLogX will use when killing a player.
 # A message will be selected from this list randomly.
 #
+# Valid Placeholders:
+# {combatlogx_player} - The name of the player that died.
+# {combatlogx_current_enemy_name} - The name of the last enemy that tagged the player. The enemy can be unknown.
+#
 # If you don't want any custom messages, set this to an empty list
 # custom-death-message-list: []
 custom-death-message-list:
-  - "{player} was killed for logging out during combat."
-  - "{player} instantly died due to logging out during combat."
+  - "{combatlogx_player} was killed for logging out during combat."
+  - "{combatlogx_player} instantly died due to logging out during combat."
 
 # Should CombatLogX keep track of the amount of times each player was punished?
 # Default: true

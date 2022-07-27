@@ -1,10 +1,12 @@
 package com.github.sirblobman.combatlogx.listener;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -19,8 +21,10 @@ import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.utility.MessageUtility;
 import com.github.sirblobman.combatlogx.CombatPlugin;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
 import com.github.sirblobman.combatlogx.api.manager.IDeathManager;
+import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 
 public final class ListenerDeath extends CombatListener {
 
@@ -47,41 +51,46 @@ public final class ListenerDeath extends CombatListener {
         playerData.set("kill-on-join", false);
         playerDataManager.save(player);
 
-        IDeathManager deathManager = getCombatLogX().getDeathManager();
-        deathManager.kill(player);
+        IDeathManager deathManager = getDeathManager();
+        deathManager.kill(player, Collections.emptyList());
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onRespawn(PlayerRespawnEvent e) {
-        IDeathManager deathManager = getCombatLogX().getDeathManager();
-        deathManager.stopTracking(e.getPlayer());
+        Player player = e.getPlayer();
+        IDeathManager deathManager = getDeathManager();
+        deathManager.stopTracking(player);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
         JavaPlugin javaPlugin = getJavaPlugin();
         IDeathManager deathManager = getDeathManager();
 
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        scheduler.scheduleSyncDelayedTask(javaPlugin, () -> {
-            deathManager.stopTracking(player);
-        }, 1L);
+        scheduler.scheduleSyncDelayedTask(javaPlugin, () -> deathManager.stopTracking(player), 1L);
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onDeath(PlayerDeathEvent e) {
         Player player = e.getEntity();
-        IDeathManager deathManager = getCombatLogX().getDeathManager();
+        ICombatLogX plugin = getCombatLogX();
+        IDeathManager deathManager = plugin.getDeathManager();
         if (!deathManager.wasPunishKilled(player)) {
             return;
         }
 
-        String message = getRandomDeathMessage(player);
-        if (message != null) {
-            String coloredMessage = MessageUtility.color(message);
-            e.setDeathMessage(coloredMessage);
+        List<Entity> enemyList = deathManager.getTrackedEnemies(player);
+        String randomMessage = getRandomDeathMessage(player);
+        if(randomMessage == null) {
+            return;
         }
+
+        IPlaceholderManager placeholderManager = plugin.getPlaceholderManager();
+        String replacedMessage = placeholderManager.replaceAll(player, enemyList, randomMessage);
+        String coloredMessage = MessageUtility.color(replacedMessage);
+        e.setDeathMessage(coloredMessage);
     }
 
     private String getRandomDeathMessage(Player player) {
@@ -96,9 +105,6 @@ public final class ListenerDeath extends CombatListener {
         ThreadLocalRandom random = ThreadLocalRandom.current();
         int customDeathMessageListSize = customDeathMessageList.size();
         int customDeathMessageIndex = random.nextInt(customDeathMessageListSize);
-        String customDeathMessage = customDeathMessageList.get(customDeathMessageIndex);
-
-        String playerName = player.getName();
-        return customDeathMessage.replace("{player}", playerName);
+        return customDeathMessageList.get(customDeathMessageIndex);
     }
 }
