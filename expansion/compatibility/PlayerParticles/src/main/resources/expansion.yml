@@ -1,0 +1,10 @@
+name: "CompatPlayerParticles"
+prefix: "PlayerParticles Compatibility"
+description: "${project.description}"
+
+main: "combatlogx.expansion.compatibility.player.particles.PlayerParticlesExpansion"
+version: "16.0"
+author: "SirBlobman"
+
+plugin-depend:
+  - "PlayerParticles"

@@ -11,6 +11,42 @@ This page provides a list of the features for CombatLogX and its expansions.
 [*]Use a global or permission-based combat timer.
 [/LIST]
 
+[SIZE=5][B]Commands:[/B][/SIZE]
+[B]/combatlogx:[/B]
+[INDENT]
+[B]Aliases:[/B] [ICODE]/clx[/ICODE], [ICODE]/ctx[/ICODE], [ICODE]/combatlog[/ICODE], [ICODE]/combattagx[/ICODE], [ICODE]/combattag[/ICODE]
+[ICODE]/combatlogx help[/ICODE] View the list of sub-commands for CombatLogX.
+[ICODE]/combatlogx about <expansion>[/ICODE] View information about an expansion.
+[ICODE]/combatlogx reload[/ICODE] Reload the configuration files for the plugin and expansions.
+[ICODE]/combatlogx toggle <bossbar/actionbar/scoreboard>[/ICODE] Toggle the action bar, boss bar, and scoreboard for yourself.
+[ICODE]/combatlogx tag <player>[/ICODE] Force a player to be tagged into combat.
+[ICODE]/combatlogx untag <player>[/ICODE] Force a player to be untagged from combat.
+[ICODE]/combatlogx version[/ICODE] View version information and a list of enabled expansions.
+[/INDENT]
+[B]/combat-timer:[/B]
+[INDENT]
+[B]Aliases:[/B] [ICODE]/combattimer[/ICODE], [ICODE]/combattime[/ICODE], [ICODE]/ctime[/ICODE], [ICODE]/clt[/ICODE], [ICODE]/ct[/ICODE]
+[ICODE]/combat-timer[/ICODE] Check how much time you have left in combat.
+[ICODE]/combat-timer <player>[/ICODE] Check how much time a player has left in combat.
+[/INDENT]
+
+[SIZE=5][B]Permissions:[/B][/SIZE]
+[LIST]
+[*][ICODE]combatlogx.bypass[/ICODE] Default bypass permission, can be changed in the config.yml file.
+[*][ICODE]combatlogx.bypass.force.field[/ICODE] Default bypass permission for the force field, can be changed in the configuration file for the force field expansion.
+[*][ICODE]combatlogx.command.combat-timer[/ICODE] Gives access to the /combat-timer command.
+[*][ICODE]combatlogx.command.togglepvp[/ICODE] Gives access to the /togglepvp command from the NewbieHelper expansion.
+[*][ICODE]combatlogx.command.togglepvp.admin[/ICODE] Gives access to the admin features of the /togglepvp command.
+[*][ICODE]combatlogx.command.combatlogx[/ICODE] Gives access to the base /combatlogx command, but not the sub-commands.
+[*][ICODE]combatlogx.command.combatlogx.toggle[/ICODE] Gives access to /combatlogx toggle command to toggle boss bar, action bar, and scoreboard.
+[*][ICODE]combatlogx.command.combatlogx.about[/ICODE] Gives access to information about expansions with /combatlogx about.
+[*][ICODE]combatlogx.command.combatlogx.help[/ICODE] Gives access to information about CombatLogX commands with /combatlogx help.
+[*][ICODE]combatlogx.command.combatlogx.reload[/ICODE] Gives access to reload configurations with /combatlogx reload.
+[*][ICODE]combatlogx.command.combatlogx.version[/ICODE] Gives access to version information with /combatlogx version.
+[*][ICODE]combatlogx.command.combatlogx.tag[/ICODE] Gives access to force tag players with /combatlogx tag.
+[*][ICODE]combatlogx.command.combatlogx.untag[/ICODE] Gives access to force players out of combat with /combatlogx untag.
+[/LIST]
+
 [SIZE=6][B]Expansions[/B][/SIZE]
 [SIZE=5][B]Normal Expansions[/B][/SIZE]
 [SIZE=4][B]Action Bar[/B][/SIZE]
@@ -253,6 +289,12 @@ The following expansions link into a disguise plugin and remove disguises when p
 
 [SIZE=4][B]PlaceholderAPI Compatibility[/B][/SIZE]
 [LIST]
-[*]Add support for placeholder from CombatLogX.
-[*]You can find a list of placeholders [URL=https://github.com/SirBlobman/CombatLogX/blob/main/expansion/compatibility/PlaceholderAPI/README.MD]here[/URL].
+[*]Add support for placeholders from CombatLogX.
+[*]You can find a list of placeholders [URL='https://github.com/SirBlobman/CombatLogX/blob/main/expansion/compatibility/PlaceholderAPI/README.MD']here[/URL].
+[/LIST]
+
+[SIZE=4][B]PlayerParticles Compatibility[/B][/SIZE]
+[LIST]
+[*]Disable a player's particle effects when tagged.
+[*]Enable a player's particle effects when combat ends.
 [/LIST]

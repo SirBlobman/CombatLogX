@@ -1,0 +1,5 @@
+# Should CombatLogX disable player particles when a player is tagged?
+tag-disables-particles: true
+
+# Should CombatLogX enable player particles once combat is over?
+untag-enables-particles: false
