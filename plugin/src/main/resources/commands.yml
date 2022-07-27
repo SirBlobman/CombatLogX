@@ -1,18 +1,20 @@
-# All commands in this configuration have some prefixes available
+# All commands in this configuration have some prefixes available:
 # [PLAYER] - Run the command as the player.
 # [OP] - Run the command as the player, but with "Server Operator" permissions (NOT recommended).
 # Any commands without a prefix will be executed by the server console.
 
+# All Commands in this configuration have some placeholders available:
+# Valid Placeholders:
+# {combatlogx_player} - The name of the player that was tagged.
+# {combatlogx_current_enemy_name} - The name of the enemy that tagged the player. The enemy can be unknown.
+
 
 # This is a list of commands that will be executed whenever a player is tagged.
-# Valid Placeholders:
-# {player} - The name of the player that was tagged.
-# {enemy} - The name of the enemy that tagged the player. The enemy can be unknown.
 #
 # Set this to an empty list to disable all tag commands.
 # tag-command-list: []
 tag-command-list:
-  - "msg {player} You are now in combat! Do not log out."
+  - "msg {combatlogx_player} You are now in combat! Do not log out."
   - "[PLAYER]say I am in combat!"
 
 # This is a list of commands that will be executed whenever a player is untagged.
@@ -23,17 +25,17 @@ tag-command-list:
 # Set this to an empty list to disable all untag commands.
 # untag-command-list: []
 untag-command-list:
-  - "msg {player} You are no longer in combat!"
+  - "msg {combatlogx_player} You are no longer in combat!"
   - "[PLAYER]say I am no longer in combat!"
 
 # This is a list of commands that will be used to punish players that log out during combat
 # Valid Placeholders:
-# {player} - The name of the player that is being punished.
+# {combatlogx_player} - The name of the player that is being punished.
 #
 # Set this to an empty list to disable all punishment commands.
 # punish-command-list: []
 punish-command-list:
-  - "warn {player} You logged out during combat! -s"
+  - "warn {combatlogx_player} You logged out during combat! -s"
 
 
 # Set this option to 'true' to enable the 'special-punish-commands' option below.
@@ -55,7 +57,7 @@ special-punish-commands:
 
     # What commands will be executed when this punishment is triggered?
     command-list:
-      - "tempban {player} 15s You have been timed out for logging out during combat."
+      - "tempban {combatlogx_player} 15s You have been timed out for logging out during combat."
 
   example02:
     amount:
@@ -63,7 +65,7 @@ special-punish-commands:
       max: 9
     reset: false
     command-list:
-      - "tempban {player} 30m You have been timed out for logging out during combat after being warned."
+      - "tempban {combatlogx_player} 30m You have been timed out for logging out during combat after being warned."
 
   example03:
     amount:
@@ -71,4 +73,4 @@ special-punish-commands:
       max: 10
     reset: true
     command-list:
-      - "tempban {player} 1w You have been banned for one week due to logging out during combat multiple times."
+      - "tempban {combatlogx_player} 1w You have been banned for one week due to logging out during combat multiple times."
