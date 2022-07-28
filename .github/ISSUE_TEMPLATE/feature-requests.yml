@@ -31,11 +31,11 @@ body:
         not provide support for it.
       multiple: false
       options:
-        - 1.18.2
-        - 1.17.1
-        - 1.16.5
-        - 1.12.2
         - 1.8.8
+        - 1.12.2
+        - 1.16.5
+        - 1.18.2
+        - 1.19.1
     validations:
       required: true
 
