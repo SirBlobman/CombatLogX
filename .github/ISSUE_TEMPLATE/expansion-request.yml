@@ -2,6 +2,7 @@ name: Expansion Request
 description: Make a suggestion for a new plugin compatibility expansion.
 labels:
   - Feature Request
+
 body:
   - type: markdown
     attributes:
