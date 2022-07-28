@@ -26,6 +26,7 @@
         <module>PlaceholderAPI</module>
 
         <!-- Region Compatibility -->
+        <module>CrashClaim</module>
         <module>Factions</module>
         <module>GriefDefender</module>
         <module>GriefPrevention</module>

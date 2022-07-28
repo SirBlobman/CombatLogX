@@ -1,0 +1,10 @@
+name: "CompatCrashClaim"
+prefix: "CrashClaim Compatibility"
+description: "${project.description}"
+
+main: "combatlogx.expansion.compatibility.region.crash.claim.CrashClaimExpansion"
+version: "16.0"
+author: "SirBlobman"
+
+plugin-depend:
+  - "Lands"
