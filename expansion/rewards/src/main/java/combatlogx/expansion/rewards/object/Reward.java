@@ -21,6 +21,7 @@ import com.github.sirblobman.combatlogx.api.ICombatLogX;
 
 import combatlogx.expansion.rewards.RewardExpansion;
 import combatlogx.expansion.rewards.requirement.Requirement;
+import me.clip.placeholderapi.PlaceholderAPI;
 
 public final class Reward {
     private final RewardExpansion expansion;
@@ -182,20 +183,12 @@ public final class Reward {
                 realCommand = replacePlaceholderAPI(player, realCommand);
             }
 
-            if (this.expansion.useMVdWPlaceholderAPI()) {
-                realCommand = replaceMVdWPlaceholderAPI(player, realCommand);
-            }
-
             runCommand(realCommand);
         }
     }
 
     private String replacePlaceholderAPI(Player player, String string) {
-        return me.clip.placeholderapi.PlaceholderAPI.setPlaceholders(player, string);
-    }
-
-    private String replaceMVdWPlaceholderAPI(Player player, String string) {
-        return be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(player, string);
+        return PlaceholderAPI.setPlaceholders(player, string);
     }
 
     private String getEntityName(LivingEntity entity) {

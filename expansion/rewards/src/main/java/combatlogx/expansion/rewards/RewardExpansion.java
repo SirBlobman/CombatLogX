@@ -83,17 +83,4 @@ public final class RewardExpansion extends Expansion {
 
         return false;
     }
-
-    public boolean useMVdWPlaceholderAPI() {
-        ConfigurationManager configurationManager = getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-
-        boolean useMVdWPlaceholderAPI = configuration.getBoolean("hooks.mvdwplaceholderapi");
-        if (useMVdWPlaceholderAPI) {
-            PluginManager pluginManager = Bukkit.getPluginManager();
-            return pluginManager.isPluginEnabled("MVdWPlaceholderAPI");
-        }
-
-        return false;
-    }
 }

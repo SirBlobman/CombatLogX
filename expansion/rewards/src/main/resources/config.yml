@@ -1,11 +1,7 @@
 hooks:
   # Should placeholders from PlaceholderAPI be replaced in commands?
-  # Recommended Version: 2.10.9
+  # Recommended Version: 2.11.2
   placeholderapi: true
-
-  # Should placeholders from MVdWPlaceholderAPI be replaced in commands?
-  # Recommended Version: 3.1.1
-  mvdwplaceholderapi: true
 
 rewards:
   # 'exampleOne' is the ID for this reward.
