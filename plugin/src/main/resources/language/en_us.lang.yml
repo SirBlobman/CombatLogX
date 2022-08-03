@@ -26,6 +26,7 @@ placeholder:
 combat-timer:
   expire: "&aYou are no longer in combat."
   enemy-death: "&aYou are no longer in combat because your enemy died."
+  self-death: "&aYou are no longer in combat because you died."
 
 error:
   player-only: "&cOnly players can execute this command."
@@ -89,14 +90,14 @@ tagged:
     unknown: "&cYou are attacking an unknown force. Do not log out!"
 
 expansion:
-  action-bar:
-    timer: "&6&lCombat &7\u00BB &f{bars} &f{combatlogx_time_left_decimal} seconds."
-    ended: "&6&lCombat &7\u00BB &fYou are no longer in combat."
-
   angel-chest:
     prevent-opening: "&cYou are not allowed to to open angel chests during combat."
     prevent-breaking: "&cYou are not allowed to break angel chests during combat."
     prevent-fast-looting: "&cYou are not allowed to fast loot angel chests during combat."
+
+  action-bar:
+    timer: "&6&lCombat &7\u00BB &f{bars} &f{combatlogx_time_left_decimal} seconds."
+    ended: "&6&lCombat &7\u00BB &fYou are no longer in combat."
 
   boss-bar:
     timer: "&6&lCombat &7\u00BB &c{combatlogx_time_left_decimal} seconds."
