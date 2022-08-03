@@ -7,10 +7,10 @@ These placeholders don't require anything special to be used.
 | PlaceholderAPI Placeholder     | Description                                                                           |
 |--------------------------------|---------------------------------------------------------------------------------------|
 | %combatlogx_enemy_count%       | The amount of player/entity enemies the player has.                                   |
-| %combatlogx_in_combat%         | The amount of combat tags the player has.                                             |
+| %combatlogx_in_combat%         | Configurable placeholder to show if the player is in combat or not.                   |
 | %combatlogx_player%            | The name of the player.                                                               |
-| %combatlogx_punishment_count%  | The amount of combat tags the player has.                                             |
-| %combatlogx_status%            | The amount of combat tags the player has.                                             |
+| %combatlogx_punishment_count%  | The amount of times the player has been punished for logging out during combat.       |
+| %combatlogx_status%            | Second configurable placeholder to show if the player is in combat or not.            |
 | %combatlogx_tag_count%         | The amount of combat tags the player has.                                             |
 | %combatlogx_time_left%         | The total amount of seconds the player has left in combat with all enemies. (Integer) |
 | %combatlogx_time_left_decimal% | The total amount of seconds the player has left in combat with all enemies. (Decimal) |

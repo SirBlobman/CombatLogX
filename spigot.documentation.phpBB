@@ -197,6 +197,7 @@ Rewards can be used to execute commands whenever a player kills a mob or another
 [SIZE=4][B]Region Compatibility Expansions[/B][/SIZE]
 The following expansions link into a region plugin and can be used to prevent entry into non-pvp areas.
 [LIST]
+[*]CrashClaim Compatibility
 [*]Factions Compatibility
 [*]GriefDefender Compatibility
 [*]GriefPrevention Compatibility
