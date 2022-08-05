@@ -3,6 +3,7 @@ package combatlogx.expansion.rewards.object;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -151,11 +152,12 @@ public final class Reward {
             return false;
         }
 
-        boolean checkWorld = checkWorld(player);
-        boolean checkMobType = checkMobType(enemy);
-        boolean checkRequirements = checkRequirements(player, enemy);
-        boolean checkChance = calculateChance();
-        return (checkWorld && checkMobType && checkRequirements && checkChance);
+        boolean checkWorld = checkWorld(player); // True if the world is valid.
+        boolean checkMobType = checkMobType(enemy); // True if the mob type is valid.
+        boolean checkSelf = checkNotSelf(player, enemy); // True if the player is not their own enemy.
+        boolean checkRequirements = checkRequirements(player, enemy); // True if the requirements are met.
+        boolean checkChance = calculateChance(); // True if the chance calculation was successful.
+        return (checkWorld && checkMobType && checkSelf && checkRequirements && checkChance);
     }
 
     private boolean checkWorld(Player player) {
@@ -176,6 +178,17 @@ public final class Reward {
         boolean contains = (mobTypeList.contains("*") || mobTypeList.contains(entityTypeName));
         boolean whitelist = isMobWhiteList();
         return (whitelist == contains);
+    }
+
+    private boolean checkNotSelf(Player player, LivingEntity enemy) {
+        if(!(enemy instanceof Player)) {
+            return true;
+        }
+
+        Player enemyPlayer = (Player) enemy;
+        UUID enemyId = enemyPlayer.getUniqueId();
+        UUID playerId = player.getUniqueId();
+        return !playerId.equals(enemyId);
     }
 
     private boolean checkRequirements(Player player, LivingEntity enemy) {
