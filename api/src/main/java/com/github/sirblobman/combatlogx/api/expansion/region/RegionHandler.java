@@ -17,6 +17,7 @@ import org.bukkit.util.Vector;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.utility.Validate;
+import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.NoEntryMode;
@@ -105,7 +106,7 @@ public abstract class RegionHandler {
                     }
                 }
 
-                if (player.isGliding()) {
+                if (isGliding(player)) {
                     player.setGliding(false);
                     Vector zero = new Vector(0.0D, 0.0D, 0.0D);
                     player.setVelocity(zero);
@@ -136,6 +137,15 @@ public abstract class RegionHandler {
     public final double getKnockbackStrength() {
         YamlConfiguration configuration = getConfiguration();
         return configuration.getDouble("knockback-strength");
+    }
+
+    private boolean isGliding(Player player) {
+        int minorVersion = VersionUtility.getMinorVersion();
+        if(minorVersion < 9) {
+            return false;
+        }
+
+        return player.isGliding();
     }
 
     private void knockbackPlayer(Player player, Location fromLocation, Location toLocation) {
