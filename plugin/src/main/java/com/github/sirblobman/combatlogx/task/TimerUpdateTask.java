@@ -66,11 +66,11 @@ public final class TimerUpdateTask implements ITimerManager, Runnable {
         ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = plugin.getCombatManager();
         TagInformation tagInformation = combatManager.getTagInformation(player);
-        if(tagInformation == null) {
+        if (tagInformation == null) {
             return;
         }
 
-        if(tagInformation.isExpired()) {
+        if (tagInformation.isExpired()) {
             return;
         }
 

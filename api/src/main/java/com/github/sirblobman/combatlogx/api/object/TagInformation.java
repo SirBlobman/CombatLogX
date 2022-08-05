@@ -148,7 +148,7 @@ public final class TagInformation {
 
     public long getMillisLeftCombined() {
         long expireMillis = getExpireMillisCombined();
-        if(expireMillis == 0L) {
+        if (expireMillis == 0L) {
             return 0L;
         }
 

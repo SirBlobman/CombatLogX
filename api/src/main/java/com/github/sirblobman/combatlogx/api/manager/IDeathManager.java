@@ -13,12 +13,14 @@ public interface IDeathManager extends ICombatLogXNeeded {
     /**
      * Track and kill a player.
      * The player will be killed by setting their health to zero.
+     *
      * @param player The {@link Player} to kill.
      */
     void kill(Player player, List<Entity> enemyList);
 
     /**
      * Check if a player was killed while tracked.
+     *
      * @param player The {@link Player} to check.
      * @return {@code true} if the player died from CombatLogX,
      * {@code false} if they were killed by any other reason.
@@ -27,6 +29,7 @@ public interface IDeathManager extends ICombatLogXNeeded {
 
     /**
      * Stop tracking a player.
+     *
      * @param player The {@link Player} to stop tracking.
      * @return {@code true} if the player was previously being tracked.
      */

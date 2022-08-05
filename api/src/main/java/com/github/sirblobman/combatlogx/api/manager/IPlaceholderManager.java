@@ -12,10 +12,13 @@ import org.jetbrains.annotations.Nullable;
 
 public interface IPlaceholderManager extends ICombatLogXNeeded {
     void registerPlaceholderExpansion(IPlaceholderExpansion expansion);
+
     @Nullable IPlaceholderExpansion getPlaceholderExpansion(String id);
+
     List<IPlaceholderExpansion> getPlaceholderExpansions();
 
     @Nullable String getPlaceholderReplacement(Player player, List<Entity> enemyList, String placeholder);
+
     String replaceAll(Player player, List<Entity> enemyList, String string);
 
     void runReplacedCommands(Player player, List<Entity> enemyList, Iterable<String> commands);

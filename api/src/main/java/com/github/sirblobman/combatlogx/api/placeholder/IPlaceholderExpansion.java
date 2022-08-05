@@ -9,5 +9,6 @@ import com.github.sirblobman.combatlogx.api.ICombatLogXNeeded;
 
 public interface IPlaceholderExpansion extends ICombatLogXNeeded {
     String getId();
+
     String getReplacement(Player player, List<Entity> enemyList, String placeholder);
 }

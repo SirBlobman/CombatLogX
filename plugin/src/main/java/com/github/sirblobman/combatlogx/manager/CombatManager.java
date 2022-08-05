@@ -167,7 +167,7 @@ public final class CombatManager implements ICombatManager {
         PlayerEnemyRemoveEvent event = new PlayerEnemyRemoveEvent(player, untagReason, enemy);
         pluginManager.callEvent(event);
 
-        if(tagInformation.isExpired()) {
+        if (tagInformation.isExpired()) {
             untag(player, untagReason);
         }
     }

@@ -1,6 +1,7 @@
 package combatlogx.expansion.rewards.manager;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,15 +31,29 @@ public final class RewardManager {
         this.rewardSet = new HashSet<>();
     }
 
+    public Set<Reward> getRewards() {
+        Set<Reward> rewardSet = new HashSet<>(this.rewardSet);
+        return Collections.unmodifiableSet(rewardSet);
+    }
+
+    public void checkAll(Player player, LivingEntity enemy) {
+        Set<Reward> rewardSet = getRewards();
+        for (Reward reward : rewardSet) {
+            reward.tryActivate(player, enemy);
+        }
+    }
+
     public void loadRewards() {
-        ConfigurationManager configurationManager = this.expansion.getConfigurationManager();
+        RewardExpansion expansion = getExpansion();
+        ConfigurationManager configurationManager = expansion.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
         this.rewardSet.clear();
 
+        Logger logger = expansion.getLogger();
         ConfigurationSection rewards = configuration.getConfigurationSection("rewards");
         if (rewards == null) {
-            Logger logger = this.expansion.getLogger();
-            logger.warning("Your config.yml is missing the 'rewards' section. If you don't want any rewards you should remove this expansion.");
+            logger.warning("Your config.yml is missing the 'rewards' section. " +
+                    "If you don't want any rewards you should remove this expansion.");
             return;
         }
 
@@ -52,13 +67,11 @@ public final class RewardManager {
         }
 
         int rewardSetSize = this.rewardSet.size();
-        Logger logger = this.expansion.getLogger();
-        logger.info("Successfully loaded " + rewardSetSize + " reward" + (rewardSetSize == 1 ? "" : "s") + ".");
+        logger.info("Successfully loaded " + rewardSetSize + " reward(s).");
     }
 
-    public void checkAll(Player player, LivingEntity enemy) {
-        Set<Reward> rewardSet = new HashSet<>(this.rewardSet);
-        for (Reward reward : rewardSet) reward.tryActivate(player, enemy);
+    private RewardExpansion getExpansion() {
+        return this.expansion;
     }
 
     private Reward loadReward(String id, ConfigurationSection section) {
@@ -94,7 +107,9 @@ public final class RewardManager {
             }
 
             List<Requirement> requirementList = loadRequirements(section);
-            if (requirementList != null) reward.setRequirements(requirementList);
+            if (requirementList != null) {
+                reward.setRequirements(requirementList);
+            }
 
             return reward;
         } catch (Exception ex) {

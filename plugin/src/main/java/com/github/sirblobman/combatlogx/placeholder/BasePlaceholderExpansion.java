@@ -55,20 +55,29 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
     @Override
     public String getReplacement(Player player, List<Entity> enemyList, String placeholder) {
         ICombatLogX plugin = getCombatLogX();
-        switch(placeholder) {
-            case "enemy_count": return getEnemyCount(plugin, player);
-            case "in_combat": return getInCombat(plugin, player);
-            case "player": return player.getName();
-            case "punishment_count": return getPunishmentCount(plugin, player);
-            case "status": return getStatus(plugin, player);
-            case "tag_count": return getTagCount(plugin, player);
-            case "time_left": return getTimeLeft(plugin, player);
-            case "time_left_decimal": return getTimeLeftDecimal(plugin, player);
-            default: break;
+        switch (placeholder) {
+            case "enemy_count":
+                return getEnemyCount(plugin, player);
+            case "in_combat":
+                return getInCombat(plugin, player);
+            case "player":
+                return player.getName();
+            case "punishment_count":
+                return getPunishmentCount(plugin, player);
+            case "status":
+                return getStatus(plugin, player);
+            case "tag_count":
+                return getTagCount(plugin, player);
+            case "time_left":
+                return getTimeLeft(plugin, player);
+            case "time_left_decimal":
+                return getTimeLeftDecimal(plugin, player);
+            default:
+                break;
         }
 
-        if(placeholder.startsWith("time_left_")) {
-            if(placeholder.startsWith("time_left_decimal_")) {
+        if (placeholder.startsWith("time_left_")) {
+            if (placeholder.startsWith("time_left_decimal_")) {
                 String numberString = placeholder.substring("time_left_decimal_".length());
                 try {
                     int index = (Integer.parseInt(numberString) - 1);
@@ -87,13 +96,13 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
             }
         }
 
-        if(placeholder.startsWith("current_enemy_")) {
+        if (placeholder.startsWith("current_enemy_")) {
             Entity currentEnemy = getSpecificEnemy(enemyList, 0);
             String enemyPlaceholder = placeholder.substring("current_enemy_".length());
             return getEnemyPlaceholder(plugin, player, currentEnemy, enemyPlaceholder);
         }
 
-        if(placeholder.startsWith("specific_enemy_")) {
+        if (placeholder.startsWith("specific_enemy_")) {
             String subPlaceholder = placeholder.substring("specific_enemy_".length());
             int nextUnderscore = subPlaceholder.indexOf('_');
             if (nextUnderscore == -1) {
@@ -104,7 +113,7 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
             try {
                 String enemyIdString = subPlaceholder.substring(0, nextUnderscore);
                 enemyIndex = (Integer.parseInt(enemyIdString) - 1);
-            } catch(NumberFormatException ex) {
+            } catch (NumberFormatException ex) {
                 return null;
             }
 
@@ -118,23 +127,35 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
 
     @Nullable
     private String getEnemyPlaceholder(ICombatLogX plugin, Player player, Entity enemy, String placeholder) {
-        switch(placeholder) {
-            case "name": return getEnemyName(plugin, player, enemy);
-            case "type": return getEnemyType(plugin, player, enemy);
-            case "display_name": return getEnemyDisplayName(plugin, player, enemy);
-            case "health": return getEnemyHealth(plugin, player, enemy);
-            case "health_rounded": return getEnemyHealthRounded(plugin, player, enemy);
-            case "hearts": return getEnemyHearts(plugin, player, enemy);
-            case "hearts_count": return getEnemyHeartsCount(plugin, player, enemy);
-            case "world": return getEnemyWorld(plugin, player, enemy);
-            case "x": return getEnemyX(plugin, player, enemy);
-            case "y": return getEnemyY(plugin, player, enemy);
-            case "z": return getEnemyZ(plugin, player, enemy);
-            default: break;
+        switch (placeholder) {
+            case "name":
+                return getEnemyName(plugin, player, enemy);
+            case "type":
+                return getEnemyType(plugin, player, enemy);
+            case "display_name":
+                return getEnemyDisplayName(plugin, player, enemy);
+            case "health":
+                return getEnemyHealth(plugin, player, enemy);
+            case "health_rounded":
+                return getEnemyHealthRounded(plugin, player, enemy);
+            case "hearts":
+                return getEnemyHearts(plugin, player, enemy);
+            case "hearts_count":
+                return getEnemyHeartsCount(plugin, player, enemy);
+            case "world":
+                return getEnemyWorld(plugin, player, enemy);
+            case "x":
+                return getEnemyX(plugin, player, enemy);
+            case "y":
+                return getEnemyY(plugin, player, enemy);
+            case "z":
+                return getEnemyZ(plugin, player, enemy);
+            default:
+                break;
         }
 
         PluginManager pluginManager = Bukkit.getPluginManager();
-        if(pluginManager.isPluginEnabled("PlaceholderAPI") && enemy instanceof Player) {
+        if (pluginManager.isPluginEnabled("PlaceholderAPI") && enemy instanceof Player) {
             Player enemyPlayer = (Player) enemy;
             String placeholderString = "{" + placeholder + "}";
             return PlaceholderAPI.setBracketPlaceholders(enemyPlayer, placeholderString);
@@ -145,12 +166,12 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
 
     @Nullable
     private Entity getSpecificEnemy(List<Entity> enemyList, int index) {
-        if(enemyList.isEmpty()) {
+        if (enemyList.isEmpty()) {
             return null;
         }
 
         int enemyListSize = enemyList.size();
-        if(index >= enemyListSize) {
+        if (index >= enemyListSize) {
             return null;
         }
 

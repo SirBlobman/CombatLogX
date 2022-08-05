@@ -14,6 +14,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
+import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.api.utility.Validate;
@@ -33,8 +34,10 @@ public final class Reward {
     private List<Requirement> requirementList;
     private boolean mobWhiteList, worldWhiteList;
 
-    public Reward(RewardExpansion expansion, int chance, int maxChance, boolean randomCommand, List<String> commandList) {
+    public Reward(RewardExpansion expansion, int chance, int maxChance, boolean randomCommand,
+                  List<String> commandList) {
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
+
         if (chance <= 0) {
             throw new IllegalArgumentException("chance must be greater than zero!");
         }
@@ -65,6 +68,54 @@ public final class Reward {
         this.mobWhiteList = false;
     }
 
+    public RewardExpansion getExpansion() {
+        return this.expansion;
+    }
+
+    public int getChance() {
+        return this.chance;
+    }
+
+    public int getMaxChance() {
+        return this.maxChance;
+    }
+
+    public boolean isRandomCommand() {
+        return this.randomCommand;
+    }
+
+    public List<String> getCommandList() {
+        return Collections.unmodifiableList(this.commandList);
+    }
+
+    public List<Requirement> getRequirementList() {
+        return Collections.unmodifiableList(this.requirementList);
+    }
+
+    public List<String> getWorldNameList() {
+        return Collections.unmodifiableList(this.worldList);
+    }
+
+    public boolean isWorldWhiteList() {
+        return this.worldWhiteList;
+    }
+
+    public void setWorldWhiteList(boolean whitelist) {
+        this.worldWhiteList = whitelist;
+    }
+
+    public List<String> getMobTypeList() {
+        return Collections.unmodifiableList(this.mobList);
+    }
+
+    public boolean isMobWhiteList() {
+        return this.mobWhiteList;
+    }
+
+    public void setMobWhiteList(boolean whitelist) {
+        this.mobWhiteList = whitelist;
+    }
+
     public void setRequirements(List<Requirement> requirementList) {
         if (requirementList == null) {
             throw new IllegalArgumentException("requirementList must not be null!");
@@ -89,17 +140,9 @@ public final class Reward {
         this.mobList = new ArrayList<>(mobList);
     }
 
-    public void setWorldWhiteList(boolean whitelist) {
-        this.worldWhiteList = whitelist;
-    }
-
-    public void setMobWhiteList(boolean whitelist) {
-        this.mobWhiteList = whitelist;
-    }
-
     public void tryActivate(Player player, LivingEntity enemy) {
         if (canActivate(player, enemy)) {
-            runCommands(player, enemy);
+            executeCommands(player, enemy);
         }
     }
 
@@ -118,43 +161,51 @@ public final class Reward {
     private boolean checkWorld(Player player) {
         World world = player.getWorld();
         String worldName = world.getName();
-        boolean contains = (this.worldList.contains("*") || this.worldList.contains(worldName));
-        return (this.worldWhiteList == contains);
+
+        List<String> worldNameList = getWorldNameList();
+        boolean contains = (worldNameList.contains("*") || worldNameList.contains(worldName));
+        boolean whitelist = isWorldWhiteList();
+        return (whitelist == contains);
     }
 
     private boolean checkMobType(LivingEntity entity) {
         EntityType entityType = entity.getType();
         String entityTypeName = entityType.name();
-        boolean contains = (this.mobList.contains("*") || this.mobList.contains(entityTypeName));
-        return (this.mobWhiteList == contains);
+
+        List<String> mobTypeList = getMobTypeList();
+        boolean contains = (mobTypeList.contains("*") || mobTypeList.contains(entityTypeName));
+        boolean whitelist = isMobWhiteList();
+        return (whitelist == contains);
     }
 
     private boolean checkRequirements(Player player, LivingEntity enemy) {
-        for (Requirement requirement : this.requirementList) {
+        List<Requirement> requirementList = getRequirementList();
+        for (Requirement requirement : requirementList) {
             LivingEntity toCheck = (requirement.isEnemy() ? enemy : player);
-            if (requirement.meetsRequirement(toCheck)) {
-                continue;
+            if (!requirement.meetsRequirement(toCheck)) {
+                return false;
             }
-
-            return false;
         }
 
         return true;
     }
 
     private boolean calculateChance() {
-        if (this.chance >= this.maxChance) {
+        int chance = getChance();
+        int maxChance = getMaxChance();
+        if (chance >= maxChance) {
             return true;
         }
 
         ThreadLocalRandom random = ThreadLocalRandom.current();
-        int randomValue = random.nextInt(1, this.maxChance + 1);
-        return (randomValue <= this.chance);
+        int randomValue = random.nextInt(1, maxChance + 1);
+        return (randomValue <= chance);
     }
 
-    private List<String> getCommands() {
-        if (this.randomCommand) {
-            int commandListSize = this.commandList.size();
+    private List<String> getCommandsToExecute() {
+        List<String> commandList = getCommandList();
+        if (isRandomCommand()) {
+            int commandListSize = commandList.size();
             ThreadLocalRandom random = ThreadLocalRandom.current();
             int randomIndex = random.nextInt(commandListSize);
 
@@ -162,28 +213,31 @@ public final class Reward {
             return Collections.singletonList(command);
         }
 
-        return new ArrayList<>(this.commandList);
+        return new ArrayList<>(commandList);
     }
 
-    private void runCommands(Player player, LivingEntity enemy) {
-        if (player == null || enemy == null) {
-            return;
-        }
+    private void executeCommands(Player player, LivingEntity enemy) {
+        Validate.notNull(player, "player must not be null!");
+        Validate.notNull(enemy, "enemy must not be null!");
 
         String playerName = player.getName();
         String enemyName = getEntityName(enemy);
         String enemyType = enemy.getType().name();
+        Replacer replacer = command -> command.replace("{player}", playerName)
+                .replace("{enemy}", enemyName)
+                .replace("{enemy_type}", enemyType);
 
-        List<String> commandList = getCommands();
+        RewardExpansion expansion = getExpansion();
+        boolean placeholderAPI = expansion.usePlaceholderAPI();
+
+        List<String> commandList = getCommandsToExecute();
         for (String command : commandList) {
-            String realCommand = command.replace("{player}", playerName).replace("{enemy}", enemyName)
-                    .replace("{enemy_type}", enemyType);
-
-            if (this.expansion.usePlaceholderAPI()) {
+            String realCommand = replacer.replace(command);
+            if (placeholderAPI) {
                 realCommand = replacePlaceholderAPI(player, realCommand);
             }
 
-            runCommand(realCommand);
+            executeCommand(realCommand);
         }
     }
 
@@ -192,13 +246,14 @@ public final class Reward {
     }
 
     private String getEntityName(LivingEntity entity) {
-        ICombatLogX plugin = this.expansion.getPlugin();
+        RewardExpansion expansion = getExpansion();
+        ICombatLogX plugin = expansion.getPlugin();
         MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
         EntityHandler entityHandler = multiVersionHandler.getEntityHandler();
         return entityHandler.getName(entity);
     }
 
-    private void runCommand(String command) {
+    private void executeCommand(String command) {
         try {
             CommandSender console = Bukkit.getConsoleSender();
             Bukkit.dispatchCommand(console, command);

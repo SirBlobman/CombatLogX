@@ -22,7 +22,7 @@ public final class ListenerQuit extends ExpansionListener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onQuit(PlayerQuitEvent e) {
-        if(!isAlwaysSpawnOnQuit()) {
+        if (!isAlwaysSpawnOnQuit()) {
             return;
         }
 

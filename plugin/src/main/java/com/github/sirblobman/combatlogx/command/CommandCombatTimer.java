@@ -54,13 +54,13 @@ public final class CommandCombatTimer extends CombatLogPlayerCommand {
         LanguageManager languageManager = getLanguageManager();
 
         Language language = languageManager.getLanguage(player);
-        if(language == null) {
+        if (language == null) {
             getLogger().warning("Null language for player '" + player.getName() + "'.");
             return;
         }
 
         TagInformation tagInformation = combatManager.getTagInformation(player);
-        if(tagInformation == null || tagInformation.isExpired()) {
+        if (tagInformation == null || tagInformation.isExpired()) {
             sendMessageWithPrefix(player, "error.self-not-in-combat", null, true);
             return;
         }
@@ -80,13 +80,13 @@ public final class CommandCombatTimer extends CombatLogPlayerCommand {
         LanguageManager languageManager = getLanguageManager();
 
         Language language = languageManager.getLanguage(player);
-        if(language == null) {
+        if (language == null) {
             getLogger().warning("Null language for player '" + player.getName() + "'.");
             return;
         }
 
         TagInformation tagInformation = combatManager.getTagInformation(target);
-        if(tagInformation == null || tagInformation.isExpired()) {
+        if (tagInformation == null || tagInformation.isExpired()) {
             sendMessageWithPrefix(player, "error.target-not-in-combat", null, true);
             return;
         }

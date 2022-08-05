@@ -418,7 +418,7 @@ public final class PlaceholderHelper {
     @Nullable
     public static String getPlaceholder(ICombatLogX plugin, Player player, String placeholder) {
         IPlaceholderManager placeholderManager = plugin.getPlaceholderManager();
-        if(!placeholder.startsWith("newbie_helper_")) {
+        if (!placeholder.startsWith("newbie_helper_")) {
             placeholder = ("combatlogx_" + placeholder);
         }
 
@@ -430,7 +430,7 @@ public final class PlaceholderHelper {
 
     public static String replacePlaceholderAPI(Player player, String string) {
         PluginManager pluginManager = Bukkit.getPluginManager();
-        if(pluginManager.isPluginEnabled("PlaceholderAPI")) {
+        if (pluginManager.isPluginEnabled("PlaceholderAPI")) {
             return PlaceholderAPI.setPlaceholders(player, string);
         }
 

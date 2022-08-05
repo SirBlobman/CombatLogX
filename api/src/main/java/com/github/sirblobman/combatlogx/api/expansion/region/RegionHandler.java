@@ -105,7 +105,7 @@ public abstract class RegionHandler {
                     }
                 }
 
-                if(player.isGliding()) {
+                if (player.isGliding()) {
                     player.setGliding(false);
                     Vector zero = new Vector(0.0D, 0.0D, 0.0D);
                     player.setVelocity(zero);

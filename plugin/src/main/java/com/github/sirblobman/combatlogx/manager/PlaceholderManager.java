@@ -54,7 +54,7 @@ public final class PlaceholderManager extends Manager implements IPlaceholderMan
 
         String expansionId = expansion.getId();
         IPlaceholderExpansion oldRegistry = this.expansionMap.putIfAbsent(expansionId, expansion);
-        if(oldRegistry != null) {
+        if (oldRegistry != null) {
             String errorMessage = "A placeholder expansion with id '" + expansionId + "' is already registered.";
             throw new IllegalArgumentException(errorMessage);
         }
@@ -67,13 +67,13 @@ public final class PlaceholderManager extends Manager implements IPlaceholderMan
         Validate.notNull(placeholder, "placeholder must not be null!");
 
         int underscoreIndex = placeholder.indexOf('_');
-        if(underscoreIndex == -1) {
+        if (underscoreIndex == -1) {
             return null;
         }
 
         String expansionId = placeholder.substring(0, underscoreIndex);
         IPlaceholderExpansion expansion = getPlaceholderExpansion(expansionId);
-        if(expansion == null) {
+        if (expansion == null) {
             return null;
         }
 
@@ -88,10 +88,10 @@ public final class PlaceholderManager extends Manager implements IPlaceholderMan
 
         StringBuffer buffer = new StringBuffer();
         Matcher matcher = BRACKET_PLACEHOLDER_PATTERN.matcher(string);
-        while(matcher.find()) {
+        while (matcher.find()) {
             String placeholder = matcher.group(1);
             String replacement = getPlaceholderReplacement(player, enemyList, placeholder);
-            if(replacement != null) {
+            if (replacement != null) {
                 matcher.appendReplacement(buffer, replacement);
             }
         }
@@ -108,10 +108,10 @@ public final class PlaceholderManager extends Manager implements IPlaceholderMan
         ICombatLogX plugin = getCombatLogX();
         for (String originalCommand : commands) {
             String replacedCommand = replaceAll(player, enemyList, originalCommand);
-            if(replacedCommand.startsWith("[PLAYER]")) {
+            if (replacedCommand.startsWith("[PLAYER]")) {
                 String playerCommand = replacedCommand.substring(8);
                 CommandHelper.runAsPlayer(plugin, player, playerCommand);
-            } else if(replacedCommand.startsWith("[OP]")) {
+            } else if (replacedCommand.startsWith("[OP]")) {
                 String opCommand = replacedCommand.substring(4);
                 CommandHelper.runAsOperator(plugin, player, opCommand);
             } else {

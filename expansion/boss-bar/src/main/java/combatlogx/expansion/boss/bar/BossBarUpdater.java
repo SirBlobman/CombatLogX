@@ -54,7 +54,7 @@ public final class BossBarUpdater implements TimerUpdater {
         update(player, 0L);
 
         JavaPlugin plugin = getCombatLogX().getPlugin();
-        if(!plugin.isEnabled()) {
+        if (!plugin.isEnabled()) {
             return;
         }
 

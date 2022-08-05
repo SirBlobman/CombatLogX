@@ -25,6 +25,7 @@ public final class PlayerTagEvent extends CustomPlayerEvent {
     private final TagType tagType;
     private final TagReason tagReason;
     private long combatEndMillis;
+
     public PlayerTagEvent(Player player, Entity enemy, TagType tagType, TagReason tagReason, long combatEndMillis) {
         super(player);
         this.enemy = enemy;

@@ -111,7 +111,7 @@ public class ListenerLootProtection extends ExpansionListener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPunish(PlayerPunishEvent e) {
         List<Entity> enemyList = e.getEnemies();
-        if(enemyList.isEmpty()) {
+        if (enemyList.isEmpty()) {
             return;
         }
 
@@ -141,7 +141,7 @@ public class ListenerLootProtection extends ExpansionListener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onUntag(PlayerUntagEvent e) {
         List<Entity> enemyList = e.getPreviousEnemies();
-        if(enemyList.isEmpty()) {
+        if (enemyList.isEmpty()) {
             return;
         }
 

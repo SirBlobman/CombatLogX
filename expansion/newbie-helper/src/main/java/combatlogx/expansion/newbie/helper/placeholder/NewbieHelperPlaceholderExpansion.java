@@ -34,10 +34,13 @@ public final class NewbieHelperPlaceholderExpansion implements IPlaceholderExpan
 
     @Override
     public String getReplacement(Player player, List<Entity> enemyList, String placeholder) {
-        switch(placeholder) {
-            case "pvp_status": return getPvpStatus(player);
-            case "protected": return getProtected(player);
-            default: break;
+        switch (placeholder) {
+            case "pvp_status":
+                return getPvpStatus(player);
+            case "protected":
+                return getProtected(player);
+            default:
+                break;
         }
 
         return null;

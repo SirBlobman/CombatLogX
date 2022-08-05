@@ -214,6 +214,17 @@ The following expansions link into a region plugin and can be used to prevent en
 [*]WorldGuard Compatibility
 [/LIST]
 
+[SIZE=4][B]WorldGuard Compatibility[/B][/SIZE]
+The WorldGuard compatibility has the following custom flags
+[LIST]
+[*][ICODE]no-tagging: TRUE[/ICODE]: CombatLogX will not tag players that are within the region.
+[*][ICODE]damage-combat: DENY[/ICODE]: Prevent entry for players that were tagged by generic damage.
+[*][ICODE]mob-combat: DENY[/ICODE]: Prevent entry for players in combat with mobs.
+[*][ICODE]mythic-mob-combat: DENY[/ICODE]: Prevent entry for players in combat with a Mythic mob.
+[*][ICODE]player-combat: DENY[/ICODE]: Prevent entry for players in combat with other players.
+[*][ICODE]unknown-combat: DENY[/ICODE]: Prevent entry for players in combat for an unknown reason.
+[/LIST]
+
 [SIZE=4][B]SkyBlock Compatibility Expansions[/B][/SIZE]
 The following expansions link into a SkyBlock plugin and prevent teams from tagging each other.
 [LIST]

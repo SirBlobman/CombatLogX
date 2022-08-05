@@ -24,6 +24,7 @@ public final class PlayerPreTagEvent extends CustomPlayerEventCancellable {
     private final Entity enemy;
     private final TagType tagType;
     private final TagReason tagReason;
+
     public PlayerPreTagEvent(Player player, Entity enemy, TagType tagType, TagReason tagReason) {
         super(player);
         this.enemy = enemy;

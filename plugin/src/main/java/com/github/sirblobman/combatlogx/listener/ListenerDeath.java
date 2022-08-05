@@ -83,7 +83,7 @@ public final class ListenerDeath extends CombatListener {
 
         List<Entity> enemyList = deathManager.getTrackedEnemies(player);
         String randomMessage = getRandomDeathMessage(player);
-        if(randomMessage == null) {
+        if (randomMessage == null) {
             return;
         }
 
