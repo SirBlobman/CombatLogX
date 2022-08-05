@@ -11,6 +11,7 @@ import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -27,7 +28,6 @@ import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
 import combatlogx.expansion.compatibility.citizens.object.StoredInventory;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.trait.Equipment;
-import net.citizensnpcs.api.trait.trait.Equipment.EquipmentSlot;
 import org.jetbrains.annotations.Nullable;
 
 public final class InventoryManager {
@@ -184,13 +184,13 @@ public final class InventoryManager {
 
         ItemStack mainHandItem = storedInventory.getMainHandItem();
         if (mainHandItem != null) {
-            equipmentTrait.set(EquipmentSlot.HAND, mainHandItem);
+            equipmentTrait.set(Equipment.EquipmentSlot.HAND, mainHandItem);
         }
 
         if (VersionUtility.getMinorVersion() > 8) {
             ItemStack offHandItem = storedInventory.getOffHandItem();
             if (offHandItem != null) {
-                equipmentTrait.set(EquipmentSlot.OFF_HAND, offHandItem);
+                equipmentTrait.set(Equipment.EquipmentSlot.OFF_HAND, offHandItem);
             }
         }
 
@@ -198,8 +198,8 @@ public final class InventoryManager {
         for (ArmorType armorType : armorTypeArray) {
             ItemStack item = storedInventory.getArmor(armorType);
             if (item != null) {
-                org.bukkit.inventory.EquipmentSlot bukkitSlot = armorType.getSlot();
-                EquipmentSlot slot = getNpcSlotFromBukkitSlot(bukkitSlot);
+                EquipmentSlot bukkitSlot = armorType.getEquipmentSlot();
+                Equipment.EquipmentSlot slot = getNpcSlotFromBukkitSlot(bukkitSlot);
                 equipmentTrait.set(slot, item);
             }
         }
@@ -232,24 +232,24 @@ public final class InventoryManager {
         playerInventory.setItemInOffHand(offHand);
     }
 
-    private EquipmentSlot getNpcSlotFromBukkitSlot(org.bukkit.inventory.EquipmentSlot slot) {
+    private Equipment.EquipmentSlot getNpcSlotFromBukkitSlot(org.bukkit.inventory.EquipmentSlot slot) {
         if (VersionUtility.getMinorVersion() > 8) {
-            if (slot == org.bukkit.inventory.EquipmentSlot.OFF_HAND) {
-                return EquipmentSlot.OFF_HAND;
+            if (slot == EquipmentSlot.OFF_HAND) {
+                return Equipment.EquipmentSlot.OFF_HAND;
             }
         }
 
         switch (slot) {
             case HEAD:
-                return EquipmentSlot.HELMET;
+                return Equipment.EquipmentSlot.HELMET;
             case CHEST:
-                return EquipmentSlot.CHESTPLATE;
+                return Equipment.EquipmentSlot.CHESTPLATE;
             case LEGS:
-                return EquipmentSlot.LEGGINGS;
+                return Equipment.EquipmentSlot.LEGGINGS;
             case FEET:
-                return EquipmentSlot.BOOTS;
+                return Equipment.EquipmentSlot.BOOTS;
             case HAND:
-                return EquipmentSlot.HAND;
+                return Equipment.EquipmentSlot.HAND;
             default:
                 return null;
         }
