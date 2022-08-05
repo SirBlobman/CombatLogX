@@ -58,6 +58,8 @@ rewards:
         type: economy
         check-enemy: true
         amount: 500.0
+    mob-whitelist: false
+    world-whitelist: false
     chance: 1
     max-chance: 2
     random-command: false
