@@ -52,11 +52,11 @@ public final class CheatPreventionExpansion extends Expansion {
     @Override
     public void onEnable() {
         registerListeners();
+        registerTasks();
 
         int minorVersion = VersionUtility.getMinorVersion();
         registerVersionListeners(minorVersion);
-
-        registerTasks();
+        registerVersionTasks(minorVersion);
     }
 
     @Override
@@ -134,6 +134,12 @@ public final class CheatPreventionExpansion extends Expansion {
 
     private void registerTasks() {
         new FlightRetagTask(this).register();
-        new ElytraRetagTask(this).register();
+    }
+
+    private void registerVersionTasks(int minorVersion) {
+        // Elytra were added in 1.9.
+        if(minorVersion >= 9) {
+            new ElytraRetagTask(this).register();
+        }
     }
 }
