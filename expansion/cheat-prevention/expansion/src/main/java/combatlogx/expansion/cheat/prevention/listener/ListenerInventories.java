@@ -8,6 +8,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.combatlogx.api.event.PlayerReTagEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 
@@ -18,7 +19,21 @@ public final class ListenerInventories extends CheatPreventionListener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onTag(PlayerTagEvent e) {
-        if (shouldNotCloseInventories()) return;
+        if (shouldNotCloseInventories()) {
+            return;
+        }
+
+        Player player = e.getPlayer();
+        player.closeInventory();
+        sendMessage(player, "expansion.cheat-prevention.inventory.force-closed", null);
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onTag(PlayerReTagEvent e) {
+        if (shouldNotCloseInventoriesOnRetag()) {
+            return;
+        }
+
         Player player = e.getPlayer();
         player.closeInventory();
         sendMessage(player, "expansion.cheat-prevention.inventory.force-closed", null);
@@ -27,11 +42,18 @@ public final class ListenerInventories extends CheatPreventionListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onOpen(InventoryOpenEvent e) {
         HumanEntity human = e.getPlayer();
-        if (!(human instanceof Player)) return;
+        if (!(human instanceof Player)) {
+            return;
+        }
 
         Player player = (Player) human;
-        if (!isInCombat(player)) return;
-        if (shouldAllowOpeningInventories()) return;
+        if (!isInCombat(player)) {
+            return;
+        }
+
+        if (shouldAllowOpeningInventories()) {
+            return;
+        }
 
         e.setCancelled(true);
         sendMessage(player, "expansion.cheat-prevention.inventory.no-opening", null);
@@ -46,6 +68,11 @@ public final class ListenerInventories extends CheatPreventionListener {
     private boolean shouldNotCloseInventories() {
         YamlConfiguration configuration = getConfiguration();
         return !configuration.getBoolean("close");
+    }
+
+    private boolean shouldNotCloseInventoriesOnRetag() {
+        YamlConfiguration configuration = getConfiguration();
+        return !configuration.getBoolean("close-on-retag");
     }
 
     private boolean shouldAllowOpeningInventories() {
