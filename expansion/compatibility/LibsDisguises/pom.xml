@@ -27,7 +27,7 @@
         <dependency>
             <groupId>LibsDisguises</groupId>
             <artifactId>LibsDisguises</artifactId>
-            <version>10.0.30</version>
+            <version>10.0.31</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
