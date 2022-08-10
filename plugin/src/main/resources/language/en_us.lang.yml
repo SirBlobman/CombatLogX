@@ -183,17 +183,17 @@ expansion:
 
   action-bar:
     # Shown above the hotbar while a player is in combat.
-    timer: "<gold><bold>Combat</gold> <gray>\u00BB</gray></bold></gold> <white>{bars} <red>{combatlogx_time_left}</red> seconds.</white>"
+    timer: "<bold><gold>Combat</gold> <gray>\u00BB</gray></bold> <white>{bars} <red>{combatlogx_time_left}</red> seconds.</white>"
 
     # Shown above the hotbar for a brief period when combat ends.
-    ended: "<gold><bold>Combat <gray>\u00BB</gray></bold></gold> <white>You are no longer in combat.</white>"
+    ended: "<bold><gold>Combat</gold> <gray>\u00BB</gray></bold> <white>You are no longer in combat.</white>"
 
   boss-bar:
     # Shown on top of the screen while a player is in combat.
-    timer: "<gold><bold>Combat</gold> <gray>\u00BB</gray></bold></gold> <white><red>{combatlogx_time_left}</red> seconds.</white>"
+    timer: "<bold><gold>Combat</gold> <gray>\u00BB</gray></bold> <white><red>{combatlogx_time_left}</red> seconds.</white>"
 
     # Shown on top of the screen for a brief period when combat ends.
-    ended: "<gold><bold>Combat <gray>\u00BB</gray></bold></gold> <white>You are no longer in combat.</white>"
+    ended: "<bold><gold>Combat</gold> <gray>\u00BB</gray></bold> <white>You are no longer in combat.</white>"
 
   scoreboard:
     # The scoreboard title for the sidebar.
@@ -206,7 +206,7 @@ expansion:
       - " "
       - "<white><bold>Combat Stats:</bold></white>"
       - "<dark_gray>\u00BB</dark_gray> <white><bold>Time Left:</bold></white> <gray>{combatlogx_time_left}</gray>"
-      - "<dark_gray>\u00BB</dark_gray> <white><bold>Enemies:</bold></white> <gray>{combatlogx_enemies}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <white><bold>Enemies:</bold></white> <gray>{combatlogx_enemy_count}</gray>"
       - "<dark_gray>\u00BB</dark_gray> <white><bold>Status:</bold></white> <gray>{combatlogx_status}</gray>"
       - " "
       - "<white><bold>Enemies</bold></white>"

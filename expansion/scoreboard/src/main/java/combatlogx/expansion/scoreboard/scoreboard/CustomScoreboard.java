@@ -149,6 +149,7 @@ public final class CustomScoreboard {
     private void setLine(int line, Component value) {
         CustomLine customLine = getLine(line);
         Validate.notNull(customLine, "Could not find scoreboard line '" + line + "'.");
+
         ChatColor chatColor = customLine.getChatColor();
         String chatColorString = chatColor.toString();
 
@@ -185,18 +186,24 @@ public final class CustomScoreboard {
             return;
         }
 
-        String partOne = value.substring(0, lengthLimit);
+        String partOne = cut(value, lengthLimit);
         String partTwo = value.substring(lengthLimit);
 
         String partOneFinalColors = ChatColor.getLastColors(partOne);
-        partTwo = (partOneFinalColors + partTwo);
-        if (partTwo.length() > lengthLimit) {
-            partTwo = partTwo.substring(0, lengthLimit);
-        }
+        partTwo = cut((partOneFinalColors + partTwo), lengthLimit);
 
         Team team = customLine.getTeam();
         team.setPrefix(partOne);
         team.setSuffix(partTwo);
+    }
+
+    private String cut(String original, int length) {
+        int originalLength = original.length();
+        if(originalLength <= length) {
+            return original;
+        }
+
+        return original.substring(0, length);
     }
 
     private void removeLine(int line) {
