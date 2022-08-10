@@ -3,7 +3,11 @@ package com.github.sirblobman.combatlogx.api.command;
 import java.util.Collections;
 import java.util.List;
 
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import com.github.sirblobman.api.adventure.adventure.audience.Audience;
@@ -11,6 +15,7 @@ import com.github.sirblobman.api.adventure.adventure.platform.bukkit.BukkitAudie
 import com.github.sirblobman.api.adventure.adventure.text.Component;
 import com.github.sirblobman.api.adventure.adventure.text.TextComponent.Builder;
 import com.github.sirblobman.api.command.PlayerCommand;
+import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -88,5 +93,32 @@ public abstract class CombatLogPlayerCommand extends PlayerCommand {
 
         Audience realAudience = audiences.sender(audience);
         realAudience.sendMessage(message);
+    }
+
+    protected final boolean isWorldDisabled(Entity entity) {
+        Location location = entity.getLocation();
+        return isWorldDisabled(location);
+    }
+
+    protected final boolean isWorldDisabled(Location location) {
+        World world = location.getWorld();
+        if (world == null) {
+            return true;
+        }
+
+        return isWorldDisabled(world);
+    }
+
+    protected final boolean isWorldDisabled(World world) {
+        ICombatLogX plugin = getCombatLogX();
+        ConfigurationManager configurationManager = plugin.getConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("config.yml");
+
+        List<String> disabledWorldList = configuration.getStringList("disabled-world-list");
+        boolean inverted = configuration.getBoolean("disabled-world-list-inverted");
+
+        String worldName = world.getName();
+        boolean contains = disabledWorldList.contains(worldName);
+        return (inverted != contains);
     }
 }

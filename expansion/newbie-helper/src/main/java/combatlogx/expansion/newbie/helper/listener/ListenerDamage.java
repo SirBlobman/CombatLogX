@@ -96,8 +96,9 @@ public final class ListenerDamage extends ExpansionListener {
             return;
         }
 
-        PVPManager pvpManager = this.expansion.getPVPManager();
-        ProtectionManager protectionManager = this.expansion.getProtectionManager();
+        NewbieHelperExpansion expansion = getNewbieHelperExpansion();
+        ProtectionManager protectionManager = expansion.getProtectionManager();
+        PVPManager pvpManager = expansion.getPVPManager();
 
         if (pvpManager.isDisabled(attacked)) {
             e.setCancelled(true);
@@ -127,21 +128,8 @@ public final class ListenerDamage extends ExpansionListener {
         }
     }
 
-    private Entity getDamager(EntityDamageByEntityEvent e) {
-        ConfigurationManager configurationManager = getPluginConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        Entity damager = e.getDamager();
-
-        if (configuration.getBoolean("link-projectiles")) {
-            ICombatLogX plugin = getCombatLogX();
-            damager = EntityHelper.linkProjectile(plugin, damager);
-        }
-
-        if (configuration.getBoolean("link-pets")) {
-            damager = EntityHelper.linkPet(damager);
-        }
-
-        return damager;
+    private NewbieHelperExpansion getNewbieHelperExpansion() {
+        return this.expansion;
     }
 
     private YamlConfiguration getConfiguration() {
@@ -157,5 +145,22 @@ public final class ListenerDamage extends ExpansionListener {
     private boolean isMobProtectionEnabled() {
         YamlConfiguration configuration = getConfiguration();
         return configuration.getBoolean("mob-protection", false);
+    }
+
+    private Entity getDamager(EntityDamageByEntityEvent e) {
+        ConfigurationManager configurationManager = getPluginConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("config.yml");
+        Entity damager = e.getDamager();
+
+        if (configuration.getBoolean("link-projectiles")) {
+            ICombatLogX plugin = getCombatLogX();
+            damager = EntityHelper.linkProjectile(plugin, damager);
+        }
+
+        if (configuration.getBoolean("link-pets")) {
+            damager = EntityHelper.linkPet(damager);
+        }
+
+        return damager;
     }
 }
