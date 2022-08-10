@@ -15,7 +15,29 @@
     <name>Expansion: Scoreboard</name>
     <description>An expansion for CombatLogX that shows a scoreboard to players in combat.</description>
 
+    <properties>
+        <spigot.version>1.16.5-R0.1-SNAPSHOT</spigot.version>
+    </properties>
+
     <build>
         <finalName>Scoreboard</finalName>
     </build>
+
+    <dependencies>
+        <!-- Paper API -->
+        <dependency>
+            <groupId>com.destroystokyo.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>${spigot.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Paper NMS -->
+        <dependency>
+            <groupId>com.destroystokyo.paper</groupId>
+            <artifactId>paper</artifactId>
+            <version>${spigot.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 </project>

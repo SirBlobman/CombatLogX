@@ -14,6 +14,9 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
+import com.github.sirblobman.api.adventure.adventure.text.Component;
+import com.github.sirblobman.api.adventure.adventure.text.minimessage.MiniMessage;
+import com.github.sirblobman.api.language.ComponentHelper;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.api.nms.scoreboard.ScoreboardHandler;
@@ -24,6 +27,7 @@ import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
 
+import combatlogx.expansion.scoreboard.ComponentConverter;
 import combatlogx.expansion.scoreboard.ScoreboardExpansion;
 
 public final class CustomScoreboard {
@@ -38,10 +42,6 @@ public final class CustomScoreboard {
         this.player = Validate.notNull(player, "player must not be null!");
 
         ScoreboardManager bukkitScoreboardManager = Bukkit.getScoreboardManager();
-        if (bukkitScoreboardManager == null) {
-            throw new IllegalStateException("The Bukkit scoreboard manager is not ready yet!");
-        }
-
         this.scoreboard = bukkitScoreboardManager.getNewScoreboard();
         this.customLineList = new ArrayList<>();
 
@@ -71,6 +71,10 @@ public final class CustomScoreboard {
         return this.scoreboard;
     }
 
+    public Objective getObjective() {
+        return this.objective;
+    }
+
     public void enableScoreboard() {
         Player player = getPlayer();
         Scoreboard scoreboard = getScoreboard();
@@ -79,17 +83,16 @@ public final class CustomScoreboard {
 
     public void disableScoreboard() {
         ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
-        if (scoreboardManager == null) {
-            throw new IllegalStateException("The Bukkit scoreboard manager is not ready yet!");
-        }
+        Scoreboard scoreboard = scoreboardManager.getMainScoreboard();
 
         Player player = getPlayer();
-        Scoreboard scoreboard = scoreboardManager.getMainScoreboard();
         player.setScoreboard(scoreboard);
     }
 
     public void updateScoreboard() {
-        List<String> lineList = getLines();
+        updateTitle();
+
+        List<Component> lineList = getLines();
         int lineListSize = lineList.size();
 
         for (int line = 16; line > 0; line--) {
@@ -99,31 +102,21 @@ public final class CustomScoreboard {
                 continue;
             }
 
-            String value = lineList.get(index);
+            Component value = lineList.get(index);
             setLine(line, value);
         }
-
-        Player player = getPlayer();
-        LanguageManager languageManager = getLanguageManager();
-        String title = languageManager.getMessage(player, "expansion.scoreboard.title", null, true);
-        String titleReplaced = replacePlaceholders(title);
-        this.objective.setDisplayName(titleReplaced);
     }
 
     private void createObjective() {
-        Player player = getPlayer();
-        LanguageManager languageManager = getLanguageManager();
-        String title = languageManager.getMessage(player, "expansion.scoreboard.title", null, true);
-        String titleReplaced = replacePlaceholders(title);
-
-        ICombatLogX plugin = this.expansion.getPlugin();
+        ICombatLogX plugin = getCombatLogX();
         MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
         ScoreboardHandler scoreboardHandler = multiVersionHandler.getScoreboardHandler();
 
         Scoreboard scoreboard = getScoreboard();
         this.objective = scoreboardHandler.createObjective(scoreboard, "combatlogx", "dummy",
-                titleReplaced);
+                "Default Title");
         this.objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+        updateTitle();
     }
 
     private void initializeScoreboard() {
@@ -153,14 +146,40 @@ public final class CustomScoreboard {
         return this.customLineList.get(line - 1);
     }
 
-    private void setLine(int line, String value) {
+    private void setLine(int line, Component value) {
         CustomLine customLine = getLine(line);
         Validate.notNull(customLine, "Could not find scoreboard line '" + line + "'.");
-
         ChatColor chatColor = customLine.getChatColor();
         String chatColorString = chatColor.toString();
-        Score score = this.objective.getScore(chatColorString);
+
+        Objective objective = getObjective();
+        Score score = objective.getScore(chatColorString);
         score.setScore(line);
+
+        ScoreboardExpansion expansion = getExpansion();
+        if(expansion.shouldUsePaperAPI()) {
+            net.kyori.adventure.text.Component paperValue = ComponentConverter.shadedToNormal(value);
+            setLinePaper(line, paperValue);
+        } else {
+            String valueString = ComponentHelper.toLegacy(value);
+            setLineSpigot(line, valueString);
+        }
+    }
+
+    private void setLinePaper(int line, net.kyori.adventure.text.Component prefix) {
+        CustomLine customLine = getLine(line);
+        Validate.notNull(customLine, "Could not find scoreboard line '" + line + "'.");
+        net.kyori.adventure.text.Component suffix = net.kyori.adventure.text.Component.empty();
+
+        Team team = customLine.getTeam();
+        team.prefix(prefix);
+        team.suffix(suffix);
+    }
+
+    @SuppressWarnings("deprecation")
+    private void setLineSpigot(int line, String value) {
+        CustomLine customLine = getLine(line);
+        Validate.notNull(customLine, "Could not find scoreboard line '" + line + "'.");
 
         int lengthLimit = getLineLengthLimit();
         int valueLength = value.length();
@@ -200,17 +219,19 @@ public final class CustomScoreboard {
         return (minorVersion > 12 ? 64 : 16);
     }
 
-    private List<String> getLines() {
+    private List<Component> getLines() {
         Player player = getPlayer();
         LanguageManager languageManager = getLanguageManager();
-        String lines = languageManager.getMessage(player, "expansion.scoreboard.lines", null, true);
+        String path = ("expansion.scoreboard.lines");
+        String linesString = languageManager.getMessageString(player, path, this::replacePlaceholders);
 
-        String[] split = lines.split("\n");
-        List<String> lineList = new ArrayList<>();
+        MiniMessage miniMessage = languageManager.getMiniMessage();
+        String[] linesSplit = linesString.split("\n");
+        List<Component> lineList = new ArrayList<>();
 
-        for (String line : split) {
-            String replaced = replacePlaceholders(line);
-            lineList.add(replaced);
+        for (String lineString : linesSplit) {
+            Component line = miniMessage.deserialize(lineString);
+            lineList.add(line);
         }
 
         return lineList;
@@ -230,5 +251,35 @@ public final class CustomScoreboard {
         List<Entity> enemyList = tagInformation.getEnemies();
         IPlaceholderManager placeholderManager = plugin.getPlaceholderManager();
         return placeholderManager.replaceAll(player, enemyList, message);
+    }
+
+    private Component getTitle() {
+        Player player = getPlayer();
+        LanguageManager languageManager = getLanguageManager();
+        return languageManager.getMessage(player, "expansion.scoreboard.title", this::replacePlaceholders);
+    }
+
+    private void updateTitle() {
+        Component title = getTitle();
+        ScoreboardExpansion expansion = getExpansion();
+
+        if(expansion.shouldUsePaperAPI()) {
+            net.kyori.adventure.text.Component paperTitle = ComponentConverter.shadedToNormal(title);
+            updateTitlePaper(paperTitle);
+        } else {
+            String spigotTitle = ComponentHelper.toLegacy(title);
+            updateTitleSpigot(spigotTitle);
+        }
+    }
+
+    private void updateTitlePaper(net.kyori.adventure.text.Component title) {
+        Objective objective = getObjective();
+        objective.displayName(title);
+    }
+
+    @SuppressWarnings("deprecation")
+    private void updateTitleSpigot(String title) {
+        Objective objective = getObjective();
+        objective.setDisplayName(title);
     }
 }

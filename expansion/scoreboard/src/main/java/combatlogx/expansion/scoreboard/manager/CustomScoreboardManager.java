@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -12,11 +11,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
-import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 
@@ -48,11 +45,6 @@ public final class CustomScoreboardManager {
         return combatLogX.getPlayerDataManager();
     }
 
-    private LanguageManager getLanguageManager() {
-        ICombatLogX combatLogX = getCombatLogX();
-        return combatLogX.getLanguageManager();
-    }
-
     private boolean isGlobalEnabled() {
         ScoreboardExpansion expansion = getExpansion();
         ConfigurationManager configurationManager = expansion.getConfigurationManager();
@@ -78,22 +70,13 @@ public final class CustomScoreboardManager {
     }
 
     public void updateScoreboard(Player player) {
-        UUID uuid = player.getUniqueId();
-        ScoreboardExpansion expansion = getExpansion();
-        ScoreboardManager bukkitScoreboardManager = Bukkit.getScoreboardManager();
-
-        if (bukkitScoreboardManager == null) {
-            Logger logger = expansion.getLogger();
-            logger.warning("The Bukkit scoreboard manager is not available yet!");
-            return;
-        }
-
+        UUID playerId = player.getUniqueId();
         if (isDisabled(player)) {
             removeScoreboard(player);
             return;
         }
 
-        CustomScoreboard customScoreboard = this.combatScoreboardMap.getOrDefault(uuid, null);
+        CustomScoreboard customScoreboard = this.combatScoreboardMap.getOrDefault(playerId, null);
         if (customScoreboard == null) {
             createScoreboard(player);
             return;
