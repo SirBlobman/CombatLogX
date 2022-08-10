@@ -40,17 +40,17 @@ error:
 command:
   combatlogx:
     help-message-list:
-    - "&f"
-    - "&6&lCombatLogX Commandes Help:"
-    - "  &f&l/combatlogx help&7: Voir cette page d'aide."
-    - "  &f&l/combatlogx reload&7: Rechargez le fichier config.yml, language.yml et tous les fichiers de configuration de l'expansion."
-    - "  &f&l/combatlogx version&7: Vérifiez votre version de Combatlogx."
-    - "  &f&l/combatlogx tag <player>&7: Forcer un joueur a être en combat."
-    - "  &f&l/combatlogx untag <player>&7: Forcer un joueur à être hors du combat."
-    - "&f"
+      - "&f"
+      - "&6&lCombatLogX Commandes Help:"
+      - "  &f&l/combatlogx help&7: Voir cette page d'aide."
+      - "  &f&l/combatlogx reload&7: Rechargez le fichier config.yml, language.yml et tous les fichiers de configuration de l'expansion."
+      - "  &f&l/combatlogx version&7: Vérifiez votre version de Combatlogx."
+      - "  &f&l/combatlogx tag <player>&7: Forcer un joueur a être en combat."
+      - "  &f&l/combatlogx untag <player>&7: Forcer un joueur à être hors du combat."
+      - "&f"
 
     reload-success:
-    - "&aRechargé avec succès tous les fichiers de configuration de Combatlogx et des expansions."
+      - "&aRechargé avec succès tous les fichiers de configuration de Combatlogx et des expansions."
 
     tag-player: "&aVous venez de forcer &f{target}&a d'être en combat. Cela peut causer des problèmes."
     tag-failure: "&f&oImpossible de taguer le joueur &a{target}&f&o."

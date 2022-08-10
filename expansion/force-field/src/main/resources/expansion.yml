@@ -4,7 +4,7 @@ description: "${project.description}"
 
 main: "combatlogx.expansion.force.field.ForceFieldExpansion"
 version: "16.9"
-authors: 
+authors:
   - "olivolja3 (Olivo#3313)"
   - "SirBlobman"
 
