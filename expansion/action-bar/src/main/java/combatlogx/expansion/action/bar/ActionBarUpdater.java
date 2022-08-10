@@ -2,6 +2,7 @@ package combatlogx.expansion.action.bar;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
@@ -107,16 +108,30 @@ public final class ActionBarUpdater implements TimerUpdater {
     }
 
     private String getBars(Player player, long timeLeftMillis) {
+        ActionBarExpansion expansion = getExpansion();
+        Logger logger = expansion.getLogger();
+        logger.info("Detected getBars for player " + player.getName() + " and millis left " + timeLeftMillis);
+
         ConfigurationManager configurationManager = this.expansion.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
+        logger.info("Configuration:");
+        logger.info(configuration.saveToString());
 
         long scale = configuration.getLong("scale", 15);
+        logger.info("Scale: " + scale);
+
         String leftStartString = configuration.getString("left-color-start", "<green>");
         String leftEndString = configuration.getString("left-color-start", "</green>");
         String rightStartString = configuration.getString("right-color-start", "<red>");
         String rightEndString = configuration.getString("right-color-end", "</red>");
         String leftSymbol = configuration.getString("left-symbol", "|");
         String rightSymbol = configuration.getString("right-symbol", "|");
+        logger.info("Left Start: " + leftStartString);
+        logger.info("Left End: " + leftEndString);
+        logger.info("Right Start: " + rightStartString);
+        logger.info("Right End: " + rightEndString);
+        logger.info("Left Symbol: " + leftSymbol);
+        logger.info("Right Symbol: " + rightSymbol);
 
         ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = plugin.getCombatManager();
@@ -125,10 +140,17 @@ public final class ActionBarUpdater implements TimerUpdater {
         double timerMaxMillis = TimeUnit.SECONDS.toMillis(timerMaxSeconds);
         double scaleDouble = (double) scale;
         double timeLeftMillisDouble = (double) timeLeftMillis;
+        logger.info("Timer Max Seconds: " + timerMaxSeconds);
+        logger.info("Timer Max Millis: " + timerMaxMillis);
+        logger.info("Scale: " + scaleDouble);
+        logger.info("Timer Left Millis: " + timeLeftMillisDouble);
 
-        double percent = (timeLeftMillisDouble / timerMaxMillis);
+        double percent = clamp(timeLeftMillisDouble / timerMaxMillis);
         long leftBarsCount = Math.round(scaleDouble * percent);
         long rightBarsCount = (scale - leftBarsCount);
+        logger.info("Percent: " + percent);
+        logger.info("Left Bars: " + leftBarsCount);
+        logger.info("Right Bars: " + rightBarsCount);
 
         StringBuilder builder = new StringBuilder();
         builder.append(leftStartString);
@@ -144,5 +166,9 @@ public final class ActionBarUpdater implements TimerUpdater {
         builder.append(rightEndString);
 
         return builder.toString();
+    }
+
+    private double clamp(double value) {
+        return Math.max(0.0D, Math.min(value, 1.0D));
     }
 }
