@@ -94,7 +94,7 @@ public class ListenerLootProtection extends ExpansionListener {
                 String timeLeft = Long.toString(expireSecondsLeft);
 
                 Replacer replacer = message -> message.replace("{time}", timeLeft);
-                sendMessageWithPrefix(player, "expansion.loot-protection.protected", replacer, true);
+                sendMessageWithPrefix(player, "expansion.loot-protection.protected", replacer);
                 this.messageCooldownSet.add(playerId);
             }
         }
@@ -223,7 +223,7 @@ public class ListenerLootProtection extends ExpansionListener {
 
         Replacer replacer = message -> message.replace("{time}", timeLeft)
                 .replace("{enemy}", entityName);
-        sendMessageWithPrefix(enemy, "expansion.loot-protection.enemy-died", replacer, true);
+        sendMessageWithPrefix(enemy, "expansion.loot-protection.enemy-died", replacer);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

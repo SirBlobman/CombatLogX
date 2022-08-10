@@ -103,7 +103,7 @@ public final class ListenerDamage extends ExpansionListener {
 
     private void sendMessage(Player player, @Nullable DamageCause damageCause) {
         if (damageCause == null || isAllDamageEnabled()) {
-            sendMessageWithPrefix(player, "expansion.damage-tagger.unknown-damage", null, true);
+            sendMessageWithPrefix(player, "expansion.damage-tagger.unknown-damage", null);
             return;
         }
 
@@ -112,6 +112,6 @@ public final class ListenerDamage extends ExpansionListener {
         String damageCauseNameReplaced = damageCauseNameLowerCase.replace('_', '-');
 
         String messagePath = ("expansion.damage-tagger.damage-type." + damageCauseNameReplaced);
-        sendMessageWithPrefix(player, messagePath, null, true);
+        sendMessageWithPrefix(player, messagePath, null);
     }
 }

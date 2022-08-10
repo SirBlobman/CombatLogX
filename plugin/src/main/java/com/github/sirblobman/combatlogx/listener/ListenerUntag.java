@@ -95,7 +95,7 @@ public final class ListenerUntag extends CombatListener {
 
         ICombatLogX plugin = getCombatLogX();
         String languagePath = ("combat-timer." + untagReasonReplaced);
-        plugin.sendMessageWithPrefix(player, languagePath, null, true);
+        plugin.sendMessageWithPrefix(player, languagePath, null);
     }
 
     private void runUntagCommands(Player player, List<Entity> enemyList) {

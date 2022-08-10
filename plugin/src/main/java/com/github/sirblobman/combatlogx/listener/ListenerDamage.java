@@ -15,6 +15,7 @@ import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
+import com.github.sirblobman.api.utility.MessageUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
@@ -132,7 +133,8 @@ public final class ListenerDamage extends CombatListener {
         if (entity == null) {
             CommandSender console = Bukkit.getConsoleSender();
             LanguageManager languageManager = plugin.getLanguageManager();
-            return languageManager.getMessage(console, "placeholder.unknown-enemy", null, true);
+            String message = languageManager.getMessageString(console, "placeholder.unknown-enemy", null);
+            return MessageUtility.color(message);
         }
 
         MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();

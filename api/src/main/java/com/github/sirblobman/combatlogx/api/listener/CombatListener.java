@@ -16,6 +16,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.sirblobman.api.adventure.adventure.audience.Audience;
+import com.github.sirblobman.api.adventure.adventure.platform.bukkit.BukkitAudiences;
+import com.github.sirblobman.api.adventure.adventure.text.Component;
+import com.github.sirblobman.api.adventure.adventure.text.TextComponent.Builder;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.language.LanguageManager;
@@ -24,7 +28,6 @@ import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.IDeathManager;
-import com.github.sirblobman.combatlogx.api.object.TagInformation;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -48,40 +51,48 @@ public abstract class CombatListener implements Listener {
         HandlerList.unregisterAll(this);
     }
 
+    @NotNull
     protected final ICombatLogX getCombatLogX() {
         return this.plugin;
     }
 
+    @NotNull
     protected final JavaPlugin getJavaPlugin() {
         ICombatLogX combatLogX = getCombatLogX();
         return combatLogX.getPlugin();
     }
 
+    @NotNull
     protected final Logger getPluginLogger() {
         ICombatLogX plugin = getCombatLogX();
         return plugin.getLogger();
     }
 
+    @NotNull
     protected final ConfigurationManager getPluginConfigurationManager() {
         ICombatLogX plugin = getCombatLogX();
         return plugin.getConfigurationManager();
     }
 
+    @NotNull
     protected final LanguageManager getLanguageManager() {
         ICombatLogX combatLogX = getCombatLogX();
         return combatLogX.getLanguageManager();
     }
 
+    @NotNull
     protected final PlayerDataManager getPlayerDataManager() {
         ICombatLogX combatLogX = getCombatLogX();
         return combatLogX.getPlayerDataManager();
     }
 
+    @NotNull
     protected final ICombatManager getCombatManager() {
         ICombatLogX plugin = getCombatLogX();
         return plugin.getCombatManager();
     }
 
+    @NotNull
     protected final IDeathManager getDeathManager() {
         ICombatLogX plugin = getCombatLogX();
         return plugin.getDeathManager();
@@ -92,26 +103,42 @@ public abstract class CombatListener implements Listener {
         return combatManager.isInCombat(player);
     }
 
-    protected final String getMessageWithPrefix(@Nullable CommandSender sender, @NotNull String key,
-                                                @Nullable Replacer replacer, boolean color) {
-        ICombatLogX plugin = getCombatLogX();
-        LanguageManager languageManager = plugin.getLanguageManager();
-
-        String message = languageManager.getMessage(sender, key, replacer, color);
-        if (message.isEmpty()) {
-            return "";
+    @NotNull
+    protected final Component getMessageWithPrefix(@Nullable CommandSender audience, @NotNull String key,
+                                                   @Nullable Replacer replacer) {
+        LanguageManager languageManager = getLanguageManager();
+        Component message = languageManager.getMessage(audience, key, replacer);
+        if(Component.empty().equals(message)) {
+            return Component.empty();
         }
 
-        String prefix = languageManager.getMessage(sender, "prefix", null, true);
-        return (prefix.isEmpty() ? message : String.format(Locale.US, "%s %s", prefix, message));
+        Component prefix = languageManager.getMessage(audience, "prefix", null);
+        if(Component.empty().equals(prefix)) {
+            return message;
+        }
+
+        Builder builder = Component.text();
+        builder.append(prefix);
+        builder.append(Component.space());
+        builder.append(message);
+        return builder.build();
     }
 
-    protected final void sendMessageWithPrefix(@NotNull CommandSender sender, @NotNull String key,
-                                               @Nullable Replacer replacer, boolean color) {
-        String message = getMessageWithPrefix(sender, key, replacer, color);
-        if (!message.isEmpty()) {
-            sender.sendMessage(message);
+    protected final void sendMessageWithPrefix(@NotNull CommandSender audience, @NotNull String key,
+                                               @Nullable Replacer replacer) {
+        Component message = getMessageWithPrefix(audience, key, replacer);
+        if(Component.empty().equals(message)) {
+            return;
         }
+
+        LanguageManager languageManager = getLanguageManager();
+        BukkitAudiences audiences = languageManager.getAudiences();
+        if(audiences == null) {
+            return;
+        }
+
+        Audience realAudience = audiences.sender(audience);
+        realAudience.sendMessage(message);
     }
 
     protected final boolean isDebugModeDisabled() {
@@ -158,21 +185,5 @@ public abstract class CombatListener implements Listener {
         String worldName = world.getName();
         boolean contains = disabledWorldList.contains(worldName);
         return (inverted != contains);
-    }
-
-    @Nullable
-    protected final Entity getCurrentEnemy(ICombatLogX plugin, Player player) {
-        ICombatManager combatManager = plugin.getCombatManager();
-        TagInformation tagInformation = combatManager.getTagInformation(player);
-        if (tagInformation == null) {
-            return null;
-        }
-
-        List<Entity> enemyList = tagInformation.getEnemies();
-        if (enemyList.isEmpty()) {
-            return null;
-        }
-
-        return enemyList.get(0);
     }
 }

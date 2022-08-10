@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.language.Replacer;
+import com.github.sirblobman.api.language.SimpleReplacer;
 import com.github.sirblobman.combatlogx.api.command.CombatLogCommand;
 
 import combatlogx.expansion.newbie.helper.NewbieHelperExpansion;
@@ -111,7 +112,7 @@ public final class CommandTogglePVP extends CombatLogCommand {
 
     private boolean commandToggle(CommandSender sender) {
         if (!(sender instanceof Player)) {
-            sendMessage(sender, "error.player-only", null, true);
+            sendMessage(sender, "error.player-only", null);
             return true;
         }
 
@@ -145,24 +146,24 @@ public final class CommandTogglePVP extends CombatLogCommand {
         String placeholderPath1 = (placeholderPath0 + (targetProtected ? "enabled" : "disabled"));
         String placeholderPath2 = (placeholderPath0 + (targetPvpStatus ? "enabled" : "disabled"));
 
-        String protectedString = languageManager.getMessage(sender, placeholderPath1, null, true);
-        String pvpStatusString = languageManager.getMessage(sender, placeholderPath2, null, true);
+        String protectedString = languageManager.getMessageString(sender, placeholderPath1, null);
+        String pvpStatusString = languageManager.getMessageString(sender, placeholderPath2, null);
         Replacer replacer = message -> message.replace("{target}", targetName)
                 .replace("{protected}", protectedString).replace("{pvp}", pvpStatusString);
 
-        sendMessageWithPrefix(sender, "expansion.newbie-helper.check-format", replacer, true);
+        sendMessageWithPrefix(sender, "expansion.newbie-helper.check-format", replacer);
         return true;
     }
 
     private boolean commandEnable(CommandSender sender) {
         if (!(sender instanceof Player)) {
-            sendMessage(sender, "error.player-only", null, true);
+            sendMessage(sender, "error.player-only", null);
             return true;
         }
 
         Player player = (Player) sender;
         if (shouldCheckDisabledWorlds() && isWorldDisabled(player)) {
-            sendMessageWithPrefix(sender, "error.disabled-world", null, true);
+            sendMessageWithPrefix(sender, "error.disabled-world", null);
             return true;
         }
 
@@ -175,13 +176,13 @@ public final class CommandTogglePVP extends CombatLogCommand {
 
     private boolean commandDisable(CommandSender sender) {
         if (!(sender instanceof Player)) {
-            sendMessage(sender, "error.player-only", null, true);
+            sendMessage(sender, "error.player-only", null);
             return true;
         }
 
         Player player = (Player) sender;
         if (shouldCheckDisabledWorlds() && isWorldDisabled(player)) {
-            sendMessageWithPrefix(sender, "error.disabled-world", null, true);
+            sendMessageWithPrefix(sender, "error.disabled-world", null);
             return true;
         }
 
@@ -309,10 +310,11 @@ public final class CommandTogglePVP extends CombatLogCommand {
         PVPManager pvpManager = this.expansion.getPVPManager();
         boolean pvpEnabled = !pvpManager.isDisabled(player);
 
-        String pvpStatus = languageManager.getMessage(player, "placeholder.toggle."
-                + (pvpEnabled ? "enabled" : "disabled"), null, true);
-        Replacer replacer = message -> message.replace("{status}", pvpStatus);
-        sendMessageWithPrefix(player, "expansion.newbie-helper.togglepvp.self", replacer, true);
+        String pvpStatusPath = ("placeholder.toggle." + (pvpEnabled ? "enabled" : "disabled"));
+        String pvpStatus = languageManager.getMessageString(player, pvpStatusPath, null);
+
+        Replacer replacer = new SimpleReplacer("{status}", pvpStatus);
+        sendMessageWithPrefix(player, "expansion.newbie-helper.togglepvp.self", replacer);
     }
 
     private void sendAdminToggleMessage(CommandSender sender, Player target) {
@@ -320,12 +322,13 @@ public final class CommandTogglePVP extends CombatLogCommand {
         PVPManager pvpManager = this.expansion.getPVPManager();
         boolean pvpEnabled = !pvpManager.isDisabled(target);
 
+        String pvpStatusPath = ("placeholder.toggle." + (pvpEnabled ? "enabled" : "disabled"));
+        String pvpStatus = languageManager.getMessageString(sender, pvpStatusPath, null);
+
         String targetName = target.getName();
-        String pvpStatus = languageManager.getMessage(sender, "placeholder.toggle."
-                + (pvpEnabled ? "enabled" : "disabled"), null, true);
-        Replacer replacer = message -> message.replace("{target}", targetName)
-                .replace("{status}", pvpStatus);
-        sendMessageWithPrefix(sender, "expansion.newbie-helper.togglepvp.admin", replacer, true);
+        Replacer replacer = message -> message.replace("{status}", pvpStatus)
+                .replace("{target}", targetName);
+        sendMessageWithPrefix(sender, "expansion.newbie-helper.togglepvp.admin", replacer);
     }
 
     private void sendCooldownMessage(Player player) {
@@ -339,8 +342,8 @@ public final class CommandTogglePVP extends CombatLogCommand {
         long subtractSeconds = TimeUnit.MILLISECONDS.toSeconds(subtractMillis);
 
         String timeLeftString = Long.toString(subtractSeconds);
-        Replacer replacer = message -> message.replace("{time_left}", timeLeftString);
-        sendMessageWithPrefix(player, "expansion.newbie-helper.togglepvp.cooldown", replacer, true);
+        Replacer replacer = new SimpleReplacer("{time_left}", timeLeftString);
+        sendMessageWithPrefix(player, "expansion.newbie-helper.togglepvp.cooldown", replacer);
     }
 
     private boolean shouldCheckDisabledWorlds() {

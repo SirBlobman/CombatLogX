@@ -1,8 +1,8 @@
 package combatlogx.expansion.boss.bar;
 
+import com.github.sirblobman.api.bossbar.BossBarHandler;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
-import com.github.sirblobman.bossbar.BossBarHandler;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.manager.ITimerManager;

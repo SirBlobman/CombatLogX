@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.language.Replacer;
+import com.github.sirblobman.api.language.SimpleReplacer;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.command.CombatLogPlayerCommand;
 
@@ -57,10 +58,10 @@ public final class SubCommandToggle extends CombatLogPlayerCommand {
 
         boolean status = playerData.getBoolean(value, true);
         String statusPath = ("placeholder.toggle." + (status ? "enabled" : "disabled"));
-        String statusString = languageManager.getMessage(player, statusPath, null, true);
-        Replacer replacer = message -> message.replace("{status}", statusString);
+        String statusString = languageManager.getMessageString(player, statusPath, null);
 
+        Replacer replacer = new SimpleReplacer("{status}", statusString);
         String messagePath = ("command.combatlogx.toggle-" + value);
-        sendMessageWithPrefix(player, messagePath, replacer, true);
+        sendMessageWithPrefix(player, messagePath, replacer);
     }
 }

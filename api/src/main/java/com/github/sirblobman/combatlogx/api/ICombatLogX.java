@@ -5,6 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.sirblobman.api.adventure.adventure.text.Component;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.IResourceHolder;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
@@ -61,9 +62,9 @@ public interface ICombatLogX extends IResourceHolder {
 
     IPlaceholderManager getPlaceholderManager();
 
-    String getMessageWithPrefix(CommandSender sender, String key, Replacer replacer, boolean color);
+    Component getMessageWithPrefix(CommandSender audience, String key, Replacer replacer);
 
-    void sendMessageWithPrefix(CommandSender sender, String key, Replacer replacer, boolean color);
+    void sendMessageWithPrefix(CommandSender audience, String key, Replacer replacer);
 
     void sendMessage(CommandSender sender, String... messageArray);
 

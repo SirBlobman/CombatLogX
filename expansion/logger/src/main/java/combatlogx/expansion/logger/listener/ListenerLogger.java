@@ -29,6 +29,7 @@ import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
+import com.github.sirblobman.api.utility.MessageUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerPunishEvent;
@@ -195,7 +196,8 @@ public final class ListenerLogger extends ExpansionListener {
         if (entity == null) {
             CommandSender console = Bukkit.getConsoleSender();
             LanguageManager languageManager = getLanguageManager();
-            return languageManager.getMessage(console, "placeholder.unknown-enemy", null, true);
+            String message = languageManager.getMessageString(console, "placeholder.unknown-enemy", null);
+            return MessageUtility.color(message);
         }
 
         ICombatLogX combatLogX = getCombatLogX();

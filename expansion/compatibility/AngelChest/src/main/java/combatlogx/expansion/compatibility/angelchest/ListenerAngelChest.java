@@ -52,7 +52,7 @@ public final class ListenerAngelChest extends ExpansionListener {
             return;
         }
 
-        sendMessageWithPrefix(player, "expansion.angel-chest.prevent-breaking", null, true);
+        sendMessageWithPrefix(player, "expansion.angel-chest.prevent-breaking", null);
         e.setCancelled(true);
     }
 
@@ -62,7 +62,7 @@ public final class ListenerAngelChest extends ExpansionListener {
             return;
         }
 
-        sendMessageWithPrefix(player, "expansion.angel-chest.prevent-opening", null, true);
+        sendMessageWithPrefix(player, "expansion.angel-chest.prevent-opening", null);
         e.setCancelled(true);
     }
 
@@ -72,7 +72,7 @@ public final class ListenerAngelChest extends ExpansionListener {
             return;
         }
 
-        sendMessageWithPrefix(player, "expansion.angel-chest.prevent-fast-looting", null, true);
+        sendMessageWithPrefix(player, "expansion.angel-chest.prevent-fast-looting", null);
         e.setCancelled(true);
     }
 }

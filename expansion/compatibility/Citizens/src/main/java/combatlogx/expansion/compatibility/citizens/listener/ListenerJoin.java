@@ -18,7 +18,9 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import com.github.sirblobman.api.adventure.adventure.text.Component;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.language.ComponentHelper;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
@@ -55,9 +57,9 @@ public final class ListenerJoin extends ExpansionListener {
 
         CommandSender console = Bukkit.getConsoleSender();
         LanguageManager languageManager = getLanguageManager();
-        String npcMessage = languageManager.getMessage(console, "expansion.citizens-compatibility.prevent-join",
-                null, true);
-        e.disallow(Result.KICK_OTHER, npcMessage);
+        String path = ("expansion.citizens-compatibility.prevent-join");
+        Component npcMessage = languageManager.getMessage(console, path, null);
+        e.disallow(Result.KICK_OTHER, ComponentHelper.toLegacy(npcMessage));
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

@@ -6,7 +6,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 import net.sacredlabyrinth.Phaed.PreciousStones.api.events.FieldPreCreationEvent;
@@ -19,15 +18,18 @@ public final class ListenerPreciousStones extends ExpansionListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void beforeFieldCreation(FieldPreCreationEvent e) {
         Player player = e.getPlayer();
-        if (!isInCombat(player)) return;
+        if (!isInCombat(player)) {
+            return;
+        }
 
         ConfigurationManager configurationManager = getExpansionConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-        if (!configuration.getBoolean("prevent-field-creation")) return;
+        if (!configuration.getBoolean("prevent-field-creation")) {
+            return;
+        }
 
         e.setCancelled(true);
-        LanguageManager languageManager = getLanguageManager();
-        languageManager.sendMessage(player, "expansion.region-protection.preciousstones.prevent-field-creation",
-                null, true);
+        String path = ("expansion.region-protection.preciousstones.prevent-field-creation");
+        sendMessageWithPrefix(player, path, null);
     }
 }

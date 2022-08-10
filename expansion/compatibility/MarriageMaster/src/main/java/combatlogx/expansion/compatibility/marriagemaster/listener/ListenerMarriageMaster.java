@@ -37,7 +37,7 @@ public final class ListenerMarriageMaster extends ExpansionListener {
 
                 e.setCancelled(true);
                 String messagePath = ("expansion.marriagemaster-compatibility.prevent-teleport-partner");
-                sendMessageWithPrefix(bukkitTeleporter, messagePath, null, true);
+                sendMessageWithPrefix(bukkitTeleporter, messagePath, null);
                 return;
             }
         }
@@ -48,7 +48,7 @@ public final class ListenerMarriageMaster extends ExpansionListener {
 
             e.setCancelled(true);
             String messagePath = ("expansion.marriagemaster-compatibility.prevent-teleport-self");
-            sendMessageWithPrefix(bukkitTeleporter, messagePath, null, true);
+            sendMessageWithPrefix(bukkitTeleporter, messagePath, null);
         }
     }
 }

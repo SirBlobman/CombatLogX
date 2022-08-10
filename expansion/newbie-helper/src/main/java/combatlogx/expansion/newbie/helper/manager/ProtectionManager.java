@@ -61,8 +61,8 @@ public final class ProtectionManager {
         }
 
         setProtected(player, false);
-        LanguageManager languageManager = this.expansion.getPlugin().getLanguageManager();
-        languageManager.sendMessage(player, "expansion.newbie-helper.protection-disabled.expired", null, true);
+        LanguageManager languageManager = plugin.getLanguageManager();
+        languageManager.sendMessage(player, "expansion.newbie-helper.protection-disabled.expired", null);
         return false;
     }
 

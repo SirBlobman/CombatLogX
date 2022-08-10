@@ -61,7 +61,7 @@ public final class CommandCombatTimer extends CombatLogPlayerCommand {
 
         TagInformation tagInformation = combatManager.getTagInformation(player);
         if (tagInformation == null || tagInformation.isExpired()) {
-            sendMessageWithPrefix(player, "error.self-not-in-combat", null, true);
+            sendMessageWithPrefix(player, "error.self-not-in-combat", null);
             return;
         }
 
@@ -71,7 +71,7 @@ public final class CommandCombatTimer extends CombatLogPlayerCommand {
         DecimalFormat decimalFormat = language.getDecimalFormat();
         String timeLeftString = decimalFormat.format(timeLeftSeconds);
         Replacer replacer = new SimpleReplacer("{time_left}", timeLeftString);
-        sendMessageWithPrefix(player, "command.combat-timer.time-left-self", replacer, true);
+        sendMessageWithPrefix(player, "command.combat-timer.time-left-self", replacer);
     }
 
     private void checkOther(Player player, Player target) {
@@ -87,7 +87,7 @@ public final class CommandCombatTimer extends CombatLogPlayerCommand {
 
         TagInformation tagInformation = combatManager.getTagInformation(target);
         if (tagInformation == null || tagInformation.isExpired()) {
-            sendMessageWithPrefix(player, "error.target-not-in-combat", null, true);
+            sendMessageWithPrefix(player, "error.target-not-in-combat", null);
             return;
         }
 
@@ -97,6 +97,6 @@ public final class CommandCombatTimer extends CombatLogPlayerCommand {
         DecimalFormat decimalFormat = language.getDecimalFormat();
         String timeLeftString = decimalFormat.format(timeLeftSeconds);
         Replacer replacer = new SimpleReplacer("{time_left}", timeLeftString);
-        sendMessageWithPrefix(player, "command.combat-timer.time-left-other", replacer, true);
+        sendMessageWithPrefix(player, "command.combat-timer.time-left-other", replacer);
     }
 }

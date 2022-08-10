@@ -1,9 +1,15 @@
+# Extra Information:
+# Color and Style are only available in 1.9 or higher.
+# 1.8 and below will always be PURPLE and PROGRESS.
+
 # This option is here to quickly toggle this expansion on a live server that must stay online.
 # We recommend that you remove the Boss Bar expansion jar if you will not use the feature.
 enabled: true
 
-# Color and Style are only available in 1.9.4+
-# You can find a list of colors here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarColor.html
-# You can find a list of styles here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarStyle.html
+# You can find a list of colors here:
+# https://jd.adventure.kyori.net/api/4.11.0/net/kyori/adventure/bossbar/BossBar.Color.html
 bar-color: YELLOW
-bar-style: SOLID
+
+# You can find a list of styles here:
+# https://jd.adventure.kyori.net/api/4.11.0/net/kyori/adventure/bossbar/BossBar.Overlay.html
+bar-style: PROGRESS

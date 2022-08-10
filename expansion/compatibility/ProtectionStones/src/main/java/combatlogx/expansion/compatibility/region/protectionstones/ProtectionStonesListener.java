@@ -4,7 +4,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
-import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
@@ -18,11 +17,12 @@ public final class ProtectionStonesListener extends ExpansionListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onCreateRegion(PSCreateEvent e) {
         Player player = e.getPlayer();
-        if (!isInCombat(player)) return;
-        e.setCancelled(true);
+        if (!isInCombat(player)) {
+            return;
+        }
 
-        LanguageManager languageManager = getLanguageManager();
-        languageManager.sendMessage(player, "expansion.region-protection.protectionstones.prevent-area-creation",
-                null, true);
+        e.setCancelled(true);
+        String path = ("expansion.region-protection.protectionstones.prevent-area-creation");
+        sendMessageWithPrefix(player, path, null);
     }
 }

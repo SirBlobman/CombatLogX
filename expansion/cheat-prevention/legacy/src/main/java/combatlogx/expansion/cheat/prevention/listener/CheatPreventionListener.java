@@ -22,7 +22,7 @@ public abstract class CheatPreventionListener extends ExpansionListener {
     }
 
     protected final void sendMessageIgnoreCooldown(Player player, String key, Replacer replacer) {
-        sendMessageWithPrefix(player, key, replacer, true);
+        sendMessageWithPrefix(player, key, replacer);
         addMessageCooldown(player, key);
     }
 

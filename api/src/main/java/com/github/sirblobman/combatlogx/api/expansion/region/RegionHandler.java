@@ -58,8 +58,7 @@ public abstract class RegionHandler {
         }
 
         ICombatLogX plugin = this.expansion.getPlugin();
-        String message = plugin.getMessageWithPrefix(player, messagePath, null, true);
-        plugin.sendMessage(player, message);
+        plugin.sendMessageWithPrefix(player, messagePath, null);
 
         long cooldownSeconds = getEntryDeniedMessageCooldown();
         long cooldownMillis = TimeUnit.SECONDS.toMillis(cooldownSeconds);

@@ -8,6 +8,7 @@ import java.net.URLClassLoader;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -119,8 +120,15 @@ public abstract class Expansion implements IResourceHolder {
     }
 
     @Override
+    public final String getKeyName() {
+        String name = getName();
+        return name.toLowerCase(Locale.US);
+    }
+
+    @Override
     public final InputStream getResource(String name) {
         Validate.notEmpty(name, "name cannot be null or empty!");
+
         try {
             Class<? extends Expansion> thisClass = getClass();
             URLClassLoader classLoader = (URLClassLoader) thisClass.getClassLoader();

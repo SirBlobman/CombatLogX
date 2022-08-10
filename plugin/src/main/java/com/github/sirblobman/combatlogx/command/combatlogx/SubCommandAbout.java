@@ -44,7 +44,7 @@ public final class SubCommandAbout extends CombatLogCommand {
         Optional<Expansion> optionalExpansion = getExpansion(expansionName);
         if (!optionalExpansion.isPresent()) {
             Replacer replacer = message -> message.replace("{target}", expansionName);
-            sendMessageWithPrefix(sender, "error.unknown-expansion", replacer, true);
+            sendMessageWithPrefix(sender, "error.unknown-expansion", replacer);
             return true;
         }
 

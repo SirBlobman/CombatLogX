@@ -25,6 +25,7 @@ import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
+import com.github.sirblobman.api.utility.MessageUtility;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.event.PlayerEnemyRemoveEvent;
@@ -350,7 +351,8 @@ public final class CombatManager implements ICombatManager {
     private String getEntityName(Player player, Entity entity) {
         if (entity == null) {
             LanguageManager languageManager = this.plugin.getLanguageManager();
-            return languageManager.getMessage(player, "placeholder.unknown-enemy", null, true);
+            String message = languageManager.getMessageString(player, "placeholder.unknown-enemy", null);
+            return MessageUtility.color(message);
         }
 
         MultiVersionHandler multiVersionHandler = this.plugin.getMultiVersionHandler();
@@ -361,7 +363,8 @@ public final class CombatManager implements ICombatManager {
     private String getEntityType(Player player, Entity entity) {
         if (entity == null) {
             LanguageManager languageManager = this.plugin.getLanguageManager();
-            return languageManager.getMessage(player, "placeholder.unknown-enemy", null, true);
+            String message = languageManager.getMessageString(player, "placeholder.unknown-enemy", null);
+            return MessageUtility.color(message);
         }
 
         EntityType entityType = entity.getType();
@@ -388,6 +391,6 @@ public final class CombatManager implements ICombatManager {
         Replacer replacer = message -> message.replace("{enemy}", enemyName)
                 .replace("{mob_type}", enemyType);
         String languagePath = ("tagged." + tagReasonString + "." + tagTypeString);
-        this.plugin.sendMessageWithPrefix(player, languagePath, replacer, true);
+        this.plugin.sendMessageWithPrefix(player, languagePath, replacer);
     }
 }

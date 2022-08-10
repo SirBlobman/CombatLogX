@@ -10,8 +10,7 @@ import net.md_5.bungee.api.ChatColor;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.language.LanguageManager;
-import com.github.sirblobman.api.nms.MultiVersionHandler;
-import com.github.sirblobman.api.nms.PlayerHandler;
+import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.api.utility.MessageUtility;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.api.utility.VersionUtility;
@@ -34,13 +33,7 @@ public final class ActionBarUpdater implements TimerUpdater {
             return;
         }
 
-        String message = getMessage(player, timeLeftMillis);
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-
-        PlayerHandler playerHandler = getPlayerHandler();
-        playerHandler.sendActionBar(player, message);
+        sendActionBar(player, timeLeftMillis);
     }
 
     @Override
@@ -67,12 +60,6 @@ public final class ActionBarUpdater implements TimerUpdater {
         return combatLogX.getPlayerDataManager();
     }
 
-    private PlayerHandler getPlayerHandler() {
-        ICombatLogX combatLogX = getCombatLogX();
-        MultiVersionHandler multiVersionHandler = combatLogX.getMultiVersionHandler();
-        return multiVersionHandler.getPlayerHandler();
-    }
-
     private boolean isGlobalEnabled() {
         ActionBarExpansion expansion = getExpansion();
         ConfigurationManager configurationManager = expansion.getConfigurationManager();
@@ -90,20 +77,16 @@ public final class ActionBarUpdater implements TimerUpdater {
         return true;
     }
 
-    private String getMessage(Player player, long timeLeftMillis) {
+    private void sendActionBar(Player player, long timeLeftMillis) {
         LanguageManager languageManager = getLanguageManager();
-        if (timeLeftMillis <= 0) {
+        if(timeLeftMillis <= 0) {
             String path = ("expansion.action-bar.ended");
-            return languageManager.getMessage(player, path, null, true);
+            languageManager.sendActionBar(player, path, null);
+            return;
         }
 
-        String path = ("expansion.action-bar.timer");
-        String message = languageManager.getMessage(player, path, null, true);
-        if (message.isEmpty()) {
-            return null;
-        }
-
-        return replacePlaceholders(player, message, timeLeftMillis);
+        Replacer replacer = message -> replacePlaceholders(player, message, timeLeftMillis);
+        languageManager.sendActionBar(player, "expansion.action-bar.timer", replacer);
     }
 
     private String replacePlaceholders(Player player, String message, long timeLeftMillis) {

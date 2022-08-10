@@ -2,12 +2,10 @@ package com.github.sirblobman.combatlogx;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -15,6 +13,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.sirblobman.api.adventure.adventure.audience.Audience;
+import com.github.sirblobman.api.adventure.adventure.platform.bukkit.BukkitAudiences;
+import com.github.sirblobman.api.adventure.adventure.text.Component;
+import com.github.sirblobman.api.adventure.adventure.text.TextComponent.Builder;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.core.CorePlugin;
@@ -44,6 +46,9 @@ import com.github.sirblobman.combatlogx.manager.PunishManager;
 import com.github.sirblobman.combatlogx.placeholder.BasePlaceholderExpansion;
 import com.github.sirblobman.combatlogx.task.TimerUpdateTask;
 import com.github.sirblobman.combatlogx.task.UntagTask;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public final class CombatPlugin extends ConfigurablePlugin implements ICombatLogX {
     private final TimerUpdateTask timerUpdateTask;
@@ -204,40 +209,49 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         return this.placeholderManager;
     }
 
+    @NotNull
     @Override
-    public void sendMessageWithPrefix(CommandSender sender, String key, Replacer replacer, boolean color) {
-        String message = getMessageWithPrefix(sender, key, replacer, color);
-        if (!message.isEmpty()) {
-            sender.sendMessage(message);
-        }
-    }
-
-    @Override
-    public String getMessageWithPrefix(CommandSender sender, String key, Replacer replacer, boolean color) {
+    public Component getMessageWithPrefix(@Nullable CommandSender audience, @NotNull String key,
+                                                   @Nullable Replacer replacer) {
         LanguageManager languageManager = getLanguageManager();
-        String message = languageManager.getMessage(sender, key, replacer, color);
-        if (message.isEmpty()) {
-            return "";
+        Component message = languageManager.getMessage(audience, key, replacer);
+        if(Component.empty().equals(message)) {
+            return Component.empty();
         }
 
-        String prefix = languageManager.getMessage(sender, "prefix", null, true);
-        if (prefix.isEmpty()) {
+        Component prefix = languageManager.getMessage(audience, "prefix", null);
+        if(Component.empty().equals(prefix)) {
             return message;
         }
 
-        if (!color) ChatColor.stripColor(prefix);
-        return String.format(Locale.US, "%s %s", prefix, message);
+        Builder builder = Component.text();
+        builder.append(prefix);
+        builder.append(Component.space());
+        builder.append(message);
+        return builder.build();
+    }
+
+    @Override
+    public void sendMessageWithPrefix(@NotNull CommandSender audience, @NotNull String key,
+                                               @Nullable Replacer replacer) {
+        Component message = getMessageWithPrefix(audience, key, replacer);
+        if(Component.empty().equals(message)) {
+            return;
+        }
+
+        LanguageManager languageManager = getLanguageManager();
+        BukkitAudiences audiences = languageManager.getAudiences();
+        if(audiences == null) {
+            return;
+        }
+
+        Audience realAudience = audiences.sender(audience);
+        realAudience.sendMessage(message);
     }
 
     @Override
     public void sendMessage(CommandSender sender, String... messageArray) {
-        for (String message : messageArray) {
-            if (message == null || message.isEmpty()) {
-                continue;
-            }
-
-            sender.sendMessage(message);
-        }
+        sender.sendMessage(messageArray);
     }
 
     @Override
@@ -319,7 +333,7 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         }
 
         LanguageManager languageManager = getLanguageManager();
-        languageManager.broadcastMessage("broadcast.on-load", null, true, null);
+        languageManager.broadcastMessage("broadcast.on-load", null, null);
     }
 
     private void broadcastEnableMessage() {
@@ -330,7 +344,7 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         }
 
         LanguageManager languageManager = getLanguageManager();
-        languageManager.broadcastMessage("broadcast.on-enable", null, true, null);
+        languageManager.broadcastMessage("broadcast.on-enable", null, null);
     }
 
     private void broadcastDisableMessage() {
@@ -341,12 +355,17 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         }
 
         LanguageManager languageManager = getLanguageManager();
-        languageManager.broadcastMessage("broadcast.on-disable", null, true, null);
+        languageManager.broadcastMessage("broadcast.on-disable", null, null);
     }
 
     private void registerBasePlaceholders() {
         BasePlaceholderExpansion placeholderExpansion = new BasePlaceholderExpansion(this);
         PlaceholderManager placeholderManager = getPlaceholderManager();
         placeholderManager.registerPlaceholderExpansion(placeholderExpansion);
+    }
+
+    @Override
+    public String getKeyName() {
+        return null;
     }
 }

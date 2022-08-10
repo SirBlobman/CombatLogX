@@ -6,6 +6,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import com.github.sirblobman.api.language.LanguageManager;
+import com.github.sirblobman.api.utility.MessageUtility;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.placeholder.IPlaceholderExpansion;
@@ -58,7 +59,8 @@ public final class NewbieHelperPlaceholderExpansion implements IPlaceholderExpan
 
         ICombatLogX combatLogX = getCombatLogX();
         LanguageManager languageManager = combatLogX.getLanguageManager();
-        return languageManager.getMessage(player, messagePath, null, true);
+        String messageString = languageManager.getMessageString(player, messagePath, null);
+        return MessageUtility.color(messageString);
     }
 
     private String getProtected(Player player) {

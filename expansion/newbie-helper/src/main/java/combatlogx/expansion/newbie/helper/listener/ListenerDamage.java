@@ -69,7 +69,7 @@ public final class ListenerDamage extends ExpansionListener {
             if (shouldRemoveProtectionOnAttack()) {
                 protectionManager.setProtected(player, false);
                 String messagePath = ("expansion.newbie-helper.protection-disabled.attacker");
-                sendMessageWithPrefix(player, messagePath, null, true);
+                sendMessageWithPrefix(player, messagePath, null);
             }
         }
     }
@@ -101,20 +101,20 @@ public final class ListenerDamage extends ExpansionListener {
 
         if (pvpManager.isDisabled(attacked)) {
             e.setCancelled(true);
-            sendMessageWithPrefix(attacker, "expansion.newbie-helper.no-pvp.other", null, true);
+            sendMessageWithPrefix(attacker, "expansion.newbie-helper.no-pvp.other", null);
             return;
         }
 
         if (pvpManager.isDisabled(attacker)) {
             e.setCancelled(true);
-            sendMessageWithPrefix(attacker, "expansion.newbie-helper.no-pvp.self", null, true);
+            sendMessageWithPrefix(attacker, "expansion.newbie-helper.no-pvp.self", null);
             return;
         }
 
         if (protectionManager.isProtected(attacked)) {
             e.setCancelled(true);
             String messagePath = ("expansion.newbie-helper.no-pvp.protected");
-            sendMessageWithPrefix(attacker, messagePath, null, true);
+            sendMessageWithPrefix(attacker, messagePath, null);
             return;
         }
 
@@ -122,7 +122,7 @@ public final class ListenerDamage extends ExpansionListener {
             if (shouldRemoveProtectionOnAttack()) {
                 protectionManager.setProtected(attacker, false);
                 String messagePath = ("expansion.newbie-helper.protection-disabled.attacker");
-                sendMessageWithPrefix(attacker, messagePath, null, true);
+                sendMessageWithPrefix(attacker, messagePath, null);
             }
         }
     }

@@ -75,7 +75,7 @@ public final class SubCommandTag extends CombatLogCommand {
         }
 
         String messagePath = ("command.combatlogx." + (successfulTag ? "tag-player" : "tag-failure"));
-        sendMessageWithPrefix(sender, messagePath, replacer, true);
+        sendMessageWithPrefix(sender, messagePath, replacer);
         return true;
     }
 }

@@ -28,7 +28,6 @@ public final class ListenerDisguise extends ExpansionListener {
 
     private void removeDisguise(Player player) {
         DisguiseAPI.undisguiseToAll(player);
-        sendMessageWithPrefix(player, "expansion.disguise-compatibility.remove-disguise", null,
-                true);
+        sendMessageWithPrefix(player, "expansion.disguise-compatibility.remove-disguise", null);
     }
 }

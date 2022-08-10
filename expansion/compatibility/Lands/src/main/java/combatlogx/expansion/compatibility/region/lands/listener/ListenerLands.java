@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
-import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
@@ -49,9 +48,8 @@ public final class ListenerLands extends ExpansionListener {
             protectionManager.setProtected(player, false);
             pvpManager.setPVP(player, true);
 
-            LanguageManager languageManager = getLanguageManager();
-            languageManager.sendMessage(player, "expansion.region-protection.lands.war-disable-newbie-protection",
-                    null, true);
+            String path = ("expansion.region-protection.lands.war-disable-newbie-protection");
+            sendMessageWithPrefix(player, path, null);
         }
     }
 

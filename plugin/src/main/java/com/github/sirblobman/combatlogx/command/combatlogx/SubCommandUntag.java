@@ -46,12 +46,12 @@ public final class SubCommandUntag extends CombatLogCommand {
         ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = plugin.getCombatManager();
         if (!combatManager.isInCombat(target)) {
-            sendMessageWithPrefix(sender, "error.target-not-in-combat", replacer, true);
+            sendMessageWithPrefix(sender, "error.target-not-in-combat", replacer);
             return true;
         }
 
         combatManager.untag(target, UntagReason.EXPIRE);
-        sendMessageWithPrefix(sender, "command.combatlogx.untag-player", replacer, true);
+        sendMessageWithPrefix(sender, "command.combatlogx.untag-player", replacer);
         return true;
     }
 }

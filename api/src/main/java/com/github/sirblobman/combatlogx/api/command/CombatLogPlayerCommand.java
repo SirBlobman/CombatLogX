@@ -2,11 +2,14 @@ package com.github.sirblobman.combatlogx.api.command;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.github.sirblobman.api.adventure.adventure.audience.Audience;
+import com.github.sirblobman.api.adventure.adventure.platform.bukkit.BukkitAudiences;
+import com.github.sirblobman.api.adventure.adventure.text.Component;
+import com.github.sirblobman.api.adventure.adventure.text.TextComponent.Builder;
 import com.github.sirblobman.api.command.PlayerCommand;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.language.Replacer;
@@ -49,25 +52,41 @@ public abstract class CombatLogPlayerCommand extends PlayerCommand {
         return plugin.getExpansionManager();
     }
 
-    protected final String getMessageWithPrefix(@Nullable CommandSender sender, @NotNull String key,
-                                                @Nullable Replacer replacer, boolean color) {
-        ICombatLogX plugin = getCombatLogX();
-        LanguageManager languageManager = plugin.getLanguageManager();
-
-        String message = languageManager.getMessage(sender, key, replacer, color);
-        if (message.isEmpty()) {
-            return "";
+    @NotNull
+    protected final Component getMessageWithPrefix(@Nullable CommandSender audience, @NotNull String key,
+                                                   @Nullable Replacer replacer) {
+        LanguageManager languageManager = getLanguageManager();
+        Component message = languageManager.getMessage(audience, key, replacer);
+        if(Component.empty().equals(message)) {
+            return Component.empty();
         }
 
-        String prefix = languageManager.getMessage(sender, "prefix", null, true);
-        return (prefix.isEmpty() ? message : String.format(Locale.US, "%s %s", prefix, message));
+        Component prefix = languageManager.getMessage(audience, "prefix", null);
+        if(Component.empty().equals(prefix)) {
+            return message;
+        }
+
+        Builder builder = Component.text();
+        builder.append(prefix);
+        builder.append(Component.space());
+        builder.append(message);
+        return builder.build();
     }
 
-    protected final void sendMessageWithPrefix(@NotNull CommandSender sender, @NotNull String key,
-                                               @Nullable Replacer replacer, boolean color) {
-        String message = getMessageWithPrefix(sender, key, replacer, color);
-        if (!message.isEmpty()) {
-            sender.sendMessage(message);
+    protected final void sendMessageWithPrefix(@NotNull CommandSender audience, @NotNull String key,
+                                               @Nullable Replacer replacer) {
+        Component message = getMessageWithPrefix(audience, key, replacer);
+        if(Component.empty().equals(message)) {
+            return;
         }
+
+        LanguageManager languageManager = getLanguageManager();
+        BukkitAudiences audiences = languageManager.getAudiences();
+        if(audiences == null) {
+            return;
+        }
+
+        Audience realAudience = audiences.sender(audience);
+        realAudience.sendMessage(message);
     }
 }

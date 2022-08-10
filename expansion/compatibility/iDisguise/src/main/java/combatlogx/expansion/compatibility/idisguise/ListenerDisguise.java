@@ -19,7 +19,7 @@ public final class ListenerDisguise extends ExpansionListener {
     public void onTag(PlayerTagEvent e) {
         Player player = e.getPlayer();
         if (isDisguised(player)) {
-            undisguise(player);
+            removeDisguise(player);
         }
     }
 
@@ -33,10 +33,9 @@ public final class ListenerDisguise extends ExpansionListener {
         return api.isDisguised(player);
     }
 
-    private void undisguise(Player player) {
+    private void removeDisguise(Player player) {
         DisguiseAPI api = getAPI();
         api.undisguise(player, false);
-        sendMessageWithPrefix(player, "expansion.disguise-compatibility.remove-disguise",
-                null, true);
+        sendMessageWithPrefix(player, "expansion.disguise-compatibility.remove-disguise", null);
     }
 }
