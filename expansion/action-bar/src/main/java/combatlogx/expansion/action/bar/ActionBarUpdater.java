@@ -1,19 +1,17 @@
 package combatlogx.expansion.action.bar;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import net.md_5.bungee.api.ChatColor;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.language.Replacer;
-import com.github.sirblobman.api.utility.MessageUtility;
 import com.github.sirblobman.api.utility.Validate;
-import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
@@ -112,48 +110,39 @@ public final class ActionBarUpdater implements TimerUpdater {
         ConfigurationManager configurationManager = this.expansion.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
 
-        int scale = configuration.getInt("scale");
-        String leftColorString = configuration.getString("left-color", "GREEN");
+        long scale = configuration.getLong("scale", 15);
+        String leftStartString = configuration.getString("left-color-start", "<green>");
+        String leftEndString = configuration.getString("left-color-start", "</green>");
+        String rightStartString = configuration.getString("right-color-start", "<red>");
+        String rightEndString = configuration.getString("right-color-end", "</red>");
         String leftSymbol = configuration.getString("left-symbol", "|");
-        String rightColorString = configuration.getString("right-color", "RED");
         String rightSymbol = configuration.getString("right-symbol", "|");
-
-        ChatColor leftColor = getChatColor(leftColorString);
-        ChatColor rightColor = getChatColor(rightColorString);
 
         ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = plugin.getCombatManager();
-        double timerMaxMillis = (combatManager.getMaxTimerSeconds(player) * 1_000L);
-        double progressPercent = ((double) timeLeftMillis / timerMaxMillis);
-        long leftBarsCount = Math.round(scale * progressPercent);
+
+        long timerMaxSeconds = combatManager.getMaxTimerSeconds(player);
+        double timerMaxMillis = TimeUnit.SECONDS.toMillis(timerMaxSeconds);
+        double scaleDouble = (double) scale;
+        double timeLeftMillisDouble = (double) timeLeftMillis;
+
+        double percent = (timeLeftMillisDouble / timerMaxMillis);
+        long leftBarsCount = Math.round(scaleDouble * percent);
         long rightBarsCount = (scale - leftBarsCount);
 
         StringBuilder builder = new StringBuilder();
-        builder.append(leftColor);
+        builder.append(leftStartString);
         for (long i = 0; i < leftBarsCount; i++) {
             builder.append(leftSymbol);
         }
+        builder.append(leftEndString);
 
-        builder.append(rightColor);
+        builder.append(rightStartString);
         for (long i = 0; i < rightBarsCount; i++) {
             builder.append(rightSymbol);
         }
+        builder.append(rightEndString);
 
-        String barsString = builder.toString();
-        return MessageUtility.color(barsString);
-    }
-
-    @SuppressWarnings("deprecation")
-    private ChatColor getChatColor(String value) {
-        try {
-            int minorVersion = VersionUtility.getMinorVersion();
-            if (minorVersion < 16) {
-                return ChatColor.valueOf(value);
-            }
-
-            return ChatColor.of(value);
-        } catch (IllegalArgumentException ex) {
-            return ChatColor.WHITE;
-        }
+        return builder.toString();
     }
 }
