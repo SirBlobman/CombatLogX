@@ -3,7 +3,7 @@ prefix: "CMI Compatibility"
 description: "${project.description}"
 
 main: "combatlogx.expansion.compatibility.cmi.CMIExpansion"
-version: "16.1"
+version: "16.2"
 author: "SirBlobman"
 
 plugin-depend:

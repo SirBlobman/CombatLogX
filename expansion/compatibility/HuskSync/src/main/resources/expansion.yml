@@ -3,7 +3,7 @@ prefix: "HuskSync Compatibility"
 description: "${project.description}"
 
 main: "combatlogx.expansion.compatibility.husksync.HuskSyncExpansion"
-version: "16.2"
+version: "16.3"
 author: "olivolja3"
 
 plugin-depend:

@@ -3,7 +3,7 @@ prefix: "LibsDisguises Compatibility"
 description: "${project.description}"
 
 main: "combatlogx.expansion.compatibility.libsdisguises.LibsDisguisesExpansion"
-version: "16.2"
+version: "16.3"
 author: "SirBlobman"
 
 plugin-depend:

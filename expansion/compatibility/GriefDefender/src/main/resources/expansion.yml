@@ -3,7 +3,7 @@ prefix: "GriefDefender Compatibility"
 description: "${project.description}"
 
 main: "combatlogx.expansion.compatibility.region.grief.defender.GriefDefenderExpansion"
-version: "16.2"
+version: "16.3"
 author: "SirBlobman"
 
 plugin-depend:

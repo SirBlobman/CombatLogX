@@ -3,5 +3,5 @@ prefix: "Loot Protection"
 description: "${project.description}"
 
 main: "combatlogx.expansion.loot.protection.LootProtectionExpansion"
-version: "16.3"
+version: "16.5"
 author: "olivolja3 (Olivo#3313)"

@@ -3,7 +3,7 @@ prefix: "UltimateClaims Compatibility"
 description: "${project.description}"
 
 main: "combatlogx.expansion.compatibility.region.ultimateclaims.UltimateClaimsExpansion"
-version: "16.1"
+version: "16.2"
 author: "SirBlobman"
 
 plugin-depend:

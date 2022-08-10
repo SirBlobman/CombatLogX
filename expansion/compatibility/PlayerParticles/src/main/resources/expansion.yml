@@ -3,7 +3,7 @@ prefix: "PlayerParticles Compatibility"
 description: "${project.description}"
 
 main: "combatlogx.expansion.compatibility.player.particles.PlayerParticlesExpansion"
-version: "16.1"
+version: "16.2"
 author: "SirBlobman"
 
 plugin-depend:

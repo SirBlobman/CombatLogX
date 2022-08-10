@@ -3,7 +3,7 @@ prefix: "BSkyBlock Compatibility"
 description: "${project.description}"
 
 main: "combatlogx.expansion.compatibility.bskyblock.BSkyBlockExpansion"
-version: "16.8"
+version: "16.9"
 author: "SirBlobman"
 
 plugin-depend:

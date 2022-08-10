@@ -3,7 +3,7 @@ prefix: "SuperVanish/PremiumVanish Compatibility"
 description: "${project.description}"
 
 main: "combatlogx.expansion.compatibility.supervanish.SuperVanishExpansion"
-version: "16.1"
+version: "16.2"
 author: "SirBlobman"
 
 plugin-soft-depend:

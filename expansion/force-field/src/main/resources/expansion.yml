@@ -3,8 +3,10 @@ prefix: "Force Field"
 description: "${project.description}"
 
 main: "combatlogx.expansion.force.field.ForceFieldExpansion"
-version: "16.7"
-author: "SirBlobman"
+version: "16.9"
+authors: 
+  - "olivolja3 (Olivo#3313)"
+  - "SirBlobman"
 
 plugin-depend:
   - "ProtocolLib"

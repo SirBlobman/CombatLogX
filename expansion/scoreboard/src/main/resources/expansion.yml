@@ -2,5 +2,5 @@ name: "Scoreboard"
 description: "${project.description}"
 
 main: "combatlogx.expansion.scoreboard.ScoreboardExpansion"
-version: "16.7"
+version: "16.9"
 author: "SirBlobman"
