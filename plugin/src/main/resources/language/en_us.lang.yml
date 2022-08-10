@@ -123,7 +123,7 @@ command:
       - "<red>Please check your server log and fix the broken file.</red>"
 
     # Shown as the command output for '/combatlogx tag <player>' when a player is tagged successfully.
-    tag-player: "<green>Successfully forced player &7{target}&a into combat.</green>"
+    tag-player: "<green>Successfully forced player <gray>{target}</gray> into combat.</green>"
 
     # Shown as the command output for '/combatlogx tag <player>' when the plugin failed to tag a player.
     tag-failure: "<red><gray>{target}</gray> could not be placed into combat. (Maybe they have a bypass?)</red>"
