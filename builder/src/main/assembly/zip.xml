@@ -53,7 +53,7 @@
     <dependencySets>
         <dependencySet>
             <outputDirectory>/</outputDirectory>
-            <outputFileNameMapping>SirBlobmanCore.jar</outputFileNameMapping>
+            <outputFileNameMapping>BlueSlimeCore.jar</outputFileNameMapping>
             <includes>
                 <include>com.github.sirblobman.api:core:jar:*</include>
             </includes>
