@@ -27,7 +27,7 @@ import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
 
-import combatlogx.expansion.scoreboard.ComponentConverter;
+import combatlogx.expansion.scoreboard.PaperHelper;
 import combatlogx.expansion.scoreboard.ScoreboardExpansion;
 
 public final class CustomScoreboard {
@@ -158,22 +158,17 @@ public final class CustomScoreboard {
 
         ScoreboardExpansion expansion = getExpansion();
         if(expansion.shouldUsePaperAPI()) {
-            net.kyori.adventure.text.Component paperValue = ComponentConverter.shadedToNormal(value);
-            setLinePaper(line, paperValue);
+            setLinePaper(line, value);
         } else {
             String valueString = ComponentHelper.toLegacy(value);
             setLineSpigot(line, valueString);
         }
     }
 
-    private void setLinePaper(int line, net.kyori.adventure.text.Component prefix) {
+    private void setLinePaper(int line, Component prefix) {
         CustomLine customLine = getLine(line);
         Validate.notNull(customLine, "Could not find scoreboard line '" + line + "'.");
-        net.kyori.adventure.text.Component suffix = net.kyori.adventure.text.Component.empty();
-
-        Team team = customLine.getTeam();
-        team.prefix(prefix);
-        team.suffix(suffix);
+        PaperHelper.setLine(customLine, prefix);
     }
 
     @SuppressWarnings("deprecation")
@@ -264,17 +259,16 @@ public final class CustomScoreboard {
         ScoreboardExpansion expansion = getExpansion();
 
         if(expansion.shouldUsePaperAPI()) {
-            net.kyori.adventure.text.Component paperTitle = ComponentConverter.shadedToNormal(title);
-            updateTitlePaper(paperTitle);
+            updateTitlePaper(title);
         } else {
             String spigotTitle = ComponentHelper.toLegacy(title);
             updateTitleSpigot(spigotTitle);
         }
     }
 
-    private void updateTitlePaper(net.kyori.adventure.text.Component title) {
+    private void updateTitlePaper(Component title) {
         Objective objective = getObjective();
-        objective.displayName(title);
+        PaperHelper.updateTitle(objective, title);
     }
 
     @SuppressWarnings("deprecation")

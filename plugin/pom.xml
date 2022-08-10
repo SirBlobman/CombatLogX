@@ -91,12 +91,19 @@
                         <includes>
                             <include>com.github.sirblobman.combatlogx:api</include>
                             <include>org.zeroturnaround:zt-zip</include>
+                            <include>org.slf4j:slf4j-api</include>
                         </includes>
                     </artifactSet>
 
                     <filters>
                         <filter>
                             <artifact>org.zeroturnaround:zt-zip</artifact>
+                            <excludes>
+                                <exclude>META-INF/MANIFEST.MF</exclude>
+                            </excludes>
+                        </filter>
+                        <filter>
+                            <artifact>org.slf4j:slf4j-api</artifact>
                             <excludes>
                                 <exclude>META-INF/MANIFEST.MF</exclude>
                             </excludes>

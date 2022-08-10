@@ -20,10 +20,10 @@ public final class ConfigurationChecker {
     }
 
     public void checkVersion() {
+        Logger logger = getLogger();
         try {
-            File dataFolder = this.plugin.getDataFolder();
+            File dataFolder = plugin.getDataFolder();
             if (!dataFolder.exists()) {
-                Logger logger = this.plugin.getLogger();
                 logger.info("Configuration does not exist yet, no major changes necessary.");
                 return;
             }
@@ -31,14 +31,12 @@ public final class ConfigurationChecker {
             FilenameFilter ymlOnly = (folder, fileName) -> fileName.endsWith(".yml");
             File[] yamlFileArray = dataFolder.listFiles(ymlOnly);
             if (yamlFileArray == null || yamlFileArray.length == 0) {
-                Logger logger = this.plugin.getLogger();
                 logger.info("Configuration does not exist yet, no major changes necessary.");
                 return;
             }
 
             File configFile = new File(dataFolder, "config.yml");
             if (!configFile.exists()) {
-                Logger logger = this.plugin.getLogger();
                 logger.info("Configuration does not exist yet, no major changes necessary.");
                 return;
             }
@@ -53,25 +51,34 @@ public final class ConfigurationChecker {
             configuration.load(configFile);
 
             String generatedByVersion = configuration.getString("generated-by-version");
-            if (generatedByVersion == null || !generatedByVersion.startsWith("11.0")) {
+            if (generatedByVersion == null || !generatedByVersion.startsWith("11.")) {
                 makeBackup();
                 return;
             }
 
-            Logger logger = this.plugin.getLogger();
             logger.info("Configuration version is recent, no major changes necessary.");
         } catch (Exception ex) {
-            Logger logger = this.plugin.getLogger();
             logger.log(Level.WARNING, "An error occurred while checking the configuration version:", ex);
         }
     }
 
+    private CombatPlugin getPlugin() {
+        return this.plugin;
+    }
+
+    private Logger getLogger() {
+        CombatPlugin plugin = getPlugin();
+        return plugin.getLogger();
+    }
+
     private void makeBackup() {
-        Logger logger = this.plugin.getLogger();
+        Logger logger = getLogger();
         logger.warning("Configuration version is outdated, backing up files...");
 
-        File dataFolder = this.plugin.getDataFolder();
+        CombatPlugin plugin = getPlugin();
+        File dataFolder = plugin.getDataFolder();
         File pluginsFolder = dataFolder.getParentFile();
+
         File backupFile = new File(pluginsFolder, "CombatLogX-" + System.currentTimeMillis() + ".backup.zip");
         ZipUtil.pack(dataFolder, backupFile);
 
