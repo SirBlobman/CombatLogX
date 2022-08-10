@@ -101,7 +101,7 @@ command:
     # Shown as the command output for '/combatlogx help'.
     help-message-list:
       - ""
-      - "<gold><bold>CombatLogX Command Help:</bold></bold>"
+      - "<gold><bold>CombatLogX Command Help:</bold></gold>"
       - "  <white><bold>/combatlogx help</bold></white><gray>: View this help page.</gray>"
       - "  <white><bold>/combatlogx reload</bold></white><gray>: Reload the config.yml, language.yml, and all expansion config files.</gray>"
       - "  <white><bold>/combatlogx about \\<expansion></bold></white><gray>: Check information about an expansion.</gray>"
