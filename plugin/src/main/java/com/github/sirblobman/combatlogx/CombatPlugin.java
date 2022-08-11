@@ -17,9 +17,12 @@ import com.github.sirblobman.api.adventure.adventure.audience.Audience;
 import com.github.sirblobman.api.adventure.adventure.platform.bukkit.BukkitAudiences;
 import com.github.sirblobman.api.adventure.adventure.text.Component;
 import com.github.sirblobman.api.adventure.adventure.text.TextComponent.Builder;
+import com.github.sirblobman.api.bstats.bukkit.Metrics;
+import com.github.sirblobman.api.bstats.charts.SimplePie;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.core.CorePlugin;
+import com.github.sirblobman.api.language.Language;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.api.plugin.ConfigurablePlugin;
@@ -98,6 +101,7 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         registerBasePlaceholders();
 
         broadcastEnableMessage();
+        registerbStats();
     }
 
     @Override
@@ -279,6 +283,11 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         logger.log(Level.WARNING, "Full Error Details:", ex);
     }
 
+    @Override
+    public String getKeyName() {
+        return "combatlogx";
+    }
+
     private void reloadLanguage() {
         LanguageManager languageManager = getLanguageManager();
         languageManager.reloadLanguageFiles();
@@ -364,8 +373,14 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         placeholderManager.registerPlaceholderExpansion(placeholderExpansion);
     }
 
-    @Override
-    public String getKeyName() {
-        return null;
+    private void registerbStats() {
+        Metrics metrics = new Metrics(this, 16090);
+        metrics.addCustomChart(new SimplePie("selected_language", this::getDefaultLanguageCode));
+    }
+
+    private String getDefaultLanguageCode() {
+        LanguageManager languageManager = getLanguageManager();
+        Language defaultLanguage = languageManager.getDefaultLanguage();
+        return (defaultLanguage == null ? "none" : defaultLanguage.getLanguageCode());
     }
 }
