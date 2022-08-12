@@ -85,13 +85,12 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
 
         ExpansionManager expansionManager = getExpansionManager();
         expansionManager.loadExpansions();
-
-        broadcastLoadMessage();
     }
 
     @Override
     public void onEnable() {
         onReload();
+        broadcastLoadMessage();
 
         registerCommands();
         registerListeners();
