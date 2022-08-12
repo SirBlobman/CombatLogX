@@ -44,13 +44,6 @@
 
                 <configuration>
                     <shadeSourcesContent>true</shadeSourcesContent>
-                    <createDependencyReducedPom>false</createDependencyReducedPom>
-
-                    <artifactSet>
-                        <includes>
-                            <include>com.github.sirblobman.combatlogx.expansion.cheat.prevention:legacy</include>
-                        </includes>
-                    </artifactSet>
 
                     <filters>
                         <filter>
