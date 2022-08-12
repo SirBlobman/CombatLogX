@@ -1,168 +1,187 @@
----
-language-name: "ka_ge"
-decimal-format: "0.00"
-prefix: "&f&l[&6CombatLogX&f&l]&r"
+language-name: ka_ge
+decimal-format: '0.00'
+prefix: <bold><white>[</white></bold><gold>CombatLogX</gold><bold><white>]
 broadcast:
-  on-load: "&a&lCombatLogX წარმატებით ჩაიტვირთა."
-  on-enable: "&a&lCombatLogX წარმატებით ჩაირთო."
-  on-disable: "&c&lCombatLogX წარმატებით გამოირთო."
+  on-load: <bold><green>CombatLogX წარმატებით ჩაიტვირთა.
+  on-enable: <bold><green>CombatLogX წარმატებით ჩაირთო.
+  on-disable: <bold><red>CombatLogX წარმატებით გამოირთო.
 placeholder:
-  time-left-zero: "0"
-  unknown-enemy: "უცნობი"
+  time-left-zero: '0'
+  unknown-enemy: უცნობი
   status:
-    fighting: "&cიბრძვის"
-    idle: "&aუსაქმურადაა"
-    in-combat: "&aდიახ"
-    not-in-combat: "&cარა"
+    fighting: <red>იბრძვის
+    idle: <green>უსაქმურადაა
+    in-combat: <green>დიახ
+    not-in-combat: <red>არა
   toggle:
-    enabled: "&aჩართვა"
-    disabled: "&cგამორთვა"
+    enabled: <green>ჩართვა
+    disabled: <red>გამორთვა
   pvp-status:
-    enabled: "&aჩართვა"
-    disabled: "&cგამორთვა"
+    enabled: <green>ჩართვა
+    disabled: <red>გამორთვა
 combat-timer:
-  expire: "&aთქვენ აღარ იმყოფებით ბრძოლაში."
-  enemy-death: "&aთქვენ აღარ იმყოფებით ბრძოლაში, რადგან თქვენი მტერი მოკვდა."
+  expire: <green>თქვენ აღარ იმყოფებით ბრძოლაში.
+  enemy-death: <green>თქვენ აღარ იმყოფებით ბრძოლაში, რადგან თქვენი მტერი მოკვდა.
 error:
-  player-only: "&aმხოლოდ მოთამაშეებს შეუძლიათ ამ ბრძანების შესრულება."
-  invalid-target: "&7{target} &cარ იმყოფება ხაზზე ან არ არსებობს."
-  no-permission: "&cდაკარგული ნებართვა: &7{permission}"
-  target-not-in-combat: "&7{target}&c არ იმყოფება ბრძოლაში."
-  self-not-in-combat: "&cთქვენ არ იმყოფებით ბრძოლაში."
-  unknown-expansion: "&7{target} &cარ არის გაფართოვება ან არ არის დაყენებული."
+  player-only: <green>მხოლოდ მოთამაშეებს შეუძლიათ ამ ბრძანების შესრულება.
+  invalid-target: <gray>{target} </gray><red>არ იმყოფება ხაზზე ან არ არსებობს.
+  no-permission: '<red>დაკარგული ნებართვა: </red><gray>{permission}'
+  target-not-in-combat: <gray>{target}</gray><red> არ იმყოფება ბრძოლაში.
+  self-not-in-combat: <red>თქვენ არ იმყოფებით ბრძოლაში.
+  unknown-expansion: <gray>{target} </gray><red>არ არის გაფართოვება ან არ არის დაყენებული.
 command:
   combatlogx:
     help-message-list:
-      - "&f"
-      - "&6&lCombatLogX ბრძანებათა სია:"
-      - "  &f&l/combatlogx help&7: ხედავთ ამ დახმარების გვერდს."
-      - "  &f&l/combatlogx reload&7: ახორციელებს კონფიგურაციის, ენის და ყველა გაფართოვებათა კონფიგურაციის გადატვირთვას."
-      - "  &f&l/combatlogx about <expansion>&7: ამოწმებს ინფორმაციას გაფართოვების შესახებ."
-      - "  &f&l/combatlogx tag <player>&7: ძალით შეჰყავს მოთამაშე ბრძოლაში."
-      - "  &f&l/combatlogx toggle bossbar/actionbar/scoreboard&7: გამორთეთ ან ჩართეთ შეტყობინების ნიმუში."
-      - "  &f&l/combatlogx untag <player>&7: ძალით გამოჰყავს მოთამაშე ბრძოლიდან."
-      - "  &f&l/combatlogx version&7: ამოწმებს CombatLogX -ის ვერსიას."
-      - "&f"
+    - '&f'
+    - '&6&lCombatLogX ბრძანებათა სია:'
+    - '  &f&l/combatlogx help&7: ხედავთ ამ დახმარების გვერდს.'
+    - '  &f&l/combatlogx reload&7: ახორციელებს კონფიგურაციის, ენის და ყველა გაფართოვებათა
+      კონფიგურაციის გადატვირთვას.'
+    - '  &f&l/combatlogx about <expansion>&7: ამოწმებს ინფორმაციას გაფართოვების შესახებ.'
+    - '  &f&l/combatlogx tag <player>&7: ძალით შეჰყავს მოთამაშე ბრძოლაში.'
+    - '  &f&l/combatlogx toggle bossbar/actionbar/scoreboard&7: გამორთეთ ან ჩართეთ
+      შეტყობინების ნიმუში.'
+    - '  &f&l/combatlogx untag <player>&7: ძალით გამოჰყავს მოთამაშე ბრძოლიდან.'
+    - '  &f&l/combatlogx version&7: ამოწმებს CombatLogX -ის ვერსიას.'
+    - '&f'
     reload-success:
-      - "&aკონფიგურაცია წარმატებით გადაიტვირთა."
-      - "&aენის ფაილები წარმატებით გადაიტვირთა."
-      - "&aგაფართოვებების კონფიგურაციათა ფაილები წარმატებით გადაიტვირთა."
-    tag-player: "&aმოთამაშე &7{target} &a-(ი)ს ბრძოლაში შეყვანა ძალით განხორციელდა."
-    tag-failure: "&7{target} &cვერ დაიდგმება ბრძოლის დროს. (იქნებ მათ აქვთ შემოვლითი გზა?)"
-    untag-player: "&aმოთამაშე &7{target} &a-(ი)ს ბრძოლიდან გამოყვანა ძალით განხორციელდა."
-    toggle-bossbar: "&7&lსამართავი ზოლი: {status}"
-    toggle-actionbar: "&7&lსამოქმედო ზოლი: {status}"
-    toggle-scoreboard: "&7საკონტროლო დაფა: {status}"
+    - '&aკონფიგურაცია წარმატებით გადაიტვირთა.'
+    - '&aენის ფაილები წარმატებით გადაიტვირთა.'
+    - '&aგაფართოვებების კონფიგურაციათა ფაილები წარმატებით გადაიტვირთა.'
+    tag-player: <green>მოთამაშე </green><gray>{target} </gray><green>-(ი)ს ბრძოლაში
+      შეყვანა ძალით განხორციელდა.
+    tag-failure: <gray>{target} </gray><red>ვერ დაიდგმება ბრძოლის დროს. (იქნებ მათ
+      აქვთ შემოვლითი გზა?)
+    untag-player: <green>მოთამაშე </green><gray>{target} </gray><green>-(ი)ს ბრძოლიდან
+      გამოყვანა ძალით განხორციელდა.
+    toggle-bossbar: '<bold><gray>სამართავი ზოლი: {status}'
+    toggle-actionbar: '<bold><gray>სამოქმედო ზოლი: {status}'
+    toggle-scoreboard: '<gray>საკონტროლო დაფა: {status}'
   combat-timer:
-    time-left-self: "&aთქვენ დარჩენილი გაქვთ &7{time_left} წამი&a."
-    time-left-other: "&7{target} &a-(ი)ს დარჩენილი აქვს &7{time_left} წამი&a."
+    time-left-self: <green>თქვენ დარჩენილი გაქვთ </green><gray>{time_left} წამი</gray><green>.
+    time-left-other: <gray>{target} </gray><green>-(ი)ს დარჩენილი აქვს </green><gray>{time_left}
+      წამი</gray><green>.
 tagged:
-  unknown: "&cთქვენ უკვე ბრძოლაში იმყოფებით! არ გახვიდეთ."
+  unknown: <red>თქვენ უკვე ბრძოლაში იმყოფებით! არ გახვიდეთ.
   attacked:
-    player: "&cთქვენ შემოგიტიათ &f{enemy} &c-(მ)ა. არ გახვიდეთ!"
-    mob: "&cთქვენ შემოგიტიათ &f{mob_type} &c-(მ)ა. არ გახვიდეთ!"
+    player: <red>თქვენ შემოგიტიათ </red><white>{enemy} </white><red>-(მ)ა. არ გახვიდეთ!
+    mob: <red>თქვენ შემოგიტიათ </red><white>{mob_type} </white><red>-(მ)ა. არ გახვიდეთ!
   attacker:
-    player: "&cთქვენ უტევთ &f{enemy} &c-(ს). არ გახვიდეთ!"
-    mob: "&cთქვენ შეუტიეთ &f{mob_type} &c-(ს). არ გახვიდეთ!"
+    player: <red>თქვენ უტევთ </red><white>{enemy} </white><red>-(ს). არ გახვიდეთ!
+    mob: <red>თქვენ შეუტიეთ </red><white>{mob_type} </white><red>-(ს). არ გახვიდეთ!
 expansion:
   cheat-prevention:
-    command-blocked: "&cთქვენ არ შეგიძლიათ &a{command} &cბრძანების გამოყნება ბრძოლის დროს."
-    no-riptide: "&cმოჯადოვებათა ტალღა გამორთულია ბრძოლის დროს."
-    no-totem: "&cთქვენ არ შეგიძლიათ უკვდავების ტოტემის გამოყენება ბრძოლის დროს."
-    no-entity-interaction: "&cთქვენ არ შეგიძლიათ იმ მობის გამოყენება ბრძოლის დროს."
-    no-chat: "&cთქვენ არ შეგიძლიათ ჩათში შეტყობინებების გაგზავნა ბრძოლის დროს."
+    command-blocked: <red>თქვენ არ შეგიძლიათ </red><green>{command} </green><red>ბრძანების
+      გამოყნება ბრძოლის დროს.
+    no-riptide: <red>მოჯადოვებათა ტალღა გამორთულია ბრძოლის დროს.
+    no-totem: <red>თქვენ არ შეგიძლიათ უკვდავების ტოტემის გამოყენება ბრძოლის დროს.
+    no-entity-interaction: <red>თქვენ არ შეგიძლიათ იმ მობის გამოყენება ბრძოლის დროს.
+    no-chat: <red>თქვენ არ შეგიძლიათ ჩათში შეტყობინებების გაგზავნა ბრძოლის დროს.
     game-mode:
-      force-switch: "&cთქვენი სათამაშო-რეჟიმი შეიცვალა &f{game_mode} &c-ზე."
-      no-switch: "&cთქვენ არ შეგიძლიათ სათამაშო-რეჟიმის გამოცვლა ბრძოლის დროს."
+      force-switch: <red>თქვენი სათამაშო-რეჟიმი შეიცვალა </red><white>{game_mode}
+        </white><red>-ზე.
+      no-switch: <red>თქვენ არ შეგიძლიათ სათამაშო-რეჟიმის გამოცვლა ბრძოლის დროს.
     flight:
-      force-disabled: "&cთქვენი შესაძლებლობა, რომ გეფრინათ წაიშალა."
-      no-flying: "&cთქვენ არ შეგიძლიათ ფრენა ბრძოლის დროს."
+      force-disabled: <red>თქვენი შესაძლებლობა, რომ გეფრინათ წაიშალა.
+      no-flying: <red>თქვენ არ შეგიძლიათ ფრენა ბრძოლის დროს.
     elytra:
-      force-disabled: "&cთქვენი ელიტრა გამოირთო."
-      no-gliding: "&cთქვენ არ შეგიძლიათ ელიტრის გამოყენება ბრძოლის დროს."
+      force-disabled: <red>თქვენი ელიტრა გამოირთო.
+      no-gliding: <red>თქვენ არ შეგიძლიათ ელიტრის გამოყენება ბრძოლის დროს.
     teleportation:
-      block-portal: "&cთქვენ არ შეგიძლიათ პორტალის გამოყენება ბრძოლის დროს."
-      block-pearl: "&cთქვენ არ შეგიძლიათ ენდერის თვალის გამოყენება ბრძოლის დროს."
-      block-other: "&cთქვენ არ შეგიძლიათ ტელეპორტაცია ბრძოლის დროს."
+      block-portal: <red>თქვენ არ შეგიძლიათ პორტალის გამოყენება ბრძოლის დროს.
+      block-pearl: <red>თქვენ არ შეგიძლიათ ენდერის თვალის გამოყენება ბრძოლის დროს.
+      block-other: <red>თქვენ არ შეგიძლიათ ტელეპორტაცია ბრძოლის დროს.
     inventory:
-      force-closed: "&cთქვენი ინვენტარი დაიხურა."
-      no-opening: "&cთქვენ არ შეგიძლიათ ინვენტარის გახსნა ბრძოლის დროს."
+      force-closed: <red>თქვენი ინვენტარი დაიხურა.
+      no-opening: <red>თქვენ არ შეგიძლიათ ინვენტარის გახსნა ბრძოლის დროს.
     blocks:
-      prevent-breaking: "&cთქვენ არ შეგიძლიათ ბლოკების მონგრევა ბრძოლის დროს."
-      prevent-placing: "&cთქვენ არ შეგიძლიათ ბლოკების დადგმა ბრძოლის დროს."
-      prevent-interaction: "&cთქვენ არ შეგიძლიათ ბლოკების გამოყენება ბრძოლის დროს."
-      prevent-portal-creation: "&cთქვენ არ შეგიძლიათ პორტალების შექმნა ბრძოლის დროს."
+      prevent-breaking: <red>თქვენ არ შეგიძლიათ ბლოკების მონგრევა ბრძოლის დროს.
+      prevent-placing: <red>თქვენ არ შეგიძლიათ ბლოკების დადგმა ბრძოლის დროს.
+      prevent-interaction: <red>თქვენ არ შეგიძლიათ ბლოკების გამოყენება ბრძოლის დროს.
+      prevent-portal-creation: <red>თქვენ არ შეგიძლიათ პორტალების შექმნა ბრძოლის დროს.
     items:
-      no-pickup: "&cთქვენ არ შეგიძლიათ ნივთების აღება ბრძოლის დროს."
-      no-dropping: "&cთქვენ არ შეგიძლიათ ნივთების დაგდება ბრძოლის დროს."
+      no-pickup: <red>თქვენ არ შეგიძლიათ ნივთების აღება ბრძოლის დროს.
+      no-dropping: <red>თქვენ არ შეგიძლიათ ნივთების დაგდება ბრძოლის დროს.
     buckets:
-      no-empty: "&cთქვენ არ შეგიძლიათ სათლების დაცლა ბრძოლის დროს."
-      no-fill: "&cთქვენ არ შეგიძლიათ სათლების შევსება ბრძოლის დროს."
+      no-empty: <red>თქვენ არ შეგიძლიათ სათლების დაცლა ბრძოლის დროს.
+      no-fill: <red>თქვენ არ შეგიძლიათ სათლების შევსება ბრძოლის დროს.
   damage-tagger:
-    unknown-damage: "&cთქვენ დაზიანება მიიღეთ! არ გახვიდეთ!"
+    unknown-damage: <red>თქვენ დაზიანება მიიღეთ! არ გახვიდეთ!
     damage-type:
-      contact: "&cთქვენ კაქტუსმა გიჩხვლიტათ. არ გახვიდეთ!"
-      suffocation: "&cთქვენ კედელში იხრჩობით. არ გახვიდეთ!"
-      fall: "&cთქვენ დაზიანება მიიღეთ დაცემისგან. არ გახვიდეთ!"
-      fire: "&cთქვენ ცეცხლში გაიარეთ. არ გახვიდეთ!"
-      fire-tick: "&cთქვენ იწვით. არ გახვიდეთ!"
-      lava: "&cთქვენ ლავაში იხარშებით. არ გახვიდეთ!"
-      drowning: "&cთქვენ იხრჩობით. არ გახვიდეთ!"
-      block-explosion: "&cთქვენ აფეთქებამ დაგაზიანათ. არ გახვიდეთ!"
-      lightning: "&cთქვენ დარტყმული იქენით! არ გახვიდეთ!"
-      starvation: "&cთქვენ საკმაოდ მშიერი ხართ. არ გახვიდეთ!"
-      poison: "&cთქვენ მოწამვლისგან დაზიანება მიიღეთ. არ გახვიდეთ!"
-      magic: "&cვიღაცამ თქვენ წამალი გესროლათ. არ გახვიდეთ!"
-      wither: "&cთქვენ ჭკნებით. არ გახვიდეთ!"
-      falling-block: "&cთქვენ ბლოკი დაგეცათ ზედ. არ გახვიდეთ!"
-      custom: "&cთქვენ მიიღეთ ჩვეულებისამებრი ზიანი. არ გახვიდეთ!"
-      fly-into-wall: "&cთქვენ გამოსცადეთ კინეტიკური ენერგია. არ გახვიდეთ!"
-      hot-floor: "&cიატაკი ლავაა! არ გახვიდეთ!"
-      cramming: "&cთქვენი სისხლი დაღვრილი იქნა. არ გახვიდეთ!"
+      contact: <red>თქვენ კაქტუსმა გიჩხვლიტათ. არ გახვიდეთ!
+      suffocation: <red>თქვენ კედელში იხრჩობით. არ გახვიდეთ!
+      fall: <red>თქვენ დაზიანება მიიღეთ დაცემისგან. არ გახვიდეთ!
+      fire: <red>თქვენ ცეცხლში გაიარეთ. არ გახვიდეთ!
+      fire-tick: <red>თქვენ იწვით. არ გახვიდეთ!
+      lava: <red>თქვენ ლავაში იხარშებით. არ გახვიდეთ!
+      drowning: <red>თქვენ იხრჩობით. არ გახვიდეთ!
+      block-explosion: <red>თქვენ აფეთქებამ დაგაზიანათ. არ გახვიდეთ!
+      lightning: <red>თქვენ დარტყმული იქენით! არ გახვიდეთ!
+      starvation: <red>თქვენ საკმაოდ მშიერი ხართ. არ გახვიდეთ!
+      poison: <red>თქვენ მოწამვლისგან დაზიანება მიიღეთ. არ გახვიდეთ!
+      magic: <red>ვიღაცამ თქვენ წამალი გესროლათ. არ გახვიდეთ!
+      wither: <red>თქვენ ჭკნებით. არ გახვიდეთ!
+      falling-block: <red>თქვენ ბლოკი დაგეცათ ზედ. არ გახვიდეთ!
+      custom: <red>თქვენ მიიღეთ ჩვეულებისამებრი ზიანი. არ გახვიდეთ!
+      fly-into-wall: <red>თქვენ გამოსცადეთ კინეტიკური ენერგია. არ გახვიდეთ!
+      hot-floor: <red>იატაკი ლავაა! არ გახვიდეთ!
+      cramming: <red>თქვენი სისხლი დაღვრილი იქნა. არ გახვიდეთ!
   newbie-helper:
     togglepvp:
-      self: "&7ბრძოლა: {status}"
-      admin: "&7თქვენ &e{target} &7-(ი)ს საბრძოლო სტატუსი შეცვალეთ {status} &7-ზე."
-      cooldown: "&cთქვენ უნდა დაიცადოთ &7{time_left} წამი&c, ამ ბრძანების ხელახლა გამოსაყენებლად."
+      self: '<gray>ბრძოლა: {status}'
+      admin: <gray>თქვენ </gray><yellow>{target} </yellow><gray>-(ი)ს საბრძოლო სტატუსი
+        შეცვალეთ {status} </gray><gray>-ზე.
+      cooldown: <red>თქვენ უნდა დაიცადოთ </red><gray>{time_left} წამი</gray><red>,
+        ამ ბრძანების ხელახლა გამოსაყენებლად.
     no-pvp:
-      self: "&cთქვენ არ შეგიძლიათ ამ მოთამაშეზე შეტევა, როცა თქვენი საბრძოლო სტატუსი გამორთულია."
-      other: "&cამ მოთამაშეს გამორთული აქვს საბრძოლო სტატუსი."
-      protected: "&cეს მოთამაშე დაცულია, თქვენ კი არ შეგიძლიათ მასზე შეტევა ჯერ-ჯერობით!"
+      self: <red>თქვენ არ შეგიძლიათ ამ მოთამაშეზე შეტევა, როცა თქვენი საბრძოლო სტატუსი
+        გამორთულია.
+      other: <red>ამ მოთამაშეს გამორთული აქვს საბრძოლო სტატუსი.
+      protected: <red>ეს მოთამაშე დაცულია, თქვენ კი არ შეგიძლიათ მასზე შეტევა ჯერ-ჯერობით!
     protection-disabled:
-      attacker: "&cთქვენ სხვას დაესხით თავს, თქვენი ახალბედა დაცვა კი უკვე გამორთულია."
-      expired: "&cთქვენს ახალბედა დაცვას ვადა ამოეწურა."
+      attacker: <red>თქვენ სხვას დაესხით თავს, თქვენი ახალბედა დაცვა კი უკვე გამორთულია.
+      expired: <red>თქვენს ახალბედა დაცვას ვადა ამოეწურა.
     check-format:
-      - "&f&lინფორმაცია &7{target} &f&l-(ი)სთვის:"
-      - "&f&lდაცვა: &7{protected}"
-      - "&f&lბრძოლა: &7{pvp}"
+    - '&f&lინფორმაცია &7{target} &f&l-(ი)სთვის:'
+    - '&f&lდაცვა: &7{protected}'
+    - '&f&lბრძოლა: &7{pvp}'
   loot-protection:
-    enemy-died: "&f{enemy} &aმოკვდა. ნაძარცვი კი დაცული იქნება მომდევნო &f{time} წამის &aგანმავლობაში."
-    protected: "&cეს ნივთი ამჟამად დაცულია, დაიცადეთ &f{time} წამი&c, სანამ აღებას შეძლებთ."
+    enemy-died: <white>{enemy} </white><green>მოკვდა. ნაძარცვი კი დაცული იქნება მომდევნო
+      </green><white>{time} წამის </white><green>განმავლობაში.
+    protected: <red>ეს ნივთი ამჟამად დაცულია, დაიცადეთ </red><white>{time} წამი</white><red>,
+      სანამ აღებას შეძლებთ.
   citizens-compatibility:
-    prevent-join: "&cთქვენ ვერ შეძლებთ სერვერზე შემოსვლას, სანამ თქვენი NPC არ იქნება მოკლული ან გამქრალი."
+    prevent-join: <red>თქვენ ვერ შეძლებთ სერვერზე შემოსვლას, სანამ თქვენი NPC არ იქნება
+      მოკლული ან გამქრალი.
   disguise-compatibility:
-    remove-disguise: "&cთქვენი შენიღბვა წაიშალა."
+    remove-disguise: <red>თქვენი შენიღბვა წაიშალა.
   essentials-compatibility:
-    prevent-teleport-request-self: "&cთქვენ არ შეგიძლიათ მოითხოვოთ ტელეპორტაცია ბრძოლის დროს."
-    prevent-teleport-request-other: "&cთქვენ არ შეგიძლიათ გაუგზავნოთ ტელეპორტაციის მოთხოვნა მოთამაშეს, რომელიც ბრძოლაში იმყოფება."
+    prevent-teleport-request-self: <red>თქვენ არ შეგიძლიათ მოითხოვოთ ტელეპორტაცია
+      ბრძოლის დროს.
+    prevent-teleport-request-other: <red>თქვენ არ შეგიძლიათ გაუგზავნოთ ტელეპორტაციის
+      მოთხოვნა მოთამაშეს, რომელიც ბრძოლაში იმყოფება.
   region-protection:
-    factions-no-entry: "&cთქვენ არ შეგიძლიათ იმ არეალში შესვლა ბრძოლის დროს."
-    griefdefender-no-entry: "&cთქვენ არ შეგიძლიათ იმ არეალში შესვლა ბრძოლის დროს."
-    griefprevention-no-entry: "&cთქვენ არ შეგიძლიათ იმ არეალში შესვლა ბრძოლის დროს."
-    kingdomsx-no-entry: "&cთქვენ არ შეგიძლიათ იმ არეალში შესვლა ბრძოლის დროს."
-    lands-no-entry: "&cთქვენ არ შეგიძლიათ იმ არეალში შესვლა ბრძოლის დროს."
-    konquest-no-entry: "&cთქვენ არ შეგიძლიათ იმ არეალში შესვლა ბრძოლის დროს."
-    redprotect-no-entry: "&cთქვენ არ შეგიძლიათ იმ არეალში შესვლა ბრძოლის დროს."
-    residence-no-entry: "&cთქვენ არ შეგიძლიათ იმ არეალში შესვლა ბრძოლის დროს."
-    towny-no-entry: "&cთქვენ არ შეგიძლიათ იმ არეალში შესვლა ბრძოლის დროს."
-    ultimateclaims-no-entry: "&cთქვენ არ შეგიძლიათ იმ არეალში შესვლა ბრძოლის დროს."
+    factions-no-entry: <red>თქვენ არ შეგიძლიათ იმ არეალში შესვლა ბრძოლის დროს.
+    griefdefender-no-entry: <red>თქვენ არ შეგიძლიათ იმ არეალში შესვლა ბრძოლის დროს.
+    griefprevention-no-entry: <red>თქვენ არ შეგიძლიათ იმ არეალში შესვლა ბრძოლის დროს.
+    kingdomsx-no-entry: <red>თქვენ არ შეგიძლიათ იმ არეალში შესვლა ბრძოლის დროს.
+    lands-no-entry: <red>თქვენ არ შეგიძლიათ იმ არეალში შესვლა ბრძოლის დროს.
+    konquest-no-entry: <red>თქვენ არ შეგიძლიათ იმ არეალში შესვლა ბრძოლის დროს.
+    redprotect-no-entry: <red>თქვენ არ შეგიძლიათ იმ არეალში შესვლა ბრძოლის დროს.
+    residence-no-entry: <red>თქვენ არ შეგიძლიათ იმ არეალში შესვლა ბრძოლის დროს.
+    towny-no-entry: <red>თქვენ არ შეგიძლიათ იმ არეალში შესვლა ბრძოლის დროს.
+    ultimateclaims-no-entry: <red>თქვენ არ შეგიძლიათ იმ არეალში შესვლა ბრძოლის დროს.
     protectionstones:
-      prevent-area-creation: "&cთქვენ არ შეგიძლიათ დაცული არეალის შექმნა ბრძოლის დროს."
-      no-entry: "&cთქვენ არ შეგიძლიათ იმ არეალში შესვლა ბრძოლის დროს."
+      prevent-area-creation: <red>თქვენ არ შეგიძლიათ დაცული არეალის შექმნა ბრძოლის
+        დროს.
+      no-entry: <red>თქვენ არ შეგიძლიათ იმ არეალში შესვლა ბრძოლის დროს.
     preciousstones:
-      prevent-field-creation: "&cთქვენ არ შეგიძლიათ დაცული მინდვრის შექმნა ბრძოლის დროს."
-      no-entry: "&cთქვენ არ შეგიძლიათ იმ არეალში შესვლა ბრძოლის დროს."
+      prevent-field-creation: <red>თქვენ არ შეგიძლიათ დაცული მინდვრის შექმნა ბრძოლის
+        დროს.
+      no-entry: <red>თქვენ არ შეგიძლიათ იმ არეალში შესვლა ბრძოლის დროს.
     worldguard:
-      no-entry-mob-combat: "&cთქვენ არ შეგიძლიათ შეხვიდეთ არა-საბრძოლო ზონაში ბრძოლის დროს."
-      no-entry-player-combat: "&cთქვენ არ შეგიძლიათ შეხვიდეთ არა-საბრძოლო ზონაში ბრძოლის დროს."
-      no-entry-unknown-combat: "&cთქვენ არ შეგიძლიათ იმ არეალში შესვლა ბრძოლის დროს."
+      no-entry-mob-combat: <red>თქვენ არ შეგიძლიათ შეხვიდეთ არა-საბრძოლო ზონაში ბრძოლის
+        დროს.
+      no-entry-player-combat: <red>თქვენ არ შეგიძლიათ შეხვიდეთ არა-საბრძოლო ზონაში
+        ბრძოლის დროს.
+      no-entry-unknown-combat: <red>თქვენ არ შეგიძლიათ იმ არეალში შესვლა ბრძოლის დროს.

@@ -1,204 +1,243 @@
----
-language-name: "pt_br"
-decimal-format: "0.00"
-prefix: "&f&l[&6CombatLogX&f&l]&r"
+language-name: pt_br
+decimal-format: '0.00'
+prefix: <bold><white>[</white></bold><gold>CombatLogX</gold><bold><white>]
 broadcast:
-  on-load: "&a&lCombatLog carregado com sucesso."
-  on-enable: "CombatLog ativado com sucesso."
-  on-disable: "&c&lCombatLog desativado com sucesso."
+  on-load: <bold><green>CombatLog carregado com sucesso.
+  on-enable: CombatLog ativado com sucesso.
+  on-disable: <bold><red>CombatLog desativado com sucesso.
 placeholder:
-  time-left-zero: "0"
-  unknown-enemy: "Desconhecido"
+  time-left-zero: '0'
+  unknown-enemy: Desconhecido
   status:
-    fighting: "&cEm combate"
-    idle: "&aInativo"
-    in-combat: "&aSim"
-    not-in-combat: "&cNão"
+    fighting: <red>Em combate
+    idle: <green>Inativo
+    in-combat: <green>Sim
+    not-in-combat: <red>Não
   toggle:
-    enabled: "&aLigado"
-    disabled: "&cDesligado"
+    enabled: <green>Ligado
+    disabled: <red>Desligado
   pvp-status:
-    enabled: "&aLigado"
-    disabled: "&cDesligado"
+    enabled: <green>Ligado
+    disabled: <red>Desligado
 combat-timer:
-  expire: "&aVocê não está mais em combate."
-  enemy-death: "&aVocê não está mais em combate porque seu inimigo morreu."
+  expire: <green>Você não está mais em combate.
+  enemy-death: <green>Você não está mais em combate porque seu inimigo morreu.
 error:
-  player-only: "&cApenas jogadores podem usar esse comando."
-  invalid-target: "&7{target} &cnão está online ou não existe."
-  disabled-world: "&cEsse comando não está disponível nessa dimensão."
-  no-permission: "&cVocê não tem permissão&c(&7{permission}}&c)."
-  target-not-in-combat: "&7{target} &cnão está em combate."
-  self-not-in-combat: "&cVocê não está em combate."
-  unknown-expansion: "&7{target} &cnão é uma expansão ou não está instalada."
+  player-only: <red>Apenas jogadores podem usar esse comando.
+  invalid-target: <gray>{target} </gray><red>não está online ou não existe.
+  disabled-world: <red>Esse comando não está disponível nessa dimensão.
+  no-permission: <red>Você não tem permissão</red><red>(</red><gray>{permission}}</gray><red>).
+  target-not-in-combat: <gray>{target} </gray><red>não está em combate.
+  self-not-in-combat: <red>Você não está em combate.
+  unknown-expansion: <gray>{target} </gray><red>não é uma expansão ou não está instalada.
 command:
   combatlogx:
     help-message-list:
-      - "&f"
-      - "&6&lComandos disponíveis do CombatLogX:"
-      - "  &7/combatlogx help &fMostra página de ajuda."
-      - "  &7/combatlogx reload &fRecarrega as configurações."
-      - "  &7/combatlogx about <expansão> &fMostra as informações de uma expansão."
-      - " &7/combatlogx tag &fColoca um jogador em combate"
-      - "  &f&l/combatlogx toggle bossbar/actionbar/scoreboard&7: Ativa ou desativa um tipo de notificação."
-      - "  &7/combatlogx tag &fForça um jogador a sair de combate."
-      - "  &f&l/combatlogx version &7: Verifique sua versão do CombatLogX."
-      - "&f"
+    - '&f'
+    - '&6&lComandos disponíveis do CombatLogX:'
+    - '  &7/combatlogx help &fMostra página de ajuda.'
+    - '  &7/combatlogx reload &fRecarrega as configurações.'
+    - '  &7/combatlogx about <expansão> &fMostra as informações de uma expansão.'
+    - ' &7/combatlogx tag &fColoca um jogador em combate'
+    - '  &f&l/combatlogx toggle bossbar/actionbar/scoreboard&7: Ativa ou desativa
+      um tipo de notificação.'
+    - '  &7/combatlogx tag &fForça um jogador a sair de combate.'
+    - '  &f&l/combatlogx version &7: Verifique sua versão do CombatLogX.'
+    - '&f'
     reload-success:
-      - "&aCombatLogX recarregado com sucesso."
-      - "&aTodos os arquivos de idioma do CombatLogX foram recarregados com sucesso."
-      - "&aTodos os arquivos de configurações das expansões do CombatLogX foram recarregadas com sucesso."
-    tag-player: "&aVocê forçou &7{target} &aa entrar em combate."
-    tag-failure: "&cVocê não pode colocar &7{target} &cem combate. (Talvez ele tenha um bypass para este comando?)"
-    untag-player: "&aVocê removeu o combate de &7{target}&a."
-    toggle-bossbar: "&7&lBarra de chefe: {status}"
-    toggle-actionbar: "&7&lBarra de Ação: {status}"
-    toggle-scoreboard: "&7Placar de pontuação: {status}"
+    - '&aCombatLogX recarregado com sucesso.'
+    - '&aTodos os arquivos de idioma do CombatLogX foram recarregados com sucesso.'
+    - '&aTodos os arquivos de configurações das expansões do CombatLogX foram recarregadas
+      com sucesso.'
+    tag-player: <green>Você forçou </green><gray>{target} </gray><green>a entrar em
+      combate.
+    tag-failure: <red>Você não pode colocar </red><gray>{target} </gray><red>em combate.
+      (Talvez ele tenha um bypass para este comando?)
+    untag-player: <green>Você removeu o combate de </green><gray>{target}</gray><green>.
+    toggle-bossbar: '<bold><gray>Barra de chefe: {status}'
+    toggle-actionbar: '<bold><gray>Barra de Ação: {status}'
+    toggle-scoreboard: '<gray>Placar de pontuação: {status}'
   combat-timer:
-    time-left-self: "&cVocê está em combate por &7{time_left} segundo(s)&c"
-    time-left-other: "&7{target} &cestá em combate por &7{time_left} segundo(s)&c."
+    time-left-self: <red>Você está em combate por </red><gray>{time_left} segundo(s)</gray><red>
+    time-left-other: <gray>{target} </gray><red>está em combate por </red><gray>{time_left}
+      segundo(s)</gray><red>.
 tagged:
   unknown:
-    player: "&cVocê está em combate com &f{enemy}&c por algum motivo desconhecido. Não deslogue!"
-    mob: "&cVocê está em combate com &f{enemy}&c por algum motivo desconhecido. Não deslogue!"
-    mythic_mob: "&cVocê está em combate com o mob &f{mob_type}&c por algum motivo desconhecido. Não deslogue!"
-    unknown: "&cVocê foi colocado em combat sem um motivo. Não deslogue."
+    player: <red>Você está em combate com </red><white>{enemy}</white><red> por algum
+      motivo desconhecido. Não deslogue!
+    mob: <red>Você está em combate com </red><white>{enemy}</white><red> por algum
+      motivo desconhecido. Não deslogue!
+    mythic_mob: <red>Você está em combate com o mob </red><white>{mob_type}</white><red>
+      por algum motivo desconhecido. Não deslogue!
+    unknown: <red>Você foi colocado em combat sem um motivo. Não deslogue.
   attacked:
-    player: "&cVocê entrou em combate com &7{enemy}&c! Não desconecte."
-    mob: "&cVocê entrou em combate com um &f{mob_type}&c! Não desconecte."
-    mythic_mob: "&cVocê entrou em combate com um &f{enemy}&c! Não desconecte."
-    unknown: "&cVocê foi atacado por uma força desconhecida. Não deslogue!"
+    player: <red>Você entrou em combate com </red><gray>{enemy}</gray><red>! Não desconecte.
+    mob: <red>Você entrou em combate com um </red><white>{mob_type}</white><red>!
+      Não desconecte.
+    mythic_mob: <red>Você entrou em combate com um </red><white>{enemy}</white><red>!
+      Não desconecte.
+    unknown: <red>Você foi atacado por uma força desconhecida. Não deslogue!
   attacker:
-    player: "&cVocê entrou em combate com &7{enemy}&c! Não desconecte."
-    mob: "&cVocê entrou em combate com um(a) &f{mob_type}&c! Não desconecte."
-    mythic_mob: "&cVocê entrou em combate com um(a) &f{enemy}&c! Não desconecte."
-    unknown: "&cVocê está atacando uma força desconhecida. Não desconecte!"
+    player: <red>Você entrou em combate com </red><gray>{enemy}</gray><red>! Não desconecte.
+    mob: <red>Você entrou em combate com um(a) </red><white>{mob_type}</white><red>!
+      Não desconecte.
+    mythic_mob: <red>Você entrou em combate com um(a) </red><white>{enemy}</white><red>!
+      Não desconecte.
+    unknown: <red>Você está atacando uma força desconhecida. Não desconecte!
 expansion:
   action-bar:
-    #Valid 'timer' placeholders: {time_left}, {time_left_decimal}, {bars}
-    timer: "&6&lCombate &7\u00BB &f{bars} &f{time_left_decimal} segundos."
-    ended: "&6&lCombate &7\u00BB &fVocê não está mais em combate."
+    # Valid 'timer' placeholders: {time_left}, {time_left_decimal}, {bars}
+    timer: <bold><gold>Combate </gold></bold><gray>» </gray><white>{bars} </white><white>{time_left_decimal}
+      segundos.
+    ended: <bold><gold>Combate </gold></bold><gray>» </gray><white>Você não está mais
+      em combate.
   boss-bar:
-    #Valid 'timer' placeholders: {time_left}, {time_left_decimal}
-    timer: "&6&lCombate &7\u00BB &c{time_left_decimal} segundos."
-    ended: "&6&lCombate &7\u00BB &aVocê não está mais em combate."
+    # Valid 'timer' placeholders: {time_left}, {time_left_decimal}
+    timer: <bold><gold>Combate </gold></bold><gray>» </gray><red>{time_left_decimal}
+      segundos.
+    ended: <bold><gold>Combate </gold></bold><gray>» </gray><green>Você não está mais
+      em combate.
   scoreboard:
-    #Make sure to follow your Spigot version's scoreboard character limit
-    title: "&6&lCombatLogX"
-    #Make sure to follow your Spigot version's scoreboard line/character limit
+    # Make sure to follow your Spigot version's scoreboard character limit
+    title: <bold><gold>CombatLogX
+    # Make sure to follow your Spigot version's scoreboard line/character limit
     lines:
-      - "&f"
-      - "&f&lStatus de Combate:"
-      - "&8\u00BB &f&lTempo Restante: &7{time_left}"
-      - "&8\u00BB &f&lEm combate: &7{in_combat}"
-      - "&8\u00BB &f&lStatus: &7{status}"
-      - "&f"
-      - "&f&lStatus do Inimigo"
-      - "&8\u00BB &f&lNome: &7{enemy_name}"
-      - "&8\u00BB &f&lVida: &7{enemy_health}"
-      - "&8\u00BB &f&lVida: &7{enemy_health_rounded}"
-      - "&8\u00BB &f&lCorações: &7{enemy_hearts}"
-      - "&f"
+    - '&f'
+    - '&f&lStatus de Combate:'
+    - '&8» &f&lTempo Restante: &7{time_left}'
+    - '&8» &f&lEm combate: &7{in_combat}'
+    - '&8» &f&lStatus: &7{status}'
+    - '&f'
+    - '&f&lStatus do Inimigo'
+    - '&8» &f&lNome: &7{enemy_name}'
+    - '&8» &f&lVida: &7{enemy_health}'
+    - '&8» &f&lVida: &7{enemy_health_rounded}'
+    - '&8» &f&lCorações: &7{enemy_hearts}'
+    - '&f'
   cheat-prevention:
-    command-blocked: "&cVocê não pode usar comandos em combate."
-    no-riptide: "&cO encantamento Correnteza não pode ser usado em combate."
-    no-totem: "&cVocê não pode usar totens da imortalidade em combate."
-    no-entity-interaction: "&cVocê não pode interagir com mobs em combate."
-    no-chat: "&cVocê não pode utilizar o chat em combate."
+    command-blocked: <red>Você não pode usar comandos em combate.
+    no-riptide: <red>O encantamento Correnteza não pode ser usado em combate.
+    no-totem: <red>Você não pode usar totens da imortalidade em combate.
+    no-entity-interaction: <red>Você não pode interagir com mobs em combate.
+    no-chat: <red>Você não pode utilizar o chat em combate.
     game-mode:
-      force-switch: "&cSeu modo de jogo foi alterado para &f{game_mode}&c."
-      no-switch: "&cVocê não pode alterar seu modo de jogo em combate."
+      force-switch: <red>Seu modo de jogo foi alterado para </red><white>{game_mode}</white><red>.
+      no-switch: <red>Você não pode alterar seu modo de jogo em combate.
     flight:
-      force-disabled: "&cNão é permitido voar em combate."
-      no-flying: "&cVocê não pode voar em combate."
+      force-disabled: <red>Não é permitido voar em combate.
+      no-flying: <red>Você não pode voar em combate.
     elytra:
-      force-disabled: "&cNão é permitido elytra em combate."
-      no-gliding: "&cVocê não pode usar elytra em combate."
+      force-disabled: <red>Não é permitido elytra em combate.
+      no-gliding: <red>Você não pode usar elytra em combate.
     teleportation:
-      block-portal: "&cVocê não pode usar um portal durante o combate."
-      block-pearl: "&cNão é permitido usar Pérolas do Fim em combate."
-      block-other: "&cNão é permitido se teletransportar em combate."
+      block-portal: <red>Você não pode usar um portal durante o combate.
+      block-pearl: <red>Não é permitido usar Pérolas do Fim em combate.
+      block-other: <red>Não é permitido se teletransportar em combate.
     inventory:
-      force-closed: "&cSeu inventário foi fechado."
-      no-opening: "&cNão é permitido abrir inventários em combate."
+      force-closed: <red>Seu inventário foi fechado.
+      no-opening: <red>Não é permitido abrir inventários em combate.
     blocks:
-      prevent-breaking: "&cNão é permitido quebrar blocos em combate."
-      prevent-placing: "&cNão é permitido colocar blocos em combate."
-      prevent-interaction: "&cNão é permitido interagir com blocos em combate."
-      prevent-portal-creation: "&cVocê não pode criar portais durante o combate."
+      prevent-breaking: <red>Não é permitido quebrar blocos em combate.
+      prevent-placing: <red>Não é permitido colocar blocos em combate.
+      prevent-interaction: <red>Não é permitido interagir com blocos em combate.
+      prevent-portal-creation: <red>Você não pode criar portais durante o combate.
     items:
-      no-pickup: "&cNão é permitido coletar itens em combate."
-      no-dropping: "&cNão é permitido dropar itens em combate."
+      no-pickup: <red>Não é permitido coletar itens em combate.
+      no-dropping: <red>Não é permitido dropar itens em combate.
     buckets:
-      no-empty: "&cVocê não pode usar baldes durante o combate."
-      no-fill: "&cVocê não pode encher baldes durante o combate."
+      no-empty: <red>Você não pode usar baldes durante o combate.
+      no-fill: <red>Você não pode encher baldes durante o combate.
   damage-tagger:
-    unknown-damage: "Você recebeu dano! Não desconecte."
+    unknown-damage: Você recebeu dano! Não desconecte.
     damage-type:
-      contact: "&cVocê foi espetado por um cacto. Não desconecte."
-      suffocation: "&cVocê está sufocando em um bloco! Não desconecte."
-      fall: "&cVocê sofreu dano de queda! Não desconecte."
-      fire: "&cVocê está pegando fogo! Não desconecte."
-      fire-tick: "&cVocê está queimando. Não desconecte!"
-      lava: "&cVocê está fervendo na lava. Não desconecte!"
-      drowning: "&cVocê está se afogando. Não desconecte!"
-      block-explosion: "&cVocê foi danificado por uma explosão. Não desconecte!"
-      lightning: "&cVocê foi atingido por um trovão! Não desconecte!"
-      starvation: "&cVocê está com muita fome. Não desconecte!"
-      poison: "&cVocê sofreu dano de vendimento. Não desconecte!"
-      magic: "&cAlguém lançou uma poção em você. Não desconecte!"
-      wither: "&cVocê está apodrecendo. Não desconecte!"
-      falling-block: "&cO bloco Um caiu em você. Não desconecte!"
-      custom: "&cVocê sofreu dano personalizado. Não desconecte!"
-      fly-into-wall: "&cVocê experimentou a energia cinética. Não desconecte!"
-      hot-floor: "&cO piso é lava! Não desconecte!"
-      cramming: "&cVocê está sendo esmagado. Não desconecte!"
+      contact: <red>Você foi espetado por um cacto. Não desconecte.
+      suffocation: <red>Você está sufocando em um bloco! Não desconecte.
+      fall: <red>Você sofreu dano de queda! Não desconecte.
+      fire: <red>Você está pegando fogo! Não desconecte.
+      fire-tick: <red>Você está queimando. Não desconecte!
+      lava: <red>Você está fervendo na lava. Não desconecte!
+      drowning: <red>Você está se afogando. Não desconecte!
+      block-explosion: <red>Você foi danificado por uma explosão. Não desconecte!
+      lightning: <red>Você foi atingido por um trovão! Não desconecte!
+      starvation: <red>Você está com muita fome. Não desconecte!
+      poison: <red>Você sofreu dano de vendimento. Não desconecte!
+      magic: <red>Alguém lançou uma poção em você. Não desconecte!
+      wither: <red>Você está apodrecendo. Não desconecte!
+      falling-block: <red>O bloco Um caiu em você. Não desconecte!
+      custom: <red>Você sofreu dano personalizado. Não desconecte!
+      fly-into-wall: <red>Você experimentou a energia cinética. Não desconecte!
+      hot-floor: <red>O piso é lava! Não desconecte!
+      cramming: <red>Você está sendo esmagado. Não desconecte!
   newbie-helper:
     togglepvp:
-      self: "&7PVP: {status}"
-      admin: "&7Você alterou o pvp de &e{target}&7 para {status}&7."
-      cooldown: "&cVocê deve esperar &7{time_left} segundos para usar esse comando novamente."
+      self: '<gray>PVP: {status}'
+      admin: <gray>Você alterou o pvp de </gray><yellow>{target}</yellow><gray> para
+        {status}</gray><gray>.
+      cooldown: <red>Você deve esperar </red><gray>{time_left} segundos para usar
+        esse comando novamente.
     no-pvp:
-      self: "&cVocê não tem permissão para atingir esse jogador enquanto seu PvP estiver desativado."
-      other: "&cEsse jogador está com o PvP desativado."
-      protected: "&cEste jogador está protegido, você ainda não tem permissão para atacá-lo!"
+      self: <red>Você não tem permissão para atingir esse jogador enquanto seu PvP
+        estiver desativado.
+      other: <red>Esse jogador está com o PvP desativado.
+      protected: <red>Este jogador está protegido, você ainda não tem permissão para
+        atacá-lo!
     protection-disabled:
-      attacker: "&cVocê atacou alguém, sua proteção de iniciante está desativada agora."
-      expired: "&cSua proteção de iniciante expirou."
+      attacker: <red>Você atacou alguém, sua proteção de iniciante está desativada
+        agora.
+      expired: <red>Sua proteção de iniciante expirou.
     check-format:
-      - "&f&lInformações para &7{target}&f&l:"
-      - "&f&lProteção: &7{protected}"
-      - "&f&lPvP: &7{pvp}"
+    - '&f&lInformações para &7{target}&f&l:'
+    - '&f&lProteção: &7{protected}'
+    - '&f&lPvP: &7{pvp}'
   loot-protection:
-    enemy-died: "&f{enemy} &amorreu. Os itens serão protegidos por &f{time} segundos."
-    protected: "&cEste item está atualmente protegido, espere &f{time} segundos &caté que você possa pegá-lo."
+    enemy-died: <white>{enemy} </white><green>morreu. Os itens serão protegidos por
+      </green><white>{time} segundos.
+    protected: <red>Este item está atualmente protegido, espere </red><white>{time}
+      segundos </white><red>até que você possa pegá-lo.
   citizens-compatibility:
-    prevent-join: "&cVocê não tem permissão para entrar no servidor até que seu NPC seja morto ou desinvocado."
+    prevent-join: <red>Você não tem permissão para entrar no servidor até que seu
+      NPC seja morto ou desinvocado.
   disguise-compatibility:
-    remove-disguise: "&cSeu disfarce foi removido."
+    remove-disguise: <red>Seu disfarce foi removido.
   essentials-compatibility:
-    prevent-teleport-request-self: "&cVocê não pode criar solicitações de teleporte durante o combate."
-    prevent-teleport-request-other: "&cVocê não pode enviar um pedido de teleporte para um jogador que está em combate."
+    prevent-teleport-request-self: <red>Você não pode criar solicitações de teleporte
+      durante o combate.
+    prevent-teleport-request-other: <red>Você não pode enviar um pedido de teleporte
+      para um jogador que está em combate.
   marriagemaster-compatiblity:
-    prevent-teleport: "&cVocê não pode se teleportar para o seu parceiro(a) durante o combate."
+    prevent-teleport: <red>Você não pode se teleportar para o seu parceiro(a) durante
+      o combate.
   region-protection:
-    factions-no-entry: "&cVocê não tem permissão para entrar nessa área durante o combate."
-    griefdefender-no-entry: "&cVocê não tem permissão para entrar nessa área durante o combate."
-    griefprevention-no-entry: "&cVocê não tem permissão para entrar nessa área durante o combate."
-    kingdomsx-no-entry: "&cVocê não tem permissão para entrar nessa área durante o combate."
-    lands-no-entry: "&cVocê não tem permissão para entrar nessa área durante o combate."
-    konquest-no-entry: "&cVocê não tem permissão para entrar nessa área durante o combate."
-    redprotect-no-entry: "&cVocê não tem permissão para entrar nessa área durante o combate."
-    residence-no-entry: "&cVocê não tem permissão para entrar nessa área durante o combate."
-    towny-no-entry: "&cVocê não tem permissão para entrar nessa área durante o combate."
-    ultimateclaims-no-entry: "&cVocê não tem permissão para entrar nessa área durante o combate."
+    factions-no-entry: <red>Você não tem permissão para entrar nessa área durante
+      o combate.
+    griefdefender-no-entry: <red>Você não tem permissão para entrar nessa área durante
+      o combate.
+    griefprevention-no-entry: <red>Você não tem permissão para entrar nessa área durante
+      o combate.
+    kingdomsx-no-entry: <red>Você não tem permissão para entrar nessa área durante
+      o combate.
+    lands-no-entry: <red>Você não tem permissão para entrar nessa área durante o combate.
+    konquest-no-entry: <red>Você não tem permissão para entrar nessa área durante
+      o combate.
+    redprotect-no-entry: <red>Você não tem permissão para entrar nessa área durante
+      o combate.
+    residence-no-entry: <red>Você não tem permissão para entrar nessa área durante
+      o combate.
+    towny-no-entry: <red>Você não tem permissão para entrar nessa área durante o combate.
+    ultimateclaims-no-entry: <red>Você não tem permissão para entrar nessa área durante
+      o combate.
     protectionstones:
-      prevent-area-creation: "&cVocê não pode criar uma área protegida durante o combate."
-      no-entry: "&cVocê não tem permissão para entrar nessa área durante o combate."
+      prevent-area-creation: <red>Você não pode criar uma área protegida durante o
+        combate.
+      no-entry: <red>Você não tem permissão para entrar nessa área durante o combate.
     preciousstones:
-      prevent-field-creation: "&cVocê não tem permissão para criar campo de proteção durante o combate."
-      no-entry: "&cVocê não tem permissão para entrar nessa área durante o combate."
+      prevent-field-creation: <red>Você não tem permissão para criar campo de proteção
+        durante o combate.
+      no-entry: <red>Você não tem permissão para entrar nessa área durante o combate.
     worldguard:
-      no-entry-mob-combat: "&cVocê não tem permissão para entrar em uma área de combate de mobs durante o combate."
-      no-entry-player-combat: "&cVocê não tem permissão para entrar em uma área de combate não-jogador durante o combate."
-      no-entry-unknown-combat: "&cVocê não tem permissão para entrar nessa área durante o combate."
+      no-entry-mob-combat: <red>Você não tem permissão para entrar em uma área de
+        combate de mobs durante o combate.
+      no-entry-player-combat: <red>Você não tem permissão para entrar em uma área
+        de combate não-jogador durante o combate.
+      no-entry-unknown-combat: <red>Você não tem permissão para entrar nessa área
+        durante o combate.
