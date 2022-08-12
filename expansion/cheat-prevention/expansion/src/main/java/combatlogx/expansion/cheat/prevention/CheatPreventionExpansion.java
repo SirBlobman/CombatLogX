@@ -87,7 +87,6 @@ public final class CheatPreventionExpansion extends Expansion {
     private void registerListeners() {
         new ListenerBlocks(this).register();
         new ListenerBuckets(this).register();
-        new ListenerChat(this).register();
         new ListenerCommands(this).register();
         new ListenerDrop(this).register();
         new ListenerEntities(this).register();

@@ -3,5 +3,5 @@ prefix: "Cheat Prevention"
 description: "${project.description}"
 
 main: "combatlogx.expansion.cheat.prevention.CheatPreventionExpansion"
-version: "16.16"
+version: "16.17"
 author: "SirBlobman"
