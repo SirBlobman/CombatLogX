@@ -16,7 +16,9 @@
     <description>This is the parent POM for all the Cheat Prevention expansions.</description>
 
     <modules>
+        <module>abstract</module>
         <module>legacy</module>
+        <module>paper</module>
         <module>expansion</module>
     </modules>
 </project>

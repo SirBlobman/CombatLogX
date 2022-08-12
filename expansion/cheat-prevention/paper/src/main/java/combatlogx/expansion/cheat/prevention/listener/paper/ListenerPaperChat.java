@@ -1,24 +1,27 @@
-package combatlogx.expansion.cheat.prevention.listener;
+package combatlogx.expansion.cheat.prevention.listener.paper;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
+import io.papermc.paper.event.player.AsyncChatEvent;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 
-public final class ListenerChat extends CheatPreventionListener {
-    public ListenerChat(Expansion expansion) {
+import combatlogx.expansion.cheat.prevention.listener.CheatPreventionListener;
+
+public final class ListenerPaperChat extends CheatPreventionListener {
+    public ListenerPaperChat(Expansion expansion) {
         super(expansion);
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-    public void onChat(AsyncPlayerChatEvent e) {
+    public void onChat(AsyncChatEvent e) {
         Player player = e.getPlayer();
-        if (!isInCombat(player)) return;
-        if (isEnabled()) return;
+        if (isEnabled() || !isInCombat(player)) {
+            return;
+        }
 
         e.setCancelled(true);
         sendMessage(player, "expansion.cheat-prevention.no-chat", null);

@@ -10,15 +10,31 @@
     </parent>
 
     <groupId>com.github.sirblobman.combatlogx.expansion.cheat.prevention</groupId>
-    <artifactId>legacy</artifactId>
-    <name>Expansion: Cheat Prevention Legacy</name>
-    <description>A legacy module for the Cheat Prevention expansion.</description>
+    <artifactId>paper</artifactId>
+    <name>Expansion: Cheat Prevention Paper</name>
+    <description>A module for the Cheat Prevention expansion for Paper servers.</description>
 
     <properties>
-        <spigot.version>1.8.8-R0.1-SNAPSHOT</spigot.version>
+        <spigot.version>1.19.2-R0.1-SNAPSHOT</spigot.version>
     </properties>
 
+    <repositories>
+        <!-- PaperMC Repository -->
+        <repository>
+            <id>papermc</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
+        <!-- Paper API -->
+        <dependency>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>${spigot.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- CheatPrevention Abstract -->
         <dependency>
             <groupId>com.github.sirblobman.combatlogx.expansion.cheat.prevention</groupId>

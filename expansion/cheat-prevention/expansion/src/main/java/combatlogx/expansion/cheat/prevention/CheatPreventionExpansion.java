@@ -7,7 +7,6 @@ import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 
 import combatlogx.expansion.cheat.prevention.listener.ListenerBlocks;
 import combatlogx.expansion.cheat.prevention.listener.ListenerBuckets;
-import combatlogx.expansion.cheat.prevention.listener.ListenerChat;
 import combatlogx.expansion.cheat.prevention.listener.ListenerCommands;
 import combatlogx.expansion.cheat.prevention.listener.ListenerDrop;
 import combatlogx.expansion.cheat.prevention.listener.ListenerElytra;
@@ -18,12 +17,14 @@ import combatlogx.expansion.cheat.prevention.listener.ListenerInventories;
 import combatlogx.expansion.cheat.prevention.listener.ListenerRiptide;
 import combatlogx.expansion.cheat.prevention.listener.ListenerTeleport;
 import combatlogx.expansion.cheat.prevention.listener.ListenerTotem;
+import combatlogx.expansion.cheat.prevention.listener.legacy.ListenerChat;
 import combatlogx.expansion.cheat.prevention.listener.legacy.ListenerLegacyItemPickup;
 import combatlogx.expansion.cheat.prevention.listener.legacy.ListenerLegacyPortalCreate;
 import combatlogx.expansion.cheat.prevention.listener.legacy.ListenerLegacyPotions;
 import combatlogx.expansion.cheat.prevention.listener.modern.ListenerModernItemPickup;
 import combatlogx.expansion.cheat.prevention.listener.modern.ListenerModernPortalCreate;
 import combatlogx.expansion.cheat.prevention.listener.modern.ListenerModernPotions;
+import combatlogx.expansion.cheat.prevention.listener.paper.ListenerPaperChat;
 import combatlogx.expansion.cheat.prevention.task.ElytraRetagTask;
 import combatlogx.expansion.cheat.prevention.task.FlightRetagTask;
 
@@ -57,6 +58,8 @@ public final class CheatPreventionExpansion extends Expansion {
         int minorVersion = VersionUtility.getMinorVersion();
         registerVersionListeners(minorVersion);
         registerVersionTasks(minorVersion);
+
+        registerPaperListeners();
     }
 
     @Override
@@ -140,6 +143,16 @@ public final class CheatPreventionExpansion extends Expansion {
         // Elytra were added in 1.9.
         if(minorVersion >= 9) {
             new ElytraRetagTask(this).register();
+        }
+    }
+
+    // Paper uses a custom AsyncChatEvent
+    private void registerPaperListeners() {
+        try {
+            Class.forName("io.papermc.paper.event.player.AsyncChatEvent");
+            new ListenerPaperChat(this).register();
+        } catch(ReflectiveOperationException ex) {
+            new ListenerChat(this).register();
         }
     }
 }
