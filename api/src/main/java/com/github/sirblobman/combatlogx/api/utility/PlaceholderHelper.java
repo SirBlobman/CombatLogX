@@ -325,9 +325,7 @@ public final class PlaceholderHelper {
         char heartSymbol = '\u2764';
         char[] charArray = new char[(int) enemyHeartsRounded];
         Arrays.fill(charArray, heartSymbol);
-
-        String hearts = new String(charArray);
-        return MessageUtility.color("&4" + hearts);
+        return new String(charArray);
     }
 
     public static String getUnknownEnemy(ICombatLogX plugin, Player player) {
