@@ -15,7 +15,7 @@
         <java.version>1.8</java.version>
         <spigot.version>1.16.5-R0.1-SNAPSHOT</spigot.version>
         <blue.slime.core.version>2.5-SNAPSHOT</blue.slime.core.version>
-        <build.number>unofficial</build.number>
+        <build.number>unknown</build.number>
 
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -28,7 +28,7 @@
         <!-- Minor: This will change when a small change occurs to the plugin. -->
         <!-- Expansion: This will change when an expansion is updated. -->
         <!-- Build: This will be automatically changed by the Jenkins build system -->
-        <combatlogx.version>11.1.0.1.Beta-${build.number}</combatlogx.version>
+        <combatlogx.version>11.1.0.2.Beta-${build.number}</combatlogx.version>
     </properties>
 
     <pluginRepositories>
