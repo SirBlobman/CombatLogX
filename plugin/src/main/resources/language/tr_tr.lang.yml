@@ -25,32 +25,33 @@ combat-timer:
 error:
   player-only: <red>Bu komutu sadece oyuncular kullanabilir.
   invalid-target: <gray>{target}</gray><red> çevrimiçi değil ya da mevcut değil.
-  invalid-integer: <gray>{value}</gray><red> geçerli bir tam sayı değil.
   no-permission: '<red>Eksik Yetki: </red><gray>{permission}'
-  disabled-world: Bu komut bu boyutta kullanılamaz.
   target-not-in-combat: <gray>{target}</gray><red> savaşta değil.
   self-not-in-combat: <red>Savaşta değilsin.
   unknown-expansion: <gray>{target}</gray><red> bir eklenti değil ya da yüklenmedi.
 command:
   combatlogx:
     help-message-list:
-    - '&f'
-    - '&6&lCombatLogX Komut Yardım:'
-    - '  &f&l/combatlogx help&7: Yardım sayfasını görüntüler.'
-    - '  &f&l/combatlogx reload&7: config.yml, language.yml ve bütün eklentilerin
-      konfigürasyon dosyalarını yeniden yükler.'
-    - '  &f&l/combatlogx about <expansion>&7: Eklentiyle ilgili bilgileri kontrol
-      eder.'
-    - '  &f&l/combatlogx tag <player> [seconds]&7: Oyuncuyu zorla savaşa sokar.'
-    - '  &f&l/combatlogx toggle bossbar/actionbar/scoreboard&7: Bildirim tipini etkinleştirir
-      ya da devre dışı bırakır.'
-    - '  &f&l/combatlogx untag <player>&7: Hedef oyuncuyu savaş durumundan çıkarır.'
-    - '  &f&l/combatlogx version&7: CombatLogX sürümünüzü kontrol eder.'
-    - '&f'
+    - <white>
+    - '<bold><gold>CombatLogX Komut Yardım:'
+    - '  <bold><white>/combatlogx help</white></bold><gray>: Yardım sayfasını görüntüler.'
+    - '  <bold><white>/combatlogx reload</white></bold><gray>: config.yml, language.yml
+      ve bütün eklentilerin konfigürasyon dosyalarını yeniden yükler.'
+    - '  <bold><white>/combatlogx about \<expansion></white></bold><gray>: Eklentiyle
+      ilgili bilgileri kontrol eder.'
+    - '  <bold><white>/combatlogx tag \<player></white></bold><gray>: Oyuncuyu zorla
+      savaşa sokar.'
+    - '  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>:
+      Bildirim tipini etkinleştirir ya da devre dışı bırakır.'
+    - '  <bold><white>/combatlogx untag \<player></white></bold><gray>: Hedef oyuncuyu
+      savaş durumundan çıkarır.'
+    - '  <bold><white>/combatlogx version</white></bold><gray>: CombatLogX sürümünüzü
+      kontrol eder.'
+    - <white>
     reload-success:
-    - '&aCombatLogX konfigürasyon dosyaları başarıyla yenilendi.'
-    - '&aCombatLogX dil dosyaları başarıyla yenilendi.'
-    - '&aCombatLogX eklentilerinin konfigürasyon dosyaları başarıyla yenilendi.'
+    - <green>CombatLogX konfigürasyon dosyaları başarıyla yenilendi.
+    - <green>CombatLogX dil dosyaları başarıyla yenilendi.
+    - <green>CombatLogX eklentilerinin konfigürasyon dosyaları başarıyla yenilendi.
     tag-player: <green>Oyuncu </green><gray>{target}</gray><green> başarıyla savaşa
       zorlandı.
     tag-failure: Hedef <gray>{target}</gray><red> savaşta yerleştiremez. (Belki bypass
@@ -65,57 +66,14 @@ command:
     time-left-other: <green>Hedef </green><gray>{target} </gray><green>kalan zamanı
       </green><gray>{time_left}.
 tagged:
-  unknown:
-    player: <red>Artık </red><white>{enemy}</white><red> ile bilinmeyen bir sebepten
-      savaştasın. Çıkış yapma!
-    mob: <red>Artık bir </red><white>{enemy}</white><red> ile bilinmeyen bir sebepten
-      savaştasın. Çıkış yapma!
-    mythic_mob: <red>Bilinmeyen sebeple, bir </red><white>{mob_type}</white><red>
-      ile savaş halindesin. Çıkış yapma!
-    damage: <red>Artık hasar aldığınız için savaştasınız. Çıkış yapmayın!
-    unknown: <red>Bilinmeyen bir sebepten savaşa girdin. Çıkış yapma.
+  unknown: <red>Artık savaştasın! Oturumu kapatma.
   attacked:
     player: <white>{enemy} </white><red> tarafından saldırıya uğradın. Oturumu kapatma!
     mob: <white>{mob_type}</white><red> tarafından saldırıya uğradın. Oturumu kapatma!
-    mythic_mob: <white>{enemy}</white><red> tarafından saldırıya uğradın. Oturumu
-      kapatma!
-    damage: <red>Artık hasar aldığınız için savaştasınız. Çıkış yapmayın!
-    unknown: <red>Bilinmeyen bir güç sana saldırıyor. Çıkış yapma!
   attacker:
     player: <white>{enemy}</white><red> adlı oyuncuya saldırıyorsun. Oturumu kapatma!
     mob: <white>{mob_type}</white><red> adlı canlıya saldırıyorsun. Oturumu kapatma!
-    mythic_mob: <white>{enemy}</white><red> adlı canlıya saldırıyorsun. Oturumu kapatma!
-    damage: <red>Artık hasar aldığınız için savaştasınız. Çıkış yapmayın!
-    unknown: <red>Bilinmeyen bir güce saldırıyorsun. Çıkış yapma!
 expansion:
-  action-bar:
-    timer: <bold><gold>Savaş </gold></bold><gray>» </gray><white>{bars} </white><white>%combatlogx_time_left_decimal%
-      saniye.
-    ended: <bold><gold>Savaş </gold></bold><gray>» </gray><white>Artık savaşta değilsiniz.
-  angel-chest:
-    prevent-opening: <red>Savaş sırasında ölü sandıklarını açman yasak.
-    prevent-breaking: <red>Savaş sırasında ölü sandıklarını kırman yasak.
-    prevent-fast-looting: <red>Savaş sırasında ölü sandıklarını hızlı yağmalamak yasak.
-  boss-bar:
-    timer: <bold><gold>Savaş </gold></bold><gray>» </gray><red>%combatlogx_time_left_decimal%
-      saniye.
-    ended: <bold><gold>Savaş </gold></bold><gray>» </gray><green>Artık savaşta değilsiniz.
-  scoreboard:
-    # Make sure to follow your Spigot version's scoreboard character limit
-    title: <bold><gold>CombatLogX
-    # Make sure to follow your Spigot version's scoreboard line/character limit
-    lines:
-    - '&f'
-    - '&f&lSavaş İstatistikleri:'
-    - '&8» &f&lKalan Süre: &7%combatlogx_time_left%'
-    - '&8» &f&lSavaşta: &7%combatlogx_time_left_decimal%'
-    - '&8» &f&lDurum: &7%combatlogx_status%'
-    - '&f'
-    - '&f&lDüşmanlar'
-    - '&8» &7%combatlogx_specific_enemy_1_name%'
-    - '&8» &7%combatlogx_specific_enemy_2_name%'
-    - '&8» &7%combatlogx_specific_enemy_3_name%'
-    - '&f'
   cheat-prevention:
     command-blocked: <red>Savaş sırasında </red><green>{command} </green><red>komutuna
       erişemezsiniz.
@@ -188,9 +146,9 @@ expansion:
       attacker: <red>Birilerine saldırdın, yeni oyuncu koruman devre dışı bırakıldı.
       expired: <red>Yeni oyuncu korumanızın süresi doldu.
     check-format:
-    - '&f&lBilgilendirme &7{target}&f&l:'
-    - '&f&lKoruma: &7{protected}'
-    - '&f&lPvP: &7{pvp}'
+    - '<bold><white>Bilgilendirme </white></bold><gray>{target}</gray><bold><white>:'
+    - '<bold><white>Koruma: </white></bold><gray>{protected}'
+    - '<bold><white>PvP: </white></bold><gray>{pvp}'
   loot-protection:
     enemy-died: <white>{enemy} </white><green>öldü. Ganimetler </green><white>{time}
       saniye </white><green>boyunca korunacaktır.
@@ -205,19 +163,16 @@ expansion:
     prevent-teleport-request-self: <red>Savaş sırasında ışınlanma isteği oluşturamazsınız.
     prevent-teleport-request-other: <red>Savaş sırasında bir oyuncuya ışınlanma isteği
       gönderemezsiniz.
-  marriagemaster-compatibility:
-    prevent-teleport-self: <red>Savaş sırasında birine ışınlanamazsın.
-    prevent-teleport-partner: <red>Savaş içerisinde olan birine ışınlanamazsın.
   region-protection:
     factions-no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor.
     griefdefender-no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor.
     griefprevention-no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor.
     kingdomsx-no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor.
+    lands-no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor.
     konquest-no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor.
     redprotect-no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor.
     residence-no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor.
     towny-no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor.
-    husktowns-no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor.
     ultimateclaims-no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor.
     protectionstones:
       prevent-area-creation: <red>Savaş sırasında bu alana girmenize izin verilmiyor.
@@ -231,7 +186,4 @@ expansion:
         verilmiyor.
       no-entry-player-combat: <red>Savaş sırasında non-player-combat alanına girmenize
         izin verilmiyor.
-      no-entry-unknown-combat: <red>Savaş sırasında bu alana girmenize izin verilmiyor.
-    lands:
-      no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor.
-      war-disable-newbie-protection: '%eSavaş ilanından dolayı PvP zorla açıldı.'
+      no-entry-unknown-combat: <red>Savaş sırasında bu alanına girmenize izin verilmiyor.

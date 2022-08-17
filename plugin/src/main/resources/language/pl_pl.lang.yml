@@ -25,9 +25,8 @@ combat-timer:
 error:
   player-only: <red>Tylko gracze mogą wykonać to polecenie.
   invalid-target: <gray>{target}</gray><red> nie jest online lub nie istnieje.
-  invalid-integer: <gray>{value}</gray><red> nie jest prawidłową liczbą całkowitą.
-  no-permission: '<red>Brak uprawnień: </red><gray>{permission}'
   disabled-world: <red>Ta komenda nie jest dostępna w tym świecie.
+  no-permission: '<red>Brak uprawnień: </red><gray>{permission}'
   target-not-in-combat: <gray>{target}</gray><red> nie jest w walce.
   self-not-in-combat: <red>Nie jesteś w walce.
   unknown-expansion: <gray>{target}</gray><red> nie jest rozszerzeniem lub nie jest
@@ -35,22 +34,25 @@ error:
 command:
   combatlogx:
     help-message-list:
-    - '&f'
-    - '&6&lMenu pomocy CombatLogX:'
-    - '  &f&l/combatlogx help&7: Wyświetl stronę pomocy.'
-    - '  &f&l/combatlogx reload&7: Przeładuj plik config.yml, language.yml i wszystkie
-      pliki konfiguracyjne rozszerzeń.'
-    - '  &f&l/combatlogx o <expansion>&7: Sprawdź informacje o rozszerzeniu.'
-    - '  &f&l/combatlogx tag <player> [seconds]&7: Zmuś gracza do walki.'
-    - '  &f&l/combatlogx toggle bossbar/actionbar/scoreboard&7: Włącz lub wyłącz wybrany
-      typ powiadomień.'
-    - '  &f&l/combatlogx untag <player>&7: Zmuś gracza do opuszczenia walki.'
-    - '  &f&l/combatlogx version&7: Sprawdź wersję CombatLogX.'
-    - '&f'
+    - <white>
+    - '<bold><gold>Menu pomocy CombatLogX:'
+    - '  <bold><white>/combatlogx help</white></bold><gray>: Wyświetl stronę pomocy.'
+    - '  <bold><white>/combatlogx reload</white></bold><gray>: Przeładuj plik config.yml,
+      language.yml i wszystkie pliki konfiguracyjne rozszerzeń.'
+    - '  <bold><white>/combatlogx o \<expansion></white></bold><gray>: Sprawdź informacje
+      o rozszerzeniu.'
+    - '  <bold><white>/combatlogx tag \<player> [seconds]</white></bold><gray>: Zmuś
+      gracza do walki.'
+    - '  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>:
+      Włącz lub wyłącz wybrany typ powiadomień.'
+    - '  <bold><white>/combatlogx untag \<player></white></bold><gray>: Zmuś gracza
+      do opuszczenia walki.'
+    - '  <bold><white>/combatlogx version</white></bold><gray>: Sprawdź wersję CombatLogX.'
+    - <white>
     reload-success:
-    - '&aPomyślnie przeładowano wszystkie pliki konfiguracyjne z CombatLogX.'
-    - '&aPomyślnie przeładowano wszystkie pliki językowe z CombatLogX.'
-    - '&aPomyślnie przeładowano wszystkie pliki konfiguracyjne z rozszerzeń CombatLogX.'
+    - <green>Pomyślnie przeładowano wszystkie pliki konfiguracyjne z CombatLogX.
+    - <green>Pomyślnie przeładowano wszystkie pliki językowe z CombatLogX.
+    - <green>Pomyślnie przeładowano wszystkie pliki konfiguracyjne z rozszerzeń CombatLogX.
     tag-player: <green>Pomyślnie zmuszono gracza </green><gray>{target}</gray><green>
       do bycia w walce.
     tag-failure: <gray>{target}</gray><red> nie może zostać zmuszony do bycia w walce.
@@ -71,8 +73,6 @@ tagged:
       powodu. Nie wylogowuj się!
     mythic_mob: <red>Jesteś teraz w walce z </red><white>{mob_type}</white><red> z
       nieznanego powodu. Nie wylogowuj się!
-    damage: <red>Jesteś teraz w walce z powodu otrzymywania obrażeń. Nie wylogowywuj
-      się!
     unknown: <red>Zostałeś postawiony do walki bez powodu. Nie wylogowuj się.
   attacked:
     player: <red>Zostałeś zaatakowany przez </red><white>{enemy}</white><red>. Nie
@@ -81,15 +81,11 @@ tagged:
       wylogowuj się!
     mythic_mob: <red>Zostałeś zaatakowany przez </red><white>{enemy}</white><red>.
       Nie wylogowuj się!
-    damage: <red>Jesteś teraz w walce z powodu otrzymywania obrażeń. Nie wylogowywuj
-      się!
     unknown: <red>Jesteś atakowany przez nieznaną siłę. Nie wylogowuj się!
   attacker:
     player: <red>Zaatakowałeś </red><white>{enemy}</white><red>. Nie wylogowuj się!
     mob: <red>Zaatakowałeś </red><white>{mob_type}</white><red>. Nie wylogowuj się!
     mythic_mob: <red>Zaatakowałeś </red><white>{enemy}</white><red>. Nie wylogowuj
-      się!
-    damage: <red>Jesteś teraz w walce z powodu otrzymywania obrażeń. Nie wylogowywuj
       się!
     unknown: <red>Atakujesz nieznaną siłę. Nie wylogowuj się!
 expansion:
@@ -99,11 +95,6 @@ expansion:
       sekund.
     ended: <bold><gold>Walka </gold></bold><gray>» </gray><white>Nie jesteś już w
       walce.
-  angel-chest:
-    prevent-opening: <red>Nie możesz otwierać skrzyń aniołowych podczas walki.
-    prevent-breaking: <red>Nie możesz niszczyć skrzyni aniołowych podczas walki.
-    prevent-fast-looting: <red>Nie możesz zabierać przedmiotów ze skrzyń aniołowych
-      podczas walki.
   boss-bar:
     # Valid 'timer' placeholders: {time_left}, {time_left_decimal}
     timer: <bold><gold>Walka </gold></bold><gray>» </gray><red>{time_left_decimal}
@@ -115,18 +106,18 @@ expansion:
     title: <bold><gold>CombatLogX
     # Make sure to follow your Spigot version's scoreboard line/character limit
     lines:
-    - '&f'
-    - '&f&lStatystyki Walki:'
-    - '&8» &f&lPozostały Czas: &7{time_left}'
-    - '&8» &f&lW Walce: &7{in_combat}'
-    - '&8» &f&lStatus: &7{status}'
-    - '&f'
-    - '&f&lStatystyki Wroga'
-    - '&8» &f&lNazwa: &7{enemy_name}'
-    - '&8» &f&lŻycie: &7{enemy_health}'
-    - '&8» &f&lZdrowie: &7{enemy_health_rounded}'
-    - '&8» &f&lSerca: &7{enemy_hearts}'
-    - '&f'
+    - <white>
+    - '<bold><white>Statystyki Walki:'
+    - '<dark_gray>» </dark_gray><bold><white>Pozostały Czas: </white></bold><gray>{time_left}'
+    - '<dark_gray>» </dark_gray><bold><white>W Walce: </white></bold><gray>{in_combat}'
+    - '<dark_gray>» </dark_gray><bold><white>Status: </white></bold><gray>{status}'
+    - <white>
+    - <bold><white>Statystyki Wroga
+    - '<dark_gray>» </dark_gray><bold><white>Nazwa: </white></bold><gray>{enemy_name}'
+    - '<dark_gray>» </dark_gray><bold><white>Życie: </white></bold><gray>{enemy_health}'
+    - '<dark_gray>» </dark_gray><bold><white>Zdrowie: </white></bold><gray>{enemy_health_rounded}'
+    - '<dark_gray>» </dark_gray><bold><white>Serca: </white></bold><gray>{enemy_hearts}'
+    - <white>
   cheat-prevention:
     command-blocked: <red>Nie masz dostępu do </red><green>{command}</green><red>
       podczas walki.
@@ -197,9 +188,9 @@ expansion:
       attacker: <red>Zaatakowałeś kogoś, twoja ochrona dla nowych została wyłączona.
       expired: <red>Twoja ochrona dla nowych graczy wygasła.
     check-format:
-    - '&f&lInformacje dla &7{target}&f&l:'
-    - '&f&lOchrona: &7{protected}'
-    - '&f&lPvP: &7{pvp}'
+    - '<bold><white>Informacje dla </white></bold><gray>{target}</gray><bold><white>:'
+    - '<bold><white>Ochrona: </white></bold><gray>{protected}'
+    - '<bold><white>PvP: </white></bold><gray>{pvp}'
   loot-protection:
     enemy-died: <white>{enemy} </white><green>umarł. Łup będzie chroniony przez </green><white>{time}
       sekund</white><green>.
@@ -215,11 +206,9 @@ expansion:
       walki.
     prevent-teleport-request-other: <red>Nie możesz wysłać prośby o teleportację do
       gracza, który jest w walce.
-  marriagemaster-compatibility:
-    prevent-teleport-self: <red>Nie możesz teleportować się do swojego partnera podczas
+  marriagemaster-compatiblity:
+    prevent-teleport: <red>Nie możesz teleportować się do swojego partnera podczas
       walki.
-    prevent-teleport-partner: <red>Nie możesz teleportować się do swojego partnera
-      podczas walki.
   region-protection:
     factions-no-entry: <red>Nie możesz wejść do tego obszaru podczas walki.
     griefdefender-no-entry: <red>Nie możesz wejść do tego obszaru podczas walki.
@@ -229,7 +218,6 @@ expansion:
     redprotect-no-entry: <red>Nie możesz wejść do tego obszaru podczas walki.
     residence-no-entry: <red>Nie możesz wejść do tego obszaru podczas walki.
     towny-no-entry: <red>Nie możesz wejść do tego obszaru podczas walki.
-    husktowns-no-entry: <red>Nie możesz wejść do tego obszaru podczas walki.
     ultimateclaims-no-entry: <red>Nie możesz wejść do tego obszaru podczas walki.
     protectionstones:
       prevent-area-creation: <red>Nie możesz tworzyć obszaru chronionego podczas walki.

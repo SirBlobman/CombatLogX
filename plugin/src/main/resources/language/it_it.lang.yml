@@ -37,22 +37,29 @@ error:
 command:
   combatlogx:
     help-message-list:
-    - '&f'
-    - '&6&lGuida CombatLogX Comando:'
-    - '  &f&l/combatlogx help&7: Visualizza questa pagina di aiuto.'
-    - '  &f&l/combatlogx reload&7: Ricarica i file di configurazione config.yml, language.yml,
-      e tutti i file di configurazione di espansione.'
-    - '  &f&l/combatlogx su <expansion>&7: Verifica informazioni su un''espansione.'
-    - '  &f&l/combatlogx tag <player>&7: Forza un giocatore in combattimento.'
-    - '  &f&l/combatlogx toggle bossbar/actionbar/scoreboard&7: Abilita o disabilita
-      un tipo di notifica.'
-    - '  &f&l/combatlogx untag <player>&7: Forza un giocatore fuori combattimento.'
-    - '  &f&l/combatlogx version&7: Verifica la tua versione di CombatLogX.'
-    - '&f'
+    - <white>
+    - '<bold><gold>Guida CombatLogX Comando:'
+    - '  <bold><white>/combatlogx help</white></bold><gray>: Visualizza questa pagina
+      di aiuto.'
+    - '  <bold><white>/combatlogx reload</white></bold><gray>: Ricarica i file di
+      configurazione config.yml, language.yml, e tutti i file di configurazione di
+      espansione.'
+    - '  <bold><white>/combatlogx su \<expansion></white></bold><gray>: Verifica informazioni
+      su un''espansione.'
+    - '  <bold><white>/combatlogx tag \<player></white></bold><gray>: Forza un giocatore
+      in combattimento.'
+    - '  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>:
+      Abilita o disabilita un tipo di notifica.'
+    - '  <bold><white>/combatlogx untag \<player></white></bold><gray>: Forza un giocatore
+      fuori combattimento.'
+    - '  <bold><white>/combatlogx version</white></bold><gray>: Verifica la tua versione
+      di CombatLogX.'
+    - <white>
     reload-success:
-    - '&aHai ricaricato con successo tutti i file di configurazione da CombatLogX.'
-    - '&aRicaricato con successo tutti i file di lingua da CombatLogX.'
-    - '&aRicaricata con successo tutti i file di configurazione dalle espansioni CombatLogX.'
+    - <green>Hai ricaricato con successo tutti i file di configurazione da CombatLogX.
+    - <green>Ricaricato con successo tutti i file di lingua da CombatLogX.
+    - <green>Ricaricata con successo tutti i file di configurazione dalle espansioni
+      CombatLogX.
     tag-player: <green>Giocatore forzato con successo </green><gray>{target}</gray><green>
       in combattimento.
     tag-failure: <gray>{target}</gray><red> non può essere posizionato in combattimento.
@@ -146,9 +153,9 @@ expansion:
         disabilitata.
       expired: <red>La tua protezione del newbie è scaduta.
     check-format:
-    - '&f&lInformazioni per &7{target}&f&l:'
-    - '&f&lProtezione: &7{protected}'
-    - '&f&lPvP: &7{pvp}'
+    - '<bold><white>Informazioni per </white></bold><gray>{target}</gray><bold><white>:'
+    - '<bold><white>Protezione: </white></bold><gray>{protected}'
+    - '<bold><white>PvP: </white></bold><gray>{pvp}'
   toggle-bossbar: '<bold><gray>Boss Bar: {status}'
   toggle-actionbar: '<bold><gray>Action Bar: {status}'
   toggle-scoreboard: '<gray>Tabellone di valutazione: {status}'

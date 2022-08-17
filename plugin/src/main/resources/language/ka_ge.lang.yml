@@ -32,22 +32,27 @@ error:
 command:
   combatlogx:
     help-message-list:
-    - '&f'
-    - '&6&lCombatLogX ბრძანებათა სია:'
-    - '  &f&l/combatlogx help&7: ხედავთ ამ დახმარების გვერდს.'
-    - '  &f&l/combatlogx reload&7: ახორციელებს კონფიგურაციის, ენის და ყველა გაფართოვებათა
-      კონფიგურაციის გადატვირთვას.'
-    - '  &f&l/combatlogx about <expansion>&7: ამოწმებს ინფორმაციას გაფართოვების შესახებ.'
-    - '  &f&l/combatlogx tag <player>&7: ძალით შეჰყავს მოთამაშე ბრძოლაში.'
-    - '  &f&l/combatlogx toggle bossbar/actionbar/scoreboard&7: გამორთეთ ან ჩართეთ
-      შეტყობინების ნიმუში.'
-    - '  &f&l/combatlogx untag <player>&7: ძალით გამოჰყავს მოთამაშე ბრძოლიდან.'
-    - '  &f&l/combatlogx version&7: ამოწმებს CombatLogX -ის ვერსიას.'
-    - '&f'
+    - <white>
+    - '<bold><gold>CombatLogX ბრძანებათა სია:'
+    - '  <bold><white>/combatlogx help</white></bold><gray>: ხედავთ ამ დახმარების
+      გვერდს.'
+    - '  <bold><white>/combatlogx reload</white></bold><gray>: ახორციელებს კონფიგურაციის,
+      ენის და ყველა გაფართოვებათა კონფიგურაციის გადატვირთვას.'
+    - '  <bold><white>/combatlogx about \<expansion></white></bold><gray>: ამოწმებს
+      ინფორმაციას გაფართოვების შესახებ.'
+    - '  <bold><white>/combatlogx tag \<player></white></bold><gray>: ძალით შეჰყავს
+      მოთამაშე ბრძოლაში.'
+    - '  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>:
+      გამორთეთ ან ჩართეთ შეტყობინების ნიმუში.'
+    - '  <bold><white>/combatlogx untag \<player></white></bold><gray>: ძალით გამოჰყავს
+      მოთამაშე ბრძოლიდან.'
+    - '  <bold><white>/combatlogx version</white></bold><gray>: ამოწმებს CombatLogX
+      -ის ვერსიას.'
+    - <white>
     reload-success:
-    - '&aკონფიგურაცია წარმატებით გადაიტვირთა.'
-    - '&aენის ფაილები წარმატებით გადაიტვირთა.'
-    - '&aგაფართოვებების კონფიგურაციათა ფაილები წარმატებით გადაიტვირთა.'
+    - <green>კონფიგურაცია წარმატებით გადაიტვირთა.
+    - <green>ენის ფაილები წარმატებით გადაიტვირთა.
+    - <green>გაფართოვებების კონფიგურაციათა ფაილები წარმატებით გადაიტვირთა.
     tag-player: <green>მოთამაშე </green><gray>{target} </gray><green>-(ი)ს ბრძოლაში
       შეყვანა ძალით განხორციელდა.
     tag-failure: <gray>{target} </gray><red>ვერ დაიდგმება ბრძოლის დროს. (იქნებ მათ
@@ -142,9 +147,9 @@ expansion:
       attacker: <red>თქვენ სხვას დაესხით თავს, თქვენი ახალბედა დაცვა კი უკვე გამორთულია.
       expired: <red>თქვენს ახალბედა დაცვას ვადა ამოეწურა.
     check-format:
-    - '&f&lინფორმაცია &7{target} &f&l-(ი)სთვის:'
-    - '&f&lდაცვა: &7{protected}'
-    - '&f&lბრძოლა: &7{pvp}'
+    - '<bold><white>ინფორმაცია </white></bold><gray>{target} </gray><bold><white>-(ი)სთვის:'
+    - '<bold><white>დაცვა: </white></bold><gray>{protected}'
+    - '<bold><white>ბრძოლა: </white></bold><gray>{pvp}'
   loot-protection:
     enemy-died: <white>{enemy} </white><green>მოკვდა. ნაძარცვი კი დაცული იქნება მომდევნო
       </green><white>{time} წამის </white><green>განმავლობაში.

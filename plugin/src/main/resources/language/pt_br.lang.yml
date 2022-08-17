@@ -33,22 +33,24 @@ error:
 command:
   combatlogx:
     help-message-list:
-    - '&f'
-    - '&6&lComandos disponíveis do CombatLogX:'
-    - '  &7/combatlogx help &fMostra página de ajuda.'
-    - '  &7/combatlogx reload &fRecarrega as configurações.'
-    - '  &7/combatlogx about <expansão> &fMostra as informações de uma expansão.'
-    - ' &7/combatlogx tag &fColoca um jogador em combate'
-    - '  &f&l/combatlogx toggle bossbar/actionbar/scoreboard&7: Ativa ou desativa
-      um tipo de notificação.'
-    - '  &7/combatlogx tag &fForça um jogador a sair de combate.'
-    - '  &f&l/combatlogx version &7: Verifique sua versão do CombatLogX.'
-    - '&f'
+    - <white>
+    - '<bold><gold>Comandos disponíveis do CombatLogX:'
+    - '  <gray>/combatlogx help </gray><white>Mostra página de ajuda.'
+    - '  <gray>/combatlogx reload </gray><white>Recarrega as configurações.'
+    - '  <gray>/combatlogx about \<expansão> </gray><white>Mostra as informações de
+      uma expansão.'
+    - ' <gray>/combatlogx tag </gray><white>Coloca um jogador em combate'
+    - '  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>:
+      Ativa ou desativa um tipo de notificação.'
+    - '  <gray>/combatlogx tag </gray><white>Força um jogador a sair de combate.'
+    - '  <bold><white>/combatlogx version </white></bold><gray>: Verifique sua versão
+      do CombatLogX.'
+    - <white>
     reload-success:
-    - '&aCombatLogX recarregado com sucesso.'
-    - '&aTodos os arquivos de idioma do CombatLogX foram recarregados com sucesso.'
-    - '&aTodos os arquivos de configurações das expansões do CombatLogX foram recarregadas
-      com sucesso.'
+    - <green>CombatLogX recarregado com sucesso.
+    - <green>Todos os arquivos de idioma do CombatLogX foram recarregados com sucesso.
+    - <green>Todos os arquivos de configurações das expansões do CombatLogX foram
+      recarregadas com sucesso.
     tag-player: <green>Você forçou </green><gray>{target} </gray><green>a entrar em
       combate.
     tag-failure: <red>Você não pode colocar </red><gray>{target} </gray><red>em combate.
@@ -102,18 +104,18 @@ expansion:
     title: <bold><gold>CombatLogX
     # Make sure to follow your Spigot version's scoreboard line/character limit
     lines:
-    - '&f'
-    - '&f&lStatus de Combate:'
-    - '&8» &f&lTempo Restante: &7{time_left}'
-    - '&8» &f&lEm combate: &7{in_combat}'
-    - '&8» &f&lStatus: &7{status}'
-    - '&f'
-    - '&f&lStatus do Inimigo'
-    - '&8» &f&lNome: &7{enemy_name}'
-    - '&8» &f&lVida: &7{enemy_health}'
-    - '&8» &f&lVida: &7{enemy_health_rounded}'
-    - '&8» &f&lCorações: &7{enemy_hearts}'
-    - '&f'
+    - <white>
+    - '<bold><white>Status de Combate:'
+    - '<dark_gray>» </dark_gray><bold><white>Tempo Restante: </white></bold><gray>{time_left}'
+    - '<dark_gray>» </dark_gray><bold><white>Em combate: </white></bold><gray>{in_combat}'
+    - '<dark_gray>» </dark_gray><bold><white>Status: </white></bold><gray>{status}'
+    - <white>
+    - <bold><white>Status do Inimigo
+    - '<dark_gray>» </dark_gray><bold><white>Nome: </white></bold><gray>{enemy_name}'
+    - '<dark_gray>» </dark_gray><bold><white>Vida: </white></bold><gray>{enemy_health}'
+    - '<dark_gray>» </dark_gray><bold><white>Vida: </white></bold><gray>{enemy_health_rounded}'
+    - '<dark_gray>» </dark_gray><bold><white>Corações: </white></bold><gray>{enemy_hearts}'
+    - <white>
   cheat-prevention:
     command-blocked: <red>Você não pode usar comandos em combate.
     no-riptide: <red>O encantamento Correnteza não pode ser usado em combate.
@@ -186,9 +188,9 @@ expansion:
         agora.
       expired: <red>Sua proteção de iniciante expirou.
     check-format:
-    - '&f&lInformações para &7{target}&f&l:'
-    - '&f&lProteção: &7{protected}'
-    - '&f&lPvP: &7{pvp}'
+    - '<bold><white>Informações para </white></bold><gray>{target}</gray><bold><white>:'
+    - '<bold><white>Proteção: </white></bold><gray>{protected}'
+    - '<bold><white>PvP: </white></bold><gray>{pvp}'
   loot-protection:
     enemy-died: <white>{enemy} </white><green>morreu. Os itens serão protegidos por
       </green><white>{time} segundos.
