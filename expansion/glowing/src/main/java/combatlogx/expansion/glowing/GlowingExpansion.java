@@ -1,6 +1,10 @@
 package combatlogx.expansion.glowing;
 
+import java.util.Collection;
 import java.util.logging.Logger;
+
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -37,7 +41,16 @@ public class GlowingExpansion extends Expansion {
 
     @Override
     public void onDisable() {
-        // Do Nothing
+        int minorVersion = VersionUtility.getMinorVersion();
+        if(minorVersion < 9) {
+            return;
+        }
+
+        // Remove glowing for all online players.
+        Collection<? extends Player> onlinePlayerCollection = Bukkit.getOnlinePlayers();
+        for (Player player : onlinePlayerCollection) {
+            player.setGlowing(false);
+        }
     }
 
     @Override
