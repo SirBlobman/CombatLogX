@@ -28,7 +28,7 @@ import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.api.object.WorldXYZ;
+import com.github.sirblobman.api.location.BlockLocation;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.api.xseries.XMaterial;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -51,7 +51,7 @@ import org.jetbrains.annotations.Nullable;
  * @author olivolja3
  */
 public final class ListenerForceField extends ExpansionListener {
-    private final Map<UUID, Set<WorldXYZ>> fakeBlockMap;
+    private final Map<UUID, Set<BlockLocation>> fakeBlockMap;
     private final ExecutorService forceFieldExecutor;
 
     private Permission bypassPermission;
@@ -62,7 +62,7 @@ public final class ListenerForceField extends ExpansionListener {
         this.forceFieldExecutor = Executors.newSingleThreadExecutor();
     }
 
-    Map<UUID, Set<WorldXYZ>> getFakeBlockMap() {
+    Map<UUID, Set<BlockLocation>> getFakeBlockMap() {
         return this.fakeBlockMap;
     }
 
@@ -95,7 +95,7 @@ public final class ListenerForceField extends ExpansionListener {
         }
 
         Location fromLocation = e.getFrom();
-        if (Objects.equals(WorldXYZ.from(toLocation), WorldXYZ.from(fromLocation))) {
+        if (Objects.equals(BlockLocation.from(toLocation), BlockLocation.from(fromLocation))) {
             return;
         }
 
@@ -211,23 +211,23 @@ public final class ListenerForceField extends ExpansionListener {
         return !configuration.getBoolean("unsafe-mode", false);
     }
 
-    boolean canPlace(WorldXYZ worldXYZ) {
-        if (worldXYZ == null) {
+    boolean canPlace(BlockLocation blockLocation) {
+        if (blockLocation == null) {
             return false;
         }
 
-        World world = worldXYZ.getWorld();
+        World world = blockLocation.getWorld();
         if (world == null) {
             return false;
         }
 
         int maxY = world.getMaxHeight();
-        int locationY = worldXYZ.getY();
+        int locationY = blockLocation.getY();
         if (locationY > maxY) {
             return false;
         }
 
-        Location location = worldXYZ.asLocation();
+        Location location = blockLocation.asLocation();
         if (location == null) {
             return false;
         }
@@ -302,20 +302,23 @@ public final class ListenerForceField extends ExpansionListener {
         }
     }
 
-    private Set<WorldXYZ> getForceFieldArea(Player player, TagInformation tagInformation) {
+    private Set<BlockLocation> getForceFieldArea(Player player, TagInformation tagInformation) {
         World world = player.getWorld();
-        WorldXYZ playerXYZ = WorldXYZ.from(player);
-        int radius = getForceFieldRadius();
+        BlockLocation playerXYZ = BlockLocation.from(player);
+        if(playerXYZ == null) {
+            throw new IllegalStateException("playerXYZ is somehow null?");
+        }
 
-        Set<WorldXYZ> area = new HashSet<>();
+        int radius = getForceFieldRadius();
+        Set<BlockLocation> area = new HashSet<>();
         int playerX = playerXYZ.getX(), playerY = playerXYZ.getY(), playerZ = playerXYZ.getZ();
         int minX = (playerX - radius), maxX = (playerX + radius);
         int minZ = (playerZ - radius), maxZ = (playerZ + radius);
 
         for (int x = minX; x <= maxX; x++) {
             for (int z = minZ; z <= maxZ; z++) {
-                WorldXYZ worldXYZ = WorldXYZ.from(world, x, playerY, z);
-                Location location = worldXYZ.asLocation();
+                BlockLocation blockLocation = BlockLocation.from(world, x, playerY, z);
+                Location location = blockLocation.asLocation();
                 if (location == null) {
                     continue;
                 }
@@ -329,12 +332,12 @@ public final class ListenerForceField extends ExpansionListener {
                 }
 
                 for (int y = -radius; y < radius; y++) {
-                    WorldXYZ worldXYZ2 = WorldXYZ.from(world, x, playerY + y, z);
-                    if (!canPlace(worldXYZ2)) {
+                    BlockLocation blockLocation2 = BlockLocation.from(world, x, playerY + y, z);
+                    if (!canPlace(blockLocation2)) {
                         continue;
                     }
 
-                    area.add(worldXYZ2);
+                    area.add(blockLocation2);
                 }
             }
         }
@@ -342,18 +345,10 @@ public final class ListenerForceField extends ExpansionListener {
         return area;
     }
 
-    private void safeForceField(Player player) {
-        ICombatManager combatManager = getCombatManager();
-        TagInformation tagInformation = combatManager.getTagInformation(player);
-        if (tagInformation != null) {
-            safeForceField(player, tagInformation);
-        }
-    }
-
     private void safeForceField(Player player, TagInformation tagInformation) {
-        Set<WorldXYZ> oldArea = new HashSet<>();
-        Set<WorldXYZ> newArea = getForceFieldArea(player, tagInformation);
-        Set<WorldXYZ> fullArea = new HashSet<>(newArea);
+        Set<BlockLocation> oldArea = new HashSet<>();
+        Set<BlockLocation> newArea = getForceFieldArea(player, tagInformation);
+        Set<BlockLocation> fullArea = new HashSet<>(newArea);
 
         UUID uuid = player.getUniqueId();
         if (this.fakeBlockMap.containsKey(uuid)) {
@@ -363,13 +358,13 @@ public final class ListenerForceField extends ExpansionListener {
         }
         this.fakeBlockMap.put(uuid, fullArea);
 
-        for (WorldXYZ worldXYZ : newArea) {
-            Location location = worldXYZ.asLocation();
+        for (BlockLocation blockLocation : newArea) {
+            Location location = blockLocation.asLocation();
             if (location != null) sendForceField(player, location);
         }
 
-        for (WorldXYZ worldXYZ : oldArea) {
-            Location location = worldXYZ.asLocation();
+        for (BlockLocation blockLocation : oldArea) {
+            Location location = blockLocation.asLocation();
             if (location != null) resetBlock(player, location);
         }
     }
@@ -380,9 +375,9 @@ public final class ListenerForceField extends ExpansionListener {
             return;
         }
 
-        Set<WorldXYZ> oldArea = new HashSet<>(this.fakeBlockMap.remove(uuid));
-        for (WorldXYZ worldXYZ : oldArea) {
-            Location location = worldXYZ.asLocation();
+        Set<BlockLocation> oldArea = new HashSet<>(this.fakeBlockMap.remove(uuid));
+        for (BlockLocation blockLocation : oldArea) {
+            Location location = blockLocation.asLocation();
             if (location != null) resetBlock(player, location);
         }
     }

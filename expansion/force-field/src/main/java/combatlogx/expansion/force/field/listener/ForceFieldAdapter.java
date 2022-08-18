@@ -8,7 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import com.github.sirblobman.api.object.WorldXYZ;
+import com.github.sirblobman.api.location.BlockLocation;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.api.xseries.XMaterial;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -120,9 +120,9 @@ public final class ForceFieldAdapter extends PacketAdapter {
         if (this.forceFieldListener.getFakeBlockMap().containsKey(playerId)) {
             boolean isSafe = this.forceFieldListener.isSafe(player, location);
             boolean isSafeSurround = this.forceFieldListener.isSafeSurround(player, location, tagInformation);
-            boolean canPlace = this.forceFieldListener.canPlace(WorldXYZ.from(location));
+            boolean canPlace = this.forceFieldListener.canPlace(BlockLocation.from(location));
             if (isSafe && isSafeSurround && canPlace) {
-                WorldXYZ worldXYZ = WorldXYZ.from(location);
+                BlockLocation worldXYZ = BlockLocation.from(location);
                 return this.forceFieldListener.getFakeBlockMap().get(playerId).contains(worldXYZ);
             }
         }
