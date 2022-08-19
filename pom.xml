@@ -28,7 +28,7 @@
         <!-- Minor: This will change when a small change occurs to the plugin. -->
         <!-- Expansion: This will change when an expansion is updated. -->
         <!-- Build: This will be automatically changed by the Jenkins build system -->
-        <combatlogx.version>11.1.0.3.Beta-${build.number}</combatlogx.version>
+        <combatlogx.version>11.1.0.3.${build.number}</combatlogx.version>
     </properties>
 
     <pluginRepositories>
