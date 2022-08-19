@@ -48,6 +48,7 @@ public final class ListenerDamage extends ExpansionListener {
 
             return;
         }
+
         if (isAllDamageEnabled()) {
             tag(player, null);
             return;
@@ -93,10 +94,16 @@ public final class ListenerDamage extends ExpansionListener {
     private void tag(Player player, @Nullable DamageCause damageCause) {
         ICombatLogX combatLogX = getCombatLogX();
         ICombatManager combatManager = combatLogX.getCombatManager();
+        YamlConfiguration configuration = getConfiguration();
 
-        boolean wasInCombat = combatManager.isInCombat(player);
+        boolean alreadyInCombat = combatManager.isInCombat(player);
+        boolean retagOnly = configuration.getBoolean("retag-only", false);
+        if(retagOnly && !alreadyInCombat) {
+            return;
+        }
+
         boolean tagged = combatManager.tag(player, null, TagType.DAMAGE, TagReason.UNKNOWN);
-        if (!wasInCombat && tagged) {
+        if (tagged && !alreadyInCombat) {
             sendMessage(player, damageCause);
         }
     }

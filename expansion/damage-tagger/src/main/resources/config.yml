@@ -6,6 +6,9 @@ all-damage: false
 # Should CombatLogX tag players when they are blown up by end crystals?
 end-crystals: true
 
+# Should CombatLogX only use Damage Tagger when a player is already tagged by something else?
+retag-only: false
+
 damage-type:
   # Cactus Damage / Touching a block that hurts you
   contact: true
