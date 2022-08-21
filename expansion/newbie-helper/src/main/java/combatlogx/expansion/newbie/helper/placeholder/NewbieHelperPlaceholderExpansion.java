@@ -32,7 +32,7 @@ public final class NewbieHelperPlaceholderExpansion implements IPlaceholderExpan
 
     @Override
     public String getId() {
-        return "newbie_helper";
+        return "newbie";
     }
 
     @Override
@@ -40,9 +40,9 @@ public final class NewbieHelperPlaceholderExpansion implements IPlaceholderExpan
         printDebug("Detected getReplacement for placeholder " + placeholder + " and player " + player.getName());
 
         switch (placeholder) {
-            case "pvp_status":
+            case "helper_pvp_status":
                 return getPvpStatus(player);
-            case "protected":
+            case "helper_protected":
                 return getProtected(player);
             default:
                 break;
