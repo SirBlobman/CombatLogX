@@ -82,7 +82,7 @@ public final class ListenerDeath extends CombatListener {
         }
 
         List<Entity> enemyList = deathManager.getTrackedEnemies(player);
-        String randomMessage = getRandomDeathMessage(player);
+        String randomMessage = getRandomDeathMessage();
         if (randomMessage == null) {
             return;
         }
@@ -93,7 +93,7 @@ public final class ListenerDeath extends CombatListener {
         e.setDeathMessage(coloredMessage);
     }
 
-    private String getRandomDeathMessage(Player player) {
+    private String getRandomDeathMessage() {
         ConfigurationManager configurationManager = getPluginConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("punish.yml");
 

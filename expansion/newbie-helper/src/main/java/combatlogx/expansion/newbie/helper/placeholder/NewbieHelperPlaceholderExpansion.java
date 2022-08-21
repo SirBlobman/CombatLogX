@@ -1,12 +1,14 @@
 package combatlogx.expansion.newbie.helper.placeholder;
 
 import java.util.List;
+import java.util.logging.Logger;
 
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.language.LanguageManager;
-import com.github.sirblobman.api.utility.MessageUtility;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.placeholder.IPlaceholderExpansion;
@@ -35,6 +37,8 @@ public final class NewbieHelperPlaceholderExpansion implements IPlaceholderExpan
 
     @Override
     public String getReplacement(Player player, List<Entity> enemyList, String placeholder) {
+        printDebug("Detected getReplacement for placeholder " + placeholder + " and player " + player.getName());
+
         switch (placeholder) {
             case "pvp_status":
                 return getPvpStatus(player);
@@ -44,6 +48,7 @@ public final class NewbieHelperPlaceholderExpansion implements IPlaceholderExpan
                 break;
         }
 
+        printDebug("Placeholder is not valid, ignoring.");
         return null;
     }
 
@@ -52,21 +57,38 @@ public final class NewbieHelperPlaceholderExpansion implements IPlaceholderExpan
     }
 
     private String getPvpStatus(Player player) {
+        printDebug("Detected PVP Status placeholder.");
+
         NewbieHelperExpansion expansion = getExpansion();
         PVPManager pvpManager = expansion.getPVPManager();
         boolean pvp = !pvpManager.isDisabled(player);
-        String messagePath = ("placeholder.pvp-status." + (pvp ? "enabled" : "disabled"));
+        printDebug("PVP Value: " + pvp);
 
         ICombatLogX combatLogX = getCombatLogX();
         LanguageManager languageManager = combatLogX.getLanguageManager();
-        String messageString = languageManager.getMessageString(player, messagePath, null);
-        return MessageUtility.color(messageString);
+        String messagePath = ("placeholder.pvp-status." + (pvp ? "enabled" : "disabled"));
+        return languageManager.getMessageString(player, messagePath, null);
     }
 
     private String getProtected(Player player) {
+        printDebug("Detected Protected placeholder.");
         NewbieHelperExpansion expansion = getExpansion();
         ProtectionManager protectionManager = expansion.getProtectionManager();
         boolean isProtected = protectionManager.isProtected(player);
+        printDebug("Protected: " + isProtected);
         return Boolean.toString(isProtected);
+    }
+
+    private void printDebug(String message) {
+        ICombatLogX combatLogX = getCombatLogX();
+        ConfigurationManager configurationManager = combatLogX.getConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("config.yml");
+        if(!configuration.getBoolean("debug-mode", false)) {
+            return;
+        }
+
+        NewbieHelperExpansion expansion = getExpansion();
+        Logger logger = expansion.getLogger();
+        logger.info("[Debug] [Placeholders] " + message);
     }
 }

@@ -6,12 +6,15 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
@@ -66,18 +69,23 @@ public final class PlaceholderManager extends Manager implements IPlaceholderMan
         Validate.notNull(player, "player must not be null!");
         Validate.notNull(placeholder, "placeholder must not be null!");
 
+        printDebug("Detected getReplacement for placeholder " + placeholder + " and player " + player.getName());
+
         int underscoreIndex = placeholder.indexOf('_');
         if (underscoreIndex == -1) {
+            printDebug("Placeholder did not contain underscore. Not valid.");
             return null;
         }
 
         String expansionId = placeholder.substring(0, underscoreIndex);
         IPlaceholderExpansion expansion = getPlaceholderExpansion(expansionId);
         if (expansion == null) {
+            printDebug("No placeholder expansion found with id '" + expansionId + "'. Not valid.");
             return null;
         }
 
         String subPlaceholder = placeholder.substring(underscoreIndex + 1);
+        printDebug("Sub Placeholder: " + subPlaceholder);
         return expansion.getReplacement(player, enemyList, subPlaceholder);
     }
 
@@ -85,12 +93,18 @@ public final class PlaceholderManager extends Manager implements IPlaceholderMan
     public String replaceAll(Player player, List<Entity> enemyList, String string) {
         Validate.notNull(player, "player must not be null!");
         Validate.notNull(string, "string must not be null!");
+        printDebug("Detected replaceAll placeholders for player " + player.getName());
+        printDebug("Original String: '" + string + "'");
 
         StringBuffer buffer = new StringBuffer();
         Matcher matcher = BRACKET_PLACEHOLDER_PATTERN.matcher(string);
         while (matcher.find()) {
             String placeholder = matcher.group(1);
+            printDebug("Found placeholder " + placeholder);
+
             String replacement = getPlaceholderReplacement(player, enemyList, placeholder);
+            printDebug("Replacement: " + replacement);
+
             if (replacement != null) {
                 matcher.appendReplacement(buffer, replacement);
             }
@@ -98,7 +112,9 @@ public final class PlaceholderManager extends Manager implements IPlaceholderMan
 
         matcher.appendTail(buffer);
         String replaced = buffer.toString();
-        return PlaceholderHelper.replacePlaceholderAPI(player, replaced);
+        String finalOutput = PlaceholderHelper.replacePlaceholderAPI(player, replaced);
+        printDebug("Replaced String: " + finalOutput);
+        return finalOutput;
     }
 
     @Override
@@ -118,5 +134,17 @@ public final class PlaceholderManager extends Manager implements IPlaceholderMan
                 CommandHelper.runAsConsole(plugin, replacedCommand);
             }
         }
+    }
+
+    private void printDebug(String message) {
+        ICombatLogX combatLogX = getCombatLogX();
+        ConfigurationManager configurationManager = combatLogX.getConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("config.yml");
+        if(!configuration.getBoolean("debug-mode", false)) {
+            return;
+        }
+
+        Logger logger = combatLogX.getLogger();
+        logger.info("[Debug] [Placeholders] " + message);
     }
 }
