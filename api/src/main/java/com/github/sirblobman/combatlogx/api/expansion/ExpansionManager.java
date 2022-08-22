@@ -337,7 +337,7 @@ public final class ExpansionManager {
             expansion.setState(State.DISABLED);
             expansion.onDisable();
         } catch (Exception ex) {
-            logger.log(Level.SEVERE, "An error occurred while enabling an expansion:", ex);
+            logger.log(Level.SEVERE, "An error occurred while disabling an expansion:", ex);
         }
     }
 
