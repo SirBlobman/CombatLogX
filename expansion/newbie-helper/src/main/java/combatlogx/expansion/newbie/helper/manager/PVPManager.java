@@ -22,7 +22,7 @@ public final class PVPManager {
     }
 
     public void setPVP(Player player, boolean pvp) {
-        if(isNPC(player)) {
+        if (isNPC(player)) {
             return;
         }
 
@@ -32,7 +32,7 @@ public final class PVPManager {
     }
 
     public boolean isDisabled(Player player) {
-        if(isNPC(player)) {
+        if (isNPC(player)) {
             return false;
         }
 
@@ -109,7 +109,7 @@ public final class PVPManager {
     }
 
     private boolean isNPC(Player player) {
-        if(player == null) {
+        if (player == null) {
             return true;
         }
 

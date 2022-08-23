@@ -52,7 +52,7 @@ public final class ScoreboardExpansion extends Expansion {
 
     @SuppressWarnings("JavaReflectionMemberAccess")
     public boolean shouldUsePaperAPI() {
-        if(this.usePaperAPI != null) {
+        if (this.usePaperAPI != null) {
             return this.usePaperAPI;
         }
 
@@ -62,12 +62,12 @@ public final class ScoreboardExpansion extends Expansion {
             Method displayNameMethod = scoreboardClass.getDeclaredMethod("displayName", componentClass);
             int modifiers = displayNameMethod.getModifiers();
             this.usePaperAPI = Modifier.isPublic(modifiers);
-        } catch(ReflectiveOperationException ex) {
+        } catch (ReflectiveOperationException ex) {
             this.usePaperAPI = false;
         }
 
         Logger logger = getLogger();
-        if(this.usePaperAPI) {
+        if (this.usePaperAPI) {
             logger.info("Using Paper API and Adventure Component for scoreboards");
         } else {
             logger.info("Using Spigot and String for scoreboards.");

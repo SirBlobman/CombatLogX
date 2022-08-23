@@ -140,7 +140,7 @@ public final class CheatPreventionExpansion extends Expansion {
 
     private void registerVersionTasks(int minorVersion) {
         // Elytra were added in 1.9.
-        if(minorVersion >= 9) {
+        if (minorVersion >= 9) {
             new ElytraRetagTask(this).register();
         }
     }
@@ -150,7 +150,7 @@ public final class CheatPreventionExpansion extends Expansion {
         try {
             Class.forName("io.papermc.paper.event.player.AsyncChatEvent");
             new ListenerPaperChat(this).register();
-        } catch(ReflectiveOperationException ex) {
+        } catch (ReflectiveOperationException ex) {
             new ListenerChat(this).register();
         }
     }

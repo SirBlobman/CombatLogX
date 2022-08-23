@@ -19,7 +19,7 @@ public final class SubCommandReload extends CombatLogCommand {
 
             sendMessageWithPrefix(sender, "command.combatlogx.reload-success", null);
             return true;
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             sendMessageWithPrefix(sender, "command.combatlogx.reload-failure", null);
             return true;

@@ -140,7 +140,7 @@ public abstract class RegionHandler {
 
     private boolean isGliding(Player player) {
         int minorVersion = VersionUtility.getMinorVersion();
-        if(minorVersion < 9) {
+        if (minorVersion < 9) {
             return false;
         }
 

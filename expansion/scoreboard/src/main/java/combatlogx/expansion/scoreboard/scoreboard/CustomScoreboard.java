@@ -158,7 +158,7 @@ public final class CustomScoreboard {
         score.setScore(line);
 
         ScoreboardExpansion expansion = getExpansion();
-        if(expansion.shouldUsePaperAPI()) {
+        if (expansion.shouldUsePaperAPI()) {
             setLinePaper(line, value);
         } else {
             String valueString = ComponentHelper.toLegacy(value);
@@ -199,7 +199,7 @@ public final class CustomScoreboard {
 
     private String cut(String original, int length) {
         int originalLength = original.length();
-        if(originalLength <= length) {
+        if (originalLength <= length) {
             return original;
         }
 
@@ -265,7 +265,7 @@ public final class CustomScoreboard {
         Component title = getTitle();
         ScoreboardExpansion expansion = getExpansion();
 
-        if(expansion.shouldUsePaperAPI()) {
+        if (expansion.shouldUsePaperAPI()) {
             updateTitlePaper(title);
         } else {
             String spigotTitle = ComponentHelper.toLegacy(title);

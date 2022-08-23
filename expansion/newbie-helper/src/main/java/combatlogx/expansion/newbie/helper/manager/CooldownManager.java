@@ -29,13 +29,13 @@ public final class CooldownManager {
         Validate.notNull(player, "player must not be null!");
 
         UUID playerId = player.getUniqueId();
-        if(!this.cooldownMap.containsKey(playerId)) {
+        if (!this.cooldownMap.containsKey(playerId)) {
             return false;
         }
 
         long systemMillis = System.currentTimeMillis();
         long expireMillis = this.cooldownMap.get(playerId);
-        if(systemMillis >= expireMillis) {
+        if (systemMillis >= expireMillis) {
             removeCooldown(player);
             return false;
         }

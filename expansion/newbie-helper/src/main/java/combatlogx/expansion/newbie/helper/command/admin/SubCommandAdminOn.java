@@ -23,7 +23,7 @@ public final class SubCommandAdminOn extends CombatLogCommand {
 
     @Override
     protected List<String> onTabComplete(CommandSender sender, String[] args) {
-        if(args.length == 1) {
+        if (args.length == 1) {
             Set<String> valueSet = getOnlinePlayerNames();
             return getMatching(args[0], valueSet);
         }

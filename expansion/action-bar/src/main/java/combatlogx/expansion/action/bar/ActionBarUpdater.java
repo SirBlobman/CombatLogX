@@ -77,7 +77,7 @@ public final class ActionBarUpdater implements TimerUpdater {
 
     private void sendActionBar(Player player, long timeLeftMillis) {
         LanguageManager languageManager = getLanguageManager();
-        if(timeLeftMillis <= 0) {
+        if (timeLeftMillis <= 0) {
             String path = ("expansion.action-bar.ended");
             languageManager.sendActionBar(player, path, null);
             return;

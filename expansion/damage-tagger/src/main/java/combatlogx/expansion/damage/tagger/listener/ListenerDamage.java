@@ -98,7 +98,7 @@ public final class ListenerDamage extends ExpansionListener {
 
         boolean alreadyInCombat = combatManager.isInCombat(player);
         boolean retagOnly = configuration.getBoolean("retag-only", false);
-        if(retagOnly && !alreadyInCombat) {
+        if (retagOnly && !alreadyInCombat) {
             return;
         }
 

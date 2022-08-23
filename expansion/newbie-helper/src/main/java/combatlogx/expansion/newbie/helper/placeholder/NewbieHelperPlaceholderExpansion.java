@@ -83,7 +83,7 @@ public final class NewbieHelperPlaceholderExpansion implements IPlaceholderExpan
         ICombatLogX combatLogX = getCombatLogX();
         ConfigurationManager configurationManager = combatLogX.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-        if(!configuration.getBoolean("debug-mode", false)) {
+        if (!configuration.getBoolean("debug-mode", false)) {
             return;
         }
 

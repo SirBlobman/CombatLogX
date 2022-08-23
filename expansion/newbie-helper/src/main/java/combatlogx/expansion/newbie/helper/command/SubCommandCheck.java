@@ -26,7 +26,7 @@ public final class SubCommandCheck extends CombatLogCommand {
 
     @Override
     protected List<String> onTabComplete(CommandSender sender, String[] args) {
-        if(args.length == 1) {
+        if (args.length == 1) {
             Set<String> valueSet = getOnlinePlayerNames();
             return getMatching(args[0], valueSet);
         }

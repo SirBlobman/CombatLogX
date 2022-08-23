@@ -62,12 +62,12 @@ public abstract class CombatLogPlayerCommand extends PlayerCommand {
                                                    @Nullable Replacer replacer) {
         LanguageManager languageManager = getLanguageManager();
         Component message = languageManager.getMessage(audience, key, replacer);
-        if(Component.empty().equals(message)) {
+        if (Component.empty().equals(message)) {
             return Component.empty();
         }
 
         Component prefix = languageManager.getMessage(audience, "prefix", null);
-        if(Component.empty().equals(prefix)) {
+        if (Component.empty().equals(prefix)) {
             return message;
         }
 
@@ -81,13 +81,13 @@ public abstract class CombatLogPlayerCommand extends PlayerCommand {
     protected final void sendMessageWithPrefix(@NotNull CommandSender audience, @NotNull String key,
                                                @Nullable Replacer replacer) {
         Component message = getMessageWithPrefix(audience, key, replacer);
-        if(Component.empty().equals(message)) {
+        if (Component.empty().equals(message)) {
             return;
         }
 
         LanguageManager languageManager = getLanguageManager();
         BukkitAudiences audiences = languageManager.getAudiences();
-        if(audiences == null) {
+        if (audiences == null) {
             return;
         }
 

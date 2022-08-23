@@ -305,7 +305,7 @@ public final class ListenerForceField extends ExpansionListener {
     private Set<BlockLocation> getForceFieldArea(Player player, TagInformation tagInformation) {
         World world = player.getWorld();
         BlockLocation playerXYZ = BlockLocation.from(player);
-        if(playerXYZ == null) {
+        if (playerXYZ == null) {
             throw new IllegalStateException("playerXYZ is somehow null?");
         }
 

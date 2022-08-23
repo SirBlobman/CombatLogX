@@ -181,7 +181,7 @@ public final class Reward {
     }
 
     private boolean checkNotSelf(Player player, LivingEntity enemy) {
-        if(!(enemy instanceof Player)) {
+        if (!(enemy instanceof Player)) {
             return true;
         }
 

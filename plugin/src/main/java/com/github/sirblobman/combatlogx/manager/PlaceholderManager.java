@@ -140,7 +140,7 @@ public final class PlaceholderManager extends Manager implements IPlaceholderMan
         ICombatLogX combatLogX = getCombatLogX();
         ConfigurationManager configurationManager = combatLogX.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
-        if(!configuration.getBoolean("debug-mode", false)) {
+        if (!configuration.getBoolean("debug-mode", false)) {
             return;
         }
 

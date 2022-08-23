@@ -45,13 +45,13 @@ public final class BossBarUpdater implements TimerUpdater {
 
     @Override
     public void update(Player player, long timeLeftMillis) {
-        if(isDisabled(player)) {
+        if (isDisabled(player)) {
             actualRemove(player);
             return;
         }
 
         Component title = getTitle(player, timeLeftMillis);
-        if(Component.empty().equals(title)) {
+        if (Component.empty().equals(title)) {
             actualRemove(player);
             return;
         }
@@ -133,11 +133,11 @@ public final class BossBarUpdater implements TimerUpdater {
     @Contract("_, true -> !null")
     private BossBar getBossBar(Player player, boolean create) {
         UUID playerId = player.getUniqueId();
-        if(this.bossBarMap.containsKey(playerId)) {
+        if (this.bossBarMap.containsKey(playerId)) {
             return this.bossBarMap.get(playerId);
         }
 
-        if(create) {
+        if (create) {
             Component defaultTitle = Component.text("Default Title");
             BossBar defaultBossBar = BossBar.bossBar(defaultTitle, 1.0F, Color.PURPLE, Overlay.PROGRESS);
             this.bossBarMap.put(playerId, defaultBossBar);
@@ -150,7 +150,7 @@ public final class BossBarUpdater implements TimerUpdater {
     private Audience getAudience(Player player) {
         LanguageManager languageManager = getLanguageManager();
         BukkitAudiences audiences = languageManager.getAudiences();
-        if(audiences == null) {
+        if (audiences == null) {
             return Audience.empty();
         }
 
@@ -159,7 +159,7 @@ public final class BossBarUpdater implements TimerUpdater {
 
     private void actualRemove(Player player) {
         BossBar bossBar = getBossBar(player, false);
-        if(bossBar == null) {
+        if (bossBar == null) {
             return;
         }
 
@@ -178,14 +178,14 @@ public final class BossBarUpdater implements TimerUpdater {
 
     private Color getBossBarColor() {
         int minorVersion = VersionUtility.getMinorVersion();
-        if(minorVersion < 9) {
+        if (minorVersion < 9) {
             return Color.PURPLE;
         }
 
         String colorString = getColorString();
         try {
             return Color.valueOf(colorString);
-        } catch(IllegalArgumentException ex) {
+        } catch (IllegalArgumentException ex) {
             Logger logger = getLogger();
             logger.warning("Unknown boss bar color '" + colorString + "'. Defaulting to purple.");
             return Color.PURPLE;
@@ -200,14 +200,14 @@ public final class BossBarUpdater implements TimerUpdater {
 
     private Overlay getBossBarOverlay() {
         int minorVersion = VersionUtility.getMinorVersion();
-        if(minorVersion < 9) {
+        if (minorVersion < 9) {
             return Overlay.PROGRESS;
         }
 
         String overlayString = getOverlayString();
         try {
             return Overlay.valueOf(overlayString);
-        } catch(IllegalArgumentException ex) {
+        } catch (IllegalArgumentException ex) {
             Logger logger = getLogger();
             logger.warning("Unknown boss bar style '" + overlayString + "'. Defaulting to progress.");
             return Overlay.PROGRESS;
@@ -229,7 +229,7 @@ public final class BossBarUpdater implements TimerUpdater {
 
     private Component getTitle(Player player, long timeLeftMillis) {
         LanguageManager languageManager = getLanguageManager();
-        if(timeLeftMillis <= 0) {
+        if (timeLeftMillis <= 0) {
             String path = ("expansion.boss-bar.ended");
             return languageManager.getMessage(player, path, null);
         }

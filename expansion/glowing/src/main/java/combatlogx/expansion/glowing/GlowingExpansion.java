@@ -42,7 +42,7 @@ public class GlowingExpansion extends Expansion {
     @Override
     public void onDisable() {
         int minorVersion = VersionUtility.getMinorVersion();
-        if(minorVersion < 9) {
+        if (minorVersion < 9) {
             return;
         }
 
