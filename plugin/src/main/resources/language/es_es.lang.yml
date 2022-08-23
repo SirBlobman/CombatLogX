@@ -2,23 +2,23 @@ language-name: es_es
 decimal-format: '0.00'
 prefix: <bold><white>[</white></bold><gold>CombatLogX</gold><bold><white>]
 broadcast:
-  on-load: <bold><green>CombatLogX ha sido cargado correctamente.
-  on-enable: <bold><green>CombatLogX ha sido habilitado correctamente.
-  on-disable: <bold><red>CombatLogX ha sido deshabilitado correctamente.
+  on-load: "<bold><green>CombatLogX ha sido cargado correctamente.</green></bold>"
+  on-enable: "<bold><green>CombatLogX ha sido habilitado correctamente.</bold></green>"
+  on-disable: "<bold><red>CombatLogX ha sido deshabilitado correctamente.</bold></green>"
 placeholder:
   time-left-zero: '0'
-  unknown-enemy: Desconocido
+  unknown-enemy: "Desconocido"
   status:
-    fighting: <red>Combatiendo
-    idle: <green>Inactivo
-    in-combat: <green>Sí
-    not-in-combat: <red>No
+    fighting: "<red>Combatiendo</green>"
+    idle: "<green>Inactivo</red>"
+    in-combat: "<green>Sí</green>"
+    not-in-combat: "<red>No</red>"
   toggle:
-    enabled: §aActivado
-    disabled: §cDesactivado
+    enabled: "<green>Activado"
+    disabled: "<red>Desactivado</red>"
   pvp-status:
-    enabled: §aActivado
-    disabled: §cDesactivado
+    enabled: "<green>Activado"
+    disabled: "<red>Desactivado</red>"
 combat-timer:
   expire: <green>Ya no estás en modo de combate.
   enemy-death: <green>Ya no estás en modo de combate debido a que tu enemigo murió.
