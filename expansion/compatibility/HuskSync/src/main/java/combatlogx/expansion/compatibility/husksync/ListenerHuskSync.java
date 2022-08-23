@@ -1,12 +1,8 @@
 package combatlogx.expansion.compatibility.husksync;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -28,7 +24,6 @@ import net.william278.husksync.data.StatusData;
 import net.william278.husksync.data.UserData;
 import net.william278.husksync.event.BukkitPreSyncEvent;
 import net.william278.husksync.player.OnlineUser;
-import net.william278.husksync.util.BukkitLogger;
 
 public final class ListenerHuskSync extends ExpansionListener {
     private final HuskSyncAPI huskSyncApi;
@@ -77,27 +72,14 @@ public final class ListenerHuskSync extends ExpansionListener {
             playerUser.setInventory(emptyData);
         }
 
-        Logger logger = getExpansionLogger();
-        BukkitLogger huskSyncLogger = new BukkitLogger(logger);
+        StatusData statusData = playerUser.getStatus().join();
+        if (!keepLevel) {
+            statusData.totalExperience = event.getNewTotalExp();
+            statusData.expLevel = event.getNewLevel();
+            statusData.expProgress = event.getNewExp();
+        }
 
-        CompletableFuture<Optional<UserData>> futureUserData = playerUser.getUserData(huskSyncLogger);
-        futureUserData.whenComplete((optionalUserData, error) -> {
-            if (error != null) {
-                logger.log(Level.WARNING, "An error occurred while fetching/saving player data!", error);
-            } else {
-                if (optionalUserData.isPresent()) {
-                    UserData userData = optionalUserData.get();
-                    StatusData statusData = userData.getStatusData();
-                    if (!keepLevel) {
-                        statusData.totalExperience = event.getNewTotalExp();
-                        statusData.expLevel = event.getNewLevel();
-                        statusData.expProgress = event.getNewExp();
-                    }
-
-                    statusData.health = 0.0D;
-                }
-            }
-        });
+        statusData.health = 0.0D;
     }
 
     @EventHandler
