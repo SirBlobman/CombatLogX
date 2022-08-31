@@ -45,22 +45,15 @@ import com.github.sirblobman.combatlogx.api.object.UntagReason;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public final class CombatManager implements ICombatManager {
-
-    private final ICombatLogX plugin;
+public final class CombatManager extends Manager implements ICombatManager {
     private final Map<UUID, TagInformation> combatMap;
 
     private Permission bypassPermission;
 
     public CombatManager(ICombatLogX plugin) {
-        this.plugin = Validate.notNull(plugin, "plugin must not be null!");
+        super(plugin);
         this.combatMap = new ConcurrentHashMap<>();
         this.bypassPermission = null;
-    }
-
-    @Override
-    public ICombatLogX getCombatLogX() {
-        return this.plugin;
     }
 
     @Override
@@ -74,22 +67,24 @@ public final class CombatManager implements ICombatManager {
     }
 
     @Override
-    public boolean tag(Player player, Entity enemy, TagType tagType, TagReason tagReason,
-                       long customEndMillis) {
+    public boolean tag(Player player, Entity enemy, TagType tagType, TagReason tagReason, long customEndMillis) {
         Validate.notNull(player, "player must not be null!");
         Validate.notNull(tagType, "tagType must not be null!");
         Validate.notNull(tagReason, "tagReason must not be null!");
+        ICombatLogX plugin = getCombatLogX();
+
         if (player.hasMetadata("NPC")) {
+            plugin.printDebug("player is an NPC and can't be tagged.");
             return false;
         }
 
         if (failsPreTagEvent(player, enemy, tagType, tagReason)) {
-            this.plugin.printDebug("The PlayerPreTagEvent was cancelled.");
+            plugin.printDebug("The PlayerPreTagEvent was cancelled.");
             return false;
         }
 
         boolean alreadyInCombat = isInCombat(player);
-        this.plugin.printDebug("Previous Combat Status: " + alreadyInCombat);
+        plugin.printDebug("Previous Combat Status: " + alreadyInCombat);
         PluginManager pluginManager = Bukkit.getPluginManager();
 
         if (alreadyInCombat) {
@@ -115,7 +110,7 @@ public final class CombatManager implements ICombatManager {
         tagInformation.addTag(combatTag);
 
         String playerName = player.getName();
-        this.plugin.printDebug("Successfully put player '" + playerName + "' into combat.");
+        plugin.printDebug("Successfully put player '" + playerName + "' into combat.");
         return true;
     }
 
@@ -123,6 +118,8 @@ public final class CombatManager implements ICombatManager {
     public void untag(Player player, UntagReason untagReason) {
         Validate.notNull(player, "player must not be null!");
         Validate.notNull(untagReason, "untagReason must not be null!");
+        ICombatLogX plugin = getCombatLogX();
+
         if (!isInCombat(player)) {
             return;
         }
@@ -135,7 +132,7 @@ public final class CombatManager implements ICombatManager {
         UUID playerId = player.getUniqueId();
         this.combatMap.remove(playerId);
 
-        ITimerManager timerManager = this.plugin.getTimerManager();
+        ITimerManager timerManager = plugin.getTimerManager();
         timerManager.remove(player);
 
         PluginManager pluginManager = Bukkit.getPluginManager();
@@ -279,7 +276,8 @@ public final class CombatManager implements ICombatManager {
 
     @Override
     public int getMaxTimerSeconds(Player player) {
-        ConfigurationManager configurationManager = this.plugin.getConfigurationManager();
+        ICombatLogX plugin = getCombatLogX();
+        ConfigurationManager configurationManager = plugin.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
         String timerTypeString = configuration.getString("timer.type");
 
@@ -304,7 +302,8 @@ public final class CombatManager implements ICombatManager {
 
     @Override
     public void onReload() {
-        ConfigurationManager configurationManager = this.plugin.getConfigurationManager();
+        ICombatLogX plugin = getCombatLogX();
+        ConfigurationManager configurationManager = plugin.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
 
         String permissionName = configuration.getString("bypass-permission");
@@ -317,14 +316,15 @@ public final class CombatManager implements ICombatManager {
     }
 
     private int getGlobalTimerSeconds() {
-        ConfigurationManager configurationManager = this.plugin.getConfigurationManager();
+        ICombatLogX plugin = getCombatLogX();
+        ConfigurationManager configurationManager = plugin.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
         return configuration.getInt("timer.default-timer", 10);
     }
 
     private int getPermissionTimerSeconds(Player player) {
         Set<PermissionAttachmentInfo> permissionAttachmentInfoSet = player.getEffectivePermissions();
-        Set<String> permissionSet = permissionAttachmentInfoSet.stream()
+        Set<String> permissionSet = permissionAttachmentInfoSet.parallelStream()
                 .filter(PermissionAttachmentInfo::getValue)
                 .map(PermissionAttachmentInfo::getPermission)
                 .filter(permission -> permission.startsWith("combatlogx.timer."))
@@ -342,6 +342,7 @@ public final class CombatManager implements ICombatManager {
                 lowestTimer = Math.min(lowestTimer, value);
                 foundValue = true;
             } catch (NumberFormatException ignored) {
+                // Ignored Exception
             }
         }
 
@@ -349,20 +350,24 @@ public final class CombatManager implements ICombatManager {
     }
 
     private String getEntityName(Player player, Entity entity) {
+        ICombatLogX plugin = getCombatLogX();
+
         if (entity == null) {
-            LanguageManager languageManager = this.plugin.getLanguageManager();
+            LanguageManager languageManager = plugin.getLanguageManager();
             String message = languageManager.getMessageString(player, "placeholder.unknown-enemy", null);
             return MessageUtility.color(message);
         }
 
-        MultiVersionHandler multiVersionHandler = this.plugin.getMultiVersionHandler();
+        MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
         EntityHandler entityHandler = multiVersionHandler.getEntityHandler();
         return entityHandler.getName(entity);
     }
 
     private String getEntityType(Player player, Entity entity) {
+        ICombatLogX plugin = getCombatLogX();
+
         if (entity == null) {
-            LanguageManager languageManager = this.plugin.getLanguageManager();
+            LanguageManager languageManager = plugin.getLanguageManager();
             String message = languageManager.getMessageString(player, "placeholder.unknown-enemy", null);
             return MessageUtility.color(message);
         }
@@ -391,6 +396,8 @@ public final class CombatManager implements ICombatManager {
         Replacer replacer = message -> message.replace("{enemy}", enemyName)
                 .replace("{mob_type}", enemyType);
         String languagePath = ("tagged." + tagReasonString + "." + tagTypeString);
-        this.plugin.sendMessageWithPrefix(player, languagePath, replacer);
+
+        ICombatLogX plugin = getCombatLogX();
+        plugin.sendMessageWithPrefix(player, languagePath, replacer);
     }
 }

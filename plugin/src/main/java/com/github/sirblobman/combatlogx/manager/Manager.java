@@ -13,7 +13,7 @@ public abstract class Manager implements ICombatLogXNeeded {
     }
 
     @Override
-    public ICombatLogX getCombatLogX() {
+    public final ICombatLogX getCombatLogX() {
         return this.plugin;
     }
 
