@@ -188,7 +188,7 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     }
 
     @Override
-    public CombatManager getCombatManager() {
+    public ICombatManager getCombatManager() {
         return this.combatManager;
     }
 
