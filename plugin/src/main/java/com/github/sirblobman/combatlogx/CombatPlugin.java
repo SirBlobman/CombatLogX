@@ -6,7 +6,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -20,7 +19,6 @@ import com.github.sirblobman.api.adventure.adventure.text.TextComponent.Builder;
 import com.github.sirblobman.api.bstats.bukkit.Metrics;
 import com.github.sirblobman.api.bstats.charts.SimplePie;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.core.CorePlugin;
 import com.github.sirblobman.api.language.Language;
 import com.github.sirblobman.api.language.LanguageManager;
@@ -30,7 +28,10 @@ import com.github.sirblobman.api.update.UpdateManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
+import com.github.sirblobman.combatlogx.api.manager.IDeathManager;
+import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 import com.github.sirblobman.combatlogx.api.manager.IPunishManager;
+import com.github.sirblobman.combatlogx.api.manager.ITimerManager;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 import com.github.sirblobman.combatlogx.command.CommandCombatTimer;
 import com.github.sirblobman.combatlogx.command.CommandTogglePVP;
@@ -117,49 +118,8 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     }
 
     @Override
-    public CombatPlugin getPlugin() {
+    public JavaPlugin getPlugin() {
         return this;
-    }
-
-    @Override
-    public ClassLoader getPluginClassLoader() {
-        return getClassLoader();
-    }
-
-    @Override
-    public YamlConfiguration getConfig(String fileName) {
-        ConfigurationManager configurationManager = getConfigurationManager();
-        return configurationManager.get(fileName);
-    }
-
-    @Override
-    public void reloadConfig(String fileName) {
-        ConfigurationManager configurationManager = getConfigurationManager();
-        configurationManager.reload(fileName);
-    }
-
-    @Override
-    public void saveConfig(String fileName) {
-        ConfigurationManager configurationManager = getConfigurationManager();
-        configurationManager.save(fileName);
-    }
-
-    @Override
-    public void saveDefaultConfig(String fileName) {
-        ConfigurationManager configurationManager = getConfigurationManager();
-        configurationManager.saveDefault(fileName);
-    }
-
-    @Override
-    public YamlConfiguration getData(OfflinePlayer player) {
-        PlayerDataManager playerDataManager = getPlayerDataManager();
-        return playerDataManager.get(player);
-    }
-
-    @Override
-    public void saveData(OfflinePlayer player) {
-        PlayerDataManager playerDataManager = getPlayerDataManager();
-        playerDataManager.save(player);
     }
 
     @Override
@@ -198,17 +158,17 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     }
 
     @Override
-    public TimerUpdateTask getTimerManager() {
+    public ITimerManager getTimerManager() {
         return this.timerUpdateTask;
     }
 
     @Override
-    public DeathManager getDeathManager() {
+    public IDeathManager getDeathManager() {
         return this.deathManager;
     }
 
     @Override
-    public PlaceholderManager getPlaceholderManager() {
+    public IPlaceholderManager getPlaceholderManager() {
         return this.placeholderManager;
     }
 
@@ -258,9 +218,15 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     }
 
     @Override
+    public boolean isDebugModeDisabled() {
+        ConfigurationManager configurationManager = getConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("config.yml");
+        return !configuration.getBoolean("debug-mode", false);
+    }
+
+    @Override
     public void printDebug(String... messageArray) {
-        YamlConfiguration configuration = getConfig("config.yml");
-        if (!configuration.getBoolean("debug-mode")) {
+        if(isDebugModeDisabled()) {
             return;
         }
 
@@ -273,13 +239,12 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
 
     @Override
     public void printDebug(Throwable ex) {
-        YamlConfiguration configuration = getConfig("config.yml");
-        if (!configuration.getBoolean("debug-mode")) {
+        if(isDebugModeDisabled()) {
             return;
         }
 
         Logger logger = getLogger();
-        logger.log(Level.WARNING, "Full Error Details:", ex);
+        logger.log(Level.WARNING, "[Debug] Full Error Details:", ex);
     }
 
     @Override
@@ -308,7 +273,7 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     }
 
     private void registerTasks() {
-        TimerUpdateTask timerManager = getTimerManager();
+        ITimerManager timerManager = getTimerManager();
         timerManager.register();
 
         new UntagTask(this).register();
@@ -368,7 +333,7 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
 
     private void registerBasePlaceholders() {
         BasePlaceholderExpansion placeholderExpansion = new BasePlaceholderExpansion(this);
-        PlaceholderManager placeholderManager = getPlaceholderManager();
+        IPlaceholderManager placeholderManager = getPlaceholderManager();
         placeholderManager.registerPlaceholderExpansion(placeholderExpansion);
     }
 

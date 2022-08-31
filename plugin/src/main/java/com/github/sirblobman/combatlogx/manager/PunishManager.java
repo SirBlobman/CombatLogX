@@ -123,9 +123,10 @@ public final class PunishManager extends Manager implements IPunishManager {
         }
 
         if (killOptionString.equals("JOIN")) {
-            YamlConfiguration playerData = plugin.getData(player);
+            PlayerDataManager playerDataManager = plugin.getPlayerDataManager();
+            YamlConfiguration playerData = playerDataManager.get(player);
             playerData.set("kill-on-join", true);
-            plugin.saveData(player);
+            playerDataManager.save(player);
         }
     }
 

@@ -26,4 +26,9 @@ public interface ITimerManager extends ICombatLogXNeeded {
      * @param player The {@link Player} to remove the timers from.
      */
     void remove(Player player);
+
+    /**
+     * Register the manager
+     */
+    void register();
 }

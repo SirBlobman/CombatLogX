@@ -1,8 +1,6 @@
 package com.github.sirblobman.combatlogx.api;
 
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.sirblobman.api.adventure.adventure.text.Component;
@@ -25,20 +23,6 @@ public interface ICombatLogX extends IResourceHolder {
     }
 
     JavaPlugin getPlugin();
-
-    ClassLoader getPluginClassLoader();
-
-    YamlConfiguration getConfig(String fileName);
-
-    void reloadConfig(String fileName);
-
-    void saveConfig(String fileName);
-
-    void saveDefaultConfig(String fileName);
-
-    YamlConfiguration getData(OfflinePlayer player);
-
-    void saveData(OfflinePlayer player);
 
     void onReload();
 
@@ -67,6 +51,8 @@ public interface ICombatLogX extends IResourceHolder {
     void sendMessageWithPrefix(CommandSender audience, String key, Replacer replacer);
 
     void sendMessage(CommandSender sender, String... messageArray);
+
+    boolean isDebugModeDisabled();
 
     void printDebug(String... messageArray);
 
