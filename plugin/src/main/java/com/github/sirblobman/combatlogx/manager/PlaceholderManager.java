@@ -28,7 +28,7 @@ public final class PlaceholderManager extends Manager implements IPlaceholderMan
     private static final Pattern BRACKET_PLACEHOLDER_PATTERN;
 
     static {
-        BRACKET_PLACEHOLDER_PATTERN = Pattern.compile("\\{(.+)}");
+        BRACKET_PLACEHOLDER_PATTERN = Pattern.compile("\\{(\\S+)}");
     }
 
     private final Map<String, IPlaceholderExpansion> expansionMap;
