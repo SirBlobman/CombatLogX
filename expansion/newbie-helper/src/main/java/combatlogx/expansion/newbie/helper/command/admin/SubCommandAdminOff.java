@@ -44,7 +44,7 @@ public final class SubCommandAdminOff extends CombatLogCommand {
 
         NewbieHelperExpansion expansion = getExpansion();
         PVPManager pvpManager = expansion.getPVPManager();
-        pvpManager.setPVP(target, true);
+        pvpManager.setPVP(target, false);
         pvpManager.sendAdminToggleMessage(sender, target);
         return true;
     }
