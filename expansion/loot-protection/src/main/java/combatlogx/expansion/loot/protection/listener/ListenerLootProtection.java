@@ -30,7 +30,7 @@ import org.bukkit.inventory.PlayerInventory;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.language.Replacer;
-import com.github.sirblobman.api.object.WorldXYZ;
+import com.github.sirblobman.api.location.BlockLocation;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.event.PlayerPunishEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
@@ -46,7 +46,7 @@ import net.jodah.expiringmap.ExpiringMap;
 public class ListenerLootProtection extends ExpansionListener {
     private final Set<UUID> messageCooldownSet;
     private final ExpiringMap<UUID, ProtectedItem> protectedItemMap;
-    private final Map<WorldXYZ, ConcurrentLinkedQueue<ProtectedItem>> pendingProtectionMap;
+    private final Map<BlockLocation, ConcurrentLinkedQueue<ProtectedItem>> pendingProtectionMap;
     private final Map<UUID, UUID> enemyMap;
 
     public ListenerLootProtection(final Expansion expansion) {
@@ -204,7 +204,7 @@ public class ListenerLootProtection extends ExpansionListener {
         }
 
         enemyId = enemy.getUniqueId();
-        WorldXYZ entityLocation = WorldXYZ.from(entity);
+        BlockLocation entityLocation = BlockLocation.from(entity);
         ConcurrentLinkedQueue<ProtectedItem> protectedItemQueue = new ConcurrentLinkedQueue<>();
 
         List<ItemStack> dropList = e.getDrops();
@@ -232,7 +232,7 @@ public class ListenerLootProtection extends ExpansionListener {
             return;
         }
 
-        WorldXYZ location = WorldXYZ.from(e.getLocation());
+        BlockLocation location = BlockLocation.from(e.getLocation());
         if (!this.pendingProtectionMap.containsKey(location)) {
             return;
         }

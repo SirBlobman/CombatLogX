@@ -6,6 +6,7 @@ import org.bukkit.event.HandlerList;
 import com.github.sirblobman.combatlogx.api.event.CustomPlayerEventCancellable;
 
 import combatlogx.expansion.loot.protection.object.ProtectedItem;
+import org.jetbrains.annotations.NotNull;
 
 public final class QueryPickupEvent extends CustomPlayerEventCancellable {
     private static final HandlerList HANDLER_LIST;
@@ -25,6 +26,7 @@ public final class QueryPickupEvent extends CustomPlayerEventCancellable {
         return HANDLER_LIST;
     }
 
+    @NotNull
     @Override
     public HandlerList getHandlers() {
         return HANDLER_LIST;
