@@ -142,9 +142,8 @@ public abstract class CombatListener implements Listener {
     }
 
     protected final boolean isDebugModeDisabled() {
-        ConfigurationManager configurationManager = getPluginConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        return !configuration.getBoolean("debug-mode", false);
+        ICombatLogX plugin = getCombatLogX();
+        return plugin.isDebugModeDisabled();
     }
 
     protected void printDebug(String message) {
@@ -175,8 +174,7 @@ public abstract class CombatListener implements Listener {
     }
 
     protected final boolean isWorldDisabled(World world) {
-        ICombatLogX plugin = getCombatLogX();
-        ConfigurationManager configurationManager = plugin.getConfigurationManager();
+        ConfigurationManager configurationManager = getPluginConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
 
         List<String> disabledWorldList = configuration.getStringList("disabled-world-list");
