@@ -56,13 +56,18 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- SirBlobmanCore -->
-        <!-- Transitive dependency -->
+        <!-- BlueSlimeCore -->
         <dependency>
             <groupId>com.github.sirblobman.api</groupId>
             <artifactId>core</artifactId>
             <version>${blue.slime.core.version}</version>
             <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
