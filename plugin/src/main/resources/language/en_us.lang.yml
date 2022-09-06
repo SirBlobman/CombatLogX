@@ -145,7 +145,7 @@ command:
     time-left-self: "<green>You have <gray>{time_left}</gray> seconds&a remaining.</green>"
 
     # Shown as the command output for '/combat-timer <player>'.
-    time-left-other: "<green><gray>{target}</gray> has <gray>{time_left}</gray> seconds&a remaining.</green>"
+    time-left-other: "<green><gray>{target}</gray> has <gray>{time_left} seconds</gray> remaining.</green>"
 
 # These messages are shown a player is tagged into combat.
 tagged:
