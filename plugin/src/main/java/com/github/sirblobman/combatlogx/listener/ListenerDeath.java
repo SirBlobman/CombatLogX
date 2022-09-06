@@ -28,6 +28,8 @@ import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
 import com.github.sirblobman.combatlogx.api.manager.IDeathManager;
 import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
+import com.github.sirblobman.combatlogx.api.utility.PaperChecker;
+import com.github.sirblobman.combatlogx.api.utility.PaperHelper;
 
 public final class ListenerDeath extends CombatListener {
 
@@ -97,8 +99,12 @@ public final class ListenerDeath extends CombatListener {
         MiniMessage miniMessage = languageManager.getMiniMessage();
         Component componentMessage = miniMessage.deserialize(replacedMessage);
 
-        String legacyMessage = ComponentHelper.toLegacy(componentMessage);
-        e.setDeathMessage(legacyMessage);
+        if(PaperChecker.isPaper()) {
+            PaperHelper.setDeathMessage(componentMessage, e);
+        } else {
+            String legacyMessage = ComponentHelper.toLegacy(componentMessage);
+            e.setDeathMessage(legacyMessage);
+        }
     }
 
     private String getRandomDeathMessage() {

@@ -1,14 +1,13 @@
-package combatlogx.expansion.scoreboard;
+package combatlogx.expansion.scoreboard.scoreboard;
 
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Team;
 
 import com.github.sirblobman.api.adventure.adventure.text.Component;
+import com.github.sirblobman.combatlogx.api.utility.ComponentConverter;
 
-import combatlogx.expansion.scoreboard.scoreboard.CustomLine;
-
-public final class PaperHelper {
-    public static void updateTitle(Objective objective, Component shadedComponent) {
+public final class PaperScoreboard {
+    public static void setTitle(Objective objective, Component shadedComponent) {
         net.kyori.adventure.text.Component normalComponent = ComponentConverter.shadedToNormal(shadedComponent);
         objective.displayName(normalComponent);
     }

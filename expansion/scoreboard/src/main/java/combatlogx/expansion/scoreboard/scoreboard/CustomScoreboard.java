@@ -27,7 +27,6 @@ import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
 
-import combatlogx.expansion.scoreboard.PaperHelper;
 import combatlogx.expansion.scoreboard.ScoreboardExpansion;
 
 public final class CustomScoreboard {
@@ -169,7 +168,7 @@ public final class CustomScoreboard {
     private void setLinePaper(int line, Component prefix) {
         CustomLine customLine = getLine(line);
         Validate.notNull(customLine, "Could not find scoreboard line '" + line + "'.");
-        PaperHelper.setLine(customLine, prefix);
+        PaperScoreboard.setLine(customLine, prefix);
     }
 
     @SuppressWarnings("deprecation")
@@ -275,7 +274,7 @@ public final class CustomScoreboard {
 
     private void updateTitlePaper(Component title) {
         Objective objective = getObjective();
-        PaperHelper.updateTitle(objective, title);
+        PaperScoreboard.setTitle(objective, title);
     }
 
     @SuppressWarnings("deprecation")

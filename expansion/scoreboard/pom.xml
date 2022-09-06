@@ -39,5 +39,13 @@
             <version>${spigot.version}</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- CombatLogX: Paper Helper -->
+        <dependency>
+            <groupId>com.github.sirblobman.combatlogx</groupId>
+            <artifactId>paper-helper</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>

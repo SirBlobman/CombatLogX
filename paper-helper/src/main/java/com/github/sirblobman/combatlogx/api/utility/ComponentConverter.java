@@ -1,4 +1,4 @@
-package combatlogx.expansion.scoreboard;
+package com.github.sirblobman.combatlogx.api.utility;
 
 import com.github.sirblobman.api.adventure.adventure.text.Component;
 import com.github.sirblobman.api.adventure.adventure.text.serializer.gson.GsonComponentSerializer;
