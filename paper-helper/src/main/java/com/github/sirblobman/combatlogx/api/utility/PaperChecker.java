@@ -3,14 +3,25 @@ package com.github.sirblobman.combatlogx.api.utility;
 import com.github.sirblobman.api.utility.VersionUtility;
 
 public final class PaperChecker {
+    private static Boolean USE_PAPER;
+
+    static {
+        USE_PAPER = null;
+    }
+
+
     /**
      * The server is using a valid Paper version when {@link org.bukkit.command.CommandSender}
      * is an instance of an {@link net.kyori.adventure.audience.Audience}
      */
     public static boolean isPaper() {
+        if(USE_PAPER != null) {
+            return USE_PAPER;
+        }
+
         int minorVersion = VersionUtility.getMinorVersion();
         if(minorVersion < 16) {
-            return false;
+            return (USE_PAPER = false);
         }
 
         try {
@@ -20,13 +31,13 @@ public final class PaperChecker {
             Class<?>[] class_CommandSender_interfaces = class_CommandSender.getInterfaces();
             for (Class<?> class_CommandSender_interface : class_CommandSender_interfaces) {
                 if(class_Audience.equals(class_CommandSender_interface)) {
-                    return true;
+                    return (USE_PAPER = true);
                 }
             }
 
-            return false;
+            return (USE_PAPER = false);
         } catch(ReflectiveOperationException | NoClassDefFoundError | ClassCastException ex) {
-            return false;
+            return (USE_PAPER = false);
         }
     }
 }
