@@ -135,7 +135,7 @@ command:
     toggle-bossbar: "<gray><bold>Boss Bar:</bold></gray> {status}"
 
     # Shown as the command output for '/combatlogx toggle actionbar'.
-    toggle-actionbar: "<gray><bold>Action Bar:</bold></gray {status}>"
+    toggle-actionbar: "<gray><bold>Action Bar:</bold></gray> {status}"
 
     # Shown as the command output for '/combatlogx toggle scoreboard'.
     toggle-scoreboard: "<gray><bold>Scoreboard:</bold></gray> {status}"
