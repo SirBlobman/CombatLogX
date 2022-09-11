@@ -51,7 +51,7 @@ https://crowdin.com/project/combatlogx-spigot-plugin/reports/top-members
 ## Expansions
 
 If you want to find out more about the expansions, please visit this page:  
-<https://www.spigotmc.org/wiki/combatlogx/>
+[CombatLogX Documentation](https://www.spigotmc.org/resources/combatlogx.31689/field?field=documentation)
 
 You can also open the README files in each expansion folder.
 
