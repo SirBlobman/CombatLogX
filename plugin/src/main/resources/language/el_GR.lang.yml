@@ -1,0 +1,320 @@
+---
+## Extra Information:
+## This is the default language file for CombatLogX.
+## The default language is "en_us", also known as English (United States).
+## Context will be added as YAML comments above the string.
+## The color scheme for messages is gold, white, and sometimes red.
+## Command feedback that is successful should always be green.
+## Error messages should always be red.
+## Variables in messages can be gray or white.
+## Messages use the MiniMessage format in non-strict mode.
+## More information about MiniMessage can be found here:
+## https://docs.adventure.kyori.net/minimessage/format.html
+#The language code for this file.
+language-name: "el_us"
+#The format for decimal numbers.
+#The United States uses the number and two decimal places
+decimal-format: "0.00"
+#The prefix for CombatLogX.
+#This is shown in front of all messages and should not be changed unless necessary.
+prefix: "<white><bold>[<gold>CombatLogX</gold>]</bold></white>"
+broadcast:
+  #Shown when the plugin is finished loading.
+  on-load: "<green><bold>CombatLogX φορτώθηκε με επιτυχία.</bold></green>"
+  #Shown when the plugin is finished enabling.
+  on-enable: "<green><bold>Το CombatLogX ενεργοποιήθηκε επιτυχώς.</bold></green>"
+  #Shown when the plugin is disabled for any reason.
+  on-disable: "<red><bold>CombatLogX απενεργοποιήθηκε επιτυχώς.</bold></red>"
+placeholder:
+  #This text is used for the {combatlogx_time_left}
+  #This allows server configurations to change the display value of the zero to something like "Not in combat"
+  time-left-zero: "0"
+  #This text is used when a player does not have an enemy.
+  #This can happen when players are tagged by a custom expansion or the tag command.
+  unknown-enemy: "Άγνωστο"
+  status:
+    #Shown when the player is in combat.
+    fighting: "<red>Καταπολέμηση</red>"
+    in-combat: "<green>Ναι</green>"
+    #Shown when the player is not in combat
+    idle: "<green>Αδρανής</green>"
+    not-in-combat: "<red>Αριθ.</red>"
+  #These placeholders are shown when a player changes a value such as whether or not their bossbar is enabled.
+  toggle:
+    enabled: "<green>ΕΝΕΡΓΟΠΟΙΗΣΗ</green>"
+    disabled: "<red>ΑΝΕΝΕΡΓΟ</red>"
+  pvp-status:
+    enabled: "<green>ΕΝΕΡΓΟΠΟΙΗΣΗ</green>"
+    disabled: "<red>ΑΝΕΝΕΡΓΟ</red>"
+combat-timer:
+  #Sent to a player when they escape from combat due to the timer running out.
+  expire: "<green>Δεν είστε πλέον σε μάχη.</green>"
+  #Sent to a player when they escape from combat due to their enemy being killed.
+  enemy-death: "<green>Δεν είστε πλέον σε μάχη, επειδή ο εχθρός σας πέθανε.</green>"
+  #Sent when a player is killed during combat.
+  self-death: "<green>Δεν είσαι πλέον σε μάχη, επειδή πέθανες.</green>"
+error:
+  #Shown when the console tries to execute a command made for players.
+  player-only: "<red>Μόνο οι παίκτες μπορούν να εκτελέσουν αυτήν την εντολή</red>"
+  #Shown when a command that requires a player has invalid input.
+  invalid-target: "<red><gray>{target}</gray> δεν είναι online ή δεν υπάρχει.</red>"
+  #Shown when a command that requires a number has invalid input.
+  invalid-integer: "<red><gray>{value}</gray> δεν είναι ένας έγκυρος ακέραιος αριθμός.</red>"
+  #Shown when a player does not have access to something that requires a permission.
+  no-permission: "<red>Λείπει άδεια: <gray>{permission}</gray></red>"
+  #Shown when a player executes a command in a world that is disabled in the configuration.
+  disabled-world: "<red>Αυτή η εντολή δεν είναι διαθέσιμη σε αυτή τη διάσταση.</red>"
+  #Shown when a command requires a player in combat but the target player is not in combat.
+  target-not-in-combat: "<red><gray>{target}</gray> δεν είναι σε μάχη.</red>"
+  #Shown when a player executes a command that requires them to be in combat.
+  self-not-in-combat: "<red>Δεν είστε σε μάχη.</red>"
+  #Shown when a command that requires an expansion has invalid input.
+  unknown-expansion: "<red><gray>{target}</gray> δεν είναι επέκταση ή δεν έχει εγκατασταθεί.</red>"
+command:
+  combatlogx:
+    #Shown as the command output for '/combatlogx help'.
+    help-message-list:
+      - ""
+      - "<gold><bold>CombatLogX Βοήθεια Εντολής:</bold></gold>"
+      - "  <white><bold>/combatlogx βοήθεια</bold></white><gray>: Δείτε αυτή τη σελίδα βοήθειας.</gray>"
+      - "  <white><bold>/combatlogx επαναφόρτωση</bold></white><gray>: Επαναφόρτωση του config.yml, language.yml και όλων των αρχείων ρύθμισης επέκτασης.</gray>"
+      - "  <white><bold>/combatlogx σχετικά με \\<expansion></bold></white><gray>: Ελέγξτε τις πληροφορίες σχετικά με μια επέκταση.</gray>"
+      - "  <white><bold>/combatlogx tag \\<player> [seconds]</bold></white><gray>: Εξαναγκασμός ενός παίκτη σε μάχη.</gray>"
+      - "  <white><bold>/combatlogx εναλλαγή bossbar/actionbar/scoreboard</bold></white><gray>: Ενεργοποίηση ή απενεργοποίηση ενός τύπου ειδοποίησης.</gray>"
+      - "  <white><bold>/combatlogx καταργεί την ετικέτα \\<player></bold></white><gray>: Εξαναγκασμός ενός παίκτη εκτός μάχης.</gray>"
+      - "  <white><bold>/combatlogx έκδοση</bold></white><gray>: Ελέγξτε την έκδοση του CombatLogX.</gray>"
+      - ""
+    #Shown as the command output for '/combatlogx reload' when reloading is successful.
+    reload-success:
+      - "<green>Επιτυχής φόρτωση όλων των αρχείων ρύθμισης παραμέτρων από το CombatLogX.</green>"
+      - "<green>Επιτυχής επαναφόρτωση όλων των αρχείων γλώσσας από το CombatLogX.</green>"
+      - "<green>Επιτυχής επαναφόρτωση όλων των αρχείων ρύθμισης παραμέτρων από επεκτάσεις CombatLogX.</green>"
+    #Shown as the command output for '/combatlogx reload' when reloading fails
+    reload-failure:
+      - "<red>Παρουσιάστηκε σφάλμα κατά την επαναφόρτωση των ρυθμίσεων.</red>"
+      - "<red>Παρακαλούμε ελέγξτε το αρχείο καταγραφής του διακομιστή σας και διορθώστε το κατεστραμμένο αρχείο.</red>"
+    #Shown as the command output for '/combatlogx tag <player>' when a player is tagged successfully.
+    tag-player: "<green>Επιτυχής εξαναγκασμός παίκτη <gray>{target}</gray> στη μάχη.</green>"
+    #Shown as the command output for '/combatlogx tag <player>' when the plugin failed to tag a player.
+    tag-failure: "<red><gray>{target}</gray> δεν μπορούσε να τοποθετηθεί στη μάχη. (Μάλλον έχουν παρακάμψει?)</red>"
+    #Shown as the command output for '/combatlogx untag <player>'.
+    untag-player: "<green>Επιτυχής εξαναγκασμένος παίκτης <gray>{target}</gray> εκτός μάχης.</green>"
+    #Shown as the command output for '/combatlogx toggle bossbar'.
+    toggle-bossbar: "<gray><bold>Γραμμή αφεντικών:</bold></gray> {status}"
+    #Shown as the command output for '/combatlogx toggle actionbar'.
+    toggle-actionbar: "<gray><bold>Γραμμή ενεργειών:</bold></gray> {status}"
+    #Shown as the command output for '/combatlogx toggle scoreboard'.
+    toggle-scoreboard: "<gray><bold>Πίνακας αποτελεσμάτων:</bold></gray> {status}"
+  combat-timer:
+    #Shown as the command output for '/combat-timer'.
+    time-left-self: "<green>Απομένουν <gray>{time_left}</gray> δευτερόλεπτα.</green>"
+    #Shown as the command output for '/combat-timer <player>'.
+    time-left-other: "<green><gray>{target}</gray> έχει <gray>{time_left} δευτερόλεπτα</gray> απομένουν.</green>"
+#These messages are shown a player is tagged into combat.
+tagged:
+  unknown:
+    player: "<red>Τώρα είστε σε μάχη με <white>{enemy}</white> για έναν άγνωστο λόγο. Μην αποσυνδεθείτε!</red>"
+    mob: "<red>Τώρα είστε σε μάχη με a(n) <white>{enemy}</white> για έναν άγνωστο λόγο. Μην αποσυνδεθείτε!</red>"
+    mythic_mob: "<red>Τώρα είστε σε μάχη με a(n) <white>{mob_type}</white> για έναν άγνωστο λόγο. Μην αποσυνδεθείτε!</red>"
+    damage: "<red>Τώρα είστε σε μάχη λόγω της βλάβης. Μην αποσυνδέετε!</red>"
+    unknown: "<red>Είσαι τοποθετημένος σε μάχες χωρίς λόγο. Μην αποσυνδεθείς.</red>"
+  attacked:
+    player: "<red>Σας δέχονται επίθεση από <white>{enemy}</white>. Μην αποσυνδεθείτε!</red>"
+    mob: "<red>Είστε υπό επίθεση από a(n) <white>{mob_type}</white>. Μην αποσυνδεθείτε!</red>"
+    mythic_mob: "<red>Είστε υπό επίθεση από a(n) <white>{enemy}</white>. Μην αποσυνδεθείτε!</red>"
+    damage: "<red>Τώρα είστε σε μάχη λόγω της βλάβης. Μην αποσυνδέετε!</red>"
+    unknown: "<red>Είστε υπό επίθεση από άγνωστη δύναμη. Μην κάνετε αποσύνδεση!</red>"
+  attacker:
+    player: "<red>Επιτίθεστε <white>{enemy}</white>. Μην αποσυνδεθείτε!</red>"
+    mob: "<red>Επιτίθεστε a(n) <white>{mob_type}</white>. Μην αποσυνδεθείτε!</red>"
+    mythic_mob: "<red>Επιτίθεστε a(n) <white>{enemy}</white>. Μην αποσυνδεθείτε!</red>"
+    damage: "<red>Τώρα είστε σε μάχη λόγω της βλάβης. Μην αποσυνδέετε!</red>"
+    unknown: "<red>Επιτίθεστε σε μια άγνωστη δύναμη. Μην κάνετε αποσύνδεση!</red>"
+expansion:
+  angel-chest:
+    #Shown when opening an AngelChest is prevented during combat.
+    prevent-opening: "<red>Δεν επιτρέπεται να ανοίξετε κιβώτια άγγελου κατά τη διάρκεια της μάχης.</red>"
+    #Shown when breaking an AngelChest is prevented during combat.
+    prevent-breaking: "<red>Δεν επιτρέπεται να σπάσετε κιβώτια άγγελου κατά τη διάρκεια της μάχης.</red>"
+    #Shown when fast looting an AngelChest is prevented during combat.
+    prevent-fast-looting: "<red>Δεν επιτρέπεται να λεηλατήσετε τα κιβώτια άγγελου κατά τη διάρκεια της μάχης.</red>"
+  action-bar:
+    #Shown above the hotbar while a player is in combat.
+    timer: "<bold><gold>Συνδυάστε</gold> <gray>\u00BB</gray></bold> <white>{bars} <red>{combatlogx_time_left}</red> δευτερόλεπτα.</white>"
+    #Shown above the hotbar for a brief period when combat ends.
+    ended: "<bold><gold>Μάχη</gold> <gray>\u00BB</gray></bold> <white>Δεν είστε πλέον σε μάχη.</white>"
+  boss-bar:
+    #Shown on top of the screen while a player is in combat.
+    timer: "<bold><gold>Συνδυάστε</gold> <gray>\u00BB</gray></bold> <white><red>{combatlogx_time_left}</red> δευτερόλεπτα.</white>"
+    #Shown on top of the screen for a brief period when combat ends.
+    ended: "<bold><gold>Μάχη</gold> <gray>\u00BB</gray></bold> <white>Δεν είστε πλέον σε μάχη.</white>"
+  scoreboard:
+    #The scoreboard title for the sidebar.
+    #Make sure to follow the scoreboard title limits for your Spigot version.
+    title: "<gold><bold>CombatLogX</bold></gold>"
+    #The scoreboard lines for the sidebar.
+    #Make sure to follow the scoreboard line and character limits for your Spigot version.
+    lines:
+      - " "
+      - "<white><bold>Καταστήματα Καταπολέμησης:</bold></white>"
+      - "<dark_gray>\u00BB</dark_gray> <white><bold>Χρόνος που απομένει:</bold></white> <gray>{combatlogx_time_left}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <white><bold>Enemies:</bold></white> <gray>{combatlogx_enemy_count}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <white><bold>Κατάσταση:</bold></white> <gray>{combatlogx_status}</gray>"
+      - " "
+      - "<white><bold>Enemies</bold></white>"
+      - "<dark_gray>\u00BB</dark_gray> <gray>{combatlogx_specific_enemy_1_name}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <gray>{combatlogx_specific_enemy_2_name}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <gray>{combatlogx_specific_enemy_3_name}</gray>"
+      - " "
+  cheat-prevention:
+    #Shown when a command execution is prevented during combat.
+    command-blocked: "<red>Δεν έχετε πρόσβαση σε <gray>{command}</gray> κατά τη διάρκεια της μάχης.</red>"
+    #Shown when the riptide effect is prevented during combat.
+    no-riptide: "<red>Η μαγεία riptide είναι απενεργοποιημένη κατά τη διάρκεια της μάχης.</red>"
+    #Shown when a totem of undying is prevented during combat.
+    no-totem: "<red>Δεν επιτρέπεται να χρησιμοποιήσετε totems της δύσης κατά τη διάρκεια της μάχης.</red>"
+    #Shown when an entity interaction is prevented during combat.
+    no-entity-interaction: "<red>Δεν επιτρέπεται να χρησιμοποιήσετε αυτό το πλύσιμο κατά τη διάρκεια της μάχης.</red>"
+    #Shown when a chat message is prevented during combat.
+    no-chat: "<red>Δεν επιτρέπεται να στέλνετε μηνύματα συνομιλίας κατά τη διάρκεια της μάχης.</red>"
+    game-mode:
+      #Shown when a player is forced into a specific game mmode during combat.
+      force-switch: "<red>Η λειτουργία παιχνιδιού σας άλλαξε σε <gray>{game_mode}</gray>.</red>"
+      #Shown when a game mode switch is prevented during combat.
+      no-switch: "<red>Δεν επιτρέπεται η αλλαγή λειτουργιών παιχνιδιού κατά τη διάρκεια της μάχης.</red>"
+    flight:
+      #Shown when a player's ability to fly is disabled during combat.
+      force-disabled: "<red>Η ικανότητά σας να πετάξετε αφαιρέθηκε.</red>"
+      #Shown when a player's attempt to fly is prevented during combat.
+      no-flying: "<red>Δεν επιτρέπεται να πετάξετε κατά τη διάρκεια της μάχης.</red>"
+    elytra:
+      #Shown when a player's ability to glide is disabled during combat.
+      force-disabled: "<red>Η elytra σας απενεργοποιήθηκε.</red>"
+      #Shown when a player's attempt to glide is prevented during combat.
+      no-gliding: "<red>Δεν επιτρέπεται να χρησιμοποιείτε elytra κατά τη διάρκεια της μάχης.</red>"
+    teleportation:
+      #Shown when a player tries to enter a portal and is prevented during combat.
+      block-portal: "<red>Δεν επιτρέπεται να χρησιμοποιήσετε μια πύλη κατά τη διάρκεια της μάχης.</red>"
+      #Shown when an ender pearl is prevented during combat.
+      block-pearl: "<red>Δεν επιτρέπεται να χρησιμοποιείτε μαργαριτάρια κατά τη διάρκεια της μάχης.</red>"
+      #Shown when a teleport is prevented during combat.
+      block-other: "<red>Δεν επιτρέπεται η τηλεμεταφορά κατά τη διάρκεια της μάχης.</red>"
+    inventory:
+      #Shown when a player's inventory is closed by the plugin during combat.
+      force-closed: "<red>Τα αποθέματά σας έκλεισαν.</red>"
+      #Shown when a player tries to open an inventory and is prevented during combat.
+      no-opening: "<red>Δεν επιτρέπεται να ανοίξετε αποθέματα κατά τη διάρκεια της μάχης.</red>"
+    blocks:
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-breaking: "<red>Δεν επιτρέπεται να σπάσετε μπλοκ κατά τη διάρκεια της μάχης.</red>"
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-placing: "<red>Δεν επιτρέπεται να τοποθετείτε μπλοκ κατά τη διάρκεια της μάχης.</red>"
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-interaction: "<red>Δεν επιτρέπεται να χρησιμοποιείτε μπλοκ κατά τη διάρκεια της μάχης.</red>"
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-portal-creation: "<red>Δεν επιτρέπεται να δημιουργήσετε πύλες κατά τη διάρκεια της μάχης.</red>"
+    items:
+      #Shown when a player is prevented from picking up an item during combat.
+      no-pickup: "<red>Δεν επιτρέπεται να παραλάβετε αντικείμενα κατά τη διάρκεια της μάχης.</red>"
+      #Shown when a player is prevented from dropping an item during combat.
+      no-dropping: "<red>Δεν επιτρέπεται να ρίξετε αντικείμενα κατά τη διάρκεια της μάχης.</red>"
+    buckets:
+      #Shown when a player is prevented from emptying a bucket during combat.
+      no-empty: "<red>Δεν μπορείτε να αδειάσετε κάδους κατά τη διάρκεια της μάχης.</red>"
+      #Shown when a player is prevented from filling a bucket during combat.
+      no-fill: "<red>Δεν μπορείτε να γεμίσετε κάδους κατά τη διάρκεια της μάχης.</red>"
+  damage-tagger:
+    #Shown when a player is tagged for an unknown damage type.
+    unknown-damage: "<red>Λάβατε ζημιά! Μην αποσυνδεθείτε!</red>"
+    #These messages are shown when a player is tagged for a known damage type.
+    #You can find a list of damage types here:
+    #https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/EntityDamageEvent.DamageCause.html
+    damage-type:
+      contact: "<red>Έχετε τραβηχτεί από έναν κάκτο. Μην αποσυνδεθείτε!</red>"
+      suffocation: "<red>Καταπνίγετε σε έναν τοίχο. Μην αποσυνδεθείτε!</red>"
+      fall: "<red>Τραβήξατε ζημιά. Μην αποσυνδεθείτε!</red>"
+      fire: "<red>Μπήκατε στη φωτιά. Μην αποσυνδεθείτε!</red>"
+      fire-tick: "<red>Κάνετε εγγραφή. Μην αποσυνδεθείτε!</red>"
+      lava: "<red>Βράζετε στη λάβα. Μην αποσυνδεθείτε!</red>"
+      drowning: "<red>Είστε πνιγμένοι. Μην αποσυνδεθείτε!</red>"
+      block-explosion: "<red>Έχετε υποστεί ζημιά από έκρηξη. Μην αποσυνδεθείτε!</red>"
+      lightning: "<red>Εσύ χτύπησε! Μην αποσυνδεθείτε!</red>"
+      starvation: "<red>Είστε πολύ πεινασμένοι. Μην αποσυνδεθείτε!</red>"
+      poison: "<red>Τραβήξατε ζημιά δηλητηρίασης. Μην αποσυνδεθείτε!</red>"
+      magic: "<red>Κάποιος έριξε ένα φίλτρο σε σας. Μην αποσυνδεθείτε!</red>"
+      wither: "<red>Απομακρύνεστε. Μην αποσυνδεθείτε!</red>"
+      falling-block: "<red>Ένα μπλοκ έπεσε πάνω σου. Μην αποσυνδεθείς!</red>"
+      custom: "<red>Λάβατε προσαρμοσμένη ζημιά. Μην αποσυνδεθείτε!</red>"
+      fly-into-wall: "<red>Βιώσατε κινητική ενέργεια. Μην αποσυνδέετε!</red>"
+      hot-floor: "<red>Ο όροφος είναι λάβα! Μην αποσυνδεθείτε!</red>"
+      cramming: "<red>Είστε χαμένοι. Μην αποσυνδεθείτε!</red>"
+  newbie-helper:
+    togglepvp:
+      #Shown as the command output for '/togglepvp'.
+      self: "<gray>PVP:</gray> {status}"
+      #Shown as the command output for '/togglepvp admin on/off <player>'.
+      admin: "<green>Αλλάξατε το pvp του <gray>{target}</gray> σε <gray>{status}</gray>.</green>"
+      #Shown when the '/togglepvp' command is on cooldown.
+      cooldown: "<red>Πρέπει να περιμένετε <gray>{time_left}</gray> δευτερόλεπτα για να χρησιμοποιήσετε ξανά αυτήν την εντολή.</red>"
+    #These messages are shown when pvp is disabled for any reason.
+    no-pvp:
+      self: "<red>Δεν επιτρέπεται να χτυπήσετε αυτόν τον παίκτη ενώ το PvP σας είναι απενεργοποιημένο.</red>"
+      other: "<red>Αυτός ο παίκτης έχει PvP απενεργοποιημένο.</red>"
+      protected: "<red>Ο παίκτης είναι προστατευμένος, δεν επιτρέπεται να τον επιτεθείτε ακόμα!</red>"
+    protection-disabled:
+      #Shown when newbie protection is disabled due to the player attacking another player.
+      attacker: "<red>Εσείς επιτεθήκατε σε κάποιον, η προστασία σας από νεογέννητους είναι τώρα απενεργοποιημένη.</red>"
+      #Shown when newbie protection expires.
+      expired: "<red>Έχει λήξει η προστασία σας στο newbie.</red>"
+    #Shown for the '/togglepvp check <player>' command.
+    check-format:
+      - "<white><bold>Πληροφορίες για <gray>{target}</gray>:</bold></white>"
+      - "<white><bold>Προστασία:</bold></white> <gray>{protected}</gray>"
+      - "<white><bold>PvP:</bold></white> <gray>{pvp}</gray>"
+  loot-protection:
+    #Shown when an enemy dies and their loot is protected.
+    enemy-died: "<green><gray>{enemy}</gray> έχει πεθάνει. Λάφυρα θα προστατεύονται για <gray>{time}</gray> δευτερόλεπτα.</green>"
+    #Shown when a player tries to pick up an item that is loot protected by the plugin.
+    protected: "<red>Αυτό το αντικείμενο προστατεύεται επί του παρόντος, περιμένετε <gray>{time}</gray> δευτερόλεπτα μέχρι να μπορείτε να το παραλάβετε.</red>"
+  citizens-compatibility:
+    #Shown when a player is prevented from joining the server due to their NPC still existing.
+    prevent-join: "<red>Δεν επιτρέπεται να γίνετε μέλος του διακομιστή μέχρι να τερματιστεί ή να αφαιρεθεί ο NPC σας.</red>"
+  disguise-compatibility:
+    #Shown when a disguise is removed from a player during combat.
+    remove-disguise: "<red>Η μεταμφίεση σας αφαιρέθηκε.</red>"
+  essentials-compatibility:
+    #Shown when a teleport request is cancelled during combat.
+    prevent-teleport-request-self: "<red>Δεν μπορείτε να δημιουργήσετε αιτήματα τηλεμεταφοράς κατά τη διάρκεια της μάχης.</red>"
+    #Shown when a teleport request is cancelled during combat.
+    prevent-teleport-request-other: "<red>Δεν μπορείτε να στείλετε αίτημα τηλεμεταφοράς σε έναν παίκτη που είναι σε μάχη.</red>"
+  marriagemaster-compatibility:
+    #Shown when a married player is prevented from teleporting to their partner during combat.
+    prevent-teleport-self: "<red>Δεν επιτρέπεται η τηλεμεταφορά στον σύντροφό σας κατά τη διάρκεια της μάχης.</red>"
+    #Shown when a married player is prevented from teleporting to their partner during combat.
+    prevent-teleport-partner: "<red>Δεν επιτρέπεται η τηλεμεταφορά στον σύντροφό σας ενώ είναι σε μάχη.</red>"
+  region-protection:
+    #Shown when a player tries to enter a no-pvp area during combat.
+    default-no-entry: "<red>Δεν επιτρέπεται να εισέλθετε σε αυτήν την περιοχή κατά τη διάρκεια της μάχης.</red>"
+    factions-no-entry: <red>Δεν επιτρέπεται να εισέλθετε σε αυτήν την περιοχή κατά τη διάρκεια της μάχης.</red>
+    griefdefender-no-entry: <red>Δεν επιτρέπεται να εισέλθετε σε αυτήν την περιοχή κατά τη διάρκεια της μάχης.</red>
+    griefprevention-no-entry: <red>Δεν επιτρέπεται να εισέλθετε σε αυτήν την περιοχή κατά τη διάρκεια της μάχης.</red>
+    kingdomsx-no-entry: <red>Δεν επιτρέπεται να εισέλθετε σε αυτήν την περιοχή κατά τη διάρκεια της μάχης.</red>
+    konquest-no-entry: <red>Δεν επιτρέπεται να εισέλθετε σε αυτήν την περιοχή κατά τη διάρκεια της μάχης.</red>
+    redprotect-no-entry: <red>Δεν επιτρέπεται να εισέλθετε σε αυτήν την περιοχή κατά τη διάρκεια της μάχης.</red>
+    residence-no-entry: <red>Δεν επιτρέπεται να εισέλθετε σε αυτήν την περιοχή κατά τη διάρκεια της μάχης.</red>
+    towny-no-entry: <red>Δεν επιτρέπεται να εισέλθετε σε αυτήν την περιοχή κατά τη διάρκεια της μάχης.</red>
+    husktowns-no-entry: <red>Δεν επιτρέπεται να εισέλθετε σε αυτήν την περιοχή κατά τη διάρκεια της μάχης.</red>
+    ultimateclaims-no-entry: <red>Δεν επιτρέπεται να εισέλθετε σε αυτήν την περιοχή κατά τη διάρκεια της μάχης.</red>
+    protectionstones:
+      prevent-area-creation: "<red>Δεν επιτρέπεται να δημιουργήσετε μια προστατευμένη περιοχή κατά τη διάρκεια της μάχης.</red>"
+      no-entry: <red>Δεν επιτρέπεται να εισέλθετε σε αυτήν την περιοχή κατά τη διάρκεια της μάχης.</red>
+    preciousstones:
+      prevent-field-creation: "<red>Δεν επιτρέπεται να δημιουργήσετε ένα πεδίο προστασίας κατά τη διάρκεια της μάχης.</red>"
+      no-entry: <red>Δεν επιτρέπεται να εισέλθετε σε αυτήν την περιοχή κατά τη διάρκεια της μάχης.</red>
+    worldguard:
+      no-entry-mob-combat: "<red>Δεν επιτρέπεται να εισέλθετε σε μια μη μαχητική περιοχή κατά τη διάρκεια της μάχης.</red>"
+      no-entry-player-combat: "<red>Δεν επιτρέπεται να εισέλθετε σε μια περιοχή που δεν είναι παίχτης-μάχης κατά τη διάρκεια του αγώνα.</red>"
+      no-entry-unknown-combat: <red>Δεν επιτρέπεται να εισέλθετε σε αυτήν την περιοχή κατά τη διάρκεια της μάχης.</red>
+    lands:
+      no-entry: <red>Δεν επιτρέπεται να εισέλθετε σε αυτήν την περιοχή κατά τη διάρκεια της μάχης.</red>
+      war-disable-newbie-protection: "<red>Το PvP είναι πλέον ενεργοποιημένο λόγω μιας διακήρυξης πολέμου.</red>"
