@@ -50,6 +50,7 @@ CombatLogX has many uses, but some common examples are provided below.
 Good luck with your coding!
 
 **Example 01: Check if CombatLogX is enabled and get an instance of it.**
+
 ```java
 public boolean isEnabled() {
     PluginManager pluginManager = Bukkit.getPluginManager();

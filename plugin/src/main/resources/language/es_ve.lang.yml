@@ -33,27 +33,27 @@ error:
 command:
   combatlogx:
     help-message-list:
-    - <white>
-    - '<bold><gold>Ayuda de CombatLogX:'
-    - '  <bold><white>/combatlogx help</white></bold><gray>: Muestra este menú.'
-    - '  <bold><white>/combatlogx reload</white></bold><gray>: Reinicia los archivos
+      - <white>
+      - '<bold><gold>Ayuda de CombatLogX:'
+      - '  <bold><white>/combatlogx help</white></bold><gray>: Muestra este menú.'
+      - '  <bold><white>/combatlogx reload</white></bold><gray>: Reinicia los archivos
       config.yml, language.yml, y todos los archivos de configuración de sus expansiones.'
-    - '  <bold><white>/combatlogx about \<expansion></white></bold><gray>: Revisa
+      - '  <bold><white>/combatlogx about \<expansion></white></bold><gray>: Revisa
       la información sobre una expansión.'
-    - '  [seconds]'
-    - '  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>:
+      - '  [seconds]'
+      - '  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>:
       Habilita o deshabilita alguno de estos mensajes.'
-    - '  <bold><white>/combatlogx untag \<player></white></bold><gray>: Quitar forzosamente
+      - '  <bold><white>/combatlogx untag \<player></white></bold><gray>: Quitar forzosamente
       el modo combate.'
-    - '  <bold><white>/combatlogx version</white></bold><gray>: Muestra la versión
+      - '  <bold><white>/combatlogx version</white></bold><gray>: Muestra la versión
       de CombatLogX.'
-    - <white>
+      - <white>
     reload-success:
-    - <green>Se han recargado exitosamente todos los archivos de configuración de
-      CombatLogX.
-    - <green>Se ha recargado exitosamente el archivo de lenguaje de CombatLogX.
-    - <green>Se han recargado exitosamente todos los archivos de configuración pertenecientes
-      a las expansiones de CombatLogX.
+      - <green>Se han recargado exitosamente todos los archivos de configuración de
+        CombatLogX.
+      - <green>Se ha recargado exitosamente el archivo de lenguaje de CombatLogX.
+      - <green>Se han recargado exitosamente todos los archivos de configuración pertenecientes
+        a las expansiones de CombatLogX.
     tag-player: <green>Se ha forzado exitosamente al jugador </green><gray>{target}</gray><green>
       para entrar en modo combate.
     tag-failure: <gray>{target}</gray><red> no puede ser puesto en combate. (¿Talvez
@@ -109,18 +109,18 @@ expansion:
     title: <bold><gold>CombatLogX
     # Make sure to follow your Spigot version's scoreboard line/character limit
     lines:
-    - <white>
-    - <bold><white>Estadísticas del combate
-    - '<dark_gray>» </dark_gray><bold><white>Tiempo restante: </white></bold><gray>{time_left}'
-    - '<dark_gray>» </dark_gray><bold><white>En Combate: </white></bold><gray>{in_combat}'
-    - '<dark_gray>» </dark_gray><bold><white>Status: </white></bold><gray>{status}'
-    - <white>
-    - <bold><white>Estadísticas del enemigo
-    - '<dark_gray>» </dark_gray><bold><white>Nombre: </white></bold><gray>{enemy_name}'
-    - '<dark_gray>» </dark_gray><bold><white>Vida: </white></bold><gray>{enemy_health}'
-    - '<dark_gray>» </dark_gray><bold><white>VidaR: </white></bold><gray>{enemy_health_rounded}'
-    - '<dark_gray>» </dark_gray><bold><white>Corazones: </white></bold><gray>{enemy_hearts}'
-    - <white>
+      - <white>
+      - <bold><white>Estadísticas del combate
+      - '<dark_gray>» </dark_gray><bold><white>Tiempo restante: </white></bold><gray>{time_left}'
+      - '<dark_gray>» </dark_gray><bold><white>En Combate: </white></bold><gray>{in_combat}'
+      - '<dark_gray>» </dark_gray><bold><white>Status: </white></bold><gray>{status}'
+      - <white>
+      - <bold><white>Estadísticas del enemigo
+      - '<dark_gray>» </dark_gray><bold><white>Nombre: </white></bold><gray>{enemy_name}'
+      - '<dark_gray>» </dark_gray><bold><white>Vida: </white></bold><gray>{enemy_health}'
+      - '<dark_gray>» </dark_gray><bold><white>VidaR: </white></bold><gray>{enemy_health_rounded}'
+      - '<dark_gray>» </dark_gray><bold><white>Corazones: </white></bold><gray>{enemy_hearts}'
+      - <white>
   cheat-prevention:
     command-blocked: <red>No tienes acceso al comando </red><green>{command}</green><red>
       durante este combate.
@@ -194,9 +194,9 @@ expansion:
       attacker: <red>Atacaste a alguien, tu protección de combate se ha desactivado.
       expired: <red>Tu protección de combate ha expirado.
     check-format:
-    - '<white>Información para </white><gray>{target}</gray><bold><white>:'
-    - '<bold><white>Protección: </white></bold><gray>{protected}'
-    - '<bold><white>Estado: </white></bold><gray>{pvp}'
+      - '<white>Información para </white><gray>{target}</gray><bold><white>:'
+      - '<bold><white>Protección: </white></bold><gray>{protected}'
+      - '<bold><white>Estado: </white></bold><gray>{pvp}'
   loot-protection:
     enemy-died: <white>{enemy} </white><green>ha muerto. El botín estará protegido
       por </green><white>{time} segundos</white><green>.

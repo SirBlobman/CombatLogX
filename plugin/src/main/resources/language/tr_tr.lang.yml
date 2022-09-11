@@ -32,26 +32,26 @@ error:
 command:
   combatlogx:
     help-message-list:
-    - <white>
-    - '<bold><gold>CombatLogX Komut Yardım:'
-    - '  <bold><white>/combatlogx help</white></bold><gray>: Yardım sayfasını görüntüler.'
-    - '  <bold><white>/combatlogx reload</white></bold><gray>: config.yml, language.yml
+      - <white>
+      - '<bold><gold>CombatLogX Komut Yardım:'
+      - '  <bold><white>/combatlogx help</white></bold><gray>: Yardım sayfasını görüntüler.'
+      - '  <bold><white>/combatlogx reload</white></bold><gray>: config.yml, language.yml
       ve bütün eklentilerin konfigürasyon dosyalarını yeniden yükler.'
-    - '  <bold><white>/combatlogx about \<expansion></white></bold><gray>: Eklentiyle
+      - '  <bold><white>/combatlogx about \<expansion></white></bold><gray>: Eklentiyle
       ilgili bilgileri kontrol eder.'
-    - '  <bold><white>/combatlogx tag \<player></white></bold><gray>: Oyuncuyu zorla
+      - '  <bold><white>/combatlogx tag \<player></white></bold><gray>: Oyuncuyu zorla
       savaşa sokar.'
-    - '  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>:
+      - '  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>:
       Bildirim tipini etkinleştirir ya da devre dışı bırakır.'
-    - '  <bold><white>/combatlogx untag \<player></white></bold><gray>: Hedef oyuncuyu
+      - '  <bold><white>/combatlogx untag \<player></white></bold><gray>: Hedef oyuncuyu
       savaş durumundan çıkarır.'
-    - '  <bold><white>/combatlogx version</white></bold><gray>: CombatLogX sürümünüzü
+      - '  <bold><white>/combatlogx version</white></bold><gray>: CombatLogX sürümünüzü
       kontrol eder.'
-    - <white>
+      - <white>
     reload-success:
-    - <green>CombatLogX konfigürasyon dosyaları başarıyla yenilendi.
-    - <green>CombatLogX dil dosyaları başarıyla yenilendi.
-    - <green>CombatLogX eklentilerinin konfigürasyon dosyaları başarıyla yenilendi.
+      - <green>CombatLogX konfigürasyon dosyaları başarıyla yenilendi.
+      - <green>CombatLogX dil dosyaları başarıyla yenilendi.
+      - <green>CombatLogX eklentilerinin konfigürasyon dosyaları başarıyla yenilendi.
     tag-player: <green>Oyuncu </green><gray>{target}</gray><green> başarıyla savaşa
       zorlandı.
     tag-failure: Hedef <gray>{target}</gray><red> savaşta yerleştiremez. (Belki bypass
@@ -146,9 +146,9 @@ expansion:
       attacker: <red>Birilerine saldırdın, yeni oyuncu koruman devre dışı bırakıldı.
       expired: <red>Yeni oyuncu korumanızın süresi doldu.
     check-format:
-    - '<bold><white>Bilgilendirme </white></bold><gray>{target}</gray><bold><white>:'
-    - '<bold><white>Koruma: </white></bold><gray>{protected}'
-    - '<bold><white>PvP: </white></bold><gray>{pvp}'
+      - '<bold><white>Bilgilendirme </white></bold><gray>{target}</gray><bold><white>:'
+      - '<bold><white>Koruma: </white></bold><gray>{protected}'
+      - '<bold><white>PvP: </white></bold><gray>{pvp}'
   loot-protection:
     enemy-died: <white>{enemy} </white><green>öldü. Ganimetler </green><white>{time}
       saniye </white><green>boyunca korunacaktır.

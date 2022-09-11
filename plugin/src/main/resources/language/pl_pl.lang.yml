@@ -34,25 +34,25 @@ error:
 command:
   combatlogx:
     help-message-list:
-    - <white>
-    - '<bold><gold>Menu pomocy CombatLogX:'
-    - '  <bold><white>/combatlogx help</white></bold><gray>: Wyświetl stronę pomocy.'
-    - '  <bold><white>/combatlogx reload</white></bold><gray>: Przeładuj plik config.yml,
+      - <white>
+      - '<bold><gold>Menu pomocy CombatLogX:'
+      - '  <bold><white>/combatlogx help</white></bold><gray>: Wyświetl stronę pomocy.'
+      - '  <bold><white>/combatlogx reload</white></bold><gray>: Przeładuj plik config.yml,
       language.yml i wszystkie pliki konfiguracyjne rozszerzeń.'
-    - '  <bold><white>/combatlogx o \<expansion></white></bold><gray>: Sprawdź informacje
+      - '  <bold><white>/combatlogx o \<expansion></white></bold><gray>: Sprawdź informacje
       o rozszerzeniu.'
-    - '  <bold><white>/combatlogx tag \<player> [seconds]</white></bold><gray>: Zmuś
+      - '  <bold><white>/combatlogx tag \<player> [seconds]</white></bold><gray>: Zmuś
       gracza do walki.'
-    - '  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>:
+      - '  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>:
       Włącz lub wyłącz wybrany typ powiadomień.'
-    - '  <bold><white>/combatlogx untag \<player></white></bold><gray>: Zmuś gracza
+      - '  <bold><white>/combatlogx untag \<player></white></bold><gray>: Zmuś gracza
       do opuszczenia walki.'
-    - '  <bold><white>/combatlogx version</white></bold><gray>: Sprawdź wersję CombatLogX.'
-    - <white>
+      - '  <bold><white>/combatlogx version</white></bold><gray>: Sprawdź wersję CombatLogX.'
+      - <white>
     reload-success:
-    - <green>Pomyślnie przeładowano wszystkie pliki konfiguracyjne z CombatLogX.
-    - <green>Pomyślnie przeładowano wszystkie pliki językowe z CombatLogX.
-    - <green>Pomyślnie przeładowano wszystkie pliki konfiguracyjne z rozszerzeń CombatLogX.
+      - <green>Pomyślnie przeładowano wszystkie pliki konfiguracyjne z CombatLogX.
+      - <green>Pomyślnie przeładowano wszystkie pliki językowe z CombatLogX.
+      - <green>Pomyślnie przeładowano wszystkie pliki konfiguracyjne z rozszerzeń CombatLogX.
     tag-player: <green>Pomyślnie zmuszono gracza </green><gray>{target}</gray><green>
       do bycia w walce.
     tag-failure: <gray>{target}</gray><red> nie może zostać zmuszony do bycia w walce.
@@ -106,18 +106,18 @@ expansion:
     title: <bold><gold>CombatLogX
     # Make sure to follow your Spigot version's scoreboard line/character limit
     lines:
-    - <white>
-    - '<bold><white>Statystyki Walki:'
-    - '<dark_gray>» </dark_gray><bold><white>Pozostały Czas: </white></bold><gray>{time_left}'
-    - '<dark_gray>» </dark_gray><bold><white>W Walce: </white></bold><gray>{in_combat}'
-    - '<dark_gray>» </dark_gray><bold><white>Status: </white></bold><gray>{status}'
-    - <white>
-    - <bold><white>Statystyki Wroga
-    - '<dark_gray>» </dark_gray><bold><white>Nazwa: </white></bold><gray>{enemy_name}'
-    - '<dark_gray>» </dark_gray><bold><white>Życie: </white></bold><gray>{enemy_health}'
-    - '<dark_gray>» </dark_gray><bold><white>Zdrowie: </white></bold><gray>{enemy_health_rounded}'
-    - '<dark_gray>» </dark_gray><bold><white>Serca: </white></bold><gray>{enemy_hearts}'
-    - <white>
+      - <white>
+      - '<bold><white>Statystyki Walki:'
+      - '<dark_gray>» </dark_gray><bold><white>Pozostały Czas: </white></bold><gray>{time_left}'
+      - '<dark_gray>» </dark_gray><bold><white>W Walce: </white></bold><gray>{in_combat}'
+      - '<dark_gray>» </dark_gray><bold><white>Status: </white></bold><gray>{status}'
+      - <white>
+      - <bold><white>Statystyki Wroga
+      - '<dark_gray>» </dark_gray><bold><white>Nazwa: </white></bold><gray>{enemy_name}'
+      - '<dark_gray>» </dark_gray><bold><white>Życie: </white></bold><gray>{enemy_health}'
+      - '<dark_gray>» </dark_gray><bold><white>Zdrowie: </white></bold><gray>{enemy_health_rounded}'
+      - '<dark_gray>» </dark_gray><bold><white>Serca: </white></bold><gray>{enemy_hearts}'
+      - <white>
   cheat-prevention:
     command-blocked: <red>Nie masz dostępu do </red><green>{command}</green><red>
       podczas walki.
@@ -188,9 +188,9 @@ expansion:
       attacker: <red>Zaatakowałeś kogoś, twoja ochrona dla nowych została wyłączona.
       expired: <red>Twoja ochrona dla nowych graczy wygasła.
     check-format:
-    - '<bold><white>Informacje dla </white></bold><gray>{target}</gray><bold><white>:'
-    - '<bold><white>Ochrona: </white></bold><gray>{protected}'
-    - '<bold><white>PvP: </white></bold><gray>{pvp}'
+      - '<bold><white>Informacje dla </white></bold><gray>{target}</gray><bold><white>:'
+      - '<bold><white>Ochrona: </white></bold><gray>{protected}'
+      - '<bold><white>PvP: </white></bold><gray>{pvp}'
   loot-protection:
     enemy-died: <white>{enemy} </white><green>umarł. Łup będzie chroniony przez </green><white>{time}
       sekund</white><green>.

@@ -40,22 +40,22 @@ error:
 command:
   combatlogx:
     help-message-list:
-    - <white>
-    - '<bold><gold>CombatLogX Commandes Help:'
-    - '  <bold><white>/combatlogx help</white></bold><gray>: Voir cette page d''aide.'
-    - '  <bold><white>/combatlogx reload</white></bold><gray>: Rechargez le fichier
+      - <white>
+      - '<bold><gold>CombatLogX Commandes Help:'
+      - '  <bold><white>/combatlogx help</white></bold><gray>: Voir cette page d''aide.'
+      - '  <bold><white>/combatlogx reload</white></bold><gray>: Rechargez le fichier
       config.yml, language.yml et tous les fichiers de configuration de l''expansion.'
-    - '  <bold><white>/combatlogx version</white></bold><gray>: Vérifiez votre version
+      - '  <bold><white>/combatlogx version</white></bold><gray>: Vérifiez votre version
       de Combatlogx.'
-    - '  <bold><white>/combatlogx tag \<player></white></bold><gray>: Forcer un joueur
+      - '  <bold><white>/combatlogx tag \<player></white></bold><gray>: Forcer un joueur
       a être en combat.'
-    - '  <bold><white>/combatlogx untag \<player></white></bold><gray>: Forcer un
+      - '  <bold><white>/combatlogx untag \<player></white></bold><gray>: Forcer un
       joueur à être hors du combat.'
-    - <white>
+      - <white>
     
     reload-success:
-    - <green>Rechargé avec succès tous les fichiers de configuration de Combatlogx
-      et des expansions.
+      - <green>Rechargé avec succès tous les fichiers de configuration de Combatlogx
+        et des expansions.
     
     tag-player: <green>Vous venez de forcer </green><white>{target}</white><green>
       d'être en combat. Cela peut causer des problèmes.

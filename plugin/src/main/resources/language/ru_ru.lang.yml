@@ -33,26 +33,26 @@ error:
 command:
   combatlogx:
     help-message-list:
-    - <white>
-    - '<gold>Справка по командам CombatLogX:'
-    - '  <bold><white>/combatlogx help</white></bold><gray>: Смотреть эту страницу.'
-    - '  <bold><white>/combatlogx reload</white></bold><gray>: Перезагрузка config.yml,
+      - <white>
+      - '<gold>Справка по командам CombatLogX:'
+      - '  <bold><white>/combatlogx help</white></bold><gray>: Смотреть эту страницу.'
+      - '  <bold><white>/combatlogx reload</white></bold><gray>: Перезагрузка config.yml,
       language.yml, и всех конфигурационных файлов расширений.'
-    - '  <bold><white>/combatlogx about \<expansion></white></bold><gray>: Проверьте
+      - '  <bold><white>/combatlogx about \<expansion></white></bold><gray>: Проверьте
       информацию о расширении.'
-    - '  <bold><white>/combatlogx tag \<player> [seconds]</white></bold><gray>: Заставить
+      - '  <bold><white>/combatlogx tag \<player> [seconds]</white></bold><gray>: Заставить
       игрока вступить в бой.'
-    - '  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>:
+      - '  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>:
       Включает/выключает тип уведомления.'
-    - '  <bold><white>/combatlogx untag \<игрок></white></bold><gray>: Принудительно
+      - '  <bold><white>/combatlogx untag \<игрок></white></bold><gray>: Принудительно
       выводит игрока из боя.'
-    - '  <bold><white>/combatlogx version</white></bold><gray>: Узнайте вашу версию
+      - '  <bold><white>/combatlogx version</white></bold><gray>: Узнайте вашу версию
       CombatLogX.'
-    - <white>
+      - <white>
     reload-success:
-    - <green>Успешно перезагружены все файлы конфигурации CombatLogX.
-    - <green>Успешно перезагружены все файлы локализации CombatLogX.
-    - <green>Успешно перезагружены все файлы конфигурации расширений CombatLogX.
+      - <green>Успешно перезагружены все файлы конфигурации CombatLogX.
+      - <green>Успешно перезагружены все файлы локализации CombatLogX.
+      - <green>Успешно перезагружены все файлы конфигурации расширений CombatLogX.
     tag-player: <gray>{target}</gray><green> успешно введен в бой.
     tag-failure: <gray>{target}</gray><red> не может быть введен бой. (Имеет права
       обхода?)
@@ -103,18 +103,18 @@ expansion:
     title: <bold><gold>CombatLogX
     # Make sure to follow your Spigot version's scoreboard line/character limit
     lines:
-    - <white>
-    - '<bold><white>Боевая статистика:'
-    - '<dark_gray>» </dark_gray><bold><white>Оставшееся время: </white></bold><gray>{time_left}'
-    - '<dark_gray>» </dark_gray><bold><white>В бою: </white></bold><gray>{in_combat}'
-    - '<dark_gray>» </dark_gray><bold><white>Статус: </white></bold><gray>{status}'
-    - <white>
-    - <bold><white>Статистика Противника
-    - '<dark_gray>» </dark_gray><bold><white>Имя: </white></bold><gray>{enemy_name}'
-    - '<dark_gray>» </dark_gray><bold><white>Здоровье: </white></bold><gray>{enemy_health}'
-    - '<dark_gray>» </dark_gray><bold><white>Здоровье округлено: </white></bold><gray>{enemy_health_rounded}'
-    - '<dark_gray>» </dark_gray><bold><white>Сердца: </white></bold><gray>{enemy_hearts}'
-    - <white>
+      - <white>
+      - '<bold><white>Боевая статистика:'
+      - '<dark_gray>» </dark_gray><bold><white>Оставшееся время: </white></bold><gray>{time_left}'
+      - '<dark_gray>» </dark_gray><bold><white>В бою: </white></bold><gray>{in_combat}'
+      - '<dark_gray>» </dark_gray><bold><white>Статус: </white></bold><gray>{status}'
+      - <white>
+      - <bold><white>Статистика Противника
+      - '<dark_gray>» </dark_gray><bold><white>Имя: </white></bold><gray>{enemy_name}'
+      - '<dark_gray>» </dark_gray><bold><white>Здоровье: </white></bold><gray>{enemy_health}'
+      - '<dark_gray>» </dark_gray><bold><white>Здоровье округлено: </white></bold><gray>{enemy_health_rounded}'
+      - '<dark_gray>» </dark_gray><bold><white>Сердца: </white></bold><gray>{enemy_hearts}'
+      - <white>
   cheat-prevention:
     command-blocked: <red>У вас нет доступа к </red><green>{command}</green><red>
       во время боя.
@@ -184,9 +184,9 @@ expansion:
       attacker: <red>Вы кого-то атаковали, ваша защита новичка отключилась.
       expired: <red>Ваша защита новичка закончилась.
     check-format:
-    - '<bold><white>Информация по</white></bold><gray>{target}</gray><bold><white>:'
-    - '<bold><white>Защита: </white></bold><gray>{protected}'
-    - '<bold><white>PvP: </white></bold><gray>{pvp}'
+      - '<bold><white>Информация по</white></bold><gray>{target}</gray><bold><white>:'
+      - '<bold><white>Защита: </white></bold><gray>{protected}'
+      - '<bold><white>PvP: </white></bold><gray>{pvp}'
   loot-protection:
     enemy-died: <white>{enemy} </white><green>мёртв. Лут будет защищён </green><white>{time}
       секунд</white><green>.

@@ -226,7 +226,7 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
 
     @Override
     public void printDebug(String... messageArray) {
-        if(isDebugModeDisabled()) {
+        if (isDebugModeDisabled()) {
             return;
         }
 
@@ -239,7 +239,7 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
 
     @Override
     public void printDebug(Throwable ex) {
-        if(isDebugModeDisabled()) {
+        if (isDebugModeDisabled()) {
             return;
         }
 

@@ -1,7 +1,9 @@
 # CombatLogX Expansion: PlaceholderAPI Compatibility
+
 The PlaceholderAPI Compatibility expansion for CombatLogX adds placeholders to plugins that use PlaceholderAPI.
 
 ## Basic Placeholders
+
 These placeholders don't require anything special to be used.
 
 | PlaceholderAPI Placeholder     | Description                                                                           |
@@ -16,6 +18,7 @@ These placeholders don't require anything special to be used.
 | %combatlogx_time_left_decimal% | The total amount of seconds the player has left in combat with all enemies. (Decimal) |
 
 ## Enemy Placeholders
+
 Players can have multiple enemies.
 These placeholders can have an index to view information about a specific enemy.
 Example: %combatlogx_time_left_1% to get the time left with the first enemy.
@@ -43,6 +46,7 @@ Example: %combatlogx_time_left_1% to get the time left with the first enemy.
 | &lt;placeholderapi&gt; | Any other valid PlaceholderAPI placeholder without the % symbols. Only works for player enemies. | &lt;varies&gt;                   |
 
 ## Newbie Helper Placeholders
+
 These placeholders require the `Newbie Helper` expansion.
 
 | Placeholder                           | Description                                                                   |

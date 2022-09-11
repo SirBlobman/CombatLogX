@@ -40,19 +40,19 @@ error:
 commands:
   combatlogx:
     help-message-list:
-    - <white>
-    - '<bold><gold>CombatLogX Command Help:'
-    - '  <bold><white>/combatlogx help</white></bold><gray>: Zeige dir diese Seite
+      - <white>
+      - '<bold><gold>CombatLogX Command Help:'
+      - '  <bold><white>/combatlogx help</white></bold><gray>: Zeige dir diese Seite
       an.'
-    - '  <bold><white>/combatlogx reload</white></bold><gray>: Laden Sie die config.yml,
+      - '  <bold><white>/combatlogx reload</white></bold><gray>: Laden Sie die config.yml,
       language.yml und alle Erweiterungskonfigurationsdateien neu.'
-    - '  <bold><white>/combatlogx version</white></bold><gray>: Überprüfen Sie Ihre
+      - '  <bold><white>/combatlogx version</white></bold><gray>: Überprüfen Sie Ihre
       Version von CombatLogX.'
-    - '  <bold><white>/combatlogx tag \<player></white></bold><gray>: Zwinge einen
+      - '  <bold><white>/combatlogx tag \<player></white></bold><gray>: Zwinge einen
       Spieler in den Kampf.'
-    - '  <bold><white>/combatlogx untag \<player></white></bold><gray>: Zwinge einen
+      - '  <bold><white>/combatlogx untag \<player></white></bold><gray>: Zwinge einen
       Spieler aus dem Kampf.'
-    - <white>
+      - <white>
     
     reloaded-success: <green>Alle Konfigurationsdateien von CombatLogX und Erweiterungen
       erfolgreich neu geladen.

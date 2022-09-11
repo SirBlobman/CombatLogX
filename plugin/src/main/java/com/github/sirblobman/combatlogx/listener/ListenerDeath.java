@@ -99,7 +99,7 @@ public final class ListenerDeath extends CombatListener {
         MiniMessage miniMessage = languageManager.getMiniMessage();
         Component componentMessage = miniMessage.deserialize(replacedMessage);
 
-        if(PaperChecker.isPaper()) {
+        if (PaperChecker.hasNativeComponentSupport()) {
             PaperHelper.setDeathMessage(componentMessage, e);
         } else {
             String legacyMessage = ComponentHelper.toLegacy(componentMessage);

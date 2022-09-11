@@ -32,21 +32,21 @@ error:
 command:
   combatlogx:
     help-message-list:
-    - <white>
-    - <bold><gold>CombatLogX 命令帮助：
-    - '  <bold><white>/CombatLogX help</white></bold><gray>：查看该帮助页面。'
-    - '  <bold><white>/CombatLogX reload</white></bold><gray>: 重新装入config.yml, language.yml和所有扩展配置文件。'
-    - '  <bold><white>/combatlogx about \<expansion></white></bold><gray>: 检查扩展的信息。'
-    - '  <bold><white>/combatlogx tag \<player></white></bold><gray>: 强制使玩家进入战斗状态。'
-    - '  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>:
+      - <white>
+      - <bold><gold>CombatLogX 命令帮助：
+      - '  <bold><white>/CombatLogX help</white></bold><gray>：查看该帮助页面。'
+      - '  <bold><white>/CombatLogX reload</white></bold><gray>: 重新装入config.yml, language.yml和所有扩展配置文件。'
+      - '  <bold><white>/combatlogx about \<expansion></white></bold><gray>: 检查扩展的信息。'
+      - '  <bold><white>/combatlogx tag \<player></white></bold><gray>: 强制使玩家进入战斗状态。'
+      - '  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>:
       启用或禁用通知类型。'
-    - '  <bold><white>/combatlogx untag \<player></white></bold><gray>: 强制使玩家退出战斗状态。'
-    - '  <bold><white>/combatlogx version</white></bold><gray>: 检查您的 CombatLogX 版本。'
-    - <white>
+      - '  <bold><white>/combatlogx untag \<player></white></bold><gray>: 强制使玩家退出战斗状态。'
+      - '  <bold><white>/combatlogx version</white></bold><gray>: 检查您的 CombatLogX 版本。'
+      - <white>
     reload-success:
-    - <green>成功重载 CombatLogX 中的所有配置文件。
-    - <green>成功重载 CombatLogX 中的所有语言文件。
-    - <green>成功重载 CombatLogX 中的所有扩展配置文件。
+      - <green>成功重载 CombatLogX 中的所有配置文件。
+      - <green>成功重载 CombatLogX 中的所有语言文件。
+      - <green>成功重载 CombatLogX 中的所有扩展配置文件。
     tag-player: <green>成功强制玩家 </green><gray>{target}</gray><green> 进入战斗。
     tag-failure: <gray>{target}</gray><red> 无法进入战斗。(或许他们被绕过了？)
     untag-player: <green>成功强制玩家 </green><gray>{target}</gray><green> 退出战斗。
@@ -132,9 +132,9 @@ expansion:
       attacker: <red>您攻击了他人，您的新手保护已被禁用。
       expired: <red>您的新手保护已过期。
     check-format:
-    - '<gray>{target}</gray><white>& 的信息l:'
-    - '<white>&保护: </white><gray>{protected}'
-    - '<bold><white>PvP: </white></bold><gray>{pvp}'
+      - '<gray>{target}</gray><white>& 的信息l:'
+      - '<white>&保护: </white><gray>{protected}'
+      - '<bold><white>PvP: </white></bold><gray>{pvp}'
   loot-protection:
     enemy-died: <white>{enemy} </white><green>已经死亡。战利品将在 </green><white>{time} 秒内受到保护。
     protected: <red>该物品目前受到保护，请等待 </red><white>{time} 秒</white><red>再来获取它。

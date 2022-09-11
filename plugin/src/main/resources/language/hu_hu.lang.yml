@@ -33,28 +33,28 @@ error:
 command:
   combatlogx:
     help-message-list:
-    - <white>
-    - '<bold><gold>CombatLogX Parancs Segítség:'
-    - '  <bold><white>/combatlogx help</white></bold><gray>: Megmutatja ezt a súgó
+      - <white>
+      - '<bold><gold>CombatLogX Parancs Segítség:'
+      - '  <bold><white>/combatlogx help</white></bold><gray>: Megmutatja ezt a súgó
       oldalt.'
-    - '  <bold><white>/combatlogx reload</white></bold><gray>: Újra betölti a config.yml-t,
+      - '  <bold><white>/combatlogx reload</white></bold><gray>: Újra betölti a config.yml-t,
       language.yml-t és minden bővítmény konfigurációs fájlt.'
-    - '  <bold><white>/combatlogx about \<expansion></white></bold><gray>: Ellenőrzi
+      - '  <bold><white>/combatlogx about \<expansion></white></bold><gray>: Ellenőrzi
       a bővítménnyel kapcsolatos információkat.'
-    - '  <bold><white>/combatlogx tag \<player></white></bold><gray>: Kényszerít egy
+      - '  <bold><white>/combatlogx tag \<player></white></bold><gray>: Kényszerít egy
       játékost a harcra.'
-    - '  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>:
+      - '  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>:
       Engedélyez vagy letilt egy értesítési típust.'
-    - '  <bold><white>/combatlogx untag \<player></white></bold><gray>: Kikényszerít
+      - '  <bold><white>/combatlogx untag \<player></white></bold><gray>: Kikényszerít
       egy játékost a harcból.'
-    - '  <bold><white>/combatlogx version</white></bold><gray>: Ellenőrzi a CombatLogX
+      - '  <bold><white>/combatlogx version</white></bold><gray>: Ellenőrzi a CombatLogX
       verzióját.'
-    - <white>
+      - <white>
     reload-success:
-    - <green>Az összes konfigurációs fájlt sikeresen újra betöltötted a CombatLogX-ből.
-    - <green>Az összes nyelvi fájlt sikeresen újra betöltötted a CombatLogX-ből.
-    - <green>Az összes konfigurációs fájlt sikeresen újra betöltötted a CombatLogX
-      bővítményekből.
+      - <green>Az összes konfigurációs fájlt sikeresen újra betöltötted a CombatLogX-ből.
+      - <green>Az összes nyelvi fájlt sikeresen újra betöltötted a CombatLogX-ből.
+      - <green>Az összes konfigurációs fájlt sikeresen újra betöltötted a CombatLogX
+        bővítményekből.
     tag-player: <green>Sikeresen harcba kényszerítetted </green><gray>{target}</gray><green>-t.
     tag-failure: <gray>{target}</gray><red>-t nem lehetett harcba állítani. (Talán
       van egy megkerülése?)
@@ -148,9 +148,9 @@ expansion:
       attacker: <red>Megtámadtál valakit, az újonc védelmed letiltásra került.
       expired: <red>Az újonc védelmed lejárt.
     check-format:
-    - '<gray>{target} </gray><white>&információi </white><bold><white>:'
-    - <bold><white>Védelem </white></bold><gray>{protected}
-    - '<bold><white>PvP: </white></bold><gray>{pvp}'
+      - '<gray>{target} </gray><white>&információi </white><bold><white>:'
+      - <bold><white>Védelem </white></bold><gray>{protected}
+      - '<bold><white>PvP: </white></bold><gray>{pvp}'
   loot-protection:
     enemy-died: <white>{enemy} </white><green>meghalt. A zsákmány </green><white>{time}
       másodpercig</white><green> védett.

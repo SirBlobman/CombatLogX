@@ -32,27 +32,27 @@ error:
 command:
   combatlogx:
     help-message-list:
-    - <white>
-    - '<bold><gold>Comandos CombatalogX:'
-    - '  <bold><white>/combatlogx help</white></bold><gray>: Veja esta página de ajuda.'
-    - '  <bold><white>/combatlogx reload</white></bold><gray>: Recarregue os arquivos
+      - <white>
+      - '<bold><gold>Comandos CombatalogX:'
+      - '  <bold><white>/combatlogx help</white></bold><gray>: Veja esta página de ajuda.'
+      - '  <bold><white>/combatlogx reload</white></bold><gray>: Recarregue os arquivos
       config.yml, language.yml e todos os arquivos de configuração de expansão.'
-    - '  <bold><white>/combatlogx about \<expansion></white></bold><gray>: Verifique
+      - '  <bold><white>/combatlogx about \<expansion></white></bold><gray>: Verifique
       as informações sobre uma expansão.'
-    - '  <bold><white>/combatlogx tag \<player></white></bold><gray>: Força um jogador
+      - '  <bold><white>/combatlogx tag \<player></white></bold><gray>: Força um jogador
       para o combate.'
-    - '  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>:
+      - '  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>:
       Ativar ou desativar um tipo de notificação.'
-    - '  <bold><white>/combatlogx untag \<player></white></bold><gray>: Forçar um
+      - '  <bold><white>/combatlogx untag \<player></white></bold><gray>: Forçar um
       jogador a sair do combate.'
-    - '  <bold><white>/combatlogx version</white></bold><gray>: Verifique a sua versão
+      - '  <bold><white>/combatlogx version</white></bold><gray>: Verifique a sua versão
       do CombatLogX.'
-    - <white>
+      - <white>
     reload-success:
-    - <green>Recarregou com sucesso todos os arquivos de configuração do CombatLogX.
-    - <green>Recarregou com sucesso todos os arquivos de idioma do CombatLogX.
-    - <green>Recarregou com sucesso todos os arquivos de configuração das expansões
-      CombatLogX.
+      - <green>Recarregou com sucesso todos os arquivos de configuração do CombatLogX.
+      - <green>Recarregou com sucesso todos os arquivos de idioma do CombatLogX.
+      - <green>Recarregou com sucesso todos os arquivos de configuração das expansões
+        CombatLogX.
     tag-player: <green>Forçou com sucesso o jogador </green><gray>{target}</gray><green>
       para o combate.
     tag-failure: <gray>{target}</gray><red> não poderia ser colocado em combate. (Talvez
@@ -157,9 +157,9 @@ expansion:
       attacker: <red>Você atacou alguém, sua proteção de novato agora está desativada.
       expired: <red>Sua proteção para novatos expirou.
     check-format:
-    - '<bold><white>Informação para </white></bold><gray>{target}</gray><bold><white>:'
-    - '<bold><white>Proteção: </white></bold><gray>{protected}'
-    - '<bold><white>PvP: </white></bold><gray>{pvp}'
+      - '<bold><white>Informação para </white></bold><gray>{target}</gray><bold><white>:'
+      - '<bold><white>Proteção: </white></bold><gray>{protected}'
+      - '<bold><white>PvP: </white></bold><gray>{pvp}'
   loot-protection:
     enemy-died: <white>{enemy} </white><green>está morto. Os objetos serão protegidos
       por </green><white>{time} segundos</white><green>.
