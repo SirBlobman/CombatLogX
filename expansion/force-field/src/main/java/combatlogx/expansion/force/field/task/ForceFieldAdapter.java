@@ -1,5 +1,7 @@
-package combatlogx.expansion.force.field.listener;
+package combatlogx.expansion.force.field.task;
 
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.GameMode;
@@ -28,19 +30,40 @@ import com.comphenix.protocol.wrappers.BlockPosition;
 import com.comphenix.protocol.wrappers.EnumWrappers.PlayerDigType;
 import com.comphenix.protocol.wrappers.MovingObjectPositionBlock;
 import com.comphenix.protocol.wrappers.WrappedBlockData;
+import combatlogx.expansion.force.field.ForceFieldExpansion;
+import combatlogx.expansion.force.field.configuration.ForceFieldConfiguration;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * @author olivolja3
  */
 public final class ForceFieldAdapter extends PacketAdapter {
-    private final ICombatLogX plugin;
-    private final ListenerForceField forceFieldListener;
+    private final ForceFieldExpansion expansion;
 
-    public ForceFieldAdapter(ICombatLogX plugin, ListenerForceField forceFieldListener) {
-        super(plugin.getPlugin(), ListenerPriority.NORMAL, Client.USE_ITEM, Client.BLOCK_DIG, Server.BLOCK_CHANGE);
-        this.plugin = plugin;
-        this.forceFieldListener = forceFieldListener;
+    public ForceFieldAdapter(ForceFieldExpansion expansion) {
+        super(expansion.getPlugin().getPlugin(), ListenerPriority.NORMAL,
+                Client.USE_ITEM, Client.BLOCK_DIG, Server.BLOCK_CHANGE);
+        this.expansion = expansion;
+    }
+
+    private ForceFieldExpansion getExpansion() {
+        return this.expansion;
+    }
+
+    private ForceFieldTask getTask() {
+        ForceFieldExpansion expansion = getExpansion();
+        return expansion.getTask();
+    }
+
+    private ForceFieldConfiguration getConfiguration() {
+        ForceFieldExpansion expansion = getExpansion();
+        return expansion.getConfiguration();
+    }
+
+    private ICombatManager getCombatManager() {
+        ForceFieldExpansion expansion = getExpansion();
+        ICombatLogX combatLogX = expansion.getPlugin();
+        return combatLogX.getCombatManager();
     }
 
     @Override
@@ -50,7 +73,7 @@ public final class ForceFieldAdapter extends PacketAdapter {
         }
 
         Player player = e.getPlayer();
-        ICombatManager combatManager = this.plugin.getCombatManager();
+        ICombatManager combatManager = getCombatManager();
         if (!combatManager.isInCombat(player)) {
             return;
         }
@@ -67,6 +90,7 @@ public final class ForceFieldAdapter extends PacketAdapter {
             return;
         }
 
+        ForceFieldTask task = getTask();
         if (isForceFieldBlock(player, location, tagInformation)) {
             PacketType packetType = packetContainer.getType();
             if (packetType == Client.BLOCK_DIG) {
@@ -76,12 +100,12 @@ public final class ForceFieldAdapter extends PacketAdapter {
 
                 if (playerDigType == PlayerDigType.STOP_DESTROY_BLOCK
                         || (playerDigType == PlayerDigType.START_DESTROY_BLOCK && gameMode == GameMode.CREATIVE)) {
-                    this.forceFieldListener.sendForceField(player, location);
+                    task.sendForceField(player, location);
                 }
             }
 
             if (packetType == Client.USE_ITEM) {
-                this.forceFieldListener.sendForceField(player, location);
+                task.sendForceField(player, location);
             }
         }
     }
@@ -93,7 +117,7 @@ public final class ForceFieldAdapter extends PacketAdapter {
         }
 
         Player player = e.getPlayer();
-        ICombatManager combatManager = this.plugin.getCombatManager();
+        ICombatManager combatManager = getCombatManager();
         if (!combatManager.isInCombat(player)) {
             return;
         }
@@ -117,13 +141,16 @@ public final class ForceFieldAdapter extends PacketAdapter {
 
     private boolean isForceFieldBlock(Player player, Location location, TagInformation tagInformation) {
         UUID playerId = player.getUniqueId();
-        if (this.forceFieldListener.getFakeBlockMap().containsKey(playerId)) {
-            boolean isSafe = this.forceFieldListener.isSafe(player, location);
-            boolean isSafeSurround = this.forceFieldListener.isSafeSurround(player, location, tagInformation);
-            boolean canPlace = this.forceFieldListener.canPlace(BlockLocation.from(location));
+        ForceFieldTask task = getTask();
+        Map<UUID, Set<BlockLocation>> fakeBlockMap = task.getFakeBlockMap();
+
+        if (fakeBlockMap.containsKey(playerId)) {
+            boolean isSafe = task.isSafe(player, location);
+            boolean isSafeSurround = task.isSafeSurround(player, location, tagInformation);
+            boolean canPlace = task.canPlace(BlockLocation.from(location));
             if (isSafe && isSafeSurround && canPlace) {
                 BlockLocation worldXYZ = BlockLocation.from(location);
-                return this.forceFieldListener.getFakeBlockMap().get(playerId).contains(worldXYZ);
+                return fakeBlockMap.get(playerId).contains(worldXYZ);
             }
         }
 
@@ -131,7 +158,8 @@ public final class ForceFieldAdapter extends PacketAdapter {
     }
 
     private WrappedBlockData getWrappedBlockData() {
-        XMaterial material = this.forceFieldListener.getForceFieldMaterial();
+        ForceFieldConfiguration configuration = getConfiguration();
+        XMaterial material = configuration.getMaterial();
         Material bukkitMaterial = material.parseMaterial();
         if (bukkitMaterial == null) {
             return null;

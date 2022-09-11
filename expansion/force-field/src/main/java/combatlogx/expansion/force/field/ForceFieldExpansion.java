@@ -1,20 +1,23 @@
 package combatlogx.expansion.force.field;
 
+import org.bukkit.configuration.file.YamlConfiguration;
+
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
-import combatlogx.expansion.force.field.listener.ListenerForceField;
+import combatlogx.expansion.force.field.configuration.ForceFieldConfiguration;
+import combatlogx.expansion.force.field.task.ForceFieldTask;
+import org.jetbrains.annotations.Nullable;
 
 public final class ForceFieldExpansion extends Expansion {
-    private ListenerForceField listenerForceField;
-    private boolean successfullyEnabled;
+    private final ForceFieldConfiguration configuration;
+    private ForceFieldTask task;
 
     public ForceFieldExpansion(ICombatLogX plugin) {
         super(plugin);
-        this.listenerForceField = null;
-        this.successfullyEnabled = false;
+        this.configuration = new ForceFieldConfiguration();
+        this.task = null;
     }
 
     @Override
@@ -25,26 +28,26 @@ public final class ForceFieldExpansion extends Expansion {
 
     @Override
     public void onEnable() {
-        if (!checkDependency("ProtocolLib", true)) {
-            ExpansionManager expansionManager = getPlugin().getExpansionManager();
-            expansionManager.disableExpansion(this);
+        reloadConfig();
+
+        if (!checkDependency("ProtocolLib", true, "5")) {
+            selfDisable();
             return;
         }
 
-        registerForceFieldListener();
-        this.successfullyEnabled = true;
+        registerTask();
     }
 
     @Override
     public void onDisable() {
-        if (this.successfullyEnabled) {
-            ListenerForceField listenerForceField = getListenerForceField();
-            listenerForceField.unregister();
-            listenerForceField.removeProtocol();
-            listenerForceField.clearData();
+        ForceFieldTask task = getTask();
+        if(task == null) {
+            return;
         }
 
-        this.successfullyEnabled = false;
+        task.cancel();
+        task.removeProtocol();
+        this.task = null;
     }
 
     @Override
@@ -52,28 +55,24 @@ public final class ForceFieldExpansion extends Expansion {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.reload("config.yml");
 
-        ListenerForceField listenerForceField = getListenerForceField();
-        listenerForceField.unregister();
-        listenerForceField.removeProtocol();
-        listenerForceField.clearData();
-
-        registerForceFieldListener();
+        ForceFieldConfiguration forceFieldConfiguration = getConfiguration();
+        YamlConfiguration configuration = configurationManager.get("config.yml");
+        forceFieldConfiguration.load(configuration);
     }
 
-    public ListenerForceField getListenerForceField() {
-        if (this.listenerForceField == null) {
-            this.listenerForceField = new ListenerForceField(this);
-        }
-
-        return this.listenerForceField;
+    @Nullable
+    public ForceFieldTask getTask() {
+        return this.task;
     }
 
-    private void registerForceFieldListener() {
-        ListenerForceField listenerForceField = getListenerForceField();
-        if (listenerForceField.isEnabled()) {
-            listenerForceField.register();
-            listenerForceField.registerProtocol();
-            listenerForceField.onReload();
-        }
+    public ForceFieldConfiguration getConfiguration() {
+        return this.configuration;
+    }
+
+    private void registerTask() {
+        this.task = new ForceFieldTask(this);
+        this.task.register();
+        this.task.registerTask();
+        this.task.registerProtocol();
     }
 }

@@ -1,12 +1,16 @@
-# Disclaimers:
-# - The force field is a nice visual effect that shows players areas they cannot enter.
-# - The force field should not be used as entry prevention, as players can just ignore the fake block packets that are sent to them.
-# - For the actual entry prevention options, please check the configuration for your region expansion (e.g. WorldGuard Compatibility).
-# - If your server has weak hardware, or you have a lot of players online, we recommend disabling the force field effect.
-# - You can try unsafe mode and see if performance improves, but the most recommended option is to disable the force field.
+### Disclaimers:
+## The force field is a nice visual effect that shows players areas they cannot enter.
+##
+## The force field should not be used as entry prevention, as players can just ignore the fake block packets that are sent to them.
+##
+## For the actual entry prevention options, please check the configuration for your region expansion (e.g. WorldGuard Compatibility).
+##
+## If your server has weak hardware, or you have a lot of players online, we recommend disabling the force field effect.
+##
+## You can try unsafe mode and see if performance improves, but the most recommended option is to disable the force field.
 
 # Credits:
-# The force field code was contributed by olivolja3
+# The force field code was contributed by olivolja3 (Olivo#3313)
 
 # Should force fields be enabled around non-pvp areas?
 # This does require at least one region compatibility expansion.
@@ -27,8 +31,3 @@ radius: 8
 # Set it to "" to prevent all players from bypassing
 # Default: "combatlogx.bypass.force.field"
 bypass-permission: "combatlogx.bypass.force.field"
-
-# Should CombatLogX run the force-field async?
-# This is unsafe but may result in much better performance. Use at own risk!
-# Default: false
-unsafe-mode: false
