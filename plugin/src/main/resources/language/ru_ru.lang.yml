@@ -1,232 +1,320 @@
-language-name: ru_ru
-decimal-format: '0.00'
-prefix: <bold><white>[</white></bold><gold>CombatLogX</gold><bold><white>]
+---
+## Extra Information:
+## This is the default language file for CombatLogX.
+## The default language is "en_us", also known as English (United States).
+## Context will be added as YAML comments above the string.
+## The color scheme for messages is gold, white, and sometimes red.
+## Command feedback that is successful should always be green.
+## Error messages should always be red.
+## Variables in messages can be gray or white.
+## Messages use the MiniMessage format in non-strict mode.
+## More information about MiniMessage can be found here:
+## https://docs.adventure.kyori.net/minimessage/format.html
+#The language code for this file.
+language-name: "ru_ru"
+#The format for decimal numbers.
+#The United States uses the number and two decimal places
+decimal-format: "0.00"
+#The prefix for CombatLogX.
+#This is shown in front of all messages and should not be changed unless necessary.
+prefix: "<bold><white>[</white></bold><gold>CombatLogX</gold><bold><white>]"
 broadcast:
-  on-load: <bold><green>CombatLogX был успешно загружен.
-  on-enable: <bold><green>CombatLogX был успешно включен.
-  on-disable: <bold><red>CombatLogX был успешно выключен.
+  #Shown when the plugin is finished loading.
+  on-load: "<bold><green>CombatLogX был успешно загружен."
+  #Shown when the plugin is finished enabling.
+  on-enable: "<bold><green>CombatLogX был успешно включен."
+  #Shown when the plugin is disabled for any reason.
+  on-disable: "<bold><red>CombatLogX был успешно выключен."
 placeholder:
-  time-left-zero: '0'
-  unknown-enemy: Неизвестно
+  #This text is used for the {combatlogx_time_left}
+  #This allows server configurations to change the display value of the zero to something like "Not in combat"
+  time-left-zero: "0"
+  #This text is used when a player does not have an enemy.
+  #This can happen when players are tagged by a custom expansion or the tag command.
+  unknown-enemy: "Неизвестно"
   status:
-    fighting: <red>Бой
-    idle: Бездействует
-    in-combat: <green>Да
-    not-in-combat: <red>Нет
+    #Shown when the player is in combat.
+    fighting: "<red>Бой"
+    in-combat: "<green>Да"
+    #Shown when the player is not in combat
+    idle: "Бездействует"
+    not-in-combat: "<red>Нет"
+  #These placeholders are shown when a player changes a value such as whether or not their bossbar is enabled.
   toggle:
-    enabled: <green>ВКЛ.
-    disabled: <red>ВЫКЛ.
+    enabled: "<green>ВКЛ."
+    disabled: "<red>ВЫКЛ."
   pvp-status:
-    enabled: <green>Вкл.
-    disabled: <red>Выкл.
+    enabled: "<green>Вкл."
+    disabled: "<red>Выкл."
 combat-timer:
-  expire: <green>Вы больше не в бою.
-  enemy-death: <green>Вы больше не в бою, потому что ваш враг умер.
+  #Sent to a player when they escape from combat due to the timer running out.
+  expire: "<green>Вы больше не в бою."
+  #Sent to a player when they escape from combat due to their enemy being killed.
+  enemy-death: "<green>Вы больше не в бою, потому что ваш враг умер."
+  #Sent when a player is killed during combat.
+  self-death: "<green>Вы больше не участвуете в битве, потому что вы умерли.</green>"
 error:
-  player-only: <red>Только игроки могут выполнить эту команду.
-  invalid-target: <gray>{target}</gray><red> не онлайн или не существует.
-  disabled-world: <red>Эта команда недоступна в этом измерении.
-  no-permission: '<red>Отсутствует разрешение: </red><gray>{permission}'
-  target-not-in-combat: <gray>{target}</gray><red> не в бою.
-  self-not-in-combat: <red>Вы не в бою.
-  unknown-expansion: <gray>{target}</gray><red> не является расширением или не установлен.
+  #Shown when the console tries to execute a command made for players.
+  player-only: "<red>Только игроки могут выполнить эту команду."
+  #Shown when a command that requires a player has invalid input.
+  invalid-target: "<gray>{target}</gray><red> не онлайн или не существует."
+  #Shown when a command that requires a number has invalid input.
+  invalid-integer: "<red><gray>{value}</gray> не является допустимым целым числом.</red>"
+  #Shown when a player does not have access to something that requires a permission.
+  no-permission: "<red>Отсутствует разрешение: </red><gray>{permission}"
+  #Shown when a player executes a command in a world that is disabled in the configuration.
+  disabled-world: "<red>Эта команда недоступна в этом измерении."
+  #Shown when a command requires a player in combat but the target player is not in combat.
+  target-not-in-combat: "<gray>{target}</gray><red> не в бою."
+  #Shown when a player executes a command that requires them to be in combat.
+  self-not-in-combat: "<red>Вы не в бою."
+  #Shown when a command that requires an expansion has invalid input.
+  unknown-expansion: "<gray>{target}</gray><red> не является расширением или не установлен."
 command:
   combatlogx:
+    #Shown as the command output for '/combatlogx help'.
     help-message-list:
-    - <white>
-    - '<gold>Справка по командам CombatLogX:'
-    - '  <bold><white>/combatlogx help</white></bold><gray>: Смотреть эту страницу.'
-    - '  <bold><white>/combatlogx reload</white></bold><gray>: Перезагрузка config.yml,
-      language.yml, и всех конфигурационных файлов расширений.'
-    - '  <bold><white>/combatlogx about \<expansion></white></bold><gray>: Проверьте
-      информацию о расширении.'
-    - '  <bold><white>/combatlogx tag \<player> [seconds]</white></bold><gray>: Заставить
-      игрока вступить в бой.'
-    - '  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>:
-      Включает/выключает тип уведомления.'
-    - '  <bold><white>/combatlogx untag \<игрок></white></bold><gray>: Принудительно
-      выводит игрока из боя.'
-    - '  <bold><white>/combatlogx version</white></bold><gray>: Узнайте вашу версию
-      CombatLogX.'
-    - <white>
+      - ""
+      - "<gold>Справка по командам CombatLogX:"
+      - "  <bold><white>/combatlogx help</white></bold><gray>: Смотреть эту страницу."
+      - "  <bold><white>/combatlogx reload</white></bold><gray>: Перезагрузка config.yml, language.yml, и всех конфигурационных файлов расширений."
+      - "  <bold><white>/combatlogx about \\<expansion></white></bold><gray>: Проверьте информацию о расширении."
+      - "  <bold><white>/combatlogx tag \\<player> [seconds]</white></bold><gray>: Заставить игрока вступить в бой."
+      - "  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>: Включает/выключает тип уведомления."
+      - "  <bold><white>/combatlogx untag \\<игрок></white></bold><gray>: Принудительно выводит игрока из боя."
+      - "  <bold><white>/combatlogx version</white></bold><gray>: Узнайте вашу версию CombatLogX."
+      - ""
+    #Shown as the command output for '/combatlogx reload' when reloading is successful.
     reload-success:
-    - <green>Успешно перезагружены все файлы конфигурации CombatLogX.
-    - <green>Успешно перезагружены все файлы локализации CombatLogX.
-    - <green>Успешно перезагружены все файлы конфигурации расширений CombatLogX.
-    tag-player: <gray>{target}</gray><green> успешно введен в бой.
-    tag-failure: <gray>{target}</gray><red> не может быть введен бой. (Имеет права
-      обхода?)
-    untag-player: <gray>{target}</gray><green> успешно выведен из боя.
-    toggle-bossbar: '<bold><gray>Босс Бар: {status}'
-    toggle-actionbar: '<bold><gray>Панель действий: {status}'
-    toggle-scoreboard: '<gray>Табло: {status}'
+      - "<green>Успешно перезагружены все файлы конфигурации CombatLogX."
+      - "<green>Успешно перезагружены все файлы локализации CombatLogX."
+      - "<green>Успешно перезагружены все файлы конфигурации расширений CombatLogX."
+    #Shown as the command output for '/combatlogx reload' when reloading fails
+    reload-failure:
+      - "<red>Произошла ошибка при перезагрузке конфигурации.</red>"
+      - "<red>Пожалуйста, проверьте журнал сервера и исправьте испорченный файл</red>"
+    #Shown as the command output for '/combatlogx tag <player>' when a player is tagged successfully.
+    tag-player: "<gray>{target}</gray><green> успешно введен в бой."
+    #Shown as the command output for '/combatlogx tag <player>' when the plugin failed to tag a player.
+    tag-failure: "<gray>{target}</gray><red> не может быть введен бой. (Имеет права обхода?)"
+    #Shown as the command output for '/combatlogx untag <player>'.
+    untag-player: "<gray>{target}</gray><green> успешно выведен из боя."
+    #Shown as the command output for '/combatlogx toggle bossbar'.
+    toggle-bossbar: "<bold><gray>Босс Бар: {status}"
+    #Shown as the command output for '/combatlogx toggle actionbar'.
+    toggle-actionbar: "<bold><gray>Панель действий: {status}"
+    #Shown as the command output for '/combatlogx toggle scoreboard'.
+    toggle-scoreboard: "<gray>Табло: {status}"
   combat-timer:
-    time-left-self: <green>Осталось </green><gray>{time_left} </gray><green>секунд.
-    time-left-other: <gray>{target}</gray><green> осталось </green><gray>{time_left}
-      </gray><green>секунд.
+    #Shown as the command output for '/combat-timer'.
+    time-left-self: "<green>Осталось </green><gray>{time_left} </gray><green>секунд."
+    #Shown as the command output for '/combat-timer <player>'.
+    time-left-other: "<gray>{target}</gray><green> осталось </green><gray>{time_left} </gray><green>секунд."
+#These messages are shown a player is tagged into combat.
 tagged:
   unknown:
-    player: <red>Вы находитесь в бою с </red><white>{enemy}</white><red> по неизвестной
-      причине. Не выходите из игры!
-    mob: <red>Вы находитесь в бою с </red><white>{enemy}</white><red> по неизвестной
-      причине. Не выходите из игры!
-    mythic_mob: <red>Вы находитесь в бою с </red><white>{mob_type}</white><red> по
-      неизвестной причине. Не выходите из игры!
-    unknown: <red>Вы попали в бой по неизвестной причине. Не выходите из игры.
+    player: "<red>Вы находитесь в бою с </red><white>{enemy}</white><red> по неизвестной причине. Не выходите из игры!"
+    mob: "<red>Вы находитесь в бою с </red><white>{enemy}</white><red> по неизвестной причине. Не выходите из игры!"
+    mythic_mob: "<red>Вы находитесь в бою с </red><white>{mob_type}</white><red> по неизвестной причине. Не выходите из игры!"
+    damage: "<red>Вы находитесь в бою из-за нанесения урона. Не выходите!</red>"
+    unknown: "<red>Вы попали в бой по неизвестной причине. Не выходите из игры."
   attacked:
-    player: <red>Вы были атакованы игроком </red><white>{enemy}</white><red>. Не выходите
-      из игры!
-    mob: <red>Вы были атакованы </red><white>{mob_type}</white><red>. Не выходите
-      из игры!
-    mythic_mob: <red>Вы были атакованы </red><white>{enemy}</white><red>. Не выходите
-      из игры!
-    unknown: <red>Вы были атакованы неизвестной силой. Не выходите из игры!
+    player: "<red>Вы были атакованы игроком </red><white>{enemy}</white><red>. Не выходите из игры!"
+    mob: "<red>Вы были атакованы </red><white>{mob_type}</white><red>. Не выходите из игры!"
+    mythic_mob: "<red>Вы были атакованы </red><white>{enemy}</white><red>. Не выходите из игры!"
+    damage: "<red>Вы находитесь в бою из-за нанесения урона. Не выходите!</red>"
+    unknown: "<red>Вы были атакованы неизвестной силой. Не выходите из игры!"
   attacker:
-    player: <red>Вы атаковали игрока </red><white>{enemy}</white><red>. Не выходите
-      из игры!
-    mob: <red>Вы атаковали </red><white>{mob_type}</white><red>. Не выходите из игры!
-    mythic_mob: <red>Вы атаковали </red><white>{enemy}</white><red>. Не выходите из
-      игры!
-    unknown: <red>Вы атакуете неизвестную силу. Не выходите из игры!
+    player: "<red>Вы атаковали игрока </red><white>{enemy}</white><red>. Не выходите из игры!"
+    mob: "<red>Вы атаковали </red><white>{mob_type}</white><red>. Не выходите из игры!"
+    mythic_mob: "<red>Вы атаковали </red><white>{enemy}</white><red>. Не выходите из игры!"
+    damage: "<red>Вы находитесь в бою из-за нанесения урона. Не выходите!</red>"
+    unknown: "<red>Вы атакуете неизвестную силу. Не выходите из игры!"
 expansion:
+  angel-chest:
+    #Shown when opening an AngelChest is prevented during combat.
+    prevent-opening: "<red>Вам не разрешено открывать ангелы во время боя</red>"
+    #Shown when breaking an AngelChest is prevented during combat.
+    prevent-breaking: "<red>Вы не можете ломать ангельские сундуки во время боя.</red>"
+    #Shown when fast looting an AngelChest is prevented during combat.
+    prevent-fast-looting: "<red>Во время боя вам не разрешается быстро добывать ангелы.</red>"
   action-bar:
-    # Valid 'timer' placeholders: {time_left}, {time_left_decimal}, {bars}
-    timer: <bold><gold>Бой </gold></bold><gray>» </gray><white>{bars} </white><white>{time_left_decimal}
-      секунд.
-    ended: <bold><gold>Бой </gold></bold><gray>» </gray><white>Вы больше не в бою.
+    #Shown above the hotbar while a player is in combat.
+    timer: "<bold><gold>Бой </gold></bold><gray>» </gray><white>{bars} </white><white>{time_left_decimal} секунд."
+    #Shown above the hotbar for a brief period when combat ends.
+    ended: "<bold><gold>Бой </gold></bold><gray>» </gray><white>Вы больше не в бою."
   boss-bar:
-    # Valid 'timer' placeholders: {time_left}, {time_left_decimal}
-    timer: <bold><gold>Бой </gold></bold><gray>» </gray><red>{time_left_decimal} секунды.
-    ended: <bold><gold>Бой </gold></bold><gray>» </gray><green>Вы больше не в бою.
+    #Shown on top of the screen while a player is in combat.
+    timer: "<bold><gold>Бой </gold></bold><gray>» </gray><red>{time_left_decimal} секунды."
+    #Shown on top of the screen for a brief period when combat ends.
+    ended: "<bold><gold>Бой </gold></bold><gray>» </gray><green>Вы больше не в бою."
   scoreboard:
-    # Make sure to follow your Spigot version's scoreboard character limit
-    title: <bold><gold>CombatLogX
-    # Make sure to follow your Spigot version's scoreboard line/character limit
+    #The scoreboard title for the sidebar.
+    #Make sure to follow the scoreboard title limits for your Spigot version.
+    title: "<bold><gold>CombatLogX"
+    #The scoreboard lines for the sidebar.
+    #Make sure to follow the scoreboard line and character limits for your Spigot version.
     lines:
-    - <white>
-    - '<bold><white>Боевая статистика:'
-    - '<dark_gray>» </dark_gray><bold><white>Оставшееся время: </white></bold><gray>{time_left}'
-    - '<dark_gray>» </dark_gray><bold><white>В бою: </white></bold><gray>{in_combat}'
-    - '<dark_gray>» </dark_gray><bold><white>Статус: </white></bold><gray>{status}'
-    - <white>
-    - <bold><white>Статистика Противника
-    - '<dark_gray>» </dark_gray><bold><white>Имя: </white></bold><gray>{enemy_name}'
-    - '<dark_gray>» </dark_gray><bold><white>Здоровье: </white></bold><gray>{enemy_health}'
-    - '<dark_gray>» </dark_gray><bold><white>Здоровье округлено: </white></bold><gray>{enemy_health_rounded}'
-    - '<dark_gray>» </dark_gray><bold><white>Сердца: </white></bold><gray>{enemy_hearts}'
-    - <white>
+      - " "
+      - "<bold><white>Боевая статистика:"
+      - "<dark_gray>» </dark_gray><bold><white>Оставшееся время: </white></bold><gray>{time_left}"
+      - "<dark_gray>» </dark_gray><bold><white>В бою: </white></bold><gray>{in_combat}"
+      - "<dark_gray>» </dark_gray><bold><white>Статус: </white></bold><gray>{status}"
+      - " "
+      - "<bold><white>Статистика Противника"
+      - "<dark_gray>» </dark_gray><bold><white>Имя: </white></bold><gray>{enemy_name}"
+      - "<dark_gray>» </dark_gray><bold><white>Здоровье: </white></bold><gray>{enemy_health}"
+      - "<dark_gray>» </dark_gray><bold><white>Здоровье округлено: </white></bold><gray>{enemy_health_rounded}"
+      - " "
   cheat-prevention:
-    command-blocked: <red>У вас нет доступа к </red><green>{command}</green><red>
-      во время боя.
-    no-riptide: <red>Зачарование "Тягун" недоступно во время боя.
-    no-totem: <red>Вы не можете использовать тотемы бессмертия во время боя.
-    no-entity-interaction: <red>Вы не можете использовать этого моба в бою.
-    no-chat: <red>Вы не можете писать в чат во время боя.
+    #Shown when a command execution is prevented during combat.
+    command-blocked: "<red>У вас нет доступа к </red><green>{command}</green><red> во время боя."
+    #Shown when the riptide effect is prevented during combat.
+    no-riptide: "<red>Зачарование \"Тягун\" недоступно во время боя."
+    #Shown when a totem of undying is prevented during combat.
+    no-totem: "<red>Вы не можете использовать тотемы бессмертия во время боя."
+    #Shown when an entity interaction is prevented during combat.
+    no-entity-interaction: "<red>Вы не можете использовать этого моба в бою."
+    #Shown when a chat message is prevented during combat.
+    no-chat: "<red>Вы не можете писать в чат во время боя."
     game-mode:
-      force-switch: <red>Ваш игровой режим изменен на </red><white>{game_mode}</white><red>.
-      no-switch: <red>Вы не можете переключать игровой режим во время боя.
+      #Shown when a player is forced into a specific game mmode during combat.
+      force-switch: "<red>Ваш игровой режим изменен на </red><white>{game_mode}</white><red>."
+      #Shown when a game mode switch is prevented during combat.
+      no-switch: "<red>Вы не можете переключать игровой режим во время боя."
     flight:
-      force-disabled: <red>Возможность летать была удалена.
-      no-flying: <red>Вы не можете летать во время боя.
+      #Shown when a player's ability to fly is disabled during combat.
+      force-disabled: "<red>Возможность летать была удалена."
+      #Shown when a player's attempt to fly is prevented during combat.
+      no-flying: "<red>Вы не можете летать во время боя."
     elytra:
-      force-disabled: <red>Ваши элитры были отключены.
-      no-gliding: <red>Вы не можете использовать элитры в бою.
+      #Shown when a player's ability to glide is disabled during combat.
+      force-disabled: "<red>Ваши элитры были отключены."
+      #Shown when a player's attempt to glide is prevented during combat.
+      no-gliding: "<red>Вы не можете использовать элитры в бою."
     teleportation:
-      block-portal: <red>Вам не разрешено использовать портал во время боя.
-      block-pearl: <red>Вы не можете использовать эндер-жемчуг в бою.
-      block-other: <red>Вы не можете телепортироваться в бою.
+      #Shown when a player tries to enter a portal and is prevented during combat.
+      block-portal: "<red>Вам не разрешено использовать портал во время боя."
+      #Shown when an ender pearl is prevented during combat.
+      block-pearl: "<red>Вы не можете использовать эндер-жемчуг в бою."
+      #Shown when a teleport is prevented during combat.
+      block-other: "<red>Вы не можете телепортироваться в бою."
     inventory:
-      force-closed: <red>Ваш инвентарь был закрыт.
-      no-opening: <red>Вы не можете открывать инвентарь во время боя.
+      #Shown when a player's inventory is closed by the plugin during combat.
+      force-closed: "<red>Ваш инвентарь был закрыт."
+      #Shown when a player tries to open an inventory and is prevented during combat.
+      no-opening: "<red>Вы не можете открывать инвентарь во время боя."
     blocks:
-      prevent-breaking: <red>Вы не можете ломать блоки во время боя.
-      prevent-placing: <red>Вы не можете ставить блоки во время боя.
-      prevent-interaction: <red>Вы не можете использовать блоки во время боя.
-      prevent-portal-creation: <red>Вы не можете создавать порталы во время боя.
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-breaking: "<red>Вы не можете ломать блоки во время боя."
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-placing: "<red>Вы не можете ставить блоки во время боя."
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-interaction: "<red>Вы не можете использовать блоки во время боя."
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-portal-creation: "<red>Вы не можете создавать порталы во время боя."
     items:
-      no-pickup: <red>Вы не можете подбирать предметы в бою.
-      no-dropping: <red>Вы не можете выбрасывать предметы в бою.
+      #Shown when a player is prevented from picking up an item during combat.
+      no-pickup: "<red>Вы не можете подбирать предметы в бою."
+      #Shown when a player is prevented from dropping an item during combat.
+      no-dropping: "<red>Вы не можете выбрасывать предметы в бою."
     buckets:
-      no-empty: <red>Вы не можете опустошать вёдра во время боя.
-      no-fill: <red>Вы не можете набирать вёдра во время боя.
+      #Shown when a player is prevented from emptying a bucket during combat.
+      no-empty: "<red>Вы не можете опустошать вёдра во время боя."
+      #Shown when a player is prevented from filling a bucket during combat.
+      no-fill: "<red>Вы не можете набирать вёдра во время боя."
   damage-tagger:
-    unknown-damage: <red>Вы получили урон! Не выходите из игры!
+    #Shown when a player is tagged for an unknown damage type.
+    unknown-damage: "<red>Вы получили урон! Не выходите из игры!"
+    #These messages are shown when a player is tagged for a known damage type.
+    #You can find a list of damage types here:
+    #https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/EntityDamageEvent.DamageCause.html
     damage-type:
-      contact: <red>Вы получили урон об кактус. Не выходите из игры!
-      suffocation: <red>Вы задыхаетесь в стене. Не выходите из игры!
-      fall: <red>Вы получили урон от падения. Не выходите из игры!
-      fire: <red>Вы пробежали через огонь. Не выходите из игры!
-      fire-tick: <red>Вы горите. Не выходите из игры!
-      lava: <red>Вы горите в лаве. Не выходите из игры!
-      drowning: <red>Вы задыхаетесь. Не выходите из игры!
-      block-explosion: <red>Вы получили урон от взрыва. Не выходите из игры!
-      lightning: <red>Вас поразило молнией! Не выходите из игры!
-      starvation: <red>Вы слишком голодны. Не выходите из игры!
-      poison: <red>Вы получили урон от отравления. Не выходите из игры!
-      magic: <red>Кто-то бросил в вас зелье. Не выходите из игры!
-      wither: <red>Вас атакует Визер. Не выходите из игры!
-      falling-block: <red>Блок упал на вас. Не выходите из игры!
-      custom: <red>Вы получили нестандартный урон. Не выходите из игры!
-      fly-into-wall: <red>Вы врезались о стену. Не выходите из игры!
-      hot-floor: <red>Пол это лава! Не выходите!
-      cramming: <red>Вас раздавило. Не выходите из игры!
+      contact: "<red>Вы получили урон об кактус. Не выходите из игры!"
+      suffocation: "<red>Вы задыхаетесь в стене. Не выходите из игры!"
+      fall: "<red>Вы получили урон от падения. Не выходите из игры!"
+      fire: "<red>Вы пробежали через огонь. Не выходите из игры!"
+      fire-tick: "<red>Вы горите. Не выходите из игры!"
+      lava: "<red>Вы горите в лаве. Не выходите из игры!"
+      drowning: "<red>Вы задыхаетесь. Не выходите из игры!"
+      block-explosion: "<red>Вы получили урон от взрыва. Не выходите из игры!"
+      lightning: "<red>Вас поразило молнией! Не выходите из игры!"
+      starvation: "<red>Вы слишком голодны. Не выходите из игры!"
+      poison: "<red>Вы получили урон от отравления. Не выходите из игры!"
+      magic: "<red>Кто-то бросил в вас зелье. Не выходите из игры!"
+      wither: "<red>Вас атакует Визер. Не выходите из игры!"
+      falling-block: "<red>Блок упал на вас. Не выходите из игры!"
+      custom: "<red>Вы получили нестандартный урон. Не выходите из игры!"
+      fly-into-wall: "<red>Вы врезались о стену. Не выходите из игры!"
+      hot-floor: "<red>Пол это лава! Не выходите!"
+      cramming: "<red>Вас раздавило. Не выходите из игры!"
   newbie-helper:
     togglepvp:
-      self: '<gray>PvP: {status}'
-      admin: <gray>Вы изменили PvP </gray><yellow>{target}</yellow><gray> на {status}</gray><gray>.
-      cooldown: <red>Вы должны подождать </red><gray>{time_left} seconds,</gray><red>
-        чтобы использовать эту команду снова.
+      #Shown as the command output for '/togglepvp'.
+      self: "<gray>PvP: {status}"
+      #Shown as the command output for '/togglepvp admin on/off <player>'.
+      admin: "<gray>Вы изменили PvP </gray><yellow>{target}</yellow><gray> на {status}</gray><gray>."
+      #Shown when the '/togglepvp' command is on cooldown.
+      cooldown: "<red>Вы должны подождать </red><gray>{time_left} seconds,</gray><red> чтобы использовать эту команду снова."
+    #These messages are shown when pvp is disabled for any reason.
     no-pvp:
-      self: <red>Вы не можете ударить этого игрока, ввиду того что ваш PVP выключен.
-      other: <red>У этого игрока отключено PvP.
-      protected: <red>Игрок защищён, вы не можете атаковать его в данный момент!
+      self: "<red>Вы не можете ударить этого игрока, ввиду того что ваш PVP выключен."
+      other: "<red>У этого игрока отключено PvP."
+      protected: "<red>Игрок защищён, вы не можете атаковать его в данный момент!"
     protection-disabled:
-      attacker: <red>Вы кого-то атаковали, ваша защита новичка отключилась.
-      expired: <red>Ваша защита новичка закончилась.
+      #Shown when newbie protection is disabled due to the player attacking another player.
+      attacker: "<red>Вы кого-то атаковали, ваша защита новичка отключилась."
+      #Shown when newbie protection expires.
+      expired: "<red>Ваша защита новичка закончилась."
+    #Shown for the '/togglepvp check <player>' command.
     check-format:
-    - '<bold><white>Информация по</white></bold><gray>{target}</gray><bold><white>:'
-    - '<bold><white>Защита: </white></bold><gray>{protected}'
-    - '<bold><white>PvP: </white></bold><gray>{pvp}'
+      - "<bold><white>Информация по</white></bold><gray>{target}</gray><bold><white>:"
+      - "<bold><white>Защита: </white></bold><gray>{protected}"
+      - "<bold><white>PvP: </white></bold><gray>{pvp}"
   loot-protection:
-    enemy-died: <white>{enemy} </white><green>мёртв. Лут будет защищён </green><white>{time}
-      секунд</white><green>.
-    protected: <red>Этот предмет защищён, подождите </red><white>{time} сек, </white><red>чтобы
-      взять его.
+    #Shown when an enemy dies and their loot is protected.
+    enemy-died: "<white>{enemy} </white><green>мёртв. Лут будет защищён </green><white>{time} секунд</white><green>."
+    #Shown when a player tries to pick up an item that is loot protected by the plugin.
+    protected: "<red>Этот предмет защищён, подождите </red><white>{time} сек, </white><red>чтобы взять его."
   citizens-compatibility:
-    prevent-join: <red>Вам не разрешено присоединиться к серверу, пока ваш NPC не
-      будет убит или пока он не исчезнет.
+    #Shown when a player is prevented from joining the server due to their NPC still existing.
+    prevent-join: "<red>Вам не разрешено присоединиться к серверу, пока ваш NPC не будет убит или пока он не исчезнет."
   disguise-compatibility:
-    remove-disguise: <red>Ваша маскировка была удалена.
+    #Shown when a disguise is removed from a player during combat.
+    remove-disguise: "<red>Ваша маскировка была удалена."
   essentials-compatibility:
-    prevent-teleport-request-self: <red>Вы не можете отправлять запрос на телепортацию
-      во время боя.
-    prevent-teleport-request-other: <red>Вы не можете отправлять запрос на телепортацию
-      к игроку, находящемуся в бою.
-  marriagemaster-compatiblity:
-    prevent-teleport: <red>Вы не можете телепортироваться к вашему партнёру во время
-      боя.
+    #Shown when a teleport request is cancelled during combat.
+    prevent-teleport-request-self: "<red>Вы не можете отправлять запрос на телепортацию во время боя."
+    #Shown when a teleport request is cancelled during combat.
+    prevent-teleport-request-other: "<red>Вы не можете отправлять запрос на телепортацию к игроку, находящемуся в бою."
+  marriagemaster-compatibility:
+    #Shown when a married player is prevented from teleporting to their partner during combat.
+    prevent-teleport-self: "<red>Во время боя вы не можете телепортироваться к своему партнеру.</red>"
+    #Shown when a married player is prevented from teleporting to their partner during combat.
+    prevent-teleport-partner: "<red>Вы не можете телепортироваться к вашему партнеру, пока он находится в бою.</red>"
   region-protection:
+    #Shown when a player tries to enter a no-pvp area during combat.
+    default-no-entry: "<red>Вы не можете войти в эту область во время боя.</red>"
     factions-no-entry: <red>Вам не разрешено входить в эту зону во время боя.
     griefdefender-no-entry: <red>Вам не разрешено входить в эту зону во время боя.
     griefprevention-no-entry: <red>Вам не разрешено входить в эту зону во время боя.
     kingdomsx-no-entry: <red>Вам не разрешено входить в эту зону во время боя.
-    lands-no-entry: <red>Вам не разрешено входить в эту зону во время боя.
     konquest-no-entry: <red>Вам не разрешено входить в эту зону во время боя.
     redprotect-no-entry: <red>Вам не разрешено входить в эту зону во время боя.
     residence-no-entry: <red>Вам не разрешено входить в эту зону во время боя.
     towny-no-entry: <red>Вам не разрешено входить в эту зону во время боя.
+    husktowns-no-entry: <red>Вы не можете войти в эту область во время боя.</red>
     ultimateclaims-no-entry: <red>Вам не разрешено входить в эту зону во время боя.
     protectionstones:
-      prevent-area-creation: <red>Вам не разрешается создавать защищенную зону во
-        время боя.
+      prevent-area-creation: "<red>Вам не разрешается создавать защищенную зону во время боя."
       no-entry: <red>Вам не разрешено входить в эту зону во время боя.
     preciousstones:
-      prevent-field-creation: <red>Вам не разрешается создавать защитное поле во время
-        боя.
+      prevent-field-creation: "<red>Вам не разрешается создавать защитное поле во время боя."
       no-entry: <red>Вам не разрешено входить в эту зону во время боя.
     worldguard:
-      no-entry-mob-combat: <red>Вы не можете войти в зону, где запрещён PvE, во время
-        боя.
-      no-entry-player-combat: <red>Вы не можете войти в зону, где запрещён PvP, во
-        время боя.
+      no-entry-mob-combat: "<red>Вы не можете войти в зону, где запрещён PvE, во время боя."
+      no-entry-player-combat: "<red>Вы не можете войти в зону, где запрещён PvP, во время боя."
       no-entry-unknown-combat: <red>Вам не разрешено входить в эту зону во время боя.
+    lands:
+      no-entry: <red>Вы не можете войти в эту область во время боя.</red>
+      war-disable-newbie-protection: "<red>PvP теперь включен из-за военного объявления.</red>"
