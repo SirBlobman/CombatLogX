@@ -1,0 +1,320 @@
+---
+## Extra Information:
+## This is the default language file for CombatLogX.
+## The default language is "en_us", also known as English (United States).
+## Context will be added as YAML comments above the string.
+## The color scheme for messages is gold, white, and sometimes red.
+## Command feedback that is successful should always be green.
+## Error messages should always be red.
+## Variables in messages can be gray or white.
+## Messages use the MiniMessage format in non-strict mode.
+## More information about MiniMessage can be found here:
+## https://docs.adventure.kyori.net/minimessage/format.html
+#The language code for this file.
+language-name: "fi_me"
+#The format for decimal numbers.
+#The United States uses the number and two decimal places
+decimal-format: "0.00"
+#The prefix for CombatLogX.
+#This is shown in front of all messages and should not be changed unless necessary.
+prefix: "<white><bold>[<gold>CombatLogX</gold>]</bold></white>"
+broadcast:
+  #Shown when the plugin is finished loading.
+  on-load: "<green><bold>CombatLogX ladattiin onnistuneesti.</bold></green>"
+  #Shown when the plugin is finished enabling.
+  on-enable: "<green><bold>CombatLogX otettiin käyttöön onnistuneesti.</bold></green>"
+  #Shown when the plugin is disabled for any reason.
+  on-disable: "<red><bold>CombatLogX poistettiin käytöstä onnistuneesti.</bold></red>"
+placeholder:
+  #This text is used for the {combatlogx_time_left}
+  #This allows server configurations to change the display value of the zero to something like "Not in combat"
+  time-left-zero: "0"
+  #This text is used when a player does not have an enemy.
+  #This can happen when players are tagged by a custom expansion or the tag command.
+  unknown-enemy: "Tuntematon"
+  status:
+    #Shown when the player is in combat.
+    fighting: "<red>Taistelu</red>"
+    in-combat: "<green>Kyllä</green>"
+    #Shown when the player is not in combat
+    idle: "<green>Käyttämätön</green>"
+    not-in-combat: "<red>Ei</red>"
+  #These placeholders are shown when a player changes a value such as whether or not their bossbar is enabled.
+  toggle:
+    enabled: "<green>KÄYTÖSSÄ</green>"
+    disabled: "<red>POIS</red>"
+  pvp-status:
+    enabled: "<green>KÄYTÖSSÄ</green>"
+    disabled: "<red>POIS</red>"
+combat-timer:
+  #Sent to a player when they escape from combat due to the timer running out.
+  expire: "<green>Et ole enää taistelussa.</green>"
+  #Sent to a player when they escape from combat due to their enemy being killed.
+  enemy-death: "<green>Et ole enää taistelussa, koska vihollinen kuoli.</green>"
+  #Sent when a player is killed during combat.
+  self-death: "<green>Et ole enää taistelussa, koska olet kuollut.</green>"
+error:
+  #Shown when the console tries to execute a command made for players.
+  player-only: "<red>Vain pelaajat voivat suorittaa tämän komennon</red>"
+  #Shown when a command that requires a player has invalid input.
+  invalid-target: "<red><gray>{target}</gray> ei ole olemassa tai ei ole olemassa.</red>"
+  #Shown when a command that requires a number has invalid input.
+  invalid-integer: "<red><gray>{value}</gray> ei ole kelvollinen kokonaisluku.</red>"
+  #Shown when a player does not have access to something that requires a permission.
+  no-permission: "<red>Käyttöoikeus puuttuu: <gray>{permission}</gray></red>"
+  #Shown when a player executes a command in a world that is disabled in the configuration.
+  disabled-world: "<red>Tämä komento ei ole käytettävissä tässä ulottuvuudessa.</red>"
+  #Shown when a command requires a player in combat but the target player is not in combat.
+  target-not-in-combat: "<red><gray>{target}</gray> ei ole taistelussa.</red>"
+  #Shown when a player executes a command that requires them to be in combat.
+  self-not-in-combat: "<red>Et ole taistelussa.</red>"
+  #Shown when a command that requires an expansion has invalid input.
+  unknown-expansion: "<red><gray>{target}</gray> ei ole laajennusta tai sitä ei ole asennettu.</red>"
+command:
+  combatlogx:
+    #Shown as the command output for '/combatlogx help'.
+    help-message-list:
+      - ""
+      - "<gold><bold>CombatLogX Command Help:</bold></gold>"
+      - "  <white><bold>/combatlogx ohje</bold></white><gray>: Näytä tämä ohjesivu.</gray>"
+      - "  <white><bold>/combatlogx uudelleenlataus</bold></white><gray>: Lataa uudelleen config.yml, language.yml ja kaikki laajennuksen asetustiedostot.</gray>"
+      - "  <white><bold>/combatlogx noin \\<expansion></bold></white><gray>: Tarkista tiedot laajennuksesta.</gray>"
+      - "  <white><bold>/combatlogx tag \\<player> [seconds]</bold></white><gray>: Pakota pelaaja taisteluun.</gray>"
+      - "  <white><bold>/combatlogx vaihda bossbar/actionbar/tulostaulu</bold></white><gray>: Ota ilmoitustyyppi käyttöön tai poista se käytöstä.</gray>"
+      - "  <white><bold>/combatlogx untag \\<player></bold></white><gray>: Pakota pelaaja pois taistelusta.</gray>"
+      - "  <white><bold>/combatlogx versio</bold></white><gray>: Tarkista versio CombatLogX.</gray>"
+      - ""
+    #Shown as the command output for '/combatlogx reload' when reloading is successful.
+    reload-success:
+      - "<green>Kaikki asetustiedostot ladattiin onnistuneesti CombatLogXista.</green>"
+      - "<green>Kaikki kielitiedostot ladattiin onnistuneesti CombatLogXista.</green>"
+      - "<green>Kaikki asetustiedostot ladattiin onnistuneesti CombatLogX-laajennuksesta.</green>"
+    #Shown as the command output for '/combatlogx reload' when reloading fails
+    reload-failure:
+      - "<red>Virhe ladattaessa konfiguraatiota uudelleen.</red>"
+      - "<red>Tarkista palvelimen loki ja korjaa rikkinäinen tiedosto.</red>"
+    #Shown as the command output for '/combatlogx tag <player>' when a player is tagged successfully.
+    tag-player: "<green>Onnistuneesti pakotti pelaajan <gray>{target}</gray> taisteluun.</green>"
+    #Shown as the command output for '/combatlogx tag <player>' when the plugin failed to tag a player.
+    tag-failure: "<red><gray>{target}</gray> ei voitu sijoittaa taisteluun. (Ehkä niillä on ohitus?)</red>"
+    #Shown as the command output for '/combatlogx untag <player>'.
+    untag-player: "<green>Onnistuneesti pakotti pelaajan <gray>{target}</gray> taistelusta.</green>"
+    #Shown as the command output for '/combatlogx toggle bossbar'.
+    toggle-bossbar: "<gray><bold>Boss Bar:</bold></gray> {status}"
+    #Shown as the command output for '/combatlogx toggle actionbar'.
+    toggle-actionbar: "<gray><bold>Toimintopalkki:</bold></gray> {status}"
+    #Shown as the command output for '/combatlogx toggle scoreboard'.
+    toggle-scoreboard: "<gray><bold>Tulostaulu:</bold></gray> {status}"
+  combat-timer:
+    #Shown as the command output for '/combat-timer'.
+    time-left-self: "<green>Sinulla on <gray>{time_left}</gray> sekuntia&a jäljellä.</green>"
+    #Shown as the command output for '/combat-timer <player>'.
+    time-left-other: "<green><gray>{target}</gray> on <gray>{time_left} sekuntia</gray> jäljellä.</green>"
+#These messages are shown a player is tagged into combat.
+tagged:
+  unknown:
+    player: "<red>Olet nyt taistelussa <white>{enemy}</white> kanssa tuntemattomasta syystä. Älä kirjaudu ulos!</red>"
+    mob: "<red>Olet nyt taistelussa a (n) <white>{enemy}</white> tuntemattomasta syystä. Älä kirjaudu ulos!</red>"
+    mythic_mob: "<red>Olet nyt taistelussa a (n) <white>{mob_type}</white> tuntemattomasta syystä. Älä kirjaudu ulos!</red>"
+    damage: "<red>Olet nyt taistelussa vahingoittumisen vuoksi. Älä kirjaudu ulos!</red>"
+    unknown: "<red>Sinut asetettiin taisteluun ilman syytä. Älä kirjaudu ulos.</red>"
+  attacked:
+    player: "<red>Sinua vastaan hyökätään <white>{enemy}</white>. Älä kirjaudu ulos!</red>"
+    mob: "<red>a (n) <white>{mob_type}</white>hyökkäsi sinua. Älä kirjaudu ulos!</red>"
+    mythic_mob: "<red>a (n) <white>{enemy}</white>hyökkäsi sinua. Älä kirjaudu ulos!</red>"
+    damage: "<red>Olet nyt taistelussa vahingoittumisen vuoksi. Älä kirjaudu ulos!</red>"
+    unknown: "<red>Tuntematon voima hyökkää sinua vastaan. Älä kirjaudu ulos!</red>"
+  attacker:
+    player: "<red>Hyökkäät <white>{enemy}</white>. Älä kirjaudu ulos!</red>"
+    mob: "<red>Hyökkäät (n) <white>{mob_type}</white>. Älä kirjaudu ulos!</red>"
+    mythic_mob: "<red>Hyökkäät (n) <white>{enemy}</white>. Älä kirjaudu ulos!</red>"
+    damage: "<red>Olet nyt taistelussa vahingoittumisen vuoksi. Älä kirjaudu ulos!</red>"
+    unknown: "<red>Hyökkäät tuntematonta voimaa. Älä kirjaudu ulos!</red>"
+expansion:
+  angel-chest:
+    #Shown when opening an AngelChest is prevented during combat.
+    prevent-opening: "<red>Et saa avata enkeliharkkuja taistelun aikana.</red>"
+    #Shown when breaking an AngelChest is prevented during combat.
+    prevent-breaking: "<red>Et saa rikkoa enkeliharkkuja taistelun aikana.</red>"
+    #Shown when fast looting an AngelChest is prevented during combat.
+    prevent-fast-looting: "<red>Sinulla ei ole lupaa paastota enkeliharkkuja taistelun aikana.</red>"
+  action-bar:
+    #Shown above the hotbar while a player is in combat.
+    timer: "<bold><gold>Taistelu</gold> <gray>\u00BB</gray></bold> <white>{bars} <red>{combatlogx_time_left}</red> sekuntia.</white>"
+    #Shown above the hotbar for a brief period when combat ends.
+    ended: "<bold><gold>Taistele</gold> <gray>\u00BB</gray></bold> <white>Et ole enää taistelussa.</white>"
+  boss-bar:
+    #Shown on top of the screen while a player is in combat.
+    timer: "<bold><gold>Taistelu</gold> <gray>\u00BB</gray></bold> <white><red>{combatlogx_time_left}</red> sekuntia.</white>"
+    #Shown on top of the screen for a brief period when combat ends.
+    ended: "<bold><gold>Taistele</gold> <gray>\u00BB</gray></bold> <white>Et ole enää taistelussa.</white>"
+  scoreboard:
+    #The scoreboard title for the sidebar.
+    #Make sure to follow the scoreboard title limits for your Spigot version.
+    title: "<gold><bold>CombatLogX</bold></gold>"
+    #The scoreboard lines for the sidebar.
+    #Make sure to follow the scoreboard line and character limits for your Spigot version.
+    lines:
+      - " "
+      - "<white><bold>Taistelutilastot:</bold></white>"
+      - "<dark_gray>\u00BB</dark_gray> <white><bold>Aikaa jäljellä:</bold></white> <gray>{combatlogx_time_left}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <white><bold>Enemies:</bold></white> <gray>{combatlogx_enemy_count}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <white><bold>Tila:</bold></white> <gray>{combatlogx_status}</gray>"
+      - " "
+      - "<white><bold>Enemies</bold></white>"
+      - "<dark_gray>\u00BB</dark_gray> <gray>{combatlogx_specific_enemy_1_name}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <gray>{combatlogx_specific_enemy_2_name}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <gray>{combatlogx_specific_enemy_3_name}</gray>"
+      - " "
+  cheat-prevention:
+    #Shown when a command execution is prevented during combat.
+    command-blocked: "<red>Sinulla ei ole pääsyä <gray>{command}</gray> taistelun aikana.</red>"
+    #Shown when the riptide effect is prevented during combat.
+    no-riptide: "<red>Riptiden lumoaminen on poistettu käytöstä taistelun aikana.</red>"
+    #Shown when a totem of undying is prevented during combat.
+    no-totem: "<red>Sinulla ei ole lupaa käyttää rauhoittavia toteamuksia taistelun aikana.</red>"
+    #Shown when an entity interaction is prevented during combat.
+    no-entity-interaction: "<red>Et saa käyttää tuota mobia taistelun aikana.</red>"
+    #Shown when a chat message is prevented during combat.
+    no-chat: "<red>Et voi lähettää chat-viestejä torjumisen aikana.</red>"
+    game-mode:
+      #Shown when a player is forced into a specific game mmode during combat.
+      force-switch: "<red>Pelitilasi on vaihdettu <gray>{game_mode}</gray>.</red>"
+      #Shown when a game mode switch is prevented during combat.
+      no-switch: "<red>Sinulla ei ole oikeutta vaihtaa pelitiloja kamppailun aikana.</red>"
+    flight:
+      #Shown when a player's ability to fly is disabled during combat.
+      force-disabled: "<red>Kykysi lentää poistettiin.</red>"
+      #Shown when a player's attempt to fly is prevented during combat.
+      no-flying: "<red>Et saa lentää taistelun aikana.</red>"
+    elytra:
+      #Shown when a player's ability to glide is disabled during combat.
+      force-disabled: "<red>Elytra on poistettu käytöstä.</red>"
+      #Shown when a player's attempt to glide is prevented during combat.
+      no-gliding: "<red>Sinulla ei ole oikeutta käyttää elytraa taistelun aikana.</red>"
+    teleportation:
+      #Shown when a player tries to enter a portal and is prevented during combat.
+      block-portal: "<red>Portaalia ei saa käyttää taistelun aikana.</red>"
+      #Shown when an ender pearl is prevented during combat.
+      block-pearl: "<red>Et saa käyttää enderöidä helmiä taistelun aikana.</red>"
+      #Shown when a teleport is prevented during combat.
+      block-other: "<red>Sinulla ei ole oikeutta teleporttaukseen taistelun aikana.</red>"
+    inventory:
+      #Shown when a player's inventory is closed by the plugin during combat.
+      force-closed: "<red>Tavaraluettelosi on suljettu.</red>"
+      #Shown when a player tries to open an inventory and is prevented during combat.
+      no-opening: "<red>Tavaraluetteloja ei saa avata taistelun aikana.</red>"
+    blocks:
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-breaking: "<red>Sinulla ei ole lupaa rikkoa lohkoja taistelun aikana.</red>"
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-placing: "<red>Sinulla ei ole oikeutta asettaa palikoita taistelun aikana.</red>"
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-interaction: "<red>Sinulla ei ole oikeutta käyttää lohkoja torjumisen aikana.</red>"
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-portal-creation: "<red>Sinulla ei ole oikeutta luoda portaaleja taistelun aikana.</red>"
+    items:
+      #Shown when a player is prevented from picking up an item during combat.
+      no-pickup: "<red>Sinulla ei ole oikeutta noutaa esineitä taistelun aikana.</red>"
+      #Shown when a player is prevented from dropping an item during combat.
+      no-dropping: "<red>Sinulla ei ole oikeutta pudottaa esineitä taistelun aikana.</red>"
+    buckets:
+      #Shown when a player is prevented from emptying a bucket during combat.
+      no-empty: "<red>Et voi tyhjentää kauhoja taistelun aikana.</red>"
+      #Shown when a player is prevented from filling a bucket during combat.
+      no-fill: "<red>Kauhoja ei voi täyttää taistelun aikana.</red>"
+  damage-tagger:
+    #Shown when a player is tagged for an unknown damage type.
+    unknown-damage: "<red>Otit vahingon! Älä kirjaudu ulos!</red>"
+    #These messages are shown when a player is tagged for a known damage type.
+    #You can find a list of damage types here:
+    #https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/EntityDamageEvent.DamageCause.html
+    damage-type:
+      contact: "<red>Kaktus prikkasi sinua. Älä kirjaudu ulos!</red>"
+      suffocation: "<red>Olet tukehtumassa seinään. Älä kirjaudu ulos!</red>"
+      fall: "<red>Otit vahingon. Älä kirjaudu ulos!</red>"
+      fire: "<red>Sinä kävelit tuleen. Älä kirjaudu ulos!</red>"
+      fire-tick: "<red>Olet polttamassa. Älä kirjaudu ulos!</red>"
+      lava: "<red>Kiehuu laavassa. Älä kirjaudu ulos!</red>"
+      drowning: "<red>Olet hukkumassa. Älä kirjaudu ulos!</red>"
+      block-explosion: "<red>Räjähdys vahingoitti sinua. Älä kirjaudu ulos!</red>"
+      lightning: "<red>Sinut on lyöty! Älä kirjaudu ulos!</red>"
+      starvation: "<red>Sinulla on liian nälkäinen. Älä kirjaudu ulos!</red>"
+      poison: "<red>Otit myrkkyvaurion. Älä kirjaudu ulos!</red>"
+      magic: "<red>Joku heitti juoman sinulle. Älä kirjaudu ulos!</red>"
+      wither: "<red>Sinä kuihtut. Älä kirjaudu ulos!</red>"
+      falling-block: "<red>Kuutio putosi päälle. Älä kirjaudu ulos!</red>"
+      custom: "<red>Otit mukautetun vahingon. Älä kirjaudu ulos!</red>"
+      fly-into-wall: "<red>Koit kineettistä energiaa. Älä kirjaudu ulos!</red>"
+      hot-floor: "<red>Lattia on laa! Älä kirjaudu ulos!</red>"
+      cramming: "<red>Sinut on viety pois. Älä kirjaudu ulos!</red>"
+  newbie-helper:
+    togglepvp:
+      #Shown as the command output for '/togglepvp'.
+      self: "<gray>PVP:</gray> {status}"
+      #Shown as the command output for '/togglepvp admin on/off <player>'.
+      admin: "<green>Olet muuttanut PCP <gray>{target}</gray> <gray>{status}</gray>.</green>"
+      #Shown when the '/togglepvp' command is on cooldown.
+      cooldown: "<red>Sinun täytyy odottaa <gray>{time_left}</gray> sekuntia käyttääksesi tätä komentoa uudelleen.</red>"
+    #These messages are shown when pvp is disabled for any reason.
+    no-pvp:
+      self: "<red>Et saa lyödä tuota pelaajaa kun PvP on poistettu käytöstä.</red>"
+      other: "<red>Tällä pelaajalla on PvP poistettu käytöstä.</red>"
+      protected: "<red>Tämä pelaaja on suojattu, sinulla ei ole vielä oikeutta hyökätä heidän kimppuun!</red>"
+    protection-disabled:
+      #Shown when newbie protection is disabled due to the player attacking another player.
+      attacker: "<red>Hyökkäät jotakuta vastaan, uusi suojauksesi on nyt poistettu käytöstä.</red>"
+      #Shown when newbie protection expires.
+      expired: "<red>newbie suojauksesi on vanhentunut.</red>"
+    #Shown for the '/togglepvp check <player>' command.
+    check-format:
+      - "<white><bold>Tietoa kohteelle <gray>{target}</gray>:</bold></white>"
+      - "<white><bold>Suojaus:</bold></white> <gray>{protected}</gray>"
+      - "<white><bold>PvP:</bold></white> <gray>{pvp}</gray>"
+  loot-protection:
+    #Shown when an enemy dies and their loot is protected.
+    enemy-died: "<green><gray>{enemy}</gray> on kuollut. Loot on suojattu <gray>{time}</gray> sekunnin ajan.</green>"
+    #Shown when a player tries to pick up an item that is loot protected by the plugin.
+    protected: "<red>Tämä kohde on tällä hetkellä suojattu, odota <gray>{time}</gray> sekuntia kunnes voit noutaa sen.</red>"
+  citizens-compatibility:
+    #Shown when a player is prevented from joining the server due to their NPC still existing.
+    prevent-join: "<red>Palvelimeen ei saa liittyä ennen kuin NPC on kuollut tai poistettu.</red>"
+  disguise-compatibility:
+    #Shown when a disguise is removed from a player during combat.
+    remove-disguise: "<red>Sinun naamiosi poistettiin.</red>"
+  essentials-compatibility:
+    #Shown when a teleport request is cancelled during combat.
+    prevent-teleport-request-self: "<red>Et voi luoda teleporttauspyyntöjä torjumisen aikana.</red>"
+    #Shown when a teleport request is cancelled during combat.
+    prevent-teleport-request-other: "<red>Et voi lähettää teleporttauspyyntöä pelaajalle, joka on taistelussa.</red>"
+  marriagemaster-compatibility:
+    #Shown when a married player is prevented from teleporting to their partner during combat.
+    prevent-teleport-self: "<red>Sinulla ei ole lupaa teleportata kumppanillesi taistelun aikana.</red>"
+    #Shown when a married player is prevented from teleporting to their partner during combat.
+    prevent-teleport-partner: "<red>Sinulla ei ole lupaa teleportata kumppanillesi, kun he ovat taistelussa.</red>"
+  region-protection:
+    #Shown when a player tries to enter a no-pvp area during combat.
+    default-no-entry: "<red>Sinulla ei ole oikeutta tulla alueelle taistelun aikana.</red>"
+    factions-no-entry: <red>Sinulla ei ole oikeutta tulla alueelle taistelun aikana.</red>
+    griefdefender-no-entry: <red>Sinulla ei ole oikeutta tulla alueelle taistelun aikana.</red>
+    griefprevention-no-entry: <red>Sinulla ei ole oikeutta tulla alueelle taistelun aikana.</red>
+    kingdomsx-no-entry: <red>Sinulla ei ole oikeutta tulla alueelle taistelun aikana.</red>
+    konquest-no-entry: <red>Sinulla ei ole oikeutta tulla alueelle taistelun aikana.</red>
+    redprotect-no-entry: <red>Sinulla ei ole oikeutta tulla alueelle taistelun aikana.</red>
+    residence-no-entry: <red>Sinulla ei ole oikeutta tulla alueelle taistelun aikana.</red>
+    towny-no-entry: <red>Sinulla ei ole oikeutta tulla alueelle taistelun aikana.</red>
+    husktowns-no-entry: <red>Sinulla ei ole oikeutta tulla alueelle taistelun aikana.</red>
+    ultimateclaims-no-entry: <red>Sinulla ei ole oikeutta tulla alueelle taistelun aikana.</red>
+    protectionstones:
+      prevent-area-creation: "<red>Suojattua aluetta ei saa luoda torjumisen aikana.</red>"
+      no-entry: <red>Sinulla ei ole oikeutta tulla alueelle taistelun aikana.</red>
+    preciousstones:
+      prevent-field-creation: "<red>Sinulla ei ole lupaa luoda suojauskenttää torjumisen aikana.</red>"
+      no-entry: <red>Sinulla ei ole oikeutta tulla alueelle taistelun aikana.</red>
+    worldguard:
+      no-entry-mob-combat: "<red>Et saa syöttää ei-mob-taistelualueelle taistelun aikana.</red>"
+      no-entry-player-combat: "<red>Et saa syöttää ei-pelaaja-taistelualuetta taistelun aikana.</red>"
+      no-entry-unknown-combat: <red>Sinulla ei ole oikeutta tulla alueelle taistelun aikana.</red>
+    lands:
+      no-entry: <red>Sinulla ei ole oikeutta tulla alueelle taistelun aikana.</red>
+      war-disable-newbie-protection: "<red>PvP on nyt käytössä sotajulistuksen vuoksi.</red>"

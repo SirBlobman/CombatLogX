@@ -11,10 +11,10 @@
 ## More information about MiniMessage can be found here:
 ## https://docs.adventure.kyori.net/minimessage/format.html
 #The language code for this file.
-language-name: "de_de"
+language-name: "de_ch"
 #The format for decimal numbers.
 #The United States uses the number and two decimal places
-decimal-format: "0,00"
+decimal-format: "0.00"
 #The prefix for CombatLogX.
 #This is shown in front of all messages and should not be changed unless necessary.
 prefix: "<bold><white>[</white></bold><gold>CombatLogX</gold><bold><white>]"
@@ -31,7 +31,7 @@ placeholder:
   time-left-zero: "0"
   #This text is used when a player does not have an enemy.
   #This can happen when players are tagged by a custom expansion or the tag command.
-  unknown-enemy: "Unbekannt"
+  unknown-enemy: "Nicht bekannt"
   status:
     #Shown when the player is in combat.
     fighting: "<red>Im Kampf"

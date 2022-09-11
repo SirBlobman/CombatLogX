@@ -1,0 +1,320 @@
+---
+## Extra Information:
+## This is the default language file for CombatLogX.
+## The default language is "en_us", also known as English (United States).
+## Context will be added as YAML comments above the string.
+## The color scheme for messages is gold, white, and sometimes red.
+## Command feedback that is successful should always be green.
+## Error messages should always be red.
+## Variables in messages can be gray or white.
+## Messages use the MiniMessage format in non-strict mode.
+## More information about MiniMessage can be found here:
+## https://docs.adventure.kyori.net/minimessage/format.html
+#The language code for this file.
+language-name: "sv_SE"
+#The format for decimal numbers.
+#The United States uses the number and two decimal places
+decimal-format: "0.00"
+#The prefix for CombatLogX.
+#This is shown in front of all messages and should not be changed unless necessary.
+prefix: "<white><bold>[<gold>CombatLogX</gold>]</bold></white>"
+broadcast:
+  #Shown when the plugin is finished loading.
+  on-load: "<green><bold>CombatLogX laddades.</bold></green>"
+  #Shown when the plugin is finished enabling.
+  on-enable: "<green><bold>CombatLogX aktiverades.</bold></green>"
+  #Shown when the plugin is disabled for any reason.
+  on-disable: "<red><bold>CombatLogX har inaktiverats.</bold></red>"
+placeholder:
+  #This text is used for the {combatlogx_time_left}
+  #This allows server configurations to change the display value of the zero to something like "Not in combat"
+  time-left-zero: "0"
+  #This text is used when a player does not have an enemy.
+  #This can happen when players are tagged by a custom expansion or the tag command.
+  unknown-enemy: "Okänd"
+  status:
+    #Shown when the player is in combat.
+    fighting: "<red>Strider</red>"
+    in-combat: "<green>Ja</green>"
+    #Shown when the player is not in combat
+    idle: "<green>Idle</green>"
+    not-in-combat: "<red>Nej</red>"
+  #These placeholders are shown when a player changes a value such as whether or not their bossbar is enabled.
+  toggle:
+    enabled: "<green>PÅ</green>"
+    disabled: "<red>AV</red>"
+  pvp-status:
+    enabled: "<green>PÅ</green>"
+    disabled: "<red>AV</red>"
+combat-timer:
+  #Sent to a player when they escape from combat due to the timer running out.
+  expire: "<green>Du är inte längre i strid.</green>"
+  #Sent to a player when they escape from combat due to their enemy being killed.
+  enemy-death: "<green>Du är inte längre i strid eftersom din fiende dog.</green>"
+  #Sent when a player is killed during combat.
+  self-death: "<green>Du är inte längre i strid eftersom du dog.</green>"
+error:
+  #Shown when the console tries to execute a command made for players.
+  player-only: "<red>Endast spelare kan köra detta kommando</red>"
+  #Shown when a command that requires a player has invalid input.
+  invalid-target: "<red><gray>{target}</gray> är inte online eller finns inte.</red>"
+  #Shown when a command that requires a number has invalid input.
+  invalid-integer: "<red><gray>{value}</gray> är inte ett giltigt heltal.</red>"
+  #Shown when a player does not have access to something that requires a permission.
+  no-permission: "<red>Saknad behörighet: <gray>{permission}</gray></red>"
+  #Shown when a player executes a command in a world that is disabled in the configuration.
+  disabled-world: "<red>Det kommandot är inte tillgängligt i denna dimension.</red>"
+  #Shown when a command requires a player in combat but the target player is not in combat.
+  target-not-in-combat: "<red><gray>{target}</gray> är inte i strid.</red>"
+  #Shown when a player executes a command that requires them to be in combat.
+  self-not-in-combat: "<red>Du är inte i strid.</red>"
+  #Shown when a command that requires an expansion has invalid input.
+  unknown-expansion: "<red><gray>{target}</gray> är inte en expansion eller är inte installerad.</red>"
+command:
+  combatlogx:
+    #Shown as the command output for '/combatlogx help'.
+    help-message-list:
+      - ""
+      - "<gold><bold>CombatLogX kommandohjälp:</bold></gold>"
+      - "  <white><bold>/combatlogx help</bold></white><gray>: Se denna hjälpsida.</gray>"
+      - "  <white><bold>/combatlogx ladda om</bold></white><gray>: Ladda om config.yml, language.yml och alla expansionskonfigurationsfiler.</gray>"
+      - "  <white><bold>/combatlogx about \\<expansion></bold></white><gray>: Kontrollera information om en expansion.</gray>"
+      - "  <white><bold>/combatlogx tag \\<player> [seconds]</bold></white><gray>: Tvinga en spelare i strid.</gray>"
+      - "  <white><bold>/combatlogx växla bossbar/actionbar/resultattavla</bold></white><gray>: Aktivera eller inaktivera en aviseringstyp.</gray>"
+      - "  <white><bold>/combatlogx untag \\<player></bold></white><gray>: Tvinga en spelare ur strid.</gray>"
+      - "  <white><bold>/combatlogx version</bold></white><gray>: Kontrollera din version av CombatLogX.</gray>"
+      - ""
+    #Shown as the command output for '/combatlogx reload' when reloading is successful.
+    reload-success:
+      - "<green>Laddade om alla konfigurationsfiler från CombatLogX.</green>"
+      - "<green>Laddade om alla språkfiler från CombatLogX.</green>"
+      - "<green>Laddade om alla konfigurationsfiler från CombatLogX-expansioner.</green>"
+    #Shown as the command output for '/combatlogx reload' when reloading fails
+    reload-failure:
+      - "<red>Ett fel uppstod vid omladdning av konfigurationen.</red>"
+      - "<red>Kontrollera din serverlogg och åtgärda den trasiga filen.</red>"
+    #Shown as the command output for '/combatlogx tag <player>' when a player is tagged successfully.
+    tag-player: "<green>Framgångsrikt tvingade spelare <gray>{target}</gray> in i strid.</green>"
+    #Shown as the command output for '/combatlogx tag <player>' when the plugin failed to tag a player.
+    tag-failure: "<red><gray>{target}</gray> kunde inte placeras i strid. (Kanske har de en kringfart?)</red>"
+    #Shown as the command output for '/combatlogx untag <player>'.
+    untag-player: "<green>Framgångsrikt tvingad spelare <gray>{target}</gray> ur striden.</green>"
+    #Shown as the command output for '/combatlogx toggle bossbar'.
+    toggle-bossbar: "<gray><bold>Chef Bar:</bold></gray> {status}"
+    #Shown as the command output for '/combatlogx toggle actionbar'.
+    toggle-actionbar: "<gray><bold>Åtgärdsfält:</bold></gray> {status}"
+    #Shown as the command output for '/combatlogx toggle scoreboard'.
+    toggle-scoreboard: "<gray><bold>Resultattavlan:</bold></gray> {status}"
+  combat-timer:
+    #Shown as the command output for '/combat-timer'.
+    time-left-self: "<green>Du har <gray>{time_left}</gray> sekunder&a kvar.</green>"
+    #Shown as the command output for '/combat-timer <player>'.
+    time-left-other: "<green><gray>{target}</gray> har <gray>{time_left} sekunder</gray> kvar.</green>"
+#These messages are shown a player is tagged into combat.
+tagged:
+  unknown:
+    player: "<red>Du är nu i strid med <white>{enemy}</white> av en okänd anledning. Logga inte ut!</red>"
+    mob: "<red>Du är nu i strid med a(n) <white>{enemy}</white> av en okänd anledning. Logga inte ut!</red>"
+    mythic_mob: "<red>Du är nu i strid med a(n) <white>{mob_type}</white> av en okänd anledning. Logga inte ut!</red>"
+    damage: "<red>Du är nu i strid på grund av att du tar skada. Logga inte ut!</red>"
+    unknown: "<red>Du placerades i strid utan anledning. Logga inte ut.</red>"
+  attacked:
+    player: "<red>Du attackeras av <white>{enemy}</white>. Logga inte ut!</red>"
+    mob: "<red>Du attackeras av a(n) <white>{mob_type}</white>. Logga inte ut!</red>"
+    mythic_mob: "<red>Du attackeras av a(n) <white>{enemy}</white>. Logga inte ut!</red>"
+    damage: "<red>Du är nu i strid på grund av att du tar skada. Logga inte ut!</red>"
+    unknown: "<red>Du attackeras av en okänd kraft. Logga inte ut!</red>"
+  attacker:
+    player: "<red>Du attackerar <white>{enemy}</white>. Logga inte ut!</red>"
+    mob: "<red>Du attackerar en(n) <white>{mob_type}</white>. Logga inte ut!</red>"
+    mythic_mob: "<red>Du attackerar en(n) <white>{enemy}</white>. Logga inte ut!</red>"
+    damage: "<red>Du är nu i strid på grund av att du tar skada. Logga inte ut!</red>"
+    unknown: "<red>Du attackerar en okänd kraft. Logga inte ut!</red>"
+expansion:
+  angel-chest:
+    #Shown when opening an AngelChest is prevented during combat.
+    prevent-opening: "<red>Det är inte tillåtet att öppna ängelkistor under strid.</red>"
+    #Shown when breaking an AngelChest is prevented during combat.
+    prevent-breaking: "<red>Det är inte tillåtet att bryta ängelkistor under striden.</red>"
+    #Shown when fast looting an AngelChest is prevented during combat.
+    prevent-fast-looting: "<red>Du har inte tillåtelse att snabbt plundra ängelkistor under strid.</red>"
+  action-bar:
+    #Shown above the hotbar while a player is in combat.
+    timer: "<bold><gold>Bekämpa</gold> <gray>\u00BB</gray></bold> <white>{bars} <red>{combatlogx_time_left}</red> sekunder.</white>"
+    #Shown above the hotbar for a brief period when combat ends.
+    ended: "<bold><gold>Bekämpa</gold> <gray>\u00BB</gray></bold> <white>Du är inte längre i strid.</white>"
+  boss-bar:
+    #Shown on top of the screen while a player is in combat.
+    timer: "<bold><gold>Bekämpa</gold> <gray>\u00BB</gray></bold> <white><red>{combatlogx_time_left}</red> sekunder.</white>"
+    #Shown on top of the screen for a brief period when combat ends.
+    ended: "<bold><gold>Bekämpa</gold> <gray>\u00BB</gray></bold> <white>Du är inte längre i strid.</white>"
+  scoreboard:
+    #The scoreboard title for the sidebar.
+    #Make sure to follow the scoreboard title limits for your Spigot version.
+    title: "<gold><bold>CombatLogX</bold></gold>"
+    #The scoreboard lines for the sidebar.
+    #Make sure to follow the scoreboard line and character limits for your Spigot version.
+    lines:
+      - " "
+      - "<white><bold>Stridsstatistik:</bold></white>"
+      - "<dark_gray>\u00BB</dark_gray> <white><bold>Tid kvar:</bold></white> <gray>{combatlogx_time_left}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <white><bold>Enemies:</bold></white> <gray>{combatlogx_enemy_count}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <white><bold>Status:</bold></white> <gray>{combatlogx_status}</gray>"
+      - " "
+      - "<white><bold>Enemies</bold></white>"
+      - "<dark_gray>\u00BB</dark_gray> <gray>{combatlogx_specific_enemy_1_name}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <gray>{combatlogx_specific_enemy_2_name}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <gray>{combatlogx_specific_enemy_3_name}</gray>"
+      - " "
+  cheat-prevention:
+    #Shown when a command execution is prevented during combat.
+    command-blocked: "<red>Du har inte tillgång till <gray>{command}</gray> under strid.</red>"
+    #Shown when the riptide effect is prevented during combat.
+    no-riptide: "<red>Rriptideförtrollningen är inaktiverad under strid.</red>"
+    #Shown when a totem of undying is prevented during combat.
+    no-totem: "<red>Du har inte tillåtelse att använda totem av ogjort under strid.</red>"
+    #Shown when an entity interaction is prevented during combat.
+    no-entity-interaction: "<red>Det är inte tillåtet att använda den mobben under strid.</red>"
+    #Shown when a chat message is prevented during combat.
+    no-chat: "<red>Du får inte skicka chattmeddelanden under strid.</red>"
+    game-mode:
+      #Shown when a player is forced into a specific game mmode during combat.
+      force-switch: "<red>Ditt spelläge ändrades till <gray>{game_mode}</gray>.</red>"
+      #Shown when a game mode switch is prevented during combat.
+      no-switch: "<red>Du har inte tillåtelse att byta spellägen under strid.</red>"
+    flight:
+      #Shown when a player's ability to fly is disabled during combat.
+      force-disabled: "<red>Din flygförmåga har tagits bort.</red>"
+      #Shown when a player's attempt to fly is prevented during combat.
+      no-flying: "<red>Du får inte flyga under strid.</red>"
+    elytra:
+      #Shown when a player's ability to glide is disabled during combat.
+      force-disabled: "<red>Din elytra har inaktiverats.</red>"
+      #Shown when a player's attempt to glide is prevented during combat.
+      no-gliding: "<red>Du får inte använda elytra under strid.</red>"
+    teleportation:
+      #Shown when a player tries to enter a portal and is prevented during combat.
+      block-portal: "<red>Du får inte använda en portal under strid.</red>"
+      #Shown when an ender pearl is prevented during combat.
+      block-pearl: "<red>Du får inte använda enderpärlor under strid.</red>"
+      #Shown when a teleport is prevented during combat.
+      block-other: "<red>Du får inte teleportera dig under strid.</red>"
+    inventory:
+      #Shown when a player's inventory is closed by the plugin during combat.
+      force-closed: "<red>Ditt förråd var stängt.</red>"
+      #Shown when a player tries to open an inventory and is prevented during combat.
+      no-opening: "<red>Det är inte tillåtet att öppna lager under strid.</red>"
+    blocks:
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-breaking: "<red>Du får inte bryta block under strid.</red>"
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-placing: "<red>Du får inte placera block under strid.</red>"
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-interaction: "<red>Du har inte tillåtelse att använda block under strid.</red>"
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-portal-creation: "<red>Du får inte skapa portaler under strid.</red>"
+    items:
+      #Shown when a player is prevented from picking up an item during combat.
+      no-pickup: "<red>Du får inte plocka upp föremål under strid.</red>"
+      #Shown when a player is prevented from dropping an item during combat.
+      no-dropping: "<red>Du får inte släppa föremål under strid.</red>"
+    buckets:
+      #Shown when a player is prevented from emptying a bucket during combat.
+      no-empty: "<red>Du kan inte tömma hinkar under strid.</red>"
+      #Shown when a player is prevented from filling a bucket during combat.
+      no-fill: "<red>Du kan inte fylla upp hinkar under strid.</red>"
+  damage-tagger:
+    #Shown when a player is tagged for an unknown damage type.
+    unknown-damage: "<red>Du tog skada! Logga inte ut!</red>"
+    #These messages are shown when a player is tagged for a known damage type.
+    #You can find a list of damage types here:
+    #https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/EntityDamageEvent.DamageCause.html
+    damage-type:
+      contact: "<red>Du blev prickad av en kaktus. Logga inte ut!</red>"
+      suffocation: "<red>Du kvävs i en vägg. Logga inte ut!</red>"
+      fall: "<red>Du tog fallskada. Logga inte ut!</red>"
+      fire: "<red>Du gick in i brand. Logga inte ut!</red>"
+      fire-tick: "<red>Du brinner. Logga inte ut!</red>"
+      lava: "<red>Du kokar i lava. Logga inte ut!</red>"
+      drowning: "<red>Du drunknar. Logga inte ut!</red>"
+      block-explosion: "<red>Du skadades av en explosion. Logga inte ut!</red>"
+      lightning: "<red>Du har blivit slagen! Logga inte ut!</red>"
+      starvation: "<red>Du är för hungrig. Logga inte ut!</red>"
+      poison: "<red>Du tog gift skada. Logga inte ut!</red>"
+      magic: "<red>Någon kastade en trolldryck på dig. Logga inte ut!</red>"
+      wither: "<red>Du vissnar bort. Logga inte ut!</red>"
+      falling-block: "<red>Ett block föll på dig. Logga inte ut!</red>"
+      custom: "<red>Du tog anpassade skador. Logga inte ut!</red>"
+      fly-into-wall: "<red>Du upplevde rörelseenergi. Logga inte ut!</red>"
+      hot-floor: "<red>Golvet är lava! Logga inte ut!</red>"
+      cramming: "<red>Du håller på att krossas. Logga inte ut!</red>"
+  newbie-helper:
+    togglepvp:
+      #Shown as the command output for '/togglepvp'.
+      self: "<gray>PVP:</gray> {status}"
+      #Shown as the command output for '/togglepvp admin on/off <player>'.
+      admin: "<green>Du ändrade pvp <gray>{target}</gray> till <gray>{status}</gray>.</green>"
+      #Shown when the '/togglepvp' command is on cooldown.
+      cooldown: "<red>Du måste vänta <gray>{time_left}</gray> sekunder för att använda detta kommando igen.</red>"
+    #These messages are shown when pvp is disabled for any reason.
+    no-pvp:
+      self: "<red>Du får inte träffa den spelaren medan din PvP är inaktiverad.</red>"
+      other: "<red>Den spelaren har PvP inaktiverat.</red>"
+      protected: "<red>Den spelaren är skyddad, du får inte attackera dem ännu!</red>"
+    protection-disabled:
+      #Shown when newbie protection is disabled due to the player attacking another player.
+      attacker: "<red>Du attackerade någon, ditt nybörjare skydd är nu inaktiverat.</red>"
+      #Shown when newbie protection expires.
+      expired: "<red>Ditt nybörjarskydd har löpt ut.</red>"
+    #Shown for the '/togglepvp check <player>' command.
+    check-format:
+      - "<white><bold>Information för <gray>{target}</gray>:</bold></white>"
+      - "<white><bold>Skydd:</bold></white> <gray>{protected}</gray>"
+      - "<white><bold>PvP:</bold></white> <gray>{pvp}</gray>"
+  loot-protection:
+    #Shown when an enemy dies and their loot is protected.
+    enemy-died: "<green><gray>{enemy}</gray> har dött. Loot kommer att skyddas i <gray>{time}</gray> sekunder.</green>"
+    #Shown when a player tries to pick up an item that is loot protected by the plugin.
+    protected: "<red>Detta objekt är för närvarande skyddat, vänta <gray>{time}</gray> sekunder tills du kan hämta det.</red>"
+  citizens-compatibility:
+    #Shown when a player is prevented from joining the server due to their NPC still existing.
+    prevent-join: "<red>Du får inte gå med i servern förrän din NPC har dödats eller tagits bort.</red>"
+  disguise-compatibility:
+    #Shown when a disguise is removed from a player during combat.
+    remove-disguise: "<red>Din förklädnad har tagits bort.</red>"
+  essentials-compatibility:
+    #Shown when a teleport request is cancelled during combat.
+    prevent-teleport-request-self: "<red>Du kan inte skapa teleporteringsförfrågningar under strid.</red>"
+    #Shown when a teleport request is cancelled during combat.
+    prevent-teleport-request-other: "<red>Du kan inte skicka en teleporteringsbegäran till en spelare som är i strid.</red>"
+  marriagemaster-compatibility:
+    #Shown when a married player is prevented from teleporting to their partner during combat.
+    prevent-teleport-self: "<red>Du har inte tillåtelse att teleportera till din partner under strid.</red>"
+    #Shown when a married player is prevented from teleporting to their partner during combat.
+    prevent-teleport-partner: "<red>Du har inte tillåtelse att teleportera till din partner medan de är i strid.</red>"
+  region-protection:
+    #Shown when a player tries to enter a no-pvp area during combat.
+    default-no-entry: "<red>Det är inte tillåtet att komma in i det området under strid.</red>"
+    factions-no-entry: <red>Det är inte tillåtet att komma in i det området under strid.</red>
+    griefdefender-no-entry: <red>Det är inte tillåtet att komma in i det området under strid.</red>
+    griefprevention-no-entry: <red>Det är inte tillåtet att komma in i det området under strid.</red>
+    kingdomsx-no-entry: <red>Det är inte tillåtet att komma in i det området under strid.</red>
+    konquest-no-entry: <red>Det är inte tillåtet att komma in i det området under strid.</red>
+    redprotect-no-entry: <red>Det är inte tillåtet att komma in i det området under strid.</red>
+    residence-no-entry: <red>Det är inte tillåtet att komma in i det området under strid.</red>
+    towny-no-entry: <red>Det är inte tillåtet att komma in i det området under strid.</red>
+    husktowns-no-entry: <red>Det är inte tillåtet att komma in i det området under strid.</red>
+    ultimateclaims-no-entry: <red>Det är inte tillåtet att komma in i det området under strid.</red>
+    protectionstones:
+      prevent-area-creation: "<red>Du får inte skapa ett skyddat område under strid.</red>"
+      no-entry: <red>Det är inte tillåtet att komma in i det området under strid.</red>
+    preciousstones:
+      prevent-field-creation: "<red>Du får inte skapa ett skyddsfält under strid.</red>"
+      no-entry: <red>Det är inte tillåtet att komma in i det området under strid.</red>
+    worldguard:
+      no-entry-mob-combat: "<red>Du får inte gå in i ett icke-mob-stridsområde under strid.</red>"
+      no-entry-player-combat: "<red>Du får inte gå in i ett icke-spelare-stridsområde under strid.</red>"
+      no-entry-unknown-combat: <red>Det är inte tillåtet att komma in i det området under strid.</red>
+    lands:
+      no-entry: <red>Det är inte tillåtet att komma in i det området under strid.</red>
+      war-disable-newbie-protection: "<red>PvP är nu aktiverat på grund av en krigsförklaring.</red>"

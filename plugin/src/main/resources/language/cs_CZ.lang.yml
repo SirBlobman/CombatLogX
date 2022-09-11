@@ -1,0 +1,320 @@
+---
+## Extra Information:
+## This is the default language file for CombatLogX.
+## The default language is "en_us", also known as English (United States).
+## Context will be added as YAML comments above the string.
+## The color scheme for messages is gold, white, and sometimes red.
+## Command feedback that is successful should always be green.
+## Error messages should always be red.
+## Variables in messages can be gray or white.
+## Messages use the MiniMessage format in non-strict mode.
+## More information about MiniMessage can be found here:
+## https://docs.adventure.kyori.net/minimessage/format.html
+#The language code for this file.
+language-name: "cs_cz"
+#The format for decimal numbers.
+#The United States uses the number and two decimal places
+decimal-format: "0,00"
+#The prefix for CombatLogX.
+#This is shown in front of all messages and should not be changed unless necessary.
+prefix: "<white><bold>[<gold>CombatLogX</gold>]</bold></white>"
+broadcast:
+  #Shown when the plugin is finished loading.
+  on-load: "<green><bold>CombatLogX byl úspěšně načten.</bold></green>"
+  #Shown when the plugin is finished enabling.
+  on-enable: "<green><bold>CombatLogX byl úspěšně aktivován.</bold></green>"
+  #Shown when the plugin is disabled for any reason.
+  on-disable: "<red><bold>CombatLogX byl úspěšně zakázán.</bold></red>"
+placeholder:
+  #This text is used for the {combatlogx_time_left}
+  #This allows server configurations to change the display value of the zero to something like "Not in combat"
+  time-left-zero: "0"
+  #This text is used when a player does not have an enemy.
+  #This can happen when players are tagged by a custom expansion or the tag command.
+  unknown-enemy: "Neznámá"
+  status:
+    #Shown when the player is in combat.
+    fighting: "<red>Boj</red>"
+    in-combat: "<green>Ano</green>"
+    #Shown when the player is not in combat
+    idle: "<green>Nečinný</green>"
+    not-in-combat: "<red>č.</red>"
+  #These placeholders are shown when a player changes a value such as whether or not their bossbar is enabled.
+  toggle:
+    enabled: "<green>ZAPNUTÝ</green>"
+    disabled: "<red>VYPNUTO</red>"
+  pvp-status:
+    enabled: "<green>ZAPNUTÝ</green>"
+    disabled: "<red>VYPNUTO</red>"
+combat-timer:
+  #Sent to a player when they escape from combat due to the timer running out.
+  expire: "<green>Už nejste v boji.</green>"
+  #Sent to a player when they escape from combat due to their enemy being killed.
+  enemy-death: "<green>Už jsi v boji, protože tvůj nepřítel zemřel.</green>"
+  #Sent when a player is killed during combat.
+  self-death: "<green>Už nejste v boji, protože jsi zemřel/a</green>"
+error:
+  #Shown when the console tries to execute a command made for players.
+  player-only: "<red>Pouze hráči mohou spustit tento příkaz</red>"
+  #Shown when a command that requires a player has invalid input.
+  invalid-target: "<red><gray>{target}</gray> není online nebo neexistuje.</red>"
+  #Shown when a command that requires a number has invalid input.
+  invalid-integer: "<red><gray>{value}</gray> není platné celé číslo.</red>"
+  #Shown when a player does not have access to something that requires a permission.
+  no-permission: "<red>Chybějící oprávnění: <gray>{permission}</gray></red>"
+  #Shown when a player executes a command in a world that is disabled in the configuration.
+  disabled-world: "<red>Tento příkaz není k dispozici v tomto rozměru.</red>"
+  #Shown when a command requires a player in combat but the target player is not in combat.
+  target-not-in-combat: "<red><gray>{target}</gray> není v boji.</red>"
+  #Shown when a player executes a command that requires them to be in combat.
+  self-not-in-combat: "<red>Nejste v boji.</red>"
+  #Shown when a command that requires an expansion has invalid input.
+  unknown-expansion: "<red><gray>{target}</gray> není rozšíření nebo není nainstalováno.</red>"
+command:
+  combatlogx:
+    #Shown as the command output for '/combatlogx help'.
+    help-message-list:
+      - ""
+      - "<gold><bold>Příkazová nápověda pro CombatLogX:</bold></gold>"
+      - "  <white><bold>/combatlogx help</bold></white><gray>: Zobrazit tuto nápovědu.</gray>"
+      - "  <white><bold>/combatlogx reload</bold></white><gray>: Znovu načtěte config.yml, language.yml a všechny konfigurační soubory.</gray>"
+      - "  <white><bold>/combatlogx o \\<expansion></bold></white><gray>: Podívejte se na informace o rozšíření.</gray>"
+      - "  <white><bold>/combatlogx tag \\<player> [seconds]</bold></white><gray>: Vynutit hráče do boje.</gray>"
+      - "  <white><bold>/combatlogx přepíná bossbar/actionbar/scoreboard</bold></white><gray>: Povolit nebo zakázat typ oznámení.</gray>"
+      - "  <white><bold>/combatlogx untag \\<player></bold></white><gray>: Vynutit hráče z boje.</gray>"
+      - "  <white><bold>/combatlogx verze</bold></white><gray>: Zkontrolujte verzi CombatLogX.</gray>"
+      - ""
+    #Shown as the command output for '/combatlogx reload' when reloading is successful.
+    reload-success:
+      - "<green>Všechny konfigurační soubory byly úspěšně obnoveny z CombatLogX.</green>"
+      - "<green>Všechny jazykové soubory z CombatLogX.</green>"
+      - "<green>Všechny konfigurační soubory z CombatLogX rozšíření byly úspěšně obnoveny.</green>"
+    #Shown as the command output for '/combatlogx reload' when reloading fails
+    reload-failure:
+      - "<red>Došlo k chybě při obnovování konfigurace.</red>"
+      - "<red>Zkontrolujte protokol serveru a opravte poškozený soubor.</red>"
+    #Shown as the command output for '/combatlogx tag <player>' when a player is tagged successfully.
+    tag-player: "<green>Úspěšně vynucený hráč <gray>{target}</gray> do boje.</green>"
+    #Shown as the command output for '/combatlogx tag <player>' when the plugin failed to tag a player.
+    tag-failure: "<red><gray>{target}</gray> nebylo možné umístit do boje. (Je možné, že mají obchvat?)</red>"
+    #Shown as the command output for '/combatlogx untag <player>'.
+    untag-player: "<green>Úspěšně vynucený hráč <gray>{target}</gray> mimo boj.</green>"
+    #Shown as the command output for '/combatlogx toggle bossbar'.
+    toggle-bossbar: "<gray><bold>Boss Bar:</bold></gray> {status}"
+    #Shown as the command output for '/combatlogx toggle actionbar'.
+    toggle-actionbar: "<gray><bold>Panel akcí:</bold></gray> {status}"
+    #Shown as the command output for '/combatlogx toggle scoreboard'.
+    toggle-scoreboard: "<gray><bold>Srovnávací tabulka:</bold></gray> {status}"
+  combat-timer:
+    #Shown as the command output for '/combat-timer'.
+    time-left-self: "<green>Máte ještě <gray>{time_left}</gray> sekund&a.</green>"
+    #Shown as the command output for '/combat-timer <player>'.
+    time-left-other: "<green><gray>{target}</gray> zbývá <gray>{time_left} sekund</gray> .</green>"
+#These messages are shown a player is tagged into combat.
+tagged:
+  unknown:
+    player: "<red>Nyní jsi v boji s <white>{enemy}</white> z neznámého důvodu. Neodhlašuj se!</red>"
+    mob: "<red>Nyní jsi v boji s a(n) <white>{enemy}</white> z neznámého důvodu. Neodhlašuj se!</red>"
+    mythic_mob: "<red>Nyní jsi v boji s a(n) <white>{mob_type}</white> z neznámého důvodu. Neodhlašuj se!</red>"
+    damage: "<red>Nyní jsi v boji kvůli poškození. Neodhlašuj se!</red>"
+    unknown: "<red>Byli jste umístěni do boje bez důvodu. Neodhlašujte se.</red>"
+  attacked:
+    player: "<red>Byli jste napadeni <white>{enemy}</white>. Neodhlásíte!</red>"
+    mob: "<red>Byli jste napadeni a(n) <white>{mob_type}</white>. Neodhlásíte!</red>"
+    mythic_mob: "<red>Byli jste napadeni a(n) <white>{enemy}</white>. Neodhlásíte!</red>"
+    damage: "<red>Nyní jsi v boji kvůli poškození. Neodhlašuj se!</red>"
+    unknown: "<red>Jsi útočen neznámou silou. Neodhlašuj se!</red>"
+  attacker:
+    player: "<red>Útočíte <white>{enemy}</white>. Neodhlásíte!</red>"
+    mob: "<red>Útočíte a(n) <white>{mob_type}</white>. Neodhlásíte!</red>"
+    mythic_mob: "<red>Útočíte a(n) <white>{enemy}</white>. Neodhlásíte!</red>"
+    damage: "<red>Nyní jsi v boji kvůli poškození. Neodhlašuj se!</red>"
+    unknown: "<red>Útočíš na neznámou sílu. Neodhlašuj se!</red>"
+expansion:
+  angel-chest:
+    #Shown when opening an AngelChest is prevented during combat.
+    prevent-opening: "<red>Nemáš dovoleno otevřít andělové truhly během boje.</red>"
+    #Shown when breaking an AngelChest is prevented during combat.
+    prevent-breaking: "<red>Nemáš dovoleno rozbít andělové truhly během boje.</red>"
+    #Shown when fast looting an AngelChest is prevented during combat.
+    prevent-fast-looting: "<red>Nemáš dovoleno zrychlit úhlové truhly během boje.</red>"
+  action-bar:
+    #Shown above the hotbar while a player is in combat.
+    timer: "<bold><gold>Boj</gold> <gray>\u00BB</gray></bold> <white>{bars} <red>{combatlogx_time_left}</red> sekund.</white>"
+    #Shown above the hotbar for a brief period when combat ends.
+    ended: "<bold><gold>Boj</gold> <gray>\u00BB</gray></bold> <white>Již nejste v boji.</white>"
+  boss-bar:
+    #Shown on top of the screen while a player is in combat.
+    timer: "<bold><gold>Boj</gold> <gray>\u00BB</gray></bold> <white><red>{combatlogx_time_left}</red> sekund.</white>"
+    #Shown on top of the screen for a brief period when combat ends.
+    ended: "<bold><gold>Boj</gold> <gray>\u00BB</gray></bold> <white>Již nejste v boji.</white>"
+  scoreboard:
+    #The scoreboard title for the sidebar.
+    #Make sure to follow the scoreboard title limits for your Spigot version.
+    title: "<gold><bold>CombatLogX</bold></gold>"
+    #The scoreboard lines for the sidebar.
+    #Make sure to follow the scoreboard line and character limits for your Spigot version.
+    lines:
+      - " "
+      - "<white><bold>Statistiky bojů:</bold></white>"
+      - "<dark_gray>\u00BB</dark_gray> <white><bold>Zbývající čas:</bold></white> <gray>{combatlogx_time_left}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <white><bold>Enemies:</bold></white> <gray>{combatlogx_enemy_count}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <white><bold>Stav:</bold></white> <gray>{combatlogx_status}</gray>"
+      - " "
+      - "<white><bold>Enemies</bold></white>"
+      - "<dark_gray>\u00BB</dark_gray> <gray>{combatlogx_specific_enemy_1_name}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <gray>{combatlogx_specific_enemy_2_name}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <gray>{combatlogx_specific_enemy_3_name}</gray>"
+      - " "
+  cheat-prevention:
+    #Shown when a command execution is prevented during combat.
+    command-blocked: "<red>Nemáte přístup k <gray>{command}</gray> během boje.</red>"
+    #Shown when the riptide effect is prevented during combat.
+    no-riptide: "<red>Zaklínání riptidů je při boji zakázáno.</red>"
+    #Shown when a totem of undying is prevented during combat.
+    no-totem: "<red>Nejste oprávněni používat celkové součty z odvracení během boje.</red>"
+    #Shown when an entity interaction is prevented during combat.
+    no-entity-interaction: "<red>Nemáš dovoleno používat toto stvoření během boje.</red>"
+    #Shown when a chat message is prevented during combat.
+    no-chat: "<red>Nemáte oprávnění odesílat zprávy v chatu během boje.</red>"
+    game-mode:
+      #Shown when a player is forced into a specific game mmode during combat.
+      force-switch: "<red>Tvůj herní režim byl změněn na <gray>{game_mode}</gray>.</red>"
+      #Shown when a game mode switch is prevented during combat.
+      no-switch: "<red>Nejste oprávněni přepínat herní režimy během boje.</red>"
+    flight:
+      #Shown when a player's ability to fly is disabled during combat.
+      force-disabled: "<red>Tvá schopnost létat byla odstraněna.</red>"
+      #Shown when a player's attempt to fly is prevented during combat.
+      no-flying: "<red>Nemáš dovoleno letět během boje.</red>"
+    elytra:
+      #Shown when a player's ability to glide is disabled during combat.
+      force-disabled: "<red>Vaše elytra byla zakázána.</red>"
+      #Shown when a player's attempt to glide is prevented during combat.
+      no-gliding: "<red>Nejste oprávněni používat elytra během boje.</red>"
+    teleportation:
+      #Shown when a player tries to enter a portal and is prevented during combat.
+      block-portal: "<red>Nemáte oprávnění používat portál během boje.</red>"
+      #Shown when an ender pearl is prevented during combat.
+      block-pearl: "<red>Nemáš dovoleno používat ender perly během boje.</red>"
+      #Shown when a teleport is prevented during combat.
+      block-other: "<red>Nemáš dovoleno teleportovat během boje.</red>"
+    inventory:
+      #Shown when a player's inventory is closed by the plugin during combat.
+      force-closed: "<red>Váš inventář byl uzavřen.</red>"
+      #Shown when a player tries to open an inventory and is prevented during combat.
+      no-opening: "<red>Nemáte oprávnění otevírat inventáře během boje.</red>"
+    blocks:
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-breaking: "<red>Nemáš dovoleno rozbít bloky během boje.</red>"
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-placing: "<red>Nejste oprávněni pokládat bloky během boje.</red>"
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-interaction: "<red>Nejste oprávněni používat bloky během boje.</red>"
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-portal-creation: "<red>Nemáte oprávnění vytvářet portály během boje.</red>"
+    items:
+      #Shown when a player is prevented from picking up an item during combat.
+      no-pickup: "<red>Nejste oprávněni zvednout předměty během boje.</red>"
+      #Shown when a player is prevented from dropping an item during combat.
+      no-dropping: "<red>Nejste oprávněni upustit předměty během boje.</red>"
+    buckets:
+      #Shown when a player is prevented from emptying a bucket during combat.
+      no-empty: "<red>Během boje nemůžete vyprázdnit bloky.</red>"
+      #Shown when a player is prevented from filling a bucket during combat.
+      no-fill: "<red>Během boje nemůžete vyplnit bucket.</red>"
+  damage-tagger:
+    #Shown when a player is tagged for an unknown damage type.
+    unknown-damage: "<red>Poškodil jsi! Neodhlásej se!</red>"
+    #These messages are shown when a player is tagged for a known damage type.
+    #You can find a list of damage types here:
+    #https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/EntityDamageEvent.DamageCause.html
+    damage-type:
+      contact: "<red>Byli jste prikazeni kaktusem. Neodhlásíte!</red>"
+      suffocation: "<red>Dýcháte se ve zdi. Neodhlásíte!</red>"
+      fall: "<red>Zaznamenali jste pád poškození. Neodhlásíte!</red>"
+      fire: "<red>Prošel jsi do ohně. Neodhlásit!</red>"
+      fire-tick: "<red>Spalujete. Neodhlásit se!</red>"
+      lava: "<red>Jsi vroucí v lávě. Neodhlašuj se!</red>"
+      drowning: "<red>Točíte se. Neodhlásíte!</red>"
+      block-explosion: "<red>Byli jste poškozeni výbuchem. Neodhlásíte!</red>"
+      lightning: "<red>Ti byli smitlíni! Neodhlásíte!</red>"
+      starvation: "<red>Jsi příliš hladový. Neodhlašuj se!</red>"
+      poison: "<red>Udělal jsi jedovaté poškození. Neodhlásej se!</red>"
+      magic: "<red>Někdo ti hodil lektvar. Neodhlásíte!</red>"
+      wither: "<red>Odhlásíte se. Neodhlásíte!</red>"
+      falling-block: "<red>padl na tebe blok. Neodhlásíte!</red>"
+      custom: "<red>Provedli jste vlastní poškození. Neodhlásit!</red>"
+      fly-into-wall: "<red>Zaznamenali jste kinetickou energii. Neodhlásíte!</red>"
+      hot-floor: "<red>Podlaha je láva! Neodhlásíte!</red>"
+      cramming: "<red>Jsi spoutaný. Neodhlašuj se!</red>"
+  newbie-helper:
+    togglepvp:
+      #Shown as the command output for '/togglepvp'.
+      self: "<gray>PVP:</gray> {status}"
+      #Shown as the command output for '/togglepvp admin on/off <player>'.
+      admin: "<green>Změnili jste pvp z <gray>{target}</gray> na <gray>{status}</gray>.</green>"
+      #Shown when the '/togglepvp' command is on cooldown.
+      cooldown: "<red>Musíš počkat <gray>{time_left}</gray> sekund, abys mohl znovu použít tento příkaz.</red>"
+    #These messages are shown when pvp is disabled for any reason.
+    no-pvp:
+      self: "<red>Není dovoleno stisknout tohoto přehrávače, když je váš PvP zakázaný.</red>"
+      other: "<red>Tento hráč má PvP vypnutý.</red>"
+      protected: "<red>Tento hráč je chráněn. Zatím nemáte dovoleno na něj zaútočit!</red>"
+    protection-disabled:
+      #Shown when newbie protection is disabled due to the player attacking another player.
+      attacker: "<red>Zaútočili jste na někoho, ochrana novinek je nyní zakázána</red>"
+      #Shown when newbie protection expires.
+      expired: "<red>Ochrana před Vašimi novinkami vypršela.</red>"
+    #Shown for the '/togglepvp check <player>' command.
+    check-format:
+      - "<white><bold>Informace pro <gray>{target}</gray>:</bold></white>"
+      - "<white><bold>Ochrana:</bold></white> <gray>{protected}</gray>"
+      - "<white><bold>PvP:</bold></white> <gray>{pvp}</gray>"
+  loot-protection:
+    #Shown when an enemy dies and their loot is protected.
+    enemy-died: "<green><gray>{enemy}</gray> zemřel. Loot bude chráněn po dobu <gray>{time}</gray> sekund.</green>"
+    #Shown when a player tries to pick up an item that is loot protected by the plugin.
+    protected: "<red>Tato položka je v současné době chráněna, počkejte <gray>{time}</gray> sekund, než ji budete moci vyzvednout.</red>"
+  citizens-compatibility:
+    #Shown when a player is prevented from joining the server due to their NPC still existing.
+    prevent-join: "<red>Nejste oprávněni připojit se k serveru, dokud nebude váš NPC zabit nebo odstraněn.</red>"
+  disguise-compatibility:
+    #Shown when a disguise is removed from a player during combat.
+    remove-disguise: "<red>Zmaskování bylo odstraněno.</red>"
+  essentials-compatibility:
+    #Shown when a teleport request is cancelled during combat.
+    prevent-teleport-request-self: "<red>Nemůžete vytvořit žádosti o teleportování během boje.</red>"
+    #Shown when a teleport request is cancelled during combat.
+    prevent-teleport-request-other: "<red>Nemůžete odeslat žádost o teleportování hráči, který je v boji.</red>"
+  marriagemaster-compatibility:
+    #Shown when a married player is prevented from teleporting to their partner during combat.
+    prevent-teleport-self: "<red>Nemůžete teleportovat svého partnera během boje.</red>"
+    #Shown when a married player is prevented from teleporting to their partner during combat.
+    prevent-teleport-partner: "<red>Nejste oprávněni teleportovat se svým partnerem, když jsou v boji.</red>"
+  region-protection:
+    #Shown when a player tries to enter a no-pvp area during combat.
+    default-no-entry: "<red>Nejste oprávněni vstoupit do této oblasti během boje.</red>"
+    factions-no-entry: <red>Nejste oprávněni vstoupit do této oblasti během boje.</red>
+    griefdefender-no-entry: <red>Nejste oprávněni vstoupit do této oblasti během boje.</red>
+    griefprevention-no-entry: <red>Nejste oprávněni vstoupit do této oblasti během boje.</red>
+    kingdomsx-no-entry: <red>Nejste oprávněni vstoupit do této oblasti během boje.</red>
+    konquest-no-entry: <red>Nejste oprávněni vstoupit do této oblasti během boje.</red>
+    redprotect-no-entry: <red>Nejste oprávněni vstoupit do této oblasti během boje.</red>
+    residence-no-entry: <red>Nejste oprávněni vstoupit do této oblasti během boje.</red>
+    towny-no-entry: <red>Nejste oprávněni vstoupit do této oblasti během boje.</red>
+    husktowns-no-entry: <red>Nejste oprávněni vstoupit do této oblasti během boje.</red>
+    ultimateclaims-no-entry: <red>Nejste oprávněni vstoupit do této oblasti během boje.</red>
+    protectionstones:
+      prevent-area-creation: "<red>Nejste oprávněni vytvářet chráněnou oblast během boje.</red>"
+      no-entry: <red>Nejste oprávněni vstoupit do této oblasti během boje.</red>
+    preciousstones:
+      prevent-field-creation: "<red>Nejste oprávněni vytvářet ochranné pole během boje.</red>"
+      no-entry: <red>Nejste oprávněni vstoupit do této oblasti během boje.</red>
+    worldguard:
+      no-entry-mob-combat: "<red>Nemáš dovoleno vstupovat do oblasti mimo mob-boje během boje.</red>"
+      no-entry-player-combat: "<red>Nemáš dovoleno vstupovat do bojové oblasti mimo hráče během boje.</red>"
+      no-entry-unknown-combat: <red>Nejste oprávněni vstoupit do této oblasti během boje.</red>
+    lands:
+      no-entry: <red>Nejste oprávněni vstoupit do této oblasti během boje.</red>
+      war-disable-newbie-protection: "<red>PvP nyní vynucuje povolení z důvodu válečného prohlášení</red>"
