@@ -1,0 +1,320 @@
+---
+## Extra Information:
+## This is the default language file for CombatLogX.
+## The default language is "en_us", also known as English (United States).
+## Context will be added as YAML comments above the string.
+## The color scheme for messages is gold, white, and sometimes red.
+## Command feedback that is successful should always be green.
+## Error messages should always be red.
+## Variables in messages can be gray or white.
+## Messages use the MiniMessage format in non-strict mode.
+## More information about MiniMessage can be found here:
+## https://docs.adventure.kyori.net/minimessage/format.html
+#The language code for this file.
+language-name: "en_us"
+#The format for decimal numbers.
+#The United States uses the number and two decimal places
+decimal-format: "0.00"
+#The prefix for CombatLogX.
+#This is shown in front of all messages and should not be changed unless necessary.
+prefix: "<white><bold>[<gold>CombatLogX</gold>]</bold></white>"
+broadcast:
+  #Shown when the plugin is finished loading.
+  on-load: "<green><bold>تم تحميل CombatLogX بنجاح.</bold></green>"
+  #Shown when the plugin is finished enabling.
+  on-enable: "<green><bold>تم تمكين CombatLogX بنجاح.</bold></green>"
+  #Shown when the plugin is disabled for any reason.
+  on-disable: "<red><bold>تم تعطيل CombatLogX بنجاح.</bold></red>"
+placeholder:
+  #This text is used for the {combatlogx_time_left}
+  #This allows server configurations to change the display value of the zero to something like "Not in combat"
+  time-left-zero: "0"
+  #This text is used when a player does not have an enemy.
+  #This can happen when players are tagged by a custom expansion or the tag command.
+  unknown-enemy: "غير معروف"
+  status:
+    #Shown when the player is in combat.
+    fighting: "<red>قاتل</red>"
+    in-combat: "<green>نعم</green>"
+    #Shown when the player is not in combat
+    idle: "<green>الخمول</green>"
+    not-in-combat: "<red>لا</red>"
+  #These placeholders are shown when a player changes a value such as whether or not their bossbar is enabled.
+  toggle:
+    enabled: "<green>تشغيل</green>"
+    disabled: "<red>ايقاف</red>"
+  pvp-status:
+    enabled: "<green>تشغيل</green>"
+    disabled: "<red>ايقاف</red>"
+combat-timer:
+  #Sent to a player when they escape from combat due to the timer running out.
+  expire: "<green>لم تعد في القتال.</green>"
+  #Sent to a player when they escape from combat due to their enemy being killed.
+  enemy-death: "<green>لم تعد في القتال بسبب وفاة عدوك.</green>"
+  #Sent when a player is killed during combat.
+  self-death: "<green>لم تعد في المعركة لأنك قد توفت.</green>"
+error:
+  #Shown when the console tries to execute a command made for players.
+  player-only: "<red>فقط اللاعبين يمكنهم تنفيذ هذا الأمر</red>"
+  #Shown when a command that requires a player has invalid input.
+  invalid-target: "<red><gray>{target}</gray> غير متصل أو غير موجود.</red>"
+  #Shown when a command that requires a number has invalid input.
+  invalid-integer: "<red><gray>{value}</gray> ليس عددا صحيحا.</red>"
+  #Shown when a player does not have access to something that requires a permission.
+  no-permission: "<red>الصلاحية مفقودة: <gray>{permission}</gray></red>"
+  #Shown when a player executes a command in a world that is disabled in the configuration.
+  disabled-world: "<red>هذا الأمر غير متوفر في هذا البعد</red>"
+  #Shown when a command requires a player in combat but the target player is not in combat.
+  target-not-in-combat: "<red><gray>{target}</gray> ليس في القتال.</red>"
+  #Shown when a player executes a command that requires them to be in combat.
+  self-not-in-combat: "<red>أنت لست في القتال.</red>"
+  #Shown when a command that requires an expansion has invalid input.
+  unknown-expansion: "<red><gray>{target}</gray> ليس توسعا أو لم يتم تثبيته.</red>"
+command:
+  combatlogx:
+    #Shown as the command output for '/combatlogx help'.
+    help-message-list:
+      - ""
+      - "<gold><bold>مساعدة أمر كومباتلوكس:</bold></gold>"
+      - "  <white><bold>مساعدة /combatlogx</bold></white><gray>: عرض صفحة المساعدة هذه</gray>"
+      - "  <white><bold>إعادة تحميل /combatlogx</bold></white><gray>: إعادة تحميل config.yml و language.yml و جميع ملفات تهيئة التوسع</gray>"
+      - "  <white><bold>/combatlogx حول \\<expansion></bold></white><gray>: تحقق من معلومات حول التوسع.</gray>"
+      - "  <white><bold>علامة /combatlogx \\<player> [seconds]</bold></white><gray>: إجبار اللاعب على القتال.</gray>"
+      - "  <white><bold>/combatlogx تبديل Bossbar/actionbar/scoreboard</bold></white><gray>: تمكين أو تعطيل نوع الإشعار.</gray>"
+      - "  <white><bold>/combatlogx untag \\<player></bold></white><gray>: إجبار لاعب على الخروج من القتال.</gray>"
+      - "  <white><bold>إصدار /combatlogx</bold></white><gray>: تحقق من إصدارك من CombatLogX.</gray>"
+      - ""
+    #Shown as the command output for '/combatlogx reload' when reloading is successful.
+    reload-success:
+      - "<green>تم بنجاح إعادة تحميل جميع ملفات التكوين من CombatLogX.</green>"
+      - "<green>تم بنجاح إعادة تحميل جميع ملفات اللغة من CombatLogX.</green>"
+      - "<green>تم بنجاح إعادة تحميل جميع ملفات التكوين من توسعات CombatLogX</green>"
+    #Shown as the command output for '/combatlogx reload' when reloading fails
+    reload-failure:
+      - "<red>حدث خطأ أثناء إعادة تحميل التكوين</red>"
+      - "<red>الرجاء التحقق من سجل الخادم الخاص بك وإصلاح الملف المكسور.</red>"
+    #Shown as the command output for '/combatlogx tag <player>' when a player is tagged successfully.
+    tag-player: "<green>أجبر اللاعب بنجاح <gray>{target}</gray> على القتال.</green>"
+    #Shown as the command output for '/combatlogx tag <player>' when the plugin failed to tag a player.
+    tag-failure: "<red><gray>{target}</gray> لا يمكن وضعها في القتال. (مايابي لديه تجاوز؟)</red>"
+    #Shown as the command output for '/combatlogx untag <player>'.
+    untag-player: "<green>اجبر اللاعب بنجاح <gray>{target}</gray> على الخروج من القتال.</green>"
+    #Shown as the command output for '/combatlogx toggle bossbar'.
+    toggle-bossbar: "<gray><bold>زعيم الشريط:</bold></gray> {status}"
+    #Shown as the command output for '/combatlogx toggle actionbar'.
+    toggle-actionbar: "<gray><bold>شريط الإجراءات:</bold></gray> {status}"
+    #Shown as the command output for '/combatlogx toggle scoreboard'.
+    toggle-scoreboard: "<gray><bold>سجل النتيجة:</bold></gray> {status}"
+  combat-timer:
+    #Shown as the command output for '/combat-timer'.
+    time-left-self: "<green>لديك <gray>{time_left}</gray> ثواني & متبقية.</green>"
+    #Shown as the command output for '/combat-timer <player>'.
+    time-left-other: "<green><gray>{target}</gray> لديه <gray>{time_left} ثوان</gray> متبقية.</green>"
+#These messages are shown a player is tagged into combat.
+tagged:
+  unknown:
+    player: "<red>أنت الآن في معركة مع <white>{enemy}</white> لسبب غير معروف. لا تقم بتسجيل الخروج!</red>"
+    mob: "<red>أنت الآن في معركة مع a(n) <white>{enemy}</white> لسبب غير معروف. لا تقم بتسجيل الخروج!</red>"
+    mythic_mob: "<red>أنت الآن في معركة مع a(n) <white>{mob_type}</white> لسبب غير معروف. لا تقم بتسجيل الخروج!</red>"
+    damage: "<red>أنت الآن في القتال بسبب الضرر الذي لحق بك. لا تقم بتسجيل الخروج!</red>"
+    unknown: "<red>لقد وضعت في المعركة بدون سبب. لا تسجل الخروج</red>"
+  attacked:
+    player: "<red>تتعرض للهجوم من قبل <white>{enemy}</white>. لا تقم بتسجيل الخروج!</red>"
+    mob: "<red>تتعرض للهجوم بواسطة a(n) <white>{mob_type}</white>. لا تقم بتسجيل الخروج!</red>"
+    mythic_mob: "<red>تتعرض للهجوم بواسطة a(n) <white>{enemy}</white>. لا تقم بتسجيل الخروج!</red>"
+    damage: "<red>أنت الآن في القتال بسبب الضرر الذي لحق بك. لا تقم بتسجيل الخروج!</red>"
+    unknown: "<red>تتعرض للهجوم بواسطة قوة مجهولة. لا تقم بتسجيل الخروج!</red>"
+  attacker:
+    player: "<red>أنت تهاجم <white>{enemy}</white>. لا تقم بتسجيل الخروج!</red>"
+    mob: "<red>أنت تهاجم a(n) <white>{mob_type}</white>. لا تقم بتسجيل الخروج!</red>"
+    mythic_mob: "<red>أنت تهاجم a(n) <white>{enemy}</white>. لا تقم بتسجيل الخروج!</red>"
+    damage: "<red>أنت الآن في القتال بسبب الضرر الذي لحق بك. لا تقم بتسجيل الخروج!</red>"
+    unknown: "<red>أنت تهاجم قوة مجهولة. لا تقم بتسجيل الخروج!</red>"
+expansion:
+  angel-chest:
+    #Shown when opening an AngelChest is prevented during combat.
+    prevent-opening: "<red>لا يسمح لك بفتح صناديق الملاك أثناء القتال.</red>"
+    #Shown when breaking an AngelChest is prevented during combat.
+    prevent-breaking: "<red>لا يسمح لك بكسر صناديق الملاك أثناء القتال.</red>"
+    #Shown when fast looting an AngelChest is prevented during combat.
+    prevent-fast-looting: "<red>لا يسمح لك بسرقة صناديق الملاك بسرعة أثناء القتال.</red>"
+  action-bar:
+    #Shown above the hotbar while a player is in combat.
+    timer: "<bold><gold>قتال</gold> <gray>\u00BB</gray></bold> <white>{bars} <red>{combatlogx_time_left}</red> ثوان.</white>"
+    #Shown above the hotbar for a brief period when combat ends.
+    ended: "<bold><gold>القتال</gold> <gray>\u00BB</gray></bold> <white>لم تعد في القتال.</white>"
+  boss-bar:
+    #Shown on top of the screen while a player is in combat.
+    timer: "<bold><gold>قتال</gold> <gray>\u00BB</gray></bold> <white><red>{combatlogx_time_left}</red> ثوان.</white>"
+    #Shown on top of the screen for a brief period when combat ends.
+    ended: "<bold><gold>القتال</gold> <gray>\u00BB</gray></bold> <white>لم تعد في القتال.</white>"
+  scoreboard:
+    #The scoreboard title for the sidebar.
+    #Make sure to follow the scoreboard title limits for your Spigot version.
+    title: "<gold><bold>CombatLogX</bold></gold>"
+    #The scoreboard lines for the sidebar.
+    #Make sure to follow the scoreboard line and character limits for your Spigot version.
+    lines:
+      - " "
+      - "<white><bold>إحصائيات القتال:</bold></white>"
+      - "<dark_gray>\u00BB</dark_gray> <white><bold>الوقت المتبقي:</bold></white> <gray>{combatlogx_time_left}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <white><bold>Enemies:</bold></white> <gray>{combatlogx_enemy_count}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <white><bold>الحالة:</bold></white> <gray>{combatlogx_status}</gray>"
+      - " "
+      - "<white><bold>Enemies</bold></white>"
+      - "<dark_gray>\u00BB</dark_gray> <gray>{combatlogx_specific_enemy_1_name}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <gray>{combatlogx_specific_enemy_2_name}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <gray>{combatlogx_specific_enemy_3_name}</gray>"
+      - " "
+  cheat-prevention:
+    #Shown when a command execution is prevented during combat.
+    command-blocked: "<red>ليس لديك حق الوصول إلى <gray>{command}</gray> أثناء القتال.</red>"
+    #Shown when the riptide effect is prevented during combat.
+    no-riptide: "<red>تم تعطيل ترقية النهر أثناء القتال.</red>"
+    #Shown when a totem of undying is prevented during combat.
+    no-totem: "<red>لا يسمح لك باستخدام totems من التراجع أثناء القتال.</red>"
+    #Shown when an entity interaction is prevented during combat.
+    no-entity-interaction: "<red>غير مسموح لك باستخدام تلك الغوغاء أثناء القتال.</red>"
+    #Shown when a chat message is prevented during combat.
+    no-chat: "<red>لا يسمح لك بإرسال رسائل الدردشة أثناء القتال.</red>"
+    game-mode:
+      #Shown when a player is forced into a specific game mmode during combat.
+      force-switch: "<red>تم تغيير وضع اللعبة الخاص بك إلى <gray>{game_mode}</gray></red>"
+      #Shown when a game mode switch is prevented during combat.
+      no-switch: "<red>غير مسموح لك بتبديل أوضاع اللعبة أثناء القتال.</red>"
+    flight:
+      #Shown when a player's ability to fly is disabled during combat.
+      force-disabled: "<red>تمت إزالة قدرتك على التحليق.</red>"
+      #Shown when a player's attempt to fly is prevented during combat.
+      no-flying: "<red>غير مسموح لك بالتحليق أثناء القتال.</red>"
+    elytra:
+      #Shown when a player's ability to glide is disabled during combat.
+      force-disabled: "<red>تم تعطيل elytra الخاص بك.</red>"
+      #Shown when a player's attempt to glide is prevented during combat.
+      no-gliding: "<red>لا يسمح لك باستخدام elytra أثناء القتال.</red>"
+    teleportation:
+      #Shown when a player tries to enter a portal and is prevented during combat.
+      block-portal: "<red>لا يسمح لك باستخدام بوابة خلال القتال.</red>"
+      #Shown when an ender pearl is prevented during combat.
+      block-pearl: "<red>غير مسموح لك باستخدام اللؤلؤة القديمة أثناء القتال.</red>"
+      #Shown when a teleport is prevented during combat.
+      block-other: "<red>غير مسموح لك بالانتقال أثناء القتال.</red>"
+    inventory:
+      #Shown when a player's inventory is closed by the plugin during combat.
+      force-closed: "<red>تم إغلاق المخزون الخاص بك.</red>"
+      #Shown when a player tries to open an inventory and is prevented during combat.
+      no-opening: "<red>غير مسموح لك بفتح المخزون أثناء القتال.</red>"
+    blocks:
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-breaking: "<red>لا يسمح لك بكسر الكتل أثناء القتال.</red>"
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-placing: "<red>غير مسموح لك بوضع كتل أثناء القتال.</red>"
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-interaction: "<red>لا يسمح لك باستخدام الكتل البرمجية أثناء القتال.</red>"
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-portal-creation: "<red>غير مسموح لك بإنشاء بوابات خلال القتال.</red>"
+    items:
+      #Shown when a player is prevented from picking up an item during combat.
+      no-pickup: "<red>غير مسموح لك بالتقاط العناصر أثناء القتال.</red>"
+      #Shown when a player is prevented from dropping an item during combat.
+      no-dropping: "<red>لا يسمح لك بإسقاط العناصر أثناء القتال.</red>"
+    buckets:
+      #Shown when a player is prevented from emptying a bucket during combat.
+      no-empty: "<red>لا يمكنك إفراغ الدلاء أثناء القتال.</red>"
+      #Shown when a player is prevented from filling a bucket during combat.
+      no-fill: "<red>لا يمكنك ملء الدلاء أثناء القتال.</red>"
+  damage-tagger:
+    #Shown when a player is tagged for an unknown damage type.
+    unknown-damage: "<red>قمت بضرر! لا تقم بتسجيل الخروج!</red>"
+    #These messages are shown when a player is tagged for a known damage type.
+    #You can find a list of damage types here:
+    #https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/EntityDamageEvent.DamageCause.html
+    damage-type:
+      contact: "<red>لقد تم تسعيرك بواسطة خزف. لا تقم بتسجيل الخروج!</red>"
+      suffocation: "<red>أنت تختنق في جدار. لا تقم بتسجيل الخروج!</red>"
+      fall: "<red>وقعت ضرر في الخريف. لا تقم بتسجيل الخروج!</red>"
+      fire: "<red>لقد دخلت في النار. لا تقم بتسجيل الخروج!</red>"
+      fire-tick: "<red>أنت تحترق. لا تقم بتسجيل الخروج!</red>"
+      lava: "<red>أنت تغلي في الحمم . لا تقم بتسجيل الخروج!</red>"
+      drowning: "<red>أنت غرق. لا تقم بتسجيل الخروج!</red>"
+      block-explosion: "<red>لقد تضررت من جراء الانفجار. لا تقم بتسجيل الخروج!</red>"
+      lightning: "<red>تم صمامة التحديث! لا تقم بتسجيل الخروج!</red>"
+      starvation: "<red>أنت جائع جدا. لا تقم بتسجيل الخروج!</red>"
+      poison: "<red>لقد أخذت ضرر السموم. لا تقم بتسجيل الخروج!</red>"
+      magic: "<red>قام شخص بإلقاء جرعة عليك. لا تقم بتسجيل الخروج!</red>"
+      wither: "<red>أنت في الخروج. لا تقم بتسجيل الخروج!</red>"
+      falling-block: "<red>سقطت كتلة عليك. لا تقم بتسجيل الخروج!</red>"
+      custom: "<red>قمت بضرر مخصص. لا تقم بتسجيل الخروج!</red>"
+      fly-into-wall: "<red>لقد واجهت طاقة حركية. لا تقم بتسجيل الخروج!</red>"
+      hot-floor: "<red>الأرض هي الحمم الكبيرة! لا تقم بتسجيل الخروج!</red>"
+      cramming: "<red>يتم إهدارك. لا تقم بتسجيل الخروج!</red>"
+  newbie-helper:
+    togglepvp:
+      #Shown as the command output for '/togglepvp'.
+      self: "<gray>PVP:</gray> {status}"
+      #Shown as the command output for '/togglepvp admin on/off <player>'.
+      admin: "<green>قمت بتغيير pvp من <gray>{target}</gray> إلى <gray>{status}</gray>.</green>"
+      #Shown when the '/togglepvp' command is on cooldown.
+      cooldown: "<red>يجب عليك الانتظار <gray>{time_left}</gray> ثانية لاستخدام هذا الأمر مرة أخرى.</red>"
+    #These messages are shown when pvp is disabled for any reason.
+    no-pvp:
+      self: "<red>لا يسمح لك بضرب هذا اللاعب أثناء تعطيل PvP الخاص بك.</red>"
+      other: "<red>هذا اللاعب لديه PvP معطل.</red>"
+      protected: "<red>هذا اللاعب محمي، لا يسمح لك بمهاجمته!</red>"
+    protection-disabled:
+      #Shown when newbie protection is disabled due to the player attacking another player.
+      attacker: "<red>قمت بمهاجمة شخص ما، حماية الجديد الخاص بك معطلة الآن.</red>"
+      #Shown when newbie protection expires.
+      expired: "<red>انتهت مدة حماية المبتدئين الخاص بك.</red>"
+    #Shown for the '/togglepvp check <player>' command.
+    check-format:
+      - "<white><bold>معلومات <gray>{target}</gray>:</bold></white>"
+      - "<white><bold>الحماية:</bold></white> <gray>{protected}</gray>"
+      - "<white><bold>PvP:</bold></white> <gray>{pvp}</gray>"
+  loot-protection:
+    #Shown when an enemy dies and their loot is protected.
+    enemy-died: "<green><gray>{enemy}</gray> مات . سيتم حماية النهب <gray>{time}</gray> ثوان.</green>"
+    #Shown when a player tries to pick up an item that is loot protected by the plugin.
+    protected: "<red>هذا العنصر محمي حاليًا، انتظر <gray>{time}</gray> ثانية حتى يمكنك الحصول عليه.</red>"
+  citizens-compatibility:
+    #Shown when a player is prevented from joining the server due to their NPC still existing.
+    prevent-join: "<red>غير مسموح لك بالانضمام إلى الخادم حتى يتم قتل NPC أو إزالته.</red>"
+  disguise-compatibility:
+    #Shown when a disguise is removed from a player during combat.
+    remove-disguise: "<red>تمت إزالة التستر الخاص بك.</red>"
+  essentials-compatibility:
+    #Shown when a teleport request is cancelled during combat.
+    prevent-teleport-request-self: "<red>لا يمكنك إنشاء طلبات الانتقال أثناء القتال.</red>"
+    #Shown when a teleport request is cancelled during combat.
+    prevent-teleport-request-other: "<red>لا يمكنك إرسال طلب نقل إلى لاعب في القتال.</red>"
+  marriagemaster-compatibility:
+    #Shown when a married player is prevented from teleporting to their partner during combat.
+    prevent-teleport-self: "<red>غير مسموح لك بالانتقال إلى شريكك أثناء القتال.</red>"
+    #Shown when a married player is prevented from teleporting to their partner during combat.
+    prevent-teleport-partner: "<red>لا يسمح لك بالانتقال إلى شريكك أثناء وجودهم في القتال.</red>"
+  region-protection:
+    #Shown when a player tries to enter a no-pvp area during combat.
+    default-no-entry: "<red>لا يسمح لك بالدخول إلى هذه المنطقة أثناء القتال.</red>"
+    factions-no-entry: <red>لا يسمح لك بالدخول إلى هذه المنطقة أثناء القتال.</red>
+    griefdefender-no-entry: <red>لا يسمح لك بالدخول إلى هذه المنطقة أثناء القتال.</red>
+    griefprevention-no-entry: <red>لا يسمح لك بالدخول إلى هذه المنطقة أثناء القتال.</red>
+    kingdomsx-no-entry: <red>لا يسمح لك بالدخول إلى هذه المنطقة أثناء القتال.</red>
+    konquest-no-entry: <red>لا يسمح لك بالدخول إلى هذه المنطقة أثناء القتال.</red>
+    redprotect-no-entry: <red>لا يسمح لك بالدخول إلى هذه المنطقة أثناء القتال.</red>
+    residence-no-entry: <red>لا يسمح لك بالدخول إلى هذه المنطقة أثناء القتال.</red>
+    towny-no-entry: <red>لا يسمح لك بالدخول إلى هذه المنطقة أثناء القتال.</red>
+    husktowns-no-entry: <red>لا يسمح لك بالدخول إلى هذه المنطقة أثناء القتال.</red>
+    ultimateclaims-no-entry: <red>لا يسمح لك بالدخول إلى هذه المنطقة أثناء القتال.</red>
+    protectionstones:
+      prevent-area-creation: "<red>غير مسموح لك بإنشاء منطقة محمية أثناء القتال.</red>"
+      no-entry: <red>لا يسمح لك بالدخول إلى هذه المنطقة أثناء القتال.</red>
+    preciousstones:
+      prevent-field-creation: "<red>غير مسموح لك بإنشاء حقل حماية أثناء القتال.</red>"
+      no-entry: <red>لا يسمح لك بالدخول إلى هذه المنطقة أثناء القتال.</red>
+    worldguard:
+      no-entry-mob-combat: "<red>لا يسمح لك بالدخول إلى منطقة معركة غير غوغائية أثناء القتال.</red>"
+      no-entry-player-combat: "<red>لا يسمح لك بالدخول إلى منطقة قتال غير لاعب أثناء القتال.</red>"
+      no-entry-unknown-combat: <red>لا يسمح لك بالدخول إلى هذه المنطقة أثناء القتال.</red>
+    lands:
+      no-entry: <red>لا يسمح لك بالدخول إلى هذه المنطقة أثناء القتال.</red>
+      war-disable-newbie-protection: "<red>PvP تم تمكينه الآن بسبب إعلان الحرب.</red>"
