@@ -1,6 +1,7 @@
 package combatlogx.expansion.newbie.helper.placeholder;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -44,6 +45,8 @@ public final class NewbieHelperPlaceholderExpansion implements IPlaceholderExpan
                 return getPvpStatus(player);
             case "helper_protected":
                 return getProtected(player);
+            case "helper_protection_time_left":
+                return getProtectionTimeLeft(player);
             default:
                 break;
         }
@@ -90,5 +93,27 @@ public final class NewbieHelperPlaceholderExpansion implements IPlaceholderExpan
         NewbieHelperExpansion expansion = getExpansion();
         Logger logger = expansion.getLogger();
         logger.info("[Debug] [Placeholders] " + message);
+    }
+
+    private String getProtectionTimeLeft(Player player) {
+        ICombatLogX combatLogX = getCombatLogX();
+        LanguageManager languageManager = combatLogX.getLanguageManager();
+        String timeLeftZero =languageManager.getMessageString(player, "placeholder.time-left-zero", null);
+
+        NewbieHelperExpansion expansion = getExpansion();
+        ProtectionManager protectionManager = expansion.getProtectionManager();
+        if(!protectionManager.isProtected(player)) {
+            return timeLeftZero;
+        }
+
+        long expireTime = protectionManager.getProtectionExpireTime(player);
+        long systemTime = System.currentTimeMillis();
+        long timeLeftMillis = (expireTime - systemTime);
+        if(timeLeftMillis <= 0L) {
+            return timeLeftZero;
+        }
+
+        long timeLeftSeconds = TimeUnit.MILLISECONDS.toSeconds(timeLeftMillis);
+        return Long.toString(timeLeftSeconds);
     }
 }

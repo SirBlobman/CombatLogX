@@ -49,7 +49,8 @@ Example: %combatlogx_time_left_1% to get the time left with the first enemy.
 
 These placeholders require the `Newbie Helper` expansion.
 
-| Placeholder                           | Description                                                                   |
-|---------------------------------------|-------------------------------------------------------------------------------|
-| %combatlogx_newbie_helper_pvp_status% | Shows if the player has pvp enabled or disabled via the `/togglepvp` command. |
-| %combatlogx_newbie_helper_protected%  | Shows if the player is currently protected or not.                            |
+| Placeholder                                     | Description                                                                   |
+|-------------------------------------------------|-------------------------------------------------------------------------------|
+| %combatlogx_newbie_helper_pvp_status%           | Shows if the player has pvp enabled or disabled via the `/togglepvp` command. |
+| %combatlogx_newbie_helper_protected%            | Shows whether or not the player is protected.                                 |
+| %combatlogx_newbie_helper_protection_time_left% | Shows the amount of protection time remaining on a player.                    |

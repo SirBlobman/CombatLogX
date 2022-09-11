@@ -66,6 +66,22 @@ public final class ProtectionManager {
         return false;
     }
 
+    public long getProtectionExpireTime(Player player) {
+        Validate.notNull(player, "player must not be null!");
+        if (player.hasMetadata("NPC")) {
+            return 0L;
+        }
+
+        ICombatLogX plugin = this.expansion.getPlugin();
+        PlayerDataManager playerDataManager = plugin.getPlayerDataManager();
+        YamlConfiguration configuration = playerDataManager.get(player);
+        if (!configuration.getBoolean("newbie-helper.protected")) {
+            return 0L;
+        }
+
+        return configuration.getLong("newbie-helper.protection-expire-time", 0L);
+    }
+
     private long getProtectionExpireTime() {
         ConfigurationManager configurationManager = this.expansion.getConfigurationManager();
         YamlConfiguration configuration = configurationManager.get("config.yml");
