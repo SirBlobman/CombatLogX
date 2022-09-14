@@ -48,6 +48,11 @@ public final class RegionVulnerableListener extends ExpansionListener {
             return;
         }
 
+        Entity damager = e.getDamager();
+        if (!tagInformation.isEnemy(damager)) {
+            return;
+        }
+
         Location location = player.getLocation();
         if (regionHandler.isSafeZone(player, location, tagInformation)) {
             e.setCancelled(false);
