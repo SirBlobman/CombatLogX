@@ -2,43 +2,45 @@ package combatlogx.expansion.death.effects;
 
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.World.Spigot;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.item.ItemBuilder;
+import com.github.sirblobman.api.nms.EntityHandler;
+import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.api.xseries.XMaterial;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 import com.github.sirblobman.combatlogx.api.manager.IDeathManager;
 
 public final class ListenerDeathEffects extends ExpansionListener {
-    public ListenerDeathEffects(Expansion expansion) {
+    private final DeathEffectsExpansion expansion;
+
+    public ListenerDeathEffects(DeathEffectsExpansion expansion) {
         super(expansion);
+        this.expansion = expansion;
     }
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onDeath(PlayerDeathEvent e) {
-        YamlConfiguration configuration = getConfiguration();
-        List<String> enabledDeathEffectList = configuration.getStringList("death-effect-list");
-        if (enabledDeathEffectList.isEmpty()) {
-            return;
-        }
-
         Player player = e.getEntity();
-        boolean requireCombatDeath = configuration.getBoolean("combat-death-only");
-        if (requireCombatDeath) {
+        DeathEffectsConfiguration configuration = getConfiguration();
+        if (configuration.isRequireCombatDeath()) {
             ICombatLogX combatLogX = getCombatLogX();
             IDeathManager deathManager = combatLogX.getDeathManager();
             if (!deathManager.wasPunishKilled(player)) {
@@ -46,24 +48,32 @@ public final class ListenerDeathEffects extends ExpansionListener {
             }
         }
 
-        if (enabledDeathEffectList.contains("BLOOD")) {
+        if (configuration.hasEffect("BLOOD")) {
             playBloodEffect(player);
         }
 
-        if (enabledDeathEffectList.contains("LIGHTNING")) {
+        if (configuration.hasEffect("LIGHTNING")) {
             playLightningEffect(player);
+        }
+
+        if (configuration.hasEffect("BLOOD_ITEMS")) {
+            playBloodItemsEffect(player);
         }
     }
 
-    private YamlConfiguration getConfiguration() {
-        ConfigurationManager configurationManager = getExpansionConfigurationManager();
-        return configurationManager.get("config.yml");
+    private DeathEffectsExpansion getDeathEffectsExpansion() {
+        return this.expansion;
+    }
+
+    private DeathEffectsConfiguration getConfiguration() {
+        DeathEffectsExpansion expansion = getDeathEffectsExpansion();
+        return expansion.getConfiguration();
     }
 
     private void playLightningEffect(Player player) {
-        YamlConfiguration configuration = getConfiguration();
-        boolean effectOnly = configuration.getBoolean("lightning.effect-only");
-        boolean silent = configuration.getBoolean("lightning.silent");
+        DeathEffectsConfiguration configuration = getConfiguration();
+        boolean effectOnly = configuration.isLightningEffectOnly();
+        boolean silent = configuration.isLightningSilent();
 
         Location location = player.getLocation();
         World world = player.getWorld();
@@ -111,5 +121,34 @@ public final class ListenerDeathEffects extends ExpansionListener {
 
         BlockData blockData = bukkitMaterial.createBlockData();
         player.sendBlockChange(location, blockData);
+    }
+
+    private void playBloodItemsEffect(Player player) {
+        ICombatLogX combatLogX = getCombatLogX();
+        MultiVersionHandler multiVersionHandler = combatLogX.getMultiVersionHandler();
+        EntityHandler entityHandler = multiVersionHandler.getEntityHandler();
+        Location location = player.getLocation();
+
+        DeathEffectsConfiguration configuration = getConfiguration();
+        int amount = configuration.getBloodItemsAmount();
+        for (int i = 0; i < amount; i++) {
+            spawnFakeItem(location, entityHandler);
+        }
+    }
+
+    private void spawnFakeItem(Location location, EntityHandler entityHandler) {
+        DeathEffectsConfiguration configuration = getConfiguration();
+        XMaterial material = configuration.getBloodItemsMaterial();
+        ItemStack item = new ItemBuilder(material).build();
+
+        Item itemEntity = entityHandler.spawnEntity(location, Item.class, preItem -> {
+            preItem.setItemStack(item);
+            preItem.setPickupDelay(Integer.MAX_VALUE);
+        });
+
+        JavaPlugin plugin = getJavaPlugin();
+        BukkitScheduler scheduler = Bukkit.getScheduler();
+        long delay = configuration.getBloodItemsStayTicks();
+        scheduler.runTaskLater(plugin, itemEntity::remove, delay);
     }
 }

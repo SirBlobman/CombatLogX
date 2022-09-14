@@ -2,17 +2,18 @@ package combatlogx.expansion.force.field.configuration;
 
 import java.util.Optional;
 
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.api.xseries.XMaterial;
+import com.github.sirblobman.combatlogx.api.configuration.IConfigurable;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public final class ForceFieldConfiguration {
+public final class ForceFieldConfiguration implements IConfigurable {
     private boolean enabled;
     private XMaterial material;
     private int radius;
@@ -27,18 +28,19 @@ public final class ForceFieldConfiguration {
         this.bypassPermissionName = "combatlogx.bypass.force.field";
     }
 
-    public void load(YamlConfiguration configuration) {
-        boolean enabled = configuration.getBoolean("enabled", true);
+    @Override
+    public void load(ConfigurationSection section) {
+        boolean enabled = section.getBoolean("enabled", true);
         setEnabled(enabled);
 
-        String materialName = configuration.getString("material", "RED_STAINED_GLASS");
+        String materialName = section.getString("material", "RED_STAINED_GLASS");
         Optional<XMaterial> optionalMaterial = XMaterial.matchXMaterial(materialName);
         setMaterial(optionalMaterial.orElse(XMaterial.RED_STAINED_GLASS));
 
-        int radius = configuration.getInt("radius", 8);
+        int radius = section.getInt("radius", 8);
         setRadius(radius);
 
-        String bypassPermissionName = configuration.getString("bypass-permission",
+        String bypassPermissionName = section.getString("bypass-permission",
                 "combatlogx.bypass.force.field");
         setBypassPermissionName(bypassPermissionName);
     }

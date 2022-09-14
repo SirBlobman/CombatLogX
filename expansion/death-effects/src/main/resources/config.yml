@@ -9,6 +9,7 @@ combat-death-only: true
 death-effect-list:
   - BLOOD
   - LIGHTNING
+  - BLOOD_ITEMS
 
 lightning:
   # Should the lightning only be a visual effect (no damage to nearby players or blocks)?
@@ -19,3 +20,17 @@ lightning:
   # Lightning can be annoying to some players.
   # Default: true
   silent: true
+
+blood-items:
+  # This is the type of item that will be dropped on the ground.
+  # Use XMaterial names.
+  # Default: RED_DYE
+  material: RED_DYE
+
+  # This is the amount of items that will be dropped on the ground.
+  # Default: 10
+  amount: 10
+
+  # This is the amount of ticks that the items will exist.
+  # Default: 100 (5 seconds)
+  stay-ticks: 100

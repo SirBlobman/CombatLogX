@@ -5,7 +5,8 @@ combat-log deaths or for all deaths.
 
 ## Available Death Effects:
 
-| Effect | Description |
-| ----------- | ----------- |
-| **LIGHTNING** | Spawn a lightning bolt at a player's location. Configurable silence and effect-only. |
-| **BLOOD** | Spawn redstone particles at a player's location and a fake redstone dust block. |
+| Effect          | Description                                                                |
+|-----------------|----------------------------------------------------------------------------|
+| **LIGHTNING**   | Spawn a lightning bolt. Configurable silence and effect-only values.       |
+| **BLOOD**       | Spawn redstone particles and a fake redstone dust block. Not configurable. |
+| **BLOOD_ITEMS** | Spawn items that can't be picked up. Configurable type and amount.         |
