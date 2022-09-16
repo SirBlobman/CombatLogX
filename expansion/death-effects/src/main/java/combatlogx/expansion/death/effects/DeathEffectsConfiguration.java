@@ -8,8 +8,8 @@ import java.util.Optional;
 
 import org.bukkit.configuration.ConfigurationSection;
 
+import com.github.sirblobman.api.configuration.IConfigurable;
 import com.github.sirblobman.api.xseries.XMaterial;
-import com.github.sirblobman.combatlogx.api.configuration.IConfigurable;
 
 public final class DeathEffectsConfiguration implements IConfigurable {
     private boolean requireCombatDeath;
