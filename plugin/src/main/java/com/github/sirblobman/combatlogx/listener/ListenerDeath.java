@@ -23,13 +23,13 @@ import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.language.ComponentHelper;
 import com.github.sirblobman.api.language.LanguageManager;
+import com.github.sirblobman.api.utility.paper.PaperChecker;
+import com.github.sirblobman.api.utility.paper.PaperHelper;
 import com.github.sirblobman.combatlogx.CombatPlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
 import com.github.sirblobman.combatlogx.api.manager.IDeathManager;
 import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
-import com.github.sirblobman.combatlogx.api.utility.PaperChecker;
-import com.github.sirblobman.combatlogx.api.utility.PaperHelper;
 
 public final class ListenerDeath extends CombatListener {
 

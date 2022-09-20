@@ -4,7 +4,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Team;
 
 import com.github.sirblobman.api.adventure.adventure.text.Component;
-import com.github.sirblobman.combatlogx.api.utility.ComponentConverter;
+import com.github.sirblobman.api.utility.paper.ComponentConverter;
 
 public final class PaperScoreboard {
     public static void setTitle(Objective objective, Component shadedComponent) {
