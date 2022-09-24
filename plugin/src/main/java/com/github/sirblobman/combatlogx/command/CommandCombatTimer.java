@@ -7,6 +7,7 @@ import java.util.Set;
 import org.bukkit.entity.Player;
 
 import com.github.sirblobman.api.language.LanguageManager;
+import com.github.sirblobman.api.language.MultiReplacer;
 import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.api.language.SimpleReplacer;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -78,9 +79,11 @@ public final class CommandCombatTimer extends CombatLogPlayerCommand {
 
         double timeLeftMillis = tagInformation.getMillisLeftCombined();
         double timeLeftSeconds = (timeLeftMillis / 1_000.0D);
-
         String timeLeftString = languageManager.formatDecimal(player, timeLeftSeconds);
-        Replacer replacer = new SimpleReplacer("{time_left}", timeLeftString);
+        String targetName = target.getName();
+
+        Replacer replacer = new MultiReplacer("{time_left}", timeLeftString)
+                .addReplacement("{target}", targetName);
         sendMessageWithPrefix(player, "command.combat-timer.time-left-other", replacer);
     }
 }
