@@ -11,7 +11,7 @@
 ## More information about MiniMessage can be found here:
 ## https://docs.adventure.kyori.net/minimessage/format.html
 #The language code for this file.
-language-name: "pl_pl"
+language-name: "pl"
 #The format for decimal numbers.
 #The United States uses the number and two decimal places
 decimal-format: "0.00"
