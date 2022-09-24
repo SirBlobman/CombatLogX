@@ -98,18 +98,18 @@ public final class NewbieHelperPlaceholderExpansion implements IPlaceholderExpan
     private String getProtectionTimeLeft(Player player) {
         ICombatLogX combatLogX = getCombatLogX();
         LanguageManager languageManager = combatLogX.getLanguageManager();
-        String timeLeftZero =languageManager.getMessageString(player, "placeholder.time-left-zero", null);
+        String timeLeftZero = languageManager.getMessageString(player, "placeholder.time-left-zero", null);
 
         NewbieHelperExpansion expansion = getExpansion();
         ProtectionManager protectionManager = expansion.getProtectionManager();
-        if(!protectionManager.isProtected(player)) {
+        if (!protectionManager.isProtected(player)) {
             return timeLeftZero;
         }
 
         long expireTime = protectionManager.getProtectionExpireTime(player);
         long systemTime = System.currentTimeMillis();
         long timeLeftMillis = (expireTime - systemTime);
-        if(timeLeftMillis <= 0L) {
+        if (timeLeftMillis <= 0L) {
             return timeLeftZero;
         }
 

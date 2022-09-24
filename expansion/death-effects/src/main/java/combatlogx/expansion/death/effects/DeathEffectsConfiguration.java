@@ -12,9 +12,8 @@ import com.github.sirblobman.api.configuration.IConfigurable;
 import com.github.sirblobman.api.xseries.XMaterial;
 
 public final class DeathEffectsConfiguration implements IConfigurable {
-    private boolean requireCombatDeath;
     private final List<String> deathEffectList;
-
+    private boolean requireCombatDeath;
     private boolean lightningEffectOnly;
     private boolean lightningSilent;
 

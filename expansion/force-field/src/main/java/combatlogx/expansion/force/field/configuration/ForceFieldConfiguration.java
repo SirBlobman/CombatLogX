@@ -67,7 +67,7 @@ public final class ForceFieldConfiguration implements IConfigurable {
     }
 
     public void setRadius(int radius) {
-        if(radius < 1) {
+        if (radius < 1) {
             throw new IllegalArgumentException("radius must be at least one.");
         }
 
@@ -85,12 +85,12 @@ public final class ForceFieldConfiguration implements IConfigurable {
 
     @Nullable
     public Permission getBypassPermission() {
-        if(this.bypassPermission != null) {
+        if (this.bypassPermission != null) {
             return this.bypassPermission;
         }
 
         String permissionName = getBypassPermissionName();
-        if(permissionName == null || permissionName.isEmpty()) {
+        if (permissionName == null || permissionName.isEmpty()) {
             return null;
         }
 

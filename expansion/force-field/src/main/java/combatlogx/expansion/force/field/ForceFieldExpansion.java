@@ -41,7 +41,7 @@ public final class ForceFieldExpansion extends Expansion {
     @Override
     public void onDisable() {
         ForceFieldTask task = getTask();
-        if(task == null) {
+        if (task == null) {
             return;
         }
 
