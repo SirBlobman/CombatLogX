@@ -47,7 +47,7 @@ public final class ListenerDamage extends ExpansionListener {
                 }
             }
 
-            if(damageCause == DamageCause.FALLING_BLOCK) {
+            if (damageCause == DamageCause.FALLING_BLOCK) {
                 tag(player, damageCause);
             }
 
