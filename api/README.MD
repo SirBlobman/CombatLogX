@@ -9,6 +9,8 @@ A lot of developers use maven to build projects more easily.
 
 **Repository: SirBlobman Public**
 
+Maven:
+
 ```xml
 <repositories>
     <!-- SirBlobman Public Repository -->
@@ -19,7 +21,21 @@ A lot of developers use maven to build projects more easily.
 </repositories>
 ```
 
+Gradle:
+
+```kotlin
+repositories {
+    maven {
+        name = "sirblobman-public"
+        url = uri("https://nexus.sirblobman.xyz/repository/public/")
+    }
+}
+```
+
+
 **Dependency: CombatLogX API**
+
+Maven:
 
 ```xml
 <dependencies>
@@ -31,6 +47,14 @@ A lot of developers use maven to build projects more easily.
         <scope>provided</scope>
     </dependency>
 </dependencies>
+```
+
+Gradle:
+
+```kotlin
+dependencies {
+    compileOnly("com.github.sirblobman.combatlogx:api:11.0.0.0-SNAPSHOT")
+}
 ```
 
 ## Events
