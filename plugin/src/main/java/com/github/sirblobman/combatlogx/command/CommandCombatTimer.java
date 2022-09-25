@@ -70,17 +70,18 @@ public final class CommandCombatTimer extends CombatLogPlayerCommand {
         ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = plugin.getCombatManager();
         LanguageManager languageManager = getLanguageManager();
+        String targetName = target.getName();
 
         TagInformation tagInformation = combatManager.getTagInformation(target);
         if (tagInformation == null || tagInformation.isExpired()) {
-            sendMessageWithPrefix(player, "error.target-not-in-combat", null);
+            Replacer replacer = new SimpleReplacer("{target}", targetName);
+            sendMessageWithPrefix(player, "error.target-not-in-combat", replacer);
             return;
         }
 
         double timeLeftMillis = tagInformation.getMillisLeftCombined();
         double timeLeftSeconds = (timeLeftMillis / 1_000.0D);
         String timeLeftString = languageManager.formatDecimal(player, timeLeftSeconds);
-        String targetName = target.getName();
 
         Replacer replacer = new MultiReplacer("{time_left}", timeLeftString)
                 .addReplacement("{target}", targetName);
