@@ -194,9 +194,9 @@ expansion:
       no-gliding: "<red>No puedes usar elytra durante el combate.</red>"
     teleportation:
       #Shown when a player tries to enter a portal and is prevented during combat.
-      block-portal: "<red>No tienes permitido usar portales durante el combate.</red>"
+      block-portal: "<red>No puedes usar portales durante el combate.</red>"
       #Shown when an ender pearl is prevented during combat.
-      block-pearl: "<red>No tienes permitido usar Perlas de Enderman en combate.</red>"
+      block-pearl: "<red>No puedes usar Perlas de Enderman en combate.</red>"
       #Shown when a teleport is prevented during combat.
       block-other: "<red>No puedes teletransportarte durante el combate.</red>"
     inventory:
@@ -258,8 +258,8 @@ expansion:
       cooldown: "<red>Tienes que esperar <gray>{time_left}</gray> segundos para usar este comando de nuevo.</red>"
     #These messages are shown when pvp is disabled for any reason.
     no-pvp:
-      self: "<red>No puedes atacar ese jugador si tienes el modo de combate desactivado.</red>"
-      other: "<red>Ese jugador tiene el modo de combate desactivado.</red>"
+      self: "<red>No puedes atacar ese jugador si tienes el PvP desactivado.</red>"
+      other: "<red>Ese jugador tiene el PvP desactivado.</red>"
       protected: "<red>¡Ese jugador está protegido, no puedes atacarlo todavía!</red>"
     protection-disabled:
       #Shown when newbie protection is disabled due to the player attacking another player.
@@ -270,7 +270,7 @@ expansion:
     check-format:
       - "<white><bold>Información de <gray>{target}</gray>:</bold></white>"
       - "<white><bold>Protección:</bold></white> <gray>{protected}</gray>"
-      - "<white><bold>Estado:</bold></white> <gray>{pvp}</gray>"
+      - "<white><bold>Estado de PvP:</bold></white> <gray>{pvp}</gray>"
   loot-protection:
     #Shown when an enemy dies and their loot is protected.
     enemy-died: "<green><gray>{enemy}</gray> ha muerto. El botín estará protegido por <gray>{time}</gray> segundos.</green>"

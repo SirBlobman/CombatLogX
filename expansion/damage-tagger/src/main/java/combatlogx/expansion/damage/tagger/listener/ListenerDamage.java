@@ -39,11 +39,16 @@ public final class ListenerDamage extends ExpansionListener {
 
         if (e instanceof EntityDamageByEntityEvent) {
             EntityDamageByEntityEvent ee = (EntityDamageByEntityEvent) e;
+            Entity damager = ee.getDamager();
+
             if (damageCause == DamageCause.ENTITY_EXPLOSION) {
-                Entity damager = ee.getDamager();
                 if (damager instanceof EnderCrystal && isCrystalDamageEnabled()) {
                     tag(player, damageCause);
                 }
+            }
+
+            if (damageCause == DamageCause.FALLING_BLOCK) {
+                tag(player, damageCause);
             }
 
             return;

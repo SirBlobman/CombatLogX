@@ -105,13 +105,13 @@ public final class ForceFieldTask extends ExpansionListener implements Runnable 
     }
 
     public void cancel() {
-        if(this.bukkitTask != null) {
+        if (this.bukkitTask != null) {
             this.bukkitTask.cancel();
             this.bukkitTask = null;
         }
     }
 
-    public Map<UUID,Set<BlockLocation>> getFakeBlockMap() {
+    public Map<UUID, Set<BlockLocation>> getFakeBlockMap() {
         return this.fakeBlockMap;
     }
 
@@ -125,12 +125,12 @@ public final class ForceFieldTask extends ExpansionListener implements Runnable 
     }
 
     private void checkForceField(Player player) {
-        if(hasBypass(player)) {
+        if (hasBypass(player)) {
             return;
         }
 
         Location location = player.getLocation();
-        if(isSafe(player, location)) {
+        if (isSafe(player, location)) {
             return;
         }
 
@@ -140,7 +140,7 @@ public final class ForceFieldTask extends ExpansionListener implements Runnable 
     private boolean hasBypass(Player player) {
         ForceFieldConfiguration configuration = getConfiguration();
         Permission bypassPermission = configuration.getBypassPermission();
-        if(bypassPermission == null) {
+        if (bypassPermission == null) {
             return false;
         }
 
@@ -150,7 +150,7 @@ public final class ForceFieldTask extends ExpansionListener implements Runnable 
     boolean isSafe(Player player, Location location) {
         ICombatManager combatManager = getCombatManager();
         TagInformation tagInformation = combatManager.getTagInformation(player);
-        if(tagInformation == null) {
+        if (tagInformation == null) {
             return false;
         }
 
@@ -163,7 +163,7 @@ public final class ForceFieldTask extends ExpansionListener implements Runnable 
         List<Expansion> enabledExpansionList = expansionManager.getEnabledExpansions();
 
         for (Expansion expansion : enabledExpansionList) {
-            if(!(expansion instanceof RegionExpansion)) {
+            if (!(expansion instanceof RegionExpansion)) {
                 continue;
             }
 
@@ -179,8 +179,8 @@ public final class ForceFieldTask extends ExpansionListener implements Runnable 
 
     boolean isSafeSurround(Player player, Location location, TagInformation tagInformation) {
         Block blockLocation = location.getBlock();
-        BlockFace[] faces = { BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH, BlockFace.SOUTH,
-                BlockFace.EAST, BlockFace.WEST };
+        BlockFace[] faces = {BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH, BlockFace.SOUTH,
+                BlockFace.EAST, BlockFace.WEST};
         for (BlockFace blockFace : faces) {
             Location relativeLocation = blockLocation.getRelative(blockFace).getLocation();
             if (!isSafe(player, relativeLocation, tagInformation)) {

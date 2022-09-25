@@ -33,7 +33,11 @@ public final class ForceFieldConfiguration implements IConfigurable {
         boolean enabled = section.getBoolean("enabled", true);
         setEnabled(enabled);
 
-        String materialName = section.getString("material", "RED_STAINED_GLASS");
+        String materialName = section.getString("material");
+        if (materialName == null) {
+            materialName = "RED_STAINED_GLASS";
+        }
+
         Optional<XMaterial> optionalMaterial = XMaterial.matchXMaterial(materialName);
         setMaterial(optionalMaterial.orElse(XMaterial.RED_STAINED_GLASS));
 
@@ -67,7 +71,7 @@ public final class ForceFieldConfiguration implements IConfigurable {
     }
 
     public void setRadius(int radius) {
-        if(radius < 1) {
+        if (radius < 1) {
             throw new IllegalArgumentException("radius must be at least one.");
         }
 
@@ -85,12 +89,12 @@ public final class ForceFieldConfiguration implements IConfigurable {
 
     @Nullable
     public Permission getBypassPermission() {
-        if(this.bypassPermission != null) {
+        if (this.bypassPermission != null) {
             return this.bypassPermission;
         }
 
         String permissionName = getBypassPermissionName();
-        if(permissionName == null || permissionName.isEmpty()) {
+        if (permissionName == null || permissionName.isEmpty()) {
             return null;
         }
 
