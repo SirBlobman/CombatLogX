@@ -33,7 +33,11 @@ public final class ForceFieldConfiguration implements IConfigurable {
         boolean enabled = section.getBoolean("enabled", true);
         setEnabled(enabled);
 
-        String materialName = section.getString("material", "RED_STAINED_GLASS");
+        String materialName = section.getString("material");
+        if (materialName == null) {
+            materialName = "RED_STAINED_GLASS";
+        }
+
         Optional<XMaterial> optionalMaterial = XMaterial.matchXMaterial(materialName);
         setMaterial(optionalMaterial.orElse(XMaterial.RED_STAINED_GLASS));
 

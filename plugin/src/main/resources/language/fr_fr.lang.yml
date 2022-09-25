@@ -11,7 +11,7 @@
 ## More information about MiniMessage can be found here:
 ## https://docs.adventure.kyori.net/minimessage/format.html
 #The language code for this file.
-language-name: "fr_us"
+language-name: "fr_fr"
 #The format for decimal numbers.
 #The United States uses the number and two decimal places
 decimal-format: "0.00"
@@ -78,7 +78,7 @@ command:
       - "<gold><bold>Aide de commande CombatLogX :</bold></gold>"
       - "  <white><bold>/combatlogx help</bold></white><gray>: Voir cette page d'aide.</gray>"
       - "  <white><bold>/combatlogx reload</bold></white><gray>: Recharger le config.yml, language.yml et tous les fichiers de configuration d'extension.</gray>"
-      - "  <white><bold>/combatlogx à propos de \\<expansion></bold></white><gray>: Vérifiez les informations sur une extension.</gray>"
+      - "  <white><bold>/combatlogx about \\<expansion></bold></white><gray>: Vérifiez les informations sur une extension.</gray>"
       - "  <white><bold>Balise /combatlogx \\<player> [seconds]</bold></white><gray>: Forcer un joueur au combat.</gray>"
       - "  <white><bold>/combatlogx active bossbar/actionbar/scoreboard</bold></white><gray>: Activer ou désactiver un type de notification.</gray>"
       - "  <white><bold>/combatlogx untag \\<player></bold></white><gray>: Forcer un joueur hors combat.</gray>"

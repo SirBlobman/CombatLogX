@@ -1,15 +1,26 @@
 Installation Guide:
 
-1. Download the CombatLogX.zip file from Jenkins or SpigotMC
-2. Stop your server. (Click the stop button on the panel or type `stop` into the console if your server doesn't use a panel.)
-3. Upload the contents of CombatLogX.zip to your server.
-4. Delete the CombatLogX.zip file.
-5. If the files were uploaded and extracted correctly, your server should have the following files:
-   - File: `/plugins/CombatLogX.jar`
-   - File `/plugins/SirBlobmanCore.jar`
-   - Folder: `/plugins/CombatLogX/`
-   - Folder: `/plugins/CombatLogX/expansions/`
-   - Multiple Files: `/plugins/CombatLogX/expansions/*.jar`
-6. Start your server. (Click the start button on the panel or execute the script if your server doesn't use a panel.)
-7. Edit the configuration files for the main plugin, languages, and expansions.
-8. Type the command `/clx reload` to reload the configuration files.
+1. Stop your server.
+2. Upload the contents of CombatLogX.zip to your server.
+3. Delete the CombatLogX.zip file.
+4. Start your server.
+5. Edit the configuration files for CombatLogX.
+6. Edit the configuration files for the CombatLogX expansions.
+7. Type the command '/clx reload' to reload the configuration files.
+
+Server Shutdown:
+- To stop your server properly, click the stop button on the panel.
+- If your server is hosted locally or does not have a panel, type 'stop' into the console window.
+
+Server Startup:
+- To start your server properly, click the start button on the panel.
+- If your server is hosted locally or does not have a panel, execute the start script.
+
+Server Files:
+If CombatLogX was installed correctly, your server will have the following files:
+- Folder: /plugins
+- Folder: /plugins/CombatLogX
+- Folder: /plugins/CombatLogX/expansions
+- File: /plugins/CombatLogX.jar
+- File: /plugins/BlueSlimeCore.jar
+- Multiple Files: /plugins/CombatLogX/expansions/*.jar

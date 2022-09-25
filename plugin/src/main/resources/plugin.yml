@@ -1,10 +1,10 @@
-name: "${bukkit.plugin.name}"
-prefix: "${bukkit.plugin.prefix}"
-description: "${bukkit.plugin.description}"
+name: "@bukkit.plugin.name@"
+prefix: "@bukkit.plugin.prefix@"
+description: "@bukkit.plugin.description@"
 website: "https://www.spigotmc.org/resources/31689/"
 
-main: "${bukkit.plugin.main}"
-version: "${bukkit.plugin.version}"
+main: "@bukkit.plugin.main@"
+version: "@bukkit.plugin.version@"
 api-version: "1.13"
 load: "POSTWORLD"
 
