@@ -36,8 +36,13 @@ public final class ListenerTeleport extends CheatPreventionListener {
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPortal(PlayerPortalEvent e) {
+        printDebug("Detected PlayerPortalEvent...");
+
         Player player = e.getPlayer();
+        printDebug("Player: " + player.getName());
+
         if (!isInCombat(player)) {
+            printDebug("Player is not in combat, ignoring.");
             return;
         }
 
@@ -45,6 +50,9 @@ public final class ListenerTeleport extends CheatPreventionListener {
         if (configuration.getBoolean("prevent-portals")) {
             e.setCancelled(true);
             sendMessage(player, "expansion.cheat-prevention.teleportation.block-portal", null);
+            printDebug("prevent-portals is enabled, cancelled event and sent message.");
+        } else {
+            printDebug("prevent-portals is disabled, ignoring.");
         }
     }
 
