@@ -2,6 +2,11 @@ plugins {
     id("maven-publish")
 }
 
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
 repositories {
     maven {
         name = "placeholderapi"
@@ -41,6 +46,15 @@ publishing {
             groupId = "$group"
             artifactId = "api"
             from(components["java"])
+        }
+    }
+}
+
+tasks {
+    javadoc {
+        options {
+            this as StandardJavadocDocletOptions
+            addStringOption("Xdoclint:none", "-quiet")
         }
     }
 }

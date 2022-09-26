@@ -2,6 +2,11 @@ plugins {
     id("maven-publish")
 }
 
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
 publishing {
     repositories {
         maven {
@@ -30,6 +35,16 @@ publishing {
             groupId = "$group"
             artifactId = "newbie-helper"
             from(components["java"])
+        }
+    }
+}
+
+
+tasks {
+    javadoc {
+        options {
+            this as StandardJavadocDocletOptions
+            addStringOption("Xdoclint:none", "-quiet")
         }
     }
 }
