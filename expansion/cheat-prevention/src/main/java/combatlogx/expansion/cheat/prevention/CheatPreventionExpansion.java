@@ -36,18 +36,18 @@ public final class CheatPreventionExpansion extends Expansion {
     @Override
     public void onLoad() {
         ConfigurationManager configurationManager = getConfigurationManager();
-        configurationManager.saveDefault("resources/blocks.yml");
-        configurationManager.saveDefault("resources/buckets.yml");
-        configurationManager.saveDefault("resources/chat.yml");
-        configurationManager.saveDefault("resources/commands.yml");
+        configurationManager.saveDefault("blocks.yml");
+        configurationManager.saveDefault("buckets.yml");
+        configurationManager.saveDefault("chat.yml");
+        configurationManager.saveDefault("commands.yml");
         configurationManager.saveDefault("config.yml");
-        configurationManager.saveDefault("resources/entities.yml");
-        configurationManager.saveDefault("resources/flight.yml");
-        configurationManager.saveDefault("resources/game-mode.yml");
-        configurationManager.saveDefault("resources/inventories.yml");
-        configurationManager.saveDefault("resources/items.yml");
-        configurationManager.saveDefault("resources/potions.yml");
-        configurationManager.saveDefault("resources/teleportation.yml");
+        configurationManager.saveDefault("entities.yml");
+        configurationManager.saveDefault("flight.yml");
+        configurationManager.saveDefault("game-mode.yml");
+        configurationManager.saveDefault("inventories.yml");
+        configurationManager.saveDefault("items.yml");
+        configurationManager.saveDefault("potions.yml");
+        configurationManager.saveDefault("teleportation.yml");
     }
 
     @Override
@@ -70,18 +70,18 @@ public final class CheatPreventionExpansion extends Expansion {
     @Override
     public void reloadConfig() {
         ConfigurationManager configurationManager = getConfigurationManager();
-        configurationManager.reload("resources/blocks.yml");
-        configurationManager.reload("resources/buckets.yml");
-        configurationManager.reload("resources/chat.yml");
-        configurationManager.reload("resources/commands.yml");
+        configurationManager.reload("blocks.yml");
+        configurationManager.reload("buckets.yml");
+        configurationManager.reload("chat.yml");
+        configurationManager.reload("commands.yml");
         configurationManager.reload("config.yml");
-        configurationManager.reload("resources/entities.yml");
-        configurationManager.reload("resources/flight.yml");
-        configurationManager.reload("resources/game-mode.yml");
-        configurationManager.reload("resources/inventories.yml");
-        configurationManager.reload("resources/items.yml");
-        configurationManager.reload("resources/potions.yml");
-        configurationManager.reload("resources/teleportation.yml");
+        configurationManager.reload("entities.yml");
+        configurationManager.reload("flight.yml");
+        configurationManager.reload("game-mode.yml");
+        configurationManager.reload("inventories.yml");
+        configurationManager.reload("items.yml");
+        configurationManager.reload("potions.yml");
+        configurationManager.reload("teleportation.yml");
     }
 
     private void registerListeners() {

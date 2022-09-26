@@ -50,7 +50,7 @@ public final class ListenerTeleport extends CheatPreventionListener {
 
     private YamlConfiguration getConfiguration() {
         ConfigurationManager configurationManager = getExpansionConfigurationManager();
-        return configurationManager.get("resources/teleportation.yml");
+        return configurationManager.get("teleportation.yml");
     }
 
     private boolean isAllowed() {

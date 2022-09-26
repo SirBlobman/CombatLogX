@@ -47,7 +47,7 @@ public final class ListenerElytra extends CheatPreventionListener {
 
     private YamlConfiguration getConfiguration() {
         ConfigurationManager configurationManager = getExpansionConfigurationManager();
-        return configurationManager.get("resources/items.yml");
+        return configurationManager.get("items.yml");
     }
 
     private boolean isAllowed() {

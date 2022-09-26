@@ -27,7 +27,7 @@ public final class ListenerEntities extends CheatPreventionListener {
     private YamlConfiguration getConfiguration() {
         Expansion expansion = getExpansion();
         ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        return configurationManager.get("resources/entities.yml");
+        return configurationManager.get("entities.yml");
     }
 
     private boolean isEnabled() {

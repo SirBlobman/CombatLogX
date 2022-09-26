@@ -26,7 +26,7 @@ public final class ElytraRetagTask extends BukkitRunnable {
     @Override
     public void run() {
         ConfigurationManager configurationManager = getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("resources/items.yml");
+        YamlConfiguration configuration = configurationManager.get("items.yml");
         if (!configuration.getBoolean("elytra-retag", false)) {
             return;
         }

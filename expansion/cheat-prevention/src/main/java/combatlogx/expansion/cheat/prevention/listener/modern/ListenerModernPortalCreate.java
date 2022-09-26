@@ -31,7 +31,7 @@ public final class ListenerModernPortalCreate extends CheatPreventionListener {
 
     private YamlConfiguration getConfiguration() {
         ConfigurationManager configurationManager = getExpansionConfigurationManager();
-        return configurationManager.get("resources/blocks.yml");
+        return configurationManager.get("blocks.yml");
     }
 
     private boolean shouldPreventPortalCreation() {

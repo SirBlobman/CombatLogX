@@ -52,7 +52,7 @@ public final class ListenerGameMode extends CheatPreventionListener {
     private YamlConfiguration getConfiguration() {
         Expansion expansion = getExpansion();
         ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        return configurationManager.get("resources/game-mode.yml");
+        return configurationManager.get("game-mode.yml");
     }
 
     private boolean isSwitchingAllowed() {

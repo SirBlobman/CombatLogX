@@ -26,7 +26,7 @@ public final class ListenerDrop extends CheatPreventionListener {
     private YamlConfiguration getConfiguration() {
         Expansion expansion = getExpansion();
         ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        return configurationManager.get("resources/items.yml");
+        return configurationManager.get("items.yml");
     }
 
     private boolean isAllowed() {

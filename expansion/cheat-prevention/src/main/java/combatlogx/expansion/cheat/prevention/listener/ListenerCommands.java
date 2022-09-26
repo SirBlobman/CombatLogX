@@ -49,7 +49,7 @@ public final class ListenerCommands extends CheatPreventionListener {
     private YamlConfiguration getConfiguration() {
         Expansion expansion = getExpansion();
         ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        return configurationManager.get("resources/commands.yml");
+        return configurationManager.get("commands.yml");
     }
 
     private boolean hasBypassPermission(Player player) {

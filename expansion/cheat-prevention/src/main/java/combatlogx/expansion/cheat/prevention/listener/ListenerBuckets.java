@@ -46,7 +46,7 @@ public final class ListenerBuckets extends CheatPreventionListener {
     private YamlConfiguration getConfiguration() {
         Expansion expansion = getExpansion();
         ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        return configurationManager.get("resources/buckets.yml");
+        return configurationManager.get("buckets.yml");
     }
 
     private boolean shouldPreventEmpty(XMaterial material) {

@@ -62,7 +62,7 @@ public class ListenerModernPotions extends ExpansionListener {
 
     private YamlConfiguration getConfiguration() {
         ConfigurationManager configurationManager = getExpansionConfigurationManager();
-        return configurationManager.get("resources/potions.yml");
+        return configurationManager.get("potions.yml");
     }
 
     private boolean isListInverted() {

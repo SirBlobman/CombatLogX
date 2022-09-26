@@ -62,7 +62,7 @@ public final class ListenerInventories extends CheatPreventionListener {
     private YamlConfiguration getConfiguration() {
         Expansion expansion = getExpansion();
         ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        return configurationManager.get("resources/inventories.yml");
+        return configurationManager.get("inventories.yml");
     }
 
     private boolean shouldNotCloseInventories() {

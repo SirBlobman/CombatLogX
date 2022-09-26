@@ -33,7 +33,7 @@ public final class ListenerModernItemPickup extends CheatPreventionListener {
     private boolean isAllowed() {
         Expansion expansion = getExpansion();
         ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("resources/items.yml");
+        YamlConfiguration configuration = configurationManager.get("items.yml");
         return !configuration.getBoolean("prevent-pickup");
     }
 }

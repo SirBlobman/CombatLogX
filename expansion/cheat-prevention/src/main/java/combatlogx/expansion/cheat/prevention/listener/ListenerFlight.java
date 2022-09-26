@@ -84,7 +84,7 @@ public final class ListenerFlight extends CheatPreventionListener {
 
     private YamlConfiguration getConfiguration() {
         ConfigurationManager configurationManager = getExpansionConfigurationManager();
-        return configurationManager.get("resources/flight.yml");
+        return configurationManager.get("flight.yml");
     }
 
     private boolean isAllowFlight() {
