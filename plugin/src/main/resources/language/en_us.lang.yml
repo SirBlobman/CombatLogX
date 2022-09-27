@@ -142,7 +142,7 @@ command:
 
   combat-timer:
     # Shown as the command output for '/combat-timer'.
-    time-left-self: "<green>You have <gray>{time_left}</gray> seconds&a remaining.</green>"
+    time-left-self: "<green>You have <gray>{time_left}</gray> seconds remaining.</green>"
 
     # Shown as the command output for '/combat-timer <player>'.
     time-left-other: "<green><gray>{target}</gray> has <gray>{time_left} seconds</gray> remaining.</green>"

@@ -5,6 +5,7 @@ import java.lang.reflect.Modifier;
 import java.util.logging.Logger;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.manager.ITimerManager;
@@ -29,6 +30,14 @@ public final class ScoreboardExpansion extends Expansion {
 
     @Override
     public void onEnable() {
+        int minorVersion = VersionUtility.getMinorVersion();
+        if (minorVersion < 8) {
+            Logger logger = getLogger();
+            logger.warning("This expansion requires Spigot 1.8.8 or higher.");
+            selfDisable();
+            return;
+        }
+
         ICombatLogX plugin = getPlugin();
         ITimerManager timerManager = plugin.getTimerManager();
         timerManager.addUpdaterTask(new ScoreboardUpdater(this));
@@ -36,6 +45,11 @@ public final class ScoreboardExpansion extends Expansion {
 
     @Override
     public void onDisable() {
+        int minorVersion = VersionUtility.getMinorVersion();
+        if (minorVersion < 8) {
+            return;
+        }
+
         CustomScoreboardManager scoreboardManager = getScoreboardManager();
         scoreboardManager.removeAll();
     }
