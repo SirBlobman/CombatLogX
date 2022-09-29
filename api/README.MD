@@ -22,6 +22,14 @@ Maven:
 ```
 
 Gradle:
+```groovy
+repositories {
+    maven {
+        name = 'sirblobman-public'
+        url = 'https://nexus.sirblobman.xyz/repository/public/'
+    }
+}
+```
 
 ```kotlin
 repositories {
@@ -39,6 +47,14 @@ Maven:
 
 ```xml
 <dependencies>
+    <!-- BlueSlimeCore -->
+    <dependency>
+        <groupId>com.github.sirblobman.api</groupId>
+        <artifactId>core</artifactId>
+        <version>2.6-SNAPSHOT</version>
+        <scope>provided</scope>
+    </dependency>
+    
     <!-- CombatLogX API -->
     <dependency>
         <groupId>com.github.sirblobman.combatlogx</groupId>
@@ -51,8 +67,16 @@ Maven:
 
 Gradle:
 
+```groovy
+dependencies {
+    compileOnly 'com.github.sirblobman.api:core:2.6-SNAPSHOT'
+    compileOnly 'com.github.sirblobman.combatlogx:api:11.0.0.0-SNAPSHOT'
+}
+```
+
 ```kotlin
 dependencies {
+    compileOnly("com.github.sirblobman.api:core:2.6-SNAPSHOT")
     compileOnly("com.github.sirblobman.combatlogx:api:11.0.0.0-SNAPSHOT")
 }
 ```
