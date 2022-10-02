@@ -20,11 +20,14 @@ public final class ListenerModernItemPickup extends CheatPreventionListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPickup(EntityPickupItemEvent e) {
         Entity entity = e.getEntity();
-        if (!(entity instanceof Player)) return;
+        if (!(entity instanceof Player)) {
+            return;
+        }
 
         Player player = (Player) entity;
-        if (!isInCombat(player)) return;
-        if (isAllowed()) return;
+        if (isAllowed() || !isInCombat(player)) {
+            return;
+        }
 
         e.setCancelled(true);
         sendMessage(player, "expansion.cheat-prevention.items.no-pickup", null);

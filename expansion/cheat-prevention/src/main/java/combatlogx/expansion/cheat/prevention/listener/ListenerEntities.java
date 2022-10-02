@@ -17,8 +17,9 @@ public final class ListenerEntities extends CheatPreventionListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onInteract(PlayerInteractEntityEvent e) {
         Player player = e.getPlayer();
-        if (!isInCombat(player)) return;
-        if (isEnabled()) return;
+        if (isEnabled() || !isInCombat(player)) {
+            return;
+        }
 
         e.setCancelled(true);
         sendMessage(player, "expansion.cheat-prevention.no-entity-interaction", null);

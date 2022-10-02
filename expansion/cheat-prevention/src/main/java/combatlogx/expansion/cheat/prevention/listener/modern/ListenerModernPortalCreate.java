@@ -20,7 +20,9 @@ public final class ListenerModernPortalCreate extends CheatPreventionListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPortalCreate(PortalCreateEvent e) {
         Entity entity = e.getEntity();
-        if (!(entity instanceof Player)) return;
+        if (!(entity instanceof Player)) {
+            return;
+        }
 
         Player player = (Player) entity;
         if (isInCombat(player) && shouldPreventPortalCreation()) {

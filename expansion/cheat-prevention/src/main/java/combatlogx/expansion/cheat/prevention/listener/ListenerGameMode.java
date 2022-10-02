@@ -23,14 +23,19 @@ public final class ListenerGameMode extends CheatPreventionListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onSwitch(PlayerGameModeChangeEvent e) {
         Player player = e.getPlayer();
-        if (!isInCombat(player)) return;
+        if (!isInCombat(player)) {
+            return;
+        }
+
         if (isSwitchingAllowed()) {
             checkUntag(player);
             return;
         }
 
         GameMode gameMode = e.getNewGameMode();
-        if (gameMode == getForceSwitchMode()) return;
+        if (gameMode == getForceSwitchMode()) {
+            return;
+        }
 
         e.setCancelled(true);
         sendMessage(player, "expansion.cheat-prevention.game-mode.no-switch", null);

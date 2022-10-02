@@ -40,7 +40,9 @@ public final class ListenerCommands extends CheatPreventionListener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onUntag(PlayerUntagEvent e) {
         UntagReason untagReason = e.getUntagReason();
-        if (!untagReason.isExpire()) return;
+        if (!untagReason.isExpire()) {
+            return;
+        }
 
         Player player = e.getPlayer();
         addCooldown(player);
@@ -55,7 +57,9 @@ public final class ListenerCommands extends CheatPreventionListener {
     private boolean hasBypassPermission(Player player) {
         YamlConfiguration configuration = getConfiguration();
         String permissionName = configuration.getString("bypass-permission");
-        if (permissionName == null || permissionName.isEmpty()) return false;
+        if (permissionName == null || permissionName.isEmpty()) {
+            return false;
+        }
 
         Permission permission = new Permission(permissionName, "CombatLogX Bypass Permission: Cheat Prevention Blocked Commands", PermissionDefault.FALSE);
         return player.hasPermission(permission);
@@ -75,7 +79,9 @@ public final class ListenerCommands extends CheatPreventionListener {
         if (this.cooldownMap.containsKey(uuid)) {
             long expireMillis = this.cooldownMap.get(uuid);
             long systemMillis = System.currentTimeMillis();
-            if (systemMillis < expireMillis) return true;
+            if (systemMillis < expireMillis) {
+                return true;
+            }
 
             this.cooldownMap.remove(uuid);
             return false;
@@ -98,12 +104,18 @@ public final class ListenerCommands extends CheatPreventionListener {
     private boolean matchesAny(String string, Iterable<String> valueList) {
         String stringLower = string.toLowerCase();
         for (String value : valueList) {
-            if (value.equals("*")) return true;
-            if (value.equals("/*")) return true;
+            if (value.equals("*") || value.equals("/*")) {
+                return true;
+            }
 
             String valueLower = value.toLowerCase();
-            if (stringLower.equals(valueLower)) return true;
-            if (stringLower.startsWith(valueLower + " ")) return true;
+            if (stringLower.equals(valueLower)) {
+                return true;
+            }
+
+            if (stringLower.startsWith(valueLower + " ")) {
+                return true;
+            }
         }
 
         return false;
@@ -123,12 +135,19 @@ public final class ListenerCommands extends CheatPreventionListener {
 
     private void checkEvent(PlayerCommandPreprocessEvent e) {
         Player player = e.getPlayer();
-        if (!isInCombat(player) && !isInCooldown(player)) return;
-        if (hasBypassPermission(player)) return;
+        if (!isInCombat(player) && !isInCooldown(player)) {
+            return;
+        }
+
+        if (hasBypassPermission(player)) {
+            return;
+        }
 
         String command = e.getMessage();
         String realCommand = fixCommand(command);
-        if (isAllowed(realCommand) || !isBlocked(realCommand)) return;
+        if (isAllowed(realCommand) || !isBlocked(realCommand)) {
+            return;
+        }
 
         e.setCancelled(true);
         Replacer replacer = message -> message.replace("{command}", realCommand);

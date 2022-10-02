@@ -18,9 +18,14 @@ public final class ListenerTotem extends CheatPreventionListener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onResurrect(EntityResurrectEvent e) {
         LivingEntity entity = e.getEntity();
-        if (!(entity instanceof Player)) return;
+        if (!(entity instanceof Player)) {
+            return;
+        }
+
         Player player = (Player) entity;
-        if (!isInCombat(player) || isAllowed()) return;
+        if (isAllowed() || !isInCombat(player)) {
+            return;
+        }
 
         e.setCancelled(true);
         sendMessage(player, "expansion.cheat-prevention.no-totem", null);

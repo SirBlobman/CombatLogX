@@ -17,7 +17,9 @@ public final class ListenerDrop extends CheatPreventionListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onDrop(PlayerDropItemEvent e) {
         Player player = e.getPlayer();
-        if (!isInCombat(player) || isAllowed()) return;
+        if (!isInCombat(player) || isAllowed()) {
+            return;
+        }
 
         e.setCancelled(true);
         sendMessage(player, "expansion.cheat-prevention.items.no-dropping", null);
