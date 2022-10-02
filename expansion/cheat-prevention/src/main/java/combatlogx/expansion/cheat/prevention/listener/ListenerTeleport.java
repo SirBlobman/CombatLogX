@@ -24,6 +24,11 @@ public final class ListenerTeleport extends CheatPreventionListener {
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onTeleport(PlayerTeleportEvent e) {
+        if (e instanceof PlayerPortalEvent) {
+            printDebug("This teleport event is a PlayerPortalEvent, ignoring.");
+            return;
+        }
+
         Player player = e.getPlayer();
         if (!isInCombat(player)) {
             return;
