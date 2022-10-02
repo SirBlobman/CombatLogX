@@ -52,13 +52,14 @@ public final class ListenerTeleport extends CheatPreventionListener {
         }
 
         YamlConfiguration configuration = getConfiguration();
-        if (configuration.getBoolean("prevent-portals")) {
-            e.setCancelled(true);
-            sendMessage(player, "expansion.cheat-prevention.teleportation.block-portal", null);
-            printDebug("prevent-portals is enabled, cancelled event and sent message.");
-        } else {
+        if (!configuration.getBoolean("prevent-portals", true)) {
             printDebug("prevent-portals is disabled, ignoring.");
+            return;
         }
+
+        e.setCancelled(true);
+        sendMessage(player, "expansion.cheat-prevention.teleportation.block-portal", null);
+        printDebug("prevent-portals is enabled, cancelled event and sent message.");
     }
 
     private YamlConfiguration getConfiguration() {
