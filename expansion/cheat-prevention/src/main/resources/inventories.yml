@@ -5,6 +5,12 @@ close: true
 # Should CombatLogX close a player's inventory when they are tagged while already in combat?
 close-on-retag: true
 
+# Which inventory types should not trigger an inventory closed message?
+# To the server, a player always has an inventory open, even if its just the hotbar.
+no-close-message-type-list:
+  - CREATIVE
+  - CRAFTING
+
 # Should CombatLogX prevent players from opening new inventories while they are tagged?
 # This does not affect client-side-only inventories.
 # Default: true

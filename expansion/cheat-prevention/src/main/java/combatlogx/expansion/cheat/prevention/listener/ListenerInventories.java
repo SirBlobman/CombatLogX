@@ -1,11 +1,15 @@
 package combatlogx.expansion.cheat.prevention.listener;
 
+import java.util.List;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.InventoryView;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.event.PlayerReTagEvent;
@@ -24,8 +28,13 @@ public final class ListenerInventories extends CheatPreventionListener {
         }
 
         Player player = e.getPlayer();
+        InventoryView openView = player.getOpenInventory();
+        InventoryType viewType = openView.getType();
         player.closeInventory();
-        sendMessage(player, "expansion.cheat-prevention.inventory.force-closed", null);
+
+        if(shouldSendMessage(viewType)) {
+            sendMessage(player, "expansion.cheat-prevention.inventory.force-closed", null);
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -78,5 +87,12 @@ public final class ListenerInventories extends CheatPreventionListener {
     private boolean shouldAllowOpeningInventories() {
         YamlConfiguration configuration = getConfiguration();
         return !configuration.getBoolean("prevent-opening");
+    }
+
+    private boolean shouldSendMessage(InventoryType type) {
+        String typeName = type.name();
+        YamlConfiguration configuration = getConfiguration();
+        List<String> noMessageTypeList = configuration.getStringList("no-close-message-type-list");
+        return !noMessageTypeList.contains(typeName);
     }
 }
