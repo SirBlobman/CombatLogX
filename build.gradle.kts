@@ -2,23 +2,24 @@ plugins {
     id("java")
 }
 
+val jenkinsBuildNumber = System.getenv("BUILD_NUMBER") ?: "Unknown"
+val baseVersion = findProperty("version.base") as String
+val betaVersionString = (findProperty("version.beta") ?: "false") as String
+val betaVersion = betaVersionString.toBoolean()
+val betaVersionPart = if (betaVersion) "Beta-" else ""
+
+val calculatedVersion = "$baseVersion.$betaVersionPart$jenkinsBuildNumber"
+rootProject.ext.set("calculatedVersion", calculatedVersion)
+
+val mavenDeployUsername = System.getenv("MAVEN_DEPLOY_USERNAME") ?: findProperty("mavenUsernameSirBlobman") ?: ""
+rootProject.ext.set("mavenUsername", mavenDeployUsername)
+
+val mavenDeployPassword = System.getenv("MAVEN_DEPLOY_PASSWORD") ?: findProperty("mavenPasswordSirBlobman") ?: ""
+rootProject.ext.set("mavenPassword", mavenDeployPassword)
+
 allprojects {
     group = "com.github.sirblobman.combatlogx"
     version = "11.0.0.0-SNAPSHOT"
-
-    val jenkinsBuildNumber = System.getenv("BUILD_NUMBER") ?: "Unknown"
-    val baseVersion = rootProject.property("version.base") as String
-    val betaVersionString = rootProject.property("version.beta") as String
-    val betaVersion = betaVersionString.toBoolean()
-
-    var calculatedVersion = ("$baseVersion.")
-    if (betaVersion) {
-        calculatedVersion += "Beta-"
-    }
-
-    calculatedVersion += jenkinsBuildNumber
-
-    project.ext.set("calculatedVersion", calculatedVersion)
 
     apply(plugin = "java")
 

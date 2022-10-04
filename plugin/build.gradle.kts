@@ -37,7 +37,7 @@ tasks {
     }
 
     processResources {
-        val calculatedVersion = project.ext.get("calculatedVersion")
+        val calculatedVersion = rootProject.ext.get("calculatedVersion")
 
         filesMatching("plugin.yml") {
             val bukkitPluginName = rootProject.property("bukkit.plugin.name") as String

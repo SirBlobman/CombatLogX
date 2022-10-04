@@ -98,7 +98,7 @@ tasks {
     named<Zip>("distZip") {
         isPreserveFileTimestamps = true
 
-        val calculatedVersion = project.ext.get("calculatedVersion")
+        val calculatedVersion = rootProject.ext.get("calculatedVersion")
         archiveFileName.set("CombatlogX-$calculatedVersion.zip")
     }
 }

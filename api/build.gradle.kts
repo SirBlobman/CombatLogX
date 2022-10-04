@@ -25,18 +25,8 @@ publishing {
             url = uri("https://nexus.sirblobman.xyz/repository/public-snapshots/")
 
             credentials {
-                var currentUsername = System.getenv("MAVEN_DEPLOY_USERNAME")
-                if(currentUsername == null) {
-                    currentUsername = property("mavenUsernameSirBlobman") as String
-                }
-
-                var currentPassword = System.getenv("MAVEN_DEPLOY_PASSWORD")
-                if (currentPassword == null) {
-                    currentPassword = property("mavenPasswordSirBlobman") as String
-                }
-
-                username = currentUsername
-                password = currentPassword
+                username = rootProject.ext.get("mavenUsername") as String
+                password = rootProject.ext.get("mavenPassword") as String
             }
         }
     }
