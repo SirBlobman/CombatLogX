@@ -231,6 +231,11 @@ public final class CustomScoreboard {
         List<Component> lineList = new ArrayList<>();
 
         for (String lineString : linesSplit) {
+            if (lineString.contains("\u00A7")) {
+                lineString = ChatColor.stripColor(lineString);
+                lineString = lineString.replace("\u00A7", "");
+            }
+
             Component line = miniMessage.deserialize(lineString);
             lineList.add(line);
         }
