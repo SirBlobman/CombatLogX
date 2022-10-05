@@ -1,5 +1,5 @@
 # DO NOT change this value or your config may be corrupted
-generated-by-version: "${combatlogx.version}"
+generated-by-version: "@bukkit.plugin.version@"
 
 # Should debug messages be sent to the console?
 # This option should be enabled if you are reporting an error or bug.
