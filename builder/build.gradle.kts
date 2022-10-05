@@ -99,6 +99,6 @@ tasks {
         isPreserveFileTimestamps = true
 
         val calculatedVersion = rootProject.ext.get("calculatedVersion")
-        archiveFileName.set("CombatlogX-$calculatedVersion.zip")
+        archiveFileName.set("CombatLogX-$calculatedVersion.zip")
     }
 }
