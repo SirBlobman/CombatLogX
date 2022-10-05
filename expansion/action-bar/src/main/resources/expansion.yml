@@ -3,5 +3,5 @@ prefix: "Action Bar"
 description: "${project.description}"
 
 main: "combatlogx.expansion.action.bar.ActionBarExpansion"
-version: "16.8"
+version: "17.0"
 author: "SirBlobman"

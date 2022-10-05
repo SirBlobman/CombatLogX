@@ -6,29 +6,47 @@ enabled: true
 scale: 15
 
 # Left Color is the color code for the left part of the {bars} placeholder.
-# A color MiniMessage tag value is required.
-# Example 01: "<green></green>"
-# Example 02: "<#00FF00></#00FF00>"
-# Default: "<green></green>"
-left-color-start: "<green>"
-left-color-end: "</green>"
+# A named color must be selected, or you can use the hex value.
+# You can find a list of official color names at the bottom of this file.
+# Example: "GREEN"
+# Example 2: "#00FF00"
+left-color: "GREEN"
 
 # Left Symbol is the symbol used for the left part of the {bars} placeholder
 # Unicode is supported, but must be converted.
-# Example: "/u00A7"
+# Example: "\u00A7"
 # Default: "|"
 left-symbol: "|"
 
 # Right Color is the color code for the right part of the {bars} placeholder.
-# A color MiniMessage tag value is required.
-# Example 01: "<red></red>"
-# Example 02: "<#FF0000></#FF0000>"
-# Default: "<red></red>"
-right-color-start: "<red>"
-right-color-end: "</red>"
+# A named color must be selected, or you can use the hex value.
+# You can find a list of official color names at the bottom of this file.
+# Example: "RED"
+# Example 2: "#FF0000"
+right-color: "RED"
 
 # Right Symbol is the symbol used for the right part of the {bars} placeholder
 # Unicode is supported, but must be converted.
-# Example: "/u00A7"
+# Example: "\u00A7"
 # Default: "|"
 right-symbol: "|"
+
+
+## Adventure NamedTextColor Value Map
+## Legacy Color Code : Named Color
+# &0 : BLACK
+# &1 : DARK_BLUE
+# &2 : DARK_GREEN
+# &3 : DARK_AQUA
+# &4 : DARK_RED
+# &5 : DARK_PURPLE
+# &6 : GOLD
+# &7 : GRAY
+# &8 : DARK_GRAY
+# &9 : BLUE
+# &a : GREEN
+# &b : AQUA
+# &c : RED
+# &d : LIGHT_PURPLE
+# &e : YELLOW
+# &f : WHITE
