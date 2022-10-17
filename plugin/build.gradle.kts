@@ -1,5 +1,4 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
     id("com.github.johnrengelman.shadow") version "7.1.2"
@@ -37,27 +36,28 @@ tasks {
     }
 
     processResources {
-        val calculatedVersion = rootProject.ext.get("calculatedVersion")
+        val calculatedVersion = rootProject.ext.get("calculatedVersion") as String
+        val pluginName = (findProperty("bukkit.plugin.name") ?: "") as String
+        val pluginPrefix = (findProperty("bukkit.plugin.prefix") ?: "") as String
+        val pluginDescription = (findProperty("bukkit.plugin.description") ?: "") as String
+        val pluginWebsite = (findProperty("bukkit.plugin.website") ?: "") as String
+        val pluginMainClass = (findProperty("bukkit.plugin.main") ?: "") as String
 
         filesMatching("plugin.yml") {
-            val bukkitPluginName = rootProject.property("bukkit.plugin.name") as String
-            val bukkitPluginPrefix = rootProject.property("bukkit.plugin.prefix") as String
-            val bukkitPluginDescription = rootProject.property("bukkit.plugin.description") as String
-            val bukkitPluginMain = rootProject.property("bukkit.plugin.main") as String
-
-            filter<ReplaceTokens>("tokens" to mapOf(
-                "bukkit.plugin.version" to calculatedVersion,
-                "bukkit.plugin.name" to bukkitPluginName,
-                "bukkit.plugin.prefix" to bukkitPluginPrefix,
-                "bukkit.plugin.description" to bukkitPluginDescription,
-                "bukkit.plugin.main" to bukkitPluginMain
-            ))
+            filter {
+                it.replace("\${bukkit.plugin.name}", pluginName)
+                    .replace("\${bukkit.plugin.prefix}", pluginPrefix)
+                    .replace("\${bukkit.plugin.description}", pluginDescription)
+                    .replace("\${bukkit.plugin.website}", pluginWebsite)
+                    .replace("\${bukkit.plugin.main}", pluginMainClass)
+                    .replace("\${bukkit.plugin.version}", calculatedVersion)
+            }
         }
 
         filesMatching("config.yml") {
-            filter<ReplaceTokens>("tokens" to mapOf(
-                "bukkit.plugin.version" to calculatedVersion
-            ))
+            filter {
+                it.replace("\${bukkit.plugin.version}", calculatedVersion)
+            }
         }
     }
 }
