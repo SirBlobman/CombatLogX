@@ -3,8 +3,8 @@ prefix: "CrashClaim Compatibility"
 description: "${project.description}"
 
 main: "combatlogx.expansion.compatibility.region.crash.claim.CrashClaimExpansion"
-version: "16.1"
+version: "16.2"
 author: "SirBlobman"
 
 plugin-depend:
-  - "Lands"
+  - "CrashClaim"
