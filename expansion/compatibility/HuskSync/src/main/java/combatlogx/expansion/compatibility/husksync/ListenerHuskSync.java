@@ -1,6 +1,7 @@
 package combatlogx.expansion.compatibility.husksync;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -91,7 +92,12 @@ public final class ListenerHuskSync extends ExpansionListener {
         }
 
         UserData userData = e.getUserData();
-        StatusData statusData = userData.getStatusData();
+        Optional<StatusData> optionalStatusData = userData.getStatus();
+        if (!optionalStatusData.isPresent()) {
+            return;
+        }
+
+        StatusData statusData = optionalStatusData.get();
         double playerHealth = player.getHealth();
 
         if (playerHealth <= 0.0D && statusData.health >= 0.0D) {
