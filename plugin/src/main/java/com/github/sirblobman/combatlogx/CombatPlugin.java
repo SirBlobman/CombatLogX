@@ -61,8 +61,11 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     private final ExpansionManager expansionManager;
     private final PlaceholderManager placeholderManager;
     private final DeathManager deathManager;
+    private ListenerDamage listenerDamage;
+    private static CombatPlugin instance;
 
     public CombatPlugin() {
+        instance = this;
         this.timerUpdateTask = new TimerUpdateTask(this);
         this.expansionManager = new ExpansionManager(this);
         this.placeholderManager = new PlaceholderManager(this);
@@ -118,8 +121,12 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     }
 
     @Override
-    public JavaPlugin getPlugin() {
+    public CombatPlugin getPlugin() {
         return this;
+    }
+
+    public static CombatPlugin getInstance() {
+        return instance;
     }
 
     @Override
@@ -265,7 +272,8 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
 
     private void registerListeners() {
         new ListenerConfiguration(this).register();
-        new ListenerDamage(this).register();
+        listenerDamage = new ListenerDamage(this);
+        listenerDamage.register();
         new ListenerPunish(this).register();
         new ListenerUntag(this).register();
         new ListenerDeath(this).register();
@@ -346,5 +354,9 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         LanguageManager languageManager = getLanguageManager();
         Language defaultLanguage = languageManager.getDefaultLanguage();
         return (defaultLanguage == null ? "none" : defaultLanguage.getLanguageCode());
+    }
+
+    public ListenerDamage getListenerDamage() {
+        return listenerDamage;
     }
 }

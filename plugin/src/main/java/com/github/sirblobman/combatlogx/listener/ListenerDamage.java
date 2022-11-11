@@ -1,5 +1,6 @@
 package com.github.sirblobman.combatlogx.listener;
 
+import com.github.puregero.multilib.MultiLib;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -103,7 +104,7 @@ public final class ListenerDamage extends CombatListener {
         return entity;
     }
 
-    private void checkTag(Entity entity, Entity enemy, TagReason tagReason) {
+    public void checkTag(Entity entity, Entity enemy, TagReason tagReason) {
         ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = getCombatManager();
         plugin.printDebug("Checking if the entity '" + getName(entity) + "' should be tagged " +
@@ -121,6 +122,13 @@ public final class ListenerDamage extends CombatListener {
 
         Player playerEntity = (Player) entity;
         Player playerEnemy = (Player) enemy;
+
+        if (MultiLib.isExternalPlayer(playerEntity) && tagReason == TagReason.ATTACKER) {
+            MultiLib.notify("com.github.sirblobman.combatlogx.listener.ListenerDamage.checkTagEntity", playerEntity.getName() + " " + playerEnemy.getName());
+        }
+        if (MultiLib.isExternalPlayer(playerEnemy) && tagReason == TagReason.ATTACKED) {
+            MultiLib.notify("com.github.sirblobman.combatlogx.listener.ListenerDamage.checkTagEnemy", playerEntity.getName() + " " + playerEnemy.getName());
+        }
 
         plugin.printDebug("Triggering tag for player " + getName(playerEntity) + " with enemy "
                 + getName(playerEnemy) + "...");

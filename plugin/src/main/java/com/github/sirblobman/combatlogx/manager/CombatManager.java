@@ -10,6 +10,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+import com.github.puregero.multilib.MultiLib;
+import com.github.sirblobman.combatlogx.CombatPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
@@ -54,6 +56,36 @@ public final class CombatManager extends Manager implements ICombatManager {
         super(plugin);
         this.combatMap = new ConcurrentHashMap<>();
         this.bypassPermission = null;
+        registerMultiLib();
+    }
+
+    private void registerMultiLib() {
+        MultiLib.onString(getPlugin(), "com.github.sirblobman.combatlogx.listener.ListenerDamage.checkTagEntity", string -> {
+            String[] split = string.split(" ");
+            if(split.length < 2) return;
+            Player entity = Bukkit.getPlayer(split[0]);
+            if(entity == null) return;
+            Player damager = Bukkit.getPlayer(split[1]);
+            if(damager == null) return;
+            if (MultiLib.isExternalPlayer(entity)) return;
+            CombatPlugin.getInstance().getListenerDamage().checkTag(entity, damager, TagReason.ATTACKER);
+        });
+        MultiLib.onString(getPlugin(), "com.github.sirblobman.combatlogx.listener.ListenerDamage.checkTagEnemy", string -> {
+            String[] split = string.split(" ");
+            if(split.length < 2) return;
+            Player entity = Bukkit.getPlayer(split[0]);
+            if(entity == null) return;
+            Player damager = Bukkit.getPlayer(split[1]);
+            if(damager == null) return;
+            if (MultiLib.isExternalPlayer(damager)) return;
+            CombatPlugin.getInstance().getListenerDamage().checkTag(entity, damager, TagReason.ATTACKED);
+        });
+        MultiLib.onString(getPlugin(), "com.github.sirblobman.combatlogx.listener.ListenerDamage.untag", string -> {
+            String[] split = string.split(" ");
+            Player player = Bukkit.getPlayer(split[0]);
+            if(player == null) return;
+            untag(player, UntagReason.valueOf(split[1]));
+        });
     }
 
     @Override
@@ -118,6 +150,11 @@ public final class CombatManager extends Manager implements ICombatManager {
     public void untag(Player player, UntagReason untagReason) {
         Validate.notNull(player, "player must not be null!");
         Validate.notNull(untagReason, "untagReason must not be null!");
+
+        if (MultiLib.isLocalPlayer(player)) {
+            MultiLib.notify("com.github.sirblobman.combatlogx.listener.ListenerDamage.untag", player.getName() + " " + untagReason.name());
+        }
+
         ICombatLogX plugin = getCombatLogX();
 
         if (!isInCombat(player)) {
