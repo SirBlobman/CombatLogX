@@ -6,5 +6,5 @@ repositories {
 }
 
 dependencies {
-    compileOnly("dev.esophose:playerparticles:8.2")
+    compileOnly("dev.esophose:playerparticles:8.3")
 }
