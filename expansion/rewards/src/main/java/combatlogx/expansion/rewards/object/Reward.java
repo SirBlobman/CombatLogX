@@ -14,6 +14,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permissible;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 
 import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.api.nms.EntityHandler;
@@ -24,6 +27,7 @@ import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import combatlogx.expansion.rewards.RewardExpansion;
 import combatlogx.expansion.rewards.requirement.Requirement;
 import me.clip.placeholderapi.PlaceholderAPI;
+import org.jetbrains.annotations.Nullable;
 
 public final class Reward {
     private final RewardExpansion expansion;
@@ -34,6 +38,9 @@ public final class Reward {
     private List<String> worldList, mobList;
     private List<Requirement> requirementList;
     private boolean mobWhiteList, worldWhiteList;
+    private String permissionName;
+
+    private transient Permission permission;
 
     public Reward(RewardExpansion expansion, int chance, int maxChance, boolean randomCommand,
                   List<String> commandList) {
@@ -275,5 +282,39 @@ public final class Reward {
             logger.log(Level.WARNING, "An error occurred while running the '/" + command
                     + "' command in console:", ex);
         }
+    }
+
+    @Nullable
+    public String getPermissionName() {
+        return permissionName;
+    }
+
+    public void setPermissionName(@Nullable String permissionName) {
+        this.permissionName = permissionName;
+        this.permission = null;
+    }
+
+    @Nullable
+    public Permission getPermission() {
+        if (this.permissionName == null || this.permissionName.isEmpty()) {
+            return null;
+        }
+
+        if (this.permission == null) {
+            String permissionName = getPermissionName();
+            String description = "CombatLogX Reward Permission";
+            this.permission = new Permission(permissionName, description, PermissionDefault.FALSE);
+        }
+
+        return this.permission;
+    }
+
+    public boolean hasPermission(Permissible permissible) {
+        Permission permission = getPermission();
+        if (permission == null) {
+            return true;
+        }
+
+        return permissible.hasPermission(permission);
     }
 }

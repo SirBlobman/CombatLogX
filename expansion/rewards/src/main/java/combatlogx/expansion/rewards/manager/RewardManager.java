@@ -106,6 +106,11 @@ public final class RewardManager {
                 reward.setMobList(mobTypeNameList);
             }
 
+            if (section.isString("permission")) {
+                String permission = section.getString("permission", "");
+                reward.setPermissionName(permission);
+            }
+
             List<Requirement> requirementList = loadRequirements(section);
             if (requirementList != null) {
                 reward.setRequirements(requirementList);
