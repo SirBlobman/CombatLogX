@@ -164,7 +164,8 @@ public final class Reward {
         boolean checkSelf = checkNotSelf(player, enemy); // True if the player is not their own enemy.
         boolean checkRequirements = checkRequirements(player, enemy); // True if the requirements are met.
         boolean checkChance = calculateChance(); // True if the chance calculation was successful.
-        return (checkWorld && checkMobType && checkSelf && checkRequirements && checkChance);
+        boolean checkPermission = hasPermission(player); // True if the player has access or a permission is not set.
+        return (checkWorld && checkMobType && checkSelf && checkRequirements && checkChance && checkPermission);
     }
 
     private boolean checkWorld(Player player) {
@@ -296,12 +297,12 @@ public final class Reward {
 
     @Nullable
     public Permission getPermission() {
-        if (this.permissionName == null || this.permissionName.isEmpty()) {
+        String permissionName = getPermissionName();
+        if (permissionName == null || permissionName.isEmpty()) {
             return null;
         }
 
         if (this.permission == null) {
-            String permissionName = getPermissionName();
             String description = "CombatLogX Reward Permission";
             this.permission = new Permission(permissionName, description, PermissionDefault.FALSE);
         }
