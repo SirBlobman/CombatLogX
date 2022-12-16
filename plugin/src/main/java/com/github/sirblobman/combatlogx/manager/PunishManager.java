@@ -173,7 +173,7 @@ public final class PunishManager extends Manager implements IPunishManager {
                 continue;
             }
 
-            SpecialPunishment specialPunishment = new SpecialPunishment(minAmount, maxAmount, reset, commandList);
+            SpecialPunishment specialPunishment = new SpecialPunishment(key, minAmount, maxAmount, reset, commandList);
             this.specialPunishmentList.add(specialPunishment);
         }
 
@@ -182,30 +182,49 @@ public final class PunishManager extends Manager implements IPunishManager {
     }
 
     private void runSpecialPunishments(Player player, List<Entity> enemyList) {
-        long punishmentCount = getPunishmentCount(player);
-        boolean reset = false;
+        printDebug("Detected runSpecialPunishments method...");
 
+        long punishmentCount = getPunishmentCount(player);
+        printDebug("Punishment Count: " + punishmentCount);
+
+        boolean reset = false;
         for (SpecialPunishment specialPunishment : this.specialPunishmentList) {
+            String id = specialPunishment.getId();
+            printDebug("Running punishment with id '" + id + "'...");
+
             int min = specialPunishment.getMinAmount();
+            printDebug("Minimum: " + min);
+
             if (punishmentCount < min) {
+                printDebug("Punishment minimum not met, ignoring.");
                 continue;
             }
 
             int max = specialPunishment.getMaxAmount();
+            printDebug("Maximum: " + max);
+
             if (punishmentCount > max) {
+                printDebug("Punishment count currently over maximum, ignoring.");
                 continue;
             }
 
             if (specialPunishment.isReset()) {
+                printDebug("Punishment reset is enabled.");
                 reset = true;
             }
 
             List<String> commandList = specialPunishment.getCommandList();
+            printDebug("Command List: " + commandList);
+
             runPunishCommands(player, enemyList, commandList);
+            printDebug("Finished punishment with id '" + id + "'.");
         }
 
         if (reset) {
+            printDebug("Resetting punishment count for player '" + player.getName() + ".");
             resetPunishmentCount(player);
         }
+
+        printDebug("Finished running special punishments.");
     }
 }
