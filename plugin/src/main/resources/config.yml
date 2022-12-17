@@ -1,3 +1,9 @@
+# CombatLogX Configuration File
+# This file is in YAML format.
+# YAML Format Information: https://yaml.org/
+# Make sure your editor is setup to use spaces instead of TAB characters.
+# You should also ensure that this file is saved as UTF-8.
+
 # DO NOT change this value or your config may be corrupted
 generated-by-version: "${bukkit.plugin.version}"
 
@@ -20,9 +26,15 @@ broadcast:
 # This is a list of worlds that CombatLogX will ignore when tagging players.
 # World names are case-sensitive. "world" is not the same as "WoRlD"
 # Make sure you are not using the world aliases from Multiverse
-disabled-world-list:
-  - "disabled_world_1"
-  - "DiSaBlEd_WoRlD_2"
+#
+# Empty list example
+# disabled-world-list: []
+#
+# YAML List format example
+# disabled-world-list:
+# - "disabled_world_1"
+# - "DiSaBlEd_WoRlD_2"
+disabled-world-list: []
 
 # This option changes the 'disabled-world-list' to a list of enabled worlds.
 # You can use this when you have fewer combat worlds than disabled worlds.
@@ -107,3 +119,9 @@ remove-no-damage-cooldown: true
 # This cooldown is for the `/clx request' command.
 # Default: 30 (seconds)
 forgive-request-cooldown: 30
+
+## END OF CONFIG.YML
+## YOU ARE NOT FINISHED
+## Don't forget to configure your expansions and other files
+## commands.yml, language.yml, punish.yml
+## /plugins/CombatLogX/expansions/

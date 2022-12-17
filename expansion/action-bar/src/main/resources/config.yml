@@ -31,6 +31,9 @@ right-color: "RED"
 # Default: "|"
 right-symbol: "|"
 
+## Reminder:
+## The action bar format is in your selected language file
+## (Default: en_us.lang.yml)
 
 ## Adventure NamedTextColor Value Map
 ## Legacy Color Code : Named Color
