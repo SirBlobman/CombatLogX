@@ -107,7 +107,7 @@ command:
     toggle-scoreboard: "<gray>Scoreboard: {status}"
   combat-timer:
     #Shown as the command output for '/combat-timer'.
-    time-left-self: "<green>Pozostało Ci </green><gray>{time_left} sekund."
+    time-left-self: "<green>Pozostało Ci <gray>{time_left}</gray> sekund.</green>"
     #Shown as the command output for '/combat-timer <player>'.
     time-left-other: "<gray>Graczowi {target}</gray><green> pozostało </green><gray>{time_left}</gray><green>."
 #These messages are shown a player is tagged into combat.
