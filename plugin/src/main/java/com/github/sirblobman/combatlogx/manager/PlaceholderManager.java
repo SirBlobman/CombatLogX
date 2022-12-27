@@ -126,12 +126,12 @@ public final class PlaceholderManager extends Manager implements IPlaceholderMan
             String replacedCommand = replaceAll(player, enemyList, originalCommand);
             if (replacedCommand.startsWith("[PLAYER]")) {
                 String playerCommand = replacedCommand.substring(8);
-                CommandHelper.runAsPlayer(plugin, player, playerCommand);
+                CommandHelper.runSync(plugin, () -> CommandHelper.runAsPlayer(plugin, player, playerCommand));
             } else if (replacedCommand.startsWith("[OP]")) {
                 String opCommand = replacedCommand.substring(4);
-                CommandHelper.runAsOperator(plugin, player, opCommand);
+                CommandHelper.runSync(plugin, () -> CommandHelper.runAsOperator(plugin, player, opCommand));
             } else {
-                CommandHelper.runAsConsole(plugin, replacedCommand);
+                CommandHelper.runSync(plugin, () -> CommandHelper.runAsConsole(plugin, replacedCommand));
             }
         }
     }

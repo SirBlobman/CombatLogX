@@ -6,10 +6,18 @@ import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 
 public final class CommandHelper {
+    public static void runSync(ICombatLogX plugin, Runnable task) {
+        JavaPlugin javaPlugin = plugin.getPlugin();
+        BukkitScheduler scheduler = Bukkit.getScheduler();
+        scheduler.runTask(javaPlugin, task);
+    }
+
     public static void runAsConsole(ICombatLogX plugin, String command) {
         try {
             CommandSender console = Bukkit.getConsoleSender();
