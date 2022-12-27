@@ -9,9 +9,9 @@ import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
-import me.angeschossen.lands.api.flags.Flags;
-import me.angeschossen.lands.api.flags.types.RoleFlag;
-import me.angeschossen.lands.api.integration.LandsIntegration;
+import me.angeschossen.lands.api.LandsIntegration;
+import me.angeschossen.lands.api.flags.type.Flags;
+import me.angeschossen.lands.api.flags.type.RoleFlag;
 import me.angeschossen.lands.api.land.Area;
 
 public final class LandsRegionHandler extends RegionHandler {
@@ -21,7 +21,7 @@ public final class LandsRegionHandler extends RegionHandler {
         super(expansion);
         ICombatLogX plugin = expansion.getPlugin();
         JavaPlugin javaPlugin = plugin.getPlugin();
-        this.landsIntegration = new LandsIntegration(javaPlugin);
+        this.landsIntegration = LandsIntegration.of(javaPlugin);
     }
 
     @Override
@@ -36,8 +36,13 @@ public final class LandsRegionHandler extends RegionHandler {
             return false;
         }
 
-        Area area = this.landsIntegration.getAreaByLoc(location);
+        LandsIntegration api = getLandsIntegration();
+        Area area = api.getArea(location);
         RoleFlag flag = (tagType == TagType.PLAYER ? Flags.ATTACK_PLAYER : Flags.ATTACK_ANIMAL);
         return (area != null && !area.hasFlag(player, flag, false));
+    }
+
+    private LandsIntegration getLandsIntegration() {
+        return this.landsIntegration;
     }
 }

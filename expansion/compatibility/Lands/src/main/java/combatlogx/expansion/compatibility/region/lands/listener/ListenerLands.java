@@ -16,8 +16,8 @@ import combatlogx.expansion.compatibility.region.lands.LandsExpansion;
 import combatlogx.expansion.newbie.helper.NewbieHelperExpansion;
 import combatlogx.expansion.newbie.helper.manager.PVPManager;
 import combatlogx.expansion.newbie.helper.manager.ProtectionManager;
-import me.angeschossen.lands.api.MemberHolder;
 import me.angeschossen.lands.api.events.war.WarDeclareEvent;
+import me.angeschossen.lands.api.memberholder.MemberHolder;
 
 public final class ListenerLands extends ExpansionListener {
     public ListenerLands(LandsExpansion expansion) {
