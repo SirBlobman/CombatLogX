@@ -96,6 +96,9 @@ error:
   # Shown when a command that requires an expansion has invalid input.
   unknown-expansion: "<red><gray>{target}</gray> is not an expansion or is not installed.</red>"
 
+  forgive-not-enemy: "<red><gray>{target}</gray> is not one of your enemies.</red>"
+  enemy-not-forgiving: "<red>That enemy is not in the mood to forgive you.</red>"
+
 command:
   combatlogx:
     # Shown as the command output for '/combatlogx help'.
@@ -109,6 +112,10 @@ command:
       - "  <white><bold>/combatlogx toggle bossbar/actionbar/scoreboard</bold></white><gray>: Enable or disable a notification type.</gray>"
       - "  <white><bold>/combatlogx untag \\<player></bold></white><gray>: Force a player out of combat.</gray>"
       - "  <white><bold>/combatlogx version</bold></white><gray>: Check your version of CombatLogX.</gray>"
+      - "  <white><bold>/combatlogx forgive request \\<player></bold></white><gray>: Send a request to an enemy to remove their tag from you.</gray>"
+      - "  <white><bold>/combatlogx forgive accept \\<player></bold></white><gray>: Allow an enemy's request to escape from combat.</gray>"
+      - "  <white><bold>/combatlogx forgive reject \\<player></bold></white><gray>: Ignore an enemy's request to escape from combat.</gray>"
+      - "  <white><bold>/combatlogx forgive toggle</bold></white><gray>: Enable or disable requests for stopping combat.</gray>"
       - ""
 
     # Shown as the command output for '/combatlogx reload' when reloading is successful.
@@ -139,6 +146,16 @@ command:
 
     # Shown as the command output for '/combatlogx toggle scoreboard'.
     toggle-scoreboard: "<gray><bold>Scoreboard:</bold></gray> {status}"
+
+    forgive:
+      toggle-disable: "<green>You can no longer receive requests for forgiveness.</green>"
+      toggle-enable: "<green>You can now receive forgiveness requests.</green>"
+      request-sent: "<green>You sent a forgive request to <gray>{target}</gray>.</green>"
+      request-receive:
+        - "<green><gray>{player}</gray> sent a forgive request to you.</green>"
+        - "<green>Type <click:run_command:/combatlogx forgive accept><gray>/clx forgive accept</gray></click> to accept or.</green>"
+        - "<green><click:run_command:/combatlogx forgive reject><gray>/clx forgive reject</gray></click> to deny.</green>"
+
 
   combat-timer:
     # Shown as the command output for '/combat-timer'.
@@ -381,6 +398,9 @@ expansion:
 
     # Shown when a married player is prevented from teleporting to their partner during combat.
     prevent-teleport-partner: "<red>You are not allowed to teleport to your partner while they are in combat.</red>"
+
+  huskhomes-compatibility:
+    prevent-teleport: "<red>You are not allowed to teleport during combat.</red>"
 
   region-protection:
     # Shown when a player tries to enter a no-pvp area during combat.

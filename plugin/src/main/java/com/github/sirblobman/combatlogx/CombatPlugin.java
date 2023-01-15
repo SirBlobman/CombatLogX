@@ -29,6 +29,7 @@ import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.IDeathManager;
+import com.github.sirblobman.combatlogx.api.manager.IForgiveManager;
 import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 import com.github.sirblobman.combatlogx.api.manager.IPunishManager;
 import com.github.sirblobman.combatlogx.api.manager.ITimerManager;
@@ -45,6 +46,7 @@ import com.github.sirblobman.combatlogx.listener.ListenerPunish;
 import com.github.sirblobman.combatlogx.listener.ListenerUntag;
 import com.github.sirblobman.combatlogx.manager.CombatManager;
 import com.github.sirblobman.combatlogx.manager.DeathManager;
+import com.github.sirblobman.combatlogx.manager.ForgiveManager;
 import com.github.sirblobman.combatlogx.manager.PlaceholderManager;
 import com.github.sirblobman.combatlogx.manager.PunishManager;
 import com.github.sirblobman.combatlogx.placeholder.BasePlaceholderExpansion;
@@ -61,6 +63,7 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     private final ExpansionManager expansionManager;
     private final PlaceholderManager placeholderManager;
     private final DeathManager deathManager;
+    private final ForgiveManager forgiveManager;
 
     public CombatPlugin() {
         this.timerUpdateTask = new TimerUpdateTask(this);
@@ -69,6 +72,7 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         this.combatManager = new CombatManager(this);
         this.punishManager = new PunishManager(this);
         this.deathManager = new DeathManager(this);
+        this.forgiveManager = new ForgiveManager(this);
     }
 
     @Override
@@ -170,6 +174,11 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     @Override
     public IPlaceholderManager getPlaceholderManager() {
         return this.placeholderManager;
+    }
+
+    @Override
+    public IForgiveManager getForgiveManager() {
+        return this.forgiveManager;
     }
 
     @NotNull

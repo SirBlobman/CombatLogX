@@ -34,7 +34,7 @@ broadcast:
 # disabled-world-list:
 # - "disabled_world_1"
 # - "DiSaBlEd_WoRlD_2"
-disabled-world-list: []
+disabled-world-list: [ ]
 
 # This option changes the 'disabled-world-list' to a list of enabled worlds.
 # You can use this when you have fewer combat worlds than disabled worlds.
@@ -116,9 +116,14 @@ untag-on-enemy-death: true
 remove-no-damage-cooldown: true
 
 # How long must players wait between requests?
-# This cooldown is for the `/clx request' command.
+# This cooldown is for the `/clx forgive request' command.
 # Default: 30 (seconds)
 forgive-request-cooldown: 30
+
+# How long does a request last before it expires?
+# This cooldown is for the `/clx forgive request' command.
+# Default: 10 (seconds)
+forgive-request-expire: 10
 
 ## END OF CONFIG.YML
 ## YOU ARE NOT FINISHED

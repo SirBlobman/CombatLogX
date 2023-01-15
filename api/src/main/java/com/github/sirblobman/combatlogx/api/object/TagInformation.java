@@ -193,4 +193,18 @@ public final class TagInformation {
 
         return enemyList.get(0);
     }
+
+    @Nullable
+    public CombatTag getTagForEnemy(Entity entity) {
+        Validate.notNull(entity, "entity must not be null!");
+
+        List<CombatTag> tagList = getTags();
+        for (CombatTag combatTag : tagList) {
+            if (combatTag.doesEnemyMatch(entity)) {
+                return combatTag;
+            }
+        }
+
+        return null;
+    }
 }

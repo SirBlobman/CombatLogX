@@ -2,6 +2,7 @@ package com.github.sirblobman.combatlogx.api.object;
 
 /**
  * Citizens slot type, used for the {@link com.github.sirblobman.combatlogx.api.event.NPCDropItemEvent}
+ *
  * @author SizzleMcGrizzle
  */
 public enum CitizensSlotType {

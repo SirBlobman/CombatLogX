@@ -13,6 +13,7 @@ import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.IDeathManager;
+import com.github.sirblobman.combatlogx.api.manager.IForgiveManager;
 import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 import com.github.sirblobman.combatlogx.api.manager.IPunishManager;
 import com.github.sirblobman.combatlogx.api.manager.ITimerManager;
@@ -45,6 +46,8 @@ public interface ICombatLogX extends IResourceHolder {
     IDeathManager getDeathManager();
 
     IPlaceholderManager getPlaceholderManager();
+
+    IForgiveManager getForgiveManager();
 
     Component getMessageWithPrefix(CommandSender audience, String key, Replacer replacer);
 

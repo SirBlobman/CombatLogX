@@ -15,6 +15,10 @@ It contains all the implementations, commands, and listeners that will be used o
     - **/combatlogx tag &lt;player&gt;:** Force a player to be tagged into combat.
     - **/combatlogx untag &lt;player&gt;:** Force a player to be untagged from combat.
     - **/combatlogx version:** View version information and a list of enabled expansions.
+    - **/combatlogx forgive request &lt;player&gt;:** Send a request to an enemy to get out of combat.
+    - **/combatlogx forgive accept:** Accept a request from an enemy to escape combat with you.
+    - **/combatlogx forgive reject:** Deny a request from an enemy to escape combat with you.
+    - **/combatlogx forgive toggle:** Prevent enemies from sending forgiveness requests to you.
 
 - **/combat-timer:**
     - **Aliases:** `/combattimer`, `/combattime`, `/ctime`, `/clt`, `/ct`
@@ -39,3 +43,8 @@ It contains all the implementations, commands, and listeners that will be used o
 - **combatlogx.command.combatlogx.version:** Gives access to version information with `/combatlogx version`.
 - **combatlogx.command.combatlogx.tag:** Gives access to force tag players with `/combatlogx tag`.
 - **combatlogx.command.combatlogx.untag:** Gives access to force players out of combat with `/combatlogx untag`.
+- **combatlogx.command.combatlogx.forgive:** Gives access to `/combatlogx forgive`.
+- **combatlogx.command.combatlogx.forgive.accept:** Gives access to `/combatlogx forgive accept`.
+- **combatlogx.command.combatlogx.forgive.reject:** Gives access to `/combatlogx forgive reject`.
+- **combatlogx.command.combatlogx.forgive.request:** Gives access to `/combatlogx forgive request`.
+- **combatlogx.command.combatlogx.forgive.toggle:** Gives access to `/combatlogx forgive toggle`.

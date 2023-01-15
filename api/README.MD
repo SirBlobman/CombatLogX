@@ -22,6 +22,7 @@ Maven:
 ```
 
 Gradle:
+
 ```groovy
 repositories {
     maven {
@@ -39,7 +40,6 @@ repositories {
     }
 }
 ```
-
 
 **Dependency: CombatLogX API**
 
