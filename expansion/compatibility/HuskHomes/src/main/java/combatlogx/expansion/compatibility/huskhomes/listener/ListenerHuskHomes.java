@@ -1,5 +1,7 @@
 package combatlogx.expansion.compatibility.huskhomes.listener;
 
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,16 +20,26 @@ public final class ListenerHuskHomes extends ExpansionListener {
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void beforeTeleport(TeleportWarmupEvent e) {
+        printDebug("Detected TeleportWarmupEvent...");
+
         Teleport timedTeleport = e.getTimedTeleport();
-        Player player = Bukkit.getPlayer(timedTeleport.teleporter.uuid);
+        UUID teleporterId = timedTeleport.teleporter.uuid;
+        printDebug("Teleporter ID: " + teleporterId);
+
+        Player player = Bukkit.getPlayer(teleporterId);
         if (player == null) {
+            printDebug("Teleporter is not a valid player, ignoring.");
             return;
         }
 
-        if (isInCombat(player)) {
-            String messagePath = "expansion.huskhomes-compatibility.prevent-teleport";
-            sendMessageWithPrefix(player, messagePath, null);
-            e.setCancelled(true);
+        if (!isInCombat(player)) {
+            printDebug("Player is not in combat, ignoring.");
+            return;
         }
+
+        printDebug("Sent message and cancelled event.");
+        e.setCancelled(true);
+        String messagePath = "expansion.huskhomes-compatibility.prevent-teleport";
+        sendMessageWithPrefix(player, messagePath, null);
     }
 }
