@@ -4,10 +4,15 @@ import java.util.Locale;
 import java.util.Optional;
 
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
 
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
+import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
+import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
 import combatlogx.expansion.compatibility.region.world.guard.WorldGuardExpansion;
@@ -73,5 +78,25 @@ public final class WorldGuardRegionHandler extends RegionHandler {
         }
 
         return null;
+    }
+
+    @Override
+    protected void customPreventEntry(Cancellable e, Player player, TagInformation tagInformation,
+                                       Location fromLocation, Location toLocation) {
+        WorldGuardExpansion expansion = getWorldGuardExpansion();
+        HookWorldGuard hook = expansion.getHookWorldGuard();
+        IWrappedFlag<Boolean> retagFlag = hook.getRetagFlag();
+
+        WorldGuardWrapper wrappedWorldGuard = WorldGuardWrapper.getInstance();
+        Optional<Boolean> optionalFlag = wrappedWorldGuard.queryFlag(player, toLocation, retagFlag);
+        if (!optionalFlag.isPresent() || !optionalFlag.get()) {
+            return;
+        }
+
+        ICombatLogX combatLogX = getExpansion().getPlugin();
+        ICombatManager combatManager = combatLogX.getCombatManager();
+        Entity currentEnemy = tagInformation.getCurrentEnemy();
+        TagType currentTagType = tagInformation.getCurrentTagType();
+        combatManager.tag(player, currentEnemy, currentTagType, TagReason.UNKNOWN);
     }
 }

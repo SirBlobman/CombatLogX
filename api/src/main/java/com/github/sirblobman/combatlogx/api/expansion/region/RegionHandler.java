@@ -120,6 +120,12 @@ public abstract class RegionHandler {
         }
 
         sendEntryDeniedMessage(player, tagInformation);
+        customPreventEntry(e, player, tagInformation, fromLocation, toLocation);
+    }
+
+    protected void customPreventEntry(Cancellable e, Player player, TagInformation tagInformation,
+                                      Location fromLocation, Location toLocation) {
+        // Override this to add custom stuff
     }
 
     public final long getEntryDeniedMessageCooldown() {

@@ -19,6 +19,7 @@ public final class HookWorldGuard {
     private IWrappedFlag<WrappedState> damageCombatFlag;
     private IWrappedFlag<WrappedState> mobCombatFlag;
     private IWrappedFlag<Boolean> noTaggingFlag;
+    private IWrappedFlag<Boolean> retagFlag;
 
     public HookWorldGuard(WorldGuardExpansion expansion) {
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
@@ -29,6 +30,7 @@ public final class HookWorldGuard {
         this.damageCombatFlag = null;
         this.mobCombatFlag = null;
         this.noTaggingFlag = null;
+        this.retagFlag = null;
     }
 
     private WorldGuardExpansion getExpansion() {
@@ -53,6 +55,7 @@ public final class HookWorldGuard {
             this.damageCombatFlag = wrapper.registerFlag("damage-combat", stateClass, state).orElse(null);
             this.mobCombatFlag = wrapper.registerFlag("mob-combat", stateClass, state).orElse(null);
             this.noTaggingFlag = wrapper.registerFlag("no-tagging", booleanClass, false).orElse(null);
+            this.retagFlag = wrapper.registerFlag("retag-player", booleanClass, false).orElse(null);
         } catch (Exception ex) {
             Logger logger = getLogger();
             logger.log(Level.WARNING, "An error occurred while registering custom WorldGuard flags:", ex);
@@ -80,6 +83,10 @@ public final class HookWorldGuard {
     }
 
     public IWrappedFlag<Boolean> getNoTaggingFlag() {
-        return noTaggingFlag;
+        return this.noTaggingFlag;
+    }
+
+    public IWrappedFlag<Boolean> getRetagFlag() {
+        return this.retagFlag;
     }
 }
