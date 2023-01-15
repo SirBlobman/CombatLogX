@@ -43,6 +43,7 @@ dependencies {
     expansion(project(":expansion:compatibility:FeatherBoard"))
     expansion(project(":expansion:compatibility:GriefDefender"))
     expansion(project(":expansion:compatibility:GriefPrevention"))
+    expansion(project(":expansion:compatibility:HuskHomes"))
     expansion(project(":expansion:compatibility:HuskSync"))
     expansion(project(":expansion:compatibility:HuskTowns"))
     expansion(project(":expansion:compatibility:iDisguise"))
