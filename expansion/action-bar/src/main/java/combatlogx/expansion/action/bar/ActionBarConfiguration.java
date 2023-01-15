@@ -120,7 +120,7 @@ public final class ActionBarConfiguration implements IConfigurable {
                 String colorHex = colorString.substring(1);
                 int colorInt = Integer.parseInt(colorHex, 16);
                 return TextColor.color(colorInt);
-            } catch(IllegalArgumentException ex) {
+            } catch (IllegalArgumentException ex) {
                 return defaultColor;
             }
         }

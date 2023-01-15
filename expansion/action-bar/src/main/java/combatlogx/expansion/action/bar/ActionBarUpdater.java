@@ -178,7 +178,7 @@ public final class ActionBarUpdater implements TimerUpdater {
             builder.append(leftSymbolComponent);
         }
 
-        for(long i = 0; i < rightBarsCount; i++) {
+        for (long i = 0; i < rightBarsCount; i++) {
             builder.append(rightSymbolComponent);
         }
 

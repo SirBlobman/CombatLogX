@@ -32,7 +32,7 @@ public final class ListenerInventories extends CheatPreventionListener {
         InventoryType viewType = openView.getType();
         player.closeInventory();
 
-        if(shouldSendMessage(viewType)) {
+        if (shouldSendMessage(viewType)) {
             sendMessage(player, "expansion.cheat-prevention.inventory.force-closed", null);
         }
     }
