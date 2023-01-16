@@ -97,7 +97,9 @@ public abstract class RegionHandler {
             case CANCEL_EVENT:
                 e.setCancelled(true);
                 break;
+
             case KNOCKBACK_PLAYER:
+                e.setCancelled(true);
                 if (player.isInsideVehicle()) {
                     if (!player.leaveVehicle()) {
                         e.setCancelled(true);
@@ -172,8 +174,7 @@ public abstract class RegionHandler {
         double strength = getKnockbackStrength();
         Vector multiply = normal.multiply(strength);
 
-        Vector finite = makeFinite(multiply);
-        return finite.setY(0.0D);
+        return makeFinite(multiply);
     }
 
     private Vector makeFinite(Vector original) {
