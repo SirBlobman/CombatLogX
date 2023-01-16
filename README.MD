@@ -39,15 +39,6 @@ things and change how the plugin works.
 7. Edit the configuration files for the main plugin, languages, and expansions.
 8. Type the command `/clx reload` to reload the configuration files.
 
-## Localization
-
-A translation project for CombatLogX V11 is in progress. If you wish to help out, please visit the Crowdin page below:  
-<https://crowdin.com/project/combatlogx-spigot-plugin>
-
-### Localization Credits
-
-https://crowdin.com/project/combatlogx-spigot-plugin/reports/top-members
-
 ## Expansions
 
 If you want to find out more about the expansions, please visit this page:  
@@ -59,6 +50,22 @@ You can also open the README files in each expansion folder.
 
 If you want to create expansions or learn how to use the CombatLogX API for V11/Beta, please visit this page:  
 [API README](api/README.MD)
+
+## Sponsors
+The people or organizations listed below were kind enough to fund my open-source projects!
+
+- Privately sponsored by [Alien Host](https://alienhost.net).
+- Sponsored on GitHub by [feather64.net](https://feather64.net) owned by Derek Larson.
+
+## Localization
+
+A translation project for CombatLogX V11 is in progress. If you wish to help out, please visit the Crowdin page below:  
+<https://crowdin.com/project/combatlogx-spigot-plugin>
+
+### Localization Credits
+You can view a list of contributions on our crowdin page: 
+https://crowdin.com/project/combatlogx-spigot-plugin/reports/top-members
+
 
 ## Support
 
