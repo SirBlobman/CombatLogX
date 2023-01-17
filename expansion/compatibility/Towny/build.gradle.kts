@@ -6,6 +6,6 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.github.TownyAdvanced:Towny:0.98.6.0")
+    compileOnly("com.github.TownyAdvanced:Towny:0.98.6.1")
     compileOnly("com.github.TownyAdvanced:FlagWar:0.5.3")
 }
