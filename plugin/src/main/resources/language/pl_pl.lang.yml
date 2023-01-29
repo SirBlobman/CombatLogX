@@ -70,6 +70,8 @@ error:
   self-not-in-combat: "<red>Nie jesteś w walce."
   #Shown when a command that requires an expansion has invalid input.
   unknown-expansion: "<gray>{target}</gray><red> nie jest rozszerzeniem lub nie jest zainstalowane."
+  forgive-not-enemy: "<red><gray>{target}</gray> nie jest jednym z twoich wrogów.</red>"
+  enemy-not-forgiving: "<red>Ten przeciwnik nie jest w nastroju, aby ci wybaczyć.</red>"
 command:
   combatlogx:
     #Shown as the command output for '/combatlogx help'.
@@ -83,6 +85,10 @@ command:
       - "  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>: Włącz lub wyłącz wybrany typ powiadomień."
       - "  <bold><white>/combatlogx untag \\<player></white></bold><gray>: Zmuś gracza do opuszczenia walki."
       - "  <bold><white>/combatlogx version</white></bold><gray>: Sprawdź wersję CombatLogX."
+      - "  <white><bold>/combatlogx forgive request \\<player></bold></white><gray>: Wyślij prośbę do wroga, aby usunąć tagi z ciebie.</gray>"
+      - "  <white><bold>/combatlogx forgive accept \\<player></bold></white><gray>: Zezwól na ucieczkę na prośbę wroga.</gray>"
+      - "  <white><bold>/combatlogx forgive reject \\<player></bold></white><gray>: Zignoruj prośbę wroga o ucieczkę z walki.</gray>"
+      - "  <white><bold>/combatlogx forgive toggle</bold></white><gray>: Włącz lub wyłącz prośby o zaprzestanie walki.</gray>"
       - ""
     #Shown as the command output for '/combatlogx reload' when reloading is successful.
     reload-success:
@@ -105,6 +111,14 @@ command:
     toggle-actionbar: "<bold><gray>Action Bar: {status}"
     #Shown as the command output for '/combatlogx toggle scoreboard'.
     toggle-scoreboard: "<gray>Scoreboard: {status}"
+    forgive:
+      toggle-disable: "<green>Nie możesz już otrzymywać próśb o przebaczenie.</green>"
+      toggle-enable: "<green>Możesz teraz otrzymywać prośby o przebaczanie.</green>"
+      request-sent: "<green>Wysłałeś prośbę o przebaczenie do <gray>{target}</gray>.</green>"
+      request-receive:
+        - "<green><gray>{player}</gray> wysłał do Ciebie prośbę o wybaczenie.</green>"
+        - "<green>Wpisz <click:run_command:/combatlogx forgive accept><gray>/clx forgive accept</gray></click> aby zaakceptować lub</green>"
+        - "<green><click:run_command:/combatlogx forgive reject><gray>/clx forgive reject</gray></click> by odrzucić.</green>"
   combat-timer:
     #Shown as the command output for '/combat-timer'.
     time-left-self: "<green>Pozostało Ci <gray>{time_left}</gray> sekund.</green>"
@@ -292,6 +306,8 @@ expansion:
     prevent-teleport-self: "<red>Nie możesz teleportować się do swojego partnera podczas walki.</red>"
     #Shown when a married player is prevented from teleporting to their partner during combat.
     prevent-teleport-partner: "<red>Nie możesz teleportować się do swojego partnera, gdy jest w walce.</red>"
+  huskhomes-compatibility:
+    prevent-teleport: "<red>Nie możesz się teleportować podczas walki."
   region-protection:
     #Shown when a player tries to enter a no-pvp area during combat.
     default-no-entry: "<red>Nie możesz wejść do tego obszaru podczas walki.</red>"
