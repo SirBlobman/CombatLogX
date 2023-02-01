@@ -22,7 +22,8 @@ import org.bukkit.plugin.PluginManager;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.language.LanguageManager;
-import com.github.sirblobman.api.language.Replacer;
+import com.github.sirblobman.api.language.replacer.Replacer;
+import com.github.sirblobman.api.language.replacer.StringReplacer;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.api.utility.MessageUtility;
@@ -354,7 +355,7 @@ public final class CombatManager extends Manager implements ICombatManager {
 
         if (entity == null) {
             LanguageManager languageManager = plugin.getLanguageManager();
-            String message = languageManager.getMessageString(player, "placeholder.unknown-enemy", null);
+            String message = languageManager.getMessageString(player, "placeholder.unknown-enemy");
             return MessageUtility.color(message);
         }
 
@@ -368,7 +369,7 @@ public final class CombatManager extends Manager implements ICombatManager {
 
         if (entity == null) {
             LanguageManager languageManager = plugin.getLanguageManager();
-            String message = languageManager.getMessageString(player, "placeholder.unknown-enemy", null);
+            String message = languageManager.getMessageString(player, "placeholder.unknown-enemy");
             return MessageUtility.color(message);
         }
 
@@ -393,11 +394,12 @@ public final class CombatManager extends Manager implements ICombatManager {
         String tagReasonString = tagReason.name().toLowerCase(Locale.US);
         String tagTypeString = tagType.name().toLowerCase(Locale.US);
 
-        Replacer replacer = message -> message.replace("{enemy}", enemyName)
-                .replace("{mob_type}", enemyType);
+        Replacer enemyNameReplacer = new StringReplacer("{enemy}", enemyName);
+        Replacer enemyTypeReplacer = new StringReplacer("{mob_type}", enemyType);
         String languagePath = ("tagged." + tagReasonString + "." + tagTypeString);
 
         ICombatLogX plugin = getCombatLogX();
-        plugin.sendMessageWithPrefix(player, languagePath, replacer);
+        LanguageManager languageManager = plugin.getLanguageManager();
+        languageManager.sendMessageWithPrefix(player, languagePath, enemyNameReplacer, enemyTypeReplacer);
     }
 }

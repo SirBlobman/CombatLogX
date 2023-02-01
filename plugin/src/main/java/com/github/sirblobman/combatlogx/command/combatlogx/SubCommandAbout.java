@@ -9,7 +9,8 @@ import java.util.Set;
 
 import org.bukkit.command.CommandSender;
 
-import com.github.sirblobman.api.language.Replacer;
+import com.github.sirblobman.api.language.replacer.Replacer;
+import com.github.sirblobman.api.language.replacer.StringReplacer;
 import com.github.sirblobman.api.utility.MessageUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.command.CombatLogCommand;
@@ -43,7 +44,7 @@ public final class SubCommandAbout extends CombatLogCommand {
         String expansionName = args[0];
         Optional<Expansion> optionalExpansion = getExpansion(expansionName);
         if (!optionalExpansion.isPresent()) {
-            Replacer replacer = message -> message.replace("{target}", expansionName);
+            Replacer replacer = new StringReplacer("{target}", expansionName);
             sendMessageWithPrefix(sender, "error.unknown-expansion", replacer);
             return true;
         }

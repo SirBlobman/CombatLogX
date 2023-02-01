@@ -11,7 +11,8 @@ import java.util.stream.IntStream;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.github.sirblobman.api.language.Replacer;
+import com.github.sirblobman.api.language.replacer.Replacer;
+import com.github.sirblobman.api.language.replacer.StringReplacer;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.command.CombatLogCommand;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
@@ -52,7 +53,7 @@ public final class SubCommandTag extends CombatLogCommand {
         }
 
         String targetName = target.getName();
-        Replacer replacer = message -> message.replace("{target}", targetName);
+        Replacer replacer = new StringReplacer("{target}", targetName);
 
         ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = plugin.getCombatManager();

@@ -12,6 +12,7 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.CombatPlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
@@ -94,8 +95,9 @@ public final class ListenerUntag extends CombatListener {
         String untagReasonReplaced = untagReasonLower.replace('_', '-');
 
         ICombatLogX plugin = getCombatLogX();
+        LanguageManager languageManager = plugin.getLanguageManager();
         String languagePath = ("combat-timer." + untagReasonReplaced);
-        plugin.sendMessageWithPrefix(player, languagePath, null);
+        languageManager.sendMessageWithPrefix(player, languagePath);
     }
 
     private void runUntagCommands(Player player, List<Entity> enemyList) {

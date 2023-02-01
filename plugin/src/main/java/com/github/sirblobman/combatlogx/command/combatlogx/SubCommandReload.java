@@ -17,11 +17,11 @@ public final class SubCommandReload extends CombatLogCommand {
             ICombatLogX plugin = getCombatLogX();
             plugin.onReload();
 
-            sendMessageWithPrefix(sender, "command.combatlogx.reload-success", null);
+            sendMessageWithPrefix(sender, "command.combatlogx.reload-success");
             return true;
         } catch (Exception ex) {
             ex.printStackTrace();
-            sendMessageWithPrefix(sender, "command.combatlogx.reload-failure", null);
+            sendMessageWithPrefix(sender, "command.combatlogx.reload-failure");
             return true;
         }
     }

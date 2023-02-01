@@ -13,7 +13,7 @@ public final class SubCommandHelp extends CombatLogCommand {
 
     @Override
     protected boolean execute(CommandSender sender, String[] args) {
-        sendMessage(sender, "command.combatlogx.help-message-list", null);
+        sendMessage(sender, "command.combatlogx.help-message-list");
         return true;
     }
 }

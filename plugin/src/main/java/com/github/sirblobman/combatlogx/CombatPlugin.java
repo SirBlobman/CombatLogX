@@ -12,17 +12,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.github.sirblobman.api.adventure.adventure.audience.Audience;
-import com.github.sirblobman.api.adventure.adventure.platform.bukkit.BukkitAudiences;
-import com.github.sirblobman.api.adventure.adventure.text.Component;
-import com.github.sirblobman.api.adventure.adventure.text.TextComponent.Builder;
 import com.github.sirblobman.api.bstats.bukkit.Metrics;
 import com.github.sirblobman.api.bstats.charts.SimplePie;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.core.CorePlugin;
 import com.github.sirblobman.api.language.Language;
 import com.github.sirblobman.api.language.LanguageManager;
-import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.api.update.UpdateManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -52,9 +47,6 @@ import com.github.sirblobman.combatlogx.manager.PunishManager;
 import com.github.sirblobman.combatlogx.placeholder.BasePlaceholderExpansion;
 import com.github.sirblobman.combatlogx.task.TimerUpdateTask;
 import com.github.sirblobman.combatlogx.task.UntagTask;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public final class CombatPlugin extends ConfigurablePlugin implements ICombatLogX {
     private final TimerUpdateTask timerUpdateTask;
@@ -95,6 +87,10 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     @Override
     public void onEnable() {
         onReload();
+
+        LanguageManager languageManager = getLanguageManager();
+        languageManager.onPluginEnable();
+
         broadcastLoadMessage();
 
         registerCommands();
@@ -181,46 +177,6 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         return this.forgiveManager;
     }
 
-    @NotNull
-    @Override
-    public Component getMessageWithPrefix(@Nullable CommandSender audience, @NotNull String key,
-                                          @Nullable Replacer replacer) {
-        LanguageManager languageManager = getLanguageManager();
-        Component message = languageManager.getMessage(audience, key, replacer);
-        if (Component.empty().equals(message)) {
-            return Component.empty();
-        }
-
-        Component prefix = languageManager.getMessage(audience, "prefix", null);
-        if (Component.empty().equals(prefix)) {
-            return message;
-        }
-
-        Builder builder = Component.text();
-        builder.append(prefix);
-        builder.append(Component.space());
-        builder.append(message);
-        return builder.build();
-    }
-
-    @Override
-    public void sendMessageWithPrefix(@NotNull CommandSender audience, @NotNull String key,
-                                      @Nullable Replacer replacer) {
-        Component message = getMessageWithPrefix(audience, key, replacer);
-        if (Component.empty().equals(message)) {
-            return;
-        }
-
-        LanguageManager languageManager = getLanguageManager();
-        BukkitAudiences audiences = languageManager.getAudiences();
-        if (audiences == null) {
-            return;
-        }
-
-        Audience realAudience = audiences.sender(audience);
-        realAudience.sendMessage(message);
-    }
-
     @Override
     public void sendMessage(CommandSender sender, String... messageArray) {
         sender.sendMessage(messageArray);
@@ -263,7 +219,7 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
 
     private void reloadLanguage() {
         LanguageManager languageManager = getLanguageManager();
-        languageManager.reloadLanguageFiles();
+        languageManager.reloadLanguages();
     }
 
     private void registerCommands() {
@@ -315,7 +271,7 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         }
 
         LanguageManager languageManager = getLanguageManager();
-        languageManager.broadcastMessage("broadcast.on-load", null, null);
+        languageManager.broadcastMessage("broadcast.on-load", null);
     }
 
     private void broadcastEnableMessage() {
@@ -326,7 +282,7 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         }
 
         LanguageManager languageManager = getLanguageManager();
-        languageManager.broadcastMessage("broadcast.on-enable", null, null);
+        languageManager.broadcastMessage("broadcast.on-enable", null);
     }
 
     private void broadcastDisableMessage() {
@@ -337,7 +293,7 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         }
 
         LanguageManager languageManager = getLanguageManager();
-        languageManager.broadcastMessage("broadcast.on-disable", null, null);
+        languageManager.broadcastMessage("broadcast.on-disable", null);
     }
 
     private void registerBasePlaceholders() {
@@ -354,6 +310,6 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     private String getDefaultLanguageCode() {
         LanguageManager languageManager = getLanguageManager();
         Language defaultLanguage = languageManager.getDefaultLanguage();
-        return (defaultLanguage == null ? "none" : defaultLanguage.getLanguageCode());
+        return (defaultLanguage == null ? "none" : defaultLanguage.getLanguageName());
     }
 }

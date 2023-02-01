@@ -6,8 +6,8 @@ import java.util.List;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-import com.github.sirblobman.api.language.Replacer;
-import com.github.sirblobman.api.language.SimpleReplacer;
+import com.github.sirblobman.api.language.replacer.Replacer;
+import com.github.sirblobman.api.language.replacer.StringReplacer;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.command.CombatLogPlayerCommand;
 import com.github.sirblobman.combatlogx.api.manager.IForgiveManager;
@@ -31,7 +31,7 @@ public final class SubCommandForgiveReject extends CombatLogPlayerCommand {
         IForgiveManager forgiveManager = combatLogX.getForgiveManager();
         CombatTag activeRequest = forgiveManager.getActiveRequest(player);
         if (activeRequest == null) {
-            sendMessage(player, "command.combatlogx.forgive.no-active-request", null);
+            sendMessage(player, "command.combatlogx.forgive.no-active-request");
             return true;
         }
 
@@ -40,8 +40,8 @@ public final class SubCommandForgiveReject extends CombatLogPlayerCommand {
         Entity enemy = activeRequest.getEnemy();
         String playerName = player.getName();
         String enemyName = PlaceholderHelper.getEnemyName(combatLogX, player, enemy);
-        Replacer replacerEnemy = new SimpleReplacer("{enemy}", enemyName);
-        Replacer replacerPlayer = new SimpleReplacer("{player}", playerName);
+        Replacer replacerEnemy = new StringReplacer("{enemy}", enemyName);
+        Replacer replacerPlayer = new StringReplacer("{player}", playerName);
         sendMessage(player, "command.combatlogx.forgive.reject-player", replacerEnemy);
         sendMessage(enemy, "command.combatlogx.forgive.reject-enemy", replacerPlayer);
         return true;

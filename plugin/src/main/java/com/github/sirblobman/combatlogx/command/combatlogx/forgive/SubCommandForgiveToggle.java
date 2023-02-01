@@ -28,10 +28,10 @@ public final class SubCommandForgiveToggle extends CombatLogPlayerCommand {
 
         if (toggleValue) {
             forgiveManager.setToggle(player, false);
-            sendMessage(player, "command.combatlogx.forgive.toggle-enable", null);
+            sendMessage(player, "command.combatlogx.forgive.toggle-enable");
         } else {
             forgiveManager.setToggle(player, true);
-            sendMessage(player, "command.combatlogx.forgive.toggle-disable", null);
+            sendMessage(player, "command.combatlogx.forgive.toggle-disable");
         }
 
         return true;
