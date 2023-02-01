@@ -51,7 +51,7 @@ Maven:
     <dependency>
         <groupId>com.github.sirblobman.api</groupId>
         <artifactId>core</artifactId>
-        <version>2.6-SNAPSHOT</version>
+        <version>2.7-SNAPSHOT</version>
         <scope>provided</scope>
     </dependency>
     
@@ -59,7 +59,7 @@ Maven:
     <dependency>
         <groupId>com.github.sirblobman.combatlogx</groupId>
         <artifactId>api</artifactId>
-        <version>11.0.0.0-SNAPSHOT</version>
+        <version>11.2-SNAPSHOT</version>
         <scope>provided</scope>
     </dependency>
 </dependencies>
@@ -69,15 +69,15 @@ Gradle:
 
 ```groovy
 dependencies {
-    compileOnly 'com.github.sirblobman.api:core:2.6-SNAPSHOT'
-    compileOnly 'com.github.sirblobman.combatlogx:api:11.0.0.0-SNAPSHOT'
+    compileOnly 'com.github.sirblobman.api:core:2.7-SNAPSHOT'
+    compileOnly 'com.github.sirblobman.combatlogx:api:11.2-SNAPSHOT'
 }
 ```
 
 ```kotlin
 dependencies {
-    compileOnly("com.github.sirblobman.api:core:2.6-SNAPSHOT")
-    compileOnly("com.github.sirblobman.combatlogx:api:11.0.0.0-SNAPSHOT")
+    compileOnly("com.github.sirblobman.api:core:2.7-SNAPSHOT")
+    compileOnly("com.github.sirblobman.combatlogx:api:11.2-SNAPSHOT")
 }
 ```
 

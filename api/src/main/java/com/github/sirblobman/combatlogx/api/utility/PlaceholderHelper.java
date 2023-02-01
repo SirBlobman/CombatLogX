@@ -1,11 +1,9 @@
 package com.github.sirblobman.combatlogx.api.utility;
 
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -20,7 +18,6 @@ import org.bukkit.plugin.PluginManager;
 
 import com.github.sirblobman.api.adventure.adventure.text.Component;
 import com.github.sirblobman.api.language.ComponentHelper;
-import com.github.sirblobman.api.language.Language;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
@@ -81,7 +78,7 @@ public final class PlaceholderHelper {
 
     public static String getTimeLeft(ICombatLogX plugin, Player player) {
         LanguageManager languageManager = plugin.getLanguageManager();
-        String zeroString = languageManager.getMessageString(player, "placeholder.time-left-zero", null);
+        String zeroString = languageManager.getMessageString(player, "placeholder.time-left-zero");
         String zeroMessage = MessageUtility.color(zeroString);
 
         ICombatManager combatManager = plugin.getCombatManager();
@@ -108,7 +105,7 @@ public final class PlaceholderHelper {
 
     public static String getTimeLeftSpecific(ICombatLogX plugin, Player player, int index) {
         LanguageManager languageManager = plugin.getLanguageManager();
-        String zeroString = languageManager.getMessageString(player, "placeholder.time-left-zero", null);
+        String zeroString = languageManager.getMessageString(player, "placeholder.time-left-zero");
         String zeroMessage = MessageUtility.color(zeroString);
 
         ICombatManager combatManager = plugin.getCombatManager();
@@ -128,7 +125,7 @@ public final class PlaceholderHelper {
         long systemMillis = System.currentTimeMillis();
         long subtractMillis = (expireMillis - systemMillis);
         long timeLeftMillis = Math.max(0L, subtractMillis);
-        if (timeLeftMillis <= 0L) {
+        if (timeLeftMillis == 0L) {
             return zeroMessage;
         }
 
@@ -142,7 +139,7 @@ public final class PlaceholderHelper {
 
     public static String getTimeLeftDecimalSpecific(ICombatLogX plugin, Player player, int index) {
         LanguageManager languageManager = plugin.getLanguageManager();
-        String zeroString = languageManager.getMessageString(player, "placeholder.time-left-zero", null);
+        String zeroString = languageManager.getMessageString(player, "placeholder.time-left-zero");
         String zeroMessage = MessageUtility.color(zeroString);
 
         ICombatManager combatManager = plugin.getCombatManager();
@@ -177,7 +174,7 @@ public final class PlaceholderHelper {
 
     public static String getTimeLeftDecimal(ICombatLogX plugin, Player player) {
         LanguageManager languageManager = plugin.getLanguageManager();
-        Component zeroComponent = languageManager.getMessage(player, "placeholder.time-left-zero", null);
+        Component zeroComponent = languageManager.getMessage(player, "placeholder.time-left-zero");
         String zeroMessage = ComponentHelper.toLegacy(zeroComponent);
 
         ICombatManager combatManager = plugin.getCombatManager();
@@ -209,7 +206,7 @@ public final class PlaceholderHelper {
         boolean inCombat = combatManager.isInCombat(player);
 
         String key = ("placeholder.status." + (inCombat ? "in-combat" : "not-in-combat"));
-        String message = languageManager.getMessageString(player, key, null);
+        String message = languageManager.getMessageString(player, key);
         return MessageUtility.color(message);
     }
 
@@ -219,7 +216,7 @@ public final class PlaceholderHelper {
         boolean inCombat = combatManager.isInCombat(player);
 
         String key = ("placeholder.status." + (inCombat ? "fighting" : "idle"));
-        String message = languageManager.getMessageString(player, key, null);
+        String message = languageManager.getMessageString(player, key);
         return MessageUtility.color(message);
     }
 
@@ -304,6 +301,7 @@ public final class PlaceholderHelper {
         return Long.toString(enemyHeartsRounded);
     }
 
+    @SuppressWarnings("UnnecessaryUnicodeEscape")
     public static String getEnemyHearts(ICombatLogX plugin, Player player, Entity enemy) {
         if (enemy == null) {
             return getUnknownEnemy(plugin, player);
@@ -330,19 +328,13 @@ public final class PlaceholderHelper {
 
     public static String getUnknownEnemy(ICombatLogX plugin, Player player) {
         LanguageManager languageManager = plugin.getLanguageManager();
-        String message = languageManager.getMessageString(player, "placeholder.unknown-enemy", null);
+        String message = languageManager.getMessageString(player, "placeholder.unknown-enemy");
         return MessageUtility.color(message);
     }
 
     public static DecimalFormat getDecimalFormat(ICombatLogX plugin, Player player) {
         LanguageManager languageManager = plugin.getLanguageManager();
-        Language language = languageManager.getLanguage(player);
-        if (language == null) {
-            DecimalFormatSymbols usSymbols = DecimalFormatSymbols.getInstance(Locale.US);
-            return new DecimalFormat("0.00", usSymbols);
-        }
-
-        return language.getDecimalFormat();
+        return languageManager.getDecimalFormat(player);
     }
 
     @Nullable

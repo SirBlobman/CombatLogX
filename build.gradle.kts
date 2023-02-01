@@ -19,7 +19,7 @@ rootProject.ext.set("mavenPassword", mavenDeployPassword)
 
 allprojects {
     group = "com.github.sirblobman.combatlogx"
-    version = "11.0.0.0-SNAPSHOT"
+    version = findProperty("version.api") as String
 
     apply(plugin = "java")
 

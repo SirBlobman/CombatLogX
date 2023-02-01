@@ -3,12 +3,10 @@ package com.github.sirblobman.combatlogx.api;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.github.sirblobman.api.adventure.adventure.text.Component;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.IResourceHolder;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.language.LanguageManager;
-import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
@@ -48,10 +46,6 @@ public interface ICombatLogX extends IResourceHolder {
     IPlaceholderManager getPlaceholderManager();
 
     IForgiveManager getForgiveManager();
-
-    Component getMessageWithPrefix(CommandSender audience, String key, Replacer replacer);
-
-    void sendMessageWithPrefix(CommandSender audience, String key, Replacer replacer);
 
     void sendMessage(CommandSender sender, String... messageArray);
 

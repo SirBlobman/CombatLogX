@@ -7,30 +7,22 @@ import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.github.sirblobman.api.adventure.adventure.audience.Audience;
-import com.github.sirblobman.api.adventure.adventure.platform.bukkit.BukkitAudiences;
-import com.github.sirblobman.api.adventure.adventure.text.Component;
-import com.github.sirblobman.api.adventure.adventure.text.TextComponent.Builder;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.language.LanguageManager;
-import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.IDeathManager;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public abstract class CombatListener implements Listener {
     private final ICombatLogX plugin;
@@ -45,10 +37,6 @@ public abstract class CombatListener implements Listener {
 
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(this, plugin);
-    }
-
-    public void unregister() {
-        HandlerList.unregisterAll(this);
     }
 
     @NotNull
@@ -101,44 +89,6 @@ public abstract class CombatListener implements Listener {
     protected final boolean isInCombat(Player player) {
         ICombatManager combatManager = getCombatManager();
         return combatManager.isInCombat(player);
-    }
-
-    @NotNull
-    protected final Component getMessageWithPrefix(@Nullable CommandSender audience, @NotNull String key,
-                                                   @Nullable Replacer replacer) {
-        LanguageManager languageManager = getLanguageManager();
-        Component message = languageManager.getMessage(audience, key, replacer);
-        if (Component.empty().equals(message)) {
-            return Component.empty();
-        }
-
-        Component prefix = languageManager.getMessage(audience, "prefix", null);
-        if (Component.empty().equals(prefix)) {
-            return message;
-        }
-
-        Builder builder = Component.text();
-        builder.append(prefix);
-        builder.append(Component.space());
-        builder.append(message);
-        return builder.build();
-    }
-
-    protected final void sendMessageWithPrefix(@NotNull CommandSender audience, @NotNull String key,
-                                               @Nullable Replacer replacer) {
-        Component message = getMessageWithPrefix(audience, key, replacer);
-        if (Component.empty().equals(message)) {
-            return;
-        }
-
-        LanguageManager languageManager = getLanguageManager();
-        BukkitAudiences audiences = languageManager.getAudiences();
-        if (audiences == null) {
-            return;
-        }
-
-        Audience realAudience = audiences.sender(audience);
-        realAudience.sendMessage(message);
     }
 
     protected final boolean isDebugModeDisabled() {

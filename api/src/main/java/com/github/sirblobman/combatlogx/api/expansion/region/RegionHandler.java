@@ -16,6 +16,7 @@ import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.util.Vector;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -58,7 +59,8 @@ public abstract class RegionHandler {
         }
 
         ICombatLogX plugin = this.expansion.getPlugin();
-        plugin.sendMessageWithPrefix(player, messagePath, null);
+        LanguageManager languageManager = plugin.getLanguageManager();
+        languageManager.sendMessageWithPrefix(player, messagePath);
 
         long cooldownSeconds = getEntryDeniedMessageCooldown();
         long cooldownMillis = TimeUnit.SECONDS.toMillis(cooldownSeconds);

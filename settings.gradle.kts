@@ -1,8 +1,10 @@
 rootProject.name = "CombatLogX"
 
+// CombatLogX API
 include("api")
+
+// Base Spigot Plugin
 include("plugin")
-include("builder")
 
 // CombatLogX Expansions
 include("expansion")
@@ -66,3 +68,6 @@ include("expansion:compatibility:UltimateClaims")
 include("expansion:compatibility:uSkyBlock")
 include("expansion:compatibility:VanishNoPacket")
 include("expansion:compatibility:WorldGuard")
+
+// Final ZIP Builder
+include("builder")
