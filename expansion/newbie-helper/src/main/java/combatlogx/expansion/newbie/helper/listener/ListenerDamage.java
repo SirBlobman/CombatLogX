@@ -8,6 +8,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 import com.github.sirblobman.combatlogx.api.utility.EntityHelper;
@@ -69,7 +70,8 @@ public final class ListenerDamage extends ExpansionListener {
             if (shouldRemoveProtectionOnAttack()) {
                 protectionManager.setProtected(player, false);
                 String messagePath = ("expansion.newbie-helper.protection-disabled.attacker");
-                sendMessageWithPrefix(player, messagePath, null);
+                LanguageManager languageManager = getLanguageManager();
+                languageManager.sendMessageWithPrefix(player, messagePath);
             }
         }
     }
@@ -99,23 +101,24 @@ public final class ListenerDamage extends ExpansionListener {
         NewbieHelperExpansion expansion = getNewbieHelperExpansion();
         ProtectionManager protectionManager = expansion.getProtectionManager();
         PVPManager pvpManager = expansion.getPVPManager();
+        LanguageManager languageManager = getLanguageManager();
 
         if (pvpManager.isDisabled(attacked)) {
             e.setCancelled(true);
-            sendMessageWithPrefix(attacker, "expansion.newbie-helper.no-pvp.other", null);
+            languageManager.sendMessageWithPrefix(attacker, "expansion.newbie-helper.no-pvp.other");
             return;
         }
 
         if (pvpManager.isDisabled(attacker)) {
             e.setCancelled(true);
-            sendMessageWithPrefix(attacker, "expansion.newbie-helper.no-pvp.self", null);
+            languageManager.sendMessageWithPrefix(attacker, "expansion.newbie-helper.no-pvp.self");
             return;
         }
 
         if (protectionManager.isProtected(attacked)) {
             e.setCancelled(true);
             String messagePath = ("expansion.newbie-helper.no-pvp.protected");
-            sendMessageWithPrefix(attacker, messagePath, null);
+            languageManager.sendMessageWithPrefix(attacker, messagePath);
             return;
         }
 
@@ -123,7 +126,7 @@ public final class ListenerDamage extends ExpansionListener {
             if (shouldRemoveProtectionOnAttack()) {
                 protectionManager.setProtected(attacker, false);
                 String messagePath = ("expansion.newbie-helper.protection-disabled.attacker");
-                sendMessageWithPrefix(attacker, messagePath, null);
+                languageManager.sendMessageWithPrefix(attacker, messagePath);
             }
         }
     }

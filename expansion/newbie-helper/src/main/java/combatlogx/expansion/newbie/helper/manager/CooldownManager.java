@@ -9,8 +9,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.api.language.Replacer;
-import com.github.sirblobman.api.language.SimpleReplacer;
+import com.github.sirblobman.api.language.LanguageManager;
+import com.github.sirblobman.api.language.replacer.LongReplacer;
+import com.github.sirblobman.api.language.replacer.Replacer;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 
@@ -87,13 +88,13 @@ public final class CooldownManager {
         long systemTimeMillis = System.currentTimeMillis();
         long subtractMillis = (expireMillis - systemTimeMillis);
         long subtractSeconds = TimeUnit.MILLISECONDS.toSeconds(subtractMillis);
-
-        String timeLeftString = Long.toString(subtractSeconds);
-        Replacer replacer = new SimpleReplacer("{time_left}", timeLeftString);
+        Replacer timeLeftReplacer = new LongReplacer("{time_left}", subtractSeconds);
 
         NewbieHelperExpansion expansion = getExpansion();
         ICombatLogX combatLogX = expansion.getPlugin();
-        combatLogX.sendMessageWithPrefix(player, "expansion.newbie-helper.togglepvp.cooldown", replacer);
+        LanguageManager languageManager = combatLogX.getLanguageManager();
+        languageManager.sendMessageWithPrefix(player, "expansion.newbie-helper.togglepvp.cooldown",
+                timeLeftReplacer);
     }
 
     private NewbieHelperExpansion getExpansion() {

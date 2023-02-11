@@ -4,11 +4,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import com.github.sirblobman.api.adventure.adventure.text.Component;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.language.LanguageManager;
-import com.github.sirblobman.api.language.Replacer;
-import com.github.sirblobman.api.language.SimpleReplacer;
+import com.github.sirblobman.api.language.replacer.ComponentReplacer;
+import com.github.sirblobman.api.language.replacer.Replacer;
+import com.github.sirblobman.api.language.replacer.StringReplacer;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 
@@ -48,11 +50,10 @@ public final class PVPManager {
         String pvpStatusPath = ("placeholder.toggle." + (pvpDisabled ? "disabled" : "enabled"));
 
         LanguageManager languageManager = getLanguageManager();
-        String pvpStatus = languageManager.getMessageString(player, pvpStatusPath, null);
+        Component pvpStatus = languageManager.getMessage(player, pvpStatusPath);
 
-        ICombatLogX combatLogX = getCombatLogX();
-        Replacer replacer = new SimpleReplacer("{status}", pvpStatus);
-        combatLogX.sendMessageWithPrefix(player, "expansion.newbie-helper.togglepvp.self", replacer);
+        Replacer replacer = new ComponentReplacer("{status}", pvpStatus);
+        languageManager.sendMessageWithPrefix(player, "expansion.newbie-helper.togglepvp.self", replacer);
     }
 
     public void sendAdminToggleMessage(CommandSender sender, Player target) {
@@ -60,13 +61,13 @@ public final class PVPManager {
         String pvpStatusPath = ("placeholder.toggle." + (pvpDisabled ? "disabled" : "enabled"));
 
         LanguageManager languageManager = getLanguageManager();
-        String pvpStatus = languageManager.getMessageString(sender, pvpStatusPath, null);
+        Component pvpStatus = languageManager.getMessage(target, pvpStatusPath);
+        Replacer statusReplacer = new ComponentReplacer("{status}", pvpStatus);
 
         String targetName = target.getName();
-        ICombatLogX combatLogX = getCombatLogX();
-        Replacer replacer = message -> message.replace("{target}", targetName)
-                .replace("{status}", pvpStatus);
-        combatLogX.sendMessageWithPrefix(sender, "expansion.newbie-helper.togglepvp.admin", replacer);
+        Replacer targetReplacer = new StringReplacer("{target}", targetName);
+        languageManager.sendMessageWithPrefix(sender, "expansion.newbie-helper.togglepvp.admin",
+                statusReplacer, targetReplacer);
     }
 
     private NewbieHelperExpansion getExpansion() {

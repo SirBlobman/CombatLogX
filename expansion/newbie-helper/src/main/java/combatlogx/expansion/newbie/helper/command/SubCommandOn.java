@@ -28,7 +28,7 @@ public final class SubCommandOn extends CombatLogPlayerCommand {
     protected boolean execute(Player player, String[] args) {
         NewbieHelperExpansion expansion = getExpansion();
         if (expansion.shouldCheckDisabledWorlds() && isWorldDisabled(player)) {
-            sendMessageWithPrefix(player, "error.disabled-world", null);
+            sendMessageWithPrefix(player, "error.disabled-world");
             return true;
         }
 

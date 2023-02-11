@@ -70,7 +70,7 @@ public final class NewbieHelperPlaceholderExpansion implements IPlaceholderExpan
         ICombatLogX combatLogX = getCombatLogX();
         LanguageManager languageManager = combatLogX.getLanguageManager();
         String messagePath = ("placeholder.pvp-status." + (pvp ? "enabled" : "disabled"));
-        return languageManager.getMessageString(player, messagePath, null);
+        return languageManager.getMessageString(player, messagePath);
     }
 
     private String getProtected(Player player) {
@@ -98,7 +98,7 @@ public final class NewbieHelperPlaceholderExpansion implements IPlaceholderExpan
     private String getProtectionTimeLeft(Player player) {
         ICombatLogX combatLogX = getCombatLogX();
         LanguageManager languageManager = combatLogX.getLanguageManager();
-        String timeLeftZero = languageManager.getMessageString(player, "placeholder.time-left-zero", null);
+        String timeLeftZero = languageManager.getMessageString(player, "placeholder.time-left-zero");
 
         NewbieHelperExpansion expansion = getExpansion();
         ProtectionManager protectionManager = expansion.getProtectionManager();
