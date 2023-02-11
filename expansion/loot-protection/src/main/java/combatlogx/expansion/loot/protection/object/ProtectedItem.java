@@ -27,10 +27,6 @@ public class ProtectedItem {
         return this.item;
     }
 
-    public BlockLocation getLocation() {
-        return this.location;
-    }
-
     public UUID getItemUUID() {
         return this.itemUUID;
     }

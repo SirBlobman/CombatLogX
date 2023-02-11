@@ -26,10 +26,14 @@ import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.event.inventory.InventoryPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.plugin.PluginManager;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
-import com.github.sirblobman.api.language.Replacer;
+import com.github.sirblobman.api.language.LanguageManager;
+import com.github.sirblobman.api.language.replacer.LongReplacer;
+import com.github.sirblobman.api.language.replacer.Replacer;
+import com.github.sirblobman.api.language.replacer.StringReplacer;
 import com.github.sirblobman.api.location.BlockLocation;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.event.PlayerPunishEvent;
@@ -84,17 +88,18 @@ public class ListenerLootProtection extends ExpansionListener {
 
         UUID playerId = player.getUniqueId();
         QueryPickupEvent queryPickupEvent = new QueryPickupEvent(player, protectedItem);
-        Bukkit.getPluginManager().callEvent(queryPickupEvent);
+        PluginManager pluginManager = Bukkit.getPluginManager();
+        pluginManager.callEvent(queryPickupEvent);
 
         if (!protectedItem.getOwnerUUID().equals(playerId) && !queryPickupEvent.isCancelled()) {
             e.setCancelled(true);
             if (!this.messageCooldownSet.contains(playerId)) {
                 long expireMillisLeft = this.protectedItemMap.getExpectedExpiration(itemEntityId);
                 long expireSecondsLeft = TimeUnit.MILLISECONDS.toSeconds(expireMillisLeft);
-                String timeLeft = Long.toString(expireSecondsLeft);
 
-                Replacer replacer = message -> message.replace("{time}", timeLeft);
-                sendMessageWithPrefix(player, "expansion.loot-protection.protected", replacer);
+                Replacer replacer = new LongReplacer("{time}", expireSecondsLeft);
+                LanguageManager languageManager = getLanguageManager();
+                languageManager.sendMessageWithPrefix(player, "expansion.loot-protection.protected", replacer);
                 this.messageCooldownSet.add(playerId);
             }
         }
@@ -219,11 +224,12 @@ public class ListenerLootProtection extends ExpansionListener {
 
         long timeLeftMillis = this.protectedItemMap.getExpiration();
         long timeLeftSeconds = TimeUnit.MILLISECONDS.toSeconds(timeLeftMillis);
-        String timeLeft = Long.toString(timeLeftSeconds);
 
-        Replacer replacer = message -> message.replace("{time}", timeLeft)
-                .replace("{enemy}", entityName);
-        sendMessageWithPrefix(enemy, "expansion.loot-protection.enemy-died", replacer);
+        Replacer timeReplacer = new LongReplacer("{time}", timeLeftSeconds);
+        Replacer enemyReplacer = new StringReplacer("{enemy}", entityName);
+        LanguageManager languageManager = getLanguageManager();
+        languageManager.sendMessageWithPrefix(enemy, "expansion.loot-protection.enemy-died",
+                timeReplacer, enemyReplacer);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
