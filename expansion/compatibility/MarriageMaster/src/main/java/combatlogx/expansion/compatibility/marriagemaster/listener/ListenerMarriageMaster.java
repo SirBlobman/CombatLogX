@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
+import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
@@ -30,6 +31,8 @@ public final class ListenerMarriageMaster extends ExpansionListener {
         printDebug("Checking partner....");
         Marriage marriageData = e.getMarriageData();
         MarriagePlayer partner = marriageData.getPartner(teleporter);
+        LanguageManager languageManager = getLanguageManager();
+
         if (partner != null) {
             Player bukkitPartner = partner.getPlayerOnline();
             if (bukkitPartner != null && isInCombat(bukkitPartner)) {
@@ -37,7 +40,7 @@ public final class ListenerMarriageMaster extends ExpansionListener {
 
                 e.setCancelled(true);
                 String messagePath = ("expansion.marriagemaster-compatibility.prevent-teleport-partner");
-                sendMessageWithPrefix(bukkitTeleporter, messagePath, null);
+                languageManager.sendMessageWithPrefix(bukkitTeleporter, messagePath);
                 return;
             }
         }
@@ -48,7 +51,7 @@ public final class ListenerMarriageMaster extends ExpansionListener {
 
             e.setCancelled(true);
             String messagePath = ("expansion.marriagemaster-compatibility.prevent-teleport-self");
-            sendMessageWithPrefix(bukkitTeleporter, messagePath, null);
+            languageManager.sendMessageWithPrefix(bukkitTeleporter, messagePath);
         }
     }
 }
