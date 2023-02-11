@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
@@ -23,7 +22,6 @@ import com.github.sirblobman.api.adventure.adventure.text.Component;
 import com.github.sirblobman.api.adventure.adventure.text.TextComponent;
 import com.github.sirblobman.api.adventure.adventure.text.TextReplacementConfig;
 import com.github.sirblobman.api.adventure.adventure.text.format.TextColor;
-import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.utility.Validate;
@@ -90,11 +88,6 @@ public final class BossBarUpdater implements TimerUpdater {
         return this.expansion;
     }
 
-    private Logger getLogger() {
-        BossBarExpansion expansion = getExpansion();
-        return expansion.getLogger();
-    }
-
     private ICombatLogX getCombatLogX() {
         BossBarExpansion expansion = getExpansion();
         return expansion.getPlugin();
@@ -116,10 +109,8 @@ public final class BossBarUpdater implements TimerUpdater {
     }
 
     private boolean isGlobalEnabled() {
-        BossBarExpansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        return configuration.getBoolean("enabled", true);
+        BossBarConfiguration configuration = getConfiguration();
+        return configuration.isEnabled();
     }
 
     private boolean isDisabled(Player player) {
@@ -167,32 +158,14 @@ public final class BossBarUpdater implements TimerUpdater {
         this.bossBarMap.remove(playerId);
     }
 
-    private String getColorString() {
-        ConfigurationManager configurationManager = this.expansion.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        return configuration.getString("bar-color", "PURPLE");
-    }
-
     private Color getBossBarColor() {
         int minorVersion = VersionUtility.getMinorVersion();
         if (minorVersion < 9) {
             return Color.PURPLE;
         }
 
-        String colorString = getColorString();
-        try {
-            return Color.valueOf(colorString);
-        } catch (IllegalArgumentException ex) {
-            Logger logger = getLogger();
-            logger.warning("Unknown boss bar color '" + colorString + "'. Defaulting to purple.");
-            return Color.PURPLE;
-        }
-    }
-
-    private String getOverlayString() {
-        ConfigurationManager configurationManager = this.expansion.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        return configuration.getString("bar-style");
+        BossBarConfiguration configuration = getConfiguration();
+        return configuration.getBossBarColor();
     }
 
     private Overlay getBossBarOverlay() {
@@ -201,14 +174,8 @@ public final class BossBarUpdater implements TimerUpdater {
             return Overlay.PROGRESS;
         }
 
-        String overlayString = getOverlayString();
-        try {
-            return Overlay.valueOf(overlayString);
-        } catch (IllegalArgumentException ex) {
-            Logger logger = getLogger();
-            logger.warning("Unknown boss bar style '" + overlayString + "'. Defaulting to progress.");
-            return Overlay.PROGRESS;
-        }
+        BossBarConfiguration configuration = getConfiguration();
+        return configuration.getBossBarStyle();
     }
 
     private float getProgress(Player player, float timeLeftMillis) {
