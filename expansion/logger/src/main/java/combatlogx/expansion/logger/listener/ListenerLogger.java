@@ -196,7 +196,7 @@ public final class ListenerLogger extends ExpansionListener {
         if (entity == null) {
             CommandSender console = Bukkit.getConsoleSender();
             LanguageManager languageManager = getLanguageManager();
-            String message = languageManager.getMessageString(console, "placeholder.unknown-enemy", null);
+            String message = languageManager.getMessageString(console, "placeholder.unknown-enemy");
             return MessageUtility.color(message);
         }
 
