@@ -15,16 +15,16 @@ language-name: "pt_pt"
 #The format for decimal numbers.
 #The United States uses the number and two decimal places
 decimal-format: "0.00"
-#The prefix for CombatLogX.
-#This is shown in front of all messages and should not be changed unless necessary.
+#The prefix for CombatLogX that is shown in front of all messages.
+#Note to translators: Do not change this message.
 prefix: "<bold><white>[</white></bold><gold>CombatLogX</gold><bold><white>]"
 broadcast:
   #Shown when the plugin is finished loading.
   on-load: "<bold><green>CombatLogX foi carregado com sucesso."
   #Shown when the plugin is finished enabling.
-  on-enable: "<bold><green>CombatLogX foi habilitado com sucesso."
+  on-enable: "<green><bold>CombatLogX foi ativado com sucesso.</bold></green>"
   #Shown when the plugin is disabled for any reason.
-  on-disable: "<bold><red>CombatLogX foi desabilitado com sucesso."
+  on-disable: "<red><bold>CombatLogX foi desativado com sucesso.</bold></red>"
 placeholder:
   #This text is used for the {combatlogx_time_left}
   #This allows server configurations to change the display value of the zero to something like "Not in combat"
@@ -70,6 +70,8 @@ error:
   self-not-in-combat: "<red>Você não está em combate."
   #Shown when a command that requires an expansion has invalid input.
   unknown-expansion: "<gray>{target}</gray><red> não é uma expansão ou não está instalado."
+  forgive-not-enemy: "<red><gray>{target}</gray> não é um dos seus inimigos.</red>"
+  enemy-not-forgiving: "<red>Esse inimigo não tem vontade de perdoá-lo.</red>"
 command:
   combatlogx:
     #Shown as the command output for '/combatlogx help'.
@@ -83,6 +85,10 @@ command:
       - "  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>: Ativar ou desativar um tipo de notificação."
       - "  <bold><white>/combatlogx untag \\<player></white></bold><gray>: Forçar um jogador a sair do combate."
       - "  <bold><white>/combatlogx version</white></bold><gray>: Verifique a sua versão do CombatLogX."
+      - "  <white><bold>/combatlogx forgive request \\<player></bold></white><gray>: Enviar um pedido a um inimigo para remover a sua tag.</gray>"
+      - "  <white><bold>/combatlogx forgive accept \\<player></bold></white><gray>: Aceitar o pedido de um inimigo de escapar de combate.</gray>"
+      - "  <white><bold>/combatlogx forgive accept \\<player></bold></white><gray>: Ignorar o pedido de um inimigo de escapar de combate.</gray>"
+      - "  <white><bold>/combatlogx forgive toggle</bold></white><gray>: Ativar ou desativar pedidos para parar o combate.</gray>"
       - ""
     #Shown as the command output for '/combatlogx reload' when reloading is successful.
     reload-success:
@@ -105,12 +111,27 @@ command:
     toggle-actionbar: "<bold><gray>Barra de ação: {status}"
     #Shown as the command output for '/combatlogx toggle scoreboard'.
     toggle-scoreboard: "<gray>Placar: {status}"
+    forgive:
+      toggle-disable: "<green>Não pode mais receber pedidos de perdão.</green>"
+      toggle-enable: "<green>Pode agora receber pedidos de perdão.</green>"
+      request-sent: "<green>Enviou um pedido de perdão para <gray>{target}</gray>.</green>"
+      request-receive:
+        - "<green><gray>{player}</gray> enviou um pedido de perdão.</green>"
+        - "<green>Escreva <click:run_command:/combatlogx forgive accept><gray>/clx forgive accept</gray></click> para aceitar ou.</green>"
+        - "<green><click:run_command:/combatlogx forgive reject><gray>/clx forgive reject</gray></click> para rejeitar.</green>"
   combat-timer:
     #Shown as the command output for '/combat-timer'.
-    time-left-self: "<green>Você tem </green><gray>{time_left} segundos </gray><green>restantes."
+    time-left-self: "<green>Tem <gray>{time_left}</gray> segundos restantes.</green>"
     #Shown as the command output for '/combat-timer <player>'.
     time-left-other: "<gray>{target}</gray><green> tem </green><gray>{time_left} segundos </gray><green>restantes."
 #These messages are shown a player is tagged into combat.
+#You can also change the location of these messages.
+#Example:
+#tagged:
+#attacked:
+#player:
+#type: ACTION_BAR
+#content: "<message here>"
 tagged:
   unknown:
     player: "<red>Agora você está em combate com <white>{enemy}</white> por uma razão desconhecida. Não desconecte!</red>"
@@ -292,6 +313,8 @@ expansion:
     prevent-teleport-self: "<red>Você não tem permissão para teleportar seu parceiro durante o combate.</red>"
     #Shown when a married player is prevented from teleporting to their partner during combat.
     prevent-teleport-partner: "<red>Você não tem permissão para teletransportar seu parceiro enquanto ele estiver em combate.</red>"
+  huskhomes-compatibility:
+    prevent-teleport: "<red>Você não tem permissão para se teletransportar durante o combate."
   region-protection:
     #Shown when a player tries to enter a no-pvp area during combat.
     default-no-entry: "<red>Você não tem permissão para entrar nessa área durante o combate.</red>"
