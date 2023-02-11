@@ -97,7 +97,7 @@ command:
       - "<green>Успешно перезагружены все файлы конфигурации расширений CombatLogX.</green>"
     #Shown as the command output for '/combatlogx reload' when reloading fails
     reload-failure:
-      - "<red>Произошла ошибка при перезагрузке конфигурации.</red>"
+      - "<red>При перезагрузке конфигурации произошла ошибка.</red>"
       - "<red>Пожалуйста, проверьте журнал сервера и исправьте испорченный файл</red>"
     #Shown as the command output for '/combatlogx tag <player>' when a player is tagged successfully.
     tag-player: "<green>Принуждение игрока <gray>{target}</gray> в бой прошло успешно.</green>"
