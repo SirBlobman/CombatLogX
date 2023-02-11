@@ -52,6 +52,7 @@ dependencies {
     expansion(project(":expansion:compatibility:Konquest"))
     expansion(project(":expansion:compatibility:Lands"))
     expansion(project(":expansion:compatibility:LibsDisguises"))
+    expansion(project(":expansion:compatibility:LuckPerms"))
     expansion(project(":expansion:compatibility:MarriageMaster"))
     expansion(project(":expansion:compatibility:MythicMobs"))
     expansion(project(":expansion:compatibility:PlaceholderAPI"))

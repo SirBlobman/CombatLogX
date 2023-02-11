@@ -75,5 +75,9 @@ Compatibility expansions add features to CombatLogX based on the plugin that the
             <td>Citizens</td>
             <td>An NPC will be spawned when a player leaves during combat.</td>
         </tr>
+        <tr>
+            <td>LuckPerms</td>
+            <td>Add custom contexts for combat-related permissions.</td>
+        </tr>
     </tbody>
 </table>
