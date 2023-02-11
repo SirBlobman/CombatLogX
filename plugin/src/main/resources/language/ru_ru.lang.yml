@@ -15,8 +15,8 @@ language-name: "ru_ru"
 #The format for decimal numbers.
 #The United States uses the number and two decimal places
 decimal-format: "0.00"
-#The prefix for CombatLogX.
-#This is shown in front of all messages and should not be changed unless necessary.
+#The prefix for CombatLogX that is shown in front of all messages.
+#Note to translators: Do not change this message.
 prefix: "<white><bold>[<gold>CombatLogX</gold>]</bold></white>"
 broadcast:
   #Shown when the plugin is finished loading.
@@ -125,6 +125,13 @@ command:
     #Shown as the command output for '/combat-timer <player>'.
     time-left-other: "<green><gray>{target}</gray> осталось <gray>{time_left} секунд</gray>.</green>"
 #These messages are shown a player is tagged into combat.
+#You can also change the location of these messages.
+#Example:
+#tagged:
+#attacked:
+#player:
+#type: ACTION_BAR
+#content: "<message here>"
 tagged:
   unknown:
     player: "<red>Вы находитесь в бою с <white>{enemy}</white> по неизвестной причине. Не выходите из игры!</red>"
