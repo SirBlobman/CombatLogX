@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
@@ -15,7 +16,6 @@ import com.github.sirblobman.api.adventure.adventure.text.TextReplacementConfig;
 import com.github.sirblobman.api.adventure.adventure.text.format.TextColor;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.language.LanguageManager;
-import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.api.utility.paper.ComponentConverter;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -106,30 +106,31 @@ public final class ActionBarUpdater implements TimerUpdater {
         LanguageManager languageManager = getLanguageManager();
         if (timeLeftMillis <= 0) {
             String path = ("expansion.action-bar.ended");
-            languageManager.sendActionBar(player, path, null);
+            languageManager.sendActionBar(player, path);
             return;
         }
 
-        Replacer replacer = message -> replacePlaceholders(player, message);
-        Component preMessage = languageManager.getMessage(player, "expansion.action-bar.timer", replacer);
+        ICombatLogX combatLogX = getCombatLogX();
+        ICombatManager combatManager = combatLogX.getCombatManager();
+        IPlaceholderManager placeholderManager = combatLogX.getPlaceholderManager();
+        Component preMessage = languageManager.getMessage(player, "expansion.action-bar.timer");
+
+        TagInformation tagInformation = combatManager.getTagInformation(player);
+        if (tagInformation != null) {
+            List<Entity> enemyList = tagInformation.getEnemies();
+            Pattern placeholderPattern = Pattern.compile("\\{(\\S+)}");
+            TextReplacementConfig.Builder builder = TextReplacementConfig.builder();
+            builder.match(placeholderPattern);
+            builder.replacement((matchResult, builderCopy) -> {
+                String placeholder = matchResult.group(1);
+                String replacement = placeholderManager.getPlaceholderReplacement(player, enemyList, placeholder);
+                return Component.text(replacement == null ? placeholder : replacement);
+            });
+        }
 
         TextReplacementConfig replacementConfig = getBarsReplacement(player, timeLeftMillis);
         Component message = preMessage.replaceText(replacementConfig);
         languageManager.sendActionBar(player, message);
-    }
-
-    private String replacePlaceholders(Player player, String message) {
-        ICombatLogX combatLogX = getCombatLogX();
-        ICombatManager combatManager = combatLogX.getCombatManager();
-
-        TagInformation tagInformation = combatManager.getTagInformation(player);
-        if (tagInformation == null) {
-            return message;
-        }
-
-        List<Entity> enemyList = tagInformation.getEnemies();
-        IPlaceholderManager placeholderManager = combatLogX.getPlaceholderManager();
-        return placeholderManager.replaceAll(player, enemyList, message);
     }
 
     private TextReplacementConfig getBarsReplacement(Player player, long timeLeftMillis) {
