@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
@@ -52,7 +53,8 @@ public final class ListenerAngelChest extends ExpansionListener {
             return;
         }
 
-        sendMessageWithPrefix(player, "expansion.angel-chest.prevent-breaking", null);
+        LanguageManager languageManager = getLanguageManager();
+        languageManager.sendMessageWithPrefix(player, "expansion.angel-chest.prevent-breaking");
         e.setCancelled(true);
     }
 
@@ -62,7 +64,8 @@ public final class ListenerAngelChest extends ExpansionListener {
             return;
         }
 
-        sendMessageWithPrefix(player, "expansion.angel-chest.prevent-opening", null);
+        LanguageManager languageManager = getLanguageManager();
+        languageManager.sendMessageWithPrefix(player, "expansion.angel-chest.prevent-opening");
         e.setCancelled(true);
     }
 
@@ -72,7 +75,8 @@ public final class ListenerAngelChest extends ExpansionListener {
             return;
         }
 
-        sendMessageWithPrefix(player, "expansion.angel-chest.prevent-fast-looting", null);
+        LanguageManager languageManager = getLanguageManager();
+        languageManager.sendMessageWithPrefix(player, "expansion.angel-chest.prevent-fast-looting");
         e.setCancelled(true);
     }
 }
