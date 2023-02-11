@@ -13,6 +13,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
@@ -114,8 +115,11 @@ public final class ListenerDamage extends ExpansionListener {
     }
 
     private void sendMessage(Player player, @Nullable DamageCause damageCause) {
+        ICombatLogX combatLogX = getCombatLogX();
+        LanguageManager languageManager = combatLogX.getLanguageManager();
+
         if (damageCause == null || isAllDamageEnabled()) {
-            sendMessageWithPrefix(player, "expansion.damage-tagger.unknown-damage", null);
+            languageManager.sendMessageWithPrefix(player, "expansion.damage-tagger.unknown-damage");
             return;
         }
 
@@ -124,6 +128,6 @@ public final class ListenerDamage extends ExpansionListener {
         String damageCauseNameReplaced = damageCauseNameLowerCase.replace('_', '-');
 
         String messagePath = ("expansion.damage-tagger.damage-type." + damageCauseNameReplaced);
-        sendMessageWithPrefix(player, messagePath, null);
+        languageManager.sendMessageWithPrefix(player, messagePath);
     }
 }

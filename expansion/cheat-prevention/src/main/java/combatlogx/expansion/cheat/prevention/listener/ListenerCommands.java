@@ -14,7 +14,8 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.api.language.Replacer;
+import com.github.sirblobman.api.language.replacer.Replacer;
+import com.github.sirblobman.api.language.replacer.StringReplacer;
 import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
@@ -150,7 +151,7 @@ public final class ListenerCommands extends CheatPreventionListener {
         }
 
         e.setCancelled(true);
-        Replacer replacer = message -> message.replace("{command}", realCommand);
+        Replacer replacer = new StringReplacer("{command}", realCommand);
         sendMessageIgnoreCooldown(player, "expansion.cheat-prevention.command-blocked", replacer);
     }
 }

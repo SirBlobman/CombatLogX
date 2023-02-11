@@ -9,7 +9,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.api.language.Replacer;
+import com.github.sirblobman.api.language.LanguageManager;
+import com.github.sirblobman.api.language.replacer.Replacer;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
@@ -22,7 +23,8 @@ public abstract class CheatPreventionListener extends ExpansionListener {
     }
 
     protected final void sendMessageIgnoreCooldown(Player player, String key, Replacer replacer) {
-        sendMessageWithPrefix(player, key, replacer);
+        LanguageManager languageManager = getLanguageManager();
+        languageManager.sendMessageWithPrefix(player, key, replacer);
         addMessageCooldown(player, key);
     }
 

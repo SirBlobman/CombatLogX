@@ -8,7 +8,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.api.language.Replacer;
+import com.github.sirblobman.api.language.replacer.Replacer;
+import com.github.sirblobman.api.language.replacer.StringReplacer;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
@@ -50,7 +51,7 @@ public final class ListenerGameMode extends CheatPreventionListener {
         player.setGameMode(gameMode);
 
         String gameModeName = gameMode.name();
-        Replacer replacer = message -> message.replace("{game_mode}", gameModeName);
+        Replacer replacer = new StringReplacer("{game_mode}", gameModeName);
         sendMessage(player, "expansion.cheat-prevention.game-mode.force-switch", replacer);
     }
 
