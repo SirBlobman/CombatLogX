@@ -18,7 +18,6 @@ import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 
-import com.github.sirblobman.api.language.Replacer;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.api.utility.Validate;
@@ -244,16 +243,14 @@ public final class Reward {
         String playerName = player.getName();
         String enemyName = getEntityName(enemy);
         String enemyType = enemy.getType().name();
-        Replacer replacer = command -> command.replace("{player}", playerName)
-                .replace("{enemy}", enemyName)
-                .replace("{enemy_type}", enemyType);
 
         RewardExpansion expansion = getExpansion();
         boolean placeholderAPI = expansion.usePlaceholderAPI();
 
         List<String> commandList = getCommandsToExecute();
         for (String command : commandList) {
-            String realCommand = replacer.replace(command);
+            String realCommand = command.replace("{player}", playerName).replace("{enem}", enemyName)
+                    .replace("{enemy_type}", enemyType);
             if (placeholderAPI) {
                 realCommand = replacePlaceholderAPI(player, realCommand);
             }

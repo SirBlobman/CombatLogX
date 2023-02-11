@@ -2,5 +2,5 @@ name: "Rewards"
 description: "${project.description}"
 
 main: "combatlogx.expansion.rewards.RewardExpansion"
-version: "16.8"
+version: "17.0"
 author: "SirBlobman"
