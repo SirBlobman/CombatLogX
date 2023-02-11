@@ -12,5 +12,5 @@ repositories {
 
 dependencies {
     compileOnly(project(":expansion:newbie-helper"))
-    compileOnly("com.github.angeschossen:Lands:6.26.4")
+    compileOnly("com.github.angeschossen:Lands:6.28.10")
 }

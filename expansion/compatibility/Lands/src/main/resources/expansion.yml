@@ -3,7 +3,7 @@ prefix: "Lands Compatibility"
 description: "${project.description}"
 
 main: "combatlogx.expansion.compatibility.region.lands.LandsExpansion"
-version: "16.6"
+version: "17.0"
 author: "SirBlobman"
 
 plugin-depend:

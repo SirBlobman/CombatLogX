@@ -1,5 +1,7 @@
 package combatlogx.expansion.compatibility.region.lands;
 
+import java.util.UUID;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -38,8 +40,14 @@ public final class LandsRegionHandler extends RegionHandler {
 
         LandsIntegration api = getLandsIntegration();
         Area area = api.getArea(location);
+        if (area == null) {
+            return false;
+        }
+
+
+        UUID playerId = player.getUniqueId();
         RoleFlag flag = (tagType == TagType.PLAYER ? Flags.ATTACK_PLAYER : Flags.ATTACK_ANIMAL);
-        return (area != null && !area.hasFlag(player, flag, false));
+        return !area.hasRoleFlag(playerId, flag);
     }
 
     private LandsIntegration getLandsIntegration() {
