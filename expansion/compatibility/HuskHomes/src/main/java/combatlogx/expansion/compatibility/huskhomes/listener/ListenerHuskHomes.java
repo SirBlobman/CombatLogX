@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
+import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 import combatlogx.expansion.compatibility.huskhomes.HuskHomesExpansion;
@@ -39,7 +40,9 @@ public final class ListenerHuskHomes extends ExpansionListener {
 
         printDebug("Sent message and cancelled event.");
         e.setCancelled(true);
+
         String messagePath = "expansion.huskhomes-compatibility.prevent-teleport";
-        sendMessageWithPrefix(player, messagePath, null);
+        LanguageManager languageManager = getLanguageManager();
+        languageManager.sendMessageWithPrefix(player, messagePath);
     }
 }
