@@ -8,6 +8,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
@@ -37,7 +38,8 @@ public final class ListenerEssentials extends ExpansionListener {
 
         if (isInCombat(player)) {
             String messagePath = "expansion.essentials-compatibility.prevent-teleport-request-self";
-            sendMessageWithPrefix(player, messagePath, null);
+            LanguageManager languageManager = getLanguageManager();
+            languageManager.sendMessageWithPrefix(player, messagePath);
             e.setCancelled(true);
             return;
         }
@@ -50,7 +52,8 @@ public final class ListenerEssentials extends ExpansionListener {
 
         if (isInCombat(target)) {
             String messagePath = "expansion.essentials-compatibility.prevent-teleport-request-other";
-            sendMessageWithPrefix(player, messagePath, null);
+            LanguageManager languageManager = getLanguageManager();
+            languageManager.sendMessageWithPrefix(player, messagePath);
             e.setCancelled(true);
         }
     }
