@@ -105,6 +105,9 @@ public final class ActionBarUpdater implements TimerUpdater {
                 String replacement = placeholderManager.getPlaceholderReplacement(player, enemyList, placeholder);
                 return Component.text(replacement == null ? placeholder : replacement);
             });
+
+            TextReplacementConfig replacement = builder.build();
+            preMessage = preMessage.replaceText(replacement);
         }
 
         TextReplacementConfig replacementConfig = getBarsReplacement(player, timeLeftMillis);
