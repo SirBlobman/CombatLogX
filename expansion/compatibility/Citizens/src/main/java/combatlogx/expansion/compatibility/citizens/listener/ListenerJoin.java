@@ -58,7 +58,7 @@ public final class ListenerJoin extends ExpansionListener {
         CommandSender console = Bukkit.getConsoleSender();
         LanguageManager languageManager = getLanguageManager();
         String path = ("expansion.citizens-compatibility.prevent-join");
-        Component npcMessage = languageManager.getMessage(console, path, null);
+        Component npcMessage = languageManager.getMessage(console, path);
         e.disallow(Result.KICK_OTHER, ComponentHelper.toLegacy(npcMessage));
     }
 
