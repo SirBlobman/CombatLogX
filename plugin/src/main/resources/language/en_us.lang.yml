@@ -20,8 +20,8 @@ language-name: "en_us"
 # The United States uses the number and two decimal places
 decimal-format: "0.00"
 
-# The prefix for CombatLogX.
-# This is shown in front of all messages and should not be changed unless necessary.
+# The prefix for CombatLogX that is shown in front of all messages.
+# Note to translators: Do not change this message.
 prefix: "<white><bold>[<gold>CombatLogX</gold>]</bold></white>"
 
 broadcast:
@@ -165,6 +165,13 @@ command:
     time-left-other: "<green><gray>{target}</gray> has <gray>{time_left} seconds</gray> remaining.</green>"
 
 # These messages are shown a player is tagged into combat.
+# You can also change the location of these messages.
+# Example:
+# tagged:
+#   attacked:
+#     player:
+#       type: ACTION_BAR
+#       content: "<message here>"
 tagged:
   unknown:
     player: "<red>You are now in combat with <white>{enemy}</white> for an unknown reason. Do not log out!</red>"

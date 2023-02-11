@@ -20,8 +20,11 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginManager;
 
+import com.github.sirblobman.api.adventure.adventure.text.Component;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.language.LanguageManager;
+import com.github.sirblobman.api.language.custom.ModifiableMessage;
+import com.github.sirblobman.api.language.custom.ModifiableMessageType;
 import com.github.sirblobman.api.language.replacer.Replacer;
 import com.github.sirblobman.api.language.replacer.StringReplacer;
 import com.github.sirblobman.api.nms.EntityHandler;
@@ -400,6 +403,20 @@ public final class CombatManager extends Manager implements ICombatManager {
 
         ICombatLogX plugin = getCombatLogX();
         LanguageManager languageManager = plugin.getLanguageManager();
-        languageManager.sendMessageWithPrefix(player, languagePath, enemyNameReplacer, enemyTypeReplacer);
+        ModifiableMessage modifiableMessage = languageManager.getMessageModifiable(player, languagePath,
+                enemyNameReplacer, enemyTypeReplacer);
+
+        ModifiableMessageType type = modifiableMessage.getType();
+        Component message = modifiableMessage.getMessage();
+        if (type == ModifiableMessageType.ACTION_BAR) {
+            languageManager.sendActionBar(player, message);
+        } else if(type == ModifiableMessageType.CHAT) {
+            Component prefix = languageManager.getMessage(player, "prefix");
+            if (!Component.empty().equals(prefix)) {
+                message = prefix.append(Component.space()).append(message);
+            }
+
+            languageManager.sendMessage(player, message);
+        }
     }
 }
