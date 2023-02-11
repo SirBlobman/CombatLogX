@@ -310,7 +310,7 @@ expansion:
     prevent-teleport-request-other: "<red>Вы не можете отправлять запрос на телепортацию к игроку, находящемуся в бою.</red>"
   marriagemaster-compatibility:
     #Shown when a married player is prevented from teleporting to their partner during combat.
-    prevent-teleport-self: "<red>Во время боя вы не можете телепортироваться к своему партнеру.</red>"
+    prevent-teleport-self: "<red>Вы не можете телепортироваться к своему партнеру во время боя.</red>"
     #Shown when a married player is prevented from teleporting to their partner during combat.
     prevent-teleport-partner: "<red>Вы не можете телепортироваться к своему партнеру, пока тот находится в бою.</red>"
   huskhomes-compatibility:
@@ -329,14 +329,14 @@ expansion:
     husktowns-no-entry: <red>Вы не можете войти в эту область во время боя.</red>
     ultimateclaims-no-entry: <red>Вы не можете войти в эту область во время боя.</red>
     protectionstones:
-      prevent-area-creation: "<red>Вы не можете создать защищенную зону во время боя.</red>"
+      prevent-area-creation: "<red>Вы не можете создать защищенную область во время боя.</red>"
       no-entry: <red>Вы не можете войти в эту область во время боя.</red>
     preciousstones:
       prevent-field-creation: "<red>Вы не можете создать защитное поле во время боя.</red>"
       no-entry: <red>Вы не можете войти в эту область во время боя.</red>
     worldguard:
-      no-entry-mob-combat: "<red>Вы не можете войти в зону, где запрещено ПвЕ, во время боя.</red>"
-      no-entry-player-combat: "<red>Вы не можете войти в зону, где запрещено ПвП, во время боя.</red>"
+      no-entry-mob-combat: "<red>Вы не можете войти в область без ПвЕ во время боя.</red>"
+      no-entry-player-combat: "<red>Вы не можете войти в область без ПвП во время боя.</red>"
       no-entry-unknown-combat: <red>Вы не можете войти в эту область во время боя.</red>
     lands:
       no-entry: <red>Вы не можете войти в эту область во время боя.</red>
