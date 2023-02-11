@@ -185,7 +185,7 @@ public final class BossBarConfiguration implements IConfigurable {
 
         try {
             return BossBar.Color.valueOf(name);
-        } catch(IllegalArgumentException ex) {
+        } catch (IllegalArgumentException ex) {
             return BossBar.Color.YELLOW;
         }
     }
@@ -197,7 +197,7 @@ public final class BossBarConfiguration implements IConfigurable {
 
         try {
             return BossBar.Overlay.valueOf(name);
-        } catch(IllegalArgumentException ex) {
+        } catch (IllegalArgumentException ex) {
             return BossBar.Overlay.PROGRESS;
         }
     }

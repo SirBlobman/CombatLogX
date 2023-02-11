@@ -82,7 +82,7 @@ public final class WorldGuardRegionHandler extends RegionHandler {
 
     @Override
     protected void customPreventEntry(Cancellable e, Player player, TagInformation tagInformation,
-                                       Location fromLocation, Location toLocation) {
+                                      Location fromLocation, Location toLocation) {
         WorldGuardExpansion expansion = getWorldGuardExpansion();
         HookWorldGuard hook = expansion.getHookWorldGuard();
         IWrappedFlag<Boolean> retagFlag = hook.getRetagFlag();

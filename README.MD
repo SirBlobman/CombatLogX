@@ -52,6 +52,7 @@ If you want to create expansions or learn how to use the CombatLogX API for V11/
 [API README](api/README.MD)
 
 ## Sponsors
+
 The people or organizations listed below were kind enough to fund my open-source projects!
 
 - Privately sponsored by [Alien Host](https://alienhost.net).
@@ -63,9 +64,9 @@ A translation project for CombatLogX V11 is in progress. If you wish to help out
 <https://crowdin.com/project/combatlogx-spigot-plugin>
 
 ### Localization Credits
-You can view a list of contributions on our crowdin page: 
-https://crowdin.com/project/combatlogx-spigot-plugin/reports/top-members
 
+You can view a list of contributions on our crowdin page:
+https://crowdin.com/project/combatlogx-spigot-plugin/reports/top-members
 
 ## Support
 
