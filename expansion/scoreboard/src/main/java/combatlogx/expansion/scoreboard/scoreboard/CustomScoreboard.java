@@ -2,6 +2,7 @@ package combatlogx.expansion.scoreboard.scoreboard;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,7 +16,7 @@ import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
 import com.github.sirblobman.api.adventure.adventure.text.Component;
-import com.github.sirblobman.api.adventure.adventure.text.minimessage.MiniMessage;
+import com.github.sirblobman.api.adventure.adventure.text.TextReplacementConfig;
 import com.github.sirblobman.api.language.ComponentHelper;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
@@ -223,46 +224,68 @@ public final class CustomScoreboard {
     private List<Component> getLines() {
         Player player = getPlayer();
         LanguageManager languageManager = getLanguageManager();
-        String path = ("expansion.scoreboard.lines");
-        String linesString = languageManager.getMessageString(player, path, this::replacePlaceholders);
+        List<Component> preMessageList = languageManager.getMessageList(player, "expansion.scoreboard.lines");
+        List<Component> finalMessageList = new ArrayList<>();
 
-        MiniMessage miniMessage = languageManager.getMiniMessage();
-        String[] linesSplit = linesString.split("\n");
-        List<Component> lineList = new ArrayList<>();
 
-        for (String lineString : linesSplit) {
-            if (lineString.contains("\u00A7")) {
-                lineString = ChatColor.stripColor(lineString);
-                lineString = lineString.replace("\u00A7", "");
+        ICombatLogX combatLogX = getCombatLogX();
+        ICombatManager combatManager = combatLogX.getCombatManager();
+        IPlaceholderManager placeholderManager = combatLogX.getPlaceholderManager();
+        TagInformation tagInformation = combatManager.getTagInformation(player);
+        TextReplacementConfig replacementConfig = null;
+
+        if (tagInformation != null) {
+            List<Entity> enemyList = tagInformation.getEnemies();
+            Pattern placeholderPattern = Pattern.compile("\\{(\\S+)}");
+            TextReplacementConfig.Builder builder = TextReplacementConfig.builder();
+            builder.match(placeholderPattern);
+            builder.replacement((matchResult, builderCopy) -> {
+                String placeholder = matchResult.group(1);
+                String replacement = placeholderManager.getPlaceholderReplacement(player, enemyList, placeholder);
+                return Component.text(replacement == null ? placeholder : replacement);
+            });
+
+            replacementConfig = builder.build();
+        }
+
+        for (Component preMessage : preMessageList) {
+            Component finalMessage = preMessage;
+            if (replacementConfig != null) {
+                finalMessage = finalMessage.replaceText(replacementConfig);
             }
 
-            Component line = miniMessage.deserialize(lineString);
-            lineList.add(line);
+            finalMessageList.add(finalMessage);
         }
 
-        return lineList;
-    }
-
-    private String replacePlaceholders(String message) {
-        ScoreboardExpansion expansion = getExpansion();
-        ICombatLogX plugin = expansion.getPlugin();
-        ICombatManager combatManager = plugin.getCombatManager();
-
-        Player player = getPlayer();
-        TagInformation tagInformation = combatManager.getTagInformation(player);
-        if (tagInformation == null) {
-            return message;
-        }
-
-        List<Entity> enemyList = tagInformation.getEnemies();
-        IPlaceholderManager placeholderManager = plugin.getPlaceholderManager();
-        return placeholderManager.replaceAll(player, enemyList, message);
+        return finalMessageList;
     }
 
     private Component getTitle() {
         Player player = getPlayer();
         LanguageManager languageManager = getLanguageManager();
-        return languageManager.getMessage(player, "expansion.scoreboard.title", this::replacePlaceholders);
+
+        ICombatLogX combatLogX = getCombatLogX();
+        ICombatManager combatManager = combatLogX.getCombatManager();
+        IPlaceholderManager placeholderManager = combatLogX.getPlaceholderManager();
+        Component preMessage = languageManager.getMessage(player, "expansion.scoreboard.title");
+
+        TagInformation tagInformation = combatManager.getTagInformation(player);
+        if (tagInformation != null) {
+            List<Entity> enemyList = tagInformation.getEnemies();
+            Pattern placeholderPattern = Pattern.compile("\\{(\\S+)}");
+            TextReplacementConfig.Builder builder = TextReplacementConfig.builder();
+            builder.match(placeholderPattern);
+            builder.replacement((matchResult, builderCopy) -> {
+                String placeholder = matchResult.group(1);
+                String replacement = placeholderManager.getPlaceholderReplacement(player, enemyList, placeholder);
+                return Component.text(replacement == null ? placeholder : replacement);
+            });
+
+            TextReplacementConfig replacement = builder.build();
+            preMessage = preMessage.replaceText(replacement);
+        }
+
+        return preMessage;
     }
 
     private void updateTitle() {

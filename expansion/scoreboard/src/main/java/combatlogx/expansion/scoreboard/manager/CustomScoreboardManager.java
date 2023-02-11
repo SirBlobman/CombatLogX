@@ -12,11 +12,11 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 
+import combatlogx.expansion.scoreboard.ScoreboardConfiguration;
 import combatlogx.expansion.scoreboard.ScoreboardExpansion;
 import combatlogx.expansion.scoreboard.scoreboard.CustomScoreboard;
 
@@ -45,11 +45,14 @@ public final class CustomScoreboardManager {
         return combatLogX.getPlayerDataManager();
     }
 
-    private boolean isGlobalEnabled() {
+    private ScoreboardConfiguration getConfiguration() {
         ScoreboardExpansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        return configuration.getBoolean("enabled", true);
+        return expansion.getConfiguration();
+    }
+
+    private boolean isGlobalEnabled() {
+        ScoreboardConfiguration configuration = getConfiguration();
+        return configuration.isEnabled();
     }
 
     private boolean isDisabled(Player player) {
@@ -63,10 +66,8 @@ public final class CustomScoreboardManager {
     }
 
     private boolean shouldIgnorePrevious() {
-        ScoreboardExpansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        return !configuration.getBoolean("save-previous");
+        ScoreboardConfiguration configuration = getConfiguration();
+        return !configuration.isSavePrevious();
     }
 
     public void updateScoreboard(Player player) {
