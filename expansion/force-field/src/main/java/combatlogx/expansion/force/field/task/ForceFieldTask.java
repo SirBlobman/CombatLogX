@@ -1,5 +1,6 @@
 package combatlogx.expansion.force.field.task;
 
+import java.util.ConcurrentModificationException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -214,7 +215,15 @@ public final class ForceFieldTask extends ExpansionListener implements Runnable 
         if (this.fakeBlockMap.containsKey(playerId)) {
             oldArea = this.fakeBlockMap.get(playerId);
             newArea.removeAll(oldArea);
-            oldArea.removeAll(fullArea);
+
+            try {
+                oldArea.removeAll(fullArea); // Sometimes causes ConcurrentModificationException?
+            } catch(ConcurrentModificationException ex) {
+                printDebug("Detected ForceField concurrent modification:");
+                if (!isDebugModeDisabled()) {
+                    ex.printStackTrace();
+                }
+            }
         }
 
         this.fakeBlockMap.put(playerId, fullArea);
