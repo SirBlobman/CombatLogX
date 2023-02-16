@@ -11,10 +11,10 @@ val betaVersionPart = if (betaVersion) "Beta-" else ""
 val calculatedVersion = "$baseVersion.$betaVersionPart$jenkinsBuildNumber"
 rootProject.ext.set("calculatedVersion", calculatedVersion)
 
-val mavenDeployUsername = System.getenv("MAVEN_DEPLOY_USERNAME") ?: findProperty("mavenUsernameSirBlobman") ?: ""
+val mavenDeployUsername = System.getenv("MAVEN_DEPLOY_USR") ?: findProperty("mavenUsernameSirBlobman") ?: ""
 rootProject.ext.set("mavenUsername", mavenDeployUsername)
 
-val mavenDeployPassword = System.getenv("MAVEN_DEPLOY_PASSWORD") ?: findProperty("mavenPasswordSirBlobman") ?: ""
+val mavenDeployPassword = System.getenv("MAVEN_DEPLOY_PSW") ?: findProperty("mavenPasswordSirBlobman") ?: ""
 rootProject.ext.set("mavenPassword", mavenDeployPassword)
 
 allprojects {
