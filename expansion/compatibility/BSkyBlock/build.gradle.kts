@@ -12,7 +12,7 @@ repositories {
 
 dependencies {
     // -SNAPSHOT required since 1.22.0 has a bad version error.
-    compileOnly("world.bentobox:bentobox:1.22.0-SNAPSHOT")
+    compileOnly("world.bentobox:bentobox:1.22.0")
 
     // -SNAPSHOT required since 1.15.2 has a bad version error.
     compileOnly("world.bentobox:bskyblock:1.15.2-SNAPSHOT")
