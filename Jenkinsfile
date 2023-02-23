@@ -22,10 +22,12 @@ pipeline {
         stage("Gradle: Build") {
             steps {
                 withGradle {
-                    if (env.BRANCH_NAME == "main") {
-                        sh("./gradlew clean build publish --refresh-dependencies")
-                    } else {
-                        sh("./gradlew clean build --refresh-dependencies")
+                    script {
+                        if (env.BRANCH_NAME == "main") {
+                            sh("./gradlew clean build publish --refresh-dependencies")
+                        } else {
+                            sh("./gradlew clean build --refresh-dependencies")
+                        }
                     }
                 }
             }
