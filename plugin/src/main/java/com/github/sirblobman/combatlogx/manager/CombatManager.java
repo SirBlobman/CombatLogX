@@ -29,6 +29,7 @@ import com.github.sirblobman.api.language.replacer.Replacer;
 import com.github.sirblobman.api.language.replacer.StringReplacer;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
+import com.github.sirblobman.api.nms.ServerHandler;
 import com.github.sirblobman.api.utility.MessageUtility;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -85,6 +86,19 @@ public final class CombatManager extends Manager implements ICombatManager {
         if (failsPreTagEvent(player, enemy, tagType, tagReason)) {
             plugin.printDebug("The PlayerPreTagEvent was cancelled.");
             return false;
+        }
+
+        ConfigurationManager configurationManager = plugin.getConfigurationManager();
+        YamlConfiguration configuration = configurationManager.get("config.yml");
+        double minimumTps = configuration.getDouble("minimum-tps", 15.0D);
+        if (minimumTps > 0.0D) {
+            MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
+            ServerHandler serverHandler = multiVersionHandler.getServerHandler();
+            double currentTps = serverHandler.getServerTps1m();
+            if (currentTps < minimumTps) {
+                plugin.printDebug("The server tps is too low to tag players.");
+                return false;
+            }
         }
 
         boolean alreadyInCombat = isInCombat(player);
