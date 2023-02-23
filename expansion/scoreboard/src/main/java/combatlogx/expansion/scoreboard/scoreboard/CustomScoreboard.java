@@ -241,8 +241,9 @@ public final class CustomScoreboard {
             builder.match(placeholderPattern);
             builder.replacement((matchResult, builderCopy) -> {
                 String placeholder = matchResult.group(1);
-                String replacement = placeholderManager.getPlaceholderReplacement(player, enemyList, placeholder);
-                return Component.text(replacement == null ? placeholder : replacement);
+                Component replacement = placeholderManager.getPlaceholderReplacementComponent(player,
+                        enemyList, placeholder);
+                return (replacement == null ? Component.text(placeholder) : replacement);
             });
 
             replacementConfig = builder.build();

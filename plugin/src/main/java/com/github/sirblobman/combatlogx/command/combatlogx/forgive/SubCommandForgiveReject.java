@@ -12,7 +12,7 @@ import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.command.CombatLogPlayerCommand;
 import com.github.sirblobman.combatlogx.api.manager.IForgiveManager;
 import com.github.sirblobman.combatlogx.api.object.CombatTag;
-import com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper;
+import com.github.sirblobman.combatlogx.api.placeholder.PlaceholderHelper;
 
 public final class SubCommandForgiveReject extends CombatLogPlayerCommand {
     public SubCommandForgiveReject(ICombatLogX plugin) {

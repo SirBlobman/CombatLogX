@@ -14,13 +14,14 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import com.github.sirblobman.api.adventure.adventure.text.Component;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 import com.github.sirblobman.combatlogx.api.placeholder.IPlaceholderExpansion;
 import com.github.sirblobman.combatlogx.api.utility.CommandHelper;
-import com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper;
+import com.github.sirblobman.combatlogx.api.placeholder.PlaceholderHelper;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -69,7 +70,33 @@ public final class PlaceholderManager extends Manager implements IPlaceholderMan
         Validate.notNull(player, "player must not be null!");
         Validate.notNull(placeholder, "placeholder must not be null!");
 
-        printDebug("Detected getReplacement for placeholder " + placeholder + " and player " + player.getName());
+        printDebug("Detected getReplacementString for placeholder " + placeholder + " and player " + player.getName());
+
+        int underscoreIndex = placeholder.indexOf('_');
+        if (underscoreIndex == -1) {
+            printDebug("Placeholder did not contain underscore. Not valid.");
+            return null;
+        }
+
+        String expansionId = placeholder.substring(0, underscoreIndex);
+        IPlaceholderExpansion expansion = getPlaceholderExpansion(expansionId);
+        if (expansion == null) {
+            printDebug("No placeholder expansion found with id '" + expansionId + "'. Not valid.");
+            return null;
+        }
+
+        String subPlaceholder = placeholder.substring(underscoreIndex + 1);
+        printDebug("Sub Placeholder: " + subPlaceholder);
+        return expansion.getReplacementString(player, enemyList, subPlaceholder);
+    }
+
+    @Nullable
+    @Override
+    public Component getPlaceholderReplacementComponent(Player player, List<Entity> enemyList, String placeholder) {
+        Validate.notNull(player, "player must not be null!");
+        Validate.notNull(placeholder, "placeholder must not be null!");
+
+        printDebug("Detected getReplacementString for placeholder " + placeholder + " and player " + player.getName());
 
         int underscoreIndex = placeholder.indexOf('_');
         if (underscoreIndex == -1) {

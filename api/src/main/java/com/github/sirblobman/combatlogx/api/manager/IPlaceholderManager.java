@@ -5,6 +5,7 @@ import java.util.List;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import com.github.sirblobman.api.adventure.adventure.text.Component;
 import com.github.sirblobman.combatlogx.api.ICombatLogXNeeded;
 import com.github.sirblobman.combatlogx.api.placeholder.IPlaceholderExpansion;
 
@@ -18,6 +19,8 @@ public interface IPlaceholderManager extends ICombatLogXNeeded {
     List<IPlaceholderExpansion> getPlaceholderExpansions();
 
     @Nullable String getPlaceholderReplacement(Player player, List<Entity> enemyList, String placeholder);
+
+    @Nullable Component getPlaceholderReplacementComponent(Player player, List<Entity> enemyList, String placeholder);
 
     String replaceAll(Player player, List<Entity> enemyList, String string);
 

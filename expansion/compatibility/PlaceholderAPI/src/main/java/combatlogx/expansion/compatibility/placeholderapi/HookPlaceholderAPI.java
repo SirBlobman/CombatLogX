@@ -1,7 +1,9 @@
 package combatlogx.expansion.compatibility.placeholderapi;
 
+import java.util.Collections;
 import java.util.List;
 
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -9,7 +11,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionDescription;
-import com.github.sirblobman.combatlogx.api.utility.PlaceholderHelper;
+import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
+import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
+import com.github.sirblobman.combatlogx.api.object.TagInformation;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.jetbrains.annotations.NotNull;
@@ -57,7 +61,15 @@ public final class HookPlaceholderAPI extends PlaceholderExpansion {
     @Override
     public String onPlaceholderRequest(Player player, @NotNull String placeholder) {
         ICombatLogX plugin = getCombatLogX();
-        return PlaceholderHelper.getPlaceholder(plugin, player, placeholder);
+        IPlaceholderManager placeholderManager = plugin.getPlaceholderManager();
+        if (!placeholder.startsWith("newbie_helper_")) {
+            placeholder = ("combatlogx_" + placeholder);
+        }
+
+        ICombatManager combatManager = plugin.getCombatManager();
+        TagInformation tagInformation = combatManager.getTagInformation(player);
+        List<Entity> enemyList = (tagInformation == null ? Collections.emptyList() : tagInformation.getEnemies());
+        return placeholderManager.getPlaceholderReplacement(player, enemyList, placeholder);
     }
 
     private PlaceholderAPIExpansion getExpansion() {
