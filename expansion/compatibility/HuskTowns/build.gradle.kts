@@ -11,5 +11,5 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.github.WiIIiam278:HuskTowns:2.0")
+    compileOnly("com.github.WiIIiam278:HuskTowns:2.1")
 }
