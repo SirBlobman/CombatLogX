@@ -51,7 +51,7 @@ allprojects {
         val spigotVersion = property("spigot.version") as String
         val coreVersion = property("blue.slime.core.version") as String
 
-        compileOnly("org.jetbrains:annotations:24.0.0")
+        compileOnly("org.jetbrains:annotations:24.0.1")
         compileOnly("org.spigotmc:spigot-api:$spigotVersion")
         compileOnly("com.github.sirblobman.api:core:$coreVersion")
     }
