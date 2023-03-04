@@ -166,7 +166,7 @@ expansion:
     ended: "<bold><gold>Боя</gold> <gray>\u00BB</gray></bold> <white>Вы вышли из боя.</white>"
   boss-bar:
     #Shown on top of the screen while a player is in combat.
-    timer: "<bold><gold>Combat</gold> <gray>\u00BB</gray></bold> <white><red>{combatlogx_time_left}</red> секунд.</white>"
+    timer: "<bold><gold>Бой</gold> <gray>\u00BB</gray></bold> <white><red>{combatlogx_time_left}</red> секунд.</white>"
     #Shown on top of the screen for a brief period when combat ends.
     ended: "<bold><gold>Combat</gold> <gray>\u00BB</gray></bold> <white>Вы вышли из боя.</white>"
   scoreboard:
