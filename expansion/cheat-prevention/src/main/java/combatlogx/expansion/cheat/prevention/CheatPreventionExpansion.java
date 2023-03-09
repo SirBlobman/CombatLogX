@@ -25,6 +25,7 @@ import combatlogx.expansion.cheat.prevention.listener.modern.ListenerModernItemP
 import combatlogx.expansion.cheat.prevention.listener.modern.ListenerModernPortalCreate;
 import combatlogx.expansion.cheat.prevention.listener.modern.ListenerModernPotions;
 import combatlogx.expansion.cheat.prevention.listener.paper.ListenerPaperChat;
+import combatlogx.expansion.cheat.prevention.listener.paper.ListenerPaperEntityInsideBlock;
 import combatlogx.expansion.cheat.prevention.task.ElytraRetagTask;
 import combatlogx.expansion.cheat.prevention.task.FlightRetagTask;
 
@@ -152,6 +153,12 @@ public final class CheatPreventionExpansion extends Expansion {
             new ListenerPaperChat(this).register();
         } catch (ReflectiveOperationException ex) {
             new ListenerChat(this).register();
+        }
+        try {
+            Class.forName("io.papermc.paper.event.entity.EntityInsideBlockEvent");
+            new ListenerPaperEntityInsideBlock(this).register();
+        } catch (ReflectiveOperationException ex) {
+            getLogger().info("EntityInsideBlockEvent is not supported on this server version.");
         }
     }
 }
