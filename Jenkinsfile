@@ -24,9 +24,9 @@ pipeline {
                 withGradle {
                     script {
                         if (env.BRANCH_NAME == "main") {
-                            sh("./gradlew clean build publish --refresh-dependencies")
+                            sh("./gradlew clean build publish --refresh-dependencies --no-daemon")
                         } else {
-                            sh("./gradlew clean build --refresh-dependencies")
+                            sh("./gradlew clean build --refresh-dependencies --no-daemon")
                         }
                     }
                 }
