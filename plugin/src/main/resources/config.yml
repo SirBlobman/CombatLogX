@@ -125,6 +125,9 @@ forgive-request-cooldown: 30
 # Default: 10 (seconds)
 forgive-request-expire: 10
 
+# What is the minimum server TPS to allow tagging?
+minimum-tps: 15.0
+
 ## END OF CONFIG.YML
 ## YOU ARE NOT FINISHED
 ## Don't forget to configure your expansions and other files
