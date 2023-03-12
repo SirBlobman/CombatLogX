@@ -6,5 +6,5 @@ repositories {
 }
 
 dependencies {
-    compileOnly("net.william278:HuskSync:2.2.3")
+    compileOnly("net.william278:HuskSync:2.2.4")
 }
