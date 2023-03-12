@@ -1,5 +1,7 @@
 package combatlogx.expansion.cheat.prevention;
 
+import java.util.logging.Logger;
+
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -146,19 +148,27 @@ public final class CheatPreventionExpansion extends Expansion {
         }
     }
 
-    // Paper uses a custom AsyncChatEvent
+    // Paper has some custom event classes that don't exist on Spigot.
     private void registerPaperListeners() {
-        try {
-            Class.forName("io.papermc.paper.event.player.AsyncChatEvent");
+        if (checkPaperClass("io.papermc.paper.event.player.AsyncChatEvent")) {
             new ListenerPaperChat(this).register();
-        } catch (ReflectiveOperationException ex) {
+        } else {
             new ListenerChat(this).register();
         }
-        try {
-            Class.forName("io.papermc.paper.event.entity.EntityInsideBlockEvent");
+
+        if (checkPaperClass("io.papermc.paper.event.entity.EntityInsideBlockEvent")) {
             new ListenerPaperEntityInsideBlock(this).register();
-        } catch (ReflectiveOperationException ex) {
-            getLogger().info("EntityInsideBlockEvent is not supported on this server version.");
+        }
+    }
+
+    private boolean checkPaperClass(String className) {
+        try {
+            Class.forName(className);
+            return true;
+        } catch(ReflectiveOperationException ex) {
+            Logger logger = getLogger();
+            logger.info(className + " is not supported on this server version.");
+            return false;
         }
     }
 }

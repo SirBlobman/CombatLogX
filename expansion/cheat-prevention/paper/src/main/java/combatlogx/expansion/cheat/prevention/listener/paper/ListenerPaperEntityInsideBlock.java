@@ -13,7 +13,6 @@ import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import combatlogx.expansion.cheat.prevention.listener.CheatPreventionListener;
 
 public final class ListenerPaperEntityInsideBlock extends CheatPreventionListener {
-
     public ListenerPaperEntityInsideBlock(Expansion expansion) {
         super(expansion);
     }
@@ -55,4 +54,3 @@ public final class ListenerPaperEntityInsideBlock extends CheatPreventionListene
         return configurationManager.get("teleportation.yml");
     }
 }
-
