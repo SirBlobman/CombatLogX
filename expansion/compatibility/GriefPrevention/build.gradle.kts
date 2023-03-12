@@ -6,5 +6,5 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.github.TechFortress:GriefPrevention:16.18")
+    compileOnly("com.github.TechFortress:GriefPrevention:16.18.1")
 }
