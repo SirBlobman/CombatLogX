@@ -5,10 +5,7 @@ plugins {
 }
 
 repositories {
-    maven {
-        name = "codemc-public"
-        url = uri("https://repo.codemc.io/repository/maven-public/")
-    }
+    maven("https://repo.codemc.io/repository/maven-public/")
 }
 
 dependencies {

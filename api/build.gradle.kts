@@ -8,10 +8,7 @@ java {
 }
 
 repositories {
-    maven {
-        name = "placeholderapi"
-        url = uri("https://repo.extendedclip.com/content/repositories/placeholderapi/")
-    }
+    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
 }
 
 dependencies {
@@ -21,8 +18,7 @@ dependencies {
 publishing {
     repositories {
         maven {
-            name = "sirblobman-public"
-            url = uri("https://nexus.sirblobman.xyz/repository/public-snapshots/")
+            url = uri("https://nexus.sirblobman.xyz/public/")
 
             credentials {
                 username = rootProject.ext.get("mavenUsername") as String
@@ -42,9 +38,7 @@ publishing {
 
 tasks {
     javadoc {
-        options {
-            this as StandardJavadocDocletOptions
-            addStringOption("Xdoclint:none", "-quiet")
-        }
+        val standardOptions = (options as StandardJavadocDocletOptions)
+        standardOptions.addStringOption("Xdoclint:none", "-quiet")
     }
 }

@@ -1,16 +1,8 @@
 repositories {
-    maven {
-        name = "sirblobman-private"
-        url = uri("https://nexus.sirblobman.xyz/repository/private/")
-
-        credentials {
-            username = rootProject.ext.get("mavenUsername") as String
-            password = rootProject.ext.get("mavenPassword") as String
-        }
-    }
+    maven("https://jitpack.io/")
 }
 
 dependencies {
     compileOnly(project(":expansion:newbie-helper"))
-    compileOnly("com.github.angeschossen:Lands:6.28.10")
+    compileOnly("com.github.Angeschossen:LandsAPI:6.28.11")
 }

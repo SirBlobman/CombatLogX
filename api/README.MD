@@ -16,7 +16,7 @@ Maven:
     <!-- SirBlobman Public Repository -->
     <repository>
         <id>sirblobman-public</id>
-        <url>https://nexus.sirblobman.xyz/repository/public/</url>
+        <url>https://nexus.sirblobman.xyz/public/</url>
     </repository>
 </repositories>
 ```
@@ -27,17 +27,14 @@ Gradle:
 repositories {
     maven {
         name = 'sirblobman-public'
-        url = 'https://nexus.sirblobman.xyz/repository/public/'
+        url = 'https://nexus.sirblobman.xyz/public/'
     }
 }
 ```
 
 ```kotlin
 repositories {
-    maven {
-        name = "sirblobman-public"
-        url = uri("https://nexus.sirblobman.xyz/repository/public/")
-    }
+    maven("https://nexus.sirblobman.xyz/public/")
 }
 ```
 

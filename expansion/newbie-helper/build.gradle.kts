@@ -11,7 +11,7 @@ publishing {
     repositories {
         maven {
             name = "sirblobman-public"
-            url = uri("https://nexus.sirblobman.xyz/repository/public-snapshots/")
+            url = uri("https://nexus.sirblobman.xyz/private/")
 
             credentials {
                 username = rootProject.ext.get("mavenUsername") as String

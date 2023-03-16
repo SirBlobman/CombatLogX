@@ -1,8 +1,5 @@
 repositories {
-    maven {
-        name = "uskyblock-repo"
-        url = uri("https://www.uskyblock.ovh/maven/uskyblock/")
-    }
+    maven("https://www.uskyblock.ovh/maven/uskyblock/")
 }
 
 dependencies {

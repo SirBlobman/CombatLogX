@@ -1,3 +1,7 @@
+repositories {
+    maven("https://jitpack.io/")
+}
+
 dependencies {
-    compileOnly("org.kitteh:VanishNoPacket:3.22")
+    compileOnly("com.github.mbax:VanishNoPacket:3.22")
 }

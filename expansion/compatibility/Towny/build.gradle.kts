@@ -1,8 +1,5 @@
 repositories {
-    maven {
-        name = "jitpack.io"
-        url = uri("https://jitpack.io/")
-    }
+    maven("https://jitpack.io/")
 }
 
 dependencies {
