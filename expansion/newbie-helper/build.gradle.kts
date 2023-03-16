@@ -11,7 +11,7 @@ publishing {
     repositories {
         maven {
             name = "sirblobman-public"
-            url = uri("https://nexus.sirblobman.xyz/private/")
+            url = uri("https://nexus.sirblobman.xyz/public/")
 
             credentials {
                 username = rootProject.ext.get("mavenUsername") as String
@@ -32,9 +32,7 @@ publishing {
 
 tasks {
     javadoc {
-        options {
-            this as StandardJavadocDocletOptions
-            addStringOption("Xdoclint:none", "-quiet")
-        }
+        val standardOptions = (options as StandardJavadocDocletOptions)
+        standardOptions.addStringOption("Xdoclint:none", "-quiet")
     }
 }
