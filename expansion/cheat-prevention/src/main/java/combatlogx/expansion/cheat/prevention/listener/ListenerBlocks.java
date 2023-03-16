@@ -45,7 +45,7 @@ public final class ListenerBlocks extends CheatPreventionListener {
         }
 
         e.setCancelled(true);
-        sendMessage(player, "expansion.cheat-prevention.blocks.prevent-interaction", null);
+        sendMessage(player, "expansion.cheat-prevention.blocks.prevent-interaction");
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -62,7 +62,7 @@ public final class ListenerBlocks extends CheatPreventionListener {
         }
 
         e.setCancelled(true);
-        sendMessage(player, "expansion.cheat-prevention.blocks.prevent-breaking", null);
+        sendMessage(player, "expansion.cheat-prevention.blocks.prevent-breaking");
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -79,7 +79,7 @@ public final class ListenerBlocks extends CheatPreventionListener {
         }
 
         e.setCancelled(true);
-        sendMessage(player, "expansion.cheat-prevention.blocks.prevent-placing", null);
+        sendMessage(player, "expansion.cheat-prevention.blocks.prevent-placing");
     }
 
     private YamlConfiguration getConfiguration() {

@@ -24,7 +24,7 @@ public final class ListenerPaperChat extends CheatPreventionListener {
         }
 
         e.setCancelled(true);
-        sendMessage(player, "expansion.cheat-prevention.no-chat", null);
+        sendMessage(player, "expansion.cheat-prevention.no-chat");
     }
 
     private YamlConfiguration getConfiguration() {

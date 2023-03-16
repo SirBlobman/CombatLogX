@@ -22,7 +22,7 @@ public final class ListenerEntities extends CheatPreventionListener {
         }
 
         e.setCancelled(true);
-        sendMessage(player, "expansion.cheat-prevention.no-entity-interaction", null);
+        sendMessage(player, "expansion.cheat-prevention.no-entity-interaction");
     }
 
     private YamlConfiguration getConfiguration() {

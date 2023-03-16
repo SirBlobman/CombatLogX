@@ -28,7 +28,7 @@ public final class ListenerLegacyItemPickup extends CheatPreventionListener {
         }
 
         e.setCancelled(true);
-        sendMessage(player, "expansion.cheat-prevention.items.no-pickup", null);
+        sendMessage(player, "expansion.cheat-prevention.items.no-pickup");
     }
 
     private boolean isAllowed() {

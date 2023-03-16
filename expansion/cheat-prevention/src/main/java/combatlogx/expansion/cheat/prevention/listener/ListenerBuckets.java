@@ -27,7 +27,7 @@ public final class ListenerBuckets extends CheatPreventionListener {
 
         if (isInCombat(player) && shouldPreventEmpty(material)) {
             e.setCancelled(true);
-            sendMessage(player, "expansion.cheat-prevention.buckets.no-empty", null);
+            sendMessage(player, "expansion.cheat-prevention.buckets.no-empty");
         }
     }
 
@@ -39,7 +39,7 @@ public final class ListenerBuckets extends CheatPreventionListener {
 
         if (isInCombat(player) && shouldPreventFill(material)) {
             e.setCancelled(true);
-            sendMessage(player, "expansion.cheat-prevention.buckets.no-fill", null);
+            sendMessage(player, "expansion.cheat-prevention.buckets.no-fill");
         }
     }
 

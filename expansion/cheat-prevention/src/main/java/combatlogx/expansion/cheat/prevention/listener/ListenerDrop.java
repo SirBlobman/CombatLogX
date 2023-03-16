@@ -22,7 +22,7 @@ public final class ListenerDrop extends CheatPreventionListener {
         }
 
         e.setCancelled(true);
-        sendMessage(player, "expansion.cheat-prevention.items.no-dropping", null);
+        sendMessage(player, "expansion.cheat-prevention.items.no-dropping");
     }
 
     private YamlConfiguration getConfiguration() {

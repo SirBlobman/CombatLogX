@@ -27,7 +27,7 @@ public final class ListenerModernPortalCreate extends CheatPreventionListener {
         Player player = (Player) entity;
         if (isInCombat(player) && shouldPreventPortalCreation()) {
             e.setCancelled(true);
-            sendMessage(player, "expansion.cheat-prevention.blocks.prevent-portal-creation", null);
+            sendMessage(player, "expansion.cheat-prevention.blocks.prevent-portal-creation");
         }
     }
 

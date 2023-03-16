@@ -22,7 +22,7 @@ public final class ListenerRiptide extends CheatPreventionListener {
         }
 
         e.setCancelled(true);
-        sendMessage(player, "expansion.cheat-prevention.no-riptide", null);
+        sendMessage(player, "expansion.cheat-prevention.no-riptide");
     }
 
     private YamlConfiguration getConfiguration() {

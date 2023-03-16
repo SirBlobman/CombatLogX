@@ -39,7 +39,7 @@ public final class ListenerGameMode extends CheatPreventionListener {
         }
 
         e.setCancelled(true);
-        sendMessage(player, "expansion.cheat-prevention.game-mode.no-switch", null);
+        sendMessage(player, "expansion.cheat-prevention.game-mode.no-switch");
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

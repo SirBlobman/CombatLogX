@@ -33,7 +33,7 @@ public final class ListenerInventories extends CheatPreventionListener {
         player.closeInventory();
 
         if (shouldSendMessage(viewType)) {
-            sendMessage(player, "expansion.cheat-prevention.inventory.force-closed", null);
+            sendMessage(player, "expansion.cheat-prevention.inventory.force-closed");
         }
     }
 
@@ -45,7 +45,7 @@ public final class ListenerInventories extends CheatPreventionListener {
 
         Player player = e.getPlayer();
         player.closeInventory();
-        sendMessage(player, "expansion.cheat-prevention.inventory.force-closed", null);
+        sendMessage(player, "expansion.cheat-prevention.inventory.force-closed");
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -65,7 +65,7 @@ public final class ListenerInventories extends CheatPreventionListener {
         }
 
         e.setCancelled(true);
-        sendMessage(player, "expansion.cheat-prevention.inventory.no-opening", null);
+        sendMessage(player, "expansion.cheat-prevention.inventory.no-opening");
     }
 
     private YamlConfiguration getConfiguration() {

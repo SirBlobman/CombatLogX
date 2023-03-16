@@ -22,13 +22,13 @@ public abstract class CheatPreventionListener extends ExpansionListener {
         this.messageCooldownMap = new ConcurrentHashMap<>();
     }
 
-    protected final void sendMessageIgnoreCooldown(Player player, String key, Replacer replacer) {
+    protected final void sendMessageIgnoreCooldown(Player player, String key, Replacer... replacer) {
         LanguageManager languageManager = getLanguageManager();
         languageManager.sendMessageWithPrefix(player, key, replacer);
         addMessageCooldown(player, key);
     }
 
-    protected final void sendMessage(Player player, String key, Replacer replacer) {
+    protected final void sendMessage(Player player, String key, Replacer... replacer) {
         long systemMillis = System.currentTimeMillis();
         long expireMillis = getCooldownExpireTime(player, key);
         if (systemMillis < expireMillis) {

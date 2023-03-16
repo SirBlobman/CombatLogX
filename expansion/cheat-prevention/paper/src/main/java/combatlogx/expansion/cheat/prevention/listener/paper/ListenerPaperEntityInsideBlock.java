@@ -45,7 +45,7 @@ public final class ListenerPaperEntityInsideBlock extends CheatPreventionListene
         }
 
         e.setCancelled(true);
-        sendMessage(player, "expansion.cheat-prevention.teleportation.block-portal", null);
+        sendMessage(player, "expansion.cheat-prevention.teleportation.block-portal");
         printDebug("prevent-portals is enabled, cancelled event and sent message.");
     }
 

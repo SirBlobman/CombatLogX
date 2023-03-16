@@ -21,7 +21,7 @@ public final class ListenerElytra extends CheatPreventionListener {
         Player player = e.getPlayer();
         if (player.isGliding() && shouldForcePrevent()) {
             player.setGliding(false);
-            sendMessage(player, "expansion.cheat-prevention.elytra.force-disabled", null);
+            sendMessage(player, "expansion.cheat-prevention.elytra.force-disabled");
         }
     }
 
@@ -42,7 +42,7 @@ public final class ListenerElytra extends CheatPreventionListener {
         }
 
         e.setCancelled(true);
-        sendMessage(player, "expansion.cheat-prevention.elytra.no-gliding", null);
+        sendMessage(player, "expansion.cheat-prevention.elytra.no-gliding");
     }
 
     private YamlConfiguration getConfiguration() {

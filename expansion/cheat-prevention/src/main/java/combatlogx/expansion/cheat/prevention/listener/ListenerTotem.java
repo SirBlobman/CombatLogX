@@ -28,7 +28,7 @@ public final class ListenerTotem extends CheatPreventionListener {
         }
 
         e.setCancelled(true);
-        sendMessage(player, "expansion.cheat-prevention.no-totem", null);
+        sendMessage(player, "expansion.cheat-prevention.no-totem");
     }
 
     private YamlConfiguration getConfiguration() {

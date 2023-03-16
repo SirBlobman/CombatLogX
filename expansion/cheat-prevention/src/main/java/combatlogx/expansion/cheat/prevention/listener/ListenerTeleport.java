@@ -53,7 +53,7 @@ public final class ListenerTeleport extends CheatPreventionListener {
         }
 
         e.setCancelled(true);
-        sendMessage(player, "expansion.cheat-prevention.teleportation.block-portal", null);
+        sendMessage(player, "expansion.cheat-prevention.teleportation.block-portal");
         printDebug("prevent-portals is enabled, cancelled event and sent message.");
     }
 
@@ -108,7 +108,7 @@ public final class ListenerTeleport extends CheatPreventionListener {
 
         Player player = e.getPlayer();
         String messagePath = getMessagePath(teleportCause);
-        sendMessage(player, messagePath, null);
+        sendMessage(player, messagePath);
     }
 
     private void checkEnderPearlRetag(PlayerTeleportEvent e) {

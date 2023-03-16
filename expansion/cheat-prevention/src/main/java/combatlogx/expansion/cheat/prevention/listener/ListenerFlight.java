@@ -58,7 +58,7 @@ public final class ListenerFlight extends CheatPreventionListener {
         }
 
         e.setCancelled(true);
-        sendMessage(player, "expansion.cheat-prevention.flight.no-flying", null);
+        sendMessage(player, "expansion.cheat-prevention.flight.no-flying");
         printDebug("Cancelled toggle flight event and send message to player.");
     }
 
@@ -121,7 +121,7 @@ public final class ListenerFlight extends CheatPreventionListener {
             this.noFallDamageSet.add(playerId);
         }
 
-        sendMessage(player, "expansion.cheat-prevention.flight.force-disabled", null);
+        sendMessage(player, "expansion.cheat-prevention.flight.force-disabled");
     }
 
     private void checkAllowFlight(Player player) {
@@ -136,7 +136,7 @@ public final class ListenerFlight extends CheatPreventionListener {
         }
 
         player.setAllowFlight(false);
-        sendMessage(player, "expansion.cheat-prevention.flight.force-disabled", null);
+        sendMessage(player, "expansion.cheat-prevention.flight.force-disabled");
         printDebug("Disabled player allow flight value.");
     }
 }
