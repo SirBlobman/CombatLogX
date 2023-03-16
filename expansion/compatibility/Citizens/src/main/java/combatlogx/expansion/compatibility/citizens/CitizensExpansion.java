@@ -40,7 +40,7 @@ public final class CitizensExpansion extends Expansion {
 
     @Override
     public void onEnable() {
-        if (!checkDependency("Citizens", true, "2.0.30")) {
+        if (!checkDependency("Citizens", true, "2.0.31")) {
             selfDisable();
             return;
         }
