@@ -17,7 +17,7 @@ public final class uSkyBlockExpansion extends Expansion {
 
     @Override
     public void onEnable() {
-        if (!checkDependency("uSkyBlock", true)) {
+        if (!checkDependency("uSkyBlock", true, "3")) {
             selfDisable();
             return;
         }

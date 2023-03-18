@@ -7,5 +7,5 @@ repositories {
 
 dependencies {
     compileOnly("net.citizensnpcs:citizensapi:2.0.31-SNAPSHOT")
-    compileOnly("org.mcmonkey:sentinel:2.7.2-SNAPSHOT")
+    compileOnly("org.mcmonkey:sentinel:2.7.3-SNAPSHOT")
 }
