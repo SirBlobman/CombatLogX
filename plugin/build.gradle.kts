@@ -15,7 +15,7 @@ repositories {
 dependencies {
     implementation(project(":api"))
     implementation("org.zeroturnaround:zt-zip:1.15")
-    compileOnly("me.clip:placeholderapi:2.11.2")
+    compileOnly("me.clip:placeholderapi:2.11.3")
 }
 
 tasks {
