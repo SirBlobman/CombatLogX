@@ -201,7 +201,10 @@ public final class BossBarUpdater implements TimerUpdater {
         ICombatLogX combatLogX = getCombatLogX();
         ICombatManager combatManager = combatLogX.getCombatManager();
         IPlaceholderManager placeholderManager = combatLogX.getPlaceholderManager();
-        Component preMessage = languageManager.getMessage(player, "expansion.boss-bar.timer");
+        Component message = languageManager.getMessage(player, "expansion.boss-bar.timer");
+
+        TextReplacementConfig replacementConfig = getBarsReplacement(player, timeLeftMillis);
+        message = message.replaceText(replacementConfig);
 
         TagInformation tagInformation = combatManager.getTagInformation(player);
         if (tagInformation != null) {
@@ -217,17 +220,16 @@ public final class BossBarUpdater implements TimerUpdater {
             });
 
             TextReplacementConfig replacement = builder.build();
-            preMessage = preMessage.replaceText(replacement);
+            message = message.replaceText(replacement);
         }
 
-        TextReplacementConfig replacementConfig = getBarsReplacement(player, timeLeftMillis);
-        return preMessage.replaceText(replacementConfig);
+        return message;
     }
 
     private TextReplacementConfig getBarsReplacement(Player player, long timeLeftMillis) {
         TextReplacementConfig.Builder builder = TextReplacementConfig.builder();
         builder.matchLiteral("{bars}");
-        builder.replacement(match -> getBars(player, timeLeftMillis));
+        builder.replacement(getBars(player, timeLeftMillis));
         return builder.build();
     }
 
