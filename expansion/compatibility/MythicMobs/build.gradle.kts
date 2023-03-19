@@ -1,8 +1,5 @@
 repositories {
-    maven {
-        name = "lumine-releases"
-        url = uri("https://mvn.lumine.io/repository/maven-public/")
-    }
+    maven("https://mvn.lumine.io/repository/maven-public/")
 }
 
 dependencies {

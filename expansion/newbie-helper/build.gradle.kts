@@ -9,10 +9,7 @@ java {
 
 publishing {
     repositories {
-        maven {
-            name = "sirblobman-public"
-            url = uri("https://nexus.sirblobman.xyz/public/")
-
+        maven("https://nexus.sirblobman.xyz/public/") {
             credentials {
                 username = rootProject.ext.get("mavenUsername") as String
                 password = rootProject.ext.get("mavenPassword") as String

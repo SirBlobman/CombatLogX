@@ -1,8 +1,5 @@
 repositories {
-    maven {
-        name = "pcgf-repo"
-        url = uri("https://repo.pcgamingfreaks.at/repository/maven-everything/")
-    }
+    maven("https://repo.pcgamingfreaks.at/repository/maven-everything/")
 }
 
 dependencies {

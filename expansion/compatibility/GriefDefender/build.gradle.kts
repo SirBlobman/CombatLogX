@@ -1,8 +1,5 @@
 repositories {
-    maven {
-        name = "bloodshot-repo"
-        url = uri("https://repo.glaremasters.me/repository/bloodshot/")
-    }
+    maven("https://repo.glaremasters.me/repository/bloodshot/")
 }
 
 dependencies {

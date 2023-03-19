@@ -1,5 +1,5 @@
 repositories {
-    maven("https://jitpack.io/")
+    maven("https://nexus.sirblobman.xyz/proxy-jitpack/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
 }
 

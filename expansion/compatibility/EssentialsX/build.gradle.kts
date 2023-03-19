@@ -1,8 +1,5 @@
 repositories {
-    maven {
-        name = "essentials-releases"
-        url = uri("https://repo.essentialsx.net/releases/")
-    }
+    maven("https://repo.essentialsx.net/releases/")
 }
 
 dependencies {

@@ -1,8 +1,5 @@
 repositories {
-    maven {
-        name = "elmakers-repo"
-        url = uri("https://maven.elmakers.com/repository/")
-    }
+    maven("https://maven.elmakers.com/repository/")
 }
 
 dependencies {

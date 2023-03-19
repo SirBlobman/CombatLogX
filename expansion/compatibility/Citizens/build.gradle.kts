@@ -1,8 +1,5 @@
 repositories {
-    maven {
-        name = "everything"
-        url = uri("https://repo.citizensnpcs.co/")
-    }
+    maven("https://nexus.sirblobman.xyz/proxy-citizens/")
 }
 
 dependencies {

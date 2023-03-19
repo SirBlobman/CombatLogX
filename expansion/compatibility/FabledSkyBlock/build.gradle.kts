@@ -1,8 +1,5 @@
 repositories {
-    maven {
-        name = "songoda-public"
-        url = uri("https://repo.songoda.com/repository/public/")
-    }
+    maven("https://repo.songoda.com/repository/public/")
 }
 
 dependencies {

@@ -1,8 +1,5 @@
 repositories {
-    maven {
-        name = "dmulloy2-repo"
-        url = uri("https://repo.dmulloy2.net/repository/public/")
-    }
+    maven("https://nexus.sirblobman.xyz/proxy-dmulloy2/")
 }
 
 dependencies {

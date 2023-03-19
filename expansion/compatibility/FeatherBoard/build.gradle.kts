@@ -1,7 +1,5 @@
 repositories {
-    maven {
-        url = uri("https://nexus.sirblobman.xyz/private/")
-
+    maven("https://nexus.sirblobman.xyz/private/") {
         credentials {
             username = rootProject.ext.get("mavenUsername") as String
             password = rootProject.ext.get("mavenPassword") as String

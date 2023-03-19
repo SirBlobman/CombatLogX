@@ -4,10 +4,7 @@ java {
 }
 
 repositories {
-    maven {
-        name = "jitpack.io"
-        url = uri("https://jitpack.io/")
-    }
+    maven("https://nexus.sirblobman.xyz/proxy-jitpack/")
 }
 
 dependencies {
