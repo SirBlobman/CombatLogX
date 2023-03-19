@@ -1,6 +1,9 @@
 package combatlogx.expansion.compatibility.citizens;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.utility.VersionUtility;
@@ -40,7 +43,16 @@ public final class CitizensExpansion extends Expansion {
 
     @Override
     public void onEnable() {
-        if (!checkDependency("Citizens", true, "2.0.31")) {
+        if (!checkDependency("Citizens", true)) {
+            selfDisable();
+            return;
+        }
+
+        PluginManager pluginManager = Bukkit.getPluginManager();
+        Plugin citizens = pluginManager.getPlugin("Citizens");
+        String citizensVersion = citizens.getDescription().getVersion();
+        if (!citizensVersion.startsWith("2.0.30") && !citizensVersion.startsWith("2.0.31")) {
+            getLogger().info("Dependency 'Citizens' is not the correct version!");
             selfDisable();
             return;
         }
