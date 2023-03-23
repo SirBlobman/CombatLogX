@@ -11,119 +11,119 @@
 ## More information about MiniMessage can be found here:
 ## https://docs.adventure.kyori.net/minimessage/format.html
 #The language code for this file.
-language-name: "tr_tr"
+language-name: "tr_Tr"
 #The format for decimal numbers.
 #The United States uses the number and two decimal places
-decimal-format: "0.00"
+decimal-format: "0. 00"
 #The prefix for CombatLogX that is shown in front of all messages.
 #Note to translators: Do not change this message.
-prefix: "<bold><white>[</white></bold><gold>CombatLogX</gold><bold><white>]"
+prefix: "<bold><white>[</white></bold><gold>CombatLogX </gold><bold><white>]"
 broadcast:
   #Shown when the plugin is finished loading.
-  on-load: "<bold><green>CombatLogX başarıyla yüklendi."
+  on-load: "<bold><green>CombatLogX başarıyla yüklendi"
   #Shown when the plugin is finished enabling.
-  on-enable: "<bold><green>CombatLogX başarıyla etkinleştirildi."
+  on-enable: "<bold><green>CombatLogX başarıyla etkinleştirildi.<bold><green>"
   #Shown when the plugin is disabled for any reason.
-  on-disable: "<bold><red>CombatLogX başarıyla devre dışı bırakıldı."
+  on-disable: "<bold><red>CombatLogX başarıyla devre dışı bırakıldı.</bold></red>"
 placeholder:
   #This text is used for the {combatlogx_time_left}
   #This allows server configurations to change the display value of the zero to something like "Not in combat"
-  time-left-zero: "0"
+  time-left-zero: "0 "
   #This text is used when a player does not have an enemy.
   #This can happen when players are tagged by a custom expansion or the tag command.
-  unknown-enemy: "Bilinmeyen"
+  unknown-enemy: "Bilinmeyenn"
   status:
     #Shown when the player is in combat.
-    fighting: "<red>Savaşıyor"
-    in-combat: "<green>Evet"
+    fighting: "<red>Savaşıyor<red>"
+    in-combat: "<green>Evet<green>"
     #Shown when the player is not in combat
-    idle: "<green>Boşta"
-    not-in-combat: "<red>Hayır"
+    idle: "<green>Boşta<green>"
+    not-in-combat: "<red>Hayır<red>"
   #These placeholders are shown when a player changes a value such as whether or not their bossbar is enabled.
   toggle:
-    enabled: "<green>AÇIK"
-    disabled: "<red>KAPALI"
+    enabled: "<green>AÇIK<green>"
+    disabled: "<red>KAPALI<red>"
   pvp-status:
-    enabled: "<green>AÇIK"
-    disabled: "<red>KAPALI"
+    enabled: "<green>AÇIK<green>"
+    disabled: "<red>KAPALI<red>"
 combat-timer:
   #Sent to a player when they escape from combat due to the timer running out.
-  expire: "<green>Artık savaşta değilsin."
+  expire: "<green>Artık savaşta değilsin.<green>"
   #Sent to a player when they escape from combat due to their enemy being killed.
-  enemy-death: "<green>Artık savaşta değilsin çünkü düşmanın öldü."
+  enemy-death: "<green>Artık savaşta değilsin çünkü düşmanın öldü.<green>"
   #Sent when a player is killed during combat.
-  self-death: "<green>Artık savaşta değilsin çünkü düşmanın öldü"
+  self-death: "<green>Artık savaşta değilsin çünkü düşmanın öldü<green>"
 error:
   #Shown when the console tries to execute a command made for players.
-  player-only: "<red>Bu komutu sadece oyuncular kullanabilir."
+  player-only: "<red>Bu komutu sadece oyuncular kullanabilir.<red>"
   #Shown when a command that requires a player has invalid input.
-  invalid-target: "<gray>{target}</gray><red> çevrimiçi değil ya da mevcut değil."
+  invalid-target: "<gray>{target}</gray><red> çevrimiçi değil ya da mevcut değil.</red>"
   #Shown when a command that requires a number has invalid input.
-  invalid-integer: "<red><gray>{value}</gray> geçerli bir tamsayı değil.</red>"
+  invalid-integer: "<red><gray>{value}</gray>geçerli bir tamsayı değil.</red>"
   #Shown when a player does not have access to something that requires a permission.
-  no-permission: "<red>Eksik Yetki: </red><gray>{permission}"
+  no-permission: "<red>Eksik Yetki:</red><gray>{permission}"
   #Shown when a player executes a command in a world that is disabled in the configuration.
-  disabled-world: "<red>Bu komut bu boyutta mevcut değil.</red>"
+  disabled-world: "<red>Bu komut bu boyutta mevcut değil. </red>"
   #Shown when a command requires a player in combat but the target player is not in combat.
-  target-not-in-combat: "<gray>{target}</gray><red> savaşta değil."
+  target-not-in-combat: "<gray>{target}</gray><red> savaşta değil"
   #Shown when a player executes a command that requires them to be in combat.
-  self-not-in-combat: "<red>Savaşta değilsin."
+  self-not-in-combat: "<red>Savaşta değilsin.</red>"
   #Shown when a command that requires an expansion has invalid input.
-  unknown-expansion: "<gray>{target}</gray><red> bir eklenti değil ya da yüklenmedi."
-  forgive-not-enemy: "<red><gray>{target}</gray> kimse düşmanın değil.</red>"
-  enemy-not-forgiving: "<red>Düşmanın seni affedecek havasında değil.</red>"
+  unknown-expansion: "<gray>{target}</gray><red> bir eklenti değil ya da yüklenmedi.</red>"
+  forgive-not-enemy: "<red><gray>{target}</gray> kimse düşmanın değil. </red>"
+  enemy-not-forgiving: "<red>Düşmanın seni affedecek havasında değil. </red>"
 command:
   combatlogx:
     #Shown as the command output for '/combatlogx help'.
     help-message-list:
       - ""
-      - "<bold><gold>CombatLogX Komut Yardım:"
-      - "  <bold><white>/combatlogx help</white></bold><gray>: Yardım sayfasını görüntüler."
-      - "  <bold><white>/combatlogx reload</white></bold><gray>: config.yml, language.yml ve bütün eklentilerin konfigürasyon dosyalarını yeniden yükler."
-      - "  <bold><white>/combatlogx about \\<expansion></white></bold><gray>: Eklentiyle ilgili bilgileri kontrol eder."
-      - "  <bold><white>/combatlogx tag \\<player></white></bold><gray>: Oyuncuyu zorla savaşa sokar."
-      - "  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>: Bildirim tipini etkinleştirir ya da devre dışı bırakır."
-      - "  <bold><white>/combatlogx untag \\<player></white></bold><gray>: Hedef oyuncuyu savaş durumundan çıkarır."
-      - "  <bold><white>/combatlogx version</white></bold><gray>: CombatLogX sürümünüzü kontrol eder."
-      - "  <white><bold>/combatlogx affetme isteği \\<player></bold></white><gray>: Bir düşmana etiketini sizden kaldırması için istek gönderin.</gray>"
-      - "  <white><bold>/combatlogx allow accept \\<player></bold></white><gray>: Bir düşmanın savaştan kaçma isteğine izin ver.</gray>"
-      - "  <white><bold>/combatlogxaffet reddetme \\<player></bold></white><gray>: Bir düşmanın savaştan kaçma isteğini dikkate almayın.</gray>"
-      - "  <white><bold>/combatlogx affet anahtarı</bold></white><gray>: Savaşı durdurma isteklerini etkinleştirin veya devre dışı bırakın.</gray>"
+      - "<bold><gold>CombatLogX Komut Yardım"
+      - "  <bold><white>/combatlogx help </white></bold><gray>: Yardım sayfasını görüntüler"
+      - "  <bold><white>/combatlogx reload </white></bold><gray>: config.yml, language.yml ve bütün eklentilerin konfigürasyon dosyalarını yeniden yükler"
+      - "  <bold><white>/combatlogx about \\<expansion></white></bold><gray>: Eklentiyle ilgili bilgileri kontrol eder"
+      - "  <bold><white>/combatlogx tag \\<player>[seconds]</white></bold><gray>: Oyuncuyu zorla savaşa sokar"
+      - "  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard </white></bold><gray>: Bildirim tipini etkinleştirir ya da devre dışı bırakır"
+      - "  <bold><white>/combatlogx untag \\<player></white></bold><gray>: Hedef oyuncuyu savaş durumundan çıkarır"
+      - "  <bold><white>/combatlogx version </white></bold><gray>: CombatLogX sürümünüzü kontrol eder"
+      - "  <white><bold>/combatlogx forgive request \\<player></bold></white><gray>: Bir düşmana etiketini sizden kaldırması için istek gönderin.</gray>"
+      - "  <white><bold>/combatlogx allow accept\\<player></bold></white><gray>: Bir düşmanın savaştan kaçma isteğine izin ver.</gray>"
+      - "  <white><bold>/combatlogxaffet reddetme \\<player></bold></white><gray>: Bir düşmanın savaştan kaçma isteğini dikkate almayın!</gray>"
+      - "  <white><bold>/combatlogx forgive toggle</bold></white><gray>: Savaşı durdurma isteklerini etkinleştirin veya devre dışı bırakın!</gray>"
       - ""
     #Shown as the command output for '/combatlogx reload' when reloading is successful.
     reload-success:
-      - "<green>CombatLogX konfigürasyon dosyaları başarıyla yenilendi."
-      - "<green>CombatLogX dil dosyaları başarıyla yenilendi."
-      - "<green>CombatLogX eklentilerinin konfigürasyon dosyaları başarıyla yenilendi."
+      - "<green>CombatLogX konfigürasyon dosyaları başarıyla yenilendi"
+      - "<green>CombatLogX dil dosyaları başarıyla yenilendi.<green>"
+      - "<green>CombatLogX eklentilerinin konfigürasyon dosyaları başarıyla yenilendi.<green>"
     #Shown as the command output for '/combatlogx reload' when reloading fails
     reload-failure:
-      - "<red>Yapılandırma yeniden yüklenirken bir hata oluştu.</red>"
-      - "<red>Lütfen sunucu günlüğünüzü kontrol edin ve bozulan dosyayı düzeltin.</red>"
+      - "<red> Yapılandırma yeniden yüklenirken bir hata oluştu.</red>"
+      - "<red> Lütfen sunucu günlüğünüzü kontrol edin ve bozulan dosyayı düzeltin.</red>"
     #Shown as the command output for '/combatlogx tag <player>' when a player is tagged successfully.
-    tag-player: "<green>Oyuncu </green><gray>{target}</gray><green> başarıyla savaşa zorlandı."
+    tag-player: "<green>Oyuncu </green><gray>{target}</gray><green> başarıyla savaşa zorlandı"
     #Shown as the command output for '/combatlogx tag <player>' when the plugin failed to tag a player.
-    tag-failure: "Hedef <gray>{target}</gray><red> savaşta yerleştiremez. (Belki bypass yetkisine sahiptir?)"
+    tag-failure: "Hedef <gray>{target}</gray><red> savaşta yerleştiremez. (Belki bypass yetkisine sahiptir)"
     #Shown as the command output for '/combatlogx untag <player>'.
-    untag-player: "<green>Hedef </green><gray>{target} </gray><green> başarıyla savaştan çıkarıldı."
+    untag-player: "<green>Hedef </green><gray>{target} </gray><green> başarıyla savaştan çıkarıldı"
     #Shown as the command output for '/combatlogx toggle bossbar'.
-    toggle-bossbar: "<bold><gray>Boss Bar: {status}"
+    toggle-bossbar: "<bold><gray>Boss Bar:<bold><gray>{status}"
     #Shown as the command output for '/combatlogx toggle actionbar'.
-    toggle-actionbar: "<gray><bold>Action Bar:</bold></gray> {status}"
+    toggle-actionbar: "<gray><bold>Action Bar: </bold></gray> {status}"
     #Shown as the command output for '/combatlogx toggle scoreboard'.
-    toggle-scoreboard: "<gray><bold>Scoreboard:</bold></gray> {status}"
+    toggle-scoreboard: "<gray><bold>Scoreboard: </bold></gray> {status}"
     forgive:
-      toggle-disable: "<green>Artık af talepleri alamazsınız</green>"
-      toggle-enable: "<green>Artık af talepleri alabilirsiniz</green>"
-      request-sent: "<green><gray>{target}</gray>'e bir affetme isteği gönderdiniz!</green>"
+      toggle-disable: "<green>Artık af talepleri alamazsınız </green>"
+      toggle-enable: "<green>Artık af talepleri alabilirsiniz </green>"
+      request-sent: "<green><gray>{target}</gray>'e bir affetme isteği gönderdiniz! </green>"
       request-receive:
-        - "<green><gray>{player}</gray> size bir bağışlama isteği gönderdi!</green>"
-        - "<green>Kabul etmek için<click:run_command:/combatlogx allow accept><gray>/clx affet kabul</gray></click> yazın veya.</"
-        - "Reddetmek için <green><click:run_command:/combatlogx affet><gray>/clx affet reddetme</gray></click>.</green>"
+        - "<green><gray>{player}</gray> size bir bağışlama isteği gönderdi! </green>"
+        - "<green><click:run_command:/combatlogx forgive accept><gray>allow accept><gray>/clx affet kabul</gray></click> yazın veya.</"
+        - "Reddetmek için <green><click:run_command:/combatlogx forgive reject><gray>/clx affet reddetme</gray></click>.</green>"
   combat-timer:
     #Shown as the command output for '/combat-timer'.
-    time-left-self: "<green><gray>{time_left}</gray> saniyeniz kaldı!</green>"
+    time-left-self: "<green><gray>{time_left}</gray> saniyeniz kaldı! </green>"
     #Shown as the command output for '/combat-timer <player>'.
-    time-left-other: "<green>Hedef </green><gray>{target} </gray><green>kalan zamanı </green><gray>{time_left}"
+    time-left-other: "<green>Hedef </green><gray>{target} </gray><green>kalan zamanı</green><gray>{time_left}"
 #These messages are shown a player is tagged into combat.
 #You can also change the location of these messages.
 #Example:
@@ -134,11 +134,11 @@ command:
 #content: "<message here>"
 tagged:
   unknown:
-    player: "<red>Bilinmeyen bir nedenle şu anda<white>{enemy}</white> ile savaş halindesiniz. Oturumu kapatmayın!</red>"
-    mob: "<red>Şu anda bir(n)<white>{enemy}</white> ile bilinmeyen bir nedenle savaş halindesiniz. Oturumu kapatmayın!</red>"
-    mythic_mob: "<red>Şu anda bilinmeyen bir nedenle bir(n) <white>{mob_type}</white> ile savaş halindesiniz. Oturumu kapatmayın.</red>"
-    damage: "<red>Artık hasar aldığınız için savaştasın. Oturumu kapatmayın!</red>"
-    unknown: "<red>Sebepsiz yere çatışmaya girdiniz. Oturumu kapatmayın!</red>"
+    player: "<red>Bilinmeyen bir nedenle şu anda<white>{enemy}</white> ile savaş halindesiniz! Oturumu kapatmayın!</red>"
+    mob: "<red>Şu anda bir(n)<white>{enemy}</white> ile bilinmeyen bir nedenle savaş halindesiniz. Oturumu kapatmayın! </red>"
+    mythic_mob: "<red>Şu anda bilinmeyen bir nedenle bir(n) <white>{mob_type}</white>ile savaş halindesiniz. Oturumu kapatmayın.</red>"
+    damage: "<red>Artık hasar aldığınız için savaştasın. Oturumu kapatmayın\n</red>"
+    unknown: "<red>Sebepsiz yere çatışmaya girdin Oturumu kapatmayın!</red>"
   attacked:
     player: "<white>{enemy} </white><red> tarafından saldırıya uğradın. Oturumu kapatma"
     mob: "<white>{mob_type}</white><red> tarafından saldırıya uğradın. Oturumu kapatma"
