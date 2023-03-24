@@ -11,10 +11,10 @@
 ## More information about MiniMessage can be found here:
 ## https://docs.adventure.kyori.net/minimessage/format.html
 #The language code for this file.
-language-name: "tr_Tr"
+language-name: "tr_T"
 #The format for decimal numbers.
 #The United States uses the number and two decimal places
-decimal-format: "0. 00"
+decimal-format: "0. 0"
 #The prefix for CombatLogX that is shown in front of all messages.
 #Note to translators: Do not change this message.
 prefix: "<bold><white>[</white></bold><gold>CombatLogX </gold><bold><white>]"
@@ -140,21 +140,21 @@ tagged:
     damage: "<red>Artık hasar aldığınız için savaştasın. Oturumu kapatmayın\n</red>"
     unknown: "<red>Sebepsiz yere çatışmaya girdin Oturumu kapatmayın!</red>"
   attacked:
-    player: "<white>{enemy} </white><red> tarafından saldırıya uğradın. Oturumu kapatma"
-    mob: "<white>{mob_type}</white><red> tarafından saldırıya uğradın. Oturumu kapatma"
-    mythic_mob: "<red>Bir(n) <white>{enemy}</white> tarafından saldırıya uğruyorsunuz! Oturumu kapatmayın!</red>"
-    damage: "<red>Artık hasar aldığınız için savaştasın. Oturumu kapatmayın!</red>"
-    unknown: "<red>Bilinmeyen bir güç tarafından saldırıya uğruyorsun. Oturumu kapatmayın!</red>"
+    player: "<white>{enemy} </white><red>tarafından saldırıya uğradın. Oturumu kapatma"
+    mob: "<white>{mob_type}</white><red>tarafından saldırıya uğradın. Oturumu kapatma"
+    mythic_mob: "<red>Bir(n)<white>{enemy}</white> tarafından saldırıya uğruyorsunuz! Oturumu kapatmayın!</red>"
+    damage: "<red> Artık hasar aldığınız için savaştasın. Oturumu kapatmayın!</red>"
+    unknown: "<red> Bilinmeyen bir güç tarafından saldırıya uğruyorsun. Oturumu kapatmayın!</red>"
   attacker:
-    player: "<white>{enemy}</white><red> adlı oyuncuya saldırıyorsun. Oturumu kapatma"
-    mob: "<white>{mob_type}</white><red>adlı canlıya saldırıyorsun. Oturumu kapatma"
-    mythic_mob: "<red>Bir(n)<white>{enemy}</white>'a saldırıyorsunuz. Oturumu kapatmayın!</red>"
-    damage: "<red>Artık hasar aldığınız için savaştasın. Oturumu kapatmayın!</red>"
-    unknown: "<red>Bilinmeyen bir güce saldırıyorsun. Oturumu kapatmayın!</red>"
+    player: "<white>{enemy}</white><red> adlı oyuncuya saldırıyorsun. Oturumu kapatma!</red>"
+    mob: "<white>{mob_type}</white><red>adlı canlıya saldırıyorsun. Oturumu kapatma!<red>"
+    mythic_mob: "<red>Bir(n)<white>{enemy}</white>'a saldırıyorsun. Oturumu kapatmayın!</red>"
+    damage: "<red>Artık hasar aldığınız için savaştasın. Oturumu kapatmayın! </red>"
+    unknown: "<red>Bilinmeyen bir güce saldırıyorsun. Oturumu kapatmayın! </red>"
 expansion:
   angel-chest:
     #Shown when opening an AngelChest is prevented during combat.
-    prevent-opening: "<red>Savaş sırasında melek sandıklarını açmanıza izin verilmiyor!</red>"
+    prevent-opening: "<red>Savaş sırasında melek sandıklarını açmanıza izin verilmiyor! </red>"
     #Shown when breaking an AngelChest is prevented during combat.
     prevent-breaking: "<red>Savaş sırasında melek sandıklarını kırmanıza izin verilmez!</red>"
     #Shown when fast looting an AngelChest is prevented during combat.
@@ -179,8 +179,8 @@ expansion:
       - " "
       - "<white><bold>Savaş İstatistikleri: </bold></white>"
       - "<dark_gray>\u00BB</dark_gray> <white><bold>Kalan Süre: </bold></white> <gray>{combatlogx_time_left}</gray>"
-      - "<dark_gray>\u00BB</dark_gray> <white><bold>Düşmanlar: </bold></white> <gray>{combatlogx_enemy_count}</gray>"
-      - "<dark_gray>\u00BB</dark_gray> <white><bold>Durum: </bold></white> <gray>{combatlogx_status}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <white><bold>Enemies:</bold></white> <gray>{combatlogx_enemy_count}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <white><bold>durum:</bold></white> <gray>{combatlogx_status}</gray>"
       - " "
       - "<white><bold>Düşmanlar </bold></white>"
       - "<dark_gray>\u00BB</dark_gray> <gray>{combatlogx_specific_enemy_1_name}</gray>"
