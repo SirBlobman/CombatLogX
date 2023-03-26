@@ -140,19 +140,19 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
             case "health":
                 return getEnemyHealth(player, enemy);
             case "health_rounded":
-                return getEnemyHealthRounded(player, enemy);
+                return getEnemyHealthRounded(enemy);
             case "hearts":
-                return getEnemyHearts(player, enemy);
+                return getEnemyHearts(enemy);
             case "hearts_count":
-                return getEnemyHeartsCount(player, enemy);
+                return getEnemyHeartsCount(enemy);
             case "world":
-                return getEnemyWorld(player, enemy);
+                return getEnemyWorld(enemy);
             case "x":
-                return getEnemyX(player, enemy);
+                return getEnemyX(enemy);
             case "y":
-                return getEnemyY(player, enemy);
+                return getEnemyY(enemy);
             case "z":
-                return getEnemyZ(player, enemy);
+                return getEnemyZ(enemy);
             default:
                 break;
         }
@@ -160,7 +160,9 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
         PluginManager pluginManager = Bukkit.getPluginManager();
         if (pluginManager.isPluginEnabled("PlaceholderAPI") && enemy instanceof Player) {
             Player enemyPlayer = (Player) enemy;
-            return getEnemyPlaceholderAPI(player, enemyPlayer, placeholder);
+            if (enemyPlayer.isOnline()) {
+                return getEnemyPlaceholderAPI(enemyPlayer, placeholder);
+            }
         }
 
         return null;
@@ -405,7 +407,7 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
         return Component.text(healthString);
     }
 
-    private Component getEnemyHealthRounded(Player player, Entity enemy) {
+    private Component getEnemyHealthRounded(Entity enemy) {
         double enemyHealth = 0.0D;
         if (enemy instanceof LivingEntity) {
             enemyHealth = ((LivingEntity) enemy).getHealth();
@@ -416,7 +418,7 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
     }
 
     @SuppressWarnings("UnnecessaryUnicodeEscape")
-    private Component getEnemyHearts(Player player, Entity enemy) {
+    private Component getEnemyHearts(Entity enemy) {
         double enemyHealth = 0.0D;
         if (enemy instanceof LivingEntity) {
             enemyHealth = ((LivingEntity) enemy).getHealth();
@@ -436,7 +438,7 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
         return Component.text(heartsString, NamedTextColor.RED);
     }
 
-    private Component getEnemyHeartsCount(Player player, Entity enemy) {
+    private Component getEnemyHeartsCount(Entity enemy) {
         double enemyHealth = 0.0D;
         if (enemy instanceof LivingEntity) {
             enemyHealth = ((LivingEntity) enemy).getHealth();
@@ -447,25 +449,25 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
         return Component.text(hearts);
     }
 
-    private Component getEnemyWorld(Player player, Entity enemy) {
+    private Component getEnemyWorld(Entity enemy) {
         World world = enemy.getWorld();
         String worldName = world.getName();
         return Component.text(worldName);
     }
 
-    private Component getEnemyX(Player player, Entity enemy) {
+    private Component getEnemyX(Entity enemy) {
         Location location = enemy.getLocation();
         int coord = location.getBlockX();
         return Component.text(coord);
     }
 
-    private Component getEnemyY(Player player, Entity enemy) {
+    private Component getEnemyY(Entity enemy) {
         Location location = enemy.getLocation();
         int coord = location.getBlockY();
         return Component.text(coord);
     }
 
-    private Component getEnemyZ(Player player, Entity enemy) {
+    private Component getEnemyZ(Entity enemy) {
         Location location = enemy.getLocation();
         int coord = location.getBlockZ();
         return Component.text(coord);
@@ -473,7 +475,7 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
 
 
     @SuppressWarnings("UnnecessaryUnicodeEscape")
-    private Component getEnemyPlaceholderAPI(Player player, Player enemy, String placeholder) {
+    private Component getEnemyPlaceholderAPI(Player enemy, String placeholder) {
         String placeholderString = ("{" + placeholder + "}");
         String replacement = PlaceholderAPI.setBracketPlaceholders(enemy, placeholderString);
 

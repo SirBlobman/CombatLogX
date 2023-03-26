@@ -227,7 +227,6 @@ public final class CustomScoreboard {
         List<Component> preMessageList = languageManager.getMessageList(player, "expansion.scoreboard.lines");
         List<Component> finalMessageList = new ArrayList<>();
 
-
         ICombatLogX combatLogX = getCombatLogX();
         ICombatManager combatManager = combatLogX.getCombatManager();
         IPlaceholderManager placeholderManager = combatLogX.getPlaceholderManager();
