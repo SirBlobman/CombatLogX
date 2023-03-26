@@ -8,6 +8,10 @@
 | 11.0.0.0-SNAPSHOT | :x:                |
 | < 11.0            | :x:                |
 
+## Expansions
+
+You must update all expansions when updating CombatLogX
+
 ## Reporting a Vulnerability
 
 Please report any security vulnerabilities to my [e-mail](mailto:combatlogx@sirblobman.xyz)
