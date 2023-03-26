@@ -60,6 +60,10 @@ public final class HookPlaceholderAPI extends PlaceholderExpansion {
 
     @Override
     public String onPlaceholderRequest(Player player, @NotNull String placeholder) {
+        if (player == null) {
+            return null;
+        }
+
         ICombatLogX plugin = getCombatLogX();
         IPlaceholderManager placeholderManager = plugin.getPlaceholderManager();
         if (!placeholder.startsWith("newbie_helper_")) {
