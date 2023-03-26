@@ -1,6 +1,6 @@
 hooks:
   # Should placeholders from PlaceholderAPI be replaced in commands?
-  # Recommended Version: 2.11.2
+  # Recommended Version: 2.11.3
   placeholderapi: true
 
 rewards:

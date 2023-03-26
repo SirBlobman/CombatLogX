@@ -249,7 +249,8 @@ public final class Reward {
 
         List<String> commandList = getCommandsToExecute();
         for (String command : commandList) {
-            String realCommand = command.replace("{player}", playerName).replace("{enem}", enemyName)
+            String realCommand = command.replace("{player}", playerName)
+                    .replace("{enemy}", enemyName)
                     .replace("{enemy_type}", enemyType);
             if (placeholderAPI) {
                 realCommand = replacePlaceholderAPI(player, realCommand);
