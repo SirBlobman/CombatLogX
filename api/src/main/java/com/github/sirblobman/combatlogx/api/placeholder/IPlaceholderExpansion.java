@@ -12,6 +12,8 @@ import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.ICombatLogXNeeded;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * You must override all required methods and at least one of the following methods:
  * <ul>
@@ -24,15 +26,22 @@ import com.github.sirblobman.combatlogx.api.ICombatLogXNeeded;
 public interface IPlaceholderExpansion extends ICombatLogXNeeded {
     String getId();
 
-    default String getReplacementString(Player player, List<Entity> enemyList, String placeholder) {
+    default @Nullable String getReplacementString(Player player, List<Entity> enemyList, String placeholder) {
         Component replacement = getReplacement(player, enemyList, placeholder);
+        if (replacement == null || Component.empty().equals(replacement)) {
+            return "";
+        }
+
         LegacyComponentSerializer serializer = LegacyComponentSerializer.legacySection();
         return serializer.serialize(replacement);
     }
 
     @SuppressWarnings("UnnecessaryUnicodeEscape")
-    default Component getReplacement(Player player, List<Entity> enemyList, String placeholder) {
+    default @Nullable Component getReplacement(Player player, List<Entity> enemyList, String placeholder) {
         String string = getReplacementString(player, enemyList, placeholder);
+        if (string == null || string.isEmpty()) {
+            return Component.empty();
+        }
 
         if (string.contains("\u00A7")) {
             LegacyComponentSerializer serializer = LegacyComponentSerializer.legacySection();
