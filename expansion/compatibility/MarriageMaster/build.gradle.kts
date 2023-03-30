@@ -3,5 +3,5 @@ repositories {
 }
 
 dependencies {
-    compileOnly("at.pcgamingfreaks:MarriageMaster-API:2.6.13")
+    compileOnly("at.pcgamingfreaks:MarriageMaster-API:2.6.14")
 }
