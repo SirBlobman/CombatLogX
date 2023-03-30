@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 import com.github.sirblobman.api.location.BlockLocation;
 import com.github.sirblobman.api.utility.VersionUtility;
-import com.github.sirblobman.api.xseries.XMaterial;
+import com.github.sirblobman.api.shaded.xseries.XMaterial;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;

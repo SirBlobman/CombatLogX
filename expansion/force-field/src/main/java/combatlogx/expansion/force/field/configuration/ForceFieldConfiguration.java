@@ -8,7 +8,7 @@ import org.bukkit.permissions.PermissionDefault;
 
 import com.github.sirblobman.api.configuration.IConfigurable;
 import com.github.sirblobman.api.utility.Validate;
-import com.github.sirblobman.api.xseries.XMaterial;
+import com.github.sirblobman.api.shaded.xseries.XMaterial;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

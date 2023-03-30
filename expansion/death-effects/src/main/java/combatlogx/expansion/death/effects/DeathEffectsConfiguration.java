@@ -9,7 +9,7 @@ import java.util.Optional;
 import org.bukkit.configuration.ConfigurationSection;
 
 import com.github.sirblobman.api.configuration.IConfigurable;
-import com.github.sirblobman.api.xseries.XMaterial;
+import com.github.sirblobman.api.shaded.xseries.XMaterial;
 
 public final class DeathEffectsConfiguration implements IConfigurable {
     private final List<String> deathEffectList;

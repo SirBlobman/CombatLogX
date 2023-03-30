@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-import com.github.sirblobman.api.adventure.adventure.text.Component;
+import com.github.sirblobman.api.shaded.adventure.text.Component;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;

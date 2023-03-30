@@ -20,7 +20,7 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginManager;
 
-import com.github.sirblobman.api.adventure.adventure.text.Component;
+import com.github.sirblobman.api.shaded.adventure.text.Component;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.language.custom.ModifiableMessage;

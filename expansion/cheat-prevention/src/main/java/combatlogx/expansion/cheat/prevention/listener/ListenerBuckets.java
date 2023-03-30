@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.api.xseries.XMaterial;
+import com.github.sirblobman.api.shaded.xseries.XMaterial;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 
 public final class ListenerBuckets extends CheatPreventionListener {

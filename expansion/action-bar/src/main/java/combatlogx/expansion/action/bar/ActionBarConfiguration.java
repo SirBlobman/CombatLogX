@@ -2,8 +2,8 @@ package combatlogx.expansion.action.bar;
 
 import org.bukkit.configuration.ConfigurationSection;
 
-import com.github.sirblobman.api.adventure.adventure.text.format.NamedTextColor;
-import com.github.sirblobman.api.adventure.adventure.text.format.TextColor;
+import com.github.sirblobman.api.shaded.adventure.text.format.NamedTextColor;
+import com.github.sirblobman.api.shaded.adventure.text.format.TextColor;
 import com.github.sirblobman.api.configuration.IConfigurable;
 
 import org.jetbrains.annotations.NotNull;

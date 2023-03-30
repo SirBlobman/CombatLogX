@@ -3,7 +3,7 @@ prefix: "Citizens Compatibility"
 description: "${project.description}"
 
 main: "combatlogx.expansion.compatibility.citizens.CitizensExpansion"
-version: "17.1"
+version: "17.2"
 author: "SirBlobman"
 
 plugin-depend:

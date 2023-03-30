@@ -5,7 +5,7 @@ import java.util.List;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-import com.github.sirblobman.api.adventure.adventure.text.Component;
+import com.github.sirblobman.api.shaded.adventure.text.Component;
 import com.github.sirblobman.combatlogx.api.ICombatLogXNeeded;
 import com.github.sirblobman.combatlogx.api.placeholder.IPlaceholderExpansion;
 

@@ -13,8 +13,8 @@ things and change how the plugin works.
 
 # Dependencies
 
-- [Spigot](https://spigotmc.org/) or [Paper](https://papermc.io/) 1.8.8 - 1.19.3
-- [BlueSlimeCore](https://jenkins.sirblobman.xyz/job/SirBlobman/job/BlueSlimeCore/) 2.7.0 or higher.
+- [Spigot](https://spigotmc.org/) or [Paper](https://papermc.io/) 1.8.8 - 1.19.4
+- [BlueSlimeCore](https://jenkins.sirblobman.xyz/job/SirBlobman/job/BlueSlimeCore/) 2.8.0 or higher.
 
 ## Main Features
 

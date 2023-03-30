@@ -18,30 +18,26 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
-import com.github.sirblobman.api.adventure.adventure.text.Component;
-import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.shaded.adventure.text.Component;
 import com.github.sirblobman.api.language.ComponentHelper;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
+import combatlogx.expansion.compatibility.citizens.configuration.CitizensConfiguration;
 import combatlogx.expansion.compatibility.citizens.manager.CombatNpcManager;
 import combatlogx.expansion.compatibility.citizens.manager.InventoryManager;
 import combatlogx.expansion.compatibility.citizens.object.CombatNPC;
 import net.citizensnpcs.api.npc.NPC;
 
-public final class ListenerJoin extends ExpansionListener {
-    private final CitizensExpansion expansion;
-
+public final class ListenerJoin extends CitizensExpansionListener {
     public ListenerJoin(CitizensExpansion expansion) {
         super(expansion);
-        this.expansion = expansion;
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -72,7 +68,7 @@ public final class ListenerJoin extends ExpansionListener {
         printDebug("Disabled item pickup for player.");
         player.setCanPickupItems(false);
 
-        CombatNpcManager combatNpcManager = this.expansion.getCombatNpcManager();
+        CombatNpcManager combatNpcManager = getCombatNpcManager();
         CombatNPC combatNPC = combatNpcManager.getNPC(player);
         if (combatNPC != null) {
             printDebug("Combat NPC exists for player, removing.");
@@ -93,20 +89,15 @@ public final class ListenerJoin extends ExpansionListener {
         printDebug("Scheduled punishment for one tick after login.");
     }
 
-    private YamlConfiguration getConfiguration() {
-        ConfigurationManager configurationManager = getExpansionConfigurationManager();
-        return configurationManager.get("citizens.yml");
-    }
-
     private boolean shouldAllowLogin(UUID uuid) {
-        YamlConfiguration configuration = getConfiguration();
-        if (!configuration.getBoolean("prevent-login")) {
+        CitizensConfiguration configuration = getCitizensConfiguration();
+        if (!configuration.isPreventLogin()) {
             printDebug("Prevent login option disabled, login allowed.");
             return true;
         }
 
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
-        CombatNpcManager combatNpcManager = this.expansion.getCombatNpcManager();
+        CombatNpcManager combatNpcManager = getCombatNpcManager();
         CombatNPC combatNPC = combatNpcManager.getNPC(offlinePlayer);
         if (combatNPC == null) {
             printDebug("Combat NPC not found for that player, login allowed.");
@@ -129,7 +120,7 @@ public final class ListenerJoin extends ExpansionListener {
             return;
         }
 
-        CombatNpcManager combatNpcManager = this.expansion.getCombatNpcManager();
+        CombatNpcManager combatNpcManager = getCombatNpcManager();
         YamlConfiguration playerData = combatNpcManager.getData(player);
         if (!playerData.getBoolean("citizens-compatibility.punish")) {
             printDebug("Punishment set to false in player data.");
@@ -140,8 +131,8 @@ public final class ListenerJoin extends ExpansionListener {
         combatNpcManager.saveData(player);
         printDebug("Setting punish to false in player data to prevent double punishment.");
 
-        YamlConfiguration configuration = getConfiguration();
-        if (configuration.getBoolean("store-location")) {
+        CitizensConfiguration configuration = getCitizensConfiguration();
+        if (configuration.isStoreLocation()) {
             Location location = combatNpcManager.loadLocation(player);
             if (location != null) {
                 printDebug("Teleporting player to last known location for NPC.");
@@ -151,7 +142,7 @@ public final class ListenerJoin extends ExpansionListener {
             playerData.set("citizens-compatibility.location", null);
         }
 
-        if (configuration.getBoolean("store-inventory")) {
+        if (configuration.isStoreInventory()) {
             printDebug("Clearing player inventory.");
             PlayerInventory playerInventory = player.getInventory();
             playerInventory.clear();
@@ -167,13 +158,13 @@ public final class ListenerJoin extends ExpansionListener {
             playerData.set("citizens-compatibility.armor", null);
         }
 
-        if (configuration.getBoolean("store-inventory")) {
+        if (configuration.isStoreInventory()) {
             printDebug("Restoring player inventory if possible.");
-            InventoryManager inventoryManager = expansion.getInventoryManager();
+            InventoryManager inventoryManager = getInventoryManager();
             inventoryManager.restoreInventory(player);
         }
 
-        if (configuration.getBoolean("tag-player", true) && health > 0.0D) {
+        if (configuration.isTagPlayer() && health > 0.0D) {
             ICombatManager combatManager = getCombatManager();
             combatManager.tag(player, null, TagType.UNKNOWN, TagReason.UNKNOWN);
         }

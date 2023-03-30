@@ -5,9 +5,9 @@ import java.util.List;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-import com.github.sirblobman.api.adventure.adventure.text.Component;
-import com.github.sirblobman.api.adventure.adventure.text.minimessage.MiniMessage;
-import com.github.sirblobman.api.adventure.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import com.github.sirblobman.api.shaded.adventure.text.Component;
+import com.github.sirblobman.api.shaded.adventure.text.minimessage.MiniMessage;
+import com.github.sirblobman.api.shaded.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.ICombatLogXNeeded;

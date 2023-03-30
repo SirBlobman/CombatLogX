@@ -4,18 +4,17 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
+import combatlogx.expansion.compatibility.citizens.configuration.CitizensConfiguration;
 import combatlogx.expansion.compatibility.citizens.manager.CombatNpcManager;
 import net.citizensnpcs.api.npc.NPC;
 
@@ -41,10 +40,9 @@ public final class CombatNPC extends BukkitRunnable {
         }
 
         CitizensExpansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("citizens.yml");
+        CitizensConfiguration configuration = expansion.getCitizensConfiguration();
 
-        if (configuration.getBoolean("stay-until-enemy-escape") && this.enemyId != null) {
+        if (configuration.isStayUntilEnemyEscapes() && this.enemyId != null) {
             Player player = Bukkit.getPlayer(this.enemyId);
             ICombatManager combatManager = expansion.getPlugin().getCombatManager();
             TagInformation tagInformation = combatManager.getTagInformation(player);
@@ -83,10 +81,8 @@ public final class CombatNPC extends BukkitRunnable {
 
     public void resetSurvivalTime() {
         CitizensExpansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("citizens.yml");
-
-        long survivalSeconds = configuration.getLong("survival-time");
+        CitizensConfiguration configuration = expansion.getCitizensConfiguration();
+        long survivalSeconds = configuration.getSurvivalTime();
         this.survivalTicks = (survivalSeconds * 20L);
     }
 
