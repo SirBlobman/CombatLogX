@@ -14,14 +14,14 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-import com.github.sirblobman.api.shaded.adventure.text.Component;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.shaded.adventure.text.Component;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 import com.github.sirblobman.combatlogx.api.placeholder.IPlaceholderExpansion;
-import com.github.sirblobman.combatlogx.api.utility.CommandHelper;
 import com.github.sirblobman.combatlogx.api.placeholder.PlaceholderHelper;
+import com.github.sirblobman.combatlogx.api.utility.CommandHelper;
 
 import org.jetbrains.annotations.Nullable;
 

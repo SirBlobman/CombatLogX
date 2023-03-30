@@ -5,10 +5,10 @@ import java.util.List;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.shaded.adventure.text.Component;
 import com.github.sirblobman.api.shaded.adventure.text.minimessage.MiniMessage;
 import com.github.sirblobman.api.shaded.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.ICombatLogXNeeded;
 
@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
  * <li>{@link #getReplacementString(Player, List, String)}</li>
  * <li>{@link #getReplacement(Player, List, String)}</li>
  * </ul>
- *
+ * <p>
  * If you do not override at least one, you will get an infinite loop.
  */
 public interface IPlaceholderExpansion extends ICombatLogXNeeded {

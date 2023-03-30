@@ -20,7 +20,6 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginManager;
 
-import com.github.sirblobman.api.shaded.adventure.text.Component;
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.language.custom.ModifiableMessage;
@@ -30,6 +29,7 @@ import com.github.sirblobman.api.language.replacer.StringReplacer;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.api.nms.ServerHandler;
+import com.github.sirblobman.api.shaded.adventure.text.Component;
 import com.github.sirblobman.api.utility.MessageUtility;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -424,7 +424,7 @@ public final class CombatManager extends Manager implements ICombatManager {
         Component message = modifiableMessage.getMessage();
         if (type == ModifiableMessageType.ACTION_BAR) {
             languageManager.sendActionBar(player, message);
-        } else if(type == ModifiableMessageType.CHAT) {
+        } else if (type == ModifiableMessageType.CHAT) {
             Component prefix = languageManager.getMessage(player, "prefix");
             if (!Component.empty().equals(prefix)) {
                 message = prefix.append(Component.space()).append(message);

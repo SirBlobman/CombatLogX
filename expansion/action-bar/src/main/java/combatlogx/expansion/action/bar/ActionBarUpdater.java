@@ -8,12 +8,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import com.github.sirblobman.api.configuration.PlayerDataManager;
+import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.shaded.adventure.text.Component;
 import com.github.sirblobman.api.shaded.adventure.text.TextComponent;
 import com.github.sirblobman.api.shaded.adventure.text.TextReplacementConfig;
 import com.github.sirblobman.api.shaded.adventure.text.format.TextColor;
-import com.github.sirblobman.api.configuration.PlayerDataManager;
-import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;

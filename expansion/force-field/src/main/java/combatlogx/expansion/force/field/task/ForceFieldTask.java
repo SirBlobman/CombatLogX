@@ -25,9 +25,9 @@ import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.github.sirblobman.api.location.BlockLocation;
+import com.github.sirblobman.api.shaded.xseries.XMaterial;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.api.utility.VersionUtility;
-import com.github.sirblobman.api.shaded.xseries.XMaterial;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
@@ -218,7 +218,7 @@ public final class ForceFieldTask extends ExpansionListener implements Runnable 
 
             try {
                 oldArea.removeAll(fullArea); // Sometimes causes ConcurrentModificationException?
-            } catch(ConcurrentModificationException ex) {
+            } catch (ConcurrentModificationException ex) {
                 printDebug("Detected ForceField concurrent modification:");
                 if (!isDebugModeDisabled()) {
                     ex.printStackTrace();

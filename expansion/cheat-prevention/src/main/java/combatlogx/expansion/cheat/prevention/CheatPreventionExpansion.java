@@ -165,7 +165,7 @@ public final class CheatPreventionExpansion extends Expansion {
         try {
             Class.forName(className);
             return true;
-        } catch(ReflectiveOperationException ex) {
+        } catch (ReflectiveOperationException ex) {
             Logger logger = getLogger();
             logger.info(className + " is not supported on this server version.");
             return false;

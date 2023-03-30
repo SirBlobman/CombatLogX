@@ -15,13 +15,13 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 
+import com.github.sirblobman.api.language.LanguageManager;
+import com.github.sirblobman.api.nms.EntityHandler;
+import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.api.shaded.adventure.text.Component;
 import com.github.sirblobman.api.shaded.adventure.text.format.NamedTextColor;
 import com.github.sirblobman.api.shaded.adventure.text.minimessage.MiniMessage;
 import com.github.sirblobman.api.shaded.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import com.github.sirblobman.api.language.LanguageManager;
-import com.github.sirblobman.api.nms.EntityHandler;
-import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.api.utility.paper.PaperChecker;
 import com.github.sirblobman.api.utility.paper.PaperHelper;

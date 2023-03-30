@@ -2,10 +2,10 @@ package combatlogx.expansion.boss.bar;
 
 import org.bukkit.configuration.ConfigurationSection;
 
+import com.github.sirblobman.api.configuration.IConfigurable;
 import com.github.sirblobman.api.shaded.adventure.bossbar.BossBar;
 import com.github.sirblobman.api.shaded.adventure.text.format.NamedTextColor;
 import com.github.sirblobman.api.shaded.adventure.text.format.TextColor;
-import com.github.sirblobman.api.configuration.IConfigurable;
 
 import org.jetbrains.annotations.NotNull;
 

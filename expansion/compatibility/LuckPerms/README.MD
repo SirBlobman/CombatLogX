@@ -1,7 +1,9 @@
 # LuckPerms Compatibility Expansion
+
 This expansion adds custom contexts to LuckPerms.
 
 ## Contexts
+
 | Name                        | Type    | Description                                      |
 |-----------------------------|---------|--------------------------------------------------|
 | combatlogx-in-combat        | boolean | true if the player is in combat.                 |

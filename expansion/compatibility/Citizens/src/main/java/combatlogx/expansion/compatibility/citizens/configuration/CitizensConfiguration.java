@@ -106,7 +106,7 @@ public final class CitizensConfiguration implements IConfigurable {
             }
 
             setMobType(mobType);
-        } catch(IllegalArgumentException ex) {
+        } catch (IllegalArgumentException ex) {
             logger.warning("'" + mobTypeName + "' is not a valid EntityType.");
             logger.warning("Defaulting to PLAYER.");
             setMobType(EntityType.PLAYER);
