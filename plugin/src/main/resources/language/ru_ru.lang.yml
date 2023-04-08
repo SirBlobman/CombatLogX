@@ -59,11 +59,11 @@ error:
   #Shown when a command that requires a player has invalid input.
   invalid-target: "<red><gray>{target}</gray> не в сети или не существует.</red>"
   #Shown when a command that requires a number has invalid input.
-  invalid-integer: "<red><gray>{value}</gray> не является допустимым целым числом.</red>"
+  invalid-integer: "<red><gray>{value}</gray> не является целым числом.</red>"
   #Shown when a player does not have access to something that requires a permission.
   no-permission: "<red>Отсутствует право: <gray>{permission}</gray></red>"
   #Shown when a player executes a command in a world that is disabled in the configuration.
-  disabled-world: "<red>Эта команда недоступна в этом измерении.</red>"
+  disabled-world: "<red>Данная команда недоступна в этом измерении.</red>"
   #Shown when a command requires a player in combat but the target player is not in combat.
   target-not-in-combat: "<red><gray>{target}</gray> не участвует в бое.</red>"
   #Shown when a player executes a command that requires them to be in combat.
