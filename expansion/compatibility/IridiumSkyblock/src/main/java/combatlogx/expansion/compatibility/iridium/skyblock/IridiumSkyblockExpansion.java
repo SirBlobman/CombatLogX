@@ -12,7 +12,7 @@ public final class IridiumSkyblockExpansion extends Expansion {
 
     @Override
     public void onEnable() {
-        if (!checkDependency("IridiumSkyblock", true)) {
+        if (!checkDependency("IridiumSkyblock", true, "4")) {
             selfDisable();
             return;
         }

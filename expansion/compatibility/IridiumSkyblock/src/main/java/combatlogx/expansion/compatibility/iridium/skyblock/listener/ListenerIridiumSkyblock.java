@@ -12,9 +12,10 @@ import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
-import com.iridium.iridiumskyblock.api.IridiumSkyblockAPI;
+import com.iridium.iridiumskyblock.IridiumSkyblock;
 import com.iridium.iridiumskyblock.database.Island;
 import com.iridium.iridiumskyblock.database.User;
+import com.iridium.iridiumskyblock.managers.UserManager;
 import org.jetbrains.annotations.Nullable;
 
 public final class ListenerIridiumSkyblock extends ExpansionListener {
@@ -42,8 +43,9 @@ public final class ListenerIridiumSkyblock extends ExpansionListener {
             return null;
         }
 
-        IridiumSkyblockAPI api = IridiumSkyblockAPI.getInstance();
-        User user = api.getUser(player);
+        IridiumSkyblock skyblock = IridiumSkyblock.getInstance();
+        UserManager userManager = skyblock.getUserManager();
+        User user = userManager.getUser(player);
 
         Optional<Island> optionalIsland = user.getIsland();
         return optionalIsland.orElse(null);
