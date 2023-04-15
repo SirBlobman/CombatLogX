@@ -4,14 +4,14 @@
 [![Build Status](https://jenkins.sirblobman.xyz/job/SirBlobman/job/CombatLogX/badge/icon)](https://jenkins.sirblobman.xyz/job/SirBlobman/job/CombatLogX/)
 [![Crowdin Localization](https://badges.crowdin.net/combatlogx-spigot-plugin/localized.svg)](https://crowdin.com/project/combatlogx-spigot-plugin)
 
-# Description
+## Description
 
 CombatLogX is a plugin made for the Spigot server software.  
 It has many combat-related features to add to your server.  
 One of the main features of this plugin are the Expansions, which are like modules that allow you to add different
 things and change how the plugin works.
 
-# Dependencies
+## Requirements
 
 - [Spigot](https://spigotmc.org/) or [Paper](https://papermc.io/) 1.8.8 - 1.19.4
 - [BlueSlimeCore](https://jenkins.sirblobman.xyz/job/SirBlobman/job/BlueSlimeCore/) 2.8.0 or higher.

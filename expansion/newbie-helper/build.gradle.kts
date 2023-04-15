@@ -19,7 +19,7 @@ publishing {
 
     publications {
         create<MavenPublication>("maven") {
-            groupId = "$group"
+            groupId = "com.github.sirblobman.combatlogx.expansion"
             artifactId = "newbie-helper"
             from(components["java"])
         }

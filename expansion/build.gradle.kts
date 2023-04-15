@@ -1,5 +1,4 @@
 allprojects {
-    group = "com.github.sirblobman.combatlogx.expansion"
     val expansionName = (findProperty("expansion.name") ?: project.name) as String
 
     dependencies {
