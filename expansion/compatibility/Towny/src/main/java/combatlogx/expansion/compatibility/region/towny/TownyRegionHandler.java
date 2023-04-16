@@ -1,10 +1,5 @@
 package combatlogx.expansion.compatibility.region.towny;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -18,8 +13,6 @@ import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
 import com.palmergames.bukkit.towny.TownyAPI;
-import com.palmergames.bukkit.towny.exceptions.NotRegisteredException;
-import com.palmergames.bukkit.towny.object.Resident;
 import com.palmergames.bukkit.towny.object.Town;
 import com.palmergames.bukkit.towny.object.TownBlock;
 import com.palmergames.bukkit.towny.object.TownyPermission;
@@ -63,13 +56,8 @@ public final class TownyRegionHandler extends RegionHandler {
             return false;
         }
 
-        Town town;
-        try {
-            town = townBlock.getTown();
-            if (town == null || town.isPVP() || town.isAdminEnabledPVP() || town.hasActiveWar()) {
-                return false;
-            }
-        } catch (NotRegisteredException ex) {
+        Town town = townBlock.getTownOrNull();
+        if (town == null || town.isPVP() || town.isAdminEnabledPVP() || town.hasActiveWar()) {
             return false;
         }
 
@@ -94,21 +82,11 @@ public final class TownyRegionHandler extends RegionHandler {
             return false;
         }
 
-        Town town;
-        try {
-            town = townBlock.getTown();
-        } catch (NotRegisteredException ex) {
+        Town town = townBlock.getTownOrNull();
+        if (town == null) {
             return false;
         }
 
-        List<Resident> residentList = town.getResidents();
-        Set<UUID> residentIdSet = new HashSet<>();
-        for (Resident resident : residentList) {
-            UUID residentId = resident.getUUID();
-            residentIdSet.add(residentId);
-        }
-
-        UUID playerId = player.getUniqueId();
-        return residentIdSet.contains(playerId);
+        return town.hasResident(player);
     }
 }
