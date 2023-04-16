@@ -20,7 +20,7 @@ public final class LandsExpansion extends RegionExpansion {
 
     @Override
     public boolean checkDependencies() {
-        return checkDependency("Lands", true, "6.28");
+        return checkDependency("Lands", true, "6");
     }
 
     @Override
