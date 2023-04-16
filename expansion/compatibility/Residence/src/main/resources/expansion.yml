@@ -3,7 +3,7 @@ prefix: "Residence Compatibility"
 description: "${project.description}"
 
 main: "combatlogx.expansion.compatibility.region.residence.ResidenceExpansion"
-version: "16.3"
+version: "17.0"
 author: "SirBlobman"
 
 plugin-depend:
