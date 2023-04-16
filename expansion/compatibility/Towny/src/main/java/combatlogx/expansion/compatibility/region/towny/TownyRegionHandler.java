@@ -56,7 +56,7 @@ public final class TownyRegionHandler extends RegionHandler {
             return false;
         }
 
-        final Town town = townBlock.getTownOrNull();
+        Town town = townBlock.getTownOrNull();
         if (town == null || town.isPVP() || town.isAdminEnabledPVP() || town.hasActiveWar()) {
             return false;
         }
@@ -82,7 +82,7 @@ public final class TownyRegionHandler extends RegionHandler {
             return false;
         }
 
-        final Town town = townBlock.getTownOrNull();
+        Town town = townBlock.getTownOrNull();
         if (town == null) {
             return false;
         }
