@@ -31,49 +31,35 @@ public final class RegionHandlerTowny extends RegionHandler<TownyExpansion> {
 
     @Override
     public boolean isSafeZone(@NotNull Player player, @NotNull Location location, @NotNull TagInformation tag) {
-        printDebug("Detected isSafeZone check for Towny.");
-        printDebug("Arguments:");
-        printDebug("player: " + player);
-        printDebug("location: " + location);
-        printDebug("tag: " + tag);
-
         TagType tagType = tag.getCurrentTagType();
-        printDebug("Tag Type: " + tagType);
         if (tagType != TagType.PLAYER) {
-            printDebug("Tag Type is NOT player, safe zone not possible, returning false.");
             return false;
         }
 
         if (isPreventAllTownEntries() && isOwnTown(player, location)) {
-            printDebug("Prevent all entries is true and player is trying to enter their own town, returning true.");
             return true;
         }
 
         TownyWorld world = getTownyWorld(location);
         if (world != null && world.isForcePVP()) {
-            printDebug("Town world is not null and world has force pvp, returning false.");
             return false;
         }
 
         Town town = getTown(location);
         if (town == null || town.isPVP() || town.isAdminEnabledPVP() || town.hasActiveWar()) {
-            printDebug("Town is null or has pvp enabled, returning false.");
             return false;
         }
 
         if (isUnderAttack(town)) {
-            printDebug("Town is under attack (FlagWar), returning false.");
             return false;
         }
 
         TownBlock townBlock = getTownBlock(location);
         if (townBlock == null) {
-            printDebug("Town block is null, returning false.");
             return false;
         }
 
         TownyPermission permissions = townBlock.getPermissions();
-        printDebug("Towny Permissions PvP Value: " + permissions.pvp);
         return !permissions.pvp;
     }
 
