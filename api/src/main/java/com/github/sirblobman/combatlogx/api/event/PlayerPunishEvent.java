@@ -8,8 +8,9 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
-import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A custom event that will fire before a player is punished.
@@ -27,32 +28,33 @@ public final class PlayerPunishEvent extends CustomPlayerEventCancellable {
     private final UntagReason punishReason;
     private final List<Entity> enemyList;
 
-    public PlayerPunishEvent(Player player, UntagReason punishReason, List<Entity> enemyList) {
+    public PlayerPunishEvent(@NotNull Player player, @NotNull UntagReason punishReason,
+                             @NotNull List<Entity> enemyList) {
         super(player);
-        this.punishReason = Validate.notNull(punishReason, "punishReason must not be null!");
+        this.punishReason = punishReason;
         this.enemyList = new ArrayList<>(enemyList);
     }
 
-    public static HandlerList getHandlerList() {
+    public static @NotNull HandlerList getHandlerList() {
         return HANDLER_LIST;
     }
 
     @Override
     public HandlerList getHandlers() {
-        return HANDLER_LIST;
+        return getHandlerList();
     }
 
     /**
      * @return The original {@link UntagReason} that the player was punished for.
      */
-    public UntagReason getPunishReason() {
+    public @NotNull UntagReason getPunishReason() {
         return this.punishReason;
     }
 
     /**
      * @return The list of enemies the player had when punished.
      */
-    public List<Entity> getEnemies() {
+    public @NotNull List<Entity> getEnemies() {
         return Collections.unmodifiableList(this.enemyList);
     }
 }

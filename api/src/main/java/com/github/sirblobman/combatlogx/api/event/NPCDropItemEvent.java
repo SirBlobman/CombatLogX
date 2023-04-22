@@ -9,6 +9,8 @@ import org.bukkit.inventory.ItemStack;
 
 import com.github.sirblobman.combatlogx.api.object.CitizensSlotType;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * A custom event that will be called when an item is dropped from a combat logged NPC.
  *
@@ -27,7 +29,8 @@ public final class NPCDropItemEvent extends Event implements Cancellable {
     private boolean cancelled;
     private ItemStack item;
 
-    public NPCDropItemEvent(ItemStack item, OfflinePlayer player, Location location, CitizensSlotType slotType) {
+    public NPCDropItemEvent(@NotNull ItemStack item, @NotNull OfflinePlayer player, @NotNull Location location,
+                            @NotNull CitizensSlotType slotType) {
         this.player = player;
         this.location = location;
         this.item = item;
@@ -35,26 +38,26 @@ public final class NPCDropItemEvent extends Event implements Cancellable {
         this.cancelled = false;
     }
 
-    public static HandlerList getHandlerList() {
+    public static @NotNull HandlerList getHandlerList() {
         return HANDLER_LIST;
     }
 
     @Override
     public HandlerList getHandlers() {
-        return HANDLER_LIST;
+        return getHandlerList();
     }
 
     /**
      * @return The player who combat logged
      */
-    public OfflinePlayer getPlayer() {
+    public @NotNull OfflinePlayer getPlayer() {
         return player;
     }
 
     /**
      * @return The location at which the player combat logged
      */
-    public Location getLocation() {
+    public @NotNull Location getLocation() {
         return location;
     }
 
@@ -62,18 +65,18 @@ public final class NPCDropItemEvent extends Event implements Cancellable {
      * @return The item being dropped from the location
      * @see CitizensSlotType for various inventory slot locations this item could be from
      */
-    public ItemStack getItem() {
+    public @NotNull ItemStack getItem() {
         return item;
     }
 
-    public void setItem(ItemStack item) {
+    public void setItem(@NotNull ItemStack item) {
         this.item = item.clone();
     }
 
     /**
      * @return The type of slot the item is from
      */
-    public CitizensSlotType getSlotType() {
+    public @NotNull CitizensSlotType getSlotType() {
         return slotType;
     }
 

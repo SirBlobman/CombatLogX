@@ -12,6 +12,7 @@ import com.github.sirblobman.api.shaded.adventure.text.serializer.legacy.LegacyC
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.ICombatLogXNeeded;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -24,9 +25,10 @@ import org.jetbrains.annotations.Nullable;
  * If you do not override at least one, you will get an infinite loop.
  */
 public interface IPlaceholderExpansion extends ICombatLogXNeeded {
-    String getId();
+    @NotNull String getId();
 
-    default @Nullable String getReplacementString(Player player, List<Entity> enemyList, String placeholder) {
+    default @Nullable String getReplacementString(@NotNull Player player, @NotNull List<Entity> enemyList,
+                                                  @NotNull String placeholder) {
         Component replacement = getReplacement(player, enemyList, placeholder);
         if (replacement == null || Component.empty().equals(replacement)) {
             return "";
@@ -37,7 +39,8 @@ public interface IPlaceholderExpansion extends ICombatLogXNeeded {
     }
 
     @SuppressWarnings("UnnecessaryUnicodeEscape")
-    default @Nullable Component getReplacement(Player player, List<Entity> enemyList, String placeholder) {
+    default @Nullable Component getReplacement(@NotNull Player player, @NotNull List<Entity> enemyList,
+                                               @NotNull String placeholder) {
         String string = getReplacementString(player, enemyList, placeholder);
         if (string == null || string.isEmpty()) {
             return Component.empty();

@@ -19,17 +19,19 @@ public final class TagInformation {
     private final UUID playerId;
     private final List<CombatTag> tagList;
 
-    public TagInformation(OfflinePlayer player) {
-        Validate.notNull(player, "player must not be null!");
-        this.playerId = player.getUniqueId();
+    public TagInformation(@NotNull OfflinePlayer player) {
+        this(player.getUniqueId());
+    }
+
+    public TagInformation(@NotNull UUID playerId) {
+        this.playerId = playerId;
         this.tagList = new ArrayList<>();
     }
 
     /**
      * @return The {@link UUID} of the player that is tagged.
      */
-    @NotNull
-    public UUID getPlayerId() {
+    public @NotNull UUID getPlayerId() {
         return this.playerId;
     }
 
@@ -38,8 +40,7 @@ public final class TagInformation {
      * Can be null if the server cache is removed or the player doesn't exist.
      * @see #getPlayerId()
      */
-    @Nullable
-    public OfflinePlayer getOfflinePlayer() {
+    public @Nullable OfflinePlayer getOfflinePlayer() {
         UUID playerId = getPlayerId();
         return Bukkit.getOfflinePlayer(playerId);
     }
@@ -50,8 +51,7 @@ public final class TagInformation {
      * Can be null if the player is offline.
      * @see #getPlayerId()
      */
-    @Nullable
-    public Player getPlayer() {
+    public @Nullable Player getPlayer() {
         UUID playerId = getPlayerId();
         return Bukkit.getPlayer(playerId);
     }
@@ -60,10 +60,9 @@ public final class TagInformation {
      * @return A list of tags the player currently has.
      * The list is sorted by descending expire time.
      */
-    public List<CombatTag> getTags() {
+    public @NotNull List<CombatTag> getTags() {
         List<CombatTag> tagList = new ArrayList<>(this.tagList);
         tagList.sort(Collections.reverseOrder());
-
         return Collections.unmodifiableList(tagList);
     }
 
@@ -71,7 +70,7 @@ public final class TagInformation {
      * @return A list of entity {@link UUID}s that the player is currently tagged with.
      * The list is sorted by descending expire time.
      */
-    public List<UUID> getEnemyIds() {
+    public @NotNull List<UUID> getEnemyIds() {
         List<CombatTag> tagList = getTags();
         List<UUID> enemyIdList = new ArrayList<>();
 
@@ -89,7 +88,7 @@ public final class TagInformation {
      * @return A list of {@link Entity} objects that the player is currently tagged with.
      * The list is sorted by descending expire time.
      */
-    public List<Entity> getEnemies() {
+    public @NotNull List<Entity> getEnemies() {
         List<CombatTag> tagList = getTags();
         List<Entity> enemyList = new ArrayList<>();
 
@@ -103,9 +102,7 @@ public final class TagInformation {
         return Collections.unmodifiableList(enemyList);
     }
 
-    public boolean isEnemy(Entity entity) {
-        Validate.notNull(entity, "entity must not be null!");
-
+    public boolean isEnemy(@NotNull Entity entity) {
         List<CombatTag> tagList = getTags();
         for (CombatTag combatTag : tagList) {
             if (combatTag.doesEnemyMatch(entity)) {
@@ -116,9 +113,7 @@ public final class TagInformation {
         return false;
     }
 
-    public void addTag(CombatTag combatTag) {
-        Validate.notNull(combatTag, "combatTag must not be null!");
-
+    public void addTag(@NotNull CombatTag combatTag) {
         if (combatTag.isExpired()) {
             throw new IllegalArgumentException("combatTag is already expired!");
         }
@@ -131,8 +126,7 @@ public final class TagInformation {
         this.tagList.add(combatTag);
     }
 
-    public void removeEnemy(Entity entity) {
-        Validate.notNull(entity, "entity must not be null!");
+    public void removeEnemy(@NotNull Entity entity) {
         this.tagList.removeIf(combatTag -> combatTag.doesEnemyMatch(entity));
     }
 
@@ -162,7 +156,7 @@ public final class TagInformation {
         return this.tagList.isEmpty();
     }
 
-    public List<TagType> getTagTypes() {
+    public @NotNull List<TagType> getTagTypes() {
         List<CombatTag> tagList = getTags();
         List<TagType> tagTypeList = new ArrayList<>();
 
@@ -174,8 +168,7 @@ public final class TagInformation {
         return Collections.unmodifiableList(tagTypeList);
     }
 
-    @NotNull
-    public TagType getCurrentTagType() {
+    public @NotNull TagType getCurrentTagType() {
         List<TagType> tagTypeList = getTagTypes();
         if (tagTypeList.isEmpty()) {
             return TagType.UNKNOWN;
@@ -184,8 +177,7 @@ public final class TagInformation {
         return tagTypeList.get(0);
     }
 
-    @Nullable
-    public Entity getCurrentEnemy() {
+    public @Nullable Entity getCurrentEnemy() {
         List<Entity> enemyList = getEnemies();
         if (enemyList.isEmpty()) {
             return null;
@@ -194,8 +186,7 @@ public final class TagInformation {
         return enemyList.get(0);
     }
 
-    @Nullable
-    public CombatTag getTagForEnemy(Entity entity) {
+    public @Nullable CombatTag getTagForEnemy(Entity entity) {
         Validate.notNull(entity, "entity must not be null!");
 
         List<CombatTag> tagList = getTags();

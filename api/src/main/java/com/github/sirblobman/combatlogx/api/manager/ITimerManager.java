@@ -7,25 +7,27 @@ import org.bukkit.entity.Player;
 import com.github.sirblobman.combatlogx.api.ICombatLogXNeeded;
 import com.github.sirblobman.combatlogx.api.object.TimerUpdater;
 
+import org.jetbrains.annotations.NotNull;
+
 public interface ITimerManager extends ICombatLogXNeeded {
     /**
      * @return A {@link Set} of {@link TimerUpdater}s that are currently registered.
      */
-    Set<TimerUpdater> getTimerUpdaters();
+    @NotNull Set<TimerUpdater> getTimerUpdaters();
 
     /**
      * Register a {@link TimerUpdater} instance.
      *
      * @param task The instance to register.
      */
-    void addUpdaterTask(TimerUpdater task);
+    void addUpdaterTask(@NotNull TimerUpdater task);
 
     /**
      * Remove all timers in this manager from the player.
      *
      * @param player The {@link Player} to remove the timers from.
      */
-    void remove(Player player);
+    void remove(@NotNull Player player);
 
     /**
      * Register the manager

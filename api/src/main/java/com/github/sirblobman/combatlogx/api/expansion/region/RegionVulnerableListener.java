@@ -11,22 +11,21 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import com.github.sirblobman.api.utility.VersionUtility;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.NoEntryMode;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
 
-public final class RegionVulnerableListener extends ExpansionListener {
-    private final RegionExpansion regionExpansion;
+import org.jetbrains.annotations.NotNull;
 
-    public RegionVulnerableListener(RegionExpansion expansion) {
+public final class RegionVulnerableListener extends RegionExpansionListener {
+    public RegionVulnerableListener(@NotNull RegionExpansion expansion) {
         super(expansion);
-        this.regionExpansion = expansion;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDamage(EntityDamageByEntityEvent e) {
-        RegionHandler regionHandler = this.regionExpansion.getRegionHandler();
+        RegionExpansion regionExpansion = getRegionExpansion();
+        RegionHandler regionHandler = regionExpansion.getRegionHandler();
         NoEntryMode noEntryMode = regionHandler.getNoEntryMode();
         if (noEntryMode != NoEntryMode.VULNERABLE) {
             return;

@@ -27,16 +27,15 @@ publishing {
 
     publications {
         create<MavenPublication>("maven") {
-            groupId = "$group"
+            groupId = "com.github.sirblobman.combatlogx"
             artifactId = "api"
+            version = rootProject.ext.get("apiVersion") as String
             from(components["java"])
         }
     }
 }
 
-tasks {
-    javadoc {
-        val standardOptions = (options as StandardJavadocDocletOptions)
-        standardOptions.addStringOption("Xdoclint:none", "-quiet")
-    }
+tasks.withType<Javadoc> {
+    val standardOptions = (options as StandardJavadocDocletOptions)
+    standardOptions.addStringOption("Xdoclint:none", "-quiet")
 }

@@ -7,20 +7,22 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 
+import org.jetbrains.annotations.NotNull;
+
 public final class ExpansionLogger extends Logger {
     private final Expansion expansion;
 
-    public ExpansionLogger(Expansion expansion) {
+    public ExpansionLogger(@NotNull Expansion expansion) {
         super(expansion.getName(), null);
         this.expansion = expansion;
     }
 
-    public Expansion getExpansion() {
+    public @NotNull Expansion getExpansion() {
         return this.expansion;
     }
 
     @Override
-    public void log(LogRecord record) {
+    public void log(@NotNull LogRecord record) {
         Expansion expansion = getExpansion();
         String expansionPrefix = expansion.getPrefix();
 

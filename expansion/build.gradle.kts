@@ -1,5 +1,10 @@
-allprojects {
-    val expansionName = (findProperty("expansion.name") ?: project.name) as String
+tasks.named("jar") {
+    enabled = false
+}
+
+subprojects {
+    val expansionName = findProperty("expansion.name") ?: "invalid"
+    val expansionPrefix = findProperty("expansion.prefix") ?: expansionName
 
     dependencies {
         compileOnly(project(":api"))
@@ -7,17 +12,20 @@ allprojects {
 
     tasks {
         named<Jar>("jar") {
-            archiveFileName.set("$expansionName.jar")
+            archiveFileName.set("$expansionPrefix.jar")
         }
 
         processResources {
-            val expansionDescription = (findProperty("expansion.description") ?: "") as String
+            val expansionDescription = findProperty("expansion.description") ?: ""
 
             filesMatching("expansion.yml") {
-                filter {
-                    it.replace("\${expansion.name}", expansionName)
-                        .replace("\${project.description}", expansionDescription)
-                }
+                expand(
+                    mapOf(
+                        "expansionName" to expansionName,
+                        "expansionPrefix" to expansionPrefix,
+                        "expansionDescription" to expansionDescription
+                    )
+                )
             }
         }
     }

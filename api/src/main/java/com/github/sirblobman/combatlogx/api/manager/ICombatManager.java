@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
@@ -13,9 +16,6 @@ import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public interface ICombatManager extends ICombatLogXNeeded {
     /**
@@ -27,7 +27,8 @@ public interface ICombatManager extends ICombatLogXNeeded {
      * @param tagReason The reason for being tagged, can be {@link TagReason#UNKNOWN}
      * @return {@code true} if the player was successfully tagged.
      */
-    boolean tag(Player player, Entity enemy, TagType tagType, TagReason tagReason);
+    boolean tag(@NotNull Player player, @Nullable Entity enemy, @NotNull TagType tagType,
+                @NotNull TagReason tagReason);
 
     /**
      * CombatTag a player into combat.
@@ -39,7 +40,8 @@ public interface ICombatManager extends ICombatLogXNeeded {
      * @param customEndMillis A custom timestamp for ending combat if the player is not tagged again.
      * @return {@code true} if the player was successfully tagged.
      */
-    boolean tag(Player player, Entity enemy, TagType tagType, TagReason tagReason, long customEndMillis);
+    boolean tag(@NotNull Player player, @Nullable Entity enemy, @NotNull TagType tagType,
+                @NotNull TagReason tagReason, long customEndMillis);
 
     /**
      * Remove a player from combat with all enemies.
@@ -47,7 +49,7 @@ public interface ICombatManager extends ICombatLogXNeeded {
      * @param player      The {@link Player} to remove.
      * @param untagReason The reason for removing the player. Usually {@link UntagReason#EXPIRE}
      */
-    void untag(Player player, UntagReason untagReason);
+    void untag(@NotNull Player player, @NotNull UntagReason untagReason);
 
     /**
      * Remove a player from combat with a specific enemy.
@@ -56,7 +58,7 @@ public interface ICombatManager extends ICombatLogXNeeded {
      * @param enemy       The enemy to remove.
      * @param untagReason The reason for removing the player. Usually {@link UntagReason#EXPIRE}
      */
-    void untag(Player player, Entity enemy, UntagReason untagReason);
+    void untag(@NotNull Player player, @NotNull Entity enemy, @NotNull UntagReason untagReason);
 
     /**
      * Check if a player is tagged into combat.
@@ -64,32 +66,18 @@ public interface ICombatManager extends ICombatLogXNeeded {
      * @param player The {@link Player} to check.
      * @return {@code true} if the player is currently tagged into combat.
      */
-    boolean isInCombat(Player player);
+    boolean isInCombat(@NotNull Player player);
 
 
     /**
      * @return A list of player ids that are currently tagged into combat.
      */
-    @NotNull
-    Set<UUID> getPlayerIdsInCombat();
+    @NotNull Set<UUID> getPlayerIdsInCombat();
 
     /**
      * @return A list of players that are currently tagged into combat.
      */
-    @NotNull
-    List<Player> getPlayersInCombat();
-
-    /**
-     * Get the current enemy of a player.
-     *
-     * @param player The {@link Player} to check.
-     * @return The current enemy of the player or {@code null} if the player does not have one.
-     * @see #getTagInformation(Player)
-     * @deprecated CombatLogX now supports multiple enemies
-     */
-    @Nullable
-    @Deprecated
-    Entity getEnemy(Player player);
+    @NotNull List<Player> getPlayersInCombat();
 
     /**
      * Get combat tag information for the specified player.
@@ -97,45 +85,7 @@ public interface ICombatManager extends ICombatLogXNeeded {
      * @param player The {@link Player} to check.
      * @return Information about a players combat tag, or {@code null} if the player is not tagged into combat.
      */
-    @Nullable
-    TagInformation getTagInformation(Player player);
-
-    /**
-     * Attempt to get a player based on an enemy entity.
-     * This method may cause performance issues and should only be used when you have no other options.
-     *
-     * @param enemy The enemy to check.
-     * @return The current {@link Player} linked to this enemy, or {@code null} if one does not exist.
-     * @see #getTagInformation(Player)
-     * @deprecated CombatLogX now supports multiple enemies
-     */
-    @Nullable
-    @Deprecated
-    Player getByEnemy(Entity enemy);
-
-    /**
-     * Get the amount of milliseconds a player has left until their combat tag expires.
-     *
-     * @param player The {@link Player} to check.
-     * @return When the player is tagged into combat, this will return an amount of milliseconds.
-     * When the player is not in combat, this method will return {@code 0}.
-     * @see #getTagInformation(Player)
-     * @deprecated CombatLogX now supports multiple enemies
-     */
-    @Deprecated
-    long getTimerLeftMillis(Player player);
-
-    /**
-     * Get the amount of seconds a player has left until their combat tag expires.
-     *
-     * @param player The {@link Player} to check.
-     * @return When the player is tagged into combat, a positive number will be returned.
-     * When the player is not in combat, this method will return {@code 0}.
-     * @see #getTagInformation(Player)
-     * @deprecated CombatLogX now supports multiple enemies
-     */
-    @Deprecated
-    int getTimerLeftSeconds(Player player);
+    @Nullable TagInformation getTagInformation(@NotNull Player player);
 
     /**
      * Get the amount of seconds in combat this player will be tagged for.
@@ -143,7 +93,7 @@ public interface ICombatManager extends ICombatLogXNeeded {
      * @param player The {@link Player} to check.
      * @return A number of seconds based on a permission or a global configuration setting.
      */
-    int getMaxTimerSeconds(Player player);
+    int getMaxTimerSeconds(@NotNull Player player);
 
     /**
      * @return The current bypass permission, or {@code null} if one is not set.
@@ -156,10 +106,5 @@ public interface ICombatManager extends ICombatLogXNeeded {
      * @param player The {@link Player} to check.
      * @return {@code true} if the player can bypass a combat tag.
      */
-    boolean canBypass(Player player);
-
-    /**
-     * This method is executed when the `/clx reload` command is executed.
-     */
-    void onReload();
+    boolean canBypass(@NotNull Player player);
 }

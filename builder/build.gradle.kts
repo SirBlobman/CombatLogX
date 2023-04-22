@@ -20,6 +20,7 @@ dependencies {
     expansion(project(path = ":expansion:cheat-prevention", configuration = "shadow"))
     expansion(project(":expansion:damage-tagger"))
     expansion(project(":expansion:death-effects"))
+    expansion(project(path = ":expansion:end-crystal", configuration = "shadow"))
     expansion(project(":expansion:force-field"))
     expansion(project(":expansion:glowing"))
     expansion(project(":expansion:logger"))

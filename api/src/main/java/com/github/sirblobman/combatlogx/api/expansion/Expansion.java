@@ -12,6 +12,9 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
@@ -21,7 +24,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.IResourceHolder;
-import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 
 public abstract class Expansion implements IResourceHolder {
@@ -33,8 +35,8 @@ public abstract class Expansion implements IResourceHolder {
     private ExpansionDescription description;
     private ConfigurationManager configurationManager;
 
-    public Expansion(ICombatLogX plugin) {
-        this.plugin = Validate.notNull(plugin, "plugin must not be null!");
+    public Expansion(@NotNull ICombatLogX plugin) {
+        this.plugin = plugin;
         this.listenerList = new ArrayList<>();
 
         this.state = State.UNLOADED;
@@ -43,23 +45,23 @@ public abstract class Expansion implements IResourceHolder {
         this.file = null;
     }
 
-    final List<Listener> getListeners() {
+    final @NotNull List<Listener> getListeners() {
         return this.listenerList;
     }
 
-    public final State getState() {
+    public final @NotNull State getState() {
         return this.state;
     }
 
-    final void setState(State state) {
-        this.state = Validate.notNull(state, "state must not be null!");
+    final void setState(@NotNull State state) {
+        this.state = state;
     }
 
-    public final ICombatLogX getPlugin() {
+    public final @NotNull ICombatLogX getPlugin() {
         return this.plugin;
     }
 
-    public final Logger getLogger() {
+    public final @NotNull Logger getLogger() {
         if (this.logger == null) {
             this.logger = new ExpansionLogger(this);
         }
@@ -67,7 +69,7 @@ public abstract class Expansion implements IResourceHolder {
         return this.logger;
     }
 
-    public final ConfigurationManager getConfigurationManager() {
+    protected final @NotNull ConfigurationManager getConfigurationManager() {
         if (this.configurationManager == null) {
             this.configurationManager = new ConfigurationManager(this);
         }
@@ -75,12 +77,11 @@ public abstract class Expansion implements IResourceHolder {
         return this.configurationManager;
     }
 
-    public final File getDataFolder() {
+    public final @NotNull File getDataFolder() {
         return this.dataFolder;
     }
 
-    final void setDataFolder(File dataFolder) {
-        Validate.notNull(dataFolder, "dataFolder must not be null!");
+    final void setDataFolder(@NotNull File dataFolder) {
         if (!dataFolder.isDirectory()) {
             throw new IllegalArgumentException("dataFolder must be a directory!");
         }
@@ -88,12 +89,11 @@ public abstract class Expansion implements IResourceHolder {
         this.dataFolder = dataFolder;
     }
 
-    public final File getFile() {
+    public final @NotNull File getFile() {
         return this.file;
     }
 
-    final void setFile(File file) {
-        Validate.notNull(file, "file must not be null!");
+    final void setFile(@NotNull File file) {
         if (file.isDirectory()) {
             throw new IllegalArgumentException("file must not be a directory!");
         }
@@ -101,34 +101,32 @@ public abstract class Expansion implements IResourceHolder {
         this.file = file;
     }
 
-    public final ExpansionDescription getDescription() {
+    public final @NotNull ExpansionDescription getDescription() {
         return this.description;
     }
 
-    final void setDescription(ExpansionDescription description) {
-        this.description = Validate.notNull(description, "description must not be null!");
+    final void setDescription(@NotNull ExpansionDescription description) {
+        this.description = description;
     }
 
-    public final String getName() {
+    public final @NotNull String getName() {
         ExpansionDescription description = getDescription();
-        return description.getUnlocalizedName();
+        return description.getName();
     }
 
-    public final String getPrefix() {
+    public final @NotNull String getPrefix() {
         ExpansionDescription description = getDescription();
-        return description.getDisplayName();
+        return description.getPrefix();
     }
 
     @Override
-    public final String getKeyName() {
+    public final @NotNull String getKeyName() {
         String name = getName();
         return name.toLowerCase(Locale.US);
     }
 
     @Override
-    public final InputStream getResource(String name) {
-        Validate.notEmpty(name, "name cannot be null or empty!");
-
+    public final @Nullable InputStream getResource(@NotNull String name) {
         try {
             Class<? extends Expansion> thisClass = getClass();
             URLClassLoader classLoader = (URLClassLoader) thisClass.getClassLoader();
@@ -148,7 +146,7 @@ public abstract class Expansion implements IResourceHolder {
         }
     }
 
-    protected final boolean checkDependency(String pluginName, boolean checkEnabled) {
+    protected final boolean checkDependency(@NotNull String pluginName, boolean checkEnabled) {
         PluginManager pluginManager = Bukkit.getPluginManager();
         Logger logger = getLogger();
 
@@ -169,7 +167,8 @@ public abstract class Expansion implements IResourceHolder {
         return true;
     }
 
-    protected final boolean checkDependency(String pluginName, boolean checkEnabled, String versionStartsWith) {
+    protected final boolean checkDependency(@NotNull String pluginName, boolean checkEnabled,
+                                            @NotNull String versionStartsWith) {
         if (!checkDependency(pluginName, checkEnabled)) {
             return false;
         }
@@ -192,7 +191,7 @@ public abstract class Expansion implements IResourceHolder {
         return true;
     }
 
-    protected final void registerListener(Listener listener) {
+    protected final void registerListener(@NotNull Listener listener) {
         ICombatLogX plugin = getPlugin();
         JavaPlugin javaPlugin = plugin.getPlugin();
         PluginManager pluginManager = Bukkit.getPluginManager();

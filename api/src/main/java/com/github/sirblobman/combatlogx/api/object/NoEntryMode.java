@@ -1,10 +1,11 @@
 package com.github.sirblobman.combatlogx.api.object;
 
-import java.util.Locale;
-
+/**
+ * No Entry Mode is used in region compatibility expansions.
+ */
 public enum NoEntryMode {
     /**
-     * The region expansion will not try to prevent any entries.
+     * Tell the region expansion to not prevent entry.
      */
     DISABLED,
 
@@ -31,19 +32,5 @@ public enum NoEntryMode {
     /**
      * The player will be pushed away from the region with velocity. This option may trigger some anti-cheat plugins.
      */
-    KNOCKBACK_PLAYER;
-
-    /**
-     * @param string The string to parse.
-     * @return A {@link NoEntryMode} that matches the uppercase value of the string or {@link #DISABLED} if one could
-     * not be matched.
-     */
-    public static NoEntryMode parse(String string) {
-        try {
-            String value = string.toUpperCase(Locale.US);
-            return valueOf(value);
-        } catch (IllegalArgumentException | NullPointerException ex) {
-            return DISABLED;
-        }
-    }
+    KNOCKBACK_PLAYER
 }

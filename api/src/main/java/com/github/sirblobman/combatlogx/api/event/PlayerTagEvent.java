@@ -4,9 +4,12 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
-import com.github.sirblobman.api.utility.Validate;
+import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A custom event that will be fired when a player is put into combat.
@@ -26,28 +29,29 @@ public final class PlayerTagEvent extends CustomPlayerEvent {
     private final TagReason tagReason;
     private long combatEndMillis;
 
-    public PlayerTagEvent(Player player, Entity enemy, TagType tagType, TagReason tagReason, long combatEndMillis) {
+    public PlayerTagEvent(@NotNull Player player, @Nullable Entity enemy, @NotNull TagType tagType,
+                          @NotNull TagReason tagReason, long combatEndMillis) {
         super(player);
         this.enemy = enemy;
-        this.tagType = Validate.notNull(tagType, "tagType must not be null!");
-        this.tagReason = Validate.notNull(tagReason, "tagReason must not be null!");
+        this.tagType = tagType;
+        this.tagReason = tagReason;
         this.combatEndMillis = combatEndMillis;
     }
 
-    public static HandlerList getHandlerList() {
+    public static @NotNull HandlerList getHandlerList() {
         return HANDLER_LIST;
     }
 
     @Override
-    public HandlerList getHandlers() {
-        return HANDLER_LIST;
+    public @NotNull HandlerList getHandlers() {
+        return getHandlerList();
     }
 
     /**
      * @return The enemy that will tag the player or null if an enemy does not exist
      * @see #getPlayer()
      */
-    public Entity getEnemy() {
+    public @Nullable Entity getEnemy() {
         return this.enemy;
     }
 
@@ -55,7 +59,7 @@ public final class PlayerTagEvent extends CustomPlayerEvent {
      * @return The type of entity that will cause this player to be tagged
      * @see #getPlayer()
      */
-    public TagType getTagType() {
+    public @NotNull TagType getTagType() {
         return this.tagType;
     }
 
@@ -63,7 +67,7 @@ public final class PlayerTagEvent extends CustomPlayerEvent {
      * @return The reason that will cause this player to be tagged.
      * @see #getPlayer()
      */
-    public TagReason getTagReason() {
+    public @NotNull TagReason getTagReason() {
         return this.tagReason;
     }
 
@@ -76,10 +80,10 @@ public final class PlayerTagEvent extends CustomPlayerEvent {
     }
 
     /**
-     * Set the amount of time to wait before the player escapes from combat The default is {@code
-     * System.getCurrentTimeMillis() + 30_000L}
+     * Set the amount of time to wait before the player escapes from combat.
      *
      * @param millis The epoch time (in milliseconds) that the timer will end.
+     * @see ICombatManager#getMaxTimerSeconds(Player)
      */
     public void setEndTime(long millis) {
         this.combatEndMillis = millis;

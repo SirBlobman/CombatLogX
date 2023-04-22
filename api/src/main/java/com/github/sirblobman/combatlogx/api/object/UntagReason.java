@@ -1,5 +1,8 @@
 package com.github.sirblobman.combatlogx.api.object;
 
+/**
+ * The reason for removing a player from combat.
+ */
 public enum UntagReason {
     /**
      * The player waited patiently until they were no longer in combat

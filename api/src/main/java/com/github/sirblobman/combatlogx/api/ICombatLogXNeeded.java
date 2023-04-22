@@ -4,15 +4,17 @@ import java.util.logging.Logger;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-public interface ICombatLogXNeeded {
-    ICombatLogX getCombatLogX();
+import org.jetbrains.annotations.NotNull;
 
-    default JavaPlugin getPlugin() {
+public interface ICombatLogXNeeded {
+    @NotNull ICombatLogX getCombatLogX();
+
+    default @NotNull JavaPlugin getPlugin() {
         ICombatLogX combatLogX = getCombatLogX();
         return combatLogX.getPlugin();
     }
 
-    default Logger getLogger() {
+    default @NotNull Logger getLogger() {
         ICombatLogX combatLogX = getCombatLogX();
         return combatLogX.getLogger();
     }

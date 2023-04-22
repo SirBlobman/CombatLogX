@@ -9,20 +9,24 @@ import com.github.sirblobman.api.shaded.adventure.text.Component;
 import com.github.sirblobman.combatlogx.api.ICombatLogXNeeded;
 import com.github.sirblobman.combatlogx.api.placeholder.IPlaceholderExpansion;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public interface IPlaceholderManager extends ICombatLogXNeeded {
-    void registerPlaceholderExpansion(IPlaceholderExpansion expansion);
+    void registerPlaceholderExpansion(@NotNull IPlaceholderExpansion expansion);
 
-    @Nullable IPlaceholderExpansion getPlaceholderExpansion(String id);
+    @Nullable IPlaceholderExpansion getPlaceholderExpansion(@NotNull String id);
 
-    List<IPlaceholderExpansion> getPlaceholderExpansions();
+    @NotNull List<IPlaceholderExpansion> getPlaceholderExpansions();
 
-    @Nullable String getPlaceholderReplacement(Player player, List<Entity> enemyList, String placeholder);
+    @Nullable String getPlaceholderReplacement(@NotNull Player player, @NotNull List<Entity> enemyList,
+                                               @NotNull String placeholder);
 
-    @Nullable Component getPlaceholderReplacementComponent(Player player, List<Entity> enemyList, String placeholder);
+    @Nullable Component getPlaceholderReplacementComponent(@NotNull Player player, @NotNull List<Entity> enemyList,
+                                                           @NotNull String placeholder);
 
-    String replaceAll(Player player, List<Entity> enemyList, String string);
+    @NotNull String replaceAll(@NotNull Player player, @NotNull List<Entity> enemyList, @NotNull String string);
 
-    void runReplacedCommands(Player player, List<Entity> enemyList, Iterable<String> commands);
+    void runReplacedCommands(@NotNull Player player, @NotNull List<Entity> enemyList,
+                             @NotNull Iterable<String> commands);
 }

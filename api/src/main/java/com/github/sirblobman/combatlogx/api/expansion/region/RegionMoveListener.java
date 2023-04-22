@@ -12,7 +12,7 @@ import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
 
-public final class RegionMoveListener extends RegionListener {
+public final class RegionMoveListener extends RegionExpansionListener {
     public RegionMoveListener(RegionExpansion expansion) {
         super(expansion);
     }

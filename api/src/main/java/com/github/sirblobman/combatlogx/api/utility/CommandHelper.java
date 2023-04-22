@@ -1,5 +1,6 @@
 package com.github.sirblobman.combatlogx.api.utility;
 
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -11,35 +12,42 @@ import org.bukkit.scheduler.BukkitScheduler;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 
+import org.jetbrains.annotations.NotNull;
+
 public final class CommandHelper {
-    public static void runSync(ICombatLogX plugin, Runnable task) {
+    public static void runSync(@NotNull ICombatLogX plugin, @NotNull Runnable task) {
         JavaPlugin javaPlugin = plugin.getPlugin();
         BukkitScheduler scheduler = Bukkit.getScheduler();
         scheduler.runTask(javaPlugin, task);
     }
 
-    public static void runAsConsole(ICombatLogX plugin, String command) {
+    public static void runAsConsole(@NotNull ICombatLogX plugin, @NotNull String command) {
         try {
             CommandSender console = Bukkit.getConsoleSender();
             Bukkit.dispatchCommand(console, command);
         } catch (Exception ex) {
+            String messageFormat = "Failed to execute command '/%s' as the server console:";
+            String logMessage = String.format(Locale.US, messageFormat, command);
+
             Logger logger = plugin.getLogger();
-            logger.log(Level.SEVERE, "Failed to execute command '/" + command + "' in console:", ex);
+            logger.log(Level.SEVERE, logMessage, ex);
         }
     }
 
-    public static void runAsPlayer(ICombatLogX plugin, Player player, String command) {
+    public static void runAsPlayer(@NotNull ICombatLogX plugin, @NotNull Player player, @NotNull String command) {
         try {
             player.performCommand(command);
         } catch (Exception ex) {
-            Logger logger = plugin.getLogger();
             String playerName = player.getName();
-            logger.log(Level.SEVERE, "Failed to execute command '/" + command + "' as player '"
-                    + playerName + "':", ex);
+            String messageFormat = "Failed to execute command '/%s' as player '%s':";
+            String logMessage = String.format(Locale.US, messageFormat, command, playerName);
+
+            Logger logger = plugin.getLogger();
+            logger.log(Level.SEVERE, logMessage, ex);
         }
     }
 
-    public static void runAsOperator(ICombatLogX plugin, Player player, String command) {
+    public static void runAsOperator(@NotNull ICombatLogX plugin, @NotNull Player player, @NotNull String command) {
         if (player.isOp()) {
             runAsPlayer(plugin, player, command);
             return;
@@ -49,10 +57,12 @@ public final class CommandHelper {
             player.setOp(true);
             player.performCommand(command);
         } catch (Exception ex) {
-            Logger logger = plugin.getLogger();
             String playerName = player.getName();
-            logger.log(Level.SEVERE, "Failed to execute command '/" + command + "' as player '"
-                    + playerName + "' with operator permissions:", ex);
+            String messageFormat = "Failed to execute command '/%s' as player '%s' with operator permissions:";
+            String logMessage = String.format(Locale.US, messageFormat, command, playerName);
+
+            Logger logger = plugin.getLogger();
+            logger.log(Level.SEVERE, logMessage, ex);
         } finally {
             player.setOp(false);
         }

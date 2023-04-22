@@ -1,7 +1,9 @@
 package com.github.sirblobman.combatlogx.api.object;
 
+import com.github.sirblobman.combatlogx.api.event.NPCDropItemEvent;
+
 /**
- * Citizens slot type, used for the {@link com.github.sirblobman.combatlogx.api.event.NPCDropItemEvent}
+ * Citizens slot type, used for the {@link NPCDropItemEvent}
  *
  * @author SizzleMcGrizzle
  */

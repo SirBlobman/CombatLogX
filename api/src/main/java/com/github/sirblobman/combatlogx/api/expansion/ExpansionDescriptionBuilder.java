@@ -3,23 +3,32 @@ package com.github.sirblobman.combatlogx.api.expansion;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.sirblobman.api.utility.Validate;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public final class ExpansionDescriptionBuilder {
-    private final String mainClassName, unlocalizedName, version;
-    private String displayName, description, website;
-    private List<String> authorList, pluginDependencyList, expansionDependencyList, pluginSoftDependencyList, expansionSoftDependencyList;
+    private final String mainClass;
+    private final String name;
+    private final String version;
+
+    private String prefix;
+    private String description;
+    private String website;
+
+    private List<String> authorList;
+    private List<String> pluginDependencyList;
+    private List<String> expansionDependencyList;
+    private List<String> pluginSoftDependencyList;
+    private List<String> expansionSoftDependencyList;
+
     private boolean lateLoad;
 
-    public ExpansionDescriptionBuilder(String mainClassName, String unlocalizedName, String version) {
-        this.mainClassName = Validate.notEmpty(mainClassName, "mainClassName must not be empty!");
-        this.unlocalizedName = Validate.notEmpty(unlocalizedName, "unlocalizedName must not be empty!");
-        this.version = Validate.notEmpty(version, "version must not be empty!");
+    public ExpansionDescriptionBuilder(@NotNull String mainClass, @NotNull String name, @NotNull String version) {
+        this.mainClass = mainClass;
+        this.name = name;
+        this.version = version;
 
-        this.displayName = null;
+        this.prefix = null;
         this.description = null;
         this.website = null;
         this.authorList = new ArrayList<>();
@@ -30,57 +39,56 @@ public final class ExpansionDescriptionBuilder {
         this.lateLoad = false;
     }
 
-    public ExpansionDescriptionBuilder withDisplayName(@Nullable String displayName) {
-        this.displayName = displayName;
+    public @NotNull ExpansionDescriptionBuilder withPrefix(@Nullable String prefix) {
+        this.prefix = prefix;
         return this;
     }
 
-    public ExpansionDescriptionBuilder withDescription(@Nullable String description) {
+    public @NotNull ExpansionDescriptionBuilder withDescription(@Nullable String description) {
         this.description = description;
         return this;
     }
 
-    public ExpansionDescriptionBuilder withWebsite(@Nullable String website) {
+    public @NotNull ExpansionDescriptionBuilder withWebsite(@Nullable String website) {
         this.website = website;
         return this;
     }
 
-    public ExpansionDescriptionBuilder withAuthors(List<String> authorList) {
+    public @NotNull ExpansionDescriptionBuilder withAuthors(@NotNull List<String> authorList) {
         this.authorList = new ArrayList<>(authorList);
         return this;
     }
 
-    public ExpansionDescriptionBuilder withPluginDependencies(List<String> pluginDependencyList) {
-        this.pluginDependencyList = new ArrayList<>(pluginDependencyList);
+    public @NotNull ExpansionDescriptionBuilder withPluginDependencies(@NotNull List<String> list) {
+        this.pluginDependencyList = new ArrayList<>(list);
         return this;
     }
 
-    public ExpansionDescriptionBuilder withPluginSoftDependencies(List<String> pluginSoftDependencyList) {
-        this.pluginSoftDependencyList = new ArrayList<>(pluginSoftDependencyList);
+    public @NotNull ExpansionDescriptionBuilder withPluginSoftDependencies(@NotNull List<String> list) {
+        this.pluginSoftDependencyList = new ArrayList<>(list);
         return this;
     }
 
-    public ExpansionDescriptionBuilder withExpansionDependencies(List<String> expansionDependencyList) {
-        this.expansionDependencyList = new ArrayList<>(expansionDependencyList);
+    public @NotNull ExpansionDescriptionBuilder withExpansionDependencies(@NotNull List<String> list) {
+        this.expansionDependencyList = new ArrayList<>(list);
         return this;
     }
 
-    public ExpansionDescriptionBuilder withExpansionSoftDependencies(List<String> expansionSoftDependencyList) {
-        this.expansionSoftDependencyList = new ArrayList<>(expansionSoftDependencyList);
+    public @NotNull ExpansionDescriptionBuilder withExpansionSoftDependencies(@NotNull List<String> list) {
+        this.expansionSoftDependencyList = new ArrayList<>(list);
         return this;
     }
 
-    public ExpansionDescriptionBuilder withLateLoad(boolean lateLoad) {
+    public @NotNull ExpansionDescriptionBuilder withLateLoad(boolean lateLoad) {
         this.lateLoad = lateLoad;
         return this;
     }
 
-    @NotNull
-    public ExpansionDescription build() {
-        String displayName = (this.displayName == null ? this.unlocalizedName : this.displayName);
+    public @NotNull ExpansionDescription build() {
+        String prefix = (this.prefix == null ? this.name : this.prefix);
         String description = (this.description == null ? "" : this.description);
-        return new ExpansionDescription(this.mainClassName, this.unlocalizedName, this.version, displayName,
-                description, this.website, this.authorList, this.pluginDependencyList, this.pluginSoftDependencyList,
+        return new ExpansionDescription(this.mainClass, this.name, this.version, prefix, description, this.website,
+                this.authorList, this.pluginDependencyList, this.pluginSoftDependencyList,
                 this.expansionDependencyList, this.expansionSoftDependencyList, this.lateLoad);
     }
 }

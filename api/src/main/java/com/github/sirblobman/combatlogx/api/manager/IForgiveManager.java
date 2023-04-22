@@ -5,16 +5,17 @@ import org.bukkit.OfflinePlayer;
 import com.github.sirblobman.combatlogx.api.ICombatLogXNeeded;
 import com.github.sirblobman.combatlogx.api.object.CombatTag;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public interface IForgiveManager extends ICombatLogXNeeded {
-    boolean getToggleValue(OfflinePlayer player);
+    boolean getToggleValue(@NotNull OfflinePlayer player);
 
-    void setToggle(OfflinePlayer player, boolean value);
+    void setToggle(@NotNull OfflinePlayer player, boolean value);
 
-    @Nullable CombatTag getActiveRequest(OfflinePlayer player);
+    @Nullable CombatTag getActiveRequest(@NotNull OfflinePlayer player);
 
-    public void setRequest(OfflinePlayer player, CombatTag request);
+    void setRequest(@NotNull OfflinePlayer player, @NotNull CombatTag request);
 
-    public void removeRequest(OfflinePlayer player);
+    void removeRequest(@NotNull OfflinePlayer player);
 }
