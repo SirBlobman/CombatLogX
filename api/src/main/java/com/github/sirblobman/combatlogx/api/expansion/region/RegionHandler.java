@@ -1,9 +1,11 @@
 package com.github.sirblobman.combatlogx.api.expansion.region;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -20,6 +22,7 @@ import org.bukkit.util.Vector;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.configuration.MainConfiguration;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.NoEntryMode;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
@@ -34,8 +37,29 @@ public abstract class RegionHandler<RE extends RegionExpansion> {
         this.cooldownMap = new ConcurrentHashMap<>();
     }
 
-    public final @NotNull RE getExpansion() {
+    protected final @NotNull RE getExpansion() {
         return this.expansion;
+    }
+
+    protected final @NotNull Logger getLogger() {
+        RE expansion = getExpansion();
+        return expansion.getLogger();
+    }
+
+    protected final void printDebug(@NotNull String message) {
+        RE expansion = getExpansion();
+        ICombatLogX combatLogX = expansion.getPlugin();
+        MainConfiguration configuration = combatLogX.getConfiguration();
+        if (!configuration.isDebugMode()) {
+            return;
+        }
+
+        Class<?> thisClass = getClass();
+        String className = thisClass.getSimpleName();
+        String logMessage = String.format(Locale.US, "[Debug] [%s] %s", className, message);
+
+        Logger expansionLogger = getLogger();
+        expansionLogger.info(logMessage);
     }
 
     private @NotNull RegionExpansionConfiguration getConfiguration() {

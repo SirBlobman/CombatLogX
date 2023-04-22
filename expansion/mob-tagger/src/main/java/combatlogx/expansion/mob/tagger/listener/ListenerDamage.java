@@ -171,6 +171,11 @@ public final class ListenerDamage extends ExpansionListener {
             return;
         }
 
+        if (enemy instanceof Player) {
+            printDebug("enemy is a player, ignoring for mob tagger.");
+            return;
+        }
+
         Player player = (Player) entity;
         if (hasBypassPermission(player)) {
             printDebug("Player has bypass permission, ignoring.");
