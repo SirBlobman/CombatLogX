@@ -12,24 +12,27 @@ import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.IForgiveManager;
 import com.github.sirblobman.combatlogx.api.object.CombatTag;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public final class ForgiveManager extends Manager implements IForgiveManager {
     private final Map<UUID, CombatTag> requestMap;
 
-    public ForgiveManager(ICombatLogX plugin) {
+    public ForgiveManager(@NotNull ICombatLogX plugin) {
         super(plugin);
         this.requestMap = new ConcurrentHashMap<>();
     }
 
-    public boolean getToggleValue(OfflinePlayer player) {
+    @Override
+    public boolean getToggleValue(@NotNull OfflinePlayer player) {
         ICombatLogX plugin = getCombatLogX();
         PlayerDataManager playerDataManager = plugin.getPlayerDataManager();
         YamlConfiguration configuration = playerDataManager.get(player);
         return configuration.getBoolean("forgive-toggle", false);
     }
 
-    public void setToggle(OfflinePlayer player, boolean value) {
+    @Override
+    public void setToggle(@NotNull OfflinePlayer player, boolean value) {
         ICombatLogX plugin = getCombatLogX();
         PlayerDataManager playerDataManager = plugin.getPlayerDataManager();
         YamlConfiguration configuration = playerDataManager.get(player);
@@ -38,8 +41,8 @@ public final class ForgiveManager extends Manager implements IForgiveManager {
         playerDataManager.save(player);
     }
 
-    @Nullable
-    public CombatTag getActiveRequest(OfflinePlayer player) {
+    @Override
+    public @Nullable CombatTag getActiveRequest(@NotNull OfflinePlayer player) {
         UUID playerId = player.getUniqueId();
         CombatTag combatTag = this.requestMap.get(playerId);
         if (combatTag == null) {
@@ -54,12 +57,14 @@ public final class ForgiveManager extends Manager implements IForgiveManager {
         return combatTag;
     }
 
-    public void setRequest(OfflinePlayer player, CombatTag tag) {
+    @Override
+    public void setRequest(@NotNull OfflinePlayer player, @NotNull CombatTag tag) {
         UUID playerId = player.getUniqueId();
         this.requestMap.put(playerId, tag);
     }
 
-    public void removeRequest(OfflinePlayer player) {
+    @Override
+    public void removeRequest(@NotNull OfflinePlayer player) {
         UUID playerId = player.getUniqueId();
         this.requestMap.remove(playerId);
     }

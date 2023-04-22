@@ -2,7 +2,6 @@ package combatlogx.expansion.damage.tagger.listener;
 
 import java.util.Locale;
 
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -12,7 +11,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
@@ -21,11 +19,16 @@ import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
 import combatlogx.expansion.damage.tagger.DamageTaggerExpansion;
+import combatlogx.expansion.damage.tagger.configuration.DamageTaggerConfiguration;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public final class ListenerDamage extends ExpansionListener {
-    public ListenerDamage(DamageTaggerExpansion expansion) {
+    private final DamageTaggerExpansion expansion;
+
+    public ListenerDamage(@NotNull DamageTaggerExpansion expansion) {
         super(expansion);
+        this.expansion = expansion;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -65,14 +68,18 @@ public final class ListenerDamage extends ExpansionListener {
         }
     }
 
-    private YamlConfiguration getConfiguration() {
-        ConfigurationManager configurationManager = getExpansionConfigurationManager();
-        return configurationManager.get("config.yml");
+    private @NotNull DamageTaggerExpansion getDamageTagger() {
+        return this.expansion;
+    }
+
+    private DamageTaggerConfiguration getConfiguration() {
+        DamageTaggerExpansion expansion = getDamageTagger();
+        return expansion.getConfiguration();
     }
 
     private boolean isAllDamageEnabled() {
-        YamlConfiguration configuration = getConfiguration();
-        return configuration.getBoolean("all-damage");
+        DamageTaggerConfiguration configuration = getConfiguration();
+        return configuration.isAllDamage();
     }
 
     private boolean isCrystalDamageEnabled() {
@@ -80,30 +87,25 @@ public final class ListenerDamage extends ExpansionListener {
             return true;
         }
 
-        YamlConfiguration configuration = getConfiguration();
-        return configuration.getBoolean("end-crystals");
+        DamageTaggerConfiguration configuration = getConfiguration();
+        return configuration.isEndCrystals();
     }
 
-    private boolean isEnabled(DamageCause damageCause) {
+    private boolean isEnabled(@NotNull DamageCause cause) {
         if (isAllDamageEnabled()) {
             return true;
         }
 
-        String damageCauseName = damageCause.name();
-        String damageCauseNameLowerCase = damageCauseName.toLowerCase(Locale.US);
-        String damageCauseNameReplaced = damageCauseNameLowerCase.replace('_', '-');
-
-        YamlConfiguration configuration = getConfiguration();
-        return configuration.getBoolean("damage-type." + damageCauseNameReplaced);
+        DamageTaggerConfiguration configuration = getConfiguration();
+        return configuration.isEnabled(cause);
     }
 
-    private void tag(Player player, @Nullable DamageCause damageCause) {
-        ICombatLogX combatLogX = getCombatLogX();
-        ICombatManager combatManager = combatLogX.getCombatManager();
-        YamlConfiguration configuration = getConfiguration();
+    private void tag(@NotNull Player player, @Nullable DamageCause damageCause) {
+        ICombatManager combatManager = getCombatManager();
+        DamageTaggerConfiguration configuration = getConfiguration();
 
         boolean alreadyInCombat = combatManager.isInCombat(player);
-        boolean retagOnly = configuration.getBoolean("retag-only", false);
+        boolean retagOnly = configuration.isRetagOnly();
         if (retagOnly && !alreadyInCombat) {
             return;
         }
@@ -114,7 +116,7 @@ public final class ListenerDamage extends ExpansionListener {
         }
     }
 
-    private void sendMessage(Player player, @Nullable DamageCause damageCause) {
+    private void sendMessage(@NotNull Player player, @Nullable DamageCause damageCause) {
         ICombatLogX combatLogX = getCombatLogX();
         LanguageManager languageManager = combatLogX.getLanguageManager();
 

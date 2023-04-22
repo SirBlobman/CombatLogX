@@ -1,6 +1,6 @@
-name: "ForceField"
-prefix: "Force Field"
-description: "${project.description}"
+name: "${expansionName}"
+prefix: "${expansionPrefix}"
+description: "${expansionDescription}"
 
 main: "combatlogx.expansion.force.field.ForceFieldExpansion"
 version: "17.2"

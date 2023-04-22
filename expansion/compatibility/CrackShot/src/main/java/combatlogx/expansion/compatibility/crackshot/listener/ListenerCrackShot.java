@@ -1,5 +1,7 @@
 package combatlogx.expansion.compatibility.crackshot.listener;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,15 +15,17 @@ import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.shampaggon.crackshot.events.WeaponDamageEntityEvent;
 import combatlogx.expansion.compatibility.crackshot.CrackShotExpansion;
 
-public class ListenerCrackShot extends ExpansionListener {
-    public ListenerCrackShot(CrackShotExpansion expansion) {
+public final class ListenerCrackShot extends ExpansionListener {
+    public ListenerCrackShot(@NotNull CrackShotExpansion expansion) {
         super(expansion);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onAttack(WeaponDamageEntityEvent e) {
         Entity entity = e.getVictim();
-        if (!(entity instanceof Player)) return;
+        if (!(entity instanceof Player)) {
+            return;
+        }
 
         Player damaged = (Player) entity;
         Player damager = e.getPlayer();

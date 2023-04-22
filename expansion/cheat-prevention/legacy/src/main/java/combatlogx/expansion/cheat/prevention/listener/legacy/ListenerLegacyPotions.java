@@ -1,9 +1,7 @@
 package combatlogx.expansion.cheat.prevention.listener.legacy;
 
 import java.util.Collection;
-import java.util.List;
 
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.ThrownPotion;
@@ -16,15 +14,16 @@ import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.shaded.xseries.XMaterial;
 import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 
+import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
+import combatlogx.expansion.cheat.prevention.configuration.IPotionConfiguration;
 import combatlogx.expansion.cheat.prevention.listener.CheatPreventionListener;
+import org.jetbrains.annotations.NotNull;
 
 public final class ListenerLegacyPotions extends CheatPreventionListener {
-    public ListenerLegacyPotions(Expansion expansion) {
+    public ListenerLegacyPotions(@NotNull ICheatPreventionExpansion expansion) {
         super(expansion);
     }
 
@@ -92,23 +91,13 @@ public final class ListenerLegacyPotions extends CheatPreventionListener {
         }
     }
 
-    private YamlConfiguration getConfiguration() {
-        ConfigurationManager configurationManager = getExpansionConfigurationManager();
-        return configurationManager.get("potions.yml");
+    private @NotNull IPotionConfiguration getPotionConfiguration() {
+        ICheatPreventionExpansion expansion = getCheatPrevention();
+        return expansion.getPotionConfiguration();
     }
 
-    private boolean isListInverted() {
-        YamlConfiguration configuration = getConfiguration();
-        return configuration.getBoolean("blocked-potion-type-list-inverted", false);
-    }
-
-    private boolean isBlocked(PotionEffectType potionEffectType) {
-        YamlConfiguration configuration = getConfiguration();
-        List<String> potionEffectTypeNameList = configuration.getStringList("blocked-potion-type-list");
-        String potionEffectTypeName = potionEffectType.getName();
-
-        boolean inverted = isListInverted();
-        boolean contains = potionEffectTypeNameList.contains(potionEffectTypeName);
-        return (inverted != contains);
+    private boolean isBlocked(@NotNull PotionEffectType effectType) {
+        IPotionConfiguration potionConfiguration = getPotionConfiguration();
+        return potionConfiguration.isBlocked(effectType);
     }
 }

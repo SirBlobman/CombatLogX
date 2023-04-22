@@ -2,16 +2,15 @@ package combatlogx.expansion.force.field.configuration;
 
 import java.util.Optional;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 
 import com.github.sirblobman.api.configuration.IConfigurable;
 import com.github.sirblobman.api.shaded.xseries.XMaterial;
-import com.github.sirblobman.api.utility.Validate;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public final class ForceFieldConfiguration implements IConfigurable {
     private boolean enabled;
@@ -29,7 +28,7 @@ public final class ForceFieldConfiguration implements IConfigurable {
     }
 
     @Override
-    public void load(ConfigurationSection section) {
+    public void load(@NotNull ConfigurationSection section) {
         boolean enabled = section.getBoolean("enabled", true);
         setEnabled(enabled);
 
@@ -57,13 +56,12 @@ public final class ForceFieldConfiguration implements IConfigurable {
         this.enabled = enabled;
     }
 
-    @NotNull
-    public XMaterial getMaterial() {
+    public @NotNull XMaterial getMaterial() {
         return this.material;
     }
 
-    public void setMaterial(XMaterial material) {
-        this.material = Validate.notNull(material, "material must not be null!");
+    public void setMaterial(@NotNull XMaterial material) {
+        this.material = material;
     }
 
     public int getRadius() {
@@ -78,17 +76,16 @@ public final class ForceFieldConfiguration implements IConfigurable {
         this.radius = radius;
     }
 
-    public String getBypassPermissionName() {
+    public @Nullable String getBypassPermissionName() {
         return bypassPermissionName;
     }
 
-    public void setBypassPermissionName(String bypassPermissionName) {
+    public void setBypassPermissionName(@Nullable String bypassPermissionName) {
         this.bypassPermissionName = bypassPermissionName;
         this.bypassPermission = null;
     }
 
-    @Nullable
-    public Permission getBypassPermission() {
+    public @Nullable Permission getBypassPermission() {
         if (this.bypassPermission != null) {
             return this.bypassPermission;
         }

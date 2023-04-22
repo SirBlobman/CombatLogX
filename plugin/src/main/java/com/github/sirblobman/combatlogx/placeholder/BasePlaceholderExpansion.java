@@ -22,10 +22,10 @@ import com.github.sirblobman.api.shaded.adventure.text.Component;
 import com.github.sirblobman.api.shaded.adventure.text.format.NamedTextColor;
 import com.github.sirblobman.api.shaded.adventure.text.minimessage.MiniMessage;
 import com.github.sirblobman.api.shaded.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.api.utility.paper.PaperChecker;
 import com.github.sirblobman.api.utility.paper.PaperHelper;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.configuration.PunishConfiguration;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.IPunishManager;
 import com.github.sirblobman.combatlogx.api.object.CombatTag;
@@ -33,27 +33,29 @@ import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.placeholder.IPlaceholderExpansion;
 
 import me.clip.placeholderapi.PlaceholderAPI;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
     private final ICombatLogX plugin;
 
-    public BasePlaceholderExpansion(ICombatLogX plugin) {
-        this.plugin = Validate.notNull(plugin, "plugin must not be null!");
+    public BasePlaceholderExpansion(@NotNull ICombatLogX plugin) {
+        this.plugin = plugin;
     }
 
     @Override
-    public ICombatLogX getCombatLogX() {
+    public @NotNull ICombatLogX getCombatLogX() {
         return this.plugin;
     }
 
     @Override
-    public String getId() {
+    public @NotNull String getId() {
         return "combatlogx";
     }
 
     @Override
-    public Component getReplacement(Player player, List<Entity> enemyList, String placeholder) {
+    public @Nullable Component getReplacement(@NotNull Player player, @NotNull List<Entity> enemyList,
+                                              @NotNull String placeholder) {
         switch (placeholder) {
             case "enemy_count":
                 return getEnemyCount(player);
@@ -124,8 +126,8 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
         return null;
     }
 
-    @Nullable
-    private Component getEnemyPlaceholder(Player player, Entity enemy, String placeholder) {
+    private @Nullable Component getEnemyPlaceholder(@NotNull Player player, @Nullable Entity enemy,
+                                                    @NotNull String placeholder) {
         if (enemy == null) {
             return getUnknownEnemy(player);
         }
@@ -168,8 +170,7 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
         return null;
     }
 
-    @Nullable
-    private Entity getSpecificEnemy(List<Entity> enemyList, int index) {
+    private @Nullable Entity getSpecificEnemy(@NotNull List<Entity> enemyList, int index) {
         if (enemyList.isEmpty()) {
             return null;
         }
@@ -182,7 +183,7 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
         return enemyList.get(index);
     }
 
-    private Component getEnemyCount(Player player) {
+    private @NotNull Component getEnemyCount(@NotNull Player player) {
         ICombatLogX combatLogX = getCombatLogX();
         ICombatManager combatManager = combatLogX.getCombatManager();
         TagInformation tagInformation = combatManager.getTagInformation(player);
@@ -195,7 +196,7 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
         return Component.text(enemyIdListSize);
     }
 
-    private Component getInCombat(Player player) {
+    private @NotNull Component getInCombat(@NotNull Player player) {
         ICombatLogX combatLogX = getCombatLogX();
         ICombatManager combatManager = combatLogX.getCombatManager();
         boolean inCombat = combatManager.isInCombat(player);
@@ -206,14 +207,19 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
         return languageManager.getMessage(player, fullKey);
     }
 
-    private Component getPunishmentCount(Player player) {
+    private @NotNull Component getPunishmentCount(@NotNull Player player) {
         ICombatLogX combatLogX = getCombatLogX();
-        IPunishManager punishManager = combatLogX.getPunishManager();
-        long punishmentCount = punishManager.getPunishmentCount(player);
-        return Component.text(punishmentCount);
+        PunishConfiguration punishConfiguration = combatLogX.getPunishConfiguration();
+        if (punishConfiguration.isEnablePunishmentCounter()) {
+            IPunishManager punishManager = combatLogX.getPunishManager();
+            long punishmentCount = punishManager.getPunishmentCount(player);
+            return Component.text(punishmentCount);
+        }
+
+        return Component.text(0);
     }
 
-    private Component getStatus(Player player) {
+    private @NotNull Component getStatus(@NotNull Player player) {
         ICombatLogX combatLogX = getCombatLogX();
         ICombatManager combatManager = combatLogX.getCombatManager();
         boolean inCombat = combatManager.isInCombat(player);
@@ -224,7 +230,7 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
         return languageManager.getMessage(player, fullKey);
     }
 
-    private Component getTagCount(Player player) {
+    private @NotNull Component getTagCount(@NotNull Player player) {
         ICombatLogX combatLogX = getCombatLogX();
         ICombatManager combatManager = combatLogX.getCombatManager();
         TagInformation tagInformation = combatManager.getTagInformation(player);
@@ -237,7 +243,7 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
         return Component.text(tagListSize);
     }
 
-    private Component getTimeLeft(Player player) {
+    private @NotNull Component getTimeLeft(@NotNull Player player) {
         ICombatLogX combatLogX = getCombatLogX();
         LanguageManager languageManager = combatLogX.getLanguageManager();
         Component zero = languageManager.getMessage(player, "placeholder.time-left-zero");
@@ -264,7 +270,7 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
         return Component.text(secondsLeft);
     }
 
-    private Component getTimeLeftSpecific(Player player, int index) {
+    private @NotNull Component getTimeLeftSpecific(@NotNull Player player, int index) {
         ICombatLogX combatLogX = getCombatLogX();
         LanguageManager languageManager = combatLogX.getLanguageManager();
         Component zero = languageManager.getMessage(player, "placeholder.time-left-zero");
@@ -298,7 +304,7 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
         return Component.text(secondsLeft);
     }
 
-    private Component getTimeLeftDecimal(Player player) {
+    private @NotNull Component getTimeLeftDecimal(@NotNull Player player) {
         ICombatLogX combatLogX = getCombatLogX();
         LanguageManager languageManager = combatLogX.getLanguageManager();
         Component zero = languageManager.getMessage(player, "placeholder.time-left-zero");
@@ -327,7 +333,7 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
         return Component.text(timeLeftString);
     }
 
-    private Component getTimeLeftDecimalSpecific(Player player, int index) {
+    private @NotNull Component getTimeLeftDecimalSpecific(@NotNull Player player, int index) {
         ICombatLogX combatLogX = getCombatLogX();
         LanguageManager languageManager = combatLogX.getLanguageManager();
         Component zero = languageManager.getMessage(player, "placeholder.time-left-zero");
@@ -363,21 +369,22 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
         return Component.text(timeLeftString);
     }
 
-    private Component getUnknownEnemy(Player player) {
+    private @NotNull Component getUnknownEnemy(@NotNull Player player) {
         LanguageManager languageManager = plugin.getLanguageManager();
         return languageManager.getMessage(player, "placeholder.unknown-enemy");
     }
 
-    private Component getEnemyName(Entity enemy) {
-        ICombatLogX combatLogX = getCombatLogX();
-        MultiVersionHandler multiVersionHandler = combatLogX.getMultiVersionHandler();
+    private @NotNull Component getEnemyName(@NotNull Entity entity) {
+        ICombatLogX plugin = getCombatLogX();
+        MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
         EntityHandler entityHandler = multiVersionHandler.getEntityHandler();
-        String enemyName = entityHandler.getName(enemy);
-        return Component.text(enemyName);
+
+        String entityName = entityHandler.getName(entity);
+        return Component.text(entityName);
     }
 
-    private Component getEnemyDisplayName(Entity enemy) {
-        if (PaperChecker.isPaper()) {
+    private @NotNull Component getEnemyDisplayName(@NotNull Entity enemy) {
+        if (PaperChecker.hasNativeComponentSupport()) {
             Component customName = PaperHelper.getCustomName(enemy);
             if (customName != null) {
                 return customName;
@@ -387,13 +394,13 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
         return getEnemyName(enemy);
     }
 
-    private Component getEnemyType(Entity enemy) {
+    private @NotNull Component getEnemyType(@NotNull Entity enemy) {
         EntityType entityType = enemy.getType();
         String entityTypeName = entityType.name();
         return Component.text(entityTypeName);
     }
 
-    private Component getEnemyHealth(Player player, Entity enemy) {
+    private @NotNull Component getEnemyHealth(@NotNull Player player, @NotNull Entity enemy) {
         double enemyHealth = 0.0D;
         if (enemy instanceof LivingEntity) {
             enemyHealth = ((LivingEntity) enemy).getHealth();
@@ -407,7 +414,7 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
         return Component.text(healthString);
     }
 
-    private Component getEnemyHealthRounded(Entity enemy) {
+    private @NotNull Component getEnemyHealthRounded(@NotNull Entity enemy) {
         double enemyHealth = 0.0D;
         if (enemy instanceof LivingEntity) {
             enemyHealth = ((LivingEntity) enemy).getHealth();
@@ -417,8 +424,7 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
         return Component.text(round);
     }
 
-    @SuppressWarnings("UnnecessaryUnicodeEscape")
-    private Component getEnemyHearts(Entity enemy) {
+    private @NotNull Component getEnemyHearts(@NotNull Entity enemy) {
         double enemyHealth = 0.0D;
         if (enemy instanceof LivingEntity) {
             enemyHealth = ((LivingEntity) enemy).getHealth();
@@ -430,7 +436,7 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
             return Component.text(hearts);
         }
 
-        char symbol = '\u2764';
+        char symbol = '❤';
         char[] symbols = new char[hearts];
         Arrays.fill(symbols, symbol);
 
@@ -438,7 +444,7 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
         return Component.text(heartsString, NamedTextColor.RED);
     }
 
-    private Component getEnemyHeartsCount(Entity enemy) {
+    private @NotNull Component getEnemyHeartsCount(@NotNull Entity enemy) {
         double enemyHealth = 0.0D;
         if (enemy instanceof LivingEntity) {
             enemyHealth = ((LivingEntity) enemy).getHealth();
@@ -449,33 +455,31 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
         return Component.text(hearts);
     }
 
-    private Component getEnemyWorld(Entity enemy) {
+    private @NotNull Component getEnemyWorld(@NotNull Entity enemy) {
         World world = enemy.getWorld();
         String worldName = world.getName();
         return Component.text(worldName);
     }
 
-    private Component getEnemyX(Entity enemy) {
+    private @NotNull Component getEnemyX(@NotNull Entity enemy) {
         Location location = enemy.getLocation();
-        int coord = location.getBlockX();
-        return Component.text(coord);
+        int blockX = location.getBlockX();
+        return Component.text(blockX);
     }
 
-    private Component getEnemyY(Entity enemy) {
+    private @NotNull Component getEnemyY(@NotNull Entity enemy) {
         Location location = enemy.getLocation();
-        int coord = location.getBlockY();
-        return Component.text(coord);
+        int blockY = location.getBlockY();
+        return Component.text(blockY);
     }
 
-    private Component getEnemyZ(Entity enemy) {
+    private @NotNull Component getEnemyZ(@NotNull Entity enemy) {
         Location location = enemy.getLocation();
-        int coord = location.getBlockZ();
-        return Component.text(coord);
+        int blockZ = location.getBlockZ();
+        return Component.text(blockZ);
     }
 
-
-    @SuppressWarnings("UnnecessaryUnicodeEscape")
-    private Component getEnemyPlaceholderAPI(Player enemy, String placeholder) {
+    private @NotNull Component getEnemyPlaceholderAPI(@NotNull Player enemy, @NotNull String placeholder) {
         String placeholderString = ("{" + placeholder + "}");
         String replacement = PlaceholderAPI.setBracketPlaceholders(enemy, placeholderString);
 
@@ -484,7 +488,7 @@ public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
             return serializer.deserialize(replacement);
         }
 
-        if (replacement.contains("\u00A7")) {
+        if (replacement.contains("§")) {
             LegacyComponentSerializer serializer = LegacyComponentSerializer.legacySection();
             return serializer.deserialize(replacement);
         }

@@ -1,9 +1,9 @@
-name: "CompatKingdomsX"
-prefix: "KingdomsX Compatibility"
-description: "${project.description}"
+name: "${expansionName}"
+prefix: "${expansionPrefix}"
+description: "${expansionDescription}"
 
-main: "combatlogx.expansion.compatibility.region.kingdomsx.KingdomsXExpansion"
-version: "16.4"
+main: "combatlogx.expansion.compatibility.region.kingdomsx.ExpansionKingdomsX"
+version: "17.0"
 author: "SirBlobman"
 
 plugin-depend:

@@ -75,6 +75,9 @@ error:
   # Shown when the console tries to execute a command made for players.
   player-only: "<red>Only players can execute this command</red>"
 
+  # Shown when a player tries to execute a command made for the server console.
+  console-only: "<red>This command can only be executed in the server console.</red>"
+
   # Shown when a command that requires a player has invalid input.
   invalid-target: "<red><gray>{target}</gray> is not online or does not exist.</red>"
 
@@ -146,6 +149,18 @@ command:
 
     # Shown as the command output for '/combatlogx toggle scoreboard'.
     toggle-scoreboard: "<gray><bold>Scoreboard:</bold></gray> {status}"
+
+    # Shown as the command output for '/combatlogx about <expansion>'.
+    expansion-information:
+      - ""
+      - "<white><bold>Expansion Information for</bold> <green>{name}</green><bold>:</bold></white>"
+      - "<white><bold>Display Name:</bold></white> <gray>{prefix}</gray>"
+      - "<white><bold>Version:</bold></white> <gray>{version}</gray>"
+      - "<white><bold>State:</bold></white> <gray>{state}</gray>"
+      - ""
+      - "<white><bold>Description:</bold></white> <gray>{description}</gray>"
+      - "<white><bold>Website:</bold></white> <gray>{website}</gray>"
+      - "<white><bold>Authors:</bold></white> <gray>{authors}</gray>"
 
     forgive:
       toggle-disable: "<green>You can no longer receive requests for forgiveness.</green>"

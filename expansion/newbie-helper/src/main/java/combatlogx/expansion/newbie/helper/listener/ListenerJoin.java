@@ -1,5 +1,7 @@
 package combatlogx.expansion.newbie.helper.listener;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -29,7 +31,12 @@ public final class ListenerJoin extends ExpansionListener {
             return;
         }
 
-        ProtectionManager protectionManager = this.expansion.getProtectionManager();
+        NewbieHelperExpansion expansion = getNewbieHelper();
+        ProtectionManager protectionManager = expansion.getProtectionManager();
         protectionManager.setProtected(player, true);
+    }
+
+    private @NotNull NewbieHelperExpansion getNewbieHelper() {
+        return this.expansion;
     }
 }

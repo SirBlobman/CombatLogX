@@ -1,56 +1,55 @@
 package combatlogx.expansion.cheat.prevention.listener.paper;
 
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import io.papermc.paper.event.entity.EntityInsideBlockEvent;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-
+import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
+import combatlogx.expansion.cheat.prevention.configuration.ITeleportConfiguration;
 import combatlogx.expansion.cheat.prevention.listener.CheatPreventionListener;
+import org.jetbrains.annotations.NotNull;
 
 public final class ListenerPaperEntityInsideBlock extends CheatPreventionListener {
-    public ListenerPaperEntityInsideBlock(Expansion expansion) {
+    public ListenerPaperEntityInsideBlock(@NotNull ICheatPreventionExpansion expansion) {
         super(expansion);
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onEntityInsideBlock(EntityInsideBlockEvent e) {
-        printDebug("Detected EntityInsideBlockEvent...");
-
         Entity entity = e.getEntity();
         if (!(entity instanceof Player)) {
             return;
         }
 
         Player player = (Player) entity;
-        printDebug("Player: " + player.getName());
-
-        if (!isInCombat(player)) {
-            printDebug("Player is not in combat, ignoring.");
-            return;
+        if (isPreventPortals() && isInCombat(player)) {
+            check(player, e);
         }
+    }
 
-        YamlConfiguration configuration = getConfiguration();
-        if (!configuration.getBoolean("prevent-portals", true)) {
-            printDebug("prevent-portals is disabled, ignoring.");
-            return;
-        }
-
-        if (!e.getBlock().getBlockData().getMaterial().name().contains("PORTAL")) {
+    private void check(@NotNull Player player, @NotNull EntityInsideBlockEvent e) {
+        Block block = e.getBlock();
+        Material blockType = block.getType();
+        if (blockType != Material.END_PORTAL && blockType != Material.NETHER_PORTAL
+                && blockType != Material.END_GATEWAY) {
             return;
         }
 
         e.setCancelled(true);
         sendMessage(player, "expansion.cheat-prevention.teleportation.block-portal");
-        printDebug("prevent-portals is enabled, cancelled event and sent message.");
     }
 
-    private YamlConfiguration getConfiguration() {
-        ConfigurationManager configurationManager = getExpansionConfigurationManager();
-        return configurationManager.get("teleportation.yml");
+    private @NotNull ITeleportConfiguration getTeleportationConfiguration() {
+        ICheatPreventionExpansion expansion = getCheatPrevention();
+        return expansion.getTeleportConfiguration();
+    }
+
+    private boolean isPreventPortals() {
+        ITeleportConfiguration teleportationConfiguration = getTeleportationConfiguration();
+        return teleportationConfiguration.isPreventPortals();
     }
 }

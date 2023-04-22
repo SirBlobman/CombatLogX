@@ -1,5 +1,7 @@
 package combatlogx.expansion.boss.bar;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
@@ -24,9 +26,7 @@ public final class BossBarExpansion extends Expansion {
     @Override
     public void onEnable() {
         reloadConfig();
-
-        ICombatLogX plugin = getPlugin();
-        ITimerManager timerManager = plugin.getTimerManager();
+        ITimerManager timerManager = getTimerManager();
         timerManager.addUpdaterTask(new BossBarUpdater(this));
     }
 
@@ -45,7 +45,12 @@ public final class BossBarExpansion extends Expansion {
         configuration.load(yamlConfiguration);
     }
 
-    public BossBarConfiguration getConfiguration() {
+    public @NotNull BossBarConfiguration getConfiguration() {
         return this.configuration;
+    }
+
+    private @NotNull ITimerManager getTimerManager() {
+        ICombatLogX plugin = getPlugin();
+        return plugin.getTimerManager();
     }
 }

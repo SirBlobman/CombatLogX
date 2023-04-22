@@ -15,14 +15,16 @@ import com.github.sirblobman.api.language.replacer.StringReplacer;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.command.CombatLogPlayerCommand;
 
+import org.jetbrains.annotations.NotNull;
+
 public final class SubCommandToggle extends CombatLogPlayerCommand {
-    public SubCommandToggle(ICombatLogX plugin) {
+    public SubCommandToggle(@NotNull ICombatLogX plugin) {
         super(plugin, "toggle");
         setPermissionName("combatlogx.command.combatlogx.toggle");
     }
 
     @Override
-    protected List<String> onTabComplete(Player player, String[] args) {
+    protected @NotNull List<String> onTabComplete(@NotNull Player player, String @NotNull [] args) {
         if (args.length == 1) {
             return getMatching(args[0], "actionbar", "bossbar", "scoreboard");
         }
@@ -31,7 +33,7 @@ public final class SubCommandToggle extends CombatLogPlayerCommand {
     }
 
     @Override
-    protected boolean execute(Player player, String[] args) {
+    protected boolean execute(@NotNull Player player, String @NotNull [] args) {
         if (args.length < 1) {
             return false;
         }

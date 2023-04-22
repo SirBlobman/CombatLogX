@@ -13,19 +13,21 @@ dependencies {
 }
 
 tasks {
-    named<Jar>("jar") {
+    named("jar") {
         enabled = false
     }
 
     named<ShadowJar>("shadowJar") {
+        val expansionName = findProperty("expansion.name") ?: "invalid"
+        val expansionPrefix = findProperty("expansion.prefix") ?: expansionName
+        archiveFileName.set("$expansionPrefix.jar")
         archiveClassifier.set(null as String?)
-        val expansionName = findProperty("expansion.name") ?: project.name
-        archiveFileName.set("$expansionName.jar")
 
-        relocate("org.codemc.worldguardwrapper", "combatlogx.expansion.compatibility.region.world.guard.wrapper")
+        val basePath = "combatlogx.expansion.compatibility.region.world.guard"
+        relocate("org.codemc.worldguardwrapper", "$basePath.wrapper")
     }
 
-    build {
-        dependsOn(shadowJar)
+    named("build") {
+        dependsOn("shadowJar")
     }
 }

@@ -1,9 +1,9 @@
-name: "CompatBSkyBlock"
-prefix: "BSkyBlock Compatibility"
-description: "${project.description}"
+name: "${expansionName}"
+prefix: "${expansionPrefix}"
+description: "${expansionDescription}"
 
 main: "combatlogx.expansion.compatibility.bskyblock.BSkyBlockExpansion"
-version: "16.9"
+version: "17.0"
 author: "SirBlobman"
 
 plugin-depend:

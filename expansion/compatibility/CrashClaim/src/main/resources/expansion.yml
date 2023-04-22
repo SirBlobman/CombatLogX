@@ -1,9 +1,9 @@
-name: "CompatCrashClaim"
-prefix: "CrashClaim Compatibility"
-description: "${project.description}"
+name: "${expansionName}"
+prefix: "${expansionPrefix}"
+description: "${expansionDescription}"
 
 main: "combatlogx.expansion.compatibility.region.crash.claim.CrashClaimExpansion"
-version: "16.2"
+version: "17.0"
 author: "SirBlobman"
 
 plugin-depend:

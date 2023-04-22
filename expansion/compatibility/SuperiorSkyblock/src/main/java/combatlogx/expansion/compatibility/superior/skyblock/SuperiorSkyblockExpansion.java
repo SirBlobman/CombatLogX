@@ -1,37 +1,30 @@
 package combatlogx.expansion.compatibility.superior.skyblock;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.skyblock.SkyBlockExpansion;
+import com.github.sirblobman.combatlogx.api.expansion.skyblock.SkyBlockHandler;
 
-import combatlogx.expansion.compatibility.superior.skyblock.listener.ListenerSuperiorSkyblock;
+public final class SuperiorSkyblockExpansion extends SkyBlockExpansion {
+    private SkyBlockHandler<?> skyBlockHandler;
 
-public final class SuperiorSkyblockExpansion extends Expansion {
     public SuperiorSkyblockExpansion(ICombatLogX plugin) {
         super(plugin);
+        this.skyBlockHandler = null;
     }
 
     @Override
-    public void onLoad() {
-        // Do Nothing
+    public boolean checkDependencies() {
+        return checkDependency("SuperiorSkyblock2", true);
     }
 
     @Override
-    public void onEnable() {
-        if (!checkDependency("SuperiorSkyblock2", true)) {
-            selfDisable();
-            return;
+    public @NotNull SkyBlockHandler<?> getSkyBlockHandler() {
+        if (this.skyBlockHandler == null) {
+            this.skyBlockHandler = new SkyBlockHandlerSuperior(this);
         }
 
-        new ListenerSuperiorSkyblock(this).register();
-    }
-
-    @Override
-    public void onDisable() {
-        // Do Nothing
-    }
-
-    @Override
-    public void reloadConfig() {
-        // Do Nothing
+        return this.skyBlockHandler;
     }
 }

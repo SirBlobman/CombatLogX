@@ -1,14 +1,19 @@
 package combatlogx.expansion.compatibility.region.towny;
 
+import org.jetbrains.annotations.NotNull;
+
+import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 
 public final class TownyExpansion extends RegionExpansion {
-    private RegionHandler regionHandler;
+    private final TownyConfiguration configuration;
+    private RegionHandler<?> regionHandler;
 
     public TownyExpansion(ICombatLogX plugin) {
         super(plugin);
+        this.configuration = new TownyConfiguration();
         this.regionHandler = null;
     }
 
@@ -23,11 +28,22 @@ public final class TownyExpansion extends RegionExpansion {
     }
 
     @Override
-    public RegionHandler getRegionHandler() {
+    public void reloadConfig() {
+        super.reloadConfig();
+        ConfigurationManager configurationManager = getConfigurationManager();
+        getTownyConfiguration().load(configurationManager.get("config.yml"));
+    }
+
+    @Override
+    public @NotNull RegionHandler<?> getRegionHandler() {
         if (this.regionHandler == null) {
-            this.regionHandler = new TownyRegionHandler(this);
+            this.regionHandler = new RegionHandlerTowny(this);
         }
 
         return this.regionHandler;
+    }
+
+    public @NotNull TownyConfiguration getTownyConfiguration() {
+        return this.configuration;
     }
 }

@@ -1,19 +1,18 @@
 package combatlogx.expansion.cheat.prevention.listener.modern;
 
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.world.PortalCreateEvent;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-
+import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
+import combatlogx.expansion.cheat.prevention.configuration.IBlockConfiguration;
 import combatlogx.expansion.cheat.prevention.listener.CheatPreventionListener;
+import org.jetbrains.annotations.NotNull;
 
 public final class ListenerModernPortalCreate extends CheatPreventionListener {
-    public ListenerModernPortalCreate(Expansion expansion) {
+    public ListenerModernPortalCreate(@NotNull ICheatPreventionExpansion expansion) {
         super(expansion);
     }
 
@@ -25,19 +24,19 @@ public final class ListenerModernPortalCreate extends CheatPreventionListener {
         }
 
         Player player = (Player) entity;
-        if (isInCombat(player) && shouldPreventPortalCreation()) {
+        if (isPreventPortalCreation() && isInCombat(player)) {
             e.setCancelled(true);
             sendMessage(player, "expansion.cheat-prevention.blocks.prevent-portal-creation");
         }
     }
 
-    private YamlConfiguration getConfiguration() {
-        ConfigurationManager configurationManager = getExpansionConfigurationManager();
-        return configurationManager.get("blocks.yml");
+    private @NotNull IBlockConfiguration getBlockConfiguration() {
+        ICheatPreventionExpansion expansion = getCheatPrevention();
+        return expansion.getBlockConfiguration();
     }
 
-    private boolean shouldPreventPortalCreation() {
-        YamlConfiguration configuration = getConfiguration();
-        return configuration.getBoolean("prevent-portal-creation");
+    private boolean isPreventPortalCreation() {
+        IBlockConfiguration configuration = getBlockConfiguration();
+        return configuration.isPreventPortalCreation();
     }
 }

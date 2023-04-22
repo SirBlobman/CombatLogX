@@ -1,55 +1,47 @@
 package combatlogx.expansion.newbie.helper.manager;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.language.LanguageManager;
-import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 
 import combatlogx.expansion.newbie.helper.NewbieHelperExpansion;
+import combatlogx.expansion.newbie.helper.configuration.NewbieHelperConfiguration;
 
 public final class ProtectionManager {
     private final NewbieHelperExpansion expansion;
 
-    public ProtectionManager(NewbieHelperExpansion expansion) {
-        this.expansion = Validate.notNull(expansion, "expansion must not be null!");
+    public ProtectionManager(@NotNull NewbieHelperExpansion expansion) {
+        this.expansion = expansion;
     }
 
-    public void setProtected(Player player, boolean protect) {
-        Validate.notNull(player, "player must not be null!");
-        if (player.hasMetadata("NPC")) {
+    public void setProtected(@NotNull Player player, boolean protect) {
+        if (isNPC(player)) {
             return;
         }
 
-        ICombatLogX plugin = this.expansion.getPlugin();
-        PlayerDataManager playerDataManager = plugin.getPlayerDataManager();
-        YamlConfiguration playerData = playerDataManager.get(player);
-
-        if (!protect) {
-            playerData.set("newbie-helper.protected", false);
+        YamlConfiguration playerData = getPlayerData(player);
+        if (protect) {
+            long newExpireTime = getProtectionExpireTime();
+            playerData.set("newbie-helper.protection-expire-time", newExpireTime);
+        } else {
             playerData.set("newbie-helper.protection-expire-time", null);
-            playerDataManager.save(player);
-            return;
         }
 
-        long newExpireTime = getProtectionExpireTime();
-        playerData.set("newbie-helper.protected", true);
-        playerData.set("newbie-helper.protection-expire-time", newExpireTime);
-        playerDataManager.save(player);
+        playerData.set("newbie-helper.protected", protect);
+        savePlayerData(player);
     }
 
-    public boolean isProtected(Player player) {
-        Validate.notNull(player, "player must not be null!");
-        if (player.hasMetadata("NPC")) {
+    public boolean isProtected(@NotNull Player player) {
+        if (isNPC(player)) {
             return false;
         }
 
-        ICombatLogX plugin = this.expansion.getPlugin();
-        PlayerDataManager playerDataManager = plugin.getPlayerDataManager();
-        YamlConfiguration configuration = playerDataManager.get(player);
+        YamlConfiguration configuration = getPlayerData(player);
         if (!configuration.getBoolean("newbie-helper.protected")) {
             return false;
         }
@@ -61,20 +53,17 @@ public final class ProtectionManager {
         }
 
         setProtected(player, false);
-        LanguageManager languageManager = plugin.getLanguageManager();
+        LanguageManager languageManager = getLanguageManager();
         languageManager.sendMessage(player, "expansion.newbie-helper.protection-disabled.expired");
         return false;
     }
 
     public long getProtectionExpireTime(Player player) {
-        Validate.notNull(player, "player must not be null!");
-        if (player.hasMetadata("NPC")) {
+        if (isNPC(player)) {
             return 0L;
         }
 
-        ICombatLogX plugin = this.expansion.getPlugin();
-        PlayerDataManager playerDataManager = plugin.getPlayerDataManager();
-        YamlConfiguration configuration = playerDataManager.get(player);
+        YamlConfiguration configuration = getPlayerData(player);
         if (!configuration.getBoolean("newbie-helper.protected")) {
             return 0L;
         }
@@ -83,9 +72,46 @@ public final class ProtectionManager {
     }
 
     private long getProtectionExpireTime() {
-        ConfigurationManager configurationManager = this.expansion.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        long protectionMillis = configuration.getLong("protection-time");
+        NewbieHelperConfiguration configuration = getConfiguration();
+        long protectionMillis = configuration.getProtectionTime();
         return (System.currentTimeMillis() + protectionMillis);
+    }
+
+    private @NotNull NewbieHelperExpansion getExpansion() {
+        return this.expansion;
+    }
+
+    private @NotNull NewbieHelperConfiguration getConfiguration() {
+        NewbieHelperExpansion expansion = getExpansion();
+        return expansion.getConfiguration();
+    }
+
+    private @NotNull ICombatLogX getCombatLogX() {
+        NewbieHelperExpansion expansion = getExpansion();
+        return expansion.getPlugin();
+    }
+
+    private @NotNull LanguageManager getLanguageManager() {
+        ICombatLogX combatLogX = getCombatLogX();
+        return combatLogX.getLanguageManager();
+    }
+
+    private @NotNull PlayerDataManager getPlayerDataManager() {
+        ICombatLogX combatLogX = getCombatLogX();
+        return combatLogX.getPlayerDataManager();
+    }
+
+    private @NotNull YamlConfiguration getPlayerData(@NotNull Player player) {
+        PlayerDataManager playerDataManager = getPlayerDataManager();
+        return playerDataManager.get(player);
+    }
+
+    private void savePlayerData(@NotNull Player player) {
+        PlayerDataManager playerDataManager = getPlayerDataManager();
+        playerDataManager.save(player);
+    }
+
+    private boolean isNPC(@NotNull Player player) {
+        return player.hasMetadata("NPC");
     }
 }

@@ -1,9 +1,9 @@
-name: "CompatGriefDefender"
-prefix: "GriefDefender Compatibility"
-description: "${project.description}"
+name: "${expansionName}"
+prefix: "${expansionPrefix}"
+description: "${expansionDescription}"
 
 main: "combatlogx.expansion.compatibility.region.grief.defender.GriefDefenderExpansion"
-version: "16.4"
+version: "17.0"
 author: "SirBlobman"
 
 plugin-depend:

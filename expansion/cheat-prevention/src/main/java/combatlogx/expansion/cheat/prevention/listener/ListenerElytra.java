@@ -1,25 +1,26 @@
 package combatlogx.expansion.cheat.prevention.listener;
 
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityToggleGlideEvent;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+
+import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
+import combatlogx.expansion.cheat.prevention.configuration.IItemConfiguration;
+import org.jetbrains.annotations.NotNull;
 
 public final class ListenerElytra extends CheatPreventionListener {
-    public ListenerElytra(Expansion expansion) {
+    public ListenerElytra(@NotNull ICheatPreventionExpansion expansion) {
         super(expansion);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onTag(PlayerTagEvent e) {
         Player player = e.getPlayer();
-        if (player.isGliding() && shouldForcePrevent()) {
+        if (player.isGliding() && isForcePreventElytra()) {
             player.setGliding(false);
             sendMessage(player, "expansion.cheat-prevention.elytra.force-disabled");
         }
@@ -37,26 +38,24 @@ public final class ListenerElytra extends CheatPreventionListener {
         }
 
         Player player = (Player) entity;
-        if (isAllowed() || !isInCombat(player)) {
-            return;
+        if (isInCombat(player) && isPreventElytra()) {
+            e.setCancelled(true);
+            sendMessage(player, "expansion.cheat-prevention.elytra.no-gliding");
         }
-
-        e.setCancelled(true);
-        sendMessage(player, "expansion.cheat-prevention.elytra.no-gliding");
     }
 
-    private YamlConfiguration getConfiguration() {
-        ConfigurationManager configurationManager = getExpansionConfigurationManager();
-        return configurationManager.get("items.yml");
+    private @NotNull IItemConfiguration getItemConfiguration() {
+        ICheatPreventionExpansion expansion = getCheatPrevention();
+        return expansion.getItemConfiguration();
     }
 
-    private boolean isAllowed() {
-        YamlConfiguration configuration = getConfiguration();
-        return !configuration.getBoolean("prevent-elytra");
+    private boolean isPreventElytra() {
+        IItemConfiguration itemConfiguration = getItemConfiguration();
+        return itemConfiguration.isPreventElytra();
     }
 
-    private boolean shouldForcePrevent() {
-        YamlConfiguration configuration = getConfiguration();
-        return configuration.getBoolean("force-prevent-elytra", false);
+    private boolean isForcePreventElytra() {
+        IItemConfiguration itemConfiguration = getItemConfiguration();
+        return itemConfiguration.isForcePreventElytra();
     }
 }

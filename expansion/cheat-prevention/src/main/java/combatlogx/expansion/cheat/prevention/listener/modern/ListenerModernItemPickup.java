@@ -1,19 +1,18 @@
 package combatlogx.expansion.cheat.prevention.listener.modern;
 
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-
+import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
+import combatlogx.expansion.cheat.prevention.configuration.IItemConfiguration;
 import combatlogx.expansion.cheat.prevention.listener.CheatPreventionListener;
+import org.jetbrains.annotations.NotNull;
 
 public final class ListenerModernItemPickup extends CheatPreventionListener {
-    public ListenerModernItemPickup(Expansion expansion) {
+    public ListenerModernItemPickup(@NotNull ICheatPreventionExpansion expansion) {
         super(expansion);
     }
 
@@ -25,18 +24,19 @@ public final class ListenerModernItemPickup extends CheatPreventionListener {
         }
 
         Player player = (Player) entity;
-        if (isAllowed() || !isInCombat(player)) {
-            return;
+        if (isPreventPickup() && isInCombat(player)) {
+            e.setCancelled(true);
+            sendMessage(player, "expansion.cheat-prevention.items.no-pickup");
         }
-
-        e.setCancelled(true);
-        sendMessage(player, "expansion.cheat-prevention.items.no-pickup");
     }
 
-    private boolean isAllowed() {
-        Expansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("items.yml");
-        return !configuration.getBoolean("prevent-pickup");
+    private @NotNull IItemConfiguration getItemConfiguration() {
+        ICheatPreventionExpansion expansion = getCheatPrevention();
+        return expansion.getItemConfiguration();
+    }
+
+    private boolean isPreventPickup() {
+        IItemConfiguration itemConfiguration = getItemConfiguration();
+        return itemConfiguration.isPreventPickup();
     }
 }

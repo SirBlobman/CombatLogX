@@ -1,40 +1,36 @@
 package combatlogx.expansion.cheat.prevention.listener.paper;
 
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import io.papermc.paper.event.player.AsyncChatEvent;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-
+import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
+import combatlogx.expansion.cheat.prevention.configuration.IChatConfiguration;
 import combatlogx.expansion.cheat.prevention.listener.CheatPreventionListener;
+import org.jetbrains.annotations.NotNull;
 
 public final class ListenerPaperChat extends CheatPreventionListener {
-    public ListenerPaperChat(Expansion expansion) {
+    public ListenerPaperChat(@NotNull ICheatPreventionExpansion expansion) {
         super(expansion);
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onChat(AsyncChatEvent e) {
         Player player = e.getPlayer();
-        if (isEnabled() || !isInCombat(player)) {
-            return;
+        if (isChatDisabled() && isInCombat(player)) {
+            e.setCancelled(true);
+            sendMessage(player, "expansion.cheat-prevention.no-chat");
         }
-
-        e.setCancelled(true);
-        sendMessage(player, "expansion.cheat-prevention.no-chat");
     }
 
-    private YamlConfiguration getConfiguration() {
-        Expansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        return configurationManager.get("chat.yml");
+    private @NotNull IChatConfiguration getChatConfiguration() {
+        ICheatPreventionExpansion cheatPrevention = getCheatPrevention();
+        return cheatPrevention.getChatConfiguration();
     }
 
-    private boolean isEnabled() {
-        YamlConfiguration configuration = getConfiguration();
-        return !configuration.getBoolean("disable-chat");
+    private boolean isChatDisabled() {
+        IChatConfiguration chatConfiguration = getChatConfiguration();
+        return chatConfiguration.isDisableChat();
     }
 }

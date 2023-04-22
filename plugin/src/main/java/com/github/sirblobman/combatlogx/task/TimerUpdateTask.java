@@ -10,34 +10,35 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
-import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.ITimerManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TimerUpdater;
 
+import org.jetbrains.annotations.NotNull;
+
 public final class TimerUpdateTask implements ITimerManager, Runnable {
     private final ICombatLogX plugin;
     private final Set<TimerUpdater> timerUpdaterSet;
 
-    public TimerUpdateTask(ICombatLogX plugin) {
-        this.plugin = Validate.notNull(plugin, "plugin must not be null!");
+    public TimerUpdateTask(@NotNull ICombatLogX plugin) {
+        this.plugin = plugin;
         this.timerUpdaterSet = new HashSet<>();
     }
 
     @Override
-    public ICombatLogX getCombatLogX() {
+    public @NotNull ICombatLogX getCombatLogX() {
         return this.plugin;
     }
 
     @Override
-    public Set<TimerUpdater> getTimerUpdaters() {
+    public @NotNull Set<TimerUpdater> getTimerUpdaters() {
         return Collections.unmodifiableSet(this.timerUpdaterSet);
     }
 
     @Override
-    public void addUpdaterTask(TimerUpdater task) {
+    public void addUpdaterTask(@NotNull TimerUpdater task) {
         this.timerUpdaterSet.add(task);
     }
 
@@ -49,7 +50,7 @@ public final class TimerUpdateTask implements ITimerManager, Runnable {
     }
 
     @Override
-    public void remove(Player player) {
+    public void remove(@NotNull Player player) {
         Set<TimerUpdater> timerUpdaterSet = getTimerUpdaters();
         for (TimerUpdater timerUpdater : timerUpdaterSet) {
             timerUpdater.remove(player);
@@ -62,7 +63,7 @@ public final class TimerUpdateTask implements ITimerManager, Runnable {
         scheduler.scheduleSyncRepeatingTask(plugin, this, 5L, 10L);
     }
 
-    private void update(Player player) {
+    private void update(@NotNull Player player) {
         ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = plugin.getCombatManager();
         TagInformation tagInformation = combatManager.getTagInformation(player);

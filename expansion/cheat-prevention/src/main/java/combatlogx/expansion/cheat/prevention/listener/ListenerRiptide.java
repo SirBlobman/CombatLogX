@@ -1,38 +1,35 @@
 package combatlogx.expansion.cheat.prevention.listener;
 
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
+import combatlogx.expansion.cheat.prevention.configuration.IItemConfiguration;
+import org.jetbrains.annotations.NotNull;
 
 public final class ListenerRiptide extends CheatPreventionListener {
-    public ListenerRiptide(Expansion expansion) {
+    public ListenerRiptide(@NotNull ICheatPreventionExpansion expansion) {
         super(expansion);
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onMove(PlayerMoveEvent e) {
         Player player = e.getPlayer();
-        if (!player.isRiptiding() || !isInCombat(player) || isAllowed()) {
-            return;
+        if (isInCombat(player) && player.isRiptiding() && isPreventRiptide()) {
+            e.setCancelled(true);
+            sendMessage(player, "expansion.cheat-prevention.no-riptide");
         }
-
-        e.setCancelled(true);
-        sendMessage(player, "expansion.cheat-prevention.no-riptide");
     }
 
-    private YamlConfiguration getConfiguration() {
-        Expansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        return configurationManager.get("items.yml");
+    private @NotNull IItemConfiguration getItemConfiguration() {
+        ICheatPreventionExpansion expansion = getCheatPrevention();
+        return expansion.getItemConfiguration();
     }
 
-    private boolean isAllowed() {
-        YamlConfiguration configuration = getConfiguration();
-        return !configuration.getBoolean("prevent-riptide");
+    private boolean isPreventRiptide() {
+        IItemConfiguration itemConfiguration = getItemConfiguration();
+        return itemConfiguration.isPreventRiptide();
     }
 }

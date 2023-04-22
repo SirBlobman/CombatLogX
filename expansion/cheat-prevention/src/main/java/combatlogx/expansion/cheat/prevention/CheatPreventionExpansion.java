@@ -2,11 +2,37 @@ package combatlogx.expansion.cheat.prevention;
 
 import java.util.logging.Logger;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 
+import combatlogx.expansion.cheat.prevention.configuration.BlockConfiguration;
+import combatlogx.expansion.cheat.prevention.configuration.BucketConfiguration;
+import combatlogx.expansion.cheat.prevention.configuration.ChatConfiguration;
+import combatlogx.expansion.cheat.prevention.configuration.CheatPreventionConfiguration;
+import combatlogx.expansion.cheat.prevention.configuration.CommandConfiguration;
+import combatlogx.expansion.cheat.prevention.configuration.EntityConfiguration;
+import combatlogx.expansion.cheat.prevention.configuration.FlightConfiguration;
+import combatlogx.expansion.cheat.prevention.configuration.GameModeConfiguration;
+import combatlogx.expansion.cheat.prevention.configuration.IBlockConfiguration;
+import combatlogx.expansion.cheat.prevention.configuration.IBucketConfiguration;
+import combatlogx.expansion.cheat.prevention.configuration.IChatConfiguration;
+import combatlogx.expansion.cheat.prevention.configuration.ICommandConfiguration;
+import combatlogx.expansion.cheat.prevention.configuration.IConfiguration;
+import combatlogx.expansion.cheat.prevention.configuration.IEntityConfiguration;
+import combatlogx.expansion.cheat.prevention.configuration.IFlightConfiguration;
+import combatlogx.expansion.cheat.prevention.configuration.IGameModeConfiguration;
+import combatlogx.expansion.cheat.prevention.configuration.IInventoryConfiguration;
+import combatlogx.expansion.cheat.prevention.configuration.IItemConfiguration;
+import combatlogx.expansion.cheat.prevention.configuration.IPotionConfiguration;
+import combatlogx.expansion.cheat.prevention.configuration.ITeleportConfiguration;
+import combatlogx.expansion.cheat.prevention.configuration.InventoryConfiguration;
+import combatlogx.expansion.cheat.prevention.configuration.ItemConfiguration;
+import combatlogx.expansion.cheat.prevention.configuration.PotionConfiguration;
+import combatlogx.expansion.cheat.prevention.configuration.TeleportConfiguration;
 import combatlogx.expansion.cheat.prevention.listener.ListenerBlocks;
 import combatlogx.expansion.cheat.prevention.listener.ListenerBuckets;
 import combatlogx.expansion.cheat.prevention.listener.ListenerCommands;
@@ -31,9 +57,34 @@ import combatlogx.expansion.cheat.prevention.listener.paper.ListenerPaperEntityI
 import combatlogx.expansion.cheat.prevention.task.ElytraRetagTask;
 import combatlogx.expansion.cheat.prevention.task.FlightRetagTask;
 
-public final class CheatPreventionExpansion extends Expansion {
+public final class CheatPreventionExpansion extends Expansion implements ICheatPreventionExpansion {
+    private final CheatPreventionConfiguration configuration;
+    private final BlockConfiguration blockConfiguration;
+    private final BucketConfiguration bucketConfiguration;
+    private final ChatConfiguration chatConfiguration;
+    private final CommandConfiguration commandConfiguration;
+    private final EntityConfiguration entityConfiguration;
+    private final FlightConfiguration flightConfiguration;
+    private final GameModeConfiguration gameModeConfiguration;
+    private final InventoryConfiguration inventoryConfiguration;
+    private final ItemConfiguration itemConfiguration;
+    private final PotionConfiguration potionConfiguration;
+    private final TeleportConfiguration teleportConfiguration;
+
     public CheatPreventionExpansion(ICombatLogX plugin) {
         super(plugin);
+        this.configuration = new CheatPreventionConfiguration();
+        this.blockConfiguration = new BlockConfiguration();
+        this.bucketConfiguration = new BucketConfiguration();
+        this.chatConfiguration = new ChatConfiguration();
+        this.commandConfiguration = new CommandConfiguration();
+        this.entityConfiguration = new EntityConfiguration();
+        this.flightConfiguration = new FlightConfiguration();
+        this.gameModeConfiguration = new GameModeConfiguration();
+        this.inventoryConfiguration = new InventoryConfiguration();
+        this.itemConfiguration = new ItemConfiguration();
+        this.potionConfiguration = new PotionConfiguration();
+        this.teleportConfiguration = new TeleportConfiguration();
     }
 
     @Override
@@ -55,6 +106,7 @@ public final class CheatPreventionExpansion extends Expansion {
 
     @Override
     public void onEnable() {
+        reloadConfig();
         registerListeners();
         registerTasks();
 
@@ -85,6 +137,84 @@ public final class CheatPreventionExpansion extends Expansion {
         configurationManager.reload("items.yml");
         configurationManager.reload("potions.yml");
         configurationManager.reload("teleportation.yml");
+
+        getBlockConfiguration().load(configurationManager.get("blocks.yml"));
+        getBucketConfiguration().load(configurationManager.get("buckets.yml"));
+        getChatConfiguration().load(configurationManager.get("chat.yml"));
+        getCommandConfiguration().load(configurationManager.get("commands.yml"));
+        getConfiguration().load(configurationManager.get("config.yml"));
+        getEntityConfiguration().load(configurationManager.get("entities.yml"));
+        getFlightConfiguration().load(configurationManager.get("flight.yml"));
+        getGameModeConfiguration().load(configurationManager.get("game-mode.yml"));
+        getInventoryConfiguration().load(configurationManager.get("inventories.yml"));
+        getItemConfiguration().load(configurationManager.get("items.yml"));
+        getPotionConfiguration().load(configurationManager.get("potions.yml"));
+        getTeleportConfiguration().load(configurationManager.get("teleportation.yml"));
+    }
+
+    @Override
+    public @NotNull Expansion getExpansion() {
+        return this;
+    }
+
+    @Override
+    public @NotNull IConfiguration getConfiguration() {
+        return this.configuration;
+    }
+
+    @Override
+    public @NotNull IBlockConfiguration getBlockConfiguration() {
+        return this.blockConfiguration;
+    }
+
+    @Override
+    public @NotNull IBucketConfiguration getBucketConfiguration() {
+        return this.bucketConfiguration;
+    }
+
+    @Override
+    public @NotNull IChatConfiguration getChatConfiguration() {
+        return this.chatConfiguration;
+    }
+
+    @Override
+    public @NotNull ICommandConfiguration getCommandConfiguration() {
+        return this.commandConfiguration;
+    }
+
+    @Override
+    public @NotNull IEntityConfiguration getEntityConfiguration() {
+        return this.entityConfiguration;
+    }
+
+    @Override
+    public @NotNull IFlightConfiguration getFlightConfiguration() {
+        return this.flightConfiguration;
+    }
+
+    @Override
+    public @NotNull IGameModeConfiguration getGameModeConfiguration() {
+        return this.gameModeConfiguration;
+    }
+
+    @Override
+    public @NotNull IInventoryConfiguration getInventoryConfiguration() {
+        return this.inventoryConfiguration;
+    }
+
+    @Override
+    public @NotNull IItemConfiguration getItemConfiguration() {
+        return this.itemConfiguration;
+    }
+
+    @Override
+    public @NotNull IPotionConfiguration getPotionConfiguration() {
+        return this.potionConfiguration;
+    }
+
+    @Override
+    public @NotNull ITeleportConfiguration getTeleportConfiguration() {
+        return this.teleportConfiguration;
     }
 
     private void registerListeners() {

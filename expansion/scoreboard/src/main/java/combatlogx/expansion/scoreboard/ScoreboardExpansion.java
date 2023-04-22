@@ -4,6 +4,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.logging.Logger;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
@@ -19,7 +21,7 @@ public final class ScoreboardExpansion extends Expansion {
     private final CustomScoreboardManager scoreboardManager;
     private Boolean usePaperAPI;
 
-    public ScoreboardExpansion(ICombatLogX plugin) {
+    public ScoreboardExpansion(@NotNull ICombatLogX plugin) {
         super(plugin);
         this.configuration = new ScoreboardConfiguration();
         this.scoreboardManager = new CustomScoreboardManager(this);
@@ -70,16 +72,16 @@ public final class ScoreboardExpansion extends Expansion {
         configuration.load(yamlConfiguration);
     }
 
-    public CustomScoreboardManager getScoreboardManager() {
+    public @NotNull CustomScoreboardManager getScoreboardManager() {
         return this.scoreboardManager;
     }
 
-    public ScoreboardConfiguration getConfiguration() {
+    public @NotNull ScoreboardConfiguration getConfiguration() {
         return this.configuration;
     }
 
     @SuppressWarnings("JavaReflectionMemberAccess")
-    public boolean shouldUsePaperAPI() {
+    public boolean isPaperScoreboard() {
         if (this.usePaperAPI != null) {
             return this.usePaperAPI;
         }

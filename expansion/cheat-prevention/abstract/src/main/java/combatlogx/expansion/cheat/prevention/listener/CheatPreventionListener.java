@@ -4,31 +4,40 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.language.replacer.Replacer;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
+import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
+import combatlogx.expansion.cheat.prevention.configuration.IConfiguration;
+import org.jetbrains.annotations.NotNull;
+
 public abstract class CheatPreventionListener extends ExpansionListener {
+    private final ICheatPreventionExpansion expansion;
     private final Map<UUID, Map<String, Long>> messageCooldownMap;
 
-    public CheatPreventionListener(Expansion expansion) {
-        super(expansion);
+    public CheatPreventionListener(@NotNull ICheatPreventionExpansion expansion) {
+        super(expansion.getExpansion());
+        this.expansion = expansion;
         this.messageCooldownMap = new ConcurrentHashMap<>();
     }
 
-    protected final void sendMessageIgnoreCooldown(Player player, String key, Replacer... replacer) {
+    protected final @NotNull ICheatPreventionExpansion getCheatPrevention() {
+        return this.expansion;
+    }
+
+    protected final void sendMessageIgnoreCooldown(@NotNull Player player, @NotNull String key,
+                                                   Replacer @NotNull ... replacer) {
         LanguageManager languageManager = getLanguageManager();
         languageManager.sendMessageWithPrefix(player, key, replacer);
         addMessageCooldown(player, key);
     }
 
-    protected final void sendMessage(Player player, String key, Replacer... replacer) {
+    protected final void sendMessage(@NotNull Player player, @NotNull String key, Replacer @NotNull ... replacer) {
         long systemMillis = System.currentTimeMillis();
         long expireMillis = getCooldownExpireTime(player, key);
         if (systemMillis < expireMillis) {
@@ -39,12 +48,11 @@ public abstract class CheatPreventionListener extends ExpansionListener {
     }
 
     private long getNewMessageCooldownExpireTime() {
-        Expansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        long cooldownSeconds = configuration.getLong("message-cooldown");
+        ICheatPreventionExpansion cheatPrevention = getCheatPrevention();
+        IConfiguration configuration = cheatPrevention.getConfiguration();
+        long cooldownSeconds = configuration.getMessageCooldown();
 
-        long cooldownMillis = (cooldownSeconds * 1_000L);
+        long cooldownMillis = TimeUnit.SECONDS.toMillis(cooldownSeconds);
         long systemMillis = System.currentTimeMillis();
         return (systemMillis + cooldownMillis);
     }

@@ -21,6 +21,8 @@ import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TimerUpdater;
 
+import combatlogx.expansion.action.bar.configuration.ActionBarConfiguration;
+
 public final class ActionBarUpdater implements TimerUpdater {
     private final ActionBarExpansion expansion;
 

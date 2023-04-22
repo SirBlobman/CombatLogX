@@ -5,17 +5,12 @@
 # You should also ensure that this file is saved as UTF-8.
 
 # DO NOT change this value or your config may be corrupted
-generated-by-version: "${bukkit.plugin.version}"
+generated-by-version: "${pluginVersion}"
 
 # Should debug messages be sent to the console?
 # This option should be enabled if you are reporting an error or bug.
 # Default: false
 debug-mode: false
-
-# Should CombatLogX check for updates on SpigotMC?
-# CombatLogX will only inform you that an update exists, it does not download any jar files.
-# Default: true
-update-checker: true
 
 # These are toggles for the different broadcast messages
 broadcast:

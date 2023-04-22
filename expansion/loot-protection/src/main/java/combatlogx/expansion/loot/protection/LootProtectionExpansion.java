@@ -2,17 +2,22 @@ package combatlogx.expansion.loot.protection;
 
 import java.util.logging.Logger;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
+import combatlogx.expansion.loot.protection.configuration.LootProtectionConfiguration;
 import combatlogx.expansion.loot.protection.listener.ListenerLootProtection;
 
 public final class LootProtectionExpansion extends Expansion {
+    private final LootProtectionConfiguration configuration;
+
     public LootProtectionExpansion(ICombatLogX plugin) {
         super(plugin);
+        this.configuration = new LootProtectionConfiguration();
     }
 
     @Override
@@ -27,13 +32,11 @@ public final class LootProtectionExpansion extends Expansion {
         if (minorVersion < 16) {
             Logger logger = getLogger();
             logger.info("The loot protection expansion requires Spigot 1.16.5 or higher.");
-
-            ICombatLogX plugin = getPlugin();
-            ExpansionManager expansionManager = plugin.getExpansionManager();
-            expansionManager.disableExpansion(this);
+            selfDisable();
             return;
         }
 
+        reloadConfig();
         new ListenerLootProtection(this).register();
     }
 
@@ -46,5 +49,10 @@ public final class LootProtectionExpansion extends Expansion {
     public void reloadConfig() {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.reload("config.yml");
+        getConfiguration().load(configurationManager.get("config.yml"));
+    }
+
+    public @NotNull LootProtectionConfiguration getConfiguration() {
+        return this.configuration;
     }
 }

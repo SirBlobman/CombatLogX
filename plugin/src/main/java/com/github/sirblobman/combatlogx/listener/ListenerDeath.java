@@ -17,7 +17,6 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.language.ComponentHelper;
 import com.github.sirblobman.api.language.LanguageManager;
@@ -25,24 +24,25 @@ import com.github.sirblobman.api.shaded.adventure.text.Component;
 import com.github.sirblobman.api.shaded.adventure.text.minimessage.MiniMessage;
 import com.github.sirblobman.api.utility.paper.PaperChecker;
 import com.github.sirblobman.api.utility.paper.PaperHelper;
-import com.github.sirblobman.combatlogx.CombatPlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.configuration.PunishConfiguration;
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
 import com.github.sirblobman.combatlogx.api.manager.IDeathManager;
 import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
+import com.github.sirblobman.combatlogx.api.object.KillTime;
+
+import org.jetbrains.annotations.NotNull;
 
 public final class ListenerDeath extends CombatListener {
-
-    public ListenerDeath(CombatPlugin plugin) {
+    public ListenerDeath(@NotNull ICombatLogX plugin) {
         super(plugin);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onJoin(PlayerJoinEvent e) {
-        ConfigurationManager configurationManager = getPluginConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("punish.yml");
-        String killTime = configuration.getString("kill-time");
-        if (killTime == null || !killTime.equalsIgnoreCase("join")) {
+        PunishConfiguration punishConfiguration = getPunishConfiguration();
+        KillTime killTime = punishConfiguration.getKillTime();
+        if (killTime != KillTime.JOIN) {
             return;
         }
 
@@ -57,7 +57,8 @@ public final class ListenerDeath extends CombatListener {
         playerDataManager.save(player);
 
         IDeathManager deathManager = getDeathManager();
-        deathManager.kill(player, Collections.emptyList());
+        List<Entity> enemyList = Collections.emptyList();
+        deathManager.kill(player, enemyList);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -74,7 +75,8 @@ public final class ListenerDeath extends CombatListener {
         IDeathManager deathManager = getDeathManager();
 
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        scheduler.scheduleSyncDelayedTask(javaPlugin, () -> deathManager.stopTracking(player), 1L);
+        Runnable task = () -> deathManager.stopTracking(player);
+        scheduler.scheduleSyncDelayedTask(javaPlugin, task, 1L);
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -107,11 +109,14 @@ public final class ListenerDeath extends CombatListener {
         }
     }
 
-    private String getRandomDeathMessage() {
-        ConfigurationManager configurationManager = getPluginConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("punish.yml");
+    private PunishConfiguration getPunishConfiguration() {
+        ICombatLogX plugin = getCombatLogX();
+        return plugin.getPunishConfiguration();
+    }
 
-        List<String> customDeathMessageList = configuration.getStringList("custom-death-message-list");
+    private String getRandomDeathMessage() {
+        PunishConfiguration punishConfiguration = getPunishConfiguration();
+        List<String> customDeathMessageList = punishConfiguration.getCustomDeathMessages();
         if (customDeathMessageList.isEmpty()) {
             return null;
         }

@@ -7,8 +7,6 @@ import java.util.UUID;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
-import com.github.sirblobman.api.utility.Validate;
-
 import combatlogx.expansion.mob.tagger.MobTaggerExpansion;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,30 +14,25 @@ public final class SpawnReasonManager_Legacy implements ISpawnReasonManager {
     private final MobTaggerExpansion expansion;
     private final Map<UUID, SpawnReason> spawnReasonMap;
 
-    public SpawnReasonManager_Legacy(MobTaggerExpansion expansion) {
-        this.expansion = Validate.notNull(expansion, "expansion must not be null!");
+    public SpawnReasonManager_Legacy(@NotNull MobTaggerExpansion expansion) {
+        this.expansion = expansion;
         this.spawnReasonMap = new HashMap<>();
     }
 
     @Override
-    public MobTaggerExpansion getExpansion() {
+    public @NotNull MobTaggerExpansion getExpansion() {
         return this.expansion;
     }
 
     @NotNull
     @Override
-    public SpawnReason getSpawnReason(Entity entity) {
-        Validate.notNull(entity, "entity must not be null!");
-
+    public SpawnReason getSpawnReason(@NotNull Entity entity) {
         UUID entityId = entity.getUniqueId();
         return this.spawnReasonMap.getOrDefault(entityId, SpawnReason.DEFAULT);
     }
 
     @Override
-    public void setSpawnReason(Entity entity, SpawnReason spawnReason) {
-        Validate.notNull(entity, "entity must not be null!");
-        Validate.notNull(spawnReason, "spawnReason must not be null!");
-
+    public void setSpawnReason(@NotNull Entity entity, @NotNull SpawnReason spawnReason) {
         UUID entityId = entity.getUniqueId();
         this.spawnReasonMap.put(entityId, spawnReason);
     }

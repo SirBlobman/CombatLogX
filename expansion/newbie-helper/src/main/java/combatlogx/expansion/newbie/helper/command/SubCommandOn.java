@@ -1,33 +1,32 @@
 package combatlogx.expansion.newbie.helper.command;
 
-import java.util.Collections;
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import com.github.sirblobman.combatlogx.api.command.CombatLogPlayerCommand;
 
 import combatlogx.expansion.newbie.helper.NewbieHelperExpansion;
+import combatlogx.expansion.newbie.helper.configuration.NewbieHelperConfiguration;
 import combatlogx.expansion.newbie.helper.manager.PVPManager;
 
 public final class SubCommandOn extends CombatLogPlayerCommand {
     private final NewbieHelperExpansion expansion;
 
-    public SubCommandOn(NewbieHelperExpansion expansion) {
+    public SubCommandOn(@NotNull NewbieHelperExpansion expansion) {
         super(expansion.getPlugin(), "on");
         setPermissionName("combatlogx.command.togglepvp");
         this.expansion = expansion;
     }
 
     @Override
-    protected List<String> onTabComplete(Player player, String[] args) {
-        return Collections.emptyList();
-    }
-
-    @Override
-    protected boolean execute(Player player, String[] args) {
+    protected boolean execute(@NotNull Player player, String @NotNull [] args) {
         NewbieHelperExpansion expansion = getExpansion();
-        if (expansion.shouldCheckDisabledWorlds() && isWorldDisabled(player)) {
+        NewbieHelperConfiguration configuration = expansion.getConfiguration();
+
+        World world = player.getWorld();
+        if (configuration.isPreventPvpToggleInDisabledWorlds() && isWorldDisabled(world)) {
             sendMessageWithPrefix(player, "error.disabled-world");
             return true;
         }
@@ -38,7 +37,7 @@ public final class SubCommandOn extends CombatLogPlayerCommand {
         return true;
     }
 
-    private NewbieHelperExpansion getExpansion() {
+    private @NotNull NewbieHelperExpansion getExpansion() {
         return this.expansion;
     }
 }

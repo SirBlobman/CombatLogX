@@ -4,8 +4,10 @@ import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.command.CombatLogCommand;
 import com.github.sirblobman.combatlogx.command.combatlogx.forgive.SubCommandForgive;
 
+import org.jetbrains.annotations.NotNull;
+
 public final class CommandCombatLogX extends CombatLogCommand {
-    public CommandCombatLogX(ICombatLogX plugin) {
+    public CommandCombatLogX(@NotNull ICombatLogX plugin) {
         super(plugin, "combatlogx");
         setPermissionName("combatlogx.command.combatlogx");
 

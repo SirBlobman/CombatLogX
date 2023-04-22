@@ -57,7 +57,7 @@ rewards:
       # This example requirement ensures that the enemy killed has $500 in their Vault economy account
       # Requirements may exclude mobs if they require a player, even if mobs are included in the list
       # The only available requirements types at this time are 'economy' and 'experience'.
-      # Economy requires a decimal 'amount'. Experience requires a integer 'amount'.
+      # Economy requires a decimal 'amount'. Experience requires an integer 'amount'.
       economyExampleOne:
         type: economy
         check-enemy: true

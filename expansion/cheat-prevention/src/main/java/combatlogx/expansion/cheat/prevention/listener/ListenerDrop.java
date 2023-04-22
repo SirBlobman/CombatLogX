@@ -1,38 +1,35 @@
 package combatlogx.expansion.cheat.prevention.listener;
 
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerDropItemEvent;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
+import combatlogx.expansion.cheat.prevention.configuration.IItemConfiguration;
+import org.jetbrains.annotations.NotNull;
 
 public final class ListenerDrop extends CheatPreventionListener {
-    public ListenerDrop(Expansion expansion) {
+    public ListenerDrop(@NotNull ICheatPreventionExpansion expansion) {
         super(expansion);
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onDrop(PlayerDropItemEvent e) {
         Player player = e.getPlayer();
-        if (!isInCombat(player) || isAllowed()) {
-            return;
+        if (isPreventDrop() && isInCombat(player)) {
+            e.setCancelled(true);
+            sendMessage(player, "expansion.cheat-prevention.items.no-dropping");
         }
-
-        e.setCancelled(true);
-        sendMessage(player, "expansion.cheat-prevention.items.no-dropping");
     }
 
-    private YamlConfiguration getConfiguration() {
-        Expansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        return configurationManager.get("items.yml");
+    private @NotNull IItemConfiguration getItemConfiguration() {
+        ICheatPreventionExpansion expansion = getCheatPrevention();
+        return expansion.getItemConfiguration();
     }
 
-    private boolean isAllowed() {
-        YamlConfiguration configuration = getConfiguration();
-        return !configuration.getBoolean("prevent-drop");
+    private boolean isPreventDrop() {
+        IItemConfiguration itemConfiguration = getItemConfiguration();
+        return itemConfiguration.isPreventDrop();
     }
 }

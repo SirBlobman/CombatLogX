@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,7 +26,7 @@ public final class ListenerWorldGuard extends ExpansionListener {
     private final WorldGuardExpansion expansion;
     private final Set<UUID> preventTeleportLoop;
 
-    public ListenerWorldGuard(WorldGuardExpansion expansion) {
+    public ListenerWorldGuard(@NotNull WorldGuardExpansion expansion) {
         super(expansion);
         this.expansion = expansion;
         this.preventTeleportLoop = new HashSet<>();
@@ -59,15 +61,11 @@ public final class ListenerWorldGuard extends ExpansionListener {
         this.preventTeleportLoop.remove(playerId);
     }
 
-    private WorldGuardExpansion getWorldGuardExpansion() {
+    private @NotNull WorldGuardExpansion getWorldGuardExpansion() {
         return this.expansion;
     }
 
-    private boolean isNoTaggingRegion(Player player, Location location) {
-        if (player == null || location == null) {
-            return false;
-        }
-
+    private boolean isNoTaggingRegion(@NotNull Player player, @NotNull Location location) {
         WorldGuardExpansion expansion = getWorldGuardExpansion();
         HookWorldGuard hook = expansion.getHookWorldGuard();
         IWrappedFlag<Boolean> noTaggingFlag = hook.getNoTaggingFlag();

@@ -9,19 +9,21 @@ import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.command.CombatLogPlayerCommand;
 import com.github.sirblobman.combatlogx.api.manager.IForgiveManager;
 
+import org.jetbrains.annotations.NotNull;
+
 public final class SubCommandForgiveToggle extends CombatLogPlayerCommand {
-    public SubCommandForgiveToggle(ICombatLogX plugin) {
+    public SubCommandForgiveToggle(@NotNull ICombatLogX plugin) {
         super(plugin, "toggle");
         setPermissionName("combatlogx.command.combatlogx.forgive.toggle");
     }
 
     @Override
-    protected List<String> onTabComplete(Player player, String[] args) {
+    protected @NotNull List<String> onTabComplete(@NotNull Player player, String @NotNull [] args) {
         return Collections.emptyList();
     }
 
     @Override
-    protected boolean execute(Player player, String[] args) {
+    protected boolean execute(@NotNull Player player, String @NotNull [] args) {
         ICombatLogX combatLogX = getCombatLogX();
         IForgiveManager forgiveManager = combatLogX.getForgiveManager();
         boolean toggleValue = forgiveManager.getToggleValue(player);

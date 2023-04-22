@@ -1,7 +1,6 @@
 package com.github.sirblobman.combatlogx.listener;
 
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -11,12 +10,14 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.configuration.MainConfiguration;
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
 
+import org.jetbrains.annotations.NotNull;
+
 public final class ListenerInvulnerable extends CombatListener {
-    public ListenerInvulnerable(ICombatLogX plugin) {
+    public ListenerInvulnerable(@NotNull ICombatLogX plugin) {
         super(plugin);
     }
 
@@ -40,9 +41,9 @@ public final class ListenerInvulnerable extends CombatListener {
     }
 
     private boolean isDisabled() {
-        ConfigurationManager configurationManager = getPluginConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        return !configuration.getBoolean("remove-no-damage-cooldown");
+        ICombatLogX plugin = getCombatLogX();
+        MainConfiguration configuration = plugin.getConfiguration();
+        return !configuration.isRemoveNoDamageCooldown();
     }
 
     private void setVulnerableLater(Player player) {

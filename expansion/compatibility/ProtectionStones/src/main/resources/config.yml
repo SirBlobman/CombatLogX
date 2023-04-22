@@ -17,3 +17,7 @@ knockback-strength: 1.5
 # How much time (in seconds) should the plugin wait before sending another 'no-entry' message?
 # Default: 30
 message-cooldown: 30
+
+# Should CombatLogX prevent players from creating new protection areas during combat?
+# Default: true
+prevent-area-creation: true

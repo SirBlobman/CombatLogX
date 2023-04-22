@@ -13,6 +13,8 @@ import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 import combatlogx.expansion.compatibility.huskhomes.HuskHomesExpansion;
 import net.william278.huskhomes.event.TeleportWarmupEvent;
 import net.william278.huskhomes.teleport.Teleport;
+import net.william278.huskhomes.teleport.Teleportable;
+import net.william278.huskhomes.user.BukkitUser;
 
 public final class ListenerHuskHomes extends ExpansionListener {
     public ListenerHuskHomes(HuskHomesExpansion expansion) {
@@ -24,7 +26,13 @@ public final class ListenerHuskHomes extends ExpansionListener {
         printDebug("Detected TeleportWarmupEvent...");
 
         Teleport timedTeleport = e.getTimedTeleport();
-        UUID teleporterId = timedTeleport.teleporter.uuid;
+        Teleportable teleporter = timedTeleport.getTeleporter();
+        if (!(teleporter instanceof BukkitUser)) {
+            return;
+        }
+
+        BukkitUser bukkitTeleporter = (BukkitUser) teleporter;
+        UUID teleporterId = bukkitTeleporter.getUuid();
         printDebug("Teleporter ID: " + teleporterId);
 
         Player player = Bukkit.getPlayer(teleporterId);

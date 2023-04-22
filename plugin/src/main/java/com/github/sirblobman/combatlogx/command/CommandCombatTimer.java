@@ -16,14 +16,16 @@ import com.github.sirblobman.combatlogx.api.command.CombatLogPlayerCommand;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
 
+import org.jetbrains.annotations.NotNull;
+
 public final class CommandCombatTimer extends CombatLogPlayerCommand {
-    public CommandCombatTimer(ICombatLogX plugin) {
+    public CommandCombatTimer(@NotNull ICombatLogX plugin) {
         super(plugin, "combat-timer");
         setPermissionName("combatlogx.command.combat-timer");
     }
 
     @Override
-    protected List<String> onTabComplete(Player player, String[] args) {
+    protected @NotNull List<String> onTabComplete(@NotNull Player player, String @NotNull [] args) {
         if (args.length == 1) {
             Set<String> valueSet = getOnlinePlayerNames();
             return getMatching(args[0], valueSet);
@@ -33,7 +35,7 @@ public final class CommandCombatTimer extends CombatLogPlayerCommand {
     }
 
     @Override
-    protected boolean execute(Player player, String[] args) {
+    protected boolean execute(@NotNull Player player, String @NotNull [] args) {
         if (args.length < 1) {
             checkSelf(player);
             return true;
@@ -48,7 +50,7 @@ public final class CommandCombatTimer extends CombatLogPlayerCommand {
         return true;
     }
 
-    private void checkSelf(Player player) {
+    private void checkSelf(@NotNull Player player) {
         ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = plugin.getCombatManager();
         LanguageManager languageManager = getLanguageManager();
@@ -67,7 +69,7 @@ public final class CommandCombatTimer extends CombatLogPlayerCommand {
         sendMessageWithPrefix(player, "command.combat-timer.time-left-self", replacer);
     }
 
-    private void checkOther(Player player, Player target) {
+    private void checkOther(@NotNull Player player, @NotNull Player target) {
         ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = plugin.getCombatManager();
         LanguageManager languageManager = getLanguageManager();

@@ -1,32 +1,31 @@
 package combatlogx.expansion.compatibility.essentials.listener;
 
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Entity;
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.language.LanguageManager;
-import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
+import com.github.sirblobman.combatlogx.api.expansion.vanish.VanishExpansionListener;
 
 import com.earth2me.essentials.CommandSource;
-import com.earth2me.essentials.Essentials;
-import com.earth2me.essentials.User;
 import combatlogx.expansion.compatibility.essentials.EssentialsExpansion;
+import combatlogx.expansion.compatibility.essentials.EssentialsExpansionConfiguration;
 import net.ess3.api.IUser;
 import net.ess3.api.events.TPARequestEvent;
 
-public final class ListenerEssentials extends ExpansionListener {
-    public ListenerEssentials(EssentialsExpansion expansion) {
+public final class ListenerEssentials extends VanishExpansionListener {
+    private final EssentialsExpansion expansion;
+
+    public ListenerEssentials(@NotNull EssentialsExpansion expansion) {
         super(expansion);
+        this.expansion = expansion;
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onTeleportRequest(TPARequestEvent e) {
-        if (isTeleportRequestEnabled()) {
+        if (!isPreventTeleportRequest()) {
             return;
         }
 
@@ -36,11 +35,11 @@ public final class ListenerEssentials extends ExpansionListener {
             return;
         }
 
+        LanguageManager languageManager = getLanguageManager();
         if (isInCombat(player)) {
-            String messagePath = "expansion.essentials-compatibility.prevent-teleport-request-self";
-            LanguageManager languageManager = getLanguageManager();
-            languageManager.sendMessageWithPrefix(player, messagePath);
             e.setCancelled(true);
+            String messagePath = "expansion.essentials-compatibility.prevent-teleport-request-self";
+            languageManager.sendMessageWithPrefix(player, messagePath);
             return;
         }
 
@@ -51,52 +50,23 @@ public final class ListenerEssentials extends ExpansionListener {
         }
 
         if (isInCombat(target)) {
+            e.setCancelled(true);
             String messagePath = "expansion.essentials-compatibility.prevent-teleport-request-other";
-            LanguageManager languageManager = getLanguageManager();
             languageManager.sendMessageWithPrefix(player, messagePath);
-            e.setCancelled(true);
         }
     }
 
-    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-    public void beforeCombat(PlayerPreTagEvent e) {
-        Player player = e.getPlayer();
-        if (isVanished(player) && preventVanishSelfTag()) {
-            e.setCancelled(true);
-        }
-
-        Entity enemy = e.getEnemy();
-        if (enemy instanceof Player) {
-            Player other = (Player) enemy;
-            if (isVanished(other) && preventVanishOtherTag()) {
-                e.setCancelled(true);
-            }
-        }
+    private @NotNull EssentialsExpansion getEssentialsExpansion() {
+        return this.expansion;
     }
 
-    private YamlConfiguration getConfiguration() {
-        ConfigurationManager configurationManager = getExpansionConfigurationManager();
-        return configurationManager.get("config.yml");
+    private @NotNull EssentialsExpansionConfiguration getEssentialsConfiguration() {
+        EssentialsExpansion expansion = getEssentialsExpansion();
+        return expansion.getEssentialsConfiguration();
     }
 
-    private boolean isTeleportRequestEnabled() {
-        YamlConfiguration configuration = getConfiguration();
-        return !configuration.getBoolean("prevent-teleport-request");
-    }
-
-    private boolean preventVanishSelfTag() {
-        YamlConfiguration configuration = getConfiguration();
-        return configuration.getBoolean("prevent-vanish-tagging-self");
-    }
-
-    private boolean preventVanishOtherTag() {
-        YamlConfiguration configuration = getConfiguration();
-        return configuration.getBoolean("prevent-vanish-tagging-other");
-    }
-
-    private boolean isVanished(Player player) {
-        Essentials plugin = JavaPlugin.getPlugin(Essentials.class);
-        User user = plugin.getUser(player);
-        return user.isVanished();
+    private boolean isPreventTeleportRequest() {
+        EssentialsExpansionConfiguration configuration = getEssentialsConfiguration();
+        return configuration.isPreventTeleportRequest();
     }
 }

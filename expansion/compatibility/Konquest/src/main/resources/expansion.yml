@@ -1,9 +1,9 @@
-name: "CompatKonquest"
-prefix: "Konquest Compatibility"
-description: "${project.description}"
+name: "${expansionName}"
+prefix: "${expansionPrefix}"
+description: "${expansionDescription}"
 
 main: "combatlogx.expansion.compatibility.region.konquest.KonquestExpansion"
-version: "16.3"
+version: "17.0"
 author: "SirBlobman"
 
 plugin-depend:

@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -15,14 +17,14 @@ import combatlogx.expansion.newbie.helper.manager.PVPManager;
 public final class SubCommandAdminOff extends CombatLogCommand {
     private final NewbieHelperExpansion expansion;
 
-    public SubCommandAdminOff(NewbieHelperExpansion expansion) {
+    public SubCommandAdminOff(@NotNull NewbieHelperExpansion expansion) {
         super(expansion.getPlugin(), "off");
         setPermissionName("combatlogx.command.togglepvp.admin.off");
         this.expansion = expansion;
     }
 
     @Override
-    protected List<String> onTabComplete(CommandSender sender, String[] args) {
+    protected @NotNull List<String> onTabComplete(@NotNull CommandSender sender, String @NotNull [] args) {
         if (args.length == 1) {
             Set<String> valueSet = getOnlinePlayerNames();
             return getMatching(args[0], valueSet);
@@ -32,7 +34,7 @@ public final class SubCommandAdminOff extends CombatLogCommand {
     }
 
     @Override
-    protected boolean execute(CommandSender sender, String[] args) {
+    protected boolean execute(@NotNull CommandSender sender, String @NotNull [] args) {
         if (args.length < 1) {
             return false;
         }

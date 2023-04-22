@@ -15,59 +15,56 @@ import org.jetbrains.annotations.NotNull;
 
 public final class SpawnReasonManager_New implements ISpawnReasonManager {
     private final MobTaggerExpansion expansion;
+    private final NamespacedKey spawnReasonKey;
 
     public SpawnReasonManager_New(MobTaggerExpansion expansion) {
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
-    }
 
-    private JavaPlugin getPlugin() {
-        MobTaggerExpansion expansion = getExpansion();
         ICombatLogX combatLogX = expansion.getPlugin();
-        return combatLogX.getPlugin();
+        JavaPlugin plugin = combatLogX.getPlugin();
+        this.spawnReasonKey = new NamespacedKey(plugin, "mob_tagger_spawn_reason");
     }
 
-    private NamespacedKey getSpawnReasonKey() {
-        JavaPlugin plugin = getPlugin();
-        return new NamespacedKey(plugin, "mob_tagger_spawn_reason");
+    private @NotNull NamespacedKey getSpawnReasonKey() {
+        return this.spawnReasonKey;
     }
 
     @Override
-    public MobTaggerExpansion getExpansion() {
+    public @NotNull MobTaggerExpansion getExpansion() {
         return this.expansion;
     }
 
     @NotNull
     @Override
-    public SpawnReason getSpawnReason(Entity entity) {
-        Validate.notNull(entity, "entity must not be null!");
-
+    public SpawnReason getSpawnReason(@NotNull Entity entity) {
         NamespacedKey spawnReasonKey = getSpawnReasonKey();
-        PersistentDataContainer persistentDataContainer = entity.getPersistentDataContainer();
-        if (persistentDataContainer.has(spawnReasonKey, PersistentDataType.STRING)) {
-            String spawnReasonName = persistentDataContainer.get(spawnReasonKey, PersistentDataType.STRING);
-            try {
-                return SpawnReason.valueOf(spawnReasonName);
-            } catch (IllegalArgumentException ex) {
-                return SpawnReason.DEFAULT;
-            }
+        PersistentDataContainer dataContainer = entity.getPersistentDataContainer();
+        if (!dataContainer.has(spawnReasonKey, PersistentDataType.STRING)) {
+            return SpawnReason.DEFAULT;
         }
 
-        return SpawnReason.DEFAULT;
+        String spawnReasonName = dataContainer.get(spawnReasonKey, PersistentDataType.STRING);
+        if (spawnReasonName == null) {
+            return SpawnReason.DEFAULT;
+        }
+
+        try {
+            return SpawnReason.valueOf(spawnReasonName);
+        } catch(IllegalArgumentException ignored) {
+            return SpawnReason.DEFAULT;
+        }
     }
 
     @Override
-    public void setSpawnReason(Entity entity, SpawnReason spawnReason) {
-        Validate.notNull(entity, "entity must not be null!");
-        Validate.notNull(spawnReason, "spawnReason must not be null!");
-
+    public void setSpawnReason(@NotNull Entity entity, @NotNull SpawnReason spawnReason) {
         String spawnReasonName = spawnReason.name();
         NamespacedKey spawnReasonKey = getSpawnReasonKey();
-        PersistentDataContainer persistentDataContainer = entity.getPersistentDataContainer();
-        persistentDataContainer.set(spawnReasonKey, PersistentDataType.STRING, spawnReasonName);
+        PersistentDataContainer dataContainer = entity.getPersistentDataContainer();
+        dataContainer.set(spawnReasonKey, PersistentDataType.STRING, spawnReasonName);
     }
 
     @Override
     public void clear() {
-        // Do Nothing
+        // Empty Method
     }
 }

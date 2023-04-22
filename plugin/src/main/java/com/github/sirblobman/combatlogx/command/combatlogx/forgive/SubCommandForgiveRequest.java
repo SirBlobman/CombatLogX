@@ -16,14 +16,16 @@ import com.github.sirblobman.combatlogx.api.manager.IForgiveManager;
 import com.github.sirblobman.combatlogx.api.object.CombatTag;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
 
+import org.jetbrains.annotations.NotNull;
+
 public final class SubCommandForgiveRequest extends CombatLogPlayerCommand {
-    public SubCommandForgiveRequest(ICombatLogX plugin) {
+    public SubCommandForgiveRequest(@NotNull ICombatLogX plugin) {
         super(plugin, "request");
         setPermissionName("combatlogx.command.combatlogx.forgive.request");
     }
 
     @Override
-    protected List<String> onTabComplete(Player player, String[] args) {
+    protected @NotNull List<String> onTabComplete(@NotNull Player player, String @NotNull [] args) {
         if (args.length == 1) {
             List<String> valueSet = getEnemyPlayerNames(player);
             return getMatching(args[0], valueSet);
@@ -33,7 +35,7 @@ public final class SubCommandForgiveRequest extends CombatLogPlayerCommand {
     }
 
     @Override
-    protected boolean execute(Player player, String[] args) {
+    protected boolean execute(@NotNull Player player, String @NotNull [] args) {
         ICombatLogX combatLogX = getCombatLogX();
         ICombatManager combatManager = combatLogX.getCombatManager();
         TagInformation tagInformation = combatManager.getTagInformation(player);

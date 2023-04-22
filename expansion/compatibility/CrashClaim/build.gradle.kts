@@ -3,5 +3,5 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.github.WhipDevelopment:CrashClaim:ccecd8e779")
+    compileOnly("com.github.WhipDevelopment:CrashClaim:344ef20be5")
 }

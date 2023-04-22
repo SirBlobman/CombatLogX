@@ -1,7 +1,8 @@
 package combatlogx.expansion.rewards;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
@@ -9,17 +10,17 @@ import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
+import combatlogx.expansion.rewards.configuration.RewardConfiguration;
 import combatlogx.expansion.rewards.hook.HookVault;
 import combatlogx.expansion.rewards.listener.ListenerRewards;
-import combatlogx.expansion.rewards.manager.RewardManager;
 
 public final class RewardExpansion extends Expansion {
-    private final RewardManager rewardManager;
+    private final RewardConfiguration configuration;
     private HookVault hookVault;
 
     public RewardExpansion(ICombatLogX plugin) {
         super(plugin);
-        this.rewardManager = new RewardManager(this);
+        this.configuration = new RewardConfiguration(this);
         this.hookVault = null;
     }
 
@@ -44,9 +45,7 @@ public final class RewardExpansion extends Expansion {
             return;
         }
 
-        RewardManager rewardManager = getRewardManager();
-        rewardManager.loadRewards();
-
+        reloadConfig();
         new ListenerRewards(this).register();
     }
 
@@ -59,28 +58,14 @@ public final class RewardExpansion extends Expansion {
     public void reloadConfig() {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.reload("config.yml");
-
-        RewardManager rewardManager = getRewardManager();
-        rewardManager.loadRewards();
+        getConfiguration().load(configurationManager.get("config.yml"));
     }
 
-    public RewardManager getRewardManager() {
-        return this.rewardManager;
+    public @NotNull RewardConfiguration getConfiguration() {
+        return this.configuration;
     }
 
-    public HookVault getVaultHook() {
+    public @NotNull HookVault getVaultHook() {
         return this.hookVault;
-    }
-
-    public boolean usePlaceholderAPI() {
-        ConfigurationManager configurationManager = getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        boolean usePlaceholderAPI = configuration.getBoolean("hooks.placeholderapi");
-        if (usePlaceholderAPI) {
-            PluginManager pluginManager = Bukkit.getPluginManager();
-            return pluginManager.isPluginEnabled("PlaceholderAPI");
-        }
-
-        return false;
     }
 }

@@ -1,9 +1,9 @@
-name: "CompatPlaceholderAPI"
-prefix: "PlaceholderAPI Compatibility"
-description: "${project.description}"
+name: "${expansionName}"
+prefix: "${expansionPrefix}"
+description: "${expansionDescription}"
 
 main: "combatlogx.expansion.compatibility.placeholderapi.PlaceholderAPIExpansion"
-version: "17.0"
+version: "17.1"
 author: "SirBlobman"
 
 plugin-depend:

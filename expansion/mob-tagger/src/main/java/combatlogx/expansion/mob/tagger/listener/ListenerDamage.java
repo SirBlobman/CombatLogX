@@ -1,8 +1,8 @@
 package combatlogx.expansion.mob.tagger.listener;
 
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -16,17 +16,18 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerFishEvent.State;
 import org.bukkit.permissions.Permission;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.configuration.MainConfiguration;
 import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
+import com.github.sirblobman.combatlogx.api.manager.ICrystalManager;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.github.sirblobman.combatlogx.api.utility.EntityHelper;
 
 import combatlogx.expansion.mob.tagger.MobTaggerExpansion;
+import combatlogx.expansion.mob.tagger.configuration.MobTaggerConfiguration;
 import combatlogx.expansion.mob.tagger.manager.ISpawnReasonManager;
 
 public final class ListenerDamage extends ExpansionListener {
@@ -35,15 +36,6 @@ public final class ListenerDamage extends ExpansionListener {
     public ListenerDamage(MobTaggerExpansion expansion) {
         super(expansion);
         this.expansion = expansion;
-    }
-
-    private MobTaggerExpansion getMobTaggerExpansion() {
-        return this.expansion;
-    }
-
-    private ISpawnReasonManager getSpawnReasonManager() {
-        MobTaggerExpansion expansion = getMobTaggerExpansion();
-        return expansion.getSpawnReasonManager();
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -63,14 +55,15 @@ public final class ListenerDamage extends ExpansionListener {
         }
 
         EntityType entityType = enemy.getType();
-        if (isDisabled(entityType)) {
+        MobTaggerConfiguration configuration = getConfiguration();
+        if (configuration.shouldNotTag(entityType)) {
             printDebug("EntityType " + entityType + " is disabled, cancelling event.");
             e.setCancelled(true);
             return;
         }
 
         SpawnReason spawnReason = getSpawnReason(enemy);
-        if (isDisabled(spawnReason)) {
+        if (configuration.shouldNotTag(spawnReason)) {
             printDebug("SpawnReason " + spawnReason + " is disabled, cancelling event.");
             e.setCancelled(true);
         }
@@ -86,9 +79,9 @@ public final class ListenerDamage extends ExpansionListener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onFish(PlayerFishEvent e) {
-        ConfigurationManager configurationManager = getPluginConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        if (!configuration.getBoolean("link-fishing-rod")) {
+        ICombatLogX combatLogX = getCombatLogX();
+        MainConfiguration configuration = combatLogX.getConfiguration();
+        if (!configuration.isLinkFishingRod()) {
             return;
         }
 
@@ -112,60 +105,62 @@ public final class ListenerDamage extends ExpansionListener {
         SpawnReason spawnReason = e.getSpawnReason();
 
         ISpawnReasonManager spawnReasonManager = getSpawnReasonManager();
-        spawnReasonManager.setSpawnReason(entity, spawnReason);
+        if (spawnReasonManager != null) {
+            spawnReasonManager.setSpawnReason(entity, spawnReason);
+        }
     }
 
-    private Entity getDamager(EntityDamageByEntityEvent e) {
+    private @NotNull MobTaggerExpansion getMobTaggerExpansion() {
+        return this.expansion;
+    }
+
+    private @NotNull MobTaggerConfiguration getConfiguration() {
+        MobTaggerExpansion expansion = getMobTaggerExpansion();
+        return expansion.getConfiguration();
+    }
+
+    private @Nullable ISpawnReasonManager getSpawnReasonManager() {
+        MobTaggerExpansion expansion = getMobTaggerExpansion();
+        return expansion.getSpawnReasonManager();
+    }
+
+    private @NotNull Entity getDamager(@NotNull EntityDamageByEntityEvent e) {
+        Entity entity = e.getDamager();
+        return getDamager(entity);
+    }
+
+    private @NotNull Entity getDamager(@NotNull Entity entity) {
         ICombatLogX plugin = getCombatLogX();
-        ConfigurationManager configurationManager = plugin.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
+        MainConfiguration configuration = plugin.getConfiguration();
 
-        Entity damager = e.getDamager();
-        if (configuration.getBoolean("link-projectiles")) {
-            damager = EntityHelper.linkProjectile(getCombatLogX(), damager);
+        if (configuration.isLinkProjectiles()) {
+            entity = EntityHelper.linkProjectile(plugin, entity);
         }
 
-        if (configuration.getBoolean("link-pets")) {
-            damager = EntityHelper.linkPet(damager);
+        if (configuration.isLinkPets()) {
+            entity = EntityHelper.linkPet(entity);
         }
 
-        if (configuration.getBoolean("link-tnt")) {
-            damager = EntityHelper.linkTNT(damager);
+        if (configuration.isLinkTnt()) {
+            entity = EntityHelper.linkTNT(entity);
         }
 
-        return damager;
+        if (configuration.isLinkEndCrystals()) {
+            ICombatLogX combatLogX = getCombatLogX();
+            ICrystalManager crystalManager = combatLogX.getCrystalManager();
+
+            Player player = crystalManager.getPlacer(entity);
+            if (player != null) {
+                entity = player;
+            }
+        }
+
+        return entity;
     }
 
-    private boolean isDisabled(EntityType entityType) {
-        if (entityType == null || entityType == EntityType.PLAYER || !entityType.isAlive()) {
-            return true;
-        }
-
-        Expansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-
-        List<String> mobList = configuration.getStringList("mob-list");
-        if (mobList.contains("*")) {
-            return false;
-        }
-
-        String entityTypeName = entityType.name();
-        return !mobList.contains(entityTypeName);
-    }
-
-    private boolean isDisabled(SpawnReason spawnReason) {
-        if (spawnReason == null) {
-            return true;
-        }
-
-        Expansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        List<String> spawnReasonList = configuration.getStringList("spawn-reason-list");
-
-        String spawnReasonName = spawnReason.name();
-        return spawnReasonList.contains(spawnReasonName);
+    private boolean isDisabled(@NotNull SpawnReason spawnReason) {
+        MobTaggerConfiguration configuration = getConfiguration();
+        return configuration.shouldNotTag(spawnReason);
     }
 
     private void checkTag(Entity entity, Entity enemy, TagReason tagReason) {
@@ -183,7 +178,8 @@ public final class ListenerDamage extends ExpansionListener {
         }
 
         EntityType enemyType = enemy.getType();
-        if (isDisabled(enemyType)) {
+        MobTaggerConfiguration configuration = getConfiguration();
+        if (configuration.shouldNotTag(enemyType)) {
             printDebug("Enemy type '" + enemyType + "' is disabled, ignoring.");
             return;
         }
@@ -206,11 +202,16 @@ public final class ListenerDamage extends ExpansionListener {
         }
 
         ISpawnReasonManager spawnReasonManager = getSpawnReasonManager();
+        if (spawnReasonManager == null) {
+            return SpawnReason.DEFAULT;
+        }
+
         return spawnReasonManager.getSpawnReason(entity);
     }
 
     private boolean hasBypassPermission(Player player) {
-        Permission bypassPermission = this.expansion.getMobCombatBypassPermission();
+        MobTaggerConfiguration configuration = getConfiguration();
+        Permission bypassPermission = configuration.getBypassPermission();
         if (bypassPermission == null) {
             return false;
         }

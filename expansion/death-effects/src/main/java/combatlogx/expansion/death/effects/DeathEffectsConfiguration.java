@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.configuration.ConfigurationSection;
 
 import com.github.sirblobman.api.configuration.IConfigurable;
@@ -33,9 +35,8 @@ public final class DeathEffectsConfiguration implements IConfigurable {
         this.bloodItemsStayTicks = 100L;
     }
 
-
     @Override
-    public void load(ConfigurationSection section) {
+    public void load(@NotNull ConfigurationSection section) {
         setRequireCombatDeath(section.getBoolean("combat-death-only", true));
         setDeathEffectList(section.getStringList("death-effect-list"));
 

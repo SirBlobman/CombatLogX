@@ -3,7 +3,6 @@ package com.github.sirblobman.combatlogx.listener;
 import java.util.List;
 import java.util.Locale;
 
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,10 +10,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.language.LanguageManager;
-import com.github.sirblobman.combatlogx.CombatPlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.configuration.CommandConfiguration;
+import com.github.sirblobman.combatlogx.api.configuration.PunishConfiguration;
 import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
@@ -22,8 +21,10 @@ import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 import com.github.sirblobman.combatlogx.api.manager.IPunishManager;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 
+import org.jetbrains.annotations.NotNull;
+
 public final class ListenerUntag extends CombatListener {
-    public ListenerUntag(CombatPlugin plugin) {
+    public ListenerUntag(@NotNull ICombatLogX plugin) {
         super(plugin);
     }
 
@@ -68,12 +69,15 @@ public final class ListenerUntag extends CombatListener {
 
     private boolean isKickReasonIgnored(String kickReason) {
         ICombatLogX plugin = getCombatLogX();
-        ConfigurationManager configurationManager = plugin.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("punish.yml");
+        PunishConfiguration punishConfiguration = plugin.getPunishConfiguration();
 
-        List<String> kickIgnoreList = configuration.getStringList("kick-ignore-list");
+        List<String> kickIgnoreList = punishConfiguration.getKickIgnoreList();
         if (kickIgnoreList.isEmpty()) {
             return false;
+        }
+
+        if (kickIgnoreList.contains("*")) {
+            return true;
         }
 
         for (String kickIgnoreMessage : kickIgnoreList) {
@@ -101,14 +105,13 @@ public final class ListenerUntag extends CombatListener {
     }
 
     private void runUntagCommands(Player player, List<Entity> enemyList) {
-        ConfigurationManager configurationManager = getPluginConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("commands.yml");
-        List<String> untagCommandList = configuration.getStringList("untag-command-list");
+        ICombatLogX plugin = getCombatLogX();
+        CommandConfiguration commandConfiguration = plugin.getCommandConfiguration();
+        List<String> untagCommandList = commandConfiguration.getUntagCommands();
         if (untagCommandList.isEmpty()) {
             return;
         }
 
-        ICombatLogX plugin = getCombatLogX();
         IPlaceholderManager placeholderManager = plugin.getPlaceholderManager();
         placeholderManager.runReplacedCommands(player, enemyList, untagCommandList);
     }

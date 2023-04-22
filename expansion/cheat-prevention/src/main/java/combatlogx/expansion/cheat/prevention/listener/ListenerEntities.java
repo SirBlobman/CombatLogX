@@ -1,38 +1,35 @@
 package combatlogx.expansion.cheat.prevention.listener;
 
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
+import combatlogx.expansion.cheat.prevention.configuration.IEntityConfiguration;
+import org.jetbrains.annotations.NotNull;
 
 public final class ListenerEntities extends CheatPreventionListener {
-    public ListenerEntities(Expansion expansion) {
+    public ListenerEntities(@NotNull ICheatPreventionExpansion expansion) {
         super(expansion);
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onInteract(PlayerInteractEntityEvent e) {
         Player player = e.getPlayer();
-        if (isEnabled() || !isInCombat(player)) {
-            return;
+        if (isInCombat(player) && isPreventInteraction()) {
+            e.setCancelled(true);
+            sendMessage(player, "expansion.cheat-prevention.no-entity-interaction");
         }
-
-        e.setCancelled(true);
-        sendMessage(player, "expansion.cheat-prevention.no-entity-interaction");
     }
 
-    private YamlConfiguration getConfiguration() {
-        Expansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        return configurationManager.get("entities.yml");
+    private @NotNull IEntityConfiguration getEntityConfiguration() {
+        ICheatPreventionExpansion expansion = getCheatPrevention();
+        return expansion.getEntityConfiguration();
     }
 
-    private boolean isEnabled() {
-        YamlConfiguration configuration = getConfiguration();
-        return !configuration.getBoolean("prevent-interaction");
+    private boolean isPreventInteraction() {
+        IEntityConfiguration entityConfiguration = getEntityConfiguration();
+        return entityConfiguration.isPreventInteraction();
     }
 }

@@ -13,13 +13,15 @@ import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * This task is used to untag players from combat. It runs every 10 ticks.
  */
 public final class UntagTask implements Runnable {
     private final ICombatLogX plugin;
 
-    public UntagTask(ICombatLogX plugin) {
+    public UntagTask(@NotNull ICombatLogX plugin) {
         this.plugin = Validate.notNull(plugin, "plugin must not be null!");
     }
 
@@ -31,15 +33,19 @@ public final class UntagTask implements Runnable {
 
     @Override
     public void run() {
-        ICombatManager combatManager = this.plugin.getCombatManager();
+        ICombatLogX plugin = getPlugin();
+        ICombatManager combatManager = plugin.getCombatManager();
         List<Player> playerCombatList = combatManager.getPlayersInCombat();
+
         for (Player player : playerCombatList) {
             TagInformation tagInformation = combatManager.getTagInformation(player);
-            if (tagInformation != null) {
-                if (tagInformation.isExpired()) {
-                    combatManager.untag(player, UntagReason.EXPIRE);
-                }
+            if (tagInformation != null && tagInformation.isExpired()) {
+                combatManager.untag(player, UntagReason.EXPIRE);
             }
         }
+    }
+
+    private @NotNull ICombatLogX getPlugin() {
+        return this.plugin;
     }
 }

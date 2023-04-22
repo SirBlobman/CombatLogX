@@ -1,21 +1,20 @@
 package combatlogx.expansion.cheat.prevention.listener;
 
-import java.util.List;
-
 import org.bukkit.Material;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.shaded.xseries.XMaterial;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+
+import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
+import combatlogx.expansion.cheat.prevention.configuration.IBucketConfiguration;
+import org.jetbrains.annotations.NotNull;
 
 public final class ListenerBuckets extends CheatPreventionListener {
-    public ListenerBuckets(Expansion expansion) {
+    public ListenerBuckets(@NotNull ICheatPreventionExpansion expansion) {
         super(expansion);
     }
 
@@ -25,7 +24,7 @@ public final class ListenerBuckets extends CheatPreventionListener {
         Material bukkitMaterial = e.getBucket();
         XMaterial material = XMaterial.matchXMaterial(bukkitMaterial);
 
-        if (isInCombat(player) && shouldPreventEmpty(material)) {
+        if (isInCombat(player) && isPreventEmpty(material)) {
             e.setCancelled(true);
             sendMessage(player, "expansion.cheat-prevention.buckets.no-empty");
         }
@@ -37,33 +36,24 @@ public final class ListenerBuckets extends CheatPreventionListener {
         Material bukkitMaterial = e.getBucket();
         XMaterial material = XMaterial.matchXMaterial(bukkitMaterial);
 
-        if (isInCombat(player) && shouldPreventFill(material)) {
+        if (isInCombat(player) && isPreventFill(material)) {
             e.setCancelled(true);
             sendMessage(player, "expansion.cheat-prevention.buckets.no-fill");
         }
     }
 
-    private YamlConfiguration getConfiguration() {
-        Expansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        return configurationManager.get("buckets.yml");
+    private @NotNull IBucketConfiguration getBucketConfiguration() {
+        ICheatPreventionExpansion expansion = getCheatPrevention();
+        return expansion.getBucketConfiguration();
     }
 
-    private boolean shouldPreventEmpty(XMaterial material) {
-        YamlConfiguration configuration = getConfiguration();
-        if (!configuration.getBoolean("prevent-bucket-empty", false)) return false;
-
-        String materialName = material.name();
-        List<String> preventList = configuration.getStringList("prevent-bucket-empty-list");
-        return preventList.contains(materialName);
+    private boolean isPreventEmpty(@NotNull XMaterial material) {
+        IBucketConfiguration bucketConfiguration = getBucketConfiguration();
+        return bucketConfiguration.isPreventEmpty(material);
     }
 
-    private boolean shouldPreventFill(XMaterial material) {
-        YamlConfiguration configuration = getConfiguration();
-        if (!configuration.getBoolean("prevent-bucket-fill", false)) return false;
-
-        String materialName = material.name();
-        List<String> preventList = configuration.getStringList("prevent-bucket-fill-list");
-        return preventList.contains(materialName);
+    private boolean isPreventFill(@NotNull XMaterial material) {
+        IBucketConfiguration bucketConfiguration = getBucketConfiguration();
+        return bucketConfiguration.isPreventFill(material);
     }
 }

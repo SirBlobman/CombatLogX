@@ -1,7 +1,7 @@
-name: "LootProtection"
-prefix: "Loot Protection"
-description: "${project.description}"
+name: "${expansionName}"
+prefix: "${expansionPrefix}"
+description: "${expansionDescription}"
 
 main: "combatlogx.expansion.loot.protection.LootProtectionExpansion"
-version: "17.0"
+version: "17.1"
 author: "olivolja3 (Olivo#3313)"

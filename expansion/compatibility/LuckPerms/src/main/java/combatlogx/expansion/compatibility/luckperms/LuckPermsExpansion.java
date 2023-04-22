@@ -24,7 +24,6 @@ public final class LuckPermsExpansion extends Expansion {
         }
 
         registerContexts();
-        HookNewbieHelper.registerContexts(this);
     }
 
     @Override
@@ -39,5 +38,6 @@ public final class LuckPermsExpansion extends Expansion {
 
     private void registerContexts() {
         new ContextInCombat(this).register();
+        HookNewbieHelper.registerContexts(this);
     }
 }

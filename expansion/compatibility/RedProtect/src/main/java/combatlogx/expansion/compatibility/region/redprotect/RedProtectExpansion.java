@@ -1,13 +1,15 @@
 package combatlogx.expansion.compatibility.region.redprotect;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 
 public final class RedProtectExpansion extends RegionExpansion {
-    private RegionHandler regionHandler;
+    private RegionHandler<?> regionHandler;
 
-    public RedProtectExpansion(ICombatLogX plugin) {
+    public RedProtectExpansion(@NotNull ICombatLogX plugin) {
         super(plugin);
         this.regionHandler = null;
     }
@@ -18,9 +20,9 @@ public final class RedProtectExpansion extends RegionExpansion {
     }
 
     @Override
-    public RegionHandler getRegionHandler() {
+    public RegionHandler<?> getRegionHandler() {
         if (this.regionHandler == null) {
-            this.regionHandler = new RedProtectRegionHandler(this);
+            this.regionHandler = new RegionHandlerRedProtect(this);
         }
 
         return this.regionHandler;

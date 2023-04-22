@@ -1,44 +1,32 @@
 package combatlogx.expansion.compatibility.supervanish;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
+import org.jetbrains.annotations.NotNull;
+
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
+import com.github.sirblobman.combatlogx.api.expansion.vanish.VanishExpansion;
+import com.github.sirblobman.combatlogx.api.expansion.vanish.VanishHandler;
 
-import combatlogx.expansion.compatibility.supervanish.listener.ListenerVanish;
+public final class SuperVanishExpansion extends VanishExpansion {
+    private VanishHandler<?> vanishHandler;
 
-public final class SuperVanishExpansion extends Expansion {
     public SuperVanishExpansion(ICombatLogX plugin) {
         super(plugin);
+        this.vanishHandler = null;
     }
 
     @Override
-    public void onLoad() {
-        ConfigurationManager configurationManager = getConfigurationManager();
-        configurationManager.saveDefault("config.yml");
+    public boolean checkDependencies() {
+        boolean superVanish = checkDependency("SuperVanish", true);
+        boolean premiumVanish = checkDependency("PremiumVanish", true);
+        return (superVanish || premiumVanish);
     }
 
     @Override
-    public void onEnable() {
-        if (!checkDependency("SuperVanish", true)
-                && !checkDependency("PremiumVanish", true)) {
-            ICombatLogX plugin = getPlugin();
-            ExpansionManager expansionManager = plugin.getExpansionManager();
-            expansionManager.disableExpansion(this);
-            return;
+    public @NotNull VanishHandler<?> getVanishHandler() {
+        if (this.vanishHandler == null) {
+            this.vanishHandler = new VanishHandlerSuper(this);
         }
 
-        new ListenerVanish(this).register();
-    }
-
-    @Override
-    public void onDisable() {
-        // Do Nothing
-    }
-
-    @Override
-    public void reloadConfig() {
-        ConfigurationManager configurationManager = getConfigurationManager();
-        configurationManager.reload("config.yml");
+        return this.vanishHandler;
     }
 }

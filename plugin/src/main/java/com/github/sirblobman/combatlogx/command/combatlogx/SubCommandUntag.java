@@ -14,14 +14,16 @@ import com.github.sirblobman.combatlogx.api.command.CombatLogCommand;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 
+import org.jetbrains.annotations.NotNull;
+
 public final class SubCommandUntag extends CombatLogCommand {
-    public SubCommandUntag(ICombatLogX plugin) {
+    public SubCommandUntag(@NotNull ICombatLogX plugin) {
         super(plugin, "untag");
         setPermissionName("combatlogx.command.combatlogx.untag");
     }
 
     @Override
-    protected List<String> onTabComplete(CommandSender sender, String[] args) {
+    protected @NotNull List<String> onTabComplete(@NotNull CommandSender sender, String @NotNull [] args) {
         if (args.length == 1) {
             Set<String> valueSet = getOnlinePlayerNames();
             return getMatching(args[0], valueSet);
@@ -31,7 +33,7 @@ public final class SubCommandUntag extends CombatLogCommand {
     }
 
     @Override
-    protected boolean execute(CommandSender sender, String[] args) {
+    protected boolean execute(@NotNull CommandSender sender, String @NotNull [] args) {
         if (args.length < 1) {
             return false;
         }

@@ -17,35 +17,33 @@ import org.jetbrains.annotations.NotNull;
 public final class DeathManager extends Manager implements IDeathManager {
     private final Map<UUID, List<Entity>> killedPlayerMap;
 
-    public DeathManager(ICombatLogX plugin) {
+    public DeathManager(@NotNull ICombatLogX plugin) {
         super(plugin);
         this.killedPlayerMap = new ConcurrentHashMap<>();
     }
 
     @Override
-    public void kill(Player player, List<Entity> enemyList) {
+    public void kill(@NotNull Player player, @NotNull List<Entity> enemyList) {
         UUID playerId = player.getUniqueId();
         this.killedPlayerMap.put(playerId, enemyList);
         player.setHealth(0.0D);
     }
 
     @Override
-    public boolean wasPunishKilled(Player player) {
+    public boolean wasPunishKilled(@NotNull Player player) {
         UUID playerId = player.getUniqueId();
         return this.killedPlayerMap.containsKey(playerId);
     }
 
     @Override
-    public boolean stopTracking(Player player) {
+    public boolean stopTracking(@NotNull Player player) {
         UUID playerId = player.getUniqueId();
-        boolean contained = this.killedPlayerMap.containsKey(playerId);
-        this.killedPlayerMap.remove(playerId);
-        return contained;
+        List<Entity> oldValue = this.killedPlayerMap.remove(playerId);
+        return (oldValue != null);
     }
 
-    @NotNull
     @Override
-    public List<Entity> getTrackedEnemies(Player player) {
+    public @NotNull List<Entity> getTrackedEnemies(@NotNull Player player) {
         UUID playerId = player.getUniqueId();
         return this.killedPlayerMap.getOrDefault(playerId, Collections.emptyList());
     }

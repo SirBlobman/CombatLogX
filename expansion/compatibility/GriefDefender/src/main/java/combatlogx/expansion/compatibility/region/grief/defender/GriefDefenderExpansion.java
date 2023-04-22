@@ -1,11 +1,13 @@
 package combatlogx.expansion.compatibility.region.grief.defender;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 
 public final class GriefDefenderExpansion extends RegionExpansion {
-    private RegionHandler regionHandler;
+    private RegionHandler<?> regionHandler;
 
     public GriefDefenderExpansion(ICombatLogX plugin) {
         super(plugin);
@@ -18,9 +20,9 @@ public final class GriefDefenderExpansion extends RegionExpansion {
     }
 
     @Override
-    public RegionHandler getRegionHandler() {
+    public @NotNull RegionHandler<?> getRegionHandler() {
         if (this.regionHandler == null) {
-            this.regionHandler = new GriefDefenderRegionHandler(this);
+            this.regionHandler = new RegionHandlerGriefDefender(this);
         }
 
         return this.regionHandler;

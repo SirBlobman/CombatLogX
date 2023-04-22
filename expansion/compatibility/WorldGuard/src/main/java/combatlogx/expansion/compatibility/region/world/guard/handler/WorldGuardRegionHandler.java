@@ -3,6 +3,8 @@ package combatlogx.expansion.compatibility.region.world.guard.handler;
 import java.util.Locale;
 import java.util.Optional;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -21,28 +23,22 @@ import org.codemc.worldguardwrapper.WorldGuardWrapper;
 import org.codemc.worldguardwrapper.flag.IWrappedFlag;
 import org.codemc.worldguardwrapper.flag.WrappedState;
 
-public final class WorldGuardRegionHandler extends RegionHandler {
-    private final WorldGuardExpansion expansion;
-
-    public WorldGuardRegionHandler(WorldGuardExpansion expansion) {
+public final class WorldGuardRegionHandler extends RegionHandler<WorldGuardExpansion> {
+    public WorldGuardRegionHandler(@NotNull WorldGuardExpansion expansion) {
         super(expansion);
-        this.expansion = expansion;
-    }
-
-    private WorldGuardExpansion getWorldGuardExpansion() {
-        return this.expansion;
     }
 
     @Override
-    public String getEntryDeniedMessagePath(TagType tagType) {
+    public @NotNull String getEntryDeniedMessagePath(@NotNull TagType tagType) {
         String tagTypeName = tagType.name();
         String tagTypeLower = tagTypeName.toLowerCase(Locale.US);
-        return ("expansion.region-protection.worldguard.no-entry-" + tagTypeLower + "-combat");
+        String nameFormat = "expansion.region-protection.worldguard.no-entry-%s-combat";
+        return String.format(Locale.US, nameFormat, tagTypeLower);
     }
 
     @Override
-    public boolean isSafeZone(Player player, Location location, TagInformation tagInformation) {
-        TagType tagType = tagInformation.getCurrentTagType();
+    public boolean isSafeZone(@NotNull Player player, @NotNull Location location, @NotNull TagInformation tag) {
+        TagType tagType = tag.getCurrentTagType();
         WorldGuardWrapper wrappedWorldGuard = WorldGuardWrapper.getInstance();
         IWrappedFlag<WrappedState> wrappedFlag = getFlag(tagType);
         if (wrappedFlag == null) {
@@ -59,7 +55,7 @@ public final class WorldGuardRegionHandler extends RegionHandler {
     }
 
     private IWrappedFlag<WrappedState> getFlag(TagType tagType) {
-        WorldGuardExpansion expansion = getWorldGuardExpansion();
+        WorldGuardExpansion expansion = getExpansion();
         HookWorldGuard hook = expansion.getHookWorldGuard();
 
         switch (tagType) {
@@ -81,9 +77,10 @@ public final class WorldGuardRegionHandler extends RegionHandler {
     }
 
     @Override
-    protected void customPreventEntry(Cancellable e, Player player, TagInformation tagInformation,
-                                      Location fromLocation, Location toLocation) {
-        WorldGuardExpansion expansion = getWorldGuardExpansion();
+    protected void customPreventEntry(@NotNull Cancellable e, @NotNull Player player,
+                                      @NotNull TagInformation tagInformation, @NotNull Location fromLocation,
+                                      @NotNull Location toLocation) {
+        WorldGuardExpansion expansion = getExpansion();
         HookWorldGuard hook = expansion.getHookWorldGuard();
         IWrappedFlag<Boolean> retagFlag = hook.getRetagFlag();
 

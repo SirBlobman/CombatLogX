@@ -1,6 +1,6 @@
-name: "CompatCitizens"
-prefix: "Citizens Compatibility"
-description: "${project.description}"
+name: "${expansionName}"
+prefix: "${expansionPrefix}"
+description: "${expansionDescription}"
 
 main: "combatlogx.expansion.compatibility.citizens.CitizensExpansion"
 version: "17.2"

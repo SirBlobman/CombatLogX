@@ -2,13 +2,13 @@ package combatlogx.expansion.action.bar;
 
 import java.util.logging.Logger;
 
-import org.bukkit.configuration.file.YamlConfiguration;
-
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.manager.ITimerManager;
+
+import combatlogx.expansion.action.bar.configuration.ActionBarConfiguration;
 
 public final class ActionBarExpansion extends Expansion {
     private final ActionBarConfiguration configuration;
@@ -49,10 +49,7 @@ public final class ActionBarExpansion extends Expansion {
     public void reloadConfig() {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.reload("config.yml");
-
-        ActionBarConfiguration configuration = getConfiguration();
-        YamlConfiguration yamlConfiguration = configurationManager.get("config.yml");
-        configuration.load(yamlConfiguration);
+        getConfiguration().load(configurationManager.get("config.yml"));
     }
 
     ActionBarConfiguration getConfiguration() {

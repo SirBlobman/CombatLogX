@@ -4,8 +4,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import org.bukkit.World;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -16,8 +14,9 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.configuration.CommandConfiguration;
+import com.github.sirblobman.combatlogx.api.configuration.MainConfiguration;
 import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
@@ -25,8 +24,11 @@ import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 public final class ListenerConfiguration extends CombatListener {
-    public ListenerConfiguration(ICombatLogX plugin) {
+    public ListenerConfiguration(@NotNull ICombatLogX plugin) {
         super(plugin);
     }
 
@@ -37,7 +39,7 @@ public final class ListenerConfiguration extends CombatListener {
         Player player = e.getPlayer();
         printDebug("Player: " + player.getName());
 
-        if (checkDisabledWorld(player)) {
+        if (isWorldDisabled(player)) {
             printDebug("Player is in disabled world, cancelling.");
             e.setCancelled(true);
             return;
@@ -95,81 +97,61 @@ public final class ListenerConfiguration extends CombatListener {
         checkEnemyDeathUntag(livingEntity);
     }
 
-    private boolean checkDisabledWorld(Player player) {
-        ConfigurationManager configurationManager = getPluginConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-
-        List<String> disabledWorldList = configuration.getStringList("disabled-world-list");
-        boolean inverted = configuration.getBoolean("disabled-world-list-inverted");
-
-        World world = player.getWorld();
-        String worldName = world.getName();
-        boolean contains = disabledWorldList.contains(worldName);
-        return (inverted != contains);
+    private @NotNull MainConfiguration getConfiguration() {
+        ICombatLogX plugin = getCombatLogX();
+        return plugin.getConfiguration();
     }
 
-    private boolean checkBypass(Player player) {
+    private boolean checkBypass(@NotNull Player player) {
         ICombatManager combatManager = getCombatManager();
         return combatManager.canBypass(player);
     }
 
-    private boolean isSelfCombatDisabled(Player player, Entity enemy) {
-        if (enemy == null || doesNotEqual(player, enemy)) {
+    private boolean isSelfCombatDisabled(@NotNull Player player, @Nullable Entity enemy) {
+        MainConfiguration configuration = getConfiguration();
+        if (configuration.isSelfCombat()) {
             return false;
         }
 
-        ConfigurationManager configurationManager = getPluginConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        return !configuration.getBoolean("self-combat");
+        return (enemy != null && isEqual(player, enemy));
     }
 
-    private boolean doesNotEqual(Entity entity1, Entity entity2) {
+    private boolean isEqual(@NotNull Entity entity1, @NotNull Entity entity2) {
         if (entity1 == entity2) {
-            return false;
+            return true;
         }
 
         UUID entityId1 = entity1.getUniqueId();
         UUID entityId2 = entity2.getUniqueId();
-        return !entityId1.equals(entityId2);
+        return entityId1.equals(entityId2);
     }
 
-    private void checkDeathUntag(Player player) {
-        ConfigurationManager configurationManager = getPluginConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        if (!configuration.getBoolean("untag-on-death")) {
-            return;
-        }
-
+    private void checkDeathUntag(@NotNull Player player) {
         ICombatManager combatManager = getCombatManager();
-        if (combatManager.isInCombat(player)) {
+        MainConfiguration configuration = getConfiguration();
+        if (configuration.isUntagOnSelfDeath() && combatManager.isInCombat(player)) {
             combatManager.untag(player, UntagReason.SELF_DEATH);
         }
     }
 
-    private void checkEnemyDeathUntag(LivingEntity enemy) {
-        ConfigurationManager configurationManager = getPluginConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        if (!configuration.getBoolean("untag-on-enemy-death")) {
-            return;
-        }
-
+    private void checkEnemyDeathUntag(@NotNull LivingEntity enemy) {
         ICombatManager combatManager = getCombatManager();
-        List<Player> playerList = combatManager.getPlayersInCombat();
-        for (Player player : playerList) {
-            combatManager.untag(player, enemy, UntagReason.ENEMY_DEATH);
+        MainConfiguration configuration = getConfiguration();
+        if (configuration.isUntagOnEnemyDeath()) {
+            List<Player> playerList = combatManager.getPlayersInCombat();
+            for (Player player : playerList) {
+                combatManager.untag(player, enemy, UntagReason.ENEMY_DEATH);
+            }
         }
     }
 
-    private void runTagCommands(Player player, Entity enemy) {
-        ConfigurationManager configurationManager = getPluginConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("commands.yml");
-        List<String> tagCommandList = configuration.getStringList("tag-command-list");
-        if (tagCommandList.isEmpty()) {
-            return;
-        }
-
+    private void runTagCommands(@NotNull Player player, @Nullable Entity enemy) {
         ICombatLogX plugin = getCombatLogX();
+        CommandConfiguration commandConfiguration = plugin.getCommandConfiguration();
+        List<String> tagCommandList = commandConfiguration.getTagCommands();
+
+        List<Entity> enemyList = (enemy == null ? Collections.emptyList() : Collections.singletonList(enemy));
         IPlaceholderManager placeholderManager = plugin.getPlaceholderManager();
-        placeholderManager.runReplacedCommands(player, Collections.singletonList(enemy), tagCommandList);
+        placeholderManager.runReplacedCommands(player, enemyList, tagCommandList);
     }
 }

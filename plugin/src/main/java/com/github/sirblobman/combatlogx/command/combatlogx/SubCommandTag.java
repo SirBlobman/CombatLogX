@@ -19,14 +19,16 @@ import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
+import org.jetbrains.annotations.NotNull;
+
 public final class SubCommandTag extends CombatLogCommand {
-    public SubCommandTag(ICombatLogX plugin) {
+    public SubCommandTag(@NotNull ICombatLogX plugin) {
         super(plugin, "tag");
         setPermissionName("combatlogx.command.combatlogx.tag");
     }
 
     @Override
-    protected List<String> onTabComplete(CommandSender sender, String[] args) {
+    protected @NotNull List<String> onTabComplete(@NotNull CommandSender sender, String @NotNull [] args) {
         if (args.length == 1) {
             Set<String> valueSet = getOnlinePlayerNames();
             return getMatching(args[0], valueSet);
@@ -42,7 +44,7 @@ public final class SubCommandTag extends CombatLogCommand {
     }
 
     @Override
-    protected boolean execute(CommandSender sender, String[] args) {
+    protected boolean execute(@NotNull CommandSender sender, String @NotNull [] args) {
         if (args.length < 1) {
             return false;
         }

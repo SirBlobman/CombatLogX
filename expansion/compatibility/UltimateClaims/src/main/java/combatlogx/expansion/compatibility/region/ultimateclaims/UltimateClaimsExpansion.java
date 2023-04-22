@@ -1,13 +1,15 @@
 package combatlogx.expansion.compatibility.region.ultimateclaims;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 
 public final class UltimateClaimsExpansion extends RegionExpansion {
-    private RegionHandler regionHandler;
+    private RegionHandler<?> regionHandler;
 
-    public UltimateClaimsExpansion(ICombatLogX plugin) {
+    public UltimateClaimsExpansion(@NotNull ICombatLogX plugin) {
         super(plugin);
         this.regionHandler = null;
     }
@@ -18,9 +20,9 @@ public final class UltimateClaimsExpansion extends RegionExpansion {
     }
 
     @Override
-    public RegionHandler getRegionHandler() {
+    public @NotNull RegionHandler<?> getRegionHandler() {
         if (this.regionHandler == null) {
-            this.regionHandler = new UltimateClaimsRegionHandler(this);
+            this.regionHandler = new RegionHandlerUltimateClaims(this);
         }
 
         return this.regionHandler;

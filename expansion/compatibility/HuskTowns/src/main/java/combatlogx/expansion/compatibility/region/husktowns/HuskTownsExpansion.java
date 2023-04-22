@@ -1,26 +1,28 @@
 package combatlogx.expansion.compatibility.region.husktowns;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 
 public final class HuskTownsExpansion extends RegionExpansion {
-    private RegionHandler regionHandler;
+    private RegionHandler<?> regionHandler;
 
-    public HuskTownsExpansion(ICombatLogX plugin) {
+    public HuskTownsExpansion(@NotNull ICombatLogX plugin) {
         super(plugin);
         this.regionHandler = null;
     }
 
     @Override
     public boolean checkDependencies() {
-        return checkDependency("HuskTowns", true, "2.1");
+        return checkDependency("HuskTowns", true, "2.2");
     }
 
     @Override
-    public RegionHandler getRegionHandler() {
+    public @NotNull RegionHandler<?> getRegionHandler() {
         if (this.regionHandler == null) {
-            this.regionHandler = new HuskTownsRegionHandler(this);
+            this.regionHandler = new RegionHandlerHuskTowns(this);
         }
 
         return this.regionHandler;

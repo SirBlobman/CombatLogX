@@ -1,10 +1,7 @@
 package combatlogx.expansion.cheat.prevention.listener;
 
-import java.util.List;
-
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -13,12 +10,16 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.shaded.xseries.XBlock;
+import com.github.sirblobman.api.shaded.xseries.XMaterial;
+import com.github.sirblobman.api.utility.VersionUtility;
 
-import combatlogx.expansion.cheat.prevention.CheatPreventionExpansion;
+import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
+import combatlogx.expansion.cheat.prevention.configuration.IBlockConfiguration;
+import org.jetbrains.annotations.NotNull;
 
 public final class ListenerBlocks extends CheatPreventionListener {
-    public ListenerBlocks(CheatPreventionExpansion expansion) {
+    public ListenerBlocks(@NotNull ICheatPreventionExpansion expansion) {
         super(expansion);
     }
 
@@ -35,88 +36,63 @@ public final class ListenerBlocks extends CheatPreventionListener {
         }
 
         Player player = e.getPlayer();
-        if (!isInCombat(player)) {
-            return;
+        if (isPreventInteract(fetchMaterial(block)) && isInCombat(player)) {
+            e.setCancelled(true);
+            sendMessage(player, "expansion.cheat-prevention.blocks.prevent-interaction");
         }
-
-        Material material = block.getType();
-        if (canInteract(material)) {
-            return;
-        }
-
-        e.setCancelled(true);
-        sendMessage(player, "expansion.cheat-prevention.blocks.prevent-interaction");
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onBreak(BlockBreakEvent e) {
         Player player = e.getPlayer();
-        if (!isInCombat(player)) {
-            return;
-        }
-
         Block block = e.getBlock();
-        Material material = block.getType();
-        if (canBreak(material)) {
-            return;
-        }
 
-        e.setCancelled(true);
-        sendMessage(player, "expansion.cheat-prevention.blocks.prevent-breaking");
+        if (isPreventBreak(fetchMaterial(block)) && isInCombat(player)) {
+            e.setCancelled(true);
+            sendMessage(player, "expansion.cheat-prevention.blocks.prevent-breaking");
+        }
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPlace(BlockPlaceEvent e) {
         Player player = e.getPlayer();
-        if (!isInCombat(player)) {
-            return;
-        }
-
         Block block = e.getBlock();
-        Material material = block.getType();
-        if (canPlace(material)) {
-            return;
-        }
 
-        e.setCancelled(true);
-        sendMessage(player, "expansion.cheat-prevention.blocks.prevent-placing");
+        if (isPreventPlace(fetchMaterial(block)) && isInCombat(player)) {
+            e.setCancelled(true);
+            sendMessage(player, "expansion.cheat-prevention.blocks.prevent-placing");
+        }
     }
 
-    private YamlConfiguration getConfiguration() {
-        ConfigurationManager configurationManager = getExpansionConfigurationManager();
-        return configurationManager.get("blocks.yml");
+    private @NotNull IBlockConfiguration getBlockConfiguration() {
+        ICheatPreventionExpansion expansion = getCheatPrevention();
+        return expansion.getBlockConfiguration();
     }
 
-    private boolean canBreak(Material material) {
-        YamlConfiguration configuration = getConfiguration();
-        if (!configuration.getBoolean("prevent-breaking")) {
-            return true;
-        }
-
-        String materialName = material.name();
-        List<String> noBreakList = configuration.getStringList("prevent-breaking-list");
-        return (!noBreakList.contains("*") && !noBreakList.contains(materialName));
+    private boolean isPreventBreak(@NotNull XMaterial material) {
+        IBlockConfiguration blockConfiguration = getBlockConfiguration();
+        return blockConfiguration.isPreventBreaking(material);
     }
 
-    private boolean canPlace(Material material) {
-        YamlConfiguration configuration = getConfiguration();
-        if (!configuration.getBoolean("prevent-placing")) {
-            return true;
-        }
-
-        String materialName = material.name();
-        List<String> noBreakList = configuration.getStringList("prevent-placing-list");
-        return (!noBreakList.contains("*") && !noBreakList.contains(materialName));
+    private boolean isPreventPlace(@NotNull XMaterial material) {
+        IBlockConfiguration blockConfiguration = getBlockConfiguration();
+        return blockConfiguration.isPreventPlacing(material);
     }
 
-    private boolean canInteract(Material material) {
-        YamlConfiguration configuration = getConfiguration();
-        if (!configuration.getBoolean("prevent-interaction")) {
-            return true;
-        }
+    private boolean isPreventInteract(@NotNull XMaterial material) {
+        IBlockConfiguration blockConfiguration = getBlockConfiguration();
+        return blockConfiguration.isPreventInteraction(material);
+    }
 
-        String materialName = material.name();
-        List<String> noInteractList = configuration.getStringList("prevent-interaction-list");
-        return (!noInteractList.contains("*") && !noInteractList.contains(materialName));
+    @SuppressWarnings("deprecation")
+    private @NotNull XMaterial fetchMaterial(Block block) {
+        int minorVersion = VersionUtility.getMinorVersion();
+        Material bukkitType = block.getType();
+
+        if (minorVersion < 13) {
+            return XBlock.getType(block);
+        } else {
+            return XMaterial.matchXMaterial(bukkitType);
+        }
     }
 }

@@ -1,9 +1,9 @@
-name: "CompatMythicMobs"
-prefix: "MythicMobs Compatibility"
-description: "${project.description}"
+name: "${expansionName}"
+prefix: "${expansionPrefix}"
+description: "${expansionDescription}"
 
 main: "combatlogx.expansion.compatibility.mythicmobs.MythicMobsExpansion"
-version: "16.6"
+version: "17.0"
 author: "SirBlobman"
 
 plugin-depend:

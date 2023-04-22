@@ -2,37 +2,35 @@ package com.github.sirblobman.combatlogx.manager;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachmentInfo;
-import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginManager;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.language.custom.ModifiableMessage;
 import com.github.sirblobman.api.language.custom.ModifiableMessageType;
+import com.github.sirblobman.api.language.replacer.ComponentReplacer;
 import com.github.sirblobman.api.language.replacer.Replacer;
-import com.github.sirblobman.api.language.replacer.StringReplacer;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.api.nms.ServerHandler;
 import com.github.sirblobman.api.shaded.adventure.text.Component;
-import com.github.sirblobman.api.utility.MessageUtility;
-import com.github.sirblobman.api.utility.Validate;
+import com.github.sirblobman.api.utility.paper.PaperChecker;
+import com.github.sirblobman.api.utility.paper.PaperHelper;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.configuration.MainConfiguration;
 import com.github.sirblobman.combatlogx.api.event.PlayerEnemyRemoveEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerReTagEvent;
@@ -53,16 +51,14 @@ import org.jetbrains.annotations.Nullable;
 public final class CombatManager extends Manager implements ICombatManager {
     private final Map<UUID, TagInformation> combatMap;
 
-    private Permission bypassPermission;
-
-    public CombatManager(ICombatLogX plugin) {
+    public CombatManager(@NotNull ICombatLogX plugin) {
         super(plugin);
         this.combatMap = new ConcurrentHashMap<>();
-        this.bypassPermission = null;
     }
 
     @Override
-    public boolean tag(Player player, Entity enemy, TagType tagType, TagReason tagReason) {
+    public boolean tag(@NotNull Player player, @Nullable Entity enemy, @NotNull TagType tagType,
+                       @NotNull TagReason tagReason) {
         int timerSeconds = getMaxTimerSeconds(player);
         long timerMillis = (timerSeconds * 1_000L);
 
@@ -72,12 +68,9 @@ public final class CombatManager extends Manager implements ICombatManager {
     }
 
     @Override
-    public boolean tag(Player player, Entity enemy, TagType tagType, TagReason tagReason, long customEndMillis) {
-        Validate.notNull(player, "player must not be null!");
-        Validate.notNull(tagType, "tagType must not be null!");
-        Validate.notNull(tagReason, "tagReason must not be null!");
+    public boolean tag(@NotNull Player player, @Nullable Entity enemy, @NotNull TagType tagType,
+                       @NotNull TagReason tagReason, long customEndMillis) {
         ICombatLogX plugin = getCombatLogX();
-
         if (player.hasMetadata("NPC")) {
             plugin.printDebug("player is an NPC and can't be tagged.");
             return false;
@@ -88,9 +81,9 @@ public final class CombatManager extends Manager implements ICombatManager {
             return false;
         }
 
-        ConfigurationManager configurationManager = plugin.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        double minimumTps = configuration.getDouble("minimum-tps", 15.0D);
+        MainConfiguration configuration = plugin.getConfiguration();
+        double minimumTps = configuration.getMinimumTps();
+
         if (minimumTps > 0.0D) {
             MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
             ServerHandler serverHandler = multiVersionHandler.getServerHandler();
@@ -133,11 +126,7 @@ public final class CombatManager extends Manager implements ICombatManager {
     }
 
     @Override
-    public void untag(Player player, UntagReason untagReason) {
-        Validate.notNull(player, "player must not be null!");
-        Validate.notNull(untagReason, "untagReason must not be null!");
-        ICombatLogX plugin = getCombatLogX();
-
+    public void untag(@NotNull Player player, @NotNull UntagReason untagReason) {
         if (!isInCombat(player)) {
             return;
         }
@@ -150,6 +139,7 @@ public final class CombatManager extends Manager implements ICombatManager {
         UUID playerId = player.getUniqueId();
         this.combatMap.remove(playerId);
 
+        ICombatLogX plugin = getCombatLogX();
         ITimerManager timerManager = plugin.getTimerManager();
         timerManager.remove(player);
 
@@ -165,10 +155,7 @@ public final class CombatManager extends Manager implements ICombatManager {
     }
 
     @Override
-    public void untag(Player player, Entity enemy, UntagReason untagReason) {
-        Validate.notNull(player, "player must not be null!");
-        Validate.notNull(enemy, "enemy must not be null!");
-        Validate.notNull(untagReason, "untagReason must not be null!");
+    public void untag(@NotNull Player player, @NotNull Entity enemy, @NotNull UntagReason untagReason) {
         if (!isInCombat(player)) {
             return;
         }
@@ -189,23 +176,19 @@ public final class CombatManager extends Manager implements ICombatManager {
     }
 
     @Override
-    public boolean isInCombat(Player player) {
-        Validate.notNull(player, "player must not be null!");
-
+    public boolean isInCombat(@NotNull Player player) {
         TagInformation tagInformation = getTagInformation(player);
         return (tagInformation != null);
     }
 
-    @NotNull
     @Override
-    public Set<UUID> getPlayerIdsInCombat() {
+    public @NotNull Set<UUID> getPlayerIdsInCombat() {
         Set<UUID> playerIdSet = this.combatMap.keySet();
         return Collections.unmodifiableSet(playerIdSet);
     }
 
-    @NotNull
     @Override
-    public List<Player> getPlayersInCombat() {
+    public @NotNull List<Player> getPlayersInCombat() {
         Set<UUID> playerIdSet = getPlayerIdsInCombat();
         List<Player> playerList = new ArrayList<>();
 
@@ -219,97 +202,34 @@ public final class CombatManager extends Manager implements ICombatManager {
         return Collections.unmodifiableList(playerList);
     }
 
-    @Nullable
     @Override
-    @Deprecated
-    public Entity getEnemy(Player player) {
-        Validate.notNull(player, "player must not be null!");
-
-        TagInformation tagInformation = getTagInformation(player);
-        if (tagInformation == null) {
-            return null;
-        }
-
-        List<Entity> enemyList = tagInformation.getEnemies();
-        if (enemyList.isEmpty()) {
-            return null;
-        }
-
-        return enemyList.get(0);
-    }
-
-    @Override
-    public TagInformation getTagInformation(Player player) {
-        Validate.notNull(player, "player must not be null!");
-
+    public TagInformation getTagInformation(@NotNull Player player) {
         UUID playerId = player.getUniqueId();
         return this.combatMap.get(playerId);
     }
 
-    @Nullable
     @Override
-    @Deprecated
-    public Player getByEnemy(Entity enemy) {
-        Validate.notNull(enemy, "enemy must not be null!");
-
-        List<Player> playerList = getPlayersInCombat();
-        for (Player player : playerList) {
-            TagInformation tagInformation = getTagInformation(player);
-            if (tagInformation == null) {
-                continue;
-            }
-
-            if (tagInformation.isEnemy(enemy)) {
-                return player;
-            }
-        }
-
-        return null;
-    }
-
-    @Override
-    @Deprecated
-    public long getTimerLeftMillis(Player player) {
-        Validate.notNull(player, "player must not be null!");
-
-        TagInformation tagInformation = getTagInformation(player);
-        if (tagInformation == null) {
-            return 0L;
-        }
-
-        return tagInformation.getMillisLeftCombined();
-    }
-
-    @Override
-    @Deprecated
-    public int getTimerLeftSeconds(Player player) {
-        double timerLeftMillis = getTimerLeftMillis(player);
-        if (timerLeftMillis <= 0.0D) {
-            return 0;
-        }
-
-        double secondsLeft = (timerLeftMillis / 1_000.0D);
-        return (int) Math.ceil(secondsLeft);
-    }
-
-    @Override
-    public int getMaxTimerSeconds(Player player) {
+    public int getMaxTimerSeconds(@NotNull Player player) {
         ICombatLogX plugin = getCombatLogX();
-        ConfigurationManager configurationManager = plugin.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        String timerTypeString = configuration.getString("timer.type");
+        MainConfiguration configuration = plugin.getConfiguration();
+        TimerType timerType = configuration.getTimerType();
 
-        TimerType timerType = TimerType.parse(timerTypeString);
-        return (timerType == TimerType.PERMISSION ? getPermissionTimerSeconds(player) : getGlobalTimerSeconds());
+        if (timerType == TimerType.PERMISSION) {
+            return getPermissionTimerSeconds(player);
+        }
+
+        return getGlobalTimerSeconds();
     }
 
     @Override
-    public Permission getBypassPermission() {
-        return this.bypassPermission;
+    public @Nullable Permission getBypassPermission() {
+        ICombatLogX combatLogX = getCombatLogX();
+        MainConfiguration configuration = combatLogX.getConfiguration();
+        return configuration.getBypassPermission();
     }
 
     @Override
-    public boolean canBypass(Player player) {
+    public boolean canBypass(@NotNull Player player) {
         Permission bypassPermission = getBypassPermission();
         if (bypassPermission == null) {
             return false;
@@ -318,43 +238,40 @@ public final class CombatManager extends Manager implements ICombatManager {
         return player.hasPermission(bypassPermission);
     }
 
-    @Override
-    public void onReload() {
-        ICombatLogX plugin = getCombatLogX();
-        ConfigurationManager configurationManager = plugin.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-
-        String permissionName = configuration.getString("bypass-permission");
-        if (permissionName == null || permissionName.isEmpty()) {
-            this.bypassPermission = null;
-        } else {
-            String description = "CombatLogX Bypass Permission";
-            this.bypassPermission = new Permission(permissionName, description, PermissionDefault.FALSE);
-        }
-    }
-
     private int getGlobalTimerSeconds() {
-        ICombatLogX plugin = getCombatLogX();
-        ConfigurationManager configurationManager = plugin.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        return configuration.getInt("timer.default-timer", 10);
+        ICombatLogX combatLogX = getCombatLogX();
+        MainConfiguration configuration = combatLogX.getConfiguration();
+        return configuration.getDefaultTimer();
     }
 
-    private int getPermissionTimerSeconds(Player player) {
+    private int getPermissionTimerSeconds(@NotNull Player player) {
+        int defaultTimer = getGlobalTimerSeconds();
         Set<PermissionAttachmentInfo> permissionAttachmentInfoSet = player.getEffectivePermissions();
-        Set<String> permissionSet = permissionAttachmentInfoSet.parallelStream()
-                .filter(PermissionAttachmentInfo::getValue)
-                .map(PermissionAttachmentInfo::getPermission)
-                .filter(permission -> permission.startsWith("combatlogx.timer."))
-                .map(permission -> permission.substring("combatlogx.timer.".length()))
-                .collect(Collectors.toSet());
-        if (permissionSet.isEmpty()) {
-            return getGlobalTimerSeconds();
+        if (permissionAttachmentInfoSet.isEmpty()) {
+            return defaultTimer;
+        }
+
+        Set<String> permissionNumberStrings = new HashSet<>();
+        for (PermissionAttachmentInfo permissionAttachmentInfo : permissionAttachmentInfoSet) {
+            if (!permissionAttachmentInfo.getValue()) {
+                continue;
+            }
+
+            String permissionName = permissionAttachmentInfo.getPermission();
+            if (permissionName.startsWith("combatlogx.timer.")) {
+                String timerPart = permissionName.substring("combatlogx.timer.".length());
+                permissionNumberStrings.add(timerPart);
+            }
+        }
+
+        if (permissionNumberStrings.isEmpty()) {
+            return defaultTimer;
         }
 
         int lowestTimer = Integer.MAX_VALUE;
         boolean foundValue = false;
-        for (String permission : permissionSet) {
+
+        for (String permission : permissionNumberStrings) {
             try {
                 int value = Integer.parseInt(permission);
                 lowestTimer = Math.min(lowestTimer, value);
@@ -364,55 +281,66 @@ public final class CombatManager extends Manager implements ICombatManager {
             }
         }
 
-        return (foundValue ? lowestTimer : getGlobalTimerSeconds());
+        return (foundValue ? lowestTimer : defaultTimer);
     }
 
-    private String getEntityName(Player player, Entity entity) {
+    private @NotNull Component getUnknownEnemy(@NotNull Player player) {
         ICombatLogX plugin = getCombatLogX();
+        LanguageManager languageManager = plugin.getLanguageManager();
+        return languageManager.getMessage(player, "placeholder.unknown-enemy");
+    }
 
+    private @NotNull Component getEntityName(@NotNull Player player, @Nullable Entity entity) {
         if (entity == null) {
-            LanguageManager languageManager = plugin.getLanguageManager();
-            String message = languageManager.getMessageString(player, "placeholder.unknown-enemy");
-            return MessageUtility.color(message);
+            return getUnknownEnemy(player);
         }
 
+        if (PaperChecker.hasNativeComponentSupport()) {
+            Component customName = PaperHelper.getCustomName(entity);
+            if (customName != null) {
+                return customName;
+            }
+        }
+
+        ICombatLogX plugin = getCombatLogX();
         MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
         EntityHandler entityHandler = multiVersionHandler.getEntityHandler();
-        return entityHandler.getName(entity);
+
+        String entityName = entityHandler.getName(entity);
+        return Component.text(entityName);
     }
 
-    private String getEntityType(Player player, Entity entity) {
-        ICombatLogX plugin = getCombatLogX();
-
+    private @NotNull Component getEntityType(@NotNull Player player, @Nullable Entity entity) {
         if (entity == null) {
-            LanguageManager languageManager = plugin.getLanguageManager();
-            String message = languageManager.getMessageString(player, "placeholder.unknown-enemy");
-            return MessageUtility.color(message);
+            return getUnknownEnemy(player);
         }
 
         EntityType entityType = entity.getType();
-        return entityType.name();
+        String entityTypeName = entityType.name();
+        return Component.text(entityTypeName);
     }
 
-    private boolean failsPreTagEvent(Player player, Entity enemy, TagType tagType, TagReason tagReason) {
+    private boolean failsPreTagEvent(@NotNull Player player, @Nullable Entity enemy, @NotNull TagType tagType,
+                                     @NotNull TagReason tagReason) {
         PlayerPreTagEvent event = new PlayerPreTagEvent(player, enemy, tagType, tagReason);
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.callEvent(event);
         return event.isCancelled();
     }
 
-    private void sendTagMessage(Player player, Entity enemy, TagType tagType, TagReason tagReason) {
+    private void sendTagMessage(@NotNull Player player, @Nullable Entity enemy, @NotNull TagType tagType,
+                                @NotNull TagReason tagReason) {
         if (tagType == TagType.DAMAGE) {
             return;
         }
 
-        String enemyName = getEntityName(player, enemy);
-        String enemyType = getEntityType(player, enemy);
+        Component enemyName = getEntityName(player, enemy);
+        Component enemyType = getEntityType(player, enemy);
         String tagReasonString = tagReason.name().toLowerCase(Locale.US);
         String tagTypeString = tagType.name().toLowerCase(Locale.US);
 
-        Replacer enemyNameReplacer = new StringReplacer("{enemy}", enemyName);
-        Replacer enemyTypeReplacer = new StringReplacer("{mob_type}", enemyType);
+        Replacer enemyNameReplacer = new ComponentReplacer("{enemy}", enemyName);
+        Replacer enemyTypeReplacer = new ComponentReplacer("{mob_type}", enemyType);
         String languagePath = ("tagged." + tagReasonString + "." + tagTypeString);
 
         ICombatLogX plugin = getCombatLogX();

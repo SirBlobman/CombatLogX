@@ -8,5 +8,5 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.github.WiIIiam278:HuskTowns:2.1")
+    compileOnly("com.github.WiIIiam278:HuskTowns:2.2.1")
 }

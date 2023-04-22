@@ -5,8 +5,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Player.Spigot;
 import org.bukkit.event.EventHandler;
@@ -14,10 +15,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.configuration.PunishConfiguration;
 import com.github.sirblobman.combatlogx.api.event.PlayerPunishEvent;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
+import com.github.sirblobman.combatlogx.api.object.KillTime;
 
 import net.william278.husksync.api.HuskSyncAPI;
 import net.william278.husksync.data.ItemData;
@@ -36,17 +39,16 @@ public final class ListenerHuskSync extends ExpansionListener {
         this.punishedPlayers = new HashSet<>();
     }
 
-    private HuskSyncAPI getHuskSyncAPI() {
+    private @NotNull HuskSyncAPI getHuskSyncAPI() {
         return this.huskSyncApi;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPunish(PlayerPunishEvent event) {
-        ConfigurationManager configurationManager = getPluginConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("punish.yml");
-        String killOptionString = configuration.getString("kill-time");
-
-        if (!(killOptionString == null || killOptionString.equals("QUIT"))) {
+        ICombatLogX combatLogX = getCombatLogX();
+        PunishConfiguration punishConfiguration = combatLogX.getPunishConfiguration();
+        KillTime killTime = punishConfiguration.getKillTime();
+        if (killTime != KillTime.QUIT) {
             return;
         }
 

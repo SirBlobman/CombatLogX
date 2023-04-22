@@ -150,7 +150,7 @@ public final class CustomScoreboard {
         CustomLine customLine = getLine(line);
         Validate.notNull(customLine, "Could not find scoreboard line '" + line + "'.");
 
-        ChatColor chatColor = customLine.getChatColor();
+        ChatColor chatColor = customLine.getColor();
         String chatColorString = chatColor.toString();
 
         Objective objective = getObjective();
@@ -158,7 +158,7 @@ public final class CustomScoreboard {
         score.setScore(line);
 
         ScoreboardExpansion expansion = getExpansion();
-        if (expansion.shouldUsePaperAPI()) {
+        if (expansion.isPaperScoreboard()) {
             setLinePaper(line, value);
         } else {
             String valueString = ComponentHelper.toLegacy(value);
@@ -210,7 +210,7 @@ public final class CustomScoreboard {
         CustomLine customLine = getLine(line);
         Validate.notNull(customLine, "Could not find scoreboard line '" + line + "'.");
 
-        ChatColor chatColor = customLine.getChatColor();
+        ChatColor chatColor = customLine.getColor();
         String chatColorString = chatColor.toString();
         Scoreboard scoreboard = getScoreboard();
         scoreboard.resetScores(chatColorString);
@@ -292,7 +292,7 @@ public final class CustomScoreboard {
         Component title = getTitle();
         ScoreboardExpansion expansion = getExpansion();
 
-        if (expansion.shouldUsePaperAPI()) {
+        if (expansion.isPaperScoreboard()) {
             updateTitlePaper(title);
         } else {
             String spigotTitle = ComponentHelper.toLegacy(title);

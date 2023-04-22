@@ -1,22 +1,25 @@
 package combatlogx.expansion.compatibility.featherboard.listener;
 
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 import be.maximvdw.featherboard.api.FeatherBoardAPI;
+import combatlogx.expansion.compatibility.featherboard.FeatherBoardConfiguration;
 import combatlogx.expansion.compatibility.featherboard.FeatherBoardExpansion;
-import org.jetbrains.annotations.NotNull;
 
 public final class ListenerFeatherBoard extends ExpansionListener {
-    public ListenerFeatherBoard(FeatherBoardExpansion expansion) {
+    private final FeatherBoardExpansion expansion;
+
+    public ListenerFeatherBoard(@NotNull FeatherBoardExpansion expansion) {
         super(expansion);
+        this.expansion = expansion;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -31,20 +34,27 @@ public final class ListenerFeatherBoard extends ExpansionListener {
         removeTrigger(player);
     }
 
-    @NotNull
-    private String getTriggerName() {
-        ConfigurationManager configurationManager = getExpansionConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        String triggerName = configuration.getString("trigger-name");
-        return (triggerName == null || triggerName.isEmpty() ? "combatlogx" : triggerName);
+    private @NotNull FeatherBoardExpansion getFeatherBoardExpansion() {
+        return this.expansion;
     }
 
-    private void showTrigger(Player player) {
+    private @NotNull FeatherBoardConfiguration getConfiguration() {
+        FeatherBoardExpansion expansion = getFeatherBoardExpansion();
+        return expansion.getConfiguration();
+    }
+
+    private @NotNull String getTriggerName() {
+        FeatherBoardConfiguration configuration = getConfiguration();
+        String triggerName = configuration.getTriggerName();
+        return (triggerName.isEmpty() ? "combatlogx" : triggerName);
+    }
+
+    private void showTrigger(@NotNull Player player) {
         String triggerName = getTriggerName();
         FeatherBoardAPI.showScoreboard(player, triggerName, true);
     }
 
-    private void removeTrigger(Player player) {
+    private void removeTrigger(@NotNull Player player) {
         String triggerName = getTriggerName();
         FeatherBoardAPI.hideScoreboard(player, triggerName, true);
     }

@@ -1,5 +1,7 @@
 package combatlogx.expansion.scoreboard;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.configuration.ConfigurationSection;
 
 import com.github.sirblobman.api.configuration.IConfigurable;
@@ -14,7 +16,7 @@ public final class ScoreboardConfiguration implements IConfigurable {
     }
 
     @Override
-    public void load(ConfigurationSection config) {
+    public void load(@NotNull ConfigurationSection config) {
         setEnabled(config.getBoolean("enabled", true));
         setSavePrevious(config.getBoolean("save-previous", true));
     }

@@ -1,5 +1,7 @@
 package combatlogx.expansion.force.field;
 
+import org.jetbrains.annotations.Nullable;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
@@ -8,7 +10,6 @@ import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 
 import combatlogx.expansion.force.field.configuration.ForceFieldConfiguration;
 import combatlogx.expansion.force.field.task.ForceFieldTask;
-import org.jetbrains.annotations.Nullable;
 
 public final class ForceFieldExpansion extends Expansion {
     private final ForceFieldConfiguration configuration;
@@ -28,13 +29,12 @@ public final class ForceFieldExpansion extends Expansion {
 
     @Override
     public void onEnable() {
-        reloadConfig();
-
         if (!checkDependency("ProtocolLib", true, "5")) {
             selfDisable();
             return;
         }
 
+        reloadConfig();
         registerTask();
     }
 

@@ -1,5 +1,7 @@
 package combatlogx.expansion.compatibility.huskhomes;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
@@ -7,7 +9,7 @@ import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import combatlogx.expansion.compatibility.huskhomes.listener.ListenerHuskHomes;
 
 public final class HuskHomesExpansion extends Expansion {
-    public HuskHomesExpansion(ICombatLogX plugin) {
+    public HuskHomesExpansion(@NotNull ICombatLogX plugin) {
         super(plugin);
     }
 
@@ -19,7 +21,7 @@ public final class HuskHomesExpansion extends Expansion {
 
     @Override
     public void onEnable() {
-        if (!checkDependency("HuskHomes", true, "3.2")) {
+        if (!checkDependency("HuskHomes", true, "4.2")) {
             selfDisable();
             return;
         }

@@ -1,13 +1,14 @@
 package combatlogx.expansion.compatibility.crackshot;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 
 import combatlogx.expansion.compatibility.crackshot.listener.ListenerCrackShot;
 
 public final class CrackShotExpansion extends Expansion {
-    public CrackShotExpansion(ICombatLogX plugin) {
+    public CrackShotExpansion(@NotNull ICombatLogX plugin) {
         super(plugin);
     }
 
@@ -19,9 +20,7 @@ public final class CrackShotExpansion extends Expansion {
     @Override
     public void onEnable() {
         if (!checkDependency("CrackShot", true)) {
-            ICombatLogX plugin = getPlugin();
-            ExpansionManager expansionManager = plugin.getExpansionManager();
-            expansionManager.disableExpansion(this);
+            selfDisable();
             return;
         }
 

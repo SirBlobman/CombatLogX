@@ -1,5 +1,7 @@
 package combatlogx.expansion.compatibility.region.world.guard;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
@@ -10,7 +12,7 @@ import combatlogx.expansion.compatibility.region.world.guard.listener.ListenerWo
 
 public final class WorldGuardExpansion extends RegionExpansion {
     private final HookWorldGuard hookWorldGuard;
-    private RegionHandler regionHandler;
+    private RegionHandler<?> regionHandler;
 
     public WorldGuardExpansion(ICombatLogX plugin) {
         super(plugin);
@@ -40,7 +42,7 @@ public final class WorldGuardExpansion extends RegionExpansion {
     }
 
     @Override
-    public RegionHandler getRegionHandler() {
+    public @NotNull RegionHandler<?> getRegionHandler() {
         if (this.regionHandler == null) {
             this.regionHandler = new WorldGuardRegionHandler(this);
         }
@@ -48,7 +50,7 @@ public final class WorldGuardExpansion extends RegionExpansion {
         return this.regionHandler;
     }
 
-    public HookWorldGuard getHookWorldGuard() {
+    public @NotNull HookWorldGuard getHookWorldGuard() {
         return this.hookWorldGuard;
     }
 }

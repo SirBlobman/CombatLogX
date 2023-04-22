@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -11,8 +13,8 @@ import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.language.replacer.ComponentReplacer;
 import com.github.sirblobman.api.language.replacer.Replacer;
 import com.github.sirblobman.api.language.replacer.StringReplacer;
-import com.github.sirblobman.api.shaded.adventure.text.Component;
 import com.github.sirblobman.combatlogx.api.command.CombatLogCommand;
+import com.github.sirblobman.api.shaded.adventure.text.Component;
 
 import combatlogx.expansion.newbie.helper.NewbieHelperExpansion;
 import combatlogx.expansion.newbie.helper.manager.PVPManager;
@@ -21,14 +23,14 @@ import combatlogx.expansion.newbie.helper.manager.ProtectionManager;
 public final class SubCommandCheck extends CombatLogCommand {
     private final NewbieHelperExpansion expansion;
 
-    public SubCommandCheck(NewbieHelperExpansion expansion) {
+    public SubCommandCheck(@NotNull NewbieHelperExpansion expansion) {
         super(expansion.getPlugin(), "check");
         setPermissionName("combatlogx.command.togglepvp.check");
         this.expansion = expansion;
     }
 
     @Override
-    protected List<String> onTabComplete(CommandSender sender, String[] args) {
+    protected @NotNull List<String> onTabComplete(@NotNull CommandSender sender, String @NotNull [] args) {
         if (args.length == 1) {
             Set<String> valueSet = getOnlinePlayerNames();
             return getMatching(args[0], valueSet);
@@ -38,7 +40,7 @@ public final class SubCommandCheck extends CombatLogCommand {
     }
 
     @Override
-    protected boolean execute(CommandSender sender, String[] args) {
+    protected boolean execute(@NotNull CommandSender sender, String @NotNull [] args) {
         if (args.length < 1) {
             return false;
         }
@@ -72,7 +74,7 @@ public final class SubCommandCheck extends CombatLogCommand {
         return true;
     }
 
-    private NewbieHelperExpansion getExpansion() {
+    private @NotNull NewbieHelperExpansion getExpansion() {
         return this.expansion;
     }
 }
