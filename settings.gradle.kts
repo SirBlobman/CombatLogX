@@ -29,6 +29,11 @@ include("expansion:cheat-prevention:legacy")
 include("expansion:cheat-prevention:paper")
 include("expansion:cheat-prevention")
 
+// End Crystals
+include("expansion:end-crystal:legacy")
+include("expansion:end-crystal:modern")
+include("expansion:end-crystal")
+
 // Compatibility expansions
 include("expansion:compatibility")
 include("expansion:compatibility:AngelChest")
