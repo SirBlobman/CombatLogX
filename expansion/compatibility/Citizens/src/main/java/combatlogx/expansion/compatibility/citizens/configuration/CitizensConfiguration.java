@@ -2,14 +2,17 @@ package combatlogx.expansion.compatibility.citizens.configuration;
 
 import java.util.logging.Logger;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 
 import com.github.sirblobman.api.configuration.IConfigurable;
-import com.github.sirblobman.api.utility.Validate;
+
+import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
 
 public final class CitizensConfiguration implements IConfigurable {
-    private final Logger logger;
+    private final CitizensExpansion expansion;
 
     private boolean preventPunishments;
     private boolean preventLogin;
@@ -25,9 +28,8 @@ public final class CitizensConfiguration implements IConfigurable {
     private boolean tagPlayer;
     private boolean alwaysSpawnNpcOnQuit;
 
-    public CitizensConfiguration(Logger logger) {
-        this.logger = Validate.notNull(logger, "logger must not be null!");
-
+    public CitizensConfiguration(@NotNull CitizensExpansion expansion) {
+        this.expansion = expansion;
         this.preventPunishments = true;
         this.preventLogin = false;
         this.mobType = EntityType.PLAYER;
@@ -43,8 +45,13 @@ public final class CitizensConfiguration implements IConfigurable {
         this.alwaysSpawnNpcOnQuit = false;
     }
 
-    private Logger getLogger() {
-        return this.logger;
+    private @NotNull CitizensExpansion getExpansion() {
+        return this.expansion;
+    }
+
+    private @NotNull Logger getLogger() {
+        CitizensExpansion expansion = getExpansion();
+        return expansion.getLogger();
     }
 
     @Override
@@ -84,22 +91,15 @@ public final class CitizensConfiguration implements IConfigurable {
         return mobType;
     }
 
-    public void setMobType(EntityType mobType) {
+    public void setMobType(@NotNull EntityType mobType) {
         this.mobType = mobType;
     }
 
-    private void setMobType(String mobTypeName) {
-        Logger logger = getLogger();
-        if (mobTypeName == null) {
-            logger.warning("mob-type is null, defaulting to PLAYER.");
-            setMobType(EntityType.PLAYER);
-            return;
-        }
-
-
+    private void setMobType(@NotNull String mobTypeName) {
         try {
             EntityType mobType = EntityType.valueOf(mobTypeName);
             if (!mobType.isAlive()) {
+                Logger logger = getLogger();
                 logger.warning("'" + mobType + "' is a non-living value, default to PLAYER.");
                 setMobType(EntityType.PLAYER);
                 return;
@@ -107,6 +107,7 @@ public final class CitizensConfiguration implements IConfigurable {
 
             setMobType(mobType);
         } catch (IllegalArgumentException ex) {
+            Logger logger = getLogger();
             logger.warning("'" + mobTypeName + "' is not a valid EntityType.");
             logger.warning("Defaulting to PLAYER.");
             setMobType(EntityType.PLAYER);

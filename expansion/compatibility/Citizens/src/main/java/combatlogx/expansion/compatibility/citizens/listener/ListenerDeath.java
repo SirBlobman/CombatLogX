@@ -1,5 +1,7 @@
 package combatlogx.expansion.compatibility.citizens.listener;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -23,7 +25,7 @@ import net.citizensnpcs.api.event.NPCDespawnEvent;
 import net.citizensnpcs.api.npc.NPC;
 
 public final class ListenerDeath extends CitizensExpansionListener {
-    public ListenerDeath(CitizensExpansion expansion) {
+    public ListenerDeath(@NotNull CitizensExpansion expansion) {
         super(expansion);
     }
 
@@ -109,7 +111,7 @@ public final class ListenerDeath extends CitizensExpansionListener {
         combatNpcManager.saveData(offlinePlayer);
     }
 
-    private void checkForDeathMessages(NPCDeathEvent e, CombatNPC npc) {
+    private void checkForDeathMessages(@NotNull NPCDeathEvent e, @NotNull CombatNPC npc) {
         OfflinePlayer offlineOwner = npc.getOfflineOwner();
         EntityDeathEvent entityDeathEvent = e.getEvent();
         if (!(entityDeathEvent instanceof PlayerDeathEvent)) {

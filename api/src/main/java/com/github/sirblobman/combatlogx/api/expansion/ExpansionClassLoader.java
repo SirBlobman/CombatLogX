@@ -13,12 +13,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 class ExpansionClassLoader extends URLClassLoader {
     private final ExpansionManager manager;
@@ -112,7 +112,7 @@ class ExpansionClassLoader extends URLClassLoader {
             String errorMessageFormat = "Could not load '%s' from folder '%s'.";
 
             String errorMessage = String.format(Locale.US, errorMessageFormat, pathName, pathParent);
-            throw new IllegalStateException(errorMessage);
+            throw new IllegalStateException(errorMessage, ex);
         }
     }
 

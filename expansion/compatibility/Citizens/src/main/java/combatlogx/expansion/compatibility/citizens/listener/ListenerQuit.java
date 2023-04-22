@@ -1,5 +1,7 @@
 package combatlogx.expansion.compatibility.citizens.listener;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,7 +13,7 @@ import combatlogx.expansion.compatibility.citizens.configuration.CitizensConfigu
 import combatlogx.expansion.compatibility.citizens.manager.CombatNpcManager;
 
 public final class ListenerQuit extends CitizensExpansionListener {
-    public ListenerQuit(CitizensExpansion expansion) {
+    public ListenerQuit(@NotNull CitizensExpansion expansion) {
         super(expansion);
     }
 

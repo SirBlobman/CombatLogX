@@ -1,5 +1,7 @@
 package combatlogx.expansion.compatibility.citizens.configuration;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.configuration.ConfigurationSection;
 
 import com.github.sirblobman.api.configuration.IConfigurable;
@@ -14,7 +16,7 @@ public final class Configuration implements IConfigurable {
     }
 
     @Override
-    public void load(ConfigurationSection config) {
+    public void load(@NotNull ConfigurationSection config) {
         setNpcTagging(config.getBoolean("npc-tagging", false));
         setEnableSentinel(config.getBoolean("enable-sentinel", true));
     }

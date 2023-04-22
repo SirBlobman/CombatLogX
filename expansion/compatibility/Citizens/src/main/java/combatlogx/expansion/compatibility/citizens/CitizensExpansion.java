@@ -1,5 +1,7 @@
 package combatlogx.expansion.compatibility.citizens;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
@@ -28,11 +30,10 @@ public final class CitizensExpansion extends Expansion {
     private final CombatNpcManager combatNpcManager;
     private final InventoryManager inventoryManager;
 
-    public CitizensExpansion(ICombatLogX plugin) {
+    public CitizensExpansion(@NotNull ICombatLogX plugin) {
         super(plugin);
-
         this.configuration = new Configuration();
-        this.citizensConfiguration = new CitizensConfiguration(getLogger());
+        this.citizensConfiguration = new CitizensConfiguration(this);
         this.sentinelConfiguration = new SentinelConfiguration(this);
 
         this.combatNpcManager = new CombatNpcManager(this);
@@ -84,11 +85,11 @@ public final class CitizensExpansion extends Expansion {
         getSentinelConfiguration().load(configurationManager.get("sentinel.yml"));
     }
 
-    public CombatNpcManager getCombatNpcManager() {
+    public @NotNull CombatNpcManager getCombatNpcManager() {
         return this.combatNpcManager;
     }
 
-    public InventoryManager getInventoryManager() {
+    public @NotNull InventoryManager getInventoryManager() {
         return this.inventoryManager;
     }
 
@@ -112,15 +113,15 @@ public final class CitizensExpansion extends Expansion {
         }
     }
 
-    public Configuration getConfiguration() {
+    public @NotNull Configuration getConfiguration() {
         return this.configuration;
     }
 
-    public CitizensConfiguration getCitizensConfiguration() {
+    public @NotNull CitizensConfiguration getCitizensConfiguration() {
         return this.citizensConfiguration;
     }
 
-    public SentinelConfiguration getSentinelConfiguration() {
+    public @NotNull SentinelConfiguration getSentinelConfiguration() {
         return this.sentinelConfiguration;
     }
 }

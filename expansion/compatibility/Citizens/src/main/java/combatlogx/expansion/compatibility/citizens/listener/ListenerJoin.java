@@ -2,6 +2,8 @@ package combatlogx.expansion.compatibility.citizens.listener;
 
 import java.util.UUID;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -22,11 +24,11 @@ import com.github.sirblobman.api.language.ComponentHelper;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
-import com.github.sirblobman.api.shaded.adventure.text.Component;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
+import com.github.sirblobman.api.shaded.adventure.text.Component;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
 import combatlogx.expansion.compatibility.citizens.configuration.CitizensConfiguration;
@@ -36,7 +38,7 @@ import combatlogx.expansion.compatibility.citizens.object.CombatNPC;
 import net.citizensnpcs.api.npc.NPC;
 
 public final class ListenerJoin extends CitizensExpansionListener {
-    public ListenerJoin(CitizensExpansion expansion) {
+    public ListenerJoin(@NotNull CitizensExpansion expansion) {
         super(expansion);
     }
 
@@ -89,7 +91,7 @@ public final class ListenerJoin extends CitizensExpansionListener {
         printDebug("Scheduled punishment for one tick after login.");
     }
 
-    private boolean shouldAllowLogin(UUID uuid) {
+    private boolean shouldAllowLogin(@NotNull UUID uuid) {
         CitizensConfiguration configuration = getCitizensConfiguration();
         if (!configuration.isPreventLogin()) {
             printDebug("Prevent login option disabled, login allowed.");
@@ -114,9 +116,9 @@ public final class ListenerJoin extends CitizensExpansionListener {
         return false;
     }
 
-    private void punish(Player player) {
-        if (player == null || player.hasMetadata("NPC")) {
-            printDebug("Could not punish player, they are null or an NPC.");
+    private void punish(@NotNull Player player) {
+        if (player.hasMetadata("NPC")) {
+            printDebug("Could not punish player, they are an NPC.");
             return;
         }
 
@@ -170,7 +172,7 @@ public final class ListenerJoin extends CitizensExpansionListener {
         }
     }
 
-    private void setHealth(Player player, double health) {
+    private void setHealth(@NotNull Player player, double health) {
         if (Double.isInfinite(health) || Double.isNaN(health)) {
             health = 0.0D;
         }

@@ -1,11 +1,12 @@
 package combatlogx.expansion.compatibility.citizens.configuration;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.PluginManager;
 
 import com.github.sirblobman.api.configuration.IConfigurable;
-import com.github.sirblobman.api.utility.Validate;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
 
@@ -16,19 +17,18 @@ public final class SentinelConfiguration implements IConfigurable {
 
     private transient boolean sentinelPluginEnabled;
 
-    public SentinelConfiguration(CitizensExpansion expansion) {
-        this.expansion = Validate.notNull(expansion, "expansion must not be null!");
-
+    public SentinelConfiguration(@NotNull CitizensExpansion expansion) {
+        this.expansion = expansion;
         this.attackFirst = false;
         this.sentinelPluginEnabled = false;
     }
 
-    private CitizensExpansion getExpansion() {
+    private @NotNull CitizensExpansion getExpansion() {
         return this.expansion;
     }
 
     @Override
-    public void load(ConfigurationSection config) {
+    public void load(@NotNull ConfigurationSection config) {
         setAttackFirst(config.getBoolean("attack-first", false));
 
         CitizensExpansion expansion = getExpansion();

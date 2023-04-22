@@ -1,5 +1,7 @@
 package combatlogx.expansion.compatibility.citizens.listener;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -13,7 +15,7 @@ import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
 
 public final class ListenerResurrect extends CitizensExpansionListener {
-    public ListenerResurrect(CitizensExpansion expansion) {
+    public ListenerResurrect(@NotNull CitizensExpansion expansion) {
         super(expansion);
     }
 

@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -14,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.plugin.PluginManager;
 
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.item.ArmorType;
@@ -28,19 +32,17 @@ import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
 import combatlogx.expansion.compatibility.citizens.object.StoredInventory;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.trait.Equipment;
-import org.jetbrains.annotations.Nullable;
 
 public final class InventoryManager {
     private final CitizensExpansion expansion;
     private final Map<UUID, StoredInventory> storedInventoryMap;
 
-    public InventoryManager(CitizensExpansion expansion) {
-        this.expansion = Validate.notNull(expansion, "expansion must not be null!");
+    public InventoryManager(@NotNull CitizensExpansion expansion) {
+        this.expansion = expansion;
         this.storedInventoryMap = new HashMap<>();
     }
 
-    public void storeInventory(Player player) {
-        Validate.notNull(player, "player must not be null!");
+    public void storeInventory(@NotNull Player player) {
         if (player.hasMetadata("NPC")) {
             throw new IllegalArgumentException("player must not be an NPC!");
         }
@@ -60,11 +62,8 @@ public final class InventoryManager {
         playerDataManager.save(player);
     }
 
-    @Nullable
-    public StoredInventory getStoredInventory(OfflinePlayer player) {
-        Validate.notNull(player, "player must not be null!");
+    public @Nullable StoredInventory getStoredInventory(@NotNull OfflinePlayer player) {
         UUID playerId = player.getUniqueId();
-
         if (this.storedInventoryMap.containsKey(playerId)) {
             return this.storedInventoryMap.get(playerId);
         }
@@ -81,8 +80,7 @@ public final class InventoryManager {
         return StoredInventory.createFrom(expansion, section);
     }
 
-    public void removeStoredInventory(OfflinePlayer player) {
-        Validate.notNull(player, "player must not be null!");
+    public void removeStoredInventory(@NotNull OfflinePlayer player) {
         UUID playerId = player.getUniqueId();
         this.storedInventoryMap.remove(playerId);
 
@@ -94,8 +92,7 @@ public final class InventoryManager {
         playerDataManager.save(player);
     }
 
-    public void restoreInventory(Player player) {
-        Validate.notNull(player, "player must not be null!");
+    public void restoreInventory(@NotNull Player player) {
         if (player.hasMetadata("NPC")) {
             throw new IllegalArgumentException("player must not be an NPC!");
         }
@@ -129,10 +126,7 @@ public final class InventoryManager {
         player.updateInventory();
     }
 
-    public void dropInventory(OfflinePlayer player, Location location) {
-        Validate.notNull(player, "player must not be null!");
-        Validate.notNull(location, "location must not be null!");
-
+    public void dropInventory(@NotNull OfflinePlayer player, @NotNull Location location) {
         World world = location.getWorld();
         Validate.notNull(world, "location must have a valid world!");
 
@@ -158,24 +152,23 @@ public final class InventoryManager {
         removeStoredInventory(player);
     }
 
-    private void dropItem(ItemStack item, OfflinePlayer player, Location location, CitizensSlotType type) {
+    private void dropItem(@NotNull ItemStack item, @NotNull OfflinePlayer player, @NotNull Location location,
+                          @NotNull CitizensSlotType type) {
         World world = location.getWorld();
-
-        if (ItemUtility.isAir(item))
+        if (ItemUtility.isAir(item)) {
             return;
+        }
 
         NPCDropItemEvent event = new NPCDropItemEvent(item, player, location, type);
+        PluginManager pluginManager = Bukkit.getPluginManager();
+        pluginManager.callEvent(event);
 
-        Bukkit.getPluginManager().callEvent(event);
-
-        if (!event.isCancelled())
+        if (!event.isCancelled()) {
             world.dropItemNaturally(location, event.getItem());
+        }
     }
 
-    public void equipNPC(OfflinePlayer player, NPC npc) {
-        Validate.notNull(player, "player must not be null!");
-        Validate.notNull(npc, "npc must not be null!");
-
+    public void equipNPC(@NotNull OfflinePlayer player, @NotNull NPC npc) {
         Equipment equipmentTrait = npc.getOrAddTrait(Equipment.class);
         StoredInventory storedInventory = getStoredInventory(player);
         if (storedInventory == null) {
@@ -205,34 +198,34 @@ public final class InventoryManager {
         }
     }
 
-    private CitizensExpansion getExpansion() {
+    private @NotNull CitizensExpansion getExpansion() {
         return this.expansion;
     }
 
-    private ICombatLogX getICombatLogX() {
+    private @NotNull ICombatLogX getICombatLogX() {
         CitizensExpansion expansion = getExpansion();
         return expansion.getPlugin();
     }
 
-    private PlayerDataManager getPlayerDataManager() {
+    private @NotNull PlayerDataManager getPlayerDataManager() {
         ICombatLogX plugin = getICombatLogX();
         return plugin.getPlayerDataManager();
     }
 
     @SuppressWarnings("deprecation")
-    private void restoreHandsLegacy(StoredInventory storedInventory, PlayerInventory playerInventory) {
+    private void restoreHandsLegacy(@NotNull StoredInventory storedInventory, @NotNull PlayerInventory inventory) {
         ItemStack item = storedInventory.getMainHandItem();
-        playerInventory.setItemInHand(item);
+        inventory.setItemInHand(item);
     }
 
-    private void restoreHandsModern(StoredInventory storedInventory, PlayerInventory playerInventory) {
+    private void restoreHandsModern(@NotNull StoredInventory storedInventory, @NotNull PlayerInventory inventory) {
         ItemStack mainHand = storedInventory.getMainHandItem();
         ItemStack offHand = storedInventory.getOffHandItem();
-        playerInventory.setItemInMainHand(mainHand);
-        playerInventory.setItemInOffHand(offHand);
+        inventory.setItemInMainHand(mainHand);
+        inventory.setItemInOffHand(offHand);
     }
 
-    private Equipment.EquipmentSlot getNpcSlotFromBukkitSlot(org.bukkit.inventory.EquipmentSlot slot) {
+    private Equipment.EquipmentSlot getNpcSlotFromBukkitSlot(@NotNull EquipmentSlot slot) {
         if (VersionUtility.getMinorVersion() > 8) {
             if (slot == EquipmentSlot.OFF_HAND) {
                 return Equipment.EquipmentSlot.OFF_HAND;
