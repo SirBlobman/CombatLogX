@@ -1,8 +1,7 @@
 package combatlogx.expansion.force.field;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -15,7 +14,7 @@ public final class ForceFieldExpansion extends Expansion {
     private final ForceFieldConfiguration configuration;
     private ForceFieldTask task;
 
-    public ForceFieldExpansion(ICombatLogX plugin) {
+    public ForceFieldExpansion(@NotNull ICombatLogX plugin) {
         super(plugin);
         this.configuration = new ForceFieldConfiguration();
         this.task = null;
@@ -54,18 +53,14 @@ public final class ForceFieldExpansion extends Expansion {
     public void reloadConfig() {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.reload("config.yml");
-
-        ForceFieldConfiguration forceFieldConfiguration = getConfiguration();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        forceFieldConfiguration.load(configuration);
+        getConfiguration().load(configurationManager.get("config.yml"));
     }
 
-    @Nullable
-    public ForceFieldTask getTask() {
+    public @Nullable ForceFieldTask getTask() {
         return this.task;
     }
 
-    public ForceFieldConfiguration getConfiguration() {
+    public @NotNull ForceFieldConfiguration getConfiguration() {
         return this.configuration;
     }
 

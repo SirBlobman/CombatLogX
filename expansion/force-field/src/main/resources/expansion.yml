@@ -3,7 +3,7 @@ prefix: "${expansionPrefix}"
 description: "${expansionDescription}"
 
 main: "combatlogx.expansion.force.field.ForceFieldExpansion"
-version: "17.2"
+version: "17.3"
 authors:
   - "olivolja3 (Olivo#3313)"
   - "SirBlobman"

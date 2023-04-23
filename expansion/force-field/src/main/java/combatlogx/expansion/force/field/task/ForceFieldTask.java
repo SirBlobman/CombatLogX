@@ -8,6 +8,8 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -25,8 +27,6 @@ import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.github.sirblobman.api.location.BlockLocation;
-import com.github.sirblobman.api.shaded.xseries.XMaterial;
-import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
@@ -37,6 +37,7 @@ import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
+import com.github.sirblobman.api.shaded.xseries.XMaterial;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
@@ -48,9 +49,9 @@ public final class ForceFieldTask extends ExpansionListener implements Runnable 
     private final Map<UUID, Set<BlockLocation>> fakeBlockMap;
     private BukkitTask bukkitTask;
 
-    public ForceFieldTask(ForceFieldExpansion expansion) {
+    public ForceFieldTask(@NotNull ForceFieldExpansion expansion) {
         super(expansion);
-        this.expansion = Validate.notNull(expansion, "expansion must not be null!");
+        this.expansion = expansion;
         this.fakeBlockMap = new ConcurrentHashMap<>();
         this.bukkitTask = null;
     }
@@ -112,21 +113,80 @@ public final class ForceFieldTask extends ExpansionListener implements Runnable 
         }
     }
 
-    public Map<UUID, Set<BlockLocation>> getFakeBlockMap() {
+    public @NotNull Map<UUID, Set<BlockLocation>> getFakeBlockMap() {
         return this.fakeBlockMap;
     }
 
-    private ForceFieldExpansion getForceFieldExpansion() {
+    boolean isSafe(@NotNull Player player, @NotNull Location location) {
+        ICombatManager combatManager = getCombatManager();
+        TagInformation tag = combatManager.getTagInformation(player);
+        if (tag == null) {
+            return false;
+        }
+
+        return isSafe(player, location, tag);
+    }
+
+    boolean isSafeSurround(@NotNull Player player, @NotNull Location location, @NotNull TagInformation tag) {
+        Block blockLocation = location.getBlock();
+        BlockFace[] faces = {BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH, BlockFace.SOUTH,
+                BlockFace.EAST, BlockFace.WEST};
+        for (BlockFace blockFace : faces) {
+            Location relativeLocation = blockLocation.getRelative(blockFace).getLocation();
+            if (!isSafe(player, relativeLocation, tag)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    void sendForceField(Player player, Location location) {
+        ForceFieldConfiguration configuration = getConfiguration();
+        XMaterial material = configuration.getMaterial();
+        int minorVersion = VersionUtility.getMinorVersion();
+
+        if (minorVersion < 13) {
+            sendFakeBlockLegacy(player, location, material);
+        } else {
+            sendFakeBlockModern(player, location, material);
+        }
+    }
+
+    boolean canPlace(@NotNull BlockLocation blockLocation) {
+        World world = blockLocation.getWorld();
+        if (world == null) {
+            return false;
+        }
+
+        int maxY = world.getMaxHeight();
+        int locationY = blockLocation.getY();
+        if (locationY > maxY) {
+            return false;
+        }
+
+        Location location = blockLocation.asLocation();
+        if (location == null) {
+            return false;
+        }
+
+        Block block = location.getBlock();
+        Material material = block.getType();
+        return (material == Material.AIR || !material.isSolid());
+    }
+
+    private @NotNull ForceFieldExpansion getForceFieldExpansion() {
         return this.expansion;
     }
 
-    private ForceFieldConfiguration getConfiguration() {
+    private @NotNull ForceFieldConfiguration getConfiguration() {
         ForceFieldExpansion expansion = getForceFieldExpansion();
         return expansion.getConfiguration();
     }
 
-    private void checkForceField(Player player) {
+    private void checkForceField(@NotNull Player player) {
         if (hasBypass(player)) {
+            removeForceField(player);
             return;
         }
 
@@ -138,7 +198,7 @@ public final class ForceFieldTask extends ExpansionListener implements Runnable 
         updateForceField(player);
     }
 
-    private boolean hasBypass(Player player) {
+    private boolean hasBypass(@NotNull Player player) {
         ForceFieldConfiguration configuration = getConfiguration();
         Permission bypassPermission = configuration.getBypassPermission();
         if (bypassPermission == null) {
@@ -148,17 +208,7 @@ public final class ForceFieldTask extends ExpansionListener implements Runnable 
         return player.hasPermission(bypassPermission);
     }
 
-    boolean isSafe(Player player, Location location) {
-        ICombatManager combatManager = getCombatManager();
-        TagInformation tagInformation = combatManager.getTagInformation(player);
-        if (tagInformation == null) {
-            return false;
-        }
-
-        return isSafe(player, location, tagInformation);
-    }
-
-    private boolean isSafe(Player player, Location location, TagInformation tagInformation) {
+    private boolean isSafe(@NotNull Player player, @NotNull Location location, @NotNull TagInformation tag) {
         ICombatLogX plugin = getCombatLogX();
         ExpansionManager expansionManager = plugin.getExpansionManager();
         List<Expansion> enabledExpansionList = expansionManager.getEnabledExpansions();
@@ -169,8 +219,8 @@ public final class ForceFieldTask extends ExpansionListener implements Runnable 
             }
 
             RegionExpansion regionExpansion = (RegionExpansion) expansion;
-            RegionHandler regionHandler = regionExpansion.getRegionHandler();
-            if (regionHandler.isSafeZone(player, location, tagInformation)) {
+            RegionHandler<?> regionHandler = regionExpansion.getRegionHandler();
+            if (regionHandler.isSafeZone(player, location, tag)) {
                 return true;
             }
         }
@@ -178,37 +228,25 @@ public final class ForceFieldTask extends ExpansionListener implements Runnable 
         return false;
     }
 
-    boolean isSafeSurround(Player player, Location location, TagInformation tagInformation) {
-        Block blockLocation = location.getBlock();
-        BlockFace[] faces = {BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH, BlockFace.SOUTH,
-                BlockFace.EAST, BlockFace.WEST};
-        for (BlockFace blockFace : faces) {
-            Location relativeLocation = blockLocation.getRelative(blockFace).getLocation();
-            if (!isSafe(player, relativeLocation, tagInformation)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private void updateForceField(Player player) {
+    private void updateForceField(@NotNull Player player) {
         ICombatManager combatManager = getCombatManager();
         if (!combatManager.isInCombat(player)) {
+            removeForceField(player);
             return;
         }
 
         TagInformation tagInformation = combatManager.getTagInformation(player);
         if (tagInformation == null) {
+            removeForceField(player);
             return;
         }
 
         updateForceField(player, tagInformation);
     }
 
-    private void updateForceField(Player player, TagInformation tagInformation) {
+    private void updateForceField(@NotNull Player player, @NotNull TagInformation tag) {
         Set<BlockLocation> oldArea = new HashSet<>();
-        Set<BlockLocation> newArea = getForceFieldArea(player, tagInformation);
+        Set<BlockLocation> newArea = getForceFieldArea(player, tag);
         Set<BlockLocation> fullArea = new HashSet<>(newArea);
 
         UUID playerId = player.getUniqueId();
@@ -242,38 +280,9 @@ public final class ForceFieldTask extends ExpansionListener implements Runnable 
         }
     }
 
-    boolean canPlace(BlockLocation blockLocation) {
-        if (blockLocation == null) {
-            return false;
-        }
-
-        World world = blockLocation.getWorld();
-        if (world == null) {
-            return false;
-        }
-
-        int maxY = world.getMaxHeight();
-        int locationY = blockLocation.getY();
-        if (locationY > maxY) {
-            return false;
-        }
-
-        Location location = blockLocation.asLocation();
-        if (location == null) {
-            return false;
-        }
-
-        Block block = location.getBlock();
-        Material material = block.getType();
-        return (material == Material.AIR || !material.isSolid());
-    }
-
-    private Set<BlockLocation> getForceFieldArea(Player player, TagInformation tagInformation) {
+    private @NotNull Set<BlockLocation> getForceFieldArea(@NotNull Player player, @NotNull TagInformation tagInformation) {
         World world = player.getWorld();
         BlockLocation playerBlockLocation = BlockLocation.from(player);
-        if (playerBlockLocation == null) {
-            throw new IllegalStateException("playerBlockLocation is somehow null?");
-        }
 
         Set<BlockLocation> area = new HashSet<>();
         ForceFieldConfiguration configuration = getConfiguration();
@@ -317,34 +326,38 @@ public final class ForceFieldTask extends ExpansionListener implements Runnable 
         return area;
     }
 
-    @SuppressWarnings("deprecation")
     private void resetBlock(Player player, Location location) {
         Block block = location.getBlock();
         int minorVersion = VersionUtility.getMinorVersion();
         if (minorVersion < 13) {
-            Material bukkitMaterial = block.getType();
-            byte bukkitData = block.getData();
-            player.sendBlockChange(location, bukkitMaterial, bukkitData);
-            return;
+            resetBlockLegacy(player, block);
+        } else {
+            resetBlockModern(player, block);
         }
-
-        BlockData blockData = block.getBlockData();
-        player.sendBlockChange(location, blockData);
     }
 
     @SuppressWarnings("deprecation")
-    void sendForceField(Player player, Location location) {
-        ForceFieldConfiguration configuration = getConfiguration();
-        XMaterial material = configuration.getMaterial();
+    private void resetBlockLegacy(@NotNull Player player, @NotNull Block block) {
+        Location location = block.getLocation();
+        Material material = block.getType();
+        byte data = block.getData();
+        player.sendBlockChange(location, material, data);
+    }
+
+    @SuppressWarnings("deprecation")
+    private void sendFakeBlockLegacy(@NotNull Player player, @NotNull Location location, @NotNull XMaterial material) {
         Material bukkitMaterial = material.parseMaterial();
         if (bukkitMaterial == null || !bukkitMaterial.isBlock()) {
             return;
         }
 
-        int minorVersion = VersionUtility.getMinorVersion();
-        if (minorVersion < 13) {
-            byte data = material.getData();
-            player.sendBlockChange(location, bukkitMaterial, data);
+        byte data = material.getData();
+        player.sendBlockChange(location, bukkitMaterial, data);
+    }
+
+    private void sendFakeBlockModern(@NotNull Player player, @NotNull Location location, @NotNull XMaterial material) {
+        Material bukkitMaterial = material.parseMaterial();
+        if (bukkitMaterial == null || !bukkitMaterial.isBlock()) {
             return;
         }
 
@@ -352,7 +365,13 @@ public final class ForceFieldTask extends ExpansionListener implements Runnable 
         player.sendBlockChange(location, blockData);
     }
 
-    private void removeForceField(Player player) {
+    private void resetBlockModern(@NotNull Player player, @NotNull Block block) {
+        Location location = block.getLocation();
+        BlockData blockData = block.getBlockData();
+        player.sendBlockChange(location, blockData);
+    }
+
+    private void removeForceField(@NotNull Player player) {
         UUID playerId = player.getUniqueId();
         if (!this.fakeBlockMap.containsKey(playerId)) {
             return;

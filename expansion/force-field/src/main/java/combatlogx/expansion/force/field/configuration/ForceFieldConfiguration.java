@@ -29,23 +29,10 @@ public final class ForceFieldConfiguration implements IConfigurable {
 
     @Override
     public void load(@NotNull ConfigurationSection section) {
-        boolean enabled = section.getBoolean("enabled", true);
-        setEnabled(enabled);
-
-        String materialName = section.getString("material");
-        if (materialName == null) {
-            materialName = "RED_STAINED_GLASS";
-        }
-
-        Optional<XMaterial> optionalMaterial = XMaterial.matchXMaterial(materialName);
-        setMaterial(optionalMaterial.orElse(XMaterial.RED_STAINED_GLASS));
-
-        int radius = section.getInt("radius", 8);
-        setRadius(radius);
-
-        String bypassPermissionName = section.getString("bypass-permission",
-                "combatlogx.bypass.force.field");
-        setBypassPermissionName(bypassPermissionName);
+        setEnabled(section.getBoolean("enabled", true));
+        setMaterial(section.getString("material", "RED_STAINED_GLASS"));
+        setRadius(section.getInt("radius", 8));
+        setBypassPermissionName(section.getString("bypass-permission"));
     }
 
     public boolean isEnabled() {
@@ -64,8 +51,18 @@ public final class ForceFieldConfiguration implements IConfigurable {
         this.material = material;
     }
 
+    public void setMaterial(@Nullable String materialName) {
+        if (materialName == null) {
+            setMaterial(XMaterial.RED_STAINED_GLASS);
+            return;
+        }
+
+        Optional<XMaterial> optionalMaterial = XMaterial.matchXMaterial(materialName);
+        setMaterial(optionalMaterial.orElse(XMaterial.RED_STAINED_GLASS));
+    }
+
     public int getRadius() {
-        return radius;
+        return this.radius;
     }
 
     public void setRadius(int radius) {
