@@ -82,7 +82,8 @@ public final class RegionHandlerLands extends RegionHandler<LandsExpansion> {
                 return getRoleFlag(enemy);
             case DAMAGE:
                 return Flags.NO_DAMAGE;
-            default: break;
+            default:
+                break;
         }
 
         return null;

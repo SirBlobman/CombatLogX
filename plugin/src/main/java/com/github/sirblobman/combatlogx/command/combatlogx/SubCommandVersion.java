@@ -3,6 +3,9 @@ package com.github.sirblobman.combatlogx.command.combatlogx;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -13,10 +16,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.sirblobman.api.core.CorePlugin;
 import com.github.sirblobman.api.language.LanguageManager;
-import com.github.sirblobman.api.shaded.adventure.text.Component;
-import com.github.sirblobman.api.shaded.adventure.text.TextComponent.Builder;
-import com.github.sirblobman.api.shaded.adventure.text.format.NamedTextColor;
-import com.github.sirblobman.api.shaded.adventure.text.format.TextDecoration;
 import com.github.sirblobman.api.update.UpdateManager;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -24,9 +23,10 @@ import com.github.sirblobman.combatlogx.api.command.CombatLogCommand;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionDescription;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import com.github.sirblobman.api.shaded.adventure.text.Component;
+import com.github.sirblobman.api.shaded.adventure.text.TextComponent.Builder;
+import com.github.sirblobman.api.shaded.adventure.text.format.NamedTextColor;
+import com.github.sirblobman.api.shaded.adventure.text.format.TextDecoration;
 
 public final class SubCommandVersion extends CombatLogCommand {
     public SubCommandVersion(@NotNull ICombatLogX plugin) {

@@ -6,20 +6,20 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.command.CommandSender;
 
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.language.replacer.Replacer;
 import com.github.sirblobman.api.language.replacer.StringReplacer;
-import com.github.sirblobman.api.shaded.adventure.text.Component;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.command.CombatLogCommand;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion.State;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionDescription;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
-
-import org.jetbrains.annotations.NotNull;
+import com.github.sirblobman.api.shaded.adventure.text.Component;
 
 public final class SubCommandAbout extends CombatLogCommand {
     public SubCommandAbout(@NotNull ICombatLogX plugin) {

@@ -10,10 +10,12 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-import com.github.sirblobman.api.shaded.adventure.text.Component;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.configuration.MainConfiguration;
@@ -21,9 +23,7 @@ import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 import com.github.sirblobman.combatlogx.api.placeholder.IPlaceholderExpansion;
 import com.github.sirblobman.combatlogx.api.placeholder.PlaceholderHelper;
 import com.github.sirblobman.combatlogx.api.utility.CommandHelper;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import com.github.sirblobman.api.shaded.adventure.text.Component;
 
 public final class PlaceholderManager extends Manager implements IPlaceholderManager {
     private static final Pattern BRACKET_PLACEHOLDER_PATTERN;
@@ -83,6 +83,7 @@ public final class PlaceholderManager extends Manager implements IPlaceholderMan
         printDebug("Sub Placeholder: " + subPlaceholder);
         return expansion.getReplacementString(player, enemyList, subPlaceholder);
     }
+
     @Override
     public @Nullable Component getPlaceholderReplacementComponent(@NotNull Player player,
                                                                   @NotNull List<Entity> enemyList,

@@ -1,5 +1,7 @@
 package combatlogx.expansion.cheat.prevention.listener.paper;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -11,7 +13,6 @@ import io.papermc.paper.event.entity.EntityInsideBlockEvent;
 import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
 import combatlogx.expansion.cheat.prevention.configuration.ITeleportConfiguration;
 import combatlogx.expansion.cheat.prevention.listener.CheatPreventionListener;
-import org.jetbrains.annotations.NotNull;
 
 public final class ListenerPaperEntityInsideBlock extends CheatPreventionListener {
     public ListenerPaperEntityInsideBlock(@NotNull ICheatPreventionExpansion expansion) {

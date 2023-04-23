@@ -2,6 +2,8 @@ package combatlogx.expansion.cheat.prevention.listener.modern;
 
 import java.util.Collection;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,7 +18,6 @@ import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
 import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
 import combatlogx.expansion.cheat.prevention.configuration.IPotionConfiguration;
 import combatlogx.expansion.cheat.prevention.listener.CheatPreventionListener;
-import org.jetbrains.annotations.NotNull;
 
 public class ListenerModernPotions extends CheatPreventionListener {
     public ListenerModernPotions(@NotNull ICheatPreventionExpansion expansion) {

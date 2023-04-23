@@ -2,6 +2,9 @@ package combatlogx.expansion.damage.tagger.listener;
 
 import java.util.Locale;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -20,8 +23,6 @@ import com.github.sirblobman.combatlogx.api.object.TagType;
 
 import combatlogx.expansion.damage.tagger.DamageTaggerExpansion;
 import combatlogx.expansion.damage.tagger.configuration.DamageTaggerConfiguration;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public final class ListenerDamage extends ExpansionListener {
     private final DamageTaggerExpansion expansion;

@@ -3,11 +3,11 @@ package com.github.sirblobman.combatlogx.api.expansion;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-
-import org.jetbrains.annotations.NotNull;
 
 public final class ExpansionLogger extends Logger {
     private final Expansion expansion;

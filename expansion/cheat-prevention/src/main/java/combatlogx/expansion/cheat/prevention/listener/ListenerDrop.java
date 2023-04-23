@@ -1,5 +1,7 @@
 package combatlogx.expansion.cheat.prevention.listener;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -7,7 +9,6 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 
 import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
 import combatlogx.expansion.cheat.prevention.configuration.IItemConfiguration;
-import org.jetbrains.annotations.NotNull;
 
 public final class ListenerDrop extends CheatPreventionListener {
     public ListenerDrop(@NotNull ICheatPreventionExpansion expansion) {

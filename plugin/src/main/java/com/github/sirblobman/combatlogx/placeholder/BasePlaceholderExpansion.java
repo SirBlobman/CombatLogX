@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -18,10 +21,6 @@ import org.bukkit.plugin.PluginManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
-import com.github.sirblobman.api.shaded.adventure.text.Component;
-import com.github.sirblobman.api.shaded.adventure.text.format.NamedTextColor;
-import com.github.sirblobman.api.shaded.adventure.text.minimessage.MiniMessage;
-import com.github.sirblobman.api.shaded.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import com.github.sirblobman.api.utility.paper.PaperChecker;
 import com.github.sirblobman.api.utility.paper.PaperHelper;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -31,10 +30,12 @@ import com.github.sirblobman.combatlogx.api.manager.IPunishManager;
 import com.github.sirblobman.combatlogx.api.object.CombatTag;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.placeholder.IPlaceholderExpansion;
+import com.github.sirblobman.api.shaded.adventure.text.Component;
+import com.github.sirblobman.api.shaded.adventure.text.format.NamedTextColor;
+import com.github.sirblobman.api.shaded.adventure.text.minimessage.MiniMessage;
+import com.github.sirblobman.api.shaded.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public final class BasePlaceholderExpansion implements IPlaceholderExpansion {
     private final ICombatLogX plugin;

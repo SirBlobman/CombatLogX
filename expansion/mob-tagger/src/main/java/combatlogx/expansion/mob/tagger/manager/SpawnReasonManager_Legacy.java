@@ -4,11 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
 import combatlogx.expansion.mob.tagger.MobTaggerExpansion;
-import org.jetbrains.annotations.NotNull;
 
 public final class SpawnReasonManager_Legacy implements ISpawnReasonManager {
     private final MobTaggerExpansion expansion;

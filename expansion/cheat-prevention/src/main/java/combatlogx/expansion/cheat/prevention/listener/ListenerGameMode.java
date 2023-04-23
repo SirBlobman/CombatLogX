@@ -1,5 +1,7 @@
 package combatlogx.expansion.cheat.prevention.listener;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,7 +16,6 @@ import com.github.sirblobman.combatlogx.api.object.UntagReason;
 
 import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
 import combatlogx.expansion.cheat.prevention.configuration.IGameModeConfiguration;
-import org.jetbrains.annotations.NotNull;
 
 public final class ListenerGameMode extends CheatPreventionListener {
     public ListenerGameMode(@NotNull ICheatPreventionExpansion expansion) {

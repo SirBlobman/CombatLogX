@@ -10,8 +10,7 @@ public enum LogType {
     TAG(LogOptions::isLogTag, LogEntryOptions::getTagFormat),
     RE_TAG(LogOptions::isLogRetag, LogEntryOptions::getRetagFormat),
     UNTAG(LogOptions::isLogUntag, LogEntryOptions::getUntagFormat),
-    PUNISH(LogOptions::isLogPunish, LogEntryOptions::getPunishFormat)
-    ;
+    PUNISH(LogOptions::isLogPunish, LogEntryOptions::getPunishFormat);
 
     private final Function<LogOptions, Boolean> enabledFunction;
     private final Function<LogEntryOptions, String> formatFunction;

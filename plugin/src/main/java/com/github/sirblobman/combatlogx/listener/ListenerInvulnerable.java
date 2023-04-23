@@ -1,5 +1,7 @@
 package com.github.sirblobman.combatlogx.listener;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,8 +15,6 @@ import org.bukkit.scheduler.BukkitScheduler;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.configuration.MainConfiguration;
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
-
-import org.jetbrains.annotations.NotNull;
 
 public final class ListenerInvulnerable extends CombatListener {
     public ListenerInvulnerable(@NotNull ICombatLogX plugin) {

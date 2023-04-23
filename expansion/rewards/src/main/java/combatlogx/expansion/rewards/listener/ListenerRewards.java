@@ -198,7 +198,7 @@ public final class ListenerRewards extends ExpansionListener {
     private void runCommand(@NotNull CommandSender sender, @NotNull String command) {
         try {
             Bukkit.dispatchCommand(sender, command);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             Logger logger = getExpansionLogger();
             String messageFormat = "Failed to execute command '/%s' in the console:";
             String logMessage = String.format(Locale.US, messageFormat, command);

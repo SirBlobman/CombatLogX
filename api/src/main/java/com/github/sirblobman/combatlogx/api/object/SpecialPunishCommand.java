@@ -5,21 +5,19 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.configuration.ConfigurationSection;
 
 import com.github.sirblobman.api.configuration.IConfigurable;
 import com.github.sirblobman.api.utility.Validate;
 
-import org.jetbrains.annotations.NotNull;
-
 public final class SpecialPunishCommand implements IConfigurable {
     private final String id;
-
+    private final List<String> commandList;
     private int amountMin;
     private int amountMax;
     private boolean reset;
-
-    private final List<String> commandList;
 
     public SpecialPunishCommand(@NotNull String id) {
         this.id = Validate.notEmpty(id, "id must not be empty!");

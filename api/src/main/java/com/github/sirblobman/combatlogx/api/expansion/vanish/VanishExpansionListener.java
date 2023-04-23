@@ -5,7 +5,8 @@ import org.jetbrains.annotations.NotNull;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 public abstract class VanishExpansionListener extends ExpansionListener {
-    private final VanishExpansion expansion;;
+    private final VanishExpansion expansion;
+    ;
 
     public VanishExpansionListener(@NotNull VanishExpansion expansion) {
         super(expansion);

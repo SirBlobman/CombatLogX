@@ -4,6 +4,8 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -11,8 +13,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-
-import org.jetbrains.annotations.NotNull;
 
 public final class CommandHelper {
     public static void runSync(@NotNull ICombatLogX plugin, @NotNull Runnable task) {

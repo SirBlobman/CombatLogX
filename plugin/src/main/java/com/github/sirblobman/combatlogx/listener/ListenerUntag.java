@@ -3,6 +3,8 @@ package com.github.sirblobman.combatlogx.listener;
 import java.util.List;
 import java.util.Locale;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,8 +22,6 @@ import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 import com.github.sirblobman.combatlogx.api.manager.IPunishManager;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
-
-import org.jetbrains.annotations.NotNull;
 
 public final class ListenerUntag extends CombatListener {
     public ListenerUntag(@NotNull ICombatLogX plugin) {

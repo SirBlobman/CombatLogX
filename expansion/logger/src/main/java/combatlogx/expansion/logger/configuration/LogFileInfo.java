@@ -15,12 +15,11 @@ import org.bukkit.configuration.ConfigurationSection;
 import com.github.sirblobman.api.configuration.IConfigurable;
 
 public final class LogFileInfo implements IConfigurable {
+    private final Pattern fileNameFixerPattern;
     private String fileName;
     private String fileExtraFormat;
     private String fileExtension;
-
     private transient DateFormat dateFormat;
-    private final Pattern fileNameFixerPattern;
 
     public LogFileInfo() {
         this.fileName = "logger";

@@ -3,10 +3,10 @@ package com.github.sirblobman.combatlogx.api.object;
 import java.lang.ref.WeakReference;
 import java.util.UUID;
 
-import org.bukkit.entity.Entity;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import org.bukkit.entity.Entity;
 
 public final class CombatTag implements Comparable<CombatTag> {
     private final UUID enemyId;

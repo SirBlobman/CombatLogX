@@ -1,5 +1,7 @@
 package combatlogx.expansion.cheat.prevention.listener.modern;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,7 +11,6 @@ import org.bukkit.event.world.PortalCreateEvent;
 import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
 import combatlogx.expansion.cheat.prevention.configuration.IBlockConfiguration;
 import combatlogx.expansion.cheat.prevention.listener.CheatPreventionListener;
-import org.jetbrains.annotations.NotNull;
 
 public final class ListenerModernPortalCreate extends CheatPreventionListener {
     public ListenerModernPortalCreate(@NotNull ICheatPreventionExpansion expansion) {

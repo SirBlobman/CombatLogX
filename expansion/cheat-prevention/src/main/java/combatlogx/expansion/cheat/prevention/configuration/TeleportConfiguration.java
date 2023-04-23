@@ -14,12 +14,11 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import static com.github.sirblobman.api.utility.ConfigurationHelper.parseEnums;
 
 public final class TeleportConfiguration implements ITeleportConfiguration {
+    private final Set<TeleportCause> allowedTeleportCauseSet;
     private boolean preventPortals;
     private boolean preventTeleportation;
     private boolean enderPearlRetag;
     private boolean untag;
-
-    private final Set<TeleportCause> allowedTeleportCauseSet;
 
     public TeleportConfiguration() {
         this.preventPortals = true;

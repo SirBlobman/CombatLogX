@@ -16,5 +16,6 @@ public abstract class DisguiseHandler<DE extends DisguiseExpansion> {
     }
 
     public abstract boolean hasDisguise(@NotNull Player player);
+
     public abstract void removeDisguise(@NotNull Player player);
 }

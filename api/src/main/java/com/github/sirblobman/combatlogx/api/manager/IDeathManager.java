@@ -2,12 +2,12 @@ package com.github.sirblobman.combatlogx.api.manager;
 
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogXNeeded;
-
-import org.jetbrains.annotations.NotNull;
 
 public interface IDeathManager extends ICombatLogXNeeded {
     /**

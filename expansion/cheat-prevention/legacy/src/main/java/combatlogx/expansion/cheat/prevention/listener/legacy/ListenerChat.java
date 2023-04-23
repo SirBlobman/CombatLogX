@@ -1,5 +1,7 @@
 package combatlogx.expansion.cheat.prevention.listener.legacy;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -8,7 +10,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
 import combatlogx.expansion.cheat.prevention.configuration.IChatConfiguration;
 import combatlogx.expansion.cheat.prevention.listener.CheatPreventionListener;
-import org.jetbrains.annotations.NotNull;
 
 public final class ListenerChat extends CheatPreventionListener {
     public ListenerChat(@NotNull ICheatPreventionExpansion expansion) {

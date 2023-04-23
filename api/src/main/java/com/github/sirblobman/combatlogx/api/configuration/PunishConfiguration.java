@@ -15,14 +15,13 @@ import com.github.sirblobman.combatlogx.api.object.KillTime;
 import static com.github.sirblobman.api.utility.ConfigurationHelper.parseEnum;
 
 public final class PunishConfiguration implements IConfigurable {
+    private final List<String> kickIgnoreList;
+    private final List<String> customDeathMessageList;
     private boolean onDisconnect;
     private boolean onKick;
     private boolean onExpire;
     private KillTime killTime;
     private boolean enablePunishmentCounter;
-
-    private final List<String> kickIgnoreList;
-    private final List<String> customDeathMessageList;
 
     public PunishConfiguration() {
         this.onDisconnect = true;

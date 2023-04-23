@@ -7,15 +7,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.potion.PotionEffectType;
 
-import org.jetbrains.annotations.NotNull;
-
 public final class PotionConfiguration implements IPotionConfiguration {
-    private boolean blockedPotionTypeSetInverted;
-
     private final Set<PotionEffectType> blockedPotionTypeSet;
+    private boolean blockedPotionTypeSetInverted;
 
     public PotionConfiguration() {
         this.blockedPotionTypeSet = new HashSet<>();

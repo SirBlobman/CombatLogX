@@ -1,12 +1,12 @@
 package com.github.sirblobman.combatlogx.api.event;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
-
-import org.jetbrains.annotations.NotNull;
 
 /**
  * A custom event that is fired when a player is removed from combat with a specific enemy.

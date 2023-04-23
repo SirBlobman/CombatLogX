@@ -5,19 +5,18 @@ import java.util.EnumSet;
 import java.util.Locale;
 import java.util.Set;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import com.github.sirblobman.api.configuration.IConfigurable;
 
-import org.jetbrains.annotations.NotNull;
-
 public final class DamageTaggerConfiguration implements IConfigurable {
+    private final Set<DamageCause> enabledDamageTypes;
     private boolean allDamage;
     private boolean endCrystals;
     private boolean retagOnly;
-
-    private final Set<DamageCause> enabledDamageTypes;
 
     public DamageTaggerConfiguration() {
         this.allDamage = false;

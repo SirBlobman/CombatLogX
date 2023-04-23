@@ -14,14 +14,13 @@ import com.github.sirblobman.api.shaded.xseries.XMaterial;
 import static com.github.sirblobman.api.utility.ConfigurationHelper.parseEnums;
 
 public final class BlockConfiguration implements IBlockConfiguration {
+    private final Set<XMaterial> preventInteractionSet;
+    private final Set<XMaterial> preventBreakingSet;
+    private final Set<XMaterial> preventPlacingSet;
     private boolean preventInteraction;
     private boolean preventBreaking;
     private boolean preventPlacing;
     private boolean preventPortalCreation;
-
-    private final Set<XMaterial> preventInteractionSet;
-    private final Set<XMaterial> preventBreakingSet;
-    private final Set<XMaterial> preventPlacingSet;
 
     public BlockConfiguration() {
         this.preventInteraction = false;
@@ -91,22 +90,22 @@ public final class BlockConfiguration implements IBlockConfiguration {
         this.preventInteractionSet.addAll(types);
     }
 
+    public @NotNull Set<XMaterial> getPreventBreakingTypes() {
+        return Collections.unmodifiableSet(this.preventBreakingSet);
+    }
+
     public void setPreventBreakingTypes(@NotNull Collection<XMaterial> types) {
         this.preventBreakingSet.clear();
         this.preventBreakingSet.addAll(types);
     }
 
+    public @NotNull Set<XMaterial> getPreventPlacingTypes() {
+        return Collections.unmodifiableSet(this.preventPlacingSet);
+    }
+
     public void setPreventPlacingTypes(@NotNull Collection<XMaterial> types) {
         this.preventPlacingSet.clear();
         this.preventPlacingSet.addAll(types);
-    }
-
-    public @NotNull Set<XMaterial> getPreventBreakingTypes() {
-        return Collections.unmodifiableSet(this.preventBreakingSet);
-    }
-
-    public @NotNull Set<XMaterial> getPreventPlacingTypes() {
-        return Collections.unmodifiableSet(this.preventPlacingSet);
     }
 
     @Override

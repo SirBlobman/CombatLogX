@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
@@ -15,8 +17,6 @@ import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.IForgiveManager;
 import com.github.sirblobman.combatlogx.api.object.CombatTag;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
-
-import org.jetbrains.annotations.NotNull;
 
 public final class SubCommandForgiveRequest extends CombatLogPlayerCommand {
     public SubCommandForgiveRequest(@NotNull ICombatLogX plugin) {

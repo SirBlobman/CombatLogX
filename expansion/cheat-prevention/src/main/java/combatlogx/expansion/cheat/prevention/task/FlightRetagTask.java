@@ -2,6 +2,8 @@ package combatlogx.expansion.cheat.prevention.task;
 
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -15,7 +17,6 @@ import com.github.sirblobman.combatlogx.api.object.TagType;
 
 import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
 import combatlogx.expansion.cheat.prevention.configuration.IFlightConfiguration;
-import org.jetbrains.annotations.NotNull;
 
 public final class FlightRetagTask extends BukkitRunnable {
     private final ICheatPreventionExpansion expansion;

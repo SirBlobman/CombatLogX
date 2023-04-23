@@ -43,6 +43,8 @@ public abstract class ExpansionWithDependencies extends Expansion {
     }
 
     public abstract boolean checkDependencies();
+
     public abstract void onCheckedEnable();
+
     public abstract void onCheckedDisable();
 }

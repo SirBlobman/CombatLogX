@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -16,8 +18,6 @@ import com.github.sirblobman.api.core.CorePlugin;
 import com.github.sirblobman.api.language.Language;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.plugin.ConfigurablePlugin;
-import com.github.sirblobman.api.shaded.bstats.bukkit.Metrics;
-import com.github.sirblobman.api.shaded.bstats.charts.SimplePie;
 import com.github.sirblobman.api.update.UpdateManager;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -53,8 +53,8 @@ import com.github.sirblobman.combatlogx.manager.PunishManager;
 import com.github.sirblobman.combatlogx.placeholder.BasePlaceholderExpansion;
 import com.github.sirblobman.combatlogx.task.TimerUpdateTask;
 import com.github.sirblobman.combatlogx.task.UntagTask;
-
-import org.jetbrains.annotations.NotNull;
+import com.github.sirblobman.api.shaded.bstats.bukkit.Metrics;
+import com.github.sirblobman.api.shaded.bstats.charts.SimplePie;
 
 public final class CombatPlugin extends ConfigurablePlugin implements ICombatLogX {
     private final TimerUpdateTask timerUpdateTask;
@@ -244,7 +244,7 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
     }
 
     @Override
-    public String getKeyName() {
+    public @NotNull String getKeyName() {
         return "combatlogx";
     }
 

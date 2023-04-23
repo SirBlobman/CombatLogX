@@ -14,11 +14,10 @@ import com.github.sirblobman.api.shaded.xseries.XMaterial;
 import static com.github.sirblobman.api.utility.ConfigurationHelper.parseEnums;
 
 public final class BucketConfiguration implements IBucketConfiguration {
-    private boolean preventBucketEmpty;
-    private boolean preventBucketFill;
-
     private final Set<XMaterial> preventBucketEmptyTypeSet;
     private final Set<XMaterial> preventBucketFillTypeSet;
+    private boolean preventBucketEmpty;
+    private boolean preventBucketFill;
 
     public BucketConfiguration() {
         this.preventBucketEmpty = false;
@@ -58,13 +57,13 @@ public final class BucketConfiguration implements IBucketConfiguration {
         return Collections.unmodifiableSet(this.preventBucketEmptyTypeSet);
     }
 
-    public @NotNull Set<XMaterial> getPreventBucketFillTypes() {
-        return Collections.unmodifiableSet(this.preventBucketFillTypeSet);
-    }
-
     public void setPreventBucketEmptyTypes(@NotNull Collection<XMaterial> types) {
         this.preventBucketEmptyTypeSet.clear();
         this.preventBucketEmptyTypeSet.addAll(types);
+    }
+
+    public @NotNull Set<XMaterial> getPreventBucketFillTypes() {
+        return Collections.unmodifiableSet(this.preventBucketFillTypeSet);
     }
 
     public void setPreventBucketFillTypes(@NotNull Collection<XMaterial> types) {

@@ -2,6 +2,8 @@ package combatlogx.expansion.cheat.prevention.listener.legacy;
 
 import java.util.Collection;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.ThrownPotion;
@@ -14,13 +16,12 @@ import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import com.github.sirblobman.api.shaded.xseries.XMaterial;
 import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
+import com.github.sirblobman.api.shaded.xseries.XMaterial;
 
 import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
 import combatlogx.expansion.cheat.prevention.configuration.IPotionConfiguration;
 import combatlogx.expansion.cheat.prevention.listener.CheatPreventionListener;
-import org.jetbrains.annotations.NotNull;
 
 public final class ListenerLegacyPotions extends CheatPreventionListener {
     public ListenerLegacyPotions(@NotNull ICheatPreventionExpansion expansion) {

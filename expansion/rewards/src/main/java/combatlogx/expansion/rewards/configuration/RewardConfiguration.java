@@ -64,11 +64,6 @@ public final class RewardConfiguration implements IConfigurable {
         return this.usePlaceholderAPI;
     }
 
-    public void setUsePlaceholderAPI(boolean usePlaceholderAPI) {
-        this.usePlaceholderAPI = usePlaceholderAPI;
-        this.placeholderApiPlugin = null;
-    }
-
     public boolean isUsePlaceholderAPI() {
         if (this.placeholderApiPlugin != null) {
             return this.placeholderApiPlugin;
@@ -82,6 +77,11 @@ public final class RewardConfiguration implements IConfigurable {
         }
 
         return this.placeholderApiPlugin;
+    }
+
+    public void setUsePlaceholderAPI(boolean usePlaceholderAPI) {
+        this.usePlaceholderAPI = usePlaceholderAPI;
+        this.placeholderApiPlugin = null;
     }
 
     public @NotNull Map<String, Reward> getRewardMap() {

@@ -240,5 +240,6 @@ public abstract class RegionHandler<RE extends RegionExpansion> {
     }
 
     public abstract String getEntryDeniedMessagePath(@NotNull TagType tagType);
+
     public abstract boolean isSafeZone(@NotNull Player player, @NotNull Location location, @NotNull TagInformation tag);
 }

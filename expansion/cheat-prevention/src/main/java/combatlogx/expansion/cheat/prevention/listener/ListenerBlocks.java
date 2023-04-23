@@ -1,5 +1,7 @@
 package combatlogx.expansion.cheat.prevention.listener;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -10,13 +12,12 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.api.shaded.xseries.XBlock;
 import com.github.sirblobman.api.shaded.xseries.XMaterial;
-import com.github.sirblobman.api.utility.VersionUtility;
 
 import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
 import combatlogx.expansion.cheat.prevention.configuration.IBlockConfiguration;
-import org.jetbrains.annotations.NotNull;
 
 public final class ListenerBlocks extends CheatPreventionListener {
     public ListenerBlocks(@NotNull ICheatPreventionExpansion expansion) {

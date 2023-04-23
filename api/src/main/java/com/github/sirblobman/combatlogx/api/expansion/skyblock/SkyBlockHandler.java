@@ -18,6 +18,8 @@ public abstract class SkyBlockHandler<SE extends SkyBlockExpansion> {
     }
 
     public abstract @Nullable IslandWrapper getIsland(@NotNull Location location);
+
     public abstract @Nullable IslandWrapper getIsland(@NotNull OfflinePlayer player);
+
     public abstract boolean doesIslandMatch(@NotNull OfflinePlayer player1, @NotNull OfflinePlayer player2);
 }

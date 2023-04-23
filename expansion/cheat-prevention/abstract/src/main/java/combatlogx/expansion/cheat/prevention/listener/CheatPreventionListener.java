@@ -6,6 +6,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Player;
 
 import com.github.sirblobman.api.language.LanguageManager;
@@ -14,7 +16,6 @@ import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
 import combatlogx.expansion.cheat.prevention.configuration.IConfiguration;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class CheatPreventionListener extends ExpansionListener {
     private final ICheatPreventionExpansion expansion;

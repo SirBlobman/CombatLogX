@@ -2,12 +2,12 @@ package com.github.sirblobman.combatlogx.api.manager;
 
 import java.util.Set;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Player;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogXNeeded;
 import com.github.sirblobman.combatlogx.api.object.TimerUpdater;
-
-import org.jetbrains.annotations.NotNull;
 
 public interface ITimerManager extends ICombatLogXNeeded {
     /**

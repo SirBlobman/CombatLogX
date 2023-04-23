@@ -4,6 +4,7 @@ import com.github.sirblobman.combatlogx.api.configuration.PunishConfiguration;
 
 /**
  * The time that CombatLogX will kill players.
+ *
  * @see PunishConfiguration#getKillTime()
  */
 public enum KillTime {

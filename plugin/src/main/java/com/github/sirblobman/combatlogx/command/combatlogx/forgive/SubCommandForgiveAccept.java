@@ -3,13 +3,14 @@ package com.github.sirblobman.combatlogx.command.combatlogx.forgive;
 import java.util.Collections;
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import com.github.sirblobman.api.language.replacer.ComponentReplacer;
 import com.github.sirblobman.api.language.replacer.Replacer;
 import com.github.sirblobman.api.language.replacer.StringReplacer;
-import com.github.sirblobman.api.shaded.adventure.text.Component;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.command.CombatLogPlayerCommand;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
@@ -17,8 +18,7 @@ import com.github.sirblobman.combatlogx.api.manager.IForgiveManager;
 import com.github.sirblobman.combatlogx.api.object.CombatTag;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 import com.github.sirblobman.combatlogx.api.placeholder.PlaceholderHelper;
-
-import org.jetbrains.annotations.NotNull;
+import com.github.sirblobman.api.shaded.adventure.text.Component;
 
 public final class SubCommandForgiveAccept extends CombatLogPlayerCommand {
     public SubCommandForgiveAccept(@NotNull ICombatLogX plugin) {

@@ -1,5 +1,7 @@
 package combatlogx.expansion.cheat.prevention.listener;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,7 +13,6 @@ import com.github.sirblobman.api.shaded.xseries.XMaterial;
 
 import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
 import combatlogx.expansion.cheat.prevention.configuration.IBucketConfiguration;
-import org.jetbrains.annotations.NotNull;
 
 public final class ListenerBuckets extends CheatPreventionListener {
     public ListenerBuckets(@NotNull ICheatPreventionExpansion expansion) {

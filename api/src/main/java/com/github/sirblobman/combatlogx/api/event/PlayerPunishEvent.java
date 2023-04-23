@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
-
-import org.jetbrains.annotations.NotNull;
 
 /**
  * A custom event that will fire before a player is punished.

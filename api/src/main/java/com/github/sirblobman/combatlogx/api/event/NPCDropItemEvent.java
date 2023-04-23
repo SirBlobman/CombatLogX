@@ -1,5 +1,7 @@
 package com.github.sirblobman.combatlogx.api.event;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.Cancellable;
@@ -8,8 +10,6 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 
 import com.github.sirblobman.combatlogx.api.object.CitizensSlotType;
-
-import org.jetbrains.annotations.NotNull;
 
 /**
  * A custom event that will be called when an item is dropped from a combat logged NPC.

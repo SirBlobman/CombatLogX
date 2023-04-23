@@ -6,19 +6,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 public final class CommandConfiguration implements ICommandConfiguration {
-    private int delayAfterCombat;
-
     private final List<String> blockedCommandList;
     private final List<String> allowedCommandList;
-
+    private int delayAfterCombat;
     private String bypassPermissionName;
     private transient Permission bypassPermission;
 

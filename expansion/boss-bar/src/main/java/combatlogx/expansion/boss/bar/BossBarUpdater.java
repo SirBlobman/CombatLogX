@@ -7,6 +7,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
+import org.jetbrains.annotations.Contract;
+
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
@@ -16,6 +18,13 @@ import org.bukkit.scheduler.BukkitScheduler;
 
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.language.LanguageManager;
+import com.github.sirblobman.api.utility.Validate;
+import com.github.sirblobman.api.utility.VersionUtility;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
+import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
+import com.github.sirblobman.combatlogx.api.object.TagInformation;
+import com.github.sirblobman.combatlogx.api.object.TimerUpdater;
 import com.github.sirblobman.api.shaded.adventure.audience.Audience;
 import com.github.sirblobman.api.shaded.adventure.bossbar.BossBar;
 import com.github.sirblobman.api.shaded.adventure.bossbar.BossBar.Color;
@@ -24,15 +33,6 @@ import com.github.sirblobman.api.shaded.adventure.text.Component;
 import com.github.sirblobman.api.shaded.adventure.text.TextComponent;
 import com.github.sirblobman.api.shaded.adventure.text.TextReplacementConfig;
 import com.github.sirblobman.api.shaded.adventure.text.format.TextColor;
-import com.github.sirblobman.api.utility.Validate;
-import com.github.sirblobman.api.utility.VersionUtility;
-import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
-import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
-import com.github.sirblobman.combatlogx.api.object.TagInformation;
-import com.github.sirblobman.combatlogx.api.object.TimerUpdater;
-
-import org.jetbrains.annotations.Contract;
 
 public final class BossBarUpdater implements TimerUpdater {
     private final BossBarExpansion expansion;

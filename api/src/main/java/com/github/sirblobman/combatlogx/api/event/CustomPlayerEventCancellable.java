@@ -1,9 +1,9 @@
 package com.github.sirblobman.combatlogx.api.event;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
-
-import org.jetbrains.annotations.NotNull;
 
 public abstract class CustomPlayerEventCancellable extends CustomPlayerEvent implements Cancellable {
     private boolean cancelled;

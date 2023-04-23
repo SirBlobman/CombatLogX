@@ -1,5 +1,7 @@
 package com.github.sirblobman.combatlogx.api.utility;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.AnimalTamer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -10,8 +12,6 @@ import org.bukkit.projectiles.ProjectileSource;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.configuration.MainConfiguration;
-
-import org.jetbrains.annotations.NotNull;
 
 public final class EntityHelper {
     public static @NotNull Entity linkTNT(@NotNull Entity original) {

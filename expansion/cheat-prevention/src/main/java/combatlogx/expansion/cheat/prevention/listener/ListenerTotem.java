@@ -1,5 +1,7 @@
 package combatlogx.expansion.cheat.prevention.listener;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -8,7 +10,6 @@ import org.bukkit.event.entity.EntityResurrectEvent;
 
 import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
 import combatlogx.expansion.cheat.prevention.configuration.IItemConfiguration;
-import org.jetbrains.annotations.NotNull;
 
 public final class ListenerTotem extends CheatPreventionListener {
     public ListenerTotem(@NotNull ICheatPreventionExpansion expansion) {

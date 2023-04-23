@@ -1,5 +1,7 @@
 package combatlogx.expansion.mob.tagger.manager;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
@@ -11,7 +13,6 @@ import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 
 import combatlogx.expansion.mob.tagger.MobTaggerExpansion;
-import org.jetbrains.annotations.NotNull;
 
 public final class SpawnReasonManager_New implements ISpawnReasonManager {
     private final MobTaggerExpansion expansion;
@@ -50,7 +51,7 @@ public final class SpawnReasonManager_New implements ISpawnReasonManager {
 
         try {
             return SpawnReason.valueOf(spawnReasonName);
-        } catch(IllegalArgumentException ignored) {
+        } catch (IllegalArgumentException ignored) {
             return SpawnReason.DEFAULT;
         }
     }

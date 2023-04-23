@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -18,7 +20,6 @@ import com.github.sirblobman.combatlogx.api.object.UntagReason;
 
 import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
 import combatlogx.expansion.cheat.prevention.configuration.ICommandConfiguration;
-import org.jetbrains.annotations.NotNull;
 
 public final class ListenerCommands extends CheatPreventionListener {
     private final Map<UUID, Long> cooldownMap;

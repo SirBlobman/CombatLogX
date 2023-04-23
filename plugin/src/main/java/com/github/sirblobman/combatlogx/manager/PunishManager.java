@@ -2,6 +2,8 @@ package com.github.sirblobman.combatlogx.manager;
 
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -20,8 +22,6 @@ import com.github.sirblobman.combatlogx.api.manager.IPunishManager;
 import com.github.sirblobman.combatlogx.api.object.KillTime;
 import com.github.sirblobman.combatlogx.api.object.SpecialPunishCommand;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
-
-import org.jetbrains.annotations.NotNull;
 
 public final class PunishManager extends Manager implements IPunishManager {
     public PunishManager(@NotNull ICombatLogX plugin) {
@@ -104,9 +104,14 @@ public final class PunishManager extends Manager implements IPunishManager {
         KillTime killTime = punishConfiguration.getKillTime();
 
         switch (killTime) {
-            case JOIN: killOnJoin(player); break;
-            case QUIT: killOnQuit(player, enemyList); break;
-            default: break;
+            case JOIN:
+                killOnJoin(player);
+                break;
+            case QUIT:
+                killOnQuit(player, enemyList);
+                break;
+            default:
+                break;
         }
     }
 

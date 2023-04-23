@@ -6,13 +6,13 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.IDeathManager;
-
-import org.jetbrains.annotations.NotNull;
 
 public final class DeathManager extends Manager implements IDeathManager {
     private final Map<UUID, List<Entity>> killedPlayerMap;

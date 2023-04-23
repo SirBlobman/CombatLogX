@@ -1,5 +1,7 @@
 package combatlogx.expansion.compatibility.luckperms.context;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Player;
 
 import com.github.sirblobman.api.utility.Validate;
@@ -8,7 +10,6 @@ import combatlogx.expansion.compatibility.luckperms.LuckPermsExpansion;
 import combatlogx.expansion.newbie.helper.NewbieHelperExpansion;
 import combatlogx.expansion.newbie.helper.manager.PVPManager;
 import net.luckperms.api.context.ContextConsumer;
-import org.jetbrains.annotations.NotNull;
 
 public final class ContextNewbieHelperPvpStatus extends AbstractContext<Player> {
     private final NewbieHelperExpansion newbieHelper;

@@ -14,11 +14,10 @@ import org.bukkit.event.inventory.InventoryType;
 import static com.github.sirblobman.api.utility.ConfigurationHelper.parseEnums;
 
 public final class InventoryConfiguration implements IInventoryConfiguration {
+    private final Set<InventoryType> noCloseMessageTypeSet;
     private boolean close;
     private boolean closeOnRetag;
     private boolean preventOpening;
-
-    private final Set<InventoryType> noCloseMessageTypeSet;
 
     public InventoryConfiguration() {
         this.close = true;

@@ -3,13 +3,13 @@ package com.github.sirblobman.combatlogx.command.combatlogx.forgive;
 import java.util.Collections;
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Player;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.command.CombatLogPlayerCommand;
 import com.github.sirblobman.combatlogx.api.manager.IForgiveManager;
-
-import org.jetbrains.annotations.NotNull;
 
 public final class SubCommandForgiveToggle extends CombatLogPlayerCommand {
     public SubCommandForgiveToggle(@NotNull ICombatLogX plugin) {

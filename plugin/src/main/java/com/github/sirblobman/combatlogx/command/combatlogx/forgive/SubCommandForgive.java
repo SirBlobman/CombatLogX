@@ -1,9 +1,9 @@
 package com.github.sirblobman.combatlogx.command.combatlogx.forgive;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.command.CombatLogPlayerCommand;
-
-import org.jetbrains.annotations.NotNull;
 
 public final class SubCommandForgive extends CombatLogPlayerCommand {
     public SubCommandForgive(@NotNull ICombatLogX plugin) {

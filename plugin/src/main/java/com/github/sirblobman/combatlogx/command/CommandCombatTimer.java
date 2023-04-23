@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Player;
 
 import com.github.sirblobman.api.language.LanguageManager;
@@ -15,8 +17,6 @@ import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.command.CombatLogPlayerCommand;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
-
-import org.jetbrains.annotations.NotNull;
 
 public final class CommandCombatTimer extends CombatLogPlayerCommand {
     public CommandCombatTimer(@NotNull ICombatLogX plugin) {

@@ -2,9 +2,9 @@ package com.github.sirblobman.combatlogx.api;
 
 import java.util.logging.Logger;
 
-import org.bukkit.plugin.java.JavaPlugin;
-
 import org.jetbrains.annotations.NotNull;
+
+import org.bukkit.plugin.java.JavaPlugin;
 
 public interface ICombatLogXNeeded {
     @NotNull ICombatLogX getCombatLogX();

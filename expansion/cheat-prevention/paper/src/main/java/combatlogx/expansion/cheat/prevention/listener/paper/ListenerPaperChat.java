@@ -1,5 +1,7 @@
 package combatlogx.expansion.cheat.prevention.listener.paper;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -8,7 +10,6 @@ import io.papermc.paper.event.player.AsyncChatEvent;
 import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
 import combatlogx.expansion.cheat.prevention.configuration.IChatConfiguration;
 import combatlogx.expansion.cheat.prevention.listener.CheatPreventionListener;
-import org.jetbrains.annotations.NotNull;
 
 public final class ListenerPaperChat extends CheatPreventionListener {
     public ListenerPaperChat(@NotNull ICheatPreventionExpansion expansion) {

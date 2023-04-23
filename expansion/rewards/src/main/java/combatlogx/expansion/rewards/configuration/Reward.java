@@ -31,16 +31,15 @@ import static com.github.sirblobman.api.utility.ConfigurationHelper.parseEnums;
 public final class Reward implements IConfigurable {
     private final RewardExpansion expansion;
     private final String id;
-
+    private final Set<EntityType> mobTypeList;
+    private final Set<String> worldList;
+    private final List<String> commandList;
     private String permissionName;
     private int chance;
     private int maxChance;
     private boolean mobWhiteList;
-    private final Set<EntityType> mobTypeList;
     private boolean worldWhiteList;
-    private final Set<String> worldList;
     private boolean randomCommand;
-    private final List<String> commandList;
     private Map<String, Requirement> requirementMap;
 
     private transient Permission permission;

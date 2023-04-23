@@ -2,6 +2,8 @@ package com.github.sirblobman.combatlogx.listener;
 
 import java.util.UUID;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -16,8 +18,6 @@ import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.ICrystalManager;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
-
-import org.jetbrains.annotations.NotNull;
 
 public final class ListenerEndCrystal extends CombatListener {
     public ListenerEndCrystal(@NotNull ICombatLogX plugin) {

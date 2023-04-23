@@ -2,14 +2,14 @@ package com.github.sirblobman.combatlogx.command.combatlogx;
 
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.command.CommandSender;
 
 import com.github.sirblobman.api.language.LanguageManager;
-import com.github.sirblobman.api.shaded.adventure.text.Component;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.command.CombatLogCommand;
-
-import org.jetbrains.annotations.NotNull;
+import com.github.sirblobman.api.shaded.adventure.text.Component;
 
 public final class SubCommandHelp extends CombatLogCommand {
     public SubCommandHelp(@NotNull ICombatLogX plugin) {

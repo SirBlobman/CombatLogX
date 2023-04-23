@@ -1,5 +1,7 @@
 package combatlogx.expansion.cheat.prevention.listener;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,7 +15,6 @@ import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
 
 import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
 import combatlogx.expansion.cheat.prevention.configuration.IInventoryConfiguration;
-import org.jetbrains.annotations.NotNull;
 
 public final class ListenerInventories extends CheatPreventionListener {
     public ListenerInventories(@NotNull ICheatPreventionExpansion expansion) {

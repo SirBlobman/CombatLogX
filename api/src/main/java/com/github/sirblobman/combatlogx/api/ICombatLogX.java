@@ -89,14 +89,16 @@ public interface ICombatLogX extends IResourceHolder {
     /**
      * Print some messages to the server logs.
      * If debug-mode is not enabled, the messages should not be sent.
+     *
      * @param messageArray An array of messages to print
      * @see #isDebugModeDisabled()
      */
-    void printDebug(String @NotNull... messageArray);
+    void printDebug(String @NotNull ... messageArray);
 
     /**
      * Print a thrown exception to the server logs.
      * If debug-mode is not enabled, the error should not be sent.
+     *
      * @param ex The error that was thrown.
      * @see #printDebug(String...)
      * @see #isDebugModeDisabled()

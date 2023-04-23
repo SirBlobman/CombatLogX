@@ -1,5 +1,7 @@
 package combatlogx.expansion.cheat.prevention.listener;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -14,7 +16,6 @@ import com.github.sirblobman.combatlogx.api.object.UntagReason;
 
 import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
 import combatlogx.expansion.cheat.prevention.configuration.ITeleportConfiguration;
-import org.jetbrains.annotations.NotNull;
 
 public final class ListenerTeleport extends CheatPreventionListener {
     public ListenerTeleport(@NotNull ICheatPreventionExpansion expansion) {

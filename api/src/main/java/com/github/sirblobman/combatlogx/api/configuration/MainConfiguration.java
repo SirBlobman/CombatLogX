@@ -25,24 +25,19 @@ import static com.github.sirblobman.api.utility.ConfigurationHelper.parseEnums;
 
 public final class MainConfiguration implements IConfigurable {
     private final ICombatLogX plugin;
-
+    private final Set<String> worldSet;
+    private final Set<EntityType> ignoredProjectileSet;
     private String generatedByVersion;
     private boolean debugMode;
-
     private boolean broadcastOnLoad;
     private boolean broadcastOnEnable;
     private boolean broadcastOnDisable;
-
-    private final Set<String> worldSet;
     private boolean worldListInverted;
-
     private boolean linkPets;
     private boolean linkProjectiles;
     private boolean linkFishingRod;
     private boolean linkTnt;
     private boolean linkEndCrystals;
-    private final Set<EntityType> ignoredProjectileSet;
-
     private TimerType timerType;
     private int defaultTimer;
 
@@ -73,7 +68,7 @@ public final class MainConfiguration implements IConfigurable {
 
         this.linkPets = true;
         this.linkProjectiles = true;
-        this.linkFishingRod =true;
+        this.linkFishingRod = true;
         this.linkTnt = true;
         this.linkEndCrystals = true;
         this.ignoredProjectileSet = EnumSet.noneOf(EntityType.class);

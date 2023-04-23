@@ -8,21 +8,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import org.bukkit.configuration.ConfigurationSection;
 
 import com.github.sirblobman.api.configuration.IConfigurable;
 import com.github.sirblobman.combatlogx.api.object.SpecialPunishCommand;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 public final class CommandConfiguration implements IConfigurable {
     private final List<String> tagCommandList;
     private final List<String> untagCommandList;
     private final List<String> punishCommandList;
-
-    private boolean specialPunishCommandsEnabled;
     private final Map<String, SpecialPunishCommand> specialPunishCommandMap;
+    private boolean specialPunishCommandsEnabled;
 
     public CommandConfiguration() {
         this.tagCommandList = new ArrayList<>();

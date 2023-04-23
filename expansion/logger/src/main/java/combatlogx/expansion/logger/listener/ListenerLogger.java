@@ -247,7 +247,7 @@ public final class ListenerLogger extends ExpansionListener {
             Path logPath = logFile.toPath();
             List<String> messageList = Arrays.asList(messageArray);
             Files.write(logPath, messageList, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
-        } catch(IOException ex) {
+        } catch (IOException ex) {
             Logger logger = getExpansionLogger();
             logger.log(Level.WARNING, "Failed to write to a custom log file:", ex);
         }

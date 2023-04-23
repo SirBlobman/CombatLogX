@@ -1,11 +1,11 @@
 package com.github.sirblobman.combatlogx.command.combatlogx;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.command.CommandSender;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.command.CombatLogCommand;
-
-import org.jetbrains.annotations.NotNull;
 
 public final class SubCommandReload extends CombatLogCommand {
     public SubCommandReload(@NotNull ICombatLogX plugin) {

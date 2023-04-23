@@ -2,9 +2,6 @@ package combatlogx.expansion.rewards;
 
 import org.jetbrains.annotations.NotNull;
 
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.PluginManager;
-
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;

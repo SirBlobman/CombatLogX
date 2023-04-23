@@ -1,12 +1,12 @@
 package combatlogx.expansion.action.bar.configuration;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.configuration.ConfigurationSection;
 
 import com.github.sirblobman.api.configuration.IConfigurable;
 import com.github.sirblobman.api.shaded.adventure.text.format.NamedTextColor;
 import com.github.sirblobman.api.shaded.adventure.text.format.TextColor;
-
-import org.jetbrains.annotations.NotNull;
 
 public final class ActionBarConfiguration implements IConfigurable {
     private boolean enabled;

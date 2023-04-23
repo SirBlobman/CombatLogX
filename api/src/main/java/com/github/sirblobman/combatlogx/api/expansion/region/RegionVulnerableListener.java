@@ -3,6 +3,8 @@ package com.github.sirblobman.combatlogx.api.expansion.region;
 import java.util.Collections;
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -14,8 +16,6 @@ import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.NoEntryMode;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
-
-import org.jetbrains.annotations.NotNull;
 
 public final class RegionVulnerableListener extends RegionExpansionListener {
     public RegionVulnerableListener(@NotNull RegionExpansion expansion) {
