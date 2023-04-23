@@ -7,7 +7,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.entity.EntityPlaceEvent;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.configuration.MainConfiguration;
@@ -22,7 +21,7 @@ public final class ListenerCrystals_Modern extends ExpansionListener {
 
     @SuppressWarnings("deprecation") // Draft API
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlace(EntityPlaceEvent e) {
+    public void onPlace(org.bukkit.event.entity.EntityPlaceEvent e) {
         ICombatLogX plugin = getCombatLogX();
         MainConfiguration configuration = plugin.getConfiguration();
         if (!configuration.isLinkEndCrystals()) {
