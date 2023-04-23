@@ -65,7 +65,7 @@ A translation project for CombatLogX V11 is in progress. If you wish to help out
 
 ### Localization Credits
 
-You can view a list of contributions on our crowdin page:
+You can view a list of contributions made to CombatLogX on our Crowdin page:
 https://crowdin.com/project/combatlogx-spigot-plugin/reports/top-members
 
 ## Support
