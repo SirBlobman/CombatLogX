@@ -16,7 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.sirblobman.api.core.CorePlugin;
 import com.github.sirblobman.api.language.LanguageManager;
-import com.github.sirblobman.api.update.UpdateManager;
+import com.github.sirblobman.api.update.SpigotUpdateManager;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.command.CombatLogCommand;
@@ -171,7 +171,7 @@ public final class SubCommandVersion extends CombatLogCommand {
         JavaPlugin plugin = combatLogX.getPlugin();
 
         CorePlugin corePlugin = JavaPlugin.getPlugin(CorePlugin.class);
-        UpdateManager updateManager = corePlugin.getUpdateManager();
+        SpigotUpdateManager updateManager = corePlugin.getSpigotUpdateManager();
         String spigotVersion = updateManager.getSpigotVersion(plugin);
         if (spigotVersion == null) {
             return "Not Available";
