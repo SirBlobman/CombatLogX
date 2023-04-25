@@ -72,17 +72,29 @@ public final class ListenerBlocks extends CheatPreventionListener {
 
     private boolean isPreventBreak(@NotNull XMaterial material) {
         IBlockConfiguration blockConfiguration = getBlockConfiguration();
-        return blockConfiguration.isPreventBreaking(material);
+        if (blockConfiguration.isPreventBreaking()) {
+            return blockConfiguration.isPreventBreaking(material);
+        }
+
+        return false;
     }
 
     private boolean isPreventPlace(@NotNull XMaterial material) {
         IBlockConfiguration blockConfiguration = getBlockConfiguration();
-        return blockConfiguration.isPreventPlacing(material);
+        if (blockConfiguration.isPreventPlacing()) {
+            return blockConfiguration.isPreventPlacing(material);
+        }
+
+        return false;
     }
 
     private boolean isPreventInteract(@NotNull XMaterial material) {
         IBlockConfiguration blockConfiguration = getBlockConfiguration();
-        return blockConfiguration.isPreventInteraction(material);
+        if (blockConfiguration.isPreventInteraction()) {
+            return blockConfiguration.isPreventInteraction(material);
+        }
+
+        return false;
     }
 
     @SuppressWarnings("deprecation")
