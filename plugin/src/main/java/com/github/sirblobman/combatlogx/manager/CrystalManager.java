@@ -26,6 +26,10 @@ public final class CrystalManager extends Manager implements ICrystalManager {
     public @Nullable Player getPlacer(@NotNull Entity crystal) {
         UUID entityId = crystal.getUniqueId();
         UUID playerId = this.endCrystalMap.get(entityId);
+        if (playerId == null) {
+            return null;
+        }
+
         return Bukkit.getPlayer(playerId);
     }
 

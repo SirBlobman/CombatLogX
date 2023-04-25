@@ -8,16 +8,18 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import com.github.sirblobman.api.configuration.PlayerDataManager;
+import com.github.sirblobman.api.folia.FoliaHelper;
+import com.github.sirblobman.api.folia.details.EntityTaskDetails;
+import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
 import com.github.sirblobman.api.language.LanguageManager;
+import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -44,7 +46,7 @@ public final class BossBarUpdater implements TimerUpdater {
     }
 
     @Override
-    public void update(Player player, long timeLeftMillis) {
+    public void update(@NotNull Player player, long timeLeftMillis) {
         if (isDisabled(player)) {
             actualRemove(player);
             return;
@@ -71,17 +73,26 @@ public final class BossBarUpdater implements TimerUpdater {
     }
 
     @Override
-    public void remove(Player player) {
+    public void remove(@NotNull Player player) {
         update(player, 0L);
 
         ICombatLogX combatLogX = getCombatLogX();
-        JavaPlugin plugin = combatLogX.getPlugin();
+        ConfigurablePlugin plugin = combatLogX.getPlugin();
         if (!plugin.isEnabled()) {
             return;
         }
 
-        BukkitScheduler scheduler = Bukkit.getScheduler();
-        scheduler.scheduleSyncDelayedTask(plugin, () -> actualRemove(player), 10L);
+        FoliaHelper<ConfigurablePlugin> foliaHelper = combatLogX.getFoliaHelper();
+        TaskScheduler<ConfigurablePlugin> scheduler = foliaHelper.getScheduler();
+        scheduler.scheduleEntityTask(new EntityTaskDetails<ConfigurablePlugin, Player>(plugin, player) {
+            @Override
+            public void run() {
+                Player player = getEntity();
+                if (player != null) {
+                    actualRemove(player);
+                }
+            }
+        });
     }
 
     private BossBarExpansion getExpansion() {

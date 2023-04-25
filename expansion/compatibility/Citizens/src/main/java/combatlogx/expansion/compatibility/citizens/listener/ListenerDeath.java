@@ -2,7 +2,6 @@ package combatlogx.expansion.compatibility.citizens.listener;
 
 import org.jetbrains.annotations.NotNull;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -10,8 +9,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
+
+import com.github.sirblobman.api.folia.details.RunnableTask;
+import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
+import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
 import combatlogx.expansion.compatibility.citizens.configuration.CitizensConfiguration;
@@ -88,11 +89,9 @@ public final class ListenerDeath extends CitizensExpansionListener {
         OfflinePlayer offlinePlayer = combatNPC.getOfflineOwner();
         if (despawnReason == DespawnReason.DEATH) {
             Location location = combatNpcManager.getLocation(npc);
-            if (location != null) {
-                printDebug("Despawn reason was death, drop NPC inventory.");
-                InventoryManager inventoryManager = getInventoryManager();
-                inventoryManager.dropInventory(offlinePlayer, location);
-            }
+            printDebug("Despawn reason was death, drop NPC inventory.");
+            InventoryManager inventoryManager = getInventoryManager();
+            inventoryManager.dropInventory(offlinePlayer, location);
         }
 
         if (despawnReason != DespawnReason.REMOVAL) {
@@ -100,9 +99,8 @@ public final class ListenerDeath extends CitizensExpansionListener {
             combatNpcManager.remove(combatNPC);
 
             printDebug("Destroy NPC later.");
-            JavaPlugin plugin = getJavaPlugin();
-            BukkitScheduler scheduler = Bukkit.getScheduler();
-            scheduler.runTaskLater(plugin, npc::destroy, 1L);
+            TaskScheduler<ConfigurablePlugin> scheduler = getCombatLogX().getFoliaHelper().getScheduler();
+            scheduler.scheduleTask(new RunnableTask<>(getJavaPlugin(), npc::destroy));
         }
 
         printDebug("Setting player to be punished when they next join.");

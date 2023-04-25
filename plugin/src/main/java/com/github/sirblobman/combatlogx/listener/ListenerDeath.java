@@ -6,7 +6,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.jetbrains.annotations.NotNull;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -16,12 +15,13 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import com.github.sirblobman.api.configuration.PlayerDataManager;
+import com.github.sirblobman.api.folia.details.RunnableTask;
+import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
 import com.github.sirblobman.api.language.ComponentHelper;
 import com.github.sirblobman.api.language.LanguageManager;
+import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.api.utility.paper.PaperChecker;
 import com.github.sirblobman.api.utility.paper.PaperHelper;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -71,12 +71,13 @@ public final class ListenerDeath extends CombatListener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
-        JavaPlugin javaPlugin = getJavaPlugin();
+        ConfigurablePlugin javaPlugin = getJavaPlugin();
         IDeathManager deathManager = getDeathManager();
 
-        BukkitScheduler scheduler = Bukkit.getScheduler();
-        Runnable task = () -> deathManager.stopTracking(player);
-        scheduler.scheduleSyncDelayedTask(javaPlugin, task, 1L);
+        RunnableTask<ConfigurablePlugin> task = new RunnableTask<>(javaPlugin,
+                () -> deathManager.stopTracking(player));
+        TaskScheduler<ConfigurablePlugin> scheduler = getCombatLogX().getFoliaHelper().getScheduler();
+        scheduler.scheduleTask(task);
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)

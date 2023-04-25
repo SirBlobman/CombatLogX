@@ -2,7 +2,6 @@ package combatlogx.expansion.death.effects;
 
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -16,17 +15,19 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
 
+import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
 import com.github.sirblobman.api.item.ItemBuilder;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
+import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 import com.github.sirblobman.combatlogx.api.manager.IDeathManager;
 import com.github.sirblobman.api.shaded.xseries.XMaterial;
+
+import combatlogx.expansion.death.effects.task.ItemRemoveTask;
 
 public final class ListenerDeathEffects extends ExpansionListener {
     private final DeathEffectsExpansion expansion;
@@ -146,9 +147,11 @@ public final class ListenerDeathEffects extends ExpansionListener {
             preItem.setPickupDelay(Integer.MAX_VALUE);
         });
 
-        JavaPlugin plugin = getJavaPlugin();
-        BukkitScheduler scheduler = Bukkit.getScheduler();
         long delay = configuration.getBloodItemsStayTicks();
-        scheduler.runTaskLater(plugin, itemEntity::remove, delay);
+        ItemRemoveTask removeTask = new ItemRemoveTask(getJavaPlugin(), itemEntity);
+        removeTask.setDelay(delay);
+
+        TaskScheduler<ConfigurablePlugin> scheduler = getCombatLogX().getFoliaHelper().getScheduler();
+        scheduler.scheduleEntityTask(removeTask);
     }
 }

@@ -7,10 +7,8 @@ import java.util.logging.Logger;
 
 import org.jetbrains.annotations.NotNull;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
@@ -129,14 +127,11 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         ExpansionManager expansionManager = getExpansionManager();
         expansionManager.disableExpansions();
 
-        Bukkit.getScheduler().cancelTasks(this);
-        HandlerList.unregisterAll(this);
-
         broadcastMessageOnDisable();
     }
 
     @Override
-    public @NotNull JavaPlugin getPlugin() {
+    public @NotNull ConfigurablePlugin getPlugin() {
         return this;
     }
 
@@ -287,7 +282,7 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
 
     private void registerUpdates() {
         CorePlugin corePlugin = JavaPlugin.getPlugin(CorePlugin.class);
-        SpigotUpdateManager updateManager = corePlugin.getSpigotUpdateManager();
+        SpigotUpdateManager<?> updateManager = corePlugin.getSpigotUpdateManager();
         updateManager.addResource(this, 31689L);
     }
 

@@ -7,22 +7,23 @@ import java.util.Set;
 
 import org.jetbrains.annotations.NotNull;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
 
+import com.github.sirblobman.api.folia.details.TaskDetails;
+import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
+import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.ITimerManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TimerUpdater;
 
-public final class TimerUpdateTask implements ITimerManager, Runnable {
+public final class TimerUpdateTask extends TaskDetails<ConfigurablePlugin> implements ITimerManager {
     private final ICombatLogX plugin;
     private final Set<TimerUpdater> timerUpdaterSet;
 
     public TimerUpdateTask(@NotNull ICombatLogX plugin) {
+        super(plugin.getPlugin());
         this.plugin = plugin;
         this.timerUpdaterSet = new HashSet<>();
     }
@@ -58,9 +59,12 @@ public final class TimerUpdateTask implements ITimerManager, Runnable {
     }
 
     public void register() {
-        JavaPlugin plugin = getPlugin();
-        BukkitScheduler scheduler = Bukkit.getScheduler();
-        scheduler.scheduleSyncRepeatingTask(plugin, this, 5L, 10L);
+        ICombatLogX plugin = getCombatLogX();
+        TaskScheduler<ConfigurablePlugin> scheduler = plugin.getFoliaHelper().getScheduler();
+
+        setDelay(5L);
+        setPeriod(10L);
+        scheduler.scheduleTask(this);
     }
 
     private void update(@NotNull Player player) {

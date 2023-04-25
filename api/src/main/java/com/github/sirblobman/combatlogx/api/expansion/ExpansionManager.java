@@ -30,9 +30,10 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
 
+import com.github.sirblobman.api.folia.details.TaskDetails;
+import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
+import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion.State;
 
@@ -125,24 +126,27 @@ public final class ExpansionManager {
                 + (expansionListSize == 1 ? "" : "s") + ".");
         logger.info(message);
 
-        Runnable task = () -> {
-            for (Expansion expansion : lateLoadExpansionList) {
-                enableExpansion(expansion);
-                logger.info(" ");
+        TaskDetails<ConfigurablePlugin> task = new TaskDetails<ConfigurablePlugin>(plugin.getPlugin()) {
+            @Override
+            public void run() {
+                for (Expansion expansion : lateLoadExpansionList) {
+                    enableExpansion(expansion);
+                    logger.info(" ");
+                }
+
+                List<Expansion> newEnabledExpansionList = getEnabledExpansions();
+                int newExpansionListSize = newEnabledExpansionList.size();
+                int newExpansionCount = (newExpansionListSize - expansionListSize);
+
+                String newMessage = ("Successfully enabled " + newExpansionCount + " late-load expansion"
+                        + (expansionListSize == 1 ? "" : "s") + ".");
+                logger.info(newMessage);
             }
-
-            List<Expansion> newEnabledExpansionList = getEnabledExpansions();
-            int newExpansionListSize = newEnabledExpansionList.size();
-            int newExpansionCount = (newExpansionListSize - expansionListSize);
-
-            String newMessage = ("Successfully enabled " + newExpansionCount + " late-load expansion"
-                    + (expansionListSize == 1 ? "" : "s") + ".");
-            logger.info(newMessage);
         };
+        task.setDelay(1L);
 
-        JavaPlugin javaPlugin = getPlugin().getPlugin();
-        BukkitScheduler scheduler = Bukkit.getScheduler();
-        scheduler.scheduleSyncDelayedTask(javaPlugin, task, 1L);
+        TaskScheduler<ConfigurablePlugin> scheduler = plugin.getFoliaHelper().getScheduler();
+        scheduler.scheduleTask(task);
     }
 
     public void disableExpansions() {

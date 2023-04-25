@@ -9,16 +9,19 @@ import org.jetbrains.annotations.NotNull;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
 
+import com.github.sirblobman.api.folia.FoliaHelper;
+import com.github.sirblobman.api.folia.details.RunnableTask;
+import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
+import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 
 public final class CommandHelper {
-    public static void runSync(@NotNull ICombatLogX plugin, @NotNull Runnable task) {
-        JavaPlugin javaPlugin = plugin.getPlugin();
-        BukkitScheduler scheduler = Bukkit.getScheduler();
-        scheduler.runTask(javaPlugin, task);
+    public static void runSync(@NotNull ICombatLogX plugin, @NotNull Runnable runnable) {
+        RunnableTask<ConfigurablePlugin> task = new RunnableTask<>(plugin.getPlugin(), runnable);
+        FoliaHelper<ConfigurablePlugin> foliaHelper = plugin.getFoliaHelper();
+        TaskScheduler<ConfigurablePlugin> scheduler = foliaHelper.getScheduler();
+        scheduler.scheduleTask(task);
     }
 
     public static void runAsConsole(@NotNull ICombatLogX plugin, @NotNull String command) {

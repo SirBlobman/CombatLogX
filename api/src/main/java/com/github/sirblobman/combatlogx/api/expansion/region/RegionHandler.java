@@ -10,19 +10,20 @@ import java.util.logging.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.util.Vector;
 
+import com.github.sirblobman.api.folia.FoliaHelper;
+import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
 import com.github.sirblobman.api.language.LanguageManager;
+import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.configuration.MainConfiguration;
+import com.github.sirblobman.combatlogx.api.expansion.region.task.KnockbackPlayerTask;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.NoEntryMode;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
@@ -160,11 +161,13 @@ public abstract class RegionHandler<RE extends RegionExpansion> {
 
         RegionExpansion expansion = getExpansion();
         ICombatLogX combatLogX = expansion.getPlugin();
-        JavaPlugin javaPlugin = combatLogX.getPlugin();
+        ConfigurablePlugin plugin = combatLogX.getPlugin();
 
-        BukkitScheduler scheduler = Bukkit.getScheduler();
-        Runnable task = () -> knockbackPlayer(player, fromLocation, toLocation);
-        scheduler.runTaskLater(javaPlugin, task, 1L);
+        double strength = getKnockbackStrength();
+        KnockbackPlayerTask task = new KnockbackPlayerTask(plugin, player, fromLocation, toLocation, strength);
+        FoliaHelper<ConfigurablePlugin> foliaHelper = combatLogX.getFoliaHelper();
+        TaskScheduler<ConfigurablePlugin> scheduler = foliaHelper.getScheduler();
+        scheduler.scheduleEntityTask(task);
     }
 
     protected void customPreventEntry(@NotNull Cancellable e, @NotNull Player player,
@@ -195,48 +198,6 @@ public abstract class RegionHandler<RE extends RegionExpansion> {
         }
 
         return player.isGliding();
-    }
-
-    private void knockbackPlayer(@NotNull Player player, @NotNull Location fromLocation,
-                                 @NotNull Location toLocation) {
-        Vector velocity = getKnockback(fromLocation, toLocation);
-        player.setVelocity(velocity);
-    }
-
-    private @NotNull Vector getKnockback(@NotNull Location fromLocation, @NotNull Location toLocation) {
-        Vector fromVector = fromLocation.toVector();
-        Vector toVector = toLocation.toVector();
-
-        Vector subtract = fromVector.subtract(toVector);
-        Vector normal = subtract.normalize();
-
-        double strength = getKnockbackStrength();
-        Vector multiply = normal.multiply(strength);
-
-        return makeFinite(multiply);
-    }
-
-    private @NotNull Vector makeFinite(@NotNull Vector original) {
-        double originalX = original.getX();
-        double originalY = original.getY();
-        double originalZ = original.getZ();
-
-        double newX = makeFinite(originalX);
-        double newY = makeFinite(originalY);
-        double newZ = makeFinite(originalZ);
-        return new Vector(newX, newY, newZ);
-    }
-
-    private double makeFinite(double original) {
-        if (Double.isNaN(original)) {
-            return 0.0D;
-        }
-
-        if (Double.isInfinite(original)) {
-            return (original < 0 ? -1.0D : 1.0D);
-        }
-
-        return original;
     }
 
     public abstract String getEntryDeniedMessagePath(@NotNull TagType tagType);

@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -22,11 +21,13 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import com.github.sirblobman.api.configuration.PlayerDataManager;
+import com.github.sirblobman.api.folia.details.RunnableTask;
+import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
+import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
@@ -98,8 +99,8 @@ public final class CombatNpcManager {
         this.playerNpcMap.remove(owner.getUniqueId());
         this.npcCombatMap.remove(originalNPC.getUniqueId());
 
-        BukkitScheduler scheduler = Bukkit.getScheduler();
-        scheduler.runTask(getCombatLogX().getPlugin(), originalNPC::destroy);
+        TaskScheduler<ConfigurablePlugin> scheduler = getCombatLogX().getFoliaHelper().getScheduler();
+        scheduler.scheduleTask(new RunnableTask<>(getCombatLogX().getPlugin(), originalNPC::destroy));
     }
 
     public void removeAll() {

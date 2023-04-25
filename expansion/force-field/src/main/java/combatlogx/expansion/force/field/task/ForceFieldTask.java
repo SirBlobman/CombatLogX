@@ -23,10 +23,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
-import org.bukkit.scheduler.BukkitTask;
 
+import com.github.sirblobman.api.folia.details.RunnableTask;
+import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
+import com.github.sirblobman.api.folia.task.WrappedTask;
 import com.github.sirblobman.api.location.BlockLocation;
+import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
@@ -47,13 +49,13 @@ import combatlogx.expansion.force.field.configuration.ForceFieldConfiguration;
 public final class ForceFieldTask extends ExpansionListener implements Runnable {
     private final ForceFieldExpansion expansion;
     private final Map<UUID, Set<BlockLocation>> fakeBlockMap;
-    private BukkitTask bukkitTask;
+    private WrappedTask wrappedTask;
 
     public ForceFieldTask(@NotNull ForceFieldExpansion expansion) {
         super(expansion);
         this.expansion = expansion;
         this.fakeBlockMap = new ConcurrentHashMap<>();
-        this.bukkitTask = null;
+        this.wrappedTask = null;
     }
 
     @Override
@@ -101,15 +103,18 @@ public final class ForceFieldTask extends ExpansionListener implements Runnable 
     }
 
     public void registerTask() {
-        JavaPlugin plugin = getJavaPlugin();
-        BukkitScheduler scheduler = Bukkit.getScheduler();
-        this.bukkitTask = scheduler.runTaskTimerAsynchronously(plugin, this, 1L, 1L);
+        RunnableTask<ConfigurablePlugin> thisTask = new RunnableTask<>(getJavaPlugin(), this);
+        thisTask.setDelay(1L);
+        thisTask.setPeriod(1L);
+
+        TaskScheduler<ConfigurablePlugin> scheduler = getCombatLogX().getFoliaHelper().getScheduler();
+        this.wrappedTask = scheduler.scheduleAsyncTask(thisTask);
     }
 
     public void cancel() {
-        if (this.bukkitTask != null) {
-            this.bukkitTask.cancel();
-            this.bukkitTask = null;
+        if (this.wrappedTask != null) {
+            this.wrappedTask.cancel();
+            this.wrappedTask = null;
         }
     }
 

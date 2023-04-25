@@ -2,12 +2,12 @@ package com.github.sirblobman.combatlogx.api;
 
 import org.jetbrains.annotations.NotNull;
 
-import org.bukkit.plugin.java.JavaPlugin;
-
 import com.github.sirblobman.api.configuration.IResourceHolder;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
+import com.github.sirblobman.api.folia.IFoliaPlugin;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
+import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.combatlogx.api.configuration.CommandConfiguration;
 import com.github.sirblobman.combatlogx.api.configuration.MainConfiguration;
 import com.github.sirblobman.combatlogx.api.configuration.PunishConfiguration;
@@ -20,11 +20,11 @@ import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 import com.github.sirblobman.combatlogx.api.manager.IPunishManager;
 import com.github.sirblobman.combatlogx.api.manager.ITimerManager;
 
-public interface ICombatLogX extends IResourceHolder {
+public interface ICombatLogX extends IResourceHolder, IFoliaPlugin<ConfigurablePlugin> {
     /**
      * @return The JavaPlugin instance for this object.
      */
-    @NotNull JavaPlugin getPlugin();
+    @NotNull ConfigurablePlugin getPlugin();
 
     /**
      * Called when the configuration files should be reloaded.

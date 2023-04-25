@@ -3,14 +3,14 @@ package combatlogx.expansion.compatibility.citizens.object;
 import java.util.UUID;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
+import com.github.sirblobman.api.folia.details.TaskDetails;
+import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
+import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
@@ -20,7 +20,7 @@ import combatlogx.expansion.compatibility.citizens.configuration.CitizensConfigu
 import combatlogx.expansion.compatibility.citizens.manager.CombatNpcManager;
 import net.citizensnpcs.api.npc.NPC;
 
-public final class CombatNPC extends BukkitRunnable {
+public final class CombatNPC extends TaskDetails<ConfigurablePlugin> {
     private final CitizensExpansion expansion;
     private final NPC originalNPC;
     private final UUID ownerId;
@@ -29,6 +29,7 @@ public final class CombatNPC extends BukkitRunnable {
     private long survivalTicks;
 
     public CombatNPC(@NotNull CitizensExpansion expansion, @NotNull NPC originalNPC, @NotNull OfflinePlayer owner) {
+        super(expansion.getPlugin().getPlugin());
         this.expansion = expansion;
         this.originalNPC = originalNPC;
         this.ownerId = owner.getUniqueId();
@@ -64,9 +65,11 @@ public final class CombatNPC extends BukkitRunnable {
     public void start() {
         resetSurvivalTime();
 
-        ICombatLogX combatLogX = getCombatLogX();
-        JavaPlugin plugin = combatLogX.getPlugin();
-        runTaskTimerAsynchronously(plugin, 1L, 1L);
+        setDelay(1L);
+        setPeriod(1L);
+
+        TaskScheduler<ConfigurablePlugin> scheduler = getCombatLogX().getFoliaHelper().getScheduler();
+        scheduler.scheduleTask(this);
     }
 
     public @NotNull NPC getOriginalNPC() {
@@ -77,7 +80,7 @@ public final class CombatNPC extends BukkitRunnable {
         return this.ownerId;
     }
 
-    public @Nullable OfflinePlayer getOfflineOwner() {
+    public @NotNull OfflinePlayer getOfflineOwner() {
         UUID ownerId = getOwnerId();
         return Bukkit.getOfflinePlayer(ownerId);
     }

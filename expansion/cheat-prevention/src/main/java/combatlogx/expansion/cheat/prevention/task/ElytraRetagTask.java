@@ -5,9 +5,10 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
+import com.github.sirblobman.api.folia.details.TaskDetails;
+import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
+import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
@@ -18,10 +19,11 @@ import com.github.sirblobman.combatlogx.api.object.TagType;
 import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
 import combatlogx.expansion.cheat.prevention.configuration.IItemConfiguration;
 
-public final class ElytraRetagTask extends BukkitRunnable {
+public final class ElytraRetagTask extends TaskDetails<ConfigurablePlugin> {
     private final ICheatPreventionExpansion expansion;
 
     public ElytraRetagTask(@NotNull ICheatPreventionExpansion expansion) {
+        super(expansion.getExpansion().getPlugin().getPlugin());
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
     }
 
@@ -45,8 +47,10 @@ public final class ElytraRetagTask extends BukkitRunnable {
     }
 
     public void register() {
-        JavaPlugin plugin = getPlugin();
-        runTaskTimer(plugin, 10L, 10L);
+        TaskScheduler<ConfigurablePlugin> scheduler = getCombatLogX().getFoliaHelper().getScheduler();
+        setDelay(10L);
+        setPeriod(10L);
+        scheduler.scheduleTask(this);
     }
 
     private @NotNull ICheatPreventionExpansion getCheatPrevention() {
@@ -66,10 +70,5 @@ public final class ElytraRetagTask extends BukkitRunnable {
     private @NotNull ICombatLogX getCombatLogX() {
         Expansion expansion = getExpansion();
         return expansion.getPlugin();
-    }
-
-    private @NotNull JavaPlugin getPlugin() {
-        ICombatLogX combatLogX = getCombatLogX();
-        return combatLogX.getPlugin();
     }
 }

@@ -4,12 +4,11 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
 
-import com.github.sirblobman.api.utility.Validate;
+import com.github.sirblobman.api.folia.details.TaskDetails;
+import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
+import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
@@ -18,22 +17,26 @@ import com.github.sirblobman.combatlogx.api.object.UntagReason;
 /**
  * This task is used to untag players from combat. It runs every 10 ticks.
  */
-public final class UntagTask implements Runnable {
+public final class UntagTask extends TaskDetails<ConfigurablePlugin> implements Runnable {
     private final ICombatLogX plugin;
 
     public UntagTask(@NotNull ICombatLogX plugin) {
-        this.plugin = Validate.notNull(plugin, "plugin must not be null!");
+        super(plugin.getPlugin());
+        this.plugin = plugin;
     }
 
     public void register() {
-        JavaPlugin plugin = this.plugin.getPlugin();
-        BukkitScheduler scheduler = Bukkit.getScheduler();
-        scheduler.scheduleSyncRepeatingTask(plugin, this, 5L, 10L);
+        ICombatLogX plugin = getCombatLogX();
+        TaskScheduler<ConfigurablePlugin> scheduler = plugin.getFoliaHelper().getScheduler();
+
+        setDelay(5L);
+        setPeriod(10L);
+        scheduler.scheduleTask(this);
     }
 
     @Override
     public void run() {
-        ICombatLogX plugin = getPlugin();
+        ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = plugin.getCombatManager();
         List<Player> playerCombatList = combatManager.getPlayersInCombat();
 
@@ -45,7 +48,7 @@ public final class UntagTask implements Runnable {
         }
     }
 
-    private @NotNull ICombatLogX getPlugin() {
+    private @NotNull ICombatLogX getCombatLogX() {
         return this.plugin;
     }
 }

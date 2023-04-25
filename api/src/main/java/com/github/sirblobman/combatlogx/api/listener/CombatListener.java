@@ -15,6 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.language.LanguageManager;
+import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.configuration.MainConfiguration;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
@@ -39,7 +40,7 @@ public abstract class CombatListener implements Listener {
         return this.plugin;
     }
 
-    protected final @NotNull JavaPlugin getJavaPlugin() {
+    protected final @NotNull ConfigurablePlugin getJavaPlugin() {
         ICombatLogX combatLogX = getCombatLogX();
         return combatLogX.getPlugin();
     }
