@@ -2,6 +2,7 @@ package combatlogx.expansion.newbie.helper.listener;
 
 import org.jetbrains.annotations.NotNull;
 
+import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,6 +18,7 @@ import com.github.sirblobman.combatlogx.api.utility.EntityHelper;
 
 import combatlogx.expansion.newbie.helper.NewbieHelperExpansion;
 import combatlogx.expansion.newbie.helper.configuration.NewbieHelperConfiguration;
+import combatlogx.expansion.newbie.helper.configuration.WorldsConfiguration;
 import combatlogx.expansion.newbie.helper.manager.PVPManager;
 import combatlogx.expansion.newbie.helper.manager.ProtectionManager;
 
@@ -101,6 +103,15 @@ public final class ListenerDamage extends ExpansionListener {
             return;
         }
 
+        if (isForcePvpWorld(damager)) {
+            return;
+        }
+
+        if (isNoPvpWorld(damager)) {
+            e.setCancelled(true);
+            return;
+        }
+
         NewbieHelperExpansion expansion = getNewbieHelperExpansion();
         ProtectionManager protectionManager = expansion.getProtectionManager();
         PVPManager pvpManager = expansion.getPVPManager();
@@ -134,13 +145,38 @@ public final class ListenerDamage extends ExpansionListener {
         }
     }
 
-    private NewbieHelperExpansion getNewbieHelperExpansion() {
+    private @NotNull NewbieHelperExpansion getNewbieHelperExpansion() {
         return this.expansion;
     }
 
-    private NewbieHelperConfiguration getConfiguration() {
+    private @NotNull NewbieHelperConfiguration getConfiguration() {
         NewbieHelperExpansion expansion = getNewbieHelperExpansion();
         return expansion.getConfiguration();
+    }
+
+    private @NotNull WorldsConfiguration getWorldsConfiguration() {
+        NewbieHelperExpansion expansion = getNewbieHelperExpansion();
+        return expansion.getWorldsConfiguration();
+    }
+
+    private boolean isForcePvpWorld(@NotNull Entity entity) {
+        World world = entity.getWorld();
+        return isForcePvpWorld(world);
+    }
+
+    private boolean isForcePvpWorld(@NotNull World world) {
+        WorldsConfiguration configuration = getWorldsConfiguration();
+        return configuration.isForcePvp(world);
+    }
+
+    private boolean isNoPvpWorld(@NotNull Entity entity) {
+        World world = entity.getWorld();
+        return isNoPvpWorld(world);
+    }
+
+    private boolean isNoPvpWorld(@NotNull World world) {
+        WorldsConfiguration configuration = getWorldsConfiguration();
+        return configuration.isNoPvp(world);
     }
 
     private boolean isRemoveProtectionOnAttack() {

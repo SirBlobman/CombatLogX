@@ -9,6 +9,7 @@ import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 
 import combatlogx.expansion.newbie.helper.command.CommandTogglePVP;
 import combatlogx.expansion.newbie.helper.configuration.NewbieHelperConfiguration;
+import combatlogx.expansion.newbie.helper.configuration.WorldsConfiguration;
 import combatlogx.expansion.newbie.helper.listener.ListenerDamage;
 import combatlogx.expansion.newbie.helper.listener.ListenerJoin;
 import combatlogx.expansion.newbie.helper.manager.CooldownManager;
@@ -18,6 +19,7 @@ import combatlogx.expansion.newbie.helper.placeholder.NewbieHelperPlaceholderExp
 
 public final class NewbieHelperExpansion extends Expansion {
     private final NewbieHelperConfiguration configuration;
+    private final WorldsConfiguration worldsConfiguration;
 
     private final PVPManager pvpManager;
     private final ProtectionManager protectionManager;
@@ -25,7 +27,9 @@ public final class NewbieHelperExpansion extends Expansion {
 
     public NewbieHelperExpansion(ICombatLogX plugin) {
         super(plugin);
+
         this.configuration = new NewbieHelperConfiguration();
+        this.worldsConfiguration = new WorldsConfiguration();
 
         this.pvpManager = new PVPManager(this);
         this.protectionManager = new ProtectionManager(this);
@@ -56,11 +60,18 @@ public final class NewbieHelperExpansion extends Expansion {
     public void reloadConfig() {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.reload("config.yml");
+        configurationManager.reload("worlds.yml");
+
         getConfiguration().load(configurationManager.get("config.yml"));
+        getWorldsConfiguration().load(configurationManager.get("worlds.yml"));
     }
 
     public @NotNull NewbieHelperConfiguration getConfiguration() {
         return this.configuration;
+    }
+
+    public @NotNull WorldsConfiguration getWorldsConfiguration() {
+        return this.worldsConfiguration;
     }
 
     public @NotNull PVPManager getPVPManager() {

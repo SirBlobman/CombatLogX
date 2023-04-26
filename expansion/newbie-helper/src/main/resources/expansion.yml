@@ -3,5 +3,5 @@ prefix: "${expansionPrefix}"
 description: "${expansionDescription}"
 
 main: "combatlogx.expansion.newbie.helper.NewbieHelperExpansion"
-version: "17.0"
+version: "17.1"
 author: "SirBlobman"
