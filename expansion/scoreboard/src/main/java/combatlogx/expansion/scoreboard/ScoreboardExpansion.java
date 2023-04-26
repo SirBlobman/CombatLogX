@@ -44,6 +44,13 @@ public final class ScoreboardExpansion extends Expansion {
             return;
         }
 
+        if (getPlugin().getFoliaHelper().isFolia()) {
+            Logger logger = getLogger();
+            logger.warning("Folia does not currently support scoreboards.");
+            selfDisable();
+            return;
+        }
+
         reloadConfig();
 
         ICombatLogX plugin = getPlugin();
@@ -80,7 +87,6 @@ public final class ScoreboardExpansion extends Expansion {
         return this.configuration;
     }
 
-    @SuppressWarnings("JavaReflectionMemberAccess")
     public boolean isPaperScoreboard() {
         if (this.usePaperAPI != null) {
             return this.usePaperAPI;
