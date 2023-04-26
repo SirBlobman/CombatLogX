@@ -83,12 +83,11 @@ public final class CombatManager extends Manager implements ICombatManager {
 
         MainConfiguration configuration = plugin.getConfiguration();
         double minimumTps = configuration.getMinimumTps();
-
         if (minimumTps > 0.0D) {
-            MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
-            ServerHandler serverHandler = multiVersionHandler.getServerHandler();
-            double currentTps = serverHandler.getServerTps1m();
-            if (currentTps < minimumTps) {
+            double tps = getServerTPS();
+            if (tps < minimumTps) {
+                plugin.printDebug("Server TPS: " + tps);
+                plugin.printDebug("Minimum TPS: " + tps);
                 plugin.printDebug("The server tps is too low to tag players.");
                 return false;
             }
@@ -360,5 +359,16 @@ public final class CombatManager extends Manager implements ICombatManager {
 
             languageManager.sendMessage(player, message);
         }
+    }
+
+    private double getServerTPS() {
+        if (PaperChecker.isPaper()) {
+            return PaperHelper.getServer1mTps();
+        }
+
+        ICombatLogX plugin = getCombatLogX();
+        MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
+        ServerHandler serverHandler = multiVersionHandler.getServerHandler();
+        return serverHandler.getServerTps1m();
     }
 }
