@@ -349,6 +349,10 @@ public final class CombatManager extends Manager implements ICombatManager {
 
         ModifiableMessageType type = modifiableMessage.getType();
         Component message = modifiableMessage.getMessage();
+        if (Component.empty().equals(message)) {
+            return;
+        }
+
         if (type == ModifiableMessageType.ACTION_BAR) {
             languageManager.sendActionBar(player, message);
         } else if (type == ModifiableMessageType.CHAT) {
