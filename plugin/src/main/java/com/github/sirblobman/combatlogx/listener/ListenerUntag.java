@@ -35,8 +35,9 @@ public final class ListenerUntag extends CombatListener {
             return;
         }
 
-        String kickReason = e.getReason();
-        UntagReason untagReason = (isKickReasonIgnored(kickReason) ? UntagReason.EXPIRE : UntagReason.KICK);
+        String reason = e.getReason();
+        boolean ignored = isKickReasonIgnored(reason);
+        UntagReason untagReason = (ignored ? UntagReason.EXPIRE : UntagReason.KICK);
 
         ICombatManager combatManager = getCombatManager();
         combatManager.untag(player, untagReason);
@@ -67,26 +68,10 @@ public final class ListenerUntag extends CombatListener {
         punishManager.punish(player, untagReason, previousEnemies);
     }
 
-    private boolean isKickReasonIgnored(String kickReason) {
+    private boolean isKickReasonIgnored(@NotNull String reason) {
         ICombatLogX plugin = getCombatLogX();
         PunishConfiguration punishConfiguration = plugin.getPunishConfiguration();
-
-        List<String> kickIgnoreList = punishConfiguration.getKickIgnoreList();
-        if (kickIgnoreList.isEmpty()) {
-            return false;
-        }
-
-        if (kickIgnoreList.contains("*")) {
-            return true;
-        }
-
-        for (String kickIgnoreMessage : kickIgnoreList) {
-            if (kickReason.contains(kickIgnoreMessage)) {
-                return true;
-            }
-        }
-
-        return false;
+        return punishConfiguration.isKickIgnored(reason);
     }
 
     private void sendUntagMessage(Player player, UntagReason untagReason) {

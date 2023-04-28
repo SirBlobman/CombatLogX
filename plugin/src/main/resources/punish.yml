@@ -15,9 +15,14 @@ on-expire: false
 
 # Which kick reasons should not punish players?
 # This option is only used when the 'on-kick' option is set to true.
+# Default: ["troll", "kicked by SirBlobman"]
 kick-ignore-list:
   - "troll"
   - "kicked by SirBlobman"
+
+# Should the kick ignore list be converted into a kick requirement list?
+# Default: false
+kick-ignore-list-inverted: false
 
 # When should CombatLogX kill the player?
 # QUIT: CombatLogX will kill the player the moment they log out.

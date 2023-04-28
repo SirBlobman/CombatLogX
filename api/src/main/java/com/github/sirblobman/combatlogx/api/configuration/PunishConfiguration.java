@@ -22,6 +22,7 @@ public final class PunishConfiguration implements IConfigurable {
     private boolean onExpire;
     private KillTime killTime;
     private boolean enablePunishmentCounter;
+    private boolean kickIgnoreListInverted;
 
     public PunishConfiguration() {
         this.onDisconnect = true;
@@ -29,6 +30,7 @@ public final class PunishConfiguration implements IConfigurable {
         this.onExpire = false;
         this.killTime = KillTime.QUIT;
         this.enablePunishmentCounter = true;
+        this.kickIgnoreListInverted = false;
 
         this.kickIgnoreList = new ArrayList<>();
         this.customDeathMessageList = new ArrayList<>();
@@ -95,6 +97,35 @@ public final class PunishConfiguration implements IConfigurable {
     public void setKickIgnoreList(@NotNull Collection<String> kickIgnores) {
         this.kickIgnoreList.clear();
         this.kickIgnoreList.addAll(kickIgnores);
+    }
+
+    public boolean isKickIgnoreListInverted() {
+        return this.kickIgnoreListInverted;
+    }
+
+    public void setKickIgnoreListInverted(boolean inverted) {
+        this.kickIgnoreListInverted = inverted;
+    }
+
+    public boolean isKickIgnored(@NotNull String reason) {
+        boolean ignore = isInIgnoreList(reason);
+        boolean inverted = isKickIgnoreListInverted();
+        return  (inverted != ignore);
+    }
+
+    private boolean isInIgnoreList(@NotNull String reason) {
+        List<String> kickIgnoreList = getKickIgnoreList();
+        if (kickIgnoreList.contains("*")) {
+            return true;
+        }
+
+        for (String part : kickIgnoreList) {
+            if (reason.contains(part)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public List<String> getCustomDeathMessages() {
