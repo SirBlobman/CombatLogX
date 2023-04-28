@@ -25,7 +25,7 @@ public final class EconomyRequirement extends Requirement {
     }
 
     @Override
-    public boolean meetsRequirement(Player player) {
+    public boolean meetsRequirement(@NotNull Player player) {
         RewardExpansion expansion = getExpansion();
         HookVault vaultHook = expansion.getVaultHook();
         Economy economyHandler = vaultHook.getEconomyHandler();

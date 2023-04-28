@@ -37,6 +37,10 @@ public final class HookVault {
         return this.economy;
     }
 
+    public void setEconomyHandler(@NotNull Economy economy) {
+        this.economy = economy;
+    }
+
     public boolean setupEconomy() {
         try {
             ServicesManager servicesManager = Bukkit.getServicesManager();
@@ -51,13 +55,15 @@ public final class HookVault {
             PluginDescriptionFile description = plugin.getDescription();
             String fullName = description.getFullName();
 
-            this.economy = registration.getProvider();
-            String economyName = this.economy.getName();
+            Economy economy = registration.getProvider();
+            String economyName = economy.getName();
 
             Logger logger = getLogger();
             String messageFormat = "Successfully hooked into economy handler '%s' from plugin '%s'.";
             String logMessage = String.format(Locale.US, messageFormat, economyName, fullName);
             logger.info(logMessage);
+
+            setEconomyHandler(economy);
             return true;
         } catch (Exception ex) {
             Logger logger = getLogger();

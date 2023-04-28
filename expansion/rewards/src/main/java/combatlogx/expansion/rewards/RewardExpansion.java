@@ -15,7 +15,7 @@ public final class RewardExpansion extends Expansion {
     private final RewardConfiguration configuration;
     private HookVault hookVault;
 
-    public RewardExpansion(ICombatLogX plugin) {
+    public RewardExpansion(@NotNull ICombatLogX plugin) {
         super(plugin);
         this.configuration = new RewardConfiguration(this);
         this.hookVault = null;

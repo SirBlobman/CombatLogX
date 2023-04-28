@@ -42,7 +42,7 @@ public abstract class Requirement implements IConfigurable {
         this.checkEnemy = checkEnemy;
     }
 
-    public boolean meetsRequirement(LivingEntity entity) {
+    public boolean meetsRequirement(@NotNull LivingEntity entity) {
         if (entity instanceof Player) {
             Player player = (Player) entity;
             return meetsRequirement(player);
@@ -51,5 +51,5 @@ public abstract class Requirement implements IConfigurable {
         return false;
     }
 
-    public abstract boolean meetsRequirement(Player player);
+    public abstract boolean meetsRequirement(@NotNull Player player);
 }

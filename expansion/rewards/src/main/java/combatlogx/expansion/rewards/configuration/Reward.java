@@ -40,7 +40,8 @@ public final class Reward implements IConfigurable {
     private boolean mobWhiteList;
     private boolean worldWhiteList;
     private boolean randomCommand;
-    private Map<String, Requirement> requirementMap;
+
+    private final Map<String, Requirement> requirementMap;
 
     private transient Permission permission;
 

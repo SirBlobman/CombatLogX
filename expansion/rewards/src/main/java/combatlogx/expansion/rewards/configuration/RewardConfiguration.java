@@ -47,6 +47,7 @@ public final class RewardConfiguration implements IConfigurable {
     }
 
     private void loadRewards(@NotNull ConfigurationSection section) {
+        RewardExpansion expansion = getExpansion();
         Set<String> rewardIdSet = section.getKeys(false);
         for (String rewardId : rewardIdSet) {
             ConfigurationSection rewardSection = section.getConfigurationSection(rewardId);

@@ -32,7 +32,7 @@ public final class ExperienceRequirement extends Requirement {
     }
 
     @Override
-    public boolean meetsRequirement(Player player) {
+    public boolean meetsRequirement(@NotNull Player player) {
         int amount = getAmount();
         int balance = ExperienceUtility.getExp(player);
         return (balance >= amount);
