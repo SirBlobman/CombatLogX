@@ -15,6 +15,7 @@ import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionWithDependencies;
 import com.github.sirblobman.combatlogx.api.expansion.region.configuration.RegionExpansionConfiguration;
 import com.github.sirblobman.combatlogx.api.expansion.region.listener.RegionMoveListener;
+import com.github.sirblobman.combatlogx.api.expansion.region.listener.RegionTeleportListener;
 import com.github.sirblobman.combatlogx.api.expansion.region.listener.RegionVulnerableListener;
 
 public abstract class RegionExpansion extends ExpansionWithDependencies {
@@ -48,6 +49,7 @@ public abstract class RegionExpansion extends ExpansionWithDependencies {
 
     private void registerListeners() {
         new RegionMoveListener(this).register();
+        new RegionTeleportListener(this).register();
         new RegionVulnerableListener(this).register();
     }
 
