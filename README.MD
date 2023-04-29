@@ -1,7 +1,7 @@
 # CombatLogX
 
 [![Code Size](https://img.shields.io/github/languages/code-size/SirBlobman/CombatLogX)](https://github.com/SirBlobman/CombatLogX/)
-[![Build Status](https://jenkins.sirblobman.xyz/job/SirBlobman/job/CombatLogX/badge/icon)](https://jenkins.sirblobman.xyz/job/SirBlobman/job/CombatLogX/)
+[![Build Status](https://jenkins.sirblobman.xyz/job/SirBlobman/job/CombatLogX/job/main/badge/icon)](https://jenkins.sirblobman.xyz/job/SirBlobman/job/CombatLogX/)
 [![Crowdin Localization](https://badges.crowdin.net/combatlogx-spigot-plugin/localized.svg)](https://crowdin.com/project/combatlogx-spigot-plugin)
 
 ## Description
