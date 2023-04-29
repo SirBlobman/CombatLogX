@@ -15,6 +15,7 @@ import combatlogx.expansion.compatibility.citizens.configuration.CitizensConfigu
 import combatlogx.expansion.compatibility.citizens.configuration.Configuration;
 import combatlogx.expansion.compatibility.citizens.configuration.SentinelConfiguration;
 import combatlogx.expansion.compatibility.citizens.listener.ListenerCombat;
+import combatlogx.expansion.compatibility.citizens.listener.ListenerConvert;
 import combatlogx.expansion.compatibility.citizens.listener.ListenerDeath;
 import combatlogx.expansion.compatibility.citizens.listener.ListenerJoin;
 import combatlogx.expansion.compatibility.citizens.listener.ListenerPunish;
@@ -57,6 +58,12 @@ public final class CitizensExpansion extends Expansion {
 
         PluginManager pluginManager = Bukkit.getPluginManager();
         Plugin citizens = pluginManager.getPlugin("Citizens");
+        if (citizens == null) {
+            getLogger().info("Dependency 'Citizens' is not installed properly.");
+            selfDisable();
+            return;
+        }
+
         String citizensVersion = citizens.getDescription().getVersion();
         if (!citizensVersion.startsWith("2.0.30") && !citizensVersion.startsWith("2.0.31")) {
             getLogger().info("Dependency 'Citizens' is not the correct version!");
@@ -110,6 +117,11 @@ public final class CitizensExpansion extends Expansion {
         int minorVersion = VersionUtility.getMinorVersion();
         if (minorVersion >= 11) {
             new ListenerResurrect(this).register();
+        }
+
+        // EntityTransformEvent was added in 1.13
+        if (minorVersion >= 13) {
+            new ListenerConvert(this).register();
         }
     }
 

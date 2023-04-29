@@ -3,6 +3,8 @@ package combatlogx.expansion.compatibility.citizens.listener;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import org.bukkit.entity.Entity;
+
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
@@ -12,7 +14,9 @@ import combatlogx.expansion.compatibility.citizens.configuration.SentinelConfigu
 import combatlogx.expansion.compatibility.citizens.manager.CombatNpcManager;
 import combatlogx.expansion.compatibility.citizens.manager.InventoryManager;
 import combatlogx.expansion.compatibility.citizens.object.CombatNPC;
+import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.npc.NPCRegistry;
 
 public abstract class CitizensExpansionListener extends ExpansionListener {
     private final CitizensExpansion expansion;
@@ -54,5 +58,10 @@ public abstract class CitizensExpansionListener extends ExpansionListener {
     protected final @Nullable CombatNPC getCombatNPC(NPC npc) {
         CombatNpcManager combatNpcManager = getCombatNpcManager();
         return combatNpcManager.getCombatNPC(npc);
+    }
+
+    protected final @Nullable NPC getNPC(@NotNull Entity entity) {
+        NPCRegistry npcRegistry = CitizensAPI.getNPCRegistry();
+        return npcRegistry.getNPC(entity);
     }
 }
