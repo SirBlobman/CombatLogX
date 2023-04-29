@@ -23,6 +23,7 @@ import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.configuration.MainConfiguration;
+import com.github.sirblobman.combatlogx.api.expansion.region.configuration.RegionExpansionConfiguration;
 import com.github.sirblobman.combatlogx.api.expansion.region.task.KnockbackPlayerTask;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.NoEntryMode;

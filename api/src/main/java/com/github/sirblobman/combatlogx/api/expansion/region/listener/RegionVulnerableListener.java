@@ -1,9 +1,10 @@
-package com.github.sirblobman.combatlogx.api.expansion.region;
+package com.github.sirblobman.combatlogx.api.expansion.region.listener;
 
 import java.util.Collections;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -13,6 +14,9 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import com.github.sirblobman.api.utility.VersionUtility;
+import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
+import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
+import com.github.sirblobman.combatlogx.api.expansion.region.configuration.RegionExpansionConfiguration;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.NoEntryMode;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
@@ -24,9 +28,8 @@ public final class RegionVulnerableListener extends RegionExpansionListener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDamage(EntityDamageByEntityEvent e) {
-        RegionExpansion regionExpansion = getRegionExpansion();
-        RegionHandler regionHandler = regionExpansion.getRegionHandler();
-        NoEntryMode noEntryMode = regionHandler.getNoEntryMode();
+        RegionExpansionConfiguration configuration = getConfiguration();
+        NoEntryMode noEntryMode = configuration.getNoEntryMode();
         if (noEntryMode != NoEntryMode.VULNERABLE) {
             return;
         }
@@ -53,12 +56,13 @@ public final class RegionVulnerableListener extends RegionExpansionListener {
         }
 
         Location location = player.getLocation();
+        RegionHandler<?> regionHandler = getRegionHandler();
         if (regionHandler.isSafeZone(player, location, tagInformation)) {
             e.setCancelled(false);
         }
     }
 
-    private Player getPlayerOrPassenger(Entity entity) {
+    private @Nullable Player getPlayerOrPassenger(@NotNull Entity entity) {
         if (entity instanceof Player) {
             return (Player) entity;
         }
@@ -77,18 +81,27 @@ public final class RegionVulnerableListener extends RegionExpansionListener {
         return null;
     }
 
-    @SuppressWarnings("deprecation")
-    private List<Entity> getPassengers(Entity entity) {
+    private @NotNull List<Entity> getPassengers(@NotNull Entity entity) {
         int minorVersion = VersionUtility.getMinorVersion();
-        if (minorVersion < 11) {
-            Entity passenger = entity.getPassenger();
-            if (passenger == null) {
-                return Collections.emptyList();
-            }
+        return (minorVersion < 11 ? getPassengersLegacy(entity) : getPassengersModern(entity));
+    }
 
-            return Collections.singletonList(passenger);
+    private @NotNull List<Entity> getPassengersModern(@NotNull Entity entity) {
+        List<Entity> passengerList = entity.getPassengers();
+        if (passengerList == null) {
+            return Collections.emptyList();
         }
 
-        return entity.getPassengers();
+        return Collections.unmodifiableList(passengerList);
+    }
+
+    @SuppressWarnings("deprecation") // Legacy Method
+    private @NotNull List<Entity> getPassengersLegacy(@NotNull Entity entity) {
+        Entity passenger = entity.getPassenger();
+        if (passenger == null) {
+            return Collections.emptyList();
+        }
+
+        return Collections.singletonList(passenger);
     }
 }

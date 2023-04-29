@@ -18,6 +18,13 @@ public final class TownyExpansion extends RegionExpansion {
     }
 
     @Override
+    public void onLoad() {
+        super.onLoad();
+        ConfigurationManager configurationManager = getConfigurationManager();
+        configurationManager.saveDefault("towny.yml");
+    }
+
+    @Override
     public boolean checkDependencies() {
         return checkDependency("Towny", true, "0.99");
     }
@@ -30,8 +37,10 @@ public final class TownyExpansion extends RegionExpansion {
     @Override
     public void reloadConfig() {
         super.reloadConfig();
+
         ConfigurationManager configurationManager = getConfigurationManager();
-        getTownyConfiguration().load(configurationManager.get("config.yml"));
+        configurationManager.reload("towny.yml");
+        getTownyConfiguration().load(configurationManager.get("towny.yml"));
     }
 
     @Override

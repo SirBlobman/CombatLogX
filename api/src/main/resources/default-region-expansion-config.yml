@@ -1,0 +1,30 @@
+# How should CombatLogX prevent players from entering non-pvp areas?
+# Valid Modes:
+#  DISABLED - Ignore players.
+#  KNOCKBACK_PLAYER - Add some opposite velocity to the player. They will be pushed backwards.
+#  CANCEL_EVENT - Cancel the move event for the player.
+#  VULNERABLE - Allow the player to enter the area, but disable the pvp protection from the region plugin.
+#  KILL_PLAYER - Set the health of the player to zero.
+#  TELEPORT_TO_ENEMY - Teleport the player to their current enemy, or cancel the event if there are no enemies.
+# Default: "KNOCKBACK_PLAYER"
+no-entry-mode: "KNOCKBACK_PLAYER"
+
+# This value is only used if 'no-entry-mode' is KNOCKBACK_PLAYER
+# How much should the backwards velocity be multiplied by?
+# Default: 1.5
+knockback-strength: 1.5
+
+# How much time (in seconds) should the plugin wait before sending another 'no-entry' message?
+# Default: 30
+message-cooldown: 30
+
+# Should the region plugin also prevent teleporting?
+# Teleport prevention will always use the CANCEL_EVENT mode.
+prevent-teleport: true
+
+# Are there any reasons that a teleport should not be cancelled?
+# You can find a list of valid values in the link below:
+# https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/event/player/PlayerTeleportEvent.TeleportCause.html
+ignored-teleport-cause-list:
+  - "PLUGIN" # Some plugins don't like when CombatLogX cancels their teleports
+  - "UNKNOWN" # Allowing 'UNKNOWN' may fix some glitches with region protection plugins

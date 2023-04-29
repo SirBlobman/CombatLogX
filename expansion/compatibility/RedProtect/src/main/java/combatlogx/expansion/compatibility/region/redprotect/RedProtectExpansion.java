@@ -20,7 +20,7 @@ public final class RedProtectExpansion extends RegionExpansion {
     }
 
     @Override
-    public RegionHandler<?> getRegionHandler() {
+    public @NotNull RegionHandler<?> getRegionHandler() {
         if (this.regionHandler == null) {
             this.regionHandler = new RegionHandlerRedProtect(this);
         }

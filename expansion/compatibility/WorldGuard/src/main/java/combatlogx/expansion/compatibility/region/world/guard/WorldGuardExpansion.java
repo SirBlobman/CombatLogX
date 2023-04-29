@@ -14,7 +14,7 @@ public final class WorldGuardExpansion extends RegionExpansion {
     private final HookWorldGuard hookWorldGuard;
     private RegionHandler<?> regionHandler;
 
-    public WorldGuardExpansion(ICombatLogX plugin) {
+    public WorldGuardExpansion(@NotNull ICombatLogX plugin) {
         super(plugin);
         this.hookWorldGuard = new HookWorldGuard(this);
         this.regionHandler = null;
