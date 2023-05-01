@@ -12,7 +12,6 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 
 import com.github.sirblobman.api.folia.details.RunnableTask;
 import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
-import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
 import combatlogx.expansion.compatibility.citizens.configuration.CitizensConfiguration;
@@ -99,8 +98,8 @@ public final class ListenerDeath extends CitizensExpansionListener {
             combatNpcManager.remove(combatNPC);
 
             printDebug("Destroy NPC later.");
-            TaskScheduler<ConfigurablePlugin> scheduler = getCombatLogX().getFoliaHelper().getScheduler();
-            scheduler.scheduleTask(new RunnableTask<>(getJavaPlugin(), npc::destroy));
+            TaskScheduler scheduler = getCombatLogX().getFoliaHelper().getScheduler();
+            scheduler.scheduleTask(new RunnableTask(getJavaPlugin(), npc::destroy));
         }
 
         printDebug("Setting player to be punished when they next join.");

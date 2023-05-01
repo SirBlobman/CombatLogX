@@ -10,7 +10,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
-import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.configuration.MainConfiguration;
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
@@ -47,14 +46,10 @@ public final class ListenerInvulnerable extends CombatListener {
     }
 
     private void setVulnerableLater(Player player) {
-        PlayerVulnerableTask task = new PlayerVulnerableTask(getJavaPlugin(), player);
+        PlayerVulnerableTask task = new PlayerVulnerableTask(getCombatLogX(), player);
         task.setDelay(2L);
 
-        TaskScheduler<ConfigurablePlugin> scheduler = getCombatLogX().getFoliaHelper().getScheduler();
+        TaskScheduler scheduler = getCombatLogX().getFoliaHelper().getScheduler();
         scheduler.scheduleEntityTask(task);
-    }
-
-    private void setVulnerable(Player player) {
-        player.setNoDamageTicks(0);
     }
 }

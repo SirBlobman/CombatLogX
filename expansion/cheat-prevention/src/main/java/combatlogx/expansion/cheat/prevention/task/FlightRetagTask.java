@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 
 import com.github.sirblobman.api.folia.details.TaskDetails;
 import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
-import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
@@ -18,7 +17,7 @@ import com.github.sirblobman.combatlogx.api.object.TagType;
 import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
 import combatlogx.expansion.cheat.prevention.configuration.IFlightConfiguration;
 
-public final class FlightRetagTask extends TaskDetails<ConfigurablePlugin> {
+public final class FlightRetagTask extends TaskDetails {
     private final ICheatPreventionExpansion expansion;
 
     public FlightRetagTask(@NotNull ICheatPreventionExpansion expansion) {
@@ -46,7 +45,7 @@ public final class FlightRetagTask extends TaskDetails<ConfigurablePlugin> {
     }
 
     public void register() {
-        TaskScheduler<ConfigurablePlugin> scheduler = getCombatLogX().getFoliaHelper().getScheduler();
+        TaskScheduler scheduler = getCombatLogX().getFoliaHelper().getScheduler();
         setDelay(10L);
         setPeriod(10L);
         scheduler.scheduleTask(this);

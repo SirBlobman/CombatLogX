@@ -4,10 +4,9 @@ import org.jetbrains.annotations.NotNull;
 
 import com.github.sirblobman.api.configuration.IResourceHolder;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
-import com.github.sirblobman.api.folia.IFoliaPlugin;
 import com.github.sirblobman.api.language.LanguageManager;
-import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.api.plugin.ConfigurablePlugin;
+import com.github.sirblobman.api.plugin.IMultiVersionPlugin;
 import com.github.sirblobman.combatlogx.api.configuration.CommandConfiguration;
 import com.github.sirblobman.combatlogx.api.configuration.MainConfiguration;
 import com.github.sirblobman.combatlogx.api.configuration.PunishConfiguration;
@@ -20,7 +19,7 @@ import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 import com.github.sirblobman.combatlogx.api.manager.IPunishManager;
 import com.github.sirblobman.combatlogx.api.manager.ITimerManager;
 
-public interface ICombatLogX extends IResourceHolder, IFoliaPlugin<ConfigurablePlugin> {
+public interface ICombatLogX extends IResourceHolder, IMultiVersionPlugin {
     /**
      * @return The JavaPlugin instance for this object.
      */
@@ -30,11 +29,6 @@ public interface ICombatLogX extends IResourceHolder, IFoliaPlugin<ConfigurableP
      * Called when the configuration files should be reloaded.
      */
     void onReload();
-
-    /**
-     * @return The multi-version handler system for this plugin.
-     */
-    @NotNull MultiVersionHandler getMultiVersionHandler();
 
     /**
      * @return The player data file manager for this plugin.

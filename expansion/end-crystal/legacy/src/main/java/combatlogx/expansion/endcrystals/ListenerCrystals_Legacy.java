@@ -12,7 +12,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
-import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.api.utility.ItemUtility;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
@@ -56,7 +55,7 @@ public final class ListenerCrystals_Legacy extends ExpansionListener {
         CheckEndCrystalTask task = new CheckEndCrystalTask(getCombatLogX(), block.getLocation(), player);
         task.setDelay(1L);
 
-        TaskScheduler<ConfigurablePlugin> scheduler = getCombatLogX().getFoliaHelper().getScheduler();
+        TaskScheduler scheduler = getCombatLogX().getFoliaHelper().getScheduler();
         scheduler.scheduleLocationTask(task);
     }
 }

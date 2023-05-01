@@ -11,11 +11,10 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import com.github.sirblobman.api.folia.details.LocationTaskDetails;
-import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICrystalManager;
 
-public final class CheckEndCrystalTask extends LocationTaskDetails<ConfigurablePlugin> {
+public final class CheckEndCrystalTask extends LocationTaskDetails {
     private final ICombatLogX plugin;
     private final Player player;
 

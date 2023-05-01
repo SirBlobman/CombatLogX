@@ -7,16 +7,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import com.github.sirblobman.api.folia.details.EntityTaskDetails;
-import com.github.sirblobman.api.plugin.ConfigurablePlugin;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
 
-public final class KnockbackPlayerTask extends EntityTaskDetails<ConfigurablePlugin, Player> {
+public final class KnockbackPlayerTask extends EntityTaskDetails<Player> {
     private final Location from;
     private final Location to;
     private final double strength;
 
-    public KnockbackPlayerTask(@NotNull ConfigurablePlugin plugin, @NotNull Player entity,
+    public KnockbackPlayerTask(@NotNull ICombatLogX plugin, @NotNull Player entity,
                                @NotNull Location from, @NotNull Location to, double strength) {
-        super(plugin, entity);
+        super(plugin.getPlugin(), entity);
         this.from = from;
         this.to = to;
         this.strength = strength;

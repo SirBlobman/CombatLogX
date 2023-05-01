@@ -13,14 +13,13 @@ import org.bukkit.entity.Player;
 import com.github.sirblobman.api.folia.FoliaHelper;
 import com.github.sirblobman.api.folia.details.RunnableTask;
 import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
-import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 
 public final class CommandHelper {
     public static void runSync(@NotNull ICombatLogX plugin, @NotNull Runnable runnable) {
-        RunnableTask<ConfigurablePlugin> task = new RunnableTask<>(plugin.getPlugin(), runnable);
-        FoliaHelper<ConfigurablePlugin> foliaHelper = plugin.getFoliaHelper();
-        TaskScheduler<ConfigurablePlugin> scheduler = foliaHelper.getScheduler();
+        FoliaHelper foliaHelper = plugin.getFoliaHelper();
+        TaskScheduler scheduler = foliaHelper.getScheduler();
+        RunnableTask task = new RunnableTask(plugin.getPlugin(), runnable);
         scheduler.scheduleTask(task);
     }
 

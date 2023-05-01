@@ -17,7 +17,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
 import com.github.sirblobman.api.language.ComponentHelper;
 import com.github.sirblobman.api.language.LanguageManager;
-import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.api.shaded.adventure.text.Component;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
@@ -68,7 +67,7 @@ public final class ListenerJoin extends CitizensExpansionListener {
         }
 
         PunishTask punishTask = new PunishTask(getCitizensExpansion(), player);
-        TaskScheduler<ConfigurablePlugin> scheduler = getCombatLogX().getFoliaHelper().getScheduler();
+        TaskScheduler scheduler = getCombatLogX().getFoliaHelper().getScheduler();
         scheduler.scheduleEntityTask(punishTask);
     }
 

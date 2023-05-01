@@ -7,7 +7,7 @@ import org.bukkit.entity.Item;
 import com.github.sirblobman.api.folia.details.EntityTaskDetails;
 import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 
-public final class ItemRemoveTask extends EntityTaskDetails<ConfigurablePlugin, Item> {
+public final class ItemRemoveTask extends EntityTaskDetails<Item> {
     public ItemRemoveTask(@NotNull ConfigurablePlugin plugin, @NotNull Item entity) {
         super(plugin, entity);
     }

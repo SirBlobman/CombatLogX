@@ -27,7 +27,6 @@ import com.github.sirblobman.api.folia.details.RunnableTask;
 import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
-import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
@@ -99,8 +98,8 @@ public final class CombatNpcManager {
         this.playerNpcMap.remove(owner.getUniqueId());
         this.npcCombatMap.remove(originalNPC.getUniqueId());
 
-        TaskScheduler<ConfigurablePlugin> scheduler = getCombatLogX().getFoliaHelper().getScheduler();
-        scheduler.scheduleTask(new RunnableTask<>(getCombatLogX().getPlugin(), originalNPC::destroy));
+        TaskScheduler scheduler = getCombatLogX().getFoliaHelper().getScheduler();
+        scheduler.scheduleTask(new RunnableTask(getCombatLogX().getPlugin(), originalNPC::destroy));
     }
 
     public void removeAll() {

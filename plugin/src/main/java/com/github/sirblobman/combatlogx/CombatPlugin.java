@@ -282,7 +282,7 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
 
     private void registerUpdates() {
         CorePlugin corePlugin = JavaPlugin.getPlugin(CorePlugin.class);
-        SpigotUpdateManager<?> updateManager = corePlugin.getSpigotUpdateManager();
+        SpigotUpdateManager updateManager = corePlugin.getSpigotUpdateManager();
         updateManager.addResource(this, 31689L);
     }
 

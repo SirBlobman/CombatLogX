@@ -33,7 +33,6 @@ import org.bukkit.plugin.PluginManager;
 
 import com.github.sirblobman.api.folia.details.TaskDetails;
 import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
-import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion.State;
 
@@ -126,7 +125,7 @@ public final class ExpansionManager {
                 + (expansionListSize == 1 ? "" : "s") + ".");
         logger.info(message);
 
-        TaskDetails<ConfigurablePlugin> task = new TaskDetails<ConfigurablePlugin>(plugin.getPlugin()) {
+        TaskDetails task = new TaskDetails(plugin.getPlugin()) {
             @Override
             public void run() {
                 for (Expansion expansion : lateLoadExpansionList) {
@@ -145,7 +144,7 @@ public final class ExpansionManager {
         };
         task.setDelay(1L);
 
-        TaskScheduler<ConfigurablePlugin> scheduler = plugin.getFoliaHelper().getScheduler();
+        TaskScheduler scheduler = plugin.getFoliaHelper().getScheduler();
         scheduler.scheduleTask(task);
     }
 

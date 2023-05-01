@@ -82,9 +82,9 @@ public final class BossBarUpdater implements TimerUpdater {
             return;
         }
 
-        FoliaHelper<ConfigurablePlugin> foliaHelper = combatLogX.getFoliaHelper();
-        TaskScheduler<ConfigurablePlugin> scheduler = foliaHelper.getScheduler();
-        scheduler.scheduleEntityTask(new EntityTaskDetails<ConfigurablePlugin, Player>(plugin, player) {
+        FoliaHelper foliaHelper = combatLogX.getFoliaHelper();
+        TaskScheduler scheduler = foliaHelper.getScheduler();
+        scheduler.scheduleEntityTask(new EntityTaskDetails<Player>(plugin, player) {
             @Override
             public void run() {
                 Player player = getEntity();

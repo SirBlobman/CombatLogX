@@ -11,14 +11,13 @@ import org.bukkit.entity.Player;
 
 import com.github.sirblobman.api.folia.details.TaskDetails;
 import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
-import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.ITimerManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TimerUpdater;
 
-public final class TimerUpdateTask extends TaskDetails<ConfigurablePlugin> implements ITimerManager {
+public final class TimerUpdateTask extends TaskDetails implements ITimerManager {
     private final ICombatLogX plugin;
     private final Set<TimerUpdater> timerUpdaterSet;
 
@@ -60,7 +59,7 @@ public final class TimerUpdateTask extends TaskDetails<ConfigurablePlugin> imple
 
     public void register() {
         ICombatLogX plugin = getCombatLogX();
-        TaskScheduler<ConfigurablePlugin> scheduler = plugin.getFoliaHelper().getScheduler();
+        TaskScheduler scheduler = plugin.getFoliaHelper().getScheduler();
 
         setDelay(5L);
         setPeriod(10L);

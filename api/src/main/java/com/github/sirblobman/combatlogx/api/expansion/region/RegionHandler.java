@@ -19,7 +19,6 @@ import org.bukkit.util.Vector;
 import com.github.sirblobman.api.folia.FoliaHelper;
 import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
 import com.github.sirblobman.api.language.LanguageManager;
-import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.configuration.MainConfiguration;
@@ -162,12 +161,11 @@ public abstract class RegionHandler<RE extends RegionExpansion> {
 
         RegionExpansion expansion = getExpansion();
         ICombatLogX combatLogX = expansion.getPlugin();
-        ConfigurablePlugin plugin = combatLogX.getPlugin();
+        FoliaHelper foliaHelper = combatLogX.getFoliaHelper();
+        TaskScheduler scheduler = foliaHelper.getScheduler();
 
         double strength = getKnockbackStrength();
-        KnockbackPlayerTask task = new KnockbackPlayerTask(plugin, player, fromLocation, toLocation, strength);
-        FoliaHelper<ConfigurablePlugin> foliaHelper = combatLogX.getFoliaHelper();
-        TaskScheduler<ConfigurablePlugin> scheduler = foliaHelper.getScheduler();
+        KnockbackPlayerTask task = new KnockbackPlayerTask(combatLogX, player, fromLocation, toLocation, strength);
         scheduler.scheduleEntityTask(task);
     }
 

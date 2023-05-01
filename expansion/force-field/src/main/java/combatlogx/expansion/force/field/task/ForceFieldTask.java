@@ -28,7 +28,6 @@ import com.github.sirblobman.api.folia.details.RunnableTask;
 import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
 import com.github.sirblobman.api.folia.task.WrappedTask;
 import com.github.sirblobman.api.location.BlockLocation;
-import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
@@ -103,11 +102,11 @@ public final class ForceFieldTask extends ExpansionListener implements Runnable 
     }
 
     public void registerTask() {
-        RunnableTask<ConfigurablePlugin> thisTask = new RunnableTask<>(getJavaPlugin(), this);
+        RunnableTask thisTask = new RunnableTask(getJavaPlugin(), this);
         thisTask.setDelay(1L);
         thisTask.setPeriod(1L);
 
-        TaskScheduler<ConfigurablePlugin> scheduler = getCombatLogX().getFoliaHelper().getScheduler();
+        TaskScheduler scheduler = getCombatLogX().getFoliaHelper().getScheduler();
         this.wrappedTask = scheduler.scheduleAsyncTask(thisTask);
     }
 

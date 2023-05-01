@@ -11,7 +11,6 @@ import org.bukkit.inventory.PlayerInventory;
 import com.github.sirblobman.api.folia.details.EntityTaskDetails;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
-import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
@@ -22,7 +21,7 @@ import combatlogx.expansion.compatibility.citizens.configuration.CitizensConfigu
 import combatlogx.expansion.compatibility.citizens.manager.CombatNpcManager;
 import combatlogx.expansion.compatibility.citizens.manager.InventoryManager;
 
-public final class PunishTask extends EntityTaskDetails<ConfigurablePlugin, Player> {
+public final class PunishTask extends EntityTaskDetails<Player> {
     private final CitizensExpansion expansion;
 
     public PunishTask(@NotNull CitizensExpansion expansion, @NotNull Player entity) {

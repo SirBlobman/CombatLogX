@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 
 import com.github.sirblobman.api.folia.details.TaskDetails;
 import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
-import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
@@ -17,7 +16,7 @@ import com.github.sirblobman.combatlogx.api.object.UntagReason;
 /**
  * This task is used to untag players from combat. It runs every 10 ticks.
  */
-public final class UntagTask extends TaskDetails<ConfigurablePlugin> implements Runnable {
+public final class UntagTask extends TaskDetails implements Runnable {
     private final ICombatLogX plugin;
 
     public UntagTask(@NotNull ICombatLogX plugin) {
@@ -27,7 +26,7 @@ public final class UntagTask extends TaskDetails<ConfigurablePlugin> implements 
 
     public void register() {
         ICombatLogX plugin = getCombatLogX();
-        TaskScheduler<ConfigurablePlugin> scheduler = plugin.getFoliaHelper().getScheduler();
+        TaskScheduler scheduler = plugin.getFoliaHelper().getScheduler();
 
         setDelay(5L);
         setPeriod(10L);

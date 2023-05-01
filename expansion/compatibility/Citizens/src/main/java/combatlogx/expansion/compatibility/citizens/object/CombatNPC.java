@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 
 import com.github.sirblobman.api.folia.details.TaskDetails;
 import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
-import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
@@ -20,7 +19,7 @@ import combatlogx.expansion.compatibility.citizens.configuration.CitizensConfigu
 import combatlogx.expansion.compatibility.citizens.manager.CombatNpcManager;
 import net.citizensnpcs.api.npc.NPC;
 
-public final class CombatNPC extends TaskDetails<ConfigurablePlugin> {
+public final class CombatNPC extends TaskDetails {
     private final CitizensExpansion expansion;
     private final NPC originalNPC;
     private final UUID ownerId;
@@ -64,11 +63,10 @@ public final class CombatNPC extends TaskDetails<ConfigurablePlugin> {
 
     public void start() {
         resetSurvivalTime();
-
         setDelay(1L);
         setPeriod(1L);
 
-        TaskScheduler<ConfigurablePlugin> scheduler = getCombatLogX().getFoliaHelper().getScheduler();
+        TaskScheduler scheduler = getCombatLogX().getFoliaHelper().getScheduler();
         scheduler.scheduleTask(this);
     }
 

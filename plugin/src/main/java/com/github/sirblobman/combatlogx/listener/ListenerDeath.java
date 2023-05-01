@@ -71,12 +71,11 @@ public final class ListenerDeath extends CombatListener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
-        ConfigurablePlugin javaPlugin = getJavaPlugin();
+        ConfigurablePlugin plugin = getJavaPlugin();
         IDeathManager deathManager = getDeathManager();
 
-        RunnableTask<ConfigurablePlugin> task = new RunnableTask<>(javaPlugin,
-                () -> deathManager.stopTracking(player));
-        TaskScheduler<ConfigurablePlugin> scheduler = getCombatLogX().getFoliaHelper().getScheduler();
+        RunnableTask task = new RunnableTask(plugin, () -> deathManager.stopTracking(player));
+        TaskScheduler scheduler = getCombatLogX().getFoliaHelper().getScheduler();
         scheduler.scheduleTask(task);
     }
 
