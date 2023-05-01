@@ -15,6 +15,7 @@ import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
+import io.lumine.mythic.api.adapters.AbstractEntity;
 import io.lumine.mythic.bukkit.BukkitAPIHelper;
 import io.lumine.mythic.bukkit.MythicBukkit;
 import io.lumine.mythic.core.mobs.ActiveMob;
@@ -34,6 +35,7 @@ public final class ListenerMythicMobs extends ExpansionListener {
 
         ICombatManager combatManager = getCombatManager();
         if (damaged instanceof Player && isMythicMob(damager)) {
+            damager = linkMainMythicMob(damager);
             String mobName = getMythicMobName(damager);
             if (mobName != null && isForceTag(mobName)) {
                 Player playerDamaged = (Player) damaged;
@@ -42,6 +44,7 @@ public final class ListenerMythicMobs extends ExpansionListener {
         }
 
         if (damager instanceof Player && isMythicMob(damaged)) {
+            damaged = linkMainMythicMob(damaged);
             String mobName = getMythicMobName(damaged);
             if (mobName != null && isForceTag(mobName)) {
                 Player playerDamager = (Player) damager;
@@ -90,6 +93,20 @@ public final class ListenerMythicMobs extends ExpansionListener {
         }
 
         return null;
+    }
+
+    private @NotNull Entity linkMainMythicMob(@NotNull Entity original) {
+        ActiveMob activeMob = getActiveMob(original);
+        if (activeMob == null) {
+            return original;
+        }
+
+        AbstractEntity entity = activeMob.getEntity();
+        if (entity == null) {
+            return original;
+        }
+
+        return entity.getBukkitEntity();
     }
 
     private @NotNull MythicMobsExpansion getMythicMobsExpansion() {
