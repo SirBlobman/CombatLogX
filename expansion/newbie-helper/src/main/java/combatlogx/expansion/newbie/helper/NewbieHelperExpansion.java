@@ -40,6 +40,7 @@ public final class NewbieHelperExpansion extends Expansion {
     public void onLoad() {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.saveDefault("config.yml");
+        configurationManager.saveDefault("worlds.yml");
     }
 
     @Override
