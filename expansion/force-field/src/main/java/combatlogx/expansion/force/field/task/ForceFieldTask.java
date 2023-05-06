@@ -348,6 +348,12 @@ public final class ForceFieldTask extends ExpansionListener implements Runnable 
         player.sendBlockChange(location, material, data);
     }
 
+    private void resetBlockModern(@NotNull Player player, @NotNull Block block) {
+        Location location = block.getLocation();
+        BlockData blockData = block.getBlockData();
+        player.sendBlockChange(location, blockData);
+    }
+
     @SuppressWarnings("deprecation")
     private void sendFakeBlockLegacy(@NotNull Player player, @NotNull Location location, @NotNull XMaterial material) {
         Material bukkitMaterial = material.parseMaterial();
@@ -366,12 +372,6 @@ public final class ForceFieldTask extends ExpansionListener implements Runnable 
         }
 
         BlockData blockData = bukkitMaterial.createBlockData();
-        player.sendBlockChange(location, blockData);
-    }
-
-    private void resetBlockModern(@NotNull Player player, @NotNull Block block) {
-        Location location = block.getLocation();
-        BlockData blockData = block.getBlockData();
         player.sendBlockChange(location, blockData);
     }
 
