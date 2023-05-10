@@ -12,12 +12,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import com.github.sirblobman.api.item.ArmorType;
-import com.github.sirblobman.api.item.ItemBuilder;
 import com.github.sirblobman.api.nms.ItemHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.api.shaded.xseries.XMaterial;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
 
@@ -30,8 +28,8 @@ public final class StoredInventory {
     private StoredInventory() {
         this.contentMap = new HashMap<>();
         this.armorMap = new EnumMap<>(ArmorType.class);
-        this.mainHand = new ItemBuilder(XMaterial.AIR).withAmount(1).build();
-        this.offHand = new ItemBuilder(XMaterial.AIR).withAmount(1).build();
+        this.mainHand = null;
+        this.offHand = null;
     }
 
     public static @NotNull StoredInventory createFrom(@NotNull PlayerInventory playerInventory) {
