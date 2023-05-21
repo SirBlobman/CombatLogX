@@ -1,10 +1,11 @@
 val apiVersion = fetchProperty("version.api", "invalid")
-rootProject.ext.set("apiVersion", apiVersion)
-
+val coreVersion = fetchProperty("version.core", "invalid")
 val mavenUsername = fetchEnv("MAVEN_DEPLOY_USR", "mavenUsernameSirBlobman", "")
-rootProject.ext.set("mavenUsername", mavenUsername)
-
 val mavenPassword = fetchEnv("MAVEN_DEPLOY_PSW", "mavenPasswordSirBlobman", "")
+
+rootProject.ext.set("apiVersion", apiVersion)
+rootProject.ext.set("coreVersion", coreVersion)
+rootProject.ext.set("mavenUsername", mavenUsername)
 rootProject.ext.set("mavenPassword", mavenPassword)
 
 val baseVersion = fetchProperty("version.base", "invalid")
@@ -62,11 +63,14 @@ subprojects {
     }
 
     dependencies {
-        val spigotVersion = property("spigot.version")
-        val coreVersion = property("blue.slime.core.version")
-
+        // Java Dependencies
         compileOnly("org.jetbrains:annotations:24.0.1")
+
+        // Spigot API
+        val spigotVersion = property("version.spigot")
         compileOnly("org.spigotmc:spigot-api:$spigotVersion")
+
+        // BlueSlimeCore
         compileOnly("com.github.sirblobman.api:core:$coreVersion")
     }
 

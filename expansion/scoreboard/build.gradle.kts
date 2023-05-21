@@ -3,6 +3,6 @@ repositories {
 }
 
 dependencies {
-    val spigotVersion = property("spigot.version") as String
+    val spigotVersion = property("version.spigot") as String
     compileOnly("com.destroystokyo.paper:paper-api:$spigotVersion")
 }

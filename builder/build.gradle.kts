@@ -2,7 +2,7 @@ plugins {
     id("distribution")
 }
 
-val coreVersion = property("blue.slime.core.version") as String
+val coreVersion = rootProject.ext.get("coreVersion") as String
 val coreJar: Configuration by configurations.creating
 val pluginJar: Configuration by configurations.creating
 val expansion: Configuration by configurations.creating
