@@ -13,7 +13,9 @@ things and change how the plugin works.
 
 ## Requirements
 
-- [Spigot](https://spigotmc.org/), [Paper](https://papermc.io/download/paper), or [Folia](https://papermc.io/software/folia) 1.8.8 - 1.19.4
+- Java 8 is required. Java 17 is recommended.
+- [Spigot](https://spigotmc.org/), [Paper](https://papermc.io/download/paper),
+  or [Folia](https://papermc.io/software/folia) 1.8.8 - 1.19.4
 - [BlueSlimeCore](https://hangar.papermc.io/SirBlobman/BlueSlimeCore) 2.9.1 or higher.
 
 ## Main Features
@@ -30,11 +32,11 @@ things and change how the plugin works.
 4. Upload `CombatLogX.jar` and `BlueSlimeCore.jar` to your server `/plugins/` folder.
 5. Upload the contents of `CombatLogX/expansions` to your server `/plugins/CombatLogX/expansions` folder.
 6. If the files were uploaded and extracted correctly, your server should have the following files:
-   - File: /plugins/CombatLogX.jar
-   - File /plugins/BlueSlimeCore.jar
-   - Folder: /plugins/CombatLogX/
-   - Folder: /plugins/CombatLogX/expansions/
-   - Multiple Files: /plugins/CombatLogX/expansions/*.jar
+    - File: /plugins/CombatLogX.jar
+    - File /plugins/BlueSlimeCore.jar
+    - Folder: /plugins/CombatLogX/
+    - Folder: /plugins/CombatLogX/expansions/
+    - Multiple Files: /plugins/CombatLogX/expansions/*.jar
 7. Delete the `CombatLogX.zip` file.
 8. Restart your server using the panel or your startup script.
 9. Edit the configuration files for the main plugin, languages, and expansions.
@@ -42,6 +44,7 @@ things and change how the plugin works.
 11. If you want to remove an expansion, delete the jar file from `/plugins/CombatLogX/expansions`.
 
 ## Downloads
+
 - [SpigotMC](https://www.spigotmc.org/resources/31689/)
 - [Jenkins Beta Builds](https://jenkins.sirblobman.xyz/job/SirBlobman/job/CombatLogX/job/main/)
 
