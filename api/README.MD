@@ -10,7 +10,6 @@ A lot of developers use maven to build projects more easily.
 **Repository: SirBlobman Public**
 
 Maven:
-
 ```xml
 <repositories>
     <!-- SirBlobman Public Repository -->
@@ -21,8 +20,7 @@ Maven:
 </repositories>
 ```
 
-Gradle:
-
+Gradle Groovy:
 ```groovy
 repositories {
     maven {
@@ -32,6 +30,7 @@ repositories {
 }
 ```
 
+Gradle Kotlin:
 ```kotlin
 repositories {
     maven("https://nexus.sirblobman.xyz/public/")
@@ -41,14 +40,13 @@ repositories {
 **Dependency: CombatLogX API**
 
 Maven:
-
 ```xml
 <dependencies>
     <!-- BlueSlimeCore -->
     <dependency>
         <groupId>com.github.sirblobman.api</groupId>
         <artifactId>core</artifactId>
-        <version>2.8-SNAPSHOT</version>
+        <version>2.9-SNAPSHOT</version>
         <scope>provided</scope>
     </dependency>
     
@@ -56,25 +54,25 @@ Maven:
     <dependency>
         <groupId>com.github.sirblobman.combatlogx</groupId>
         <artifactId>api</artifactId>
-        <version>11.3-SNAPSHOT</version>
+        <version>11.4-SNAPSHOT</version>
         <scope>provided</scope>
     </dependency>
 </dependencies>
 ```
 
-Gradle:
-
+Gradle Groovy:
 ```groovy
 dependencies {
-    compileOnly 'com.github.sirblobman.api:core:2.8-SNAPSHOT'
-    compileOnly 'com.github.sirblobman.combatlogx:api:11.3-SNAPSHOT'
+    compileOnly 'com.github.sirblobman.api:core:2.9-SNAPSHOT'
+    compileOnly 'com.github.sirblobman.combatlogx:api:11.4-SNAPSHOT'
 }
 ```
 
+Gradle Kotlin:
 ```kotlin
 dependencies {
-    compileOnly("com.github.sirblobman.api:core:2.8-SNAPSHOT")
-    compileOnly("com.github.sirblobman.combatlogx:api:11.3-SNAPSHOT")
+    compileOnly("com.github.sirblobman.api:core:2.9-SNAPSHOT")
+    compileOnly("com.github.sirblobman.combatlogx:api:11.4-SNAPSHOT")
 }
 ```
 
