@@ -1,26 +1,23 @@
 package combatlogx.expansion.force.field;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
 import combatlogx.expansion.force.field.configuration.ForceFieldConfiguration;
-import combatlogx.expansion.force.field.task.ForceFieldAdapter;
-import combatlogx.expansion.force.field.task.ListenerForceField;
+import combatlogx.expansion.force.field.task.ForceFieldTask;
 
 public final class ForceFieldExpansion extends Expansion {
     private final ForceFieldConfiguration configuration;
-    private final ListenerForceField listener;
+    private ForceFieldTask task;
 
     public ForceFieldExpansion(@NotNull ICombatLogX plugin) {
         super(plugin);
         this.configuration = new ForceFieldConfiguration();
-        this.listener = new ListenerForceField(this);
+        this.task = null;
     }
 
     @Override
@@ -37,13 +34,19 @@ public final class ForceFieldExpansion extends Expansion {
         }
 
         reloadConfig();
-        this.listener.register();
-        registerProtocol();
+        registerTask();
     }
 
     @Override
     public void onDisable() {
-        removeProtocol();
+        ForceFieldTask task = getTask();
+        if (task == null) {
+            return;
+        }
+
+        task.cancel();
+        task.removeProtocol();
+        this.task = null;
     }
 
     @Override
@@ -53,19 +56,18 @@ public final class ForceFieldExpansion extends Expansion {
         getConfiguration().load(configurationManager.get("config.yml"));
     }
 
+    public @Nullable ForceFieldTask getTask() {
+        return this.task;
+    }
+
     public @NotNull ForceFieldConfiguration getConfiguration() {
         return this.configuration;
     }
 
-    private void registerProtocol() {
-        ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-        ForceFieldAdapter forceFieldAdapter = ForceFieldAdapter.createAdapter(this.listener);
-        protocolManager.addPacketListener(forceFieldAdapter);
-    }
-
-    private void removeProtocol() {
-        ConfigurablePlugin plugin = getPlugin().getPlugin();
-        ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-        protocolManager.removePacketListeners(plugin);
+    private void registerTask() {
+        this.task = new ForceFieldTask(this);
+        this.task.register();
+        this.task.registerTask();
+        this.task.registerProtocol();
     }
 }
