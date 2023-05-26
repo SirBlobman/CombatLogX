@@ -18,6 +18,7 @@ import org.bukkit.permissions.PermissionDefault;
 
 import com.github.sirblobman.api.configuration.IConfigurable;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TimerType;
 
 import static com.github.sirblobman.api.utility.ConfigurationHelper.parseEnum;
@@ -54,6 +55,8 @@ public final class MainConfiguration implements IConfigurable {
 
     private double minimumTps;
 
+    private Set<TagReason> enabledTagReasons;
+
     public MainConfiguration(@NotNull ICombatLogX plugin) {
         this.plugin = plugin;
         this.generatedByVersion = plugin.getPlugin().getDescription().getVersion();
@@ -88,6 +91,7 @@ public final class MainConfiguration implements IConfigurable {
         this.forgiveRequestExpire = 10;
 
         this.minimumTps = 15.0D;
+        this.enabledTagReasons = EnumSet.allOf(TagReason.class);
     }
 
     @Override
@@ -129,6 +133,10 @@ public final class MainConfiguration implements IConfigurable {
         setForgiveRequestCooldown(config.getInt("forgive-request-cooldown", 30));
         setForgiveRequestExpire(config.getInt("forgive-request-expire", 10));
         setMinimumTps(config.getDouble("minimum-tps", 15.0D));
+
+        List<String> enabledTagReasonNameList = config.getStringList("enabled-tag-reasons");
+        Set<TagReason> enabledTagReasons = parseEnums(enabledTagReasonNameList, TagReason.class);
+        setEnabledTagReasons(enabledTagReasons);
     }
 
     public @NotNull String getGeneratedByVersion() {
@@ -345,5 +353,14 @@ public final class MainConfiguration implements IConfigurable {
     public boolean isProjectileIgnored(@NotNull EntityType type) {
         Set<EntityType> ignoredProjectileSet = getIgnoredProjectiles();
         return ignoredProjectileSet.contains(type);
+    }
+
+    public @NotNull Set<TagReason> getEnabledTagReasons() {
+        return Collections.unmodifiableSet(this.enabledTagReasons);
+    }
+
+    public void setEnabledTagReasons(@NotNull Collection<TagReason> reasons) {
+        this.enabledTagReasons.clear();
+        this.enabledTagReasons.addAll(reasons);
     }
 }

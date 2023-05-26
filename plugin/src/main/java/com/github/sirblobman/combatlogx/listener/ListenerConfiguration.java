@@ -2,6 +2,7 @@ package com.github.sirblobman.combatlogx.listener;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.jetbrains.annotations.NotNull;
@@ -25,6 +26,7 @@ import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
+import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 
 public final class ListenerConfiguration extends CombatListener {
@@ -35,6 +37,14 @@ public final class ListenerConfiguration extends CombatListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void beforeTag(PlayerPreTagEvent e) {
         printDebug("Detected PlayerPreTagEvent.");
+
+        TagReason tagReason = e.getTagReason();
+        printDebug("Tag Reason: " + tagReason);
+        if (isDisabled(tagReason)) {
+            printDebug("Reason disabled by configuration.");
+            e.setCancelled(true);
+            return;
+        }
 
         Player player = e.getPlayer();
         printDebug("Player: " + player.getName());
@@ -153,5 +163,11 @@ public final class ListenerConfiguration extends CombatListener {
         List<Entity> enemyList = (enemy == null ? Collections.emptyList() : Collections.singletonList(enemy));
         IPlaceholderManager placeholderManager = plugin.getPlaceholderManager();
         placeholderManager.runReplacedCommands(player, enemyList, tagCommandList);
+    }
+
+    private boolean isDisabled(@NotNull TagReason reason) {
+        MainConfiguration configuration = getConfiguration();
+        Set<TagReason> tagReasons = configuration.getEnabledTagReasons();
+        return !tagReasons.contains(reason);
     }
 }

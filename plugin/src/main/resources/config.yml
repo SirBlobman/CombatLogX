@@ -123,6 +123,13 @@ forgive-request-expire: 10
 # What is the minimum server TPS to allow tagging?
 minimum-tps: 15.0
 
+# Which tag reasons are allowed?
+# You can see a full list here:
+# https://github.com/SirBlobman/CombatLogX/blob/main/api/src/main/java/com/github/sirblobman/combatlogx/api/object/TagReason.java
+# Default: all
+enabled-tag-reasons:
+  - "*"
+
 ## END OF CONFIG.YML
 ## YOU ARE NOT FINISHED
 ## Don't forget to configure your expansions and other files
