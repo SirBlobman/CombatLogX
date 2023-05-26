@@ -8,6 +8,7 @@ import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 
 import combatlogx.expansion.compatibility.region.world.guard.handler.WorldGuardRegionHandler;
 import combatlogx.expansion.compatibility.region.world.guard.hook.HookWorldGuard;
+import combatlogx.expansion.compatibility.region.world.guard.listener.ListenerPreventLeaving;
 import combatlogx.expansion.compatibility.region.world.guard.listener.ListenerWorldGuard;
 
 public final class WorldGuardExpansion extends RegionExpansion {
@@ -39,6 +40,7 @@ public final class WorldGuardExpansion extends RegionExpansion {
     @Override
     public void afterEnable() {
         new ListenerWorldGuard(this).register();
+        new ListenerPreventLeaving(this).register();
     }
 
     @Override

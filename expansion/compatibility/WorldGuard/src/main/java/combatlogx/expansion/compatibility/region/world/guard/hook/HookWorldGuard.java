@@ -21,6 +21,7 @@ public final class HookWorldGuard {
     private IWrappedFlag<WrappedState> mobCombatFlag;
     private IWrappedFlag<Boolean> noTaggingFlag;
     private IWrappedFlag<Boolean> retagFlag;
+    private IWrappedFlag<String> preventLeavingFlag;
 
     public HookWorldGuard(@NotNull WorldGuardExpansion expansion) {
         this.expansion = expansion;
@@ -31,6 +32,7 @@ public final class HookWorldGuard {
         this.mobCombatFlag = null;
         this.noTaggingFlag = null;
         this.retagFlag = null;
+        this.preventLeavingFlag = null;
     }
 
     private @NotNull WorldGuardExpansion getExpansion() {
@@ -56,6 +58,7 @@ public final class HookWorldGuard {
             this.mobCombatFlag = wrapper.registerFlag("mob-combat", stateClass, state).orElse(null);
             this.noTaggingFlag = wrapper.registerFlag("no-tagging", booleanClass, false).orElse(null);
             this.retagFlag = wrapper.registerFlag("retag-player", booleanClass, false).orElse(null);
+            this.preventLeavingFlag = wrapper.registerFlag("prevent-leaving", String.class, null).orElse(null);
         } catch (Exception ex) {
             Logger logger = getLogger();
             logger.log(Level.WARNING, "An error occurred while registering custom WorldGuard flags:", ex);
@@ -88,5 +91,9 @@ public final class HookWorldGuard {
 
     public @Nullable IWrappedFlag<Boolean> getRetagFlag() {
         return this.retagFlag;
+    }
+
+    public @Nullable IWrappedFlag<String> getPreventLeavingFlag() {
+        return this.preventLeavingFlag;
     }
 }
