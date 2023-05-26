@@ -12,9 +12,10 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 import com.github.sirblobman.api.location.BlockLocation;
+import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
@@ -41,19 +42,18 @@ import combatlogx.expansion.force.field.configuration.ForceFieldConfiguration;
  * @author olivolja3
  */
 public final class ForceFieldAdapter extends PacketAdapter {
-    private final ForceFieldExpansion expansion;
-
-    public ForceFieldAdapter(@NotNull ForceFieldExpansion expansion) {
-        this(expansion, expansion.getPlugin());
+    public static @NotNull ForceFieldAdapter createAdapter(@NotNull ListenerForceField listener) {
+        ForceFieldExpansion expansion = listener.getForceFieldExpansion();
+        ICombatLogX plugin = expansion.getPlugin();
+        ConfigurablePlugin configurablePlugin = plugin.getPlugin();
+        return new ForceFieldAdapter(listener, configurablePlugin);
     }
 
-    private ForceFieldAdapter(@NotNull ForceFieldExpansion expansion, @NotNull ICombatLogX combatLogX) {
-        this(expansion, combatLogX.getPlugin());
-    }
+    private final ListenerForceField listener;
 
-    private ForceFieldAdapter(@NotNull ForceFieldExpansion expansion, @NotNull JavaPlugin plugin) {
+    private ForceFieldAdapter(@NotNull ListenerForceField listener, @NotNull Plugin plugin) {
         super(plugin, ListenerPriority.NORMAL, Client.USE_ITEM, Client.BLOCK_DIG, Server.BLOCK_CHANGE);
-        this.expansion = expansion;
+        this.listener = listener;
     }
 
     @Override
@@ -62,17 +62,13 @@ public final class ForceFieldAdapter extends PacketAdapter {
             return;
         }
 
-        ForceFieldTask task = getTask();
+        Player player = e.getPlayer();
+        ForceFieldPlayerTask task = getTask(player);
         if (task == null) {
             return;
         }
 
-        Player player = e.getPlayer();
         ICombatManager combatManager = getCombatManager();
-        if (!combatManager.isInCombat(player)) {
-            return;
-        }
-
         TagInformation tag = combatManager.getTagInformation(player);
         if (tag == null) {
             return;
@@ -96,19 +92,15 @@ public final class ForceFieldAdapter extends PacketAdapter {
             return;
         }
 
-        ForceFieldTask task = getTask();
+        Player player = e.getPlayer();
+        ForceFieldPlayerTask task = getTask(player);
         if (task == null) {
             return;
         }
 
-        Player player = e.getPlayer();
         ICombatManager combatManager = getCombatManager();
-        if (!combatManager.isInCombat(player)) {
-            return;
-        }
-
-        TagInformation tagInformation = combatManager.getTagInformation(player);
-        if (tagInformation == null) {
+        TagInformation tag = combatManager.getTagInformation(player);
+        if (tag == null) {
             return;
         }
 
@@ -119,20 +111,25 @@ public final class ForceFieldAdapter extends PacketAdapter {
             return;
         }
 
-        if (isForceFieldBlock(task, player, location, tagInformation)) {
+        if (isForceFieldBlock(task, player, location, tag)) {
             WrappedBlockData wrappedBlockData = getWrappedBlockData();
             StructureModifier<WrappedBlockData> blockData = packetContainer.getBlockData();
             blockData.writeSafely(0, wrappedBlockData);
         }
     }
 
-    private @NotNull ForceFieldExpansion getExpansion() {
-        return this.expansion;
+    private @NotNull ListenerForceField getListener() {
+        return this.listener;
     }
 
-    private @Nullable ForceFieldTask getTask() {
-        ForceFieldExpansion expansion = getExpansion();
-        return expansion.getTask();
+    private @NotNull ForceFieldExpansion getExpansion() {
+        ListenerForceField listener = getListener();
+        return listener.getForceFieldExpansion();
+    }
+
+    private @Nullable ForceFieldPlayerTask getTask(@NotNull Player player) {
+        ListenerForceField listener = getListener();
+        return listener.getTask(player);
     }
 
     private @NotNull ForceFieldConfiguration getConfiguration() {
@@ -150,13 +147,13 @@ public final class ForceFieldAdapter extends PacketAdapter {
         return combatLogX.getCombatManager();
     }
 
-    private boolean isForceFieldBlock(@NotNull ForceFieldTask task, @NotNull Player player, @NotNull Location location,
-                                      @NotNull TagInformation tag) {
+    private boolean isForceFieldBlock(@NotNull ForceFieldPlayerTask task, @NotNull Player player,
+                                      @NotNull Location location, @NotNull TagInformation tag) {
         UUID playerId = player.getUniqueId();
         Map<UUID, Set<BlockLocation>> fakeBlockMap = task.getFakeBlockMap();
 
         if (fakeBlockMap.containsKey(playerId)) {
-            boolean isSafe = task.isSafe(player, location);
+            boolean isSafe = task.isSafe(player, location, tag);
             boolean isSafeSurround = task.isSafeSurround(player, location, tag);
             boolean canPlace = task.canPlace(BlockLocation.from(location));
             if (isSafe && isSafeSurround && canPlace) {
@@ -218,7 +215,7 @@ public final class ForceFieldAdapter extends PacketAdapter {
         }
     }
 
-    private void sendForceField(@NotNull ForceFieldTask task, @NotNull Player player, @NotNull Location location,
+    private void sendForceField(@NotNull ForceFieldPlayerTask task, @NotNull Player player, @NotNull Location location,
                                 @NotNull PacketContainer packet) {
         PacketType packetType = packet.getType();
         if (packetType == Client.BLOCK_DIG) {
@@ -230,7 +227,7 @@ public final class ForceFieldAdapter extends PacketAdapter {
         }
     }
 
-    private void sendForceFieldBlockDig(@NotNull ForceFieldTask task, @NotNull Player player,
+    private void sendForceFieldBlockDig(@NotNull ForceFieldPlayerTask task, @NotNull Player player,
                                         @NotNull Location location, @NotNull PacketContainer packet) {
         StructureModifier<PlayerDigType> playerDigTypeModifier = packet.getPlayerDigTypes();
         PlayerDigType digType = playerDigTypeModifier.readSafely(0);
