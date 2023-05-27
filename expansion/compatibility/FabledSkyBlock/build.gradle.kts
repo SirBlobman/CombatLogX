@@ -1,9 +1,12 @@
 repositories {
-    maven("https://repo.songoda.com/repository/public/")
+    maven("https://nexus.sirblobman.xyz/private/") {
+        credentials {
+            username = rootProject.ext.get("mavenUsername") as String
+            password = rootProject.ext.get("mavenPassword") as String
+        }
+    }
 }
 
 dependencies {
-    compileOnly("com.songoda:fabledskyblock:2.2.1") {
-        exclude("*", "*")
-    }
+    compileOnly("com.songoda:FabledSkyblock:2.5.2")
 }
