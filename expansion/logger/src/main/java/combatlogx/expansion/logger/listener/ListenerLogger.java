@@ -49,7 +49,7 @@ import combatlogx.expansion.logger.configuration.LoggerConfiguration;
 public final class ListenerLogger extends ExpansionListener {
     private final LoggerExpansion expansion;
 
-    public ListenerLogger(LoggerExpansion expansion) {
+    public ListenerLogger(@NotNull LoggerExpansion expansion) {
         super(expansion);
         this.expansion = expansion;
     }
