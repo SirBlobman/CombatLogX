@@ -71,6 +71,7 @@ public final class CitizensExpansion extends Expansion {
             return;
         }
 
+        reloadConfig();
         registerListeners();
     }
 
