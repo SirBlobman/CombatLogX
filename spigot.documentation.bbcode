@@ -1,5 +1,4 @@
-[SIZE=6][B]CombatLogX Documentation[/B][/SIZE]
-This page provides a list of the features for CombatLogX and its expansions.
+This page provides a list of the features for CombatLogX and all bundled expansions.
 
 [SIZE=6][B]CombatLogX[/B][/SIZE]
 [LIST]
@@ -63,7 +62,7 @@ This page provides a list of the features for CombatLogX and its expansions.
 
 [SIZE=4][B]Cheat Prevention[/B][/SIZE]
 Cheat Prevention can be used to prevent players from escaping during combat.
-This expansion is [U]NOT[/U] a hacking prevention tool.
+This expansion is [U]not[/U] a hacking prevention tool.
 
 [B]Features:[/B]
 [LIST]
@@ -113,6 +112,12 @@ Damage Tagger can tag players when they are damaged by the environment.
 [LIST]
 [*]Spawn a lightning bolt effect when a player is killed.
 [*]Create a blood effect with redstone particles when a player is killed.
+[/LIST]
+
+[SIZE=4][B]End Crystal Helper[/B][/SIZE]
+End Crystal Helper requires Spigot 1.9 or higher.
+[LIST]
+[*]Links placed 'End Crystal' entities to players during combat.
 [/LIST]
 
 [SIZE=4][B]Force Field[/B][/SIZE]
@@ -223,6 +228,7 @@ The WorldGuard compatibility has the following custom flags
 [*][ICODE]mythic-mob-combat: DENY[/ICODE]: Prevent entry for players in combat with a Mythic mob.
 [*][ICODE]player-combat: DENY[/ICODE]: Prevent entry for players in combat with other players.
 [*][ICODE]unknown-combat: DENY[/ICODE]: Prevent entry for players in combat for an unknown reason.
+[*][ICODE]prevent-leaving: custom_id[/ICODE]: Prevents players from leaving a region during combat. Regions with the same id will allow players to move between them.
 [/LIST]
 
 [SIZE=4][B]SkyBlock Compatibility Expansions[/B][/SIZE]
@@ -237,7 +243,7 @@ The following expansions link into a SkyBlock plugin and prevent teams from tagg
 [/LIST]
 
 [SIZE=4][B]Vanish Compatibility Expansions[/B][/SIZE]
-The following expansions link into a vanish plugin and prevent vanished players from getting into combat.
+The following expansions link into a vanish plugin and prevent vanished players from tagging other players and getting tagged.
 [LIST]
 [*]CMI Compatibility
 [*]EssentialsX Compatibility
@@ -286,6 +292,11 @@ The following expansions link into a disguise plugin and remove disguises when p
 [SIZE=4][B]HuskSync Compatibility[/B][/SIZE]
 [LIST]
 [*]Fixes some bugs caused when using CombatLogX and HuskSync together.
+[/LIST]
+
+[SIZE=4][B]HuskHomes Compatibility[/B][/SIZE]
+[LIST]
+[*]Prevents players from teleporting to their home during combat.
 [/LIST]
 
 [SIZE=4][B]LuckPerms Compatibility[/B][/SIZE]
