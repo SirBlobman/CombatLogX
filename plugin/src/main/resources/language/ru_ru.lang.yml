@@ -56,6 +56,8 @@ combat-timer:
 error:
   #Shown when the console tries to execute a command made for players.
   player-only: "<red>Только игроки могут выполнить эту команду.</red>"
+  #Shown when a player tries to execute a command made for the server console.
+  console-only: "<red>Эта команда может быть выполнена только консолью.</red>"
   #Shown when a command that requires a player has invalid input.
   invalid-target: "<red><gray>{target}</gray> не в сети или не существует.</red>"
   #Shown when a command that requires a number has invalid input.
@@ -111,6 +113,17 @@ command:
     toggle-actionbar: "<gray><bold>Панель действий:</bold></gray> {status}"
     #Shown as the command output for '/combatlogx toggle scoreboard'.
     toggle-scoreboard: "<gray><bold>Табло:</bold></gray> {status}"
+    #Shown as the command output for '/combatlogx about <expansion>'.
+    expansion-information:
+      - ""
+      - "<white><bold>Информация о расширении</bold> <green>{name}</green><bold>:</bold></white>"
+      - "<white><bold>Отображаемое имя:</bold></white> <gray>{prefix}</gray>"
+      - "<white><bold>Версия:</bold></white> <gray>{version}</gray>"
+      - "<white><bold>Состояние:</bold></white> <gray>{state}</gray>"
+      - ""
+      - "<white><bold>Описание:</bold></white> <gray>{description}</gray>"
+      - "<white><bold>Вебсайт:</bold></white> <gray>{website}</gray>"
+      - "<white><bold>Авторы:</bold></white> <gray>{authors}</gray>"
     forgive:
       toggle-disable: "<green>Вы больше не будете получать запросы на прощение.</green>"
       toggle-enable: "<green>Теперь вы будете получать запросы на прощение.</green>"
