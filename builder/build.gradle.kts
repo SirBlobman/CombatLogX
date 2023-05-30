@@ -75,15 +75,20 @@ distributions {
     main {
         contents {
             into("/") {
-                from("src/main/resources/README.TXT")
-                from(configurations["pluginJar"])
+                // README.TXT
+                from(sourceSets.getByName("main").allSource)
 
-                from(configurations["coreJar"])
+                // CombatLogX.jar
+                from(pluginJar)
+
+                // BlueSlimeCore.jar
+                from(coreJar)
                 rename("core-$coreVersion.jar", "BlueSlimeCore.jar")
             }
 
             into("/CombatLogX/expansions/") {
-                from(configurations["expansion"])
+                // All Expansions
+                from(expansion)
             }
         }
     }
@@ -100,8 +105,7 @@ tasks {
 
     named<Zip>("distZip") {
         isPreserveFileTimestamps = true
-
-        val calculatedVersion = rootProject.ext.get("calculatedVersion")
-        archiveFileName.set("CombatLogX-$calculatedVersion.zip")
+        version = rootProject.ext.get("calculatedVersion") as String
+        archiveBaseName.set("CombatLogX")
     }
 }
