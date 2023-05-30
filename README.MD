@@ -69,7 +69,8 @@ The people or organizations listed below were kind enough to fund my open-source
 
 ## Localization
 
-A translation project for CombatLogX V11 is in progress. If you wish to help out, please visit the Crowdin page below:  
+A community translation project for CombatLogX is open.
+If you want to help with translations, please visit our Crowdin page.
 <https://crowdin.com/project/combatlogx-spigot-plugin>
 
 ### Localization Credits
