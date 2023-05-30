@@ -14,6 +14,7 @@ import org.bukkit.inventory.PlayerInventory;
 import com.github.sirblobman.api.item.ArmorType;
 import com.github.sirblobman.api.nms.ItemHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
+import com.github.sirblobman.api.utility.ItemUtility;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 
@@ -115,7 +116,7 @@ public final class StoredInventory {
 
     private static void saveItemStack(@NotNull CitizensExpansion expansion, @NotNull ConfigurationSection section,
                                       @NotNull String path, @Nullable ItemStack item) {
-        if (item == null) {
+        if (ItemUtility.isAir(item)) {
             section.set(path, null);
             return;
         }
