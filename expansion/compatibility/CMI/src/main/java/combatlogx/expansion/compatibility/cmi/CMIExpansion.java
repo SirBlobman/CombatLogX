@@ -9,7 +9,7 @@ import com.github.sirblobman.combatlogx.api.expansion.vanish.VanishHandler;
 public final class CMIExpansion extends VanishExpansion {
     private VanishHandler<?> vanishHandler;
 
-    public CMIExpansion(ICombatLogX plugin) {
+    public CMIExpansion(@NotNull ICombatLogX plugin) {
         super(plugin);
         this.vanishHandler = null;
     }
