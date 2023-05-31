@@ -16,6 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.sirblobman.api.core.CorePlugin;
 import com.github.sirblobman.api.language.LanguageManager;
+import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.api.update.SpigotUpdateManager;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -24,6 +25,7 @@ import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionDescription;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 import com.github.sirblobman.api.shaded.adventure.text.Component;
+import com.github.sirblobman.api.shaded.adventure.text.TextComponent;
 import com.github.sirblobman.api.shaded.adventure.text.TextComponent.Builder;
 import com.github.sirblobman.api.shaded.adventure.text.format.NamedTextColor;
 import com.github.sirblobman.api.shaded.adventure.text.format.TextDecoration;
@@ -64,111 +66,127 @@ public final class SubCommandVersion extends CombatLogCommand {
     }
 
     private @NotNull Component withPrefix(@NotNull String prefix, @Nullable String value) {
-        Builder builder = Component.text();
-        builder.append(Component.text(prefix + ":", NamedTextColor.WHITE, TextDecoration.BOLD));
+        TextComponent.Builder builder = Component.text().color(NamedTextColor.WHITE);
+        builder.append(Component.text(prefix).decorate(TextDecoration.BOLD));
+        builder.append(Component.text(":").decorate(TextDecoration.BOLD));
+        builder.appendSpace();
 
         if (value != null) {
-            builder.appendSpace();
             builder.append(Component.text(value, NamedTextColor.GRAY));
+        } else {
+            builder.append(Component.text("N/A", NamedTextColor.GRAY));
         }
 
         return builder.build();
     }
 
     private @NotNull Component listElement(@NotNull String value) {
-        Builder builder = Component.text();
+        TextComponent.Builder builder = Component.text().color(NamedTextColor.GRAY);
         builder.append(Component.text(" - ", NamedTextColor.WHITE, TextDecoration.BOLD));
-        builder.append(Component.text(value, NamedTextColor.GRAY));
+        builder.append(Component.text(value));
         return builder.build();
     }
 
-    private void addJavaVersionInformation(@NotNull List<Component> messageList) {
+    private void addJavaVersionInformation(@NotNull List<Component> list) {
+        String javaVersion = getProperty("java.version");
+        String javaVendor = getProperty("java.vendor");
+        String javaURL = getProperty("java.url");
+        list.add(withPrefix("Java Version", javaVersion));
+        list.add(withPrefix("Java Vendor", javaVendor));
+        list.add(withPrefix("Java URL", javaURL));
+    }
+
+    private @NotNull String getProperty(String name) {
         try {
-            String javaVersion = System.getProperty("java.version");
-            String javaVendor = System.getProperty("java.vendor");
-            messageList.add(withPrefix("Java Version", javaVersion));
-            messageList.add(withPrefix("Java Vendor", javaVendor));
+            return System.getProperty(name);
         } catch (SecurityException | IllegalArgumentException | NullPointerException ex) {
-            messageList.add(withPrefix("Java Version", "Unknown"));
+            return "Error";
         }
     }
 
-    private void addServerVersionInformation(@NotNull List<Component> messageList) {
+    private void addServerVersionInformation(@NotNull List<Component> list) {
         String version = Bukkit.getVersion();
         String bukkitVersion = Bukkit.getBukkitVersion();
         String minecraftVersion = VersionUtility.getMinecraftVersion();
         String nmsVersion = VersionUtility.getNetMinecraftServerVersion();
 
-        messageList.add(withPrefix("Server Version", version));
-        messageList.add(withPrefix("Bukkit Version", bukkitVersion));
-        messageList.add(withPrefix("Minecraft Version", minecraftVersion));
-        messageList.add(withPrefix("NMS Version", nmsVersion));
+        list.add(withPrefix("Server Version", version));
+        list.add(withPrefix("Bukkit Version", bukkitVersion));
+        list.add(withPrefix("Minecraft Version", minecraftVersion));
+        list.add(withPrefix("NMS Version", nmsVersion));
     }
 
-    private void addDependencyInformation(@NotNull List<Component> messageList) {
+    private void addDependencyInformation(@NotNull List<Component> list) {
         ICombatLogX combatLogX = getCombatLogX();
-        JavaPlugin plugin = combatLogX.getPlugin();
-        PluginDescriptionFile information = plugin.getDescription();
-        messageList.add(withPrefix("Dependency Information", null));
+        ConfigurablePlugin plugin = combatLogX.getPlugin();
+        PluginDescriptionFile description = plugin.getDescription();
+        list.add(Component.text("Dependency Information:", NamedTextColor.WHITE, TextDecoration.BOLD));
 
-        List<String> loadBeforeList = information.getLoadBefore();
-        List<String> dependList = information.getDepend();
-        List<String> softDependList = information.getSoftDepend();
+        List<String> loadBeforeList = description.getLoadBefore();
+        List<String> softDependList = description.getSoftDepend();
+        List<String> dependList = description.getDepend();
 
         List<String> fullDependencyList = new ArrayList<>(loadBeforeList);
-        fullDependencyList.addAll(dependList);
         fullDependencyList.addAll(softDependList);
+        fullDependencyList.addAll(dependList);
 
+        if (fullDependencyList.isEmpty()) {
+            list.add(listElement("None"));
+            return;
+        }
+
+        Component missingText = Component.text("(not installed)", NamedTextColor.RED);
         PluginManager pluginManager = Bukkit.getPluginManager();
         for (String dependencyName : fullDependencyList) {
             Plugin dependency = pluginManager.getPlugin(dependencyName);
-            if (dependency == null) {
+            if(dependency == null) {
+                list.add(listElement(dependencyName).append(Component.space()).append(missingText));
                 continue;
             }
 
-            PluginDescriptionFile dependencyInformation = dependency.getDescription();
-            String dependencyFullName = dependencyInformation.getFullName();
-            messageList.add(listElement(dependencyFullName));
+            PluginDescriptionFile dependencyDescription = dependency.getDescription();
+            String dependencyFullName = dependencyDescription.getFullName();
+            list.add(listElement(dependencyFullName));
         }
     }
 
-    private void addPluginVersionInformation(@NotNull List<Component> messageList) {
-        String pluginVersion = getPluginVersion();
-        String spigotVersion = getSpigotVersion();
+    private void addPluginVersionInformation(@NotNull List<Component> list) {
+        String localVersion = getPluginVersion();
+        String remoteVersion = getRemoteVersion();
 
-        messageList.add(Component.text("CombatLogX by SirBlobman", NamedTextColor.WHITE, TextDecoration.BOLD));
-        messageList.add(withPrefix("Plugin Version", pluginVersion));
-        messageList.add(withPrefix("Spigot Version", spigotVersion));
+        list.add(Component.text("CombatLogX by SirBlobman", NamedTextColor.WHITE, TextDecoration.BOLD));
+        list.add(withPrefix("Local Version", localVersion));
+        list.add(withPrefix("Remote Version", remoteVersion));
     }
 
-    private void addExpansionInformation(@NotNull List<Component> messageList) {
+    private void addExpansionInformation(@NotNull List<Component> list) {
         ExpansionManager expansionManager = getExpansionManager();
         List<Expansion> enabledExpansionList = expansionManager.getEnabledExpansions();
         int enabledExpansionListSize = enabledExpansionList.size();
 
-        Builder builder = Component.text();
-        builder.append(Component.text("Enabled Expansions (", NamedTextColor.WHITE, TextDecoration.BOLD));
+        Builder builder = Component.text().color(NamedTextColor.WHITE).decorate(TextDecoration.BOLD);
+        builder.append(Component.text("Enabled Expansions ("));
         builder.append(Component.text(enabledExpansionListSize, NamedTextColor.GRAY));
-        builder.append(Component.text("):", NamedTextColor.WHITE, TextDecoration.BOLD));
-        messageList.add(builder.build());
+        builder.append(Component.text("):"));
+        list.add(builder.build());
 
         for (Expansion expansion : enabledExpansionList) {
             ExpansionDescription description = expansion.getDescription();
             String expansionName = description.getFullName();
-            messageList.add(listElement(expansionName));
+            list.add(listElement(expansionName));
         }
     }
 
     private @NotNull String getPluginVersion() {
         ICombatLogX combatLogX = getCombatLogX();
-        JavaPlugin plugin = combatLogX.getPlugin();
+        ConfigurablePlugin plugin = combatLogX.getPlugin();
         PluginDescriptionFile information = plugin.getDescription();
         return information.getVersion();
     }
 
-    private @NotNull String getSpigotVersion() {
+    private @NotNull String getRemoteVersion() {
         ICombatLogX combatLogX = getCombatLogX();
-        JavaPlugin plugin = combatLogX.getPlugin();
+        ConfigurablePlugin plugin = combatLogX.getPlugin();
 
         CorePlugin corePlugin = JavaPlugin.getPlugin(CorePlugin.class);
         SpigotUpdateManager updateManager = corePlugin.getSpigotUpdateManager();
