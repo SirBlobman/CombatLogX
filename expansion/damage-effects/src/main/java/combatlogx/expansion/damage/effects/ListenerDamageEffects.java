@@ -49,6 +49,8 @@ public final class ListenerDamageEffects extends ExpansionListener {
     private void playBlood(@NotNull Player player) {
         DamageEffectsConfiguration configuration = getConfiguration();
         Blood blood = configuration.getBlood();
-        blood.play(player);
+        if (blood.isEnabled()) {
+            blood.play(player);
+        }
     }
 }
