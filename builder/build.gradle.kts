@@ -19,6 +19,7 @@ dependencies {
     expansion(project(":expansion:boss-bar"))
     expansion(project(path = ":expansion:cheat-prevention", configuration = "shadow"))
     expansion(project(":expansion:damage-tagger"))
+    expansion(project(":expansion:damage-effects"))
     expansion(project(":expansion:death-effects"))
     expansion(project(path = ":expansion:end-crystal", configuration = "shadow"))
     expansion(project(":expansion:force-field"))
@@ -105,7 +106,7 @@ tasks {
 
     named<Zip>("distZip") {
         isPreserveFileTimestamps = true
-        version = rootProject.ext.get("calculatedVersion") as String
         archiveBaseName.set("CombatLogX")
+        version = rootProject.ext.get("calculatedVersion") as String
     }
 }

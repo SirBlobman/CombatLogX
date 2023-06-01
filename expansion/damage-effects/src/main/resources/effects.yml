@@ -1,0 +1,40 @@
+# Set this to 'false' to only show for pvp damage.
+# Set this to 'true' to show particles for all entity damage.
+# Default: false
+all-damage: false
+
+
+blood:
+  # Set this to 'true' to show the blood particles.
+  # Default: true
+  enabled: true
+
+  # This is the location offset from the player's feet
+  # Default: 0,0,0
+  offset:
+    x: 0
+    y: 1.5
+    z: 0
+
+  # This is the color of the blood particles
+  # Default: Full red (255, 0, 0) / #FF0000
+  color:
+    red: 255
+    green: 0
+    blue: 0
+
+  # Particle size
+  # Default: 1.0
+  size: 1.0
+
+  # Blood ring rate.
+  # Default: 1.0
+  ring-rate: 1.0
+
+  # Blood ring radius.
+  # Default: 1.0
+  ring-radius: 1.0
+
+  # Blood ring tube radius.
+  # Default: 0.5
+  ring-tube-radius: 0.5
