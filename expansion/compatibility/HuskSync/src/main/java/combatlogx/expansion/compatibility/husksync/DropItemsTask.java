@@ -19,7 +19,6 @@ public final class DropItemsTask extends LocationTaskDetails {
         super(plugin, location);
         this.dropList = drops;
         setDelay(1L);
-        setPeriod(1L);
     }
 
     @Override
