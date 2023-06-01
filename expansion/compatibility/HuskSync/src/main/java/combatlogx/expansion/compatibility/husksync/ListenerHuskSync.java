@@ -1,21 +1,18 @@
 package combatlogx.expansion.compatibility.husksync;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
 import org.jetbrains.annotations.NotNull;
 
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.inventory.ItemStack;
 
-import com.github.sirblobman.api.utility.ItemUtility;
+import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.configuration.PunishConfiguration;
 import com.github.sirblobman.combatlogx.api.event.PlayerPunishEvent;
@@ -24,7 +21,6 @@ import com.github.sirblobman.combatlogx.api.object.KillTime;
 
 import net.william278.husksync.api.HuskSyncAPI;
 import net.william278.husksync.data.BukkitInventoryMap;
-import net.william278.husksync.data.StatusData;
 import net.william278.husksync.data.UserData;
 import net.william278.husksync.player.User;
 
@@ -59,6 +55,7 @@ public final class ListenerHuskSync extends ExpansionListener {
             return;
         }
 
+        Location location = player.getLocation();
         boolean keepInventory = e.getKeepInventory();
         boolean keepLevel = e.getKeepLevel();
         int totalExperience = e.getNewTotalExp();
@@ -81,7 +78,10 @@ public final class ListenerHuskSync extends ExpansionListener {
                                 playerData.setTotalExperience(totalExperience);
                                 playerData.setNewLevel(newLevel);
                                 playerData.setNewExperience(newExperience);
-                                checkUser(playerData);
+
+                                ConfigurablePlugin plugin = getJavaPlugin();
+                                CheckPlayerDataTask task = new CheckPlayerDataTask(plugin, location, api, playerData);
+                                plugin.getFoliaHelper().getScheduler().scheduleLocationTask(task);
                             }
                         });
                     }
@@ -92,42 +92,5 @@ public final class ListenerHuskSync extends ExpansionListener {
 
     private @NotNull HuskSyncAPI getHuskSyncAPI() {
         return this.huskSyncApi;
-    }
-
-    private void checkUser(@NotNull PlayerData playerData) {
-        Player player = playerData.getPlayer();
-        User user = playerData.getUser();
-        UserData userData = playerData.getUserData();
-        HuskSyncAPI api = getHuskSyncAPI();
-
-        if(!playerData.isKeepInventory()) {
-            World world = player.getWorld();
-            Location location = player.getLocation();
-
-            BukkitInventoryMap inventoryMap = playerData.getInventory();
-            ItemStack[] contents = inventoryMap.getContents();
-            for(ItemStack itemStack : contents) {
-                if(ItemUtility.isAir(itemStack)) {
-                    continue;
-                }
-
-                world.dropItemNaturally(location, itemStack);
-            }
-
-            api.setInventoryData(user, new ItemStack[0]);
-        }
-
-        Optional<StatusData> optionalStatus = userData.getStatus();
-        if (optionalStatus.isPresent()) {
-            StatusData statusData = optionalStatus.get();
-            if(!playerData.isKeepLevel()) {
-                statusData.totalExperience = playerData.getTotalExperience();
-                statusData.expLevel = playerData.getNewLevel();
-                statusData.expProgress = playerData.getNewExperience();
-            }
-
-            statusData.health = 0.0D;
-            api.setUserData(user, userData);
-        }
     }
 }
