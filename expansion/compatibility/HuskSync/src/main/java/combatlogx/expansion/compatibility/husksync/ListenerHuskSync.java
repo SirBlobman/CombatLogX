@@ -90,7 +90,7 @@ public final class ListenerHuskSync extends ExpansionListener {
                             if (optionalInventory.isPresent()) {
                                 printDebug("Found inventory.");
                                 BukkitInventoryMap inventory = optionalInventory.get();
-                                PlayerData playerData = new PlayerData(player, user, userData, inventory, location);
+                                PlayerData playerData = new PlayerData(user, userData, inventory, location);
                                 playerData.setKeepInventory(keepInventory);
                                 playerData.setKeepLevel(keepLevel);
                                 playerData.setTotalExperience(totalExperience);
