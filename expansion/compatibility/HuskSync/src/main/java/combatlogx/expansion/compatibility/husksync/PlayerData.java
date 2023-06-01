@@ -2,6 +2,7 @@ package combatlogx.expansion.compatibility.husksync;
 
 import org.jetbrains.annotations.NotNull;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import net.william278.husksync.data.BukkitInventoryMap;
@@ -13,6 +14,7 @@ public final class PlayerData {
     private final User user;
     private final UserData userData;
     private final BukkitInventoryMap inventory;
+    private final Location location;
 
     private boolean keepInventory;
     private boolean keepLevel;
@@ -21,11 +23,13 @@ public final class PlayerData {
     private float newExperience;
 
     public PlayerData(@NotNull Player player, @NotNull User user, @NotNull UserData userData,
-                      @NotNull BukkitInventoryMap inventory) {
+                      @NotNull BukkitInventoryMap inventory, @NotNull Location location) {
         this.player = player;
         this.user = user;
         this.userData = userData;
         this.inventory = inventory;
+        this.location = location;
+
         this.keepInventory = false;
         this.keepLevel = false;
         this.totalExperience = 0;
@@ -47,6 +51,10 @@ public final class PlayerData {
 
     public @NotNull BukkitInventoryMap getInventory() {
         return this.inventory;
+    }
+
+    public @NotNull Location getLocation() {
+        return this.location;
     }
 
     public boolean isKeepInventory() {
