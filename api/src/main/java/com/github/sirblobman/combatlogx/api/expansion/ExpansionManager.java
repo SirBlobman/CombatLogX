@@ -294,7 +294,7 @@ public final class ExpansionManager {
 
             expansion.onLoad();
             expansion.setState(State.LOADED);
-        } catch (Exception ex) {
+        } catch (Throwable ex) {
             logger.log(Level.SEVERE, "An error occurred while loading an expansion:", ex);
             logger.warning("Failed to load expansion from file '" + expansionFile + "'.");
         }
@@ -314,9 +314,9 @@ public final class ExpansionManager {
             String fullName = description.getFullName();
             logger.info("Enabling expansion '" + fullName + "'...");
 
-            expansion.setState(State.ENABLED);
             expansion.onEnable();
-        } catch (Exception ex) {
+            expansion.setState(State.ENABLED);
+        } catch (Throwable ex) {
             logger.log(Level.SEVERE, "An error occurred while enabling an expansion:", ex);
         }
     }
@@ -341,7 +341,7 @@ public final class ExpansionManager {
 
             expansion.setState(State.DISABLED);
             expansion.onDisable();
-        } catch (Exception ex) {
+        } catch (Throwable ex) {
             logger.log(Level.SEVERE, "An error occurred while disabling an expansion:", ex);
         }
     }
