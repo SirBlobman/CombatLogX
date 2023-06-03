@@ -7,9 +7,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -69,42 +72,37 @@ public final class ListenerHuskSync extends ExpansionListener {
             printDebug("Punishments map did not contain player '" + playerId + "'. Ignoring.");
             return;
         }
-        Location location = player.getLocation();
-        boolean keepInventory = e.getKeepInventory();
-        boolean keepLevel = e.getKeepLevel();
-        int totalExperience = e.getNewTotalExp();
-        int newLevel = e.getNewLevel();
-        float newExperience = e.getNewExp();
+
+        PlayerData playerData = new PlayerData(player, player.getLocation());
+        playerData.setKeepInventory(e.getKeepInventory());
+        playerData.setKeepLevel(e.getKeepLevel());
+        playerData.setTotalExperience(e.getNewTotalExp());
+        playerData.setNewLevel(e.getNewLevel());
+        playerData.setNewExperience(e.getNewExp());
 
         HuskSyncAPI api = getHuskSyncAPI();
         printDebug("Fetching user with id '" + playerId + "'...");
-        api.getUser(playerId).thenAcceptAsync(optionalUser -> {
+
+        CompletableFuture.supplyAsync(() -> {
+            Optional<User> optionalUser = api.getUser(playerId).join();
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
-                printDebug("Found user, fetching data...");
-                api.getUserData(user).thenAcceptAsync(optionalData -> {
-                    if (optionalData.isPresent()) {
-                        printDebug("Found data, fetching inventory...");
-                        UserData userData = optionalData.get();
-                        api.getPlayerInventory(user).thenAcceptAsync(optionalInventory -> {
-                            if (optionalInventory.isPresent()) {
-                                printDebug("Found inventory.");
-                                BukkitInventoryMap inventory = optionalInventory.get();
-                                PlayerData playerData = new PlayerData(user, userData, inventory, location);
-                                playerData.setKeepInventory(keepInventory);
-                                playerData.setKeepLevel(keepLevel);
-                                playerData.setTotalExperience(totalExperience);
-                                playerData.setNewLevel(newLevel);
-                                playerData.setNewExperience(newExperience);
+                playerData.setUser(user);
 
-                                printDebug("Syncing death data to HuskSync...");
-                                checkData(playerData);
-                            }
-                        });
-                    }
-                });
+                Optional<UserData> optionalUserData = api.getUserData(user).join();
+                optionalUserData.ifPresent(playerData::setUserData);
+
+                Optional<BukkitInventoryMap> optionalInventory = api.getPlayerInventory(user).join();
+                optionalInventory.ifPresent(playerData::setInventory);
             }
-        });
+
+            return playerData;
+        }).thenAcceptAsync(this::checkData);
+
+        if (!e.getKeepInventory()) {
+            player.getInventory().clear();
+            printDebug("Cleared local player inventory.");
+        }
     }
 
     private @NotNull HuskSyncAPI getHuskSyncAPI() {
@@ -112,13 +110,33 @@ public final class ListenerHuskSync extends ExpansionListener {
     }
 
     private void checkData(@NotNull PlayerData playerData) {
-        User user = playerData.getUser();
-        UserData userData = playerData.getUserData();
-        HuskSyncAPI api = getHuskSyncAPI();
+        Player player = playerData.getPlayer();
+        printDebug("Checking player data for player '" + player.getUniqueId() + "'.");
+
+        Optional<User> optionalUser = playerData.getUser();
+        if (!optionalUser.isPresent()) {
+            printDebug("Missing user from HuskSync.");
+            return;
+        }
+
+        Optional<UserData> optionalUserData = playerData.getUserData();
+        if (!optionalUserData.isPresent()) {
+            printDebug("Missing user data from HuskSync.");
+            return;
+        }
+
+        Optional<BukkitInventoryMap> optionalInventory = playerData.getInventory();
+        if (!optionalInventory.isPresent()) {
+            printDebug("Missing inventory from HuskSync.");
+            return;
+        }
+
+        User user = optionalUser.get();
+        UserData userData = optionalUserData.get();
+        BukkitInventoryMap inventoryMap = optionalInventory.get();
 
         if(!playerData.isKeepInventory()) {
             printDebug("Death event had keepInventory = false, fetching items...");
-            BukkitInventoryMap inventoryMap = playerData.getInventory();
             List<ItemStack> drops = new ArrayList<>();
             Collections.addAll(drops, inventoryMap.getContents());
 
@@ -150,14 +168,16 @@ public final class ListenerHuskSync extends ExpansionListener {
             printDebug("Set player health to 0.0 in HuskSync.");
         }
 
-        printDebug("Syncing HuskSync user data for player '" + user.uuid + "'...");
-        api.setUserData(user, userData).whenCompleteAsync((success, failure) -> {
-            if (failure != null) {
-                printDebug("Failed to sync user data.");
-                getExpansionLogger().log(Level.WARNING, "Failed to sync HuskSync User Data:", failure);
-            } else {
-                printDebug("Successfully synced data.");
-            }
-        });
+        printDebug("Submitting HuskSync user data for player '" + user.uuid + "'...");
+        getHuskSyncAPI().setUserData(user, userData).whenCompleteAsync(this::printSyncResult);
+    }
+
+    private void printSyncResult(@Nullable Void success, @Nullable Throwable failure) {
+        if (failure != null) {
+            Logger logger = getExpansionLogger();
+            logger.log(Level.WARNING, "Failed to submit user data to HuskSync:", failure);
+        } else {
+            printDebug("Successfully synced data.");
+        }
     }
 }

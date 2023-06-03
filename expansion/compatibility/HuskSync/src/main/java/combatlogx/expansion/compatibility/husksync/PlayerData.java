@@ -1,31 +1,36 @@
 package combatlogx.expansion.compatibility.husksync;
 
+import java.util.Optional;
+
 import org.jetbrains.annotations.NotNull;
 
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import net.william278.husksync.data.BukkitInventoryMap;
 import net.william278.husksync.data.UserData;
 import net.william278.husksync.player.User;
 
 public final class PlayerData {
-    private final User user;
-    private final UserData userData;
-    private final BukkitInventoryMap inventory;
+    private final Player player;
     private final Location location;
 
+    private User user;
+    private UserData userData;
+    private BukkitInventoryMap inventory;
     private boolean keepInventory;
     private boolean keepLevel;
     private int totalExperience;
     private int newLevel;
     private float newExperience;
 
-    public PlayerData(@NotNull User user, @NotNull UserData userData, @NotNull BukkitInventoryMap inventory,
-                      @NotNull Location location) {
-        this.user = user;
-        this.userData = userData;
-        this.inventory = inventory;
+    public PlayerData(@NotNull Player player, @NotNull Location location) {
+        this.player = player;
         this.location = location;
+
+        this.user = null;
+        this.userData = null;
+        this.inventory = null;
 
         this.keepInventory = false;
         this.keepLevel = false;
@@ -34,20 +39,36 @@ public final class PlayerData {
         this.newExperience = 0.0F;
     }
 
-    public @NotNull User getUser() {
-        return this.user;
-    }
-
-    public @NotNull UserData getUserData() {
-        return this.userData;
-    }
-
-    public @NotNull BukkitInventoryMap getInventory() {
-        return this.inventory;
+    public @NotNull Player getPlayer() {
+        return this.player;
     }
 
     public @NotNull Location getLocation() {
         return this.location;
+    }
+
+    public @NotNull Optional<User> getUser() {
+        return Optional.ofNullable(this.user);
+    }
+
+    public void setUser(@NotNull User user) {
+        this.user = user;
+    }
+
+    public @NotNull Optional<UserData> getUserData() {
+        return Optional.ofNullable(this.userData);
+    }
+
+    public void setUserData(@NotNull UserData userData) {
+        this.userData = userData;
+    }
+
+    public @NotNull Optional<BukkitInventoryMap> getInventory() {
+        return Optional.ofNullable(this.inventory);
+    }
+
+    public void setInventory(@NotNull BukkitInventoryMap inventory) {
+        this.inventory = inventory;
     }
 
     public boolean isKeepInventory() {
