@@ -15,7 +15,6 @@ import org.jetbrains.annotations.Nullable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 import com.github.sirblobman.combatlogx.api.placeholder.IPlaceholderExpansion;
@@ -117,8 +116,6 @@ public final class PlaceholderManager extends Manager implements IPlaceholderMan
     @Override
     public void runReplacedCommands(@NotNull Player player, @NotNull List<Entity> enemyList,
                                     @NotNull Iterable<String> commands) {
-        Validate.notNull(player, "player must not be null!");
-
         ICombatLogX plugin = getCombatLogX();
         for (String originalCommand : commands) {
             String replacedCommand = replaceAll(player, enemyList, originalCommand);

@@ -347,7 +347,11 @@ public final class CombatManager extends Manager implements ICombatManager {
 
     private double getServerTPS() {
         if (PaperChecker.isPaper()) {
-            return PaperHelper.getServer1mTps();
+            try {
+                return PaperHelper.getServer1mTps();
+            } catch (NoSuchMethodError ignored) {
+                // Ignored Error
+            }
         }
 
         ICombatLogX plugin = getCombatLogX();
