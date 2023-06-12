@@ -15,8 +15,8 @@ things and change how the plugin works.
 
 - Java 8 is required. Java 17 is recommended.
 - [Spigot](https://spigotmc.org/), [Paper](https://papermc.io/download/paper),
-  or [Folia](https://papermc.io/software/folia) 1.8.8 - 1.19.4
-- [BlueSlimeCore](https://hangar.papermc.io/SirBlobman/BlueSlimeCore) 2.9.1 or higher.
+  or [Folia](https://papermc.io/software/folia) 1.8.8 - 1.20
+- [BlueSlimeCore](https://hangar.papermc.io/SirBlobman/BlueSlimeCore) 2.9.3 or higher.
 
 ## Main Features
 
@@ -70,13 +70,13 @@ The people or organizations listed below were kind enough to fund my open-source
 ## Localization
 
 A community translation project for CombatLogX is open.
-If you want to help with translations, please visit our Crowdin page.
+If you want to help with translations, please visit our Crowdin page.   
 <https://crowdin.com/project/combatlogx-spigot-plugin>
 
 ### Localization Credits
 
-You can view a list of contributions made to CombatLogX on our Crowdin page:
-https://crowdin.com/project/combatlogx-spigot-plugin/reports/top-members
+You can view a list of contributions made to CombatLogX on our Crowdin page.   
+<https://crowdin.com/project/combatlogx-spigot-plugin/reports/top-members>
 
 ## Support
 
