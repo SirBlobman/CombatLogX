@@ -54,7 +54,7 @@ public final class Reward implements IConfigurable {
         this.maxChance = 2;
         this.mobWhiteList = true;
         this.mobTypeList = EnumSet.noneOf(EntityType.class);
-        this.worldWhiteList = true;
+        this.worldWhiteList = false;
         this.worldList = new HashSet<>();
         this.randomCommand = false;
         this.commandList = new ArrayList<>();
@@ -69,7 +69,7 @@ public final class Reward implements IConfigurable {
         setChance(section.getInt("chance", 5));
         setMaxChance(section.getInt("max-chance", 1_000));
 
-        setWorldWhiteList(section.getBoolean("world-whitelist", true));
+        setWorldWhiteList(section.getBoolean("world-whitelist", false));
         setWorldList(section.getStringList("world-list"));
 
         setMobWhiteList(section.getBoolean("mob-whitelist", true));
