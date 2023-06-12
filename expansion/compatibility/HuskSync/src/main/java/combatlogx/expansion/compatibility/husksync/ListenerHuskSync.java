@@ -30,7 +30,6 @@ import com.github.sirblobman.combatlogx.api.object.KillTime;
 
 import net.william278.husksync.api.HuskSyncAPI;
 import net.william278.husksync.data.BukkitInventoryMap;
-import net.william278.husksync.data.ItemData;
 import net.william278.husksync.data.StatusData;
 import net.william278.husksync.data.UserData;
 import net.william278.husksync.player.User;
@@ -135,25 +134,6 @@ public final class ListenerHuskSync extends ExpansionListener {
         UserData userData = optionalUserData.get();
         BukkitInventoryMap inventoryMap = optionalInventory.get();
 
-        if(!playerData.isKeepInventory()) {
-            printDebug("Death event had keepInventory = false, fetching items...");
-            List<ItemStack> drops = new ArrayList<>();
-            Collections.addAll(drops, inventoryMap.getContents());
-
-            Optional<ItemData> optionalItemData = userData.getInventory();
-            if (optionalItemData.isPresent()) {
-                ItemData itemData = optionalItemData.get();
-                itemData.serializedItems = "";
-                printDebug("Set husk sync inventory to empty.");
-            }
-
-            Location location = playerData.getLocation();
-            ConfigurablePlugin plugin = getJavaPlugin();
-            DropItemsTask task = new DropItemsTask(plugin, location, drops);
-            plugin.getFoliaHelper().getScheduler().scheduleLocationTask(task);
-            printDebug("Scheduled task to drop items.");
-        }
-
         Optional<StatusData> optionalStatus = userData.getStatus();
         if (optionalStatus.isPresent()) {
             StatusData statusData = optionalStatus.get();
@@ -168,8 +148,24 @@ public final class ListenerHuskSync extends ExpansionListener {
             printDebug("Set player health to 0.0 in HuskSync.");
         }
 
-        printDebug("Submitting HuskSync user data for player '" + user.uuid + "'...");
-        getHuskSyncAPI().setUserData(user, userData).whenCompleteAsync(this::printSyncResult);
+        HuskSyncAPI api = getHuskSyncAPI();
+        api.setUserData(user, userData).whenCompleteAsync(this::printSyncResult).join();
+        printDebug("Set HuskSync user data for player '" + user.uuid + "'.");
+
+        if(!playerData.isKeepInventory()) {
+            printDebug("Death event had keepInventory = false, fetching items...");
+            List<ItemStack> drops = new ArrayList<>();
+            Collections.addAll(drops, inventoryMap.getContents());
+
+            Location location = playerData.getLocation();
+            ConfigurablePlugin plugin = getJavaPlugin();
+            DropItemsTask task = new DropItemsTask(plugin, location, drops);
+            plugin.getFoliaHelper().getScheduler().scheduleLocationTask(task);
+            printDebug("Scheduled task to drop items.");
+
+            api.setInventoryData(user, new ItemStack[0]).join();
+            printDebug("Set HuskSync inventory to empty for player '" + user.uuid + "'.");
+        }
     }
 
     private void printSyncResult(@Nullable Void success, @Nullable Throwable failure) {
