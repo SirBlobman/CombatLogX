@@ -34,7 +34,7 @@ placeholder:
   unknown-enemy: "Nieznany"
   status:
     #Shown when the player is in combat.
-    fighting: "<red>Walka"
+    fighting: "<red>Walka</red>"
     in-combat: "<green>Tak"
     #Shown when the player is not in combat
     idle: "<green>Bezczynny"
@@ -56,6 +56,8 @@ combat-timer:
 error:
   #Shown when the console tries to execute a command made for players.
   player-only: "<red>Tylko gracze mogą wykonać to polecenie."
+  #Shown when a player tries to execute a command made for the server console.
+  console-only: "<red>To polecenie może być wykonane tylko przez konsolę.</red>"
   #Shown when a command that requires a player has invalid input.
   invalid-target: "<gray>{target}</gray><red> nie jest online lub nie istnieje."
   #Shown when a command that requires a number has invalid input.
@@ -111,6 +113,17 @@ command:
     toggle-actionbar: "<bold><gray>Action Bar: {status}"
     #Shown as the command output for '/combatlogx toggle scoreboard'.
     toggle-scoreboard: "<gray>Scoreboard: {status}"
+    #Shown as the command output for '/combatlogx about <expansion>'.
+    expansion-information:
+      - ""
+      - "<white><bold>Informacje o rozszerzeniu</bold> <green>{name}</green><bold>:</bold></white>"
+      - "<white><bold>Wyświetlana nazwa:</bold></white> <gray>{prefix}</gray>"
+      - "<white><bold>Wersja:</bold></white> <gray>{version}</gray>"
+      - "<white><bold>Stan:</bold></white> <gray>{state}</gray>"
+      - ""
+      - "<white><bold>Opis:</bold></white> <gray>{description}</gray>"
+      - "<white><bold>Strona internetowa:</bold></white> <gray>{website}</gray>"
+      - "<white><bold>Autorzy:</bold></white> <gray>{authors}</gray>"
     forgive:
       toggle-disable: "<green>Nie możesz już otrzymywać próśb o przebaczenie.</green>"
       toggle-enable: "<green>Możesz teraz otrzymywać prośby o przebaczanie.</green>"
@@ -161,12 +174,12 @@ expansion:
     prevent-fast-looting: "<red>Nie masz uprawnień do szybkich skrzyń z aniołami lootów podczas walki.</red>"
   action-bar:
     #Shown above the hotbar while a player is in combat.
-    timer: "<bold><gold>Walka </gold></bold><gray>» </gray><white>{bars} </white><white>{time_left_decimal} sekund."
+    timer: "<bold><gold>Walka</gold> <gray>\u00BB</gray></bold> <white>{bars} <red>{combatlogx_time_left}</red> sekund.</white>"
     #Shown above the hotbar for a brief period when combat ends.
-    ended: "<bold><gold>Walka </gold></bold><gray>» </gray><white>Nie jesteś już w walce."
+    ended: "<bold><gold>Walka</gold> <gray>\u00BB</gray></bold> <white>Nie jesteś już w walce.</white>"
   boss-bar:
     #Shown on top of the screen while a player is in combat.
-    timer: "<bold><gold>Walka </gold></bold><gray>» </gray><red>{time_left_decimal} sekund."
+    timer: "<bold><gold>Walka</gold> <gray>\u00BB</gray></bold> <white><red>{combatlogx_time_left}</red> sekund.</white>"
     #Shown on top of the screen for a brief period when combat ends.
     ended: "<bold><gold>Walka </gold></bold><gray>» </gray><green>Nie jesteś już w walce."
   scoreboard:
