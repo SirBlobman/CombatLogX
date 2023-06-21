@@ -110,7 +110,7 @@ public final class PunishConfiguration implements IConfigurable {
     public boolean isKickIgnored(@NotNull String reason) {
         boolean ignore = isInIgnoreList(reason);
         boolean inverted = isKickIgnoreListInverted();
-        return  (inverted != ignore);
+        return (inverted != ignore);
     }
 
     private boolean isInIgnoreList(@NotNull String reason) {

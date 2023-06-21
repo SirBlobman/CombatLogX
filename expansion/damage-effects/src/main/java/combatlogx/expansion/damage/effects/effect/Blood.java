@@ -13,8 +13,8 @@ import com.github.sirblobman.api.shaded.xseries.particles.ParticleDisplay;
 import com.github.sirblobman.api.shaded.xseries.particles.XParticle;
 
 public final class Blood implements DamageEffect, IConfigurable {
-    private boolean enabled;
     private final Offset offset;
+    private boolean enabled;
     private Color color;
     private float size;
     private double ringRate;
@@ -34,6 +34,10 @@ public final class Blood implements DamageEffect, IConfigurable {
     @Override
     public boolean isEnabled() {
         return this.enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Override
@@ -68,10 +72,6 @@ public final class Blood implements DamageEffect, IConfigurable {
 
         ParticleDisplay display = ParticleDisplay.colored(location, color, size);
         XParticle.ring(rate, radius, tubeRadius, display);
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
     }
 
     public @NotNull Offset getOffset() {

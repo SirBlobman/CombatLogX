@@ -137,7 +137,7 @@ public final class ListenerHuskSync extends ExpansionListener {
         Optional<StatusData> optionalStatus = userData.getStatus();
         if (optionalStatus.isPresent()) {
             StatusData statusData = optionalStatus.get();
-            if(!playerData.isKeepLevel()) {
+            if (!playerData.isKeepLevel()) {
                 statusData.totalExperience = playerData.getTotalExperience();
                 statusData.expLevel = playerData.getNewLevel();
                 statusData.expProgress = playerData.getNewExperience();
@@ -152,7 +152,7 @@ public final class ListenerHuskSync extends ExpansionListener {
         api.setUserData(user, userData).whenCompleteAsync(this::printSyncResult).join();
         printDebug("Set HuskSync user data for player '" + user.uuid + "'.");
 
-        if(!playerData.isKeepInventory()) {
+        if (!playerData.isKeepInventory()) {
             printDebug("Death event had keepInventory = false, fetching items...");
             List<ItemStack> drops = new ArrayList<>();
             Collections.addAll(drops, inventoryMap.getContents());

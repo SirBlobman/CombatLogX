@@ -9,8 +9,8 @@ import com.github.sirblobman.api.configuration.IConfigurable;
 import combatlogx.expansion.damage.effects.effect.Blood;
 
 public final class DamageEffectsConfiguration implements IConfigurable {
-    private boolean allDamage;
     private final Blood blood;
+    private boolean allDamage;
 
     public DamageEffectsConfiguration() {
         this.allDamage = false;

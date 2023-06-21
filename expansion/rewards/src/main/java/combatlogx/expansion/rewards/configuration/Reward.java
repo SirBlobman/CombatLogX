@@ -34,15 +34,13 @@ public final class Reward implements IConfigurable {
     private final Set<EntityType> mobTypeList;
     private final Set<String> worldList;
     private final List<String> commandList;
+    private final Map<String, Requirement> requirementMap;
     private String permissionName;
     private int chance;
     private int maxChance;
     private boolean mobWhiteList;
     private boolean worldWhiteList;
     private boolean randomCommand;
-
-    private final Map<String, Requirement> requirementMap;
-
     private transient Permission permission;
 
     public Reward(@NotNull RewardExpansion expansion, @NotNull String id) {

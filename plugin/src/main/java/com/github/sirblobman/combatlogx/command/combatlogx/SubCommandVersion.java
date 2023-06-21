@@ -139,7 +139,7 @@ public final class SubCommandVersion extends CombatLogCommand {
         PluginManager pluginManager = Bukkit.getPluginManager();
         for (String dependencyName : fullDependencyList) {
             Plugin dependency = pluginManager.getPlugin(dependencyName);
-            if(dependency == null) {
+            if (dependency == null) {
                 list.add(listElement(dependencyName).append(Component.space()).append(missingText));
                 continue;
             }

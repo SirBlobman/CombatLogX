@@ -10,6 +10,7 @@ A lot of developers use maven to build projects more easily.
 **Repository: SirBlobman Public**
 
 Maven:
+
 ```xml
 <repositories>
     <!-- SirBlobman Public Repository -->
@@ -21,6 +22,7 @@ Maven:
 ```
 
 Gradle Groovy:
+
 ```groovy
 repositories {
     maven {
@@ -31,6 +33,7 @@ repositories {
 ```
 
 Gradle Kotlin:
+
 ```kotlin
 repositories {
     maven("https://nexus.sirblobman.xyz/public/")
@@ -40,6 +43,7 @@ repositories {
 **Dependency: CombatLogX API**
 
 Maven:
+
 ```xml
 <dependencies>
     <!-- BlueSlimeCore -->
@@ -61,6 +65,7 @@ Maven:
 ```
 
 Gradle Groovy:
+
 ```groovy
 dependencies {
     compileOnly 'com.github.sirblobman.api:core:2.9-SNAPSHOT'
@@ -69,6 +74,7 @@ dependencies {
 ```
 
 Gradle Kotlin:
+
 ```kotlin
 dependencies {
     compileOnly("com.github.sirblobman.api:core:2.9-SNAPSHOT")
