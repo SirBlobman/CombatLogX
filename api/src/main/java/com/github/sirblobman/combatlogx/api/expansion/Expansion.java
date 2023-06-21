@@ -215,6 +215,6 @@ public abstract class Expansion implements IResourceHolder {
     public abstract void reloadConfig();
 
     public enum State {
-        LOADED, UNLOADED, ENABLED, DISABLED
+        LOADED, UNLOADED, ENABLED, ENABLING, DISABLED
     }
 }

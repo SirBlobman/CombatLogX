@@ -314,8 +314,12 @@ public final class ExpansionManager {
             String fullName = description.getFullName();
             logger.info("Enabling expansion '" + fullName + "'...");
 
+            expansion.setState(State.ENABLING);
             expansion.onEnable();
-            expansion.setState(State.ENABLED);
+
+            if (expansion.getState() == State.ENABLING) {
+                expansion.setState(State.ENABLED);
+            }
         } catch (Throwable ex) {
             logger.log(Level.SEVERE, "An error occurred while enabling an expansion:", ex);
         }
@@ -323,7 +327,7 @@ public final class ExpansionManager {
 
     public void disableExpansion(@NotNull Expansion expansion) {
         State state = expansion.getState();
-        if (state != State.ENABLED) {
+        if (state != State.ENABLED && state != State.ENABLING) {
             return;
         }
 

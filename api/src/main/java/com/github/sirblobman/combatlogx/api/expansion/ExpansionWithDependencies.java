@@ -16,7 +16,6 @@ public abstract class ExpansionWithDependencies extends Expansion {
 
     @Override
     public final void onEnable() {
-        ICombatLogX plugin = getPlugin();
         if (!checkDependencies()) {
             Logger logger = getLogger();
             logger.info("Some dependencies for this expansion are missing!");

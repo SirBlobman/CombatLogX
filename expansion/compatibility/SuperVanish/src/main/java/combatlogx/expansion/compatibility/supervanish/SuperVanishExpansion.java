@@ -16,9 +16,12 @@ public final class SuperVanishExpansion extends VanishExpansion {
 
     @Override
     public boolean checkDependencies() {
-        boolean superVanish = checkDependency("SuperVanish", true);
-        boolean premiumVanish = checkDependency("PremiumVanish", true);
-        return (superVanish || premiumVanish);
+        if (checkDependency("PremiumVanish", true)) {
+            return true;
+        }
+
+        getLogger().info("Missing PremiumVanish, checking for regular SuperVanish...");
+        return checkDependency("SuperVanish", true);
     }
 
     @Override
