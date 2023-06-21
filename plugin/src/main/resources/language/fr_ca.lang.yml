@@ -11,12 +11,12 @@
 ## More information about MiniMessage can be found here:
 ## https://docs.adventure.kyori.net/minimessage/format.html
 #The language code for this file.
-language-name: "fr_us"
+language-name: "fr_fr"
 #The format for decimal numbers.
 #The United States uses the number and two decimal places
 decimal-format: "0.00"
-#The prefix for CombatLogX.
-#This is shown in front of all messages and should not be changed unless necessary.
+#The prefix for CombatLogX that is shown in front of all messages.
+#Note to translators: Do not change this message.
 prefix: "<white><bold>[<gold>CombatLogX</gold>]</bold></white>"
 broadcast:
   #Shown when the plugin is finished loading.
@@ -70,6 +70,8 @@ error:
   self-not-in-combat: "<red>Vous n'êtes pas en combat.</red>"
   #Shown when a command that requires an expansion has invalid input.
   unknown-expansion: "<red><gray>{target}</gray> n'est pas une extension ou n'est pas installé.</red>"
+  forgive-not-enemy: "<red><gray>{target}</gray> n'est pas l'un de vos ennemis.</red>"
+  enemy-not-forgiving: "<red>Cet ennemi n'est pas d'humeur à vous pardonner.</red>"
 command:
   combatlogx:
     #Shown as the command output for '/combatlogx help'.
@@ -78,11 +80,15 @@ command:
       - "<gold><bold>Aide de commande CombatLogX :</bold></gold>"
       - "  <white><bold>/combatlogx help</bold></white><gray>: Voir cette page d'aide.</gray>"
       - "  <white><bold>/combatlogx reload</bold></white><gray>: Recharger le config.yml, language.yml et tous les fichiers de configuration d'extension.</gray>"
-      - "  <white><bold>/combatlogx à propos de \\<expansion></bold></white><gray>: Vérifiez les informations sur une extension.</gray>"
+      - "  <white><bold>/combatlogx about \\<expansion></bold></white><gray>: Vérifiez les informations sur une extension.</gray>"
       - "  <white><bold>Balise /combatlogx \\<player> [seconds]</bold></white><gray>: Forcer un joueur au combat.</gray>"
       - "  <white><bold>/combatlogx active bossbar/actionbar/scoreboard</bold></white><gray>: Activer ou désactiver un type de notification.</gray>"
       - "  <white><bold>/combatlogx untag \\<player></bold></white><gray>: Forcer un joueur hors combat.</gray>"
       - "  <white><bold>/combatlogx version</bold></white><gray>: Vérifiez votre version de CombatLogX.</gray>"
+      - "  <white><bold>/combatlogx forgive request \\<player></bold></white><gray>: Envoyez une requête à un ennemi pour vous retirer son tag.</gray>"
+      - "  <white><bold>/combatlogx forgive accept \\<player></bold></white><gray>: Permet à un ennemi de s'échapper du combat.</gray>"
+      - "  <white><bold>/combatlogx forgive reject \\<player></bold></white><gray>: Ignore la demande de fin de combat d'un ennemi.</gray>"
+      - "  <white><bold>/combatlogx forgive toggle</bold></white><gray>: Activez ou désactivez les demandes d'arrêt du combat.</gray>"
       - ""
     #Shown as the command output for '/combatlogx reload' when reloading is successful.
     reload-success:
@@ -105,12 +111,27 @@ command:
     toggle-actionbar: "<gray><bold>Barre d'action :</bold></gray> {status}"
     #Shown as the command output for '/combatlogx toggle scoreboard'.
     toggle-scoreboard: "<gray><bold>Tableau de bord :</bold></gray> {status}"
+    forgive:
+      toggle-disable: "<green>Vous ne pouvez plus recevoir de demandes de merci.</green>"
+      toggle-enable: "<green>Vous pouvez a nouveau recevoir des demandes de merci.</green>"
+      request-sent: "<green>Vous avez envoyé une demande de merci à <gray>{target}</gray>.</green>"
+      request-receive:
+        - "<green><gray>{player}</gray> vous a envoyé une demande de merci.</green>"
+        - "<green>Tapez <click:run_command:/combatlogx forgive accept><gray>/clx forgive accept</gray></click> pour accepter ou.</green>"
+        - "<green><click:run_command:/combatlogx forgive reject><gray>/clx forgive reject</gray></click> pour refuser.</green>"
   combat-timer:
     #Shown as the command output for '/combat-timer'.
-    time-left-self: "<green>Vous avez <gray>{time_left}</gray> secondes &a restant.</green>"
+    time-left-self: "<green>Vous avez <gray>{time_left}</gray> secondes restantes.</green>"
     #Shown as the command output for '/combat-timer <player>'.
     time-left-other: "<green><gray>{target}</gray> a <gray>{time_left} secondes</gray> restantes.</green>"
 #These messages are shown a player is tagged into combat.
+#You can also change the location of these messages.
+#Example:
+#tagged:
+#attacked:
+#player:
+#type: ACTION_BAR
+#content: "<message here>"
 tagged:
   unknown:
     player: "<red>Vous êtes maintenant en combat avec <white>{enemy}</white> pour une raison inconnue. Ne déconnectez pas !</red>"
@@ -292,6 +313,8 @@ expansion:
     prevent-teleport-self: "<red>Vous n'êtes pas autorisé à vous téléporter à votre partenaire pendant le combat.</red>"
     #Shown when a married player is prevented from teleporting to their partner during combat.
     prevent-teleport-partner: "<red>Vous n'êtes pas autorisé à vous téléporter à votre partenaire pendant qu'ils sont en combat.</red>"
+  huskhomes-compatibility:
+    prevent-teleport: "<red>Vous n'êtes pas autorisé à vous téléporter pendant le combat.</red>"
   region-protection:
     #Shown when a player tries to enter a no-pvp area during combat.
     default-no-entry: "<red>Vous n'êtes pas autorisé à entrer dans cette zone pendant le combat.</red>"
