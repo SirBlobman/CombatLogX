@@ -3,5 +3,5 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.bgsoftware:SuperiorSkyblockAPI:2023.1")
+    compileOnly("com.bgsoftware:SuperiorSkyblockAPI:2023.2")
 }
