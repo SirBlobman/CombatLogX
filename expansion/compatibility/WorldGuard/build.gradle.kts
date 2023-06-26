@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.codemc.worldguardwrapper:worldguardwrapper:1.2.0-SNAPSHOT")
+    implementation("org.codemc.worldguardwrapper:worldguardwrapper:1.2.1-SNAPSHOT")
 }
 
 tasks {
