@@ -65,7 +65,7 @@ public final class CitizensExpansion extends Expansion {
         }
 
         String citizensVersion = citizens.getDescription().getVersion();
-        if (!citizensVersion.startsWith("2.0.30") && !citizensVersion.startsWith("2.0.31")) {
+        if (!citizensVersion.startsWith("2.0.30") && !citizensVersion.startsWith("2.0.31") && !citizensVersion.startsWith("2.0.32")) {
             getLogger().info("Dependency 'Citizens' is not the correct version!");
             selfDisable();
             return;
