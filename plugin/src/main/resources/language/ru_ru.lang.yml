@@ -84,13 +84,13 @@ command:
       - "  <white><bold>/combatlogx reload</bold></white><gray>: Перезагрузка config.yml, language.yml, и всех конфигурационных файлов расширений.</gray>"
       - "  <white><bold>/combatlogx about \\<расширение></bold></white><gray>: Проверить информацию о расширении.</gray>"
       - "  <white><bold>/combatlogx tag \\<игрок> [секунды]</bold></white><gray>: Принудить игрока вступить в бой.</gray>"
-      - "  <white><bold>/combatlogx toggle bossbar/actionbar/scoreboard</bold></white><gray>: Переключает уведомления.</gray>"
-      - "  <white><bold>/combatlogx untag \\<игрок></bold></white><gray>: Принудительно выводит игрока из боя.</gray>"
+      - "  <white><bold>/combatlogx toggle bossbar/actionbar/scoreboard</bold></white><gray>: Переключить уведомления.</gray>"
+      - "  <white><bold>/combatlogx untag \\<игрок></bold></white><gray>: Принудительно вывести игрока из боя.</gray>"
       - "  <white><bold>/combatlogx version</bold></white><gray>: Проверить текущую версию CombatLogX.</gray>"
       - "  <white><bold>/combatlogx forgive request \\<игрок></bold></white><gray>: Отправить противнику запрос на отмену боя.</gray>"
-      - "  <white><bold>/combatlogx forgive accept \\<игрок></bold></white><gray>: Одобрить запрос противника на отмену боя.</gray>"
+      - "  <white><bold>/combatlogx forgive accept \\<игрок></bold></white><gray>: Принять запрос противника на отмену боя.</gray>"
       - "  <white><bold>/combatlogx forgive reject \\<игрок></bold></white><gray>: Отклонить запрос противника на отмену боя.</gray>"
-      - "  <white><bold>/combatlogx forgive toggle</bold></white><gray>: Переключение приема запросов на отмену боя.</gray>"
+      - "  <white><bold>/combatlogx forgive toggle</bold></white><gray>: Переключить прием запросов на отмену боя.</gray>"
       - ""
     #Shown as the command output for '/combatlogx reload' when reloading is successful.
     reload-success:
@@ -127,7 +127,7 @@ command:
     forgive:
       toggle-disable: "<green>Вы больше не будете получать запросы на прощение.</green>"
       toggle-enable: "<green>Теперь вы будете получать запросы на прощение.</green>"
-      request-sent: "<green>Вы отправили запрос прощение <gray>{target}</gray>.</green>"
+      request-sent: "<green>Вы отправили запрос на прощение <gray>{target}</gray>.</green>"
       request-receive:
         - "<green><gray>{player}</gray> отправил вам запрос на прощение.</green>"
         - "<green>Введите <click:run_command:/combatlogx forgive accept><gray>/clx forgive accept</gray></click> для принятия или</green>"
@@ -264,24 +264,30 @@ expansion:
     #You can find a list of damage types here:
     #https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/EntityDamageEvent.DamageCause.html
     damage-type:
+      block-explosion: "<red>Вы получили урон от взрыва. Не выходите из игры!</red>"
       contact: "<red>Вы укололись об кактус. Не выходите из игры!</red>"
-      suffocation: "<red>Вы задыхаетесь в стене. Не выходите из игры!</red>"
+      cramming: "<red>Вас расплющивает. Не выходите из игры!</red>"
+      custom: "<red>Вы получили нестандартный урон. Не выходите из игры!</red>"
+      drowning: "<red>Вы тоните. Не выходите из игры!</red>"
+      dryout: "<red>Вы высыхаете. Не выходите из игры!</red>" #May be triggered by custom plugins.
+      entity-explosion: "<red>Вас задел взрыв кристалла Энда. Не выходите из игры!</red>" #Only triggered by end crystals.
       fall: "<red>Вы получили урон от падения. Не выходите из игры!</red>"
+      falling-block: "<red>На вас упал блок. Не выходите из игры!</red>"
       fire: "<red>Вы вошли в огонь. Не выходите из игры!</red>"
       fire-tick: "<red>Вы горите. Не выходите из игры!"
-      lava: "<red>Вы горите в лаве. Не выходите из игры!</red>"
-      drowning: "<red>Вы тоните. Не выходите из игры!</red>"
-      block-explosion: "<red>Вы получили урон от взрыва. Не выходите из игры!</red>"
-      lightning: "<red>Вас поразило молнией! Не выходите из игры!</red>"
-      starvation: "<red>Вы слишком голодны. Не выходите из игры!</red>"
-      poison: "<red>Вы получили урон от отравления. Не выходите из игры!</red>"
-      magic: "<red>Кто-то бросил в вас зелье. Не выходите из игры!</red>"
-      wither: "<red>Вас иссыхаете. Не выходите из игры!</red>"
-      falling-block: "<red>На вас упал блок. Не выходите из игры!</red>"
-      custom: "<red>Вы получили нестандартный урон. Не выходите из игры!</red>"
       fly-into-wall: "<red>Вы врезались о стену. Не выходите из игры!</red>"
+      freeze: "<red>Вы замерзаете. Не выходите из игры!</red>"
       hot-floor: "<red>Пол это лава! Не выходите!</red>"
-      cramming: "<red>Вас расплющивает. Не выходите из игры!</red>"
+      lava: "<red>Вы горите в лаве. Не выходите из игры!</red>"
+      lightning: "<red>Вас поразило молнией! Не выходите из игры!</red>"
+      magic: "<red>Кто-то бросил в вас зелье. Не выходите из игры!</red>"
+      melting: "<red>Вы таете. Не выходите из игры!</red>" #May be triggered by custom plugins.
+      poison: "<red>Вы получили урон от отравления. Не выходите из игры!</red>"
+      starvation: "<red>Вы слишком голодны. Не выходите из игры!</red>"
+      suffocation: "<red>Вы задыхаетесь в стене. Не выходите из игры!</red>"
+      void: "<red>Вы падаете в бездну. Не выходите из игры!</red>"
+      wither: "<red>Вас иссыхаете. Не выходите из игры!</red>"
+      world-border: "<red>Вы слишком близко от границы мира. Не выходите из игры!</red>"
   newbie-helper:
     togglepvp:
       #Shown as the command output for '/togglepvp'.
