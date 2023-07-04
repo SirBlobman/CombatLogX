@@ -3,5 +3,5 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.lumine:Mythic-Dist:5.3.4")
+    compileOnly("io.lumine:Mythic-Dist:5.3.5")
 }
