@@ -29,9 +29,9 @@ public final class EssentialsExpansion extends VanishExpansion {
             try {
                 Class.forName("net.ess3.api.events.TPARequestEvent");
                 logger.info("Detected EssentialsX successfully.");
+                return true;
             } catch (ReflectiveOperationException ex) {
                 logger.info("The installed Essentials plugin is not EssentialsX or is out of date.");
-                return false;
             }
         }
 
