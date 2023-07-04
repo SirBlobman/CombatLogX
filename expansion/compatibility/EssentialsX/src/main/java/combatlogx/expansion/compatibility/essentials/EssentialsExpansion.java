@@ -1,5 +1,7 @@
 package combatlogx.expansion.compatibility.essentials;
 
+import java.util.logging.Logger;
+
 import org.jetbrains.annotations.NotNull;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
@@ -22,7 +24,18 @@ public final class EssentialsExpansion extends VanishExpansion {
 
     @Override
     public boolean checkDependencies() {
-        return checkDependency("Essentials", true, "2.20");
+        Logger logger = getLogger();
+        if (checkDependency("Essentials", true)) {
+            try {
+                Class.forName("net.ess3.api.events.TPARequestEvent");
+                logger.info("Detected EssentialsX successfully.");
+            } catch (ReflectiveOperationException ex) {
+                logger.info("The installed Essentials plugin is not EssentialsX or is out of date.");
+                return false;
+            }
+        }
+
+        return false;
     }
 
     @Override
