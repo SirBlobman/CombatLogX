@@ -22,7 +22,7 @@ public final class EssentialsExpansion extends VanishExpansion {
 
     @Override
     public boolean checkDependencies() {
-        return checkDependency("Essentials", true, "2.19");
+        return checkDependency("Essentials", true, "2.20");
     }
 
     @Override
