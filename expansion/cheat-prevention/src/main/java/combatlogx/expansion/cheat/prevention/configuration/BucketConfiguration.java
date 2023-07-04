@@ -27,7 +27,7 @@ public final class BucketConfiguration implements IBucketConfiguration {
     }
 
     @Override
-    public void load(ConfigurationSection config) {
+    public void load(@NotNull ConfigurationSection config) {
         setPreventBucketEmpty(config.getBoolean("prevent-bucket-empty", false));
         setPreventBucketFill(config.getBoolean("prevent-bucket-fill", false));
 

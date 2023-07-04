@@ -49,12 +49,12 @@ public final class ListenerBuckets extends CheatPreventionListener {
     }
 
     private boolean isPreventEmpty(@NotNull XMaterial material) {
-        IBucketConfiguration bucketConfiguration = getBucketConfiguration();
-        return bucketConfiguration.isPreventEmpty(material);
+        IBucketConfiguration configuration = getBucketConfiguration();
+        return (configuration.isPreventBucketEmpty() && configuration.isPreventEmpty(material));
     }
 
     private boolean isPreventFill(@NotNull XMaterial material) {
-        IBucketConfiguration bucketConfiguration = getBucketConfiguration();
-        return bucketConfiguration.isPreventFill(material);
+        IBucketConfiguration configuration = getBucketConfiguration();
+        return (configuration.isPreventBucketFill() && configuration.isPreventFill(material));
     }
 }
