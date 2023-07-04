@@ -1,5 +1,7 @@
 package combatlogx.expansion.cheat.prevention.listener;
 
+import java.util.Locale;
+
 import org.jetbrains.annotations.NotNull;
 
 import org.bukkit.Material;
@@ -13,7 +15,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import com.github.sirblobman.api.utility.VersionUtility;
-import com.github.sirblobman.api.shaded.xseries.XBlock;
 import com.github.sirblobman.api.shaded.xseries.XMaterial;
 
 import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
@@ -98,12 +99,14 @@ public final class ListenerBlocks extends CheatPreventionListener {
     }
 
     @SuppressWarnings("deprecation")
-    private @NotNull XMaterial fetchMaterial(Block block) {
+    private @NotNull XMaterial fetchMaterial(@NotNull Block block) {
         int minorVersion = VersionUtility.getMinorVersion();
         Material bukkitType = block.getType();
 
         if (minorVersion < 13) {
-            return XBlock.getType(block);
+            int data = block.getData();
+            String materialName = String.format(Locale.US, "%s:%s", bukkitType.name(), data);
+            return XMaterial.matchXMaterial(materialName).orElse(XMaterial.AIR);
         } else {
             return XMaterial.matchXMaterial(bukkitType);
         }
