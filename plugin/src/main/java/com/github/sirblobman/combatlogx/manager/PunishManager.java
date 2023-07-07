@@ -43,10 +43,16 @@ public final class PunishManager extends Manager implements IPunishManager {
 
         ICombatLogX plugin = getCombatLogX();
         CommandConfiguration commandConfiguration = plugin.getCommandConfiguration();
-        List<String> punishCommandList = commandConfiguration.getPunishCommands();
 
-        runPunishCommands(player, enemyList, punishCommandList);
-        runSpecialPunishments(player, enemyList);
+        List<String> punishCommandList = commandConfiguration.getPunishCommands();
+        if (!punishCommandList.isEmpty()) {
+            runPunishCommands(player, enemyList, punishCommandList);
+        }
+
+        if (commandConfiguration.isSpecialPunishCommandsEnabled()) {
+            runSpecialPunishments(player, enemyList);
+        }
+
         return true;
     }
 
