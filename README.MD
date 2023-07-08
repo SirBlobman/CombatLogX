@@ -4,6 +4,9 @@
 [![Build Status](https://jenkins.sirblobman.xyz/job/SirBlobman/job/CombatLogX/badge/icon)](https://jenkins.sirblobman.xyz/job/SirBlobman/job/CombatLogX/)
 [![Crowdin Localization](https://badges.crowdin.net/combatlogx-spigot-plugin/localized.svg)](https://crowdin.com/project/combatlogx-spigot-plugin)
 
+# MultiPaper 
+Made compatible by me with multipaper. If you want to support me donate on: https://PayPal.me/chrommob
+
 # Description
 
 CombatLogX is a plugin made for the Spigot server software.  
