@@ -15,8 +15,8 @@ language-name: "pl"
 #The format for decimal numbers.
 #The United States uses the number and two decimal places
 decimal-format: "0.00"
-#The prefix for CombatLogX.
-#This is shown in front of all messages and should not be changed unless necessary.
+#The prefix for CombatLogX that is shown in front of all messages.
+#Note to translators: Do not change this message.
 prefix: "<bold><white>[</white></bold><gold>CombatLogX</gold><bold><white>]"
 broadcast:
   #Shown when the plugin is finished loading.
@@ -34,7 +34,7 @@ placeholder:
   unknown-enemy: "Nieznany"
   status:
     #Shown when the player is in combat.
-    fighting: "<red>Walka"
+    fighting: "<red>Walka</red>"
     in-combat: "<green>Tak"
     #Shown when the player is not in combat
     idle: "<green>Bezczynny"
@@ -56,6 +56,8 @@ combat-timer:
 error:
   #Shown when the console tries to execute a command made for players.
   player-only: "<red>Tylko gracze mogą wykonać to polecenie."
+  #Shown when a player tries to execute a command made for the server console.
+  console-only: "<red>To polecenie może być wykonane tylko przez konsolę.</red>"
   #Shown when a command that requires a player has invalid input.
   invalid-target: "<gray>{target}</gray><red> nie jest online lub nie istnieje."
   #Shown when a command that requires a number has invalid input.
@@ -70,6 +72,8 @@ error:
   self-not-in-combat: "<red>Nie jesteś w walce."
   #Shown when a command that requires an expansion has invalid input.
   unknown-expansion: "<gray>{target}</gray><red> nie jest rozszerzeniem lub nie jest zainstalowane."
+  forgive-not-enemy: "<red><gray>{target}</gray> nie jest jednym z twoich wrogów.</red>"
+  enemy-not-forgiving: "<red>Ten przeciwnik nie jest w nastroju, aby ci wybaczyć.</red>"
 command:
   combatlogx:
     #Shown as the command output for '/combatlogx help'.
@@ -83,6 +87,10 @@ command:
       - "  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>: Włącz lub wyłącz wybrany typ powiadomień."
       - "  <bold><white>/combatlogx untag \\<player></white></bold><gray>: Zmuś gracza do opuszczenia walki."
       - "  <bold><white>/combatlogx version</white></bold><gray>: Sprawdź wersję CombatLogX."
+      - "  <white><bold>/combatlogx forgive request \\<player></bold></white><gray>: Wyślij prośbę do wroga, aby usunąć tagi z ciebie.</gray>"
+      - "  <white><bold>/combatlogx forgive accept \\<player></bold></white><gray>: Zezwól na ucieczkę na prośbę wroga.</gray>"
+      - "  <white><bold>/combatlogx forgive reject \\<player></bold></white><gray>: Zignoruj prośbę wroga o ucieczkę z walki.</gray>"
+      - "  <white><bold>/combatlogx forgive toggle</bold></white><gray>: Włącz lub wyłącz prośby o zaprzestanie walki.</gray>"
       - ""
     #Shown as the command output for '/combatlogx reload' when reloading is successful.
     reload-success:
@@ -105,12 +113,38 @@ command:
     toggle-actionbar: "<bold><gray>Action Bar: {status}"
     #Shown as the command output for '/combatlogx toggle scoreboard'.
     toggle-scoreboard: "<gray>Scoreboard: {status}"
+    #Shown as the command output for '/combatlogx about <expansion>'.
+    expansion-information:
+      - ""
+      - "<white><bold>Informacje o rozszerzeniu</bold> <green>{name}</green><bold>:</bold></white>"
+      - "<white><bold>Wyświetlana nazwa:</bold></white> <gray>{prefix}</gray>"
+      - "<white><bold>Wersja:</bold></white> <gray>{version}</gray>"
+      - "<white><bold>Stan:</bold></white> <gray>{state}</gray>"
+      - ""
+      - "<white><bold>Opis:</bold></white> <gray>{description}</gray>"
+      - "<white><bold>Strona internetowa:</bold></white> <gray>{website}</gray>"
+      - "<white><bold>Autorzy:</bold></white> <gray>{authors}</gray>"
+    forgive:
+      toggle-disable: "<green>Nie możesz już otrzymywać próśb o przebaczenie.</green>"
+      toggle-enable: "<green>Możesz teraz otrzymywać prośby o przebaczanie.</green>"
+      request-sent: "<green>Wysłałeś prośbę o przebaczenie do <gray>{target}</gray>.</green>"
+      request-receive:
+        - "<green><gray>{player}</gray> wysłał do Ciebie prośbę o wybaczenie.</green>"
+        - "<green>Wpisz <click:run_command:/combatlogx forgive accept><gray>/clx forgive accept</gray></click> aby zaakceptować lub</green>"
+        - "<green><click:run_command:/combatlogx forgive reject><gray>/clx forgive reject</gray></click> by odrzucić.</green>"
   combat-timer:
     #Shown as the command output for '/combat-timer'.
-    time-left-self: "<green>Pozostało Ci </green><gray>{time_left} sekund."
+    time-left-self: "<green>Pozostało Ci <gray>{time_left}</gray> sekund.</green>"
     #Shown as the command output for '/combat-timer <player>'.
     time-left-other: "<gray>Graczowi {target}</gray><green> pozostało </green><gray>{time_left}</gray><green>."
 #These messages are shown a player is tagged into combat.
+#You can also change the location of these messages.
+#Example:
+#tagged:
+#attacked:
+#player:
+#type: ACTION_BAR
+#content: "<message here>"
 tagged:
   unknown:
     player: "<red>Jesteś teraz w walce z </red><white>{enemy}</white><red> z nieznanego powodu. Nie wylogowuj się!"
@@ -140,12 +174,12 @@ expansion:
     prevent-fast-looting: "<red>Nie masz uprawnień do szybkich skrzyń z aniołami lootów podczas walki.</red>"
   action-bar:
     #Shown above the hotbar while a player is in combat.
-    timer: "<bold><gold>Walka </gold></bold><gray>» </gray><white>{bars} </white><white>{time_left_decimal} sekund."
+    timer: "<bold><gold>Walka</gold> <gray>\u00BB</gray></bold> <white>{bars} <red>{combatlogx_time_left}</red> sekund.</white>"
     #Shown above the hotbar for a brief period when combat ends.
-    ended: "<bold><gold>Walka </gold></bold><gray>» </gray><white>Nie jesteś już w walce."
+    ended: "<bold><gold>Walka</gold> <gray>\u00BB</gray></bold> <white>Nie jesteś już w walce.</white>"
   boss-bar:
     #Shown on top of the screen while a player is in combat.
-    timer: "<bold><gold>Walka </gold></bold><gray>» </gray><red>{time_left_decimal} sekund."
+    timer: "<bold><gold>Walka</gold> <gray>\u00BB</gray></bold> <white><red>{combatlogx_time_left}</red> sekund.</white>"
     #Shown on top of the screen for a brief period when combat ends.
     ended: "<bold><gold>Walka </gold></bold><gray>» </gray><green>Nie jesteś już w walce."
   scoreboard:
@@ -292,6 +326,8 @@ expansion:
     prevent-teleport-self: "<red>Nie możesz teleportować się do swojego partnera podczas walki.</red>"
     #Shown when a married player is prevented from teleporting to their partner during combat.
     prevent-teleport-partner: "<red>Nie możesz teleportować się do swojego partnera, gdy jest w walce.</red>"
+  huskhomes-compatibility:
+    prevent-teleport: "<red>Nie możesz się teleportować podczas walki."
   region-protection:
     #Shown when a player tries to enter a no-pvp area during combat.
     default-no-entry: "<red>Nie możesz wejść do tego obszaru podczas walki.</red>"

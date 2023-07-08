@@ -1,8 +1,5 @@
 repositories {
-    maven {
-        name = "sirblobman-private"
-        url = uri("https://nexus.sirblobman.xyz/repository/private/")
-
+    maven("https://nexus.sirblobman.xyz/private/") {
         credentials {
             username = rootProject.ext.get("mavenUsername") as String
             password = rootProject.ext.get("mavenPassword") as String
@@ -11,5 +8,5 @@ repositories {
 }
 
 dependencies {
-    compileOnly("be.maximvdw.featherboard:FeatherBoard:5.0.4")
+    compileOnly("com.mvdw-software:FeatherBoard:5.1.0")
 }

@@ -1,18 +1,20 @@
 package com.github.sirblobman.combatlogx.api.expansion;
 
 import java.util.Locale;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.api.utility.Validate;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
 
 public abstract class ExpansionListener extends CombatListener {
     private final Expansion expansion;
 
-    public ExpansionListener(Expansion expansion) {
+    public ExpansionListener(@NotNull Expansion expansion) {
         super(expansion.getPlugin());
-        this.expansion = Validate.notNull(expansion, "expansion must not be null!");
+        this.expansion = expansion;
     }
 
     @Override
@@ -22,7 +24,11 @@ public abstract class ExpansionListener extends CombatListener {
     }
 
     @Override
-    protected final void printDebug(String message) {
+    protected final void printDebug(@NotNull String message) {
+        printDebug(message, null);
+    }
+
+    protected final void printDebug(@NotNull String message, @Nullable Throwable throwable) {
         if (isDebugModeDisabled()) {
             return;
         }
@@ -32,20 +38,19 @@ public abstract class ExpansionListener extends CombatListener {
         String logMessage = String.format(Locale.US, "[Debug] [%s] %s", className, message);
 
         Logger expansionLogger = getExpansionLogger();
-        expansionLogger.info(logMessage);
+        if (throwable == null) {
+            expansionLogger.info(logMessage);
+        } else {
+            expansionLogger.log(Level.WARNING, logMessage, throwable);
+        }
     }
 
-    protected final Expansion getExpansion() {
+    protected final @NotNull Expansion getExpansion() {
         return this.expansion;
     }
 
-    protected final Logger getExpansionLogger() {
+    protected final @NotNull Logger getExpansionLogger() {
         Expansion expansion = getExpansion();
         return expansion.getLogger();
-    }
-
-    protected final ConfigurationManager getExpansionConfigurationManager() {
-        Expansion expansion = getExpansion();
-        return expansion.getConfigurationManager();
     }
 }

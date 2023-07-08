@@ -1,9 +1,9 @@
-name: "CompatCitizens"
-prefix: "Citizens Compatibility"
-description: "${project.description}"
+name: "${expansionName}"
+prefix: "${expansionPrefix}"
+description: "${expansionDescription}"
 
 main: "combatlogx.expansion.compatibility.citizens.CitizensExpansion"
-version: "16.15"
+version: "17.9"
 author: "SirBlobman"
 
 plugin-depend:

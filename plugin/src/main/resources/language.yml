@@ -1,3 +1,6 @@
+# CombatLogX Language Configuration
+# This plugin supports per-player language messages in 1.12.2+
+
 # Force all players to use the 'default-locale', even when they have set a different language in their client.
 # This option also makes the 'console-locale' option useless.
 enforce-default-locale: false

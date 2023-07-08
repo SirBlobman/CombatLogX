@@ -1,29 +1,31 @@
 package combatlogx.expansion.compatibility.mythicmobs;
 
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
+import io.lumine.mythic.api.adapters.AbstractEntity;
 import io.lumine.mythic.bukkit.BukkitAPIHelper;
 import io.lumine.mythic.bukkit.MythicBukkit;
 import io.lumine.mythic.core.mobs.ActiveMob;
 
 public final class ListenerMythicMobs extends ExpansionListener {
+    private final MythicMobsExpansion expansion;
+
     public ListenerMythicMobs(MythicMobsExpansion expansion) {
         super(expansion);
+        this.expansion = expansion;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -32,21 +34,21 @@ public final class ListenerMythicMobs extends ExpansionListener {
         Entity damager = e.getDamager();
 
         ICombatManager combatManager = getCombatManager();
-        if (damaged instanceof Player && damager instanceof LivingEntity && isMythicMob(damager)) {
+        if (damaged instanceof Player && isMythicMob(damager)) {
+            damager = linkMainMythicMob(damager);
             String mobName = getMythicMobName(damager);
-            if (isForceTag(mobName)) {
+            if (mobName != null && isForceTag(mobName)) {
                 Player playerDamaged = (Player) damaged;
-                LivingEntity livingDamager = (LivingEntity) damager;
-                combatManager.tag(playerDamaged, livingDamager, TagType.MYTHIC_MOB, TagReason.ATTACKED);
+                combatManager.tag(playerDamaged, damager, TagType.MYTHIC_MOB, TagReason.ATTACKED);
             }
         }
 
         if (damager instanceof Player && isMythicMob(damaged)) {
+            damaged = linkMainMythicMob(damaged);
             String mobName = getMythicMobName(damaged);
-            if (isForceTag(mobName)) {
+            if (mobName != null && isForceTag(mobName)) {
                 Player playerDamager = (Player) damager;
-                LivingEntity livingDamaged = (damaged instanceof LivingEntity ? ((LivingEntity) damaged) : null);
-                combatManager.tag(playerDamager, livingDamaged, TagType.MYTHIC_MOB, TagReason.ATTACKER);
+                combatManager.tag(playerDamager, damaged, TagType.MYTHIC_MOB, TagReason.ATTACKER);
             }
         }
     }
@@ -64,45 +66,65 @@ public final class ListenerMythicMobs extends ExpansionListener {
         }
 
         String mobName = getMythicMobName(enemy);
-        if (isNoTag(mobName)) {
+        if (mobName != null && isNoTag(mobName)) {
             e.setCancelled(true);
         }
     }
 
-    private BukkitAPIHelper getAPI() {
+    private @NotNull BukkitAPIHelper getAPI() {
         MythicBukkit mythicBukkit = MythicBukkit.inst();
         return mythicBukkit.getAPIHelper();
     }
 
-    private boolean isMythicMob(Entity entity) {
+    private boolean isMythicMob(@NotNull Entity entity) {
         BukkitAPIHelper api = getAPI();
         return api.isMythicMob(entity);
     }
 
-    private String getMythicMobName(Entity entity) {
+    private @Nullable ActiveMob getActiveMob(@NotNull Entity entity) {
+        BukkitAPIHelper api = getAPI();
+        return api.getMythicMobInstance(entity);
+    }
+
+    private @Nullable String getMythicMobName(@NotNull Entity entity) {
         if (isMythicMob(entity)) {
-            BukkitAPIHelper api = getAPI();
-            ActiveMob activeMob = api.getMythicMobInstance(entity);
+            ActiveMob activeMob = getActiveMob(entity);
             return (activeMob == null ? null : activeMob.getMobType());
         }
 
         return null;
     }
 
-    private YamlConfiguration getConfiguration() {
-        ConfigurationManager configurationManager = getExpansionConfigurationManager();
-        return configurationManager.get("config.yml");
+    private @NotNull Entity linkMainMythicMob(@NotNull Entity original) {
+        ActiveMob activeMob = getActiveMob(original);
+        if (activeMob == null) {
+            return original;
+        }
+
+        AbstractEntity entity = activeMob.getEntity();
+        if (entity == null) {
+            return original;
+        }
+
+        return entity.getBukkitEntity();
     }
 
-    private boolean isForceTag(String mobName) {
-        YamlConfiguration configuration = getConfiguration();
-        List<String> forceTagMobTypeList = configuration.getStringList("force-tag-mob-type-list");
-        return forceTagMobTypeList.contains(mobName);
+    private @NotNull MythicMobsExpansion getMythicMobsExpansion() {
+        return this.expansion;
     }
 
-    private boolean isNoTag(String mobName) {
-        YamlConfiguration configuration = getConfiguration();
-        List<String> noTagMobTypeList = configuration.getStringList("no-tag-mob-type-list");
-        return noTagMobTypeList.contains(mobName);
+    private @NotNull MythicMobsConfiguration getConfiguration() {
+        MythicMobsExpansion expansion = getMythicMobsExpansion();
+        return expansion.getConfiguration();
+    }
+
+    private boolean isForceTag(@NotNull String mobName) {
+        MythicMobsConfiguration configuration = getConfiguration();
+        return configuration.isForceTag(mobName);
+    }
+
+    private boolean isNoTag(@NotNull String mobName) {
+        MythicMobsConfiguration configuration = getConfiguration();
+        return configuration.isNoTag(mobName);
     }
 }

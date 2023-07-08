@@ -1,8 +1,7 @@
 package combatlogx.expansion.cheat.prevention.listener;
 
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,41 +10,43 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.InventoryView;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.event.PlayerReTagEvent;
 import com.github.sirblobman.combatlogx.api.event.PlayerTagEvent;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+
+import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
+import combatlogx.expansion.cheat.prevention.configuration.IInventoryConfiguration;
 
 public final class ListenerInventories extends CheatPreventionListener {
-    public ListenerInventories(Expansion expansion) {
+    public ListenerInventories(@NotNull ICheatPreventionExpansion expansion) {
         super(expansion);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onTag(PlayerTagEvent e) {
-        if (shouldNotCloseInventories()) {
-            return;
-        }
+        if (isClose()) {
+            Player player = e.getPlayer();
+            InventoryView openView = player.getOpenInventory();
+            InventoryType viewType = openView.getType();
+            player.closeInventory();
 
-        Player player = e.getPlayer();
-        InventoryView openView = player.getOpenInventory();
-        InventoryType viewType = openView.getType();
-        player.closeInventory();
-
-        if(shouldSendMessage(viewType)) {
-            sendMessage(player, "expansion.cheat-prevention.inventory.force-closed", null);
+            if (isMessage(viewType)) {
+                sendMessage(player, "expansion.cheat-prevention.inventory.force-closed");
+            }
         }
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onTag(PlayerReTagEvent e) {
-        if (shouldNotCloseInventoriesOnRetag()) {
-            return;
-        }
+    public void onReTag(PlayerReTagEvent e) {
+        if (isCloseOnRetag()) {
+            Player player = e.getPlayer();
+            InventoryView openView = player.getOpenInventory();
+            InventoryType viewType = openView.getType();
+            player.closeInventory();
 
-        Player player = e.getPlayer();
-        player.closeInventory();
-        sendMessage(player, "expansion.cheat-prevention.inventory.force-closed", null);
+            if (isMessage(viewType)) {
+                sendMessage(player, "expansion.cheat-prevention.inventory.force-closed");
+            }
+        }
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -56,43 +57,34 @@ public final class ListenerInventories extends CheatPreventionListener {
         }
 
         Player player = (Player) human;
-        if (!isInCombat(player)) {
-            return;
+        if (isPreventOpening() && isInCombat(player)) {
+            e.setCancelled(true);
+            sendMessage(player, "expansion.cheat-prevention.inventory.no-opening");
         }
-
-        if (shouldAllowOpeningInventories()) {
-            return;
-        }
-
-        e.setCancelled(true);
-        sendMessage(player, "expansion.cheat-prevention.inventory.no-opening", null);
     }
 
-    private YamlConfiguration getConfiguration() {
-        Expansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        return configurationManager.get("inventories.yml");
+    private @NotNull IInventoryConfiguration getInventoryConfiguration() {
+        ICheatPreventionExpansion expansion = getCheatPrevention();
+        return expansion.getInventoryConfiguration();
     }
 
-    private boolean shouldNotCloseInventories() {
-        YamlConfiguration configuration = getConfiguration();
-        return !configuration.getBoolean("close");
+    private boolean isClose() {
+        IInventoryConfiguration inventoryConfiguration = getInventoryConfiguration();
+        return inventoryConfiguration.isClose();
     }
 
-    private boolean shouldNotCloseInventoriesOnRetag() {
-        YamlConfiguration configuration = getConfiguration();
-        return !configuration.getBoolean("close-on-retag");
+    private boolean isCloseOnRetag() {
+        IInventoryConfiguration inventoryConfiguration = getInventoryConfiguration();
+        return inventoryConfiguration.isCloseOnRetag();
     }
 
-    private boolean shouldAllowOpeningInventories() {
-        YamlConfiguration configuration = getConfiguration();
-        return !configuration.getBoolean("prevent-opening");
+    private boolean isPreventOpening() {
+        IInventoryConfiguration inventoryConfiguration = getInventoryConfiguration();
+        return inventoryConfiguration.isPreventOpening();
     }
 
-    private boolean shouldSendMessage(InventoryType type) {
-        String typeName = type.name();
-        YamlConfiguration configuration = getConfiguration();
-        List<String> noMessageTypeList = configuration.getStringList("no-close-message-type-list");
-        return !noMessageTypeList.contains(typeName);
+    private boolean isMessage(@NotNull InventoryType type) {
+        IInventoryConfiguration inventoryConfiguration = getInventoryConfiguration();
+        return !inventoryConfiguration.isNoMessage(type);
     }
 }

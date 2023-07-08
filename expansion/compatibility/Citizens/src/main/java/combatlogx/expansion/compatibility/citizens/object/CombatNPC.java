@@ -2,24 +2,24 @@ package combatlogx.expansion.compatibility.citizens.object;
 
 import java.util.UUID;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.api.utility.Validate;
+import com.github.sirblobman.api.folia.details.TaskDetails;
+import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
+import combatlogx.expansion.compatibility.citizens.configuration.CitizensConfiguration;
 import combatlogx.expansion.compatibility.citizens.manager.CombatNpcManager;
 import net.citizensnpcs.api.npc.NPC;
 
-public final class CombatNPC extends BukkitRunnable {
+public final class CombatNPC extends TaskDetails {
     private final CitizensExpansion expansion;
     private final NPC originalNPC;
     private final UUID ownerId;
@@ -27,10 +27,11 @@ public final class CombatNPC extends BukkitRunnable {
     private UUID enemyId;
     private long survivalTicks;
 
-    public CombatNPC(CitizensExpansion expansion, NPC originalNPC, OfflinePlayer owner) {
-        this.expansion = Validate.notNull(expansion, "expansion must not be null!");
-        this.originalNPC = Validate.notNull(originalNPC, "originalNPC must not be null!");
-        this.ownerId = Validate.notNull(owner, "owner must not be null!").getUniqueId();
+    public CombatNPC(@NotNull CitizensExpansion expansion, @NotNull NPC originalNPC, @NotNull OfflinePlayer owner) {
+        super(expansion.getPlugin().getPlugin());
+        this.expansion = expansion;
+        this.originalNPC = originalNPC;
+        this.ownerId = owner.getUniqueId();
     }
 
     @Override
@@ -41,18 +42,18 @@ public final class CombatNPC extends BukkitRunnable {
         }
 
         CitizensExpansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("citizens.yml");
+        CitizensConfiguration configuration = expansion.getCitizensConfiguration();
 
-        if (configuration.getBoolean("stay-until-enemy-escape") && this.enemyId != null) {
+        if (configuration.isStayUntilEnemyEscapes() && this.enemyId != null) {
             Player player = Bukkit.getPlayer(this.enemyId);
-            ICombatManager combatManager = expansion.getPlugin().getCombatManager();
-            TagInformation tagInformation = combatManager.getTagInformation(player);
-
-            if (player != null && tagInformation != null) {
-                long timeLeftMillis = tagInformation.getMillisLeftCombined();
-                this.survivalTicks = (timeLeftMillis / 50L) + 1;
-                return;
+            if (player != null) {
+                ICombatManager combatManager = expansion.getPlugin().getCombatManager();
+                TagInformation tagInformation = combatManager.getTagInformation(player);
+                if (tagInformation != null) {
+                    long timeLeftMillis = tagInformation.getMillisLeftCombined();
+                    this.survivalTicks = (timeLeftMillis / 50L) + 1;
+                    return;
+                }
             }
         }
 
@@ -62,44 +63,42 @@ public final class CombatNPC extends BukkitRunnable {
 
     public void start() {
         resetSurvivalTime();
+        setDelay(1L);
+        setPeriod(1L);
 
-        ICombatLogX combatLogX = getCombatLogX();
-        JavaPlugin plugin = combatLogX.getPlugin();
-        runTaskTimerAsynchronously(plugin, 1L, 1L);
+        TaskScheduler scheduler = getCombatLogX().getFoliaHelper().getScheduler();
+        scheduler.scheduleTask(this);
     }
 
-    public NPC getOriginalNPC() {
+    public @NotNull NPC getOriginalNPC() {
         return this.originalNPC;
     }
 
-    public UUID getOwnerId() {
+    public @NotNull UUID getOwnerId() {
         return this.ownerId;
     }
 
-    public OfflinePlayer getOfflineOwner() {
+    public @NotNull OfflinePlayer getOfflineOwner() {
         UUID ownerId = getOwnerId();
         return Bukkit.getOfflinePlayer(ownerId);
     }
 
     public void resetSurvivalTime() {
         CitizensExpansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("citizens.yml");
-
-        long survivalSeconds = configuration.getLong("survival-time");
+        CitizensConfiguration configuration = expansion.getCitizensConfiguration();
+        long survivalSeconds = configuration.getSurvivalTime();
         this.survivalTicks = (survivalSeconds * 20L);
     }
 
-    public void setEnemy(Player enemy) {
-        Validate.notNull(enemy, "enemy must not be null!");
+    public void setEnemy(@NotNull Player enemy) {
         this.enemyId = enemy.getUniqueId();
     }
 
-    private CitizensExpansion getExpansion() {
+    private @NotNull CitizensExpansion getExpansion() {
         return this.expansion;
     }
 
-    private ICombatLogX getCombatLogX() {
+    private @NotNull ICombatLogX getCombatLogX() {
         CitizensExpansion expansion = getExpansion();
         return expansion.getPlugin();
     }

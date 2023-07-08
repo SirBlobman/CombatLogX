@@ -1,189 +1,343 @@
-language-name: tr_tr
-decimal-format: '0.00'
-prefix: <bold><white>[</white></bold><gold>CombatLogX</gold><bold><white>]
+---
+## Extra Information:
+## This is the default language file for CombatLogX.
+## The default language is "en_us", also known as English (United States).
+## Context will be added as YAML comments above the string.
+## The color scheme for messages is gold, white, and sometimes red.
+## Command feedback that is successful should always be green.
+## Error messages should always be red.
+## Variables in messages can be gray or white.
+## Messages use the MiniMessage format in non-strict mode.
+## More information about MiniMessage can be found here:
+## https://docs.adventure.kyori.net/minimessage/format.html
+#The language code for this file.
+language-name: "tr_T"
+#The format for decimal numbers.
+#The United States uses the number and two decimal places
+decimal-format: "0. 0"
+#The prefix for CombatLogX that is shown in front of all messages.
+#Note to translators: Do not change this message.
+prefix: "<bold><white>[</white></bold><gold>CombatLogX </gold><bold><white>]"
 broadcast:
-  on-load: <bold><green>CombatLogX başarıyla yüklendi.
-  on-enable: <bold><green>CombatLogX başarıyla etkinleştirildi.
-  on-disable: <bold><red>CombatLogX başarıyla devre dışı bırakıldı.
+  #Shown when the plugin is finished loading.
+  on-load: "<bold><green>CombatLogX başarıyla yüklendi"
+  #Shown when the plugin is finished enabling.
+  on-enable: "<bold><green>CombatLogX başarıyla etkinleştirildi.<bold><green>"
+  #Shown when the plugin is disabled for any reason.
+  on-disable: "<bold><red>CombatLogX başarıyla devre dışı bırakıldı.</bold></red>"
 placeholder:
-  time-left-zero: '0'
-  unknown-enemy: Bilinmeyen
+  #This text is used for the {combatlogx_time_left}
+  #This allows server configurations to change the display value of the zero to something like "Not in combat"
+  time-left-zero: "0 "
+  #This text is used when a player does not have an enemy.
+  #This can happen when players are tagged by a custom expansion or the tag command.
+  unknown-enemy: "Bilinmeyenn"
   status:
-    fighting: <red>Savaşıyor
-    idle: <green>Boşta
-    in-combat: <green>Evet
-    not-in-combat: <red>Hayır
+    #Shown when the player is in combat.
+    fighting: "<red>Savaşıyor<red>"
+    in-combat: "<green>Evet<green>"
+    #Shown when the player is not in combat
+    idle: "<green>Boşta<green>"
+    not-in-combat: "<red>Hayır<red>"
+  #These placeholders are shown when a player changes a value such as whether or not their bossbar is enabled.
   toggle:
-    enabled: <green>AÇIK
-    disabled: <red>KAPALI
+    enabled: "<green>AÇIK<green>"
+    disabled: "<red>KAPALI<red>"
   pvp-status:
-    enabled: <green>AÇIK
-    disabled: <red>KAPALI
+    enabled: "<green>AÇIK<green>"
+    disabled: "<red>KAPALI<red>"
 combat-timer:
-  expire: <green>Artık savaşta değilsin.
-  enemy-death: <green>Artık savaşta değilsin çünkü düşmanın öldü.
+  #Sent to a player when they escape from combat due to the timer running out.
+  expire: "<green>Artık savaşta değilsin.<green>"
+  #Sent to a player when they escape from combat due to their enemy being killed.
+  enemy-death: "<green>Artık savaşta değilsin çünkü düşmanın öldü.<green>"
+  #Sent when a player is killed during combat.
+  self-death: "<green>Artık savaşta değilsin çünkü düşmanın öldü<green>"
 error:
-  player-only: <red>Bu komutu sadece oyuncular kullanabilir.
-  invalid-target: <gray>{target}</gray><red> çevrimiçi değil ya da mevcut değil.
-  no-permission: '<red>Eksik Yetki: </red><gray>{permission}'
-  target-not-in-combat: <gray>{target}</gray><red> savaşta değil.
-  self-not-in-combat: <red>Savaşta değilsin.
-  unknown-expansion: <gray>{target}</gray><red> bir eklenti değil ya da yüklenmedi.
+  #Shown when the console tries to execute a command made for players.
+  player-only: "<red>Bu komutu sadece oyuncular kullanabilir.<red>"
+  #Shown when a command that requires a player has invalid input.
+  invalid-target: "<gray>{target}</gray><red> çevrimiçi değil ya da mevcut değil.</red>"
+  #Shown when a command that requires a number has invalid input.
+  invalid-integer: "<red><gray>{value}</gray>geçerli bir tamsayı değil.</red>"
+  #Shown when a player does not have access to something that requires a permission.
+  no-permission: "<red>Eksik Yetki:</red><gray>{permission}"
+  #Shown when a player executes a command in a world that is disabled in the configuration.
+  disabled-world: "<red>Bu komut bu boyutta mevcut değil. </red>"
+  #Shown when a command requires a player in combat but the target player is not in combat.
+  target-not-in-combat: "<gray>{target}</gray><red> savaşta değil"
+  #Shown when a player executes a command that requires them to be in combat.
+  self-not-in-combat: "<red>Savaşta değilsin.</red>"
+  #Shown when a command that requires an expansion has invalid input.
+  unknown-expansion: "<gray>{target}</gray><red> bir eklenti değil ya da yüklenmedi.</red>"
+  forgive-not-enemy: "<red><gray>{target}</gray> kimse düşmanın değil. </red>"
+  enemy-not-forgiving: "<red>Düşmanın seni affedecek havasında değil. </red>"
 command:
   combatlogx:
+    #Shown as the command output for '/combatlogx help'.
     help-message-list:
-      - <white>
-      - '<bold><gold>CombatLogX Komut Yardım:'
-      - '  <bold><white>/combatlogx help</white></bold><gray>: Yardım sayfasını görüntüler.'
-      - '  <bold><white>/combatlogx reload</white></bold><gray>: config.yml, language.yml
-      ve bütün eklentilerin konfigürasyon dosyalarını yeniden yükler.'
-      - '  <bold><white>/combatlogx about \<expansion></white></bold><gray>: Eklentiyle
-      ilgili bilgileri kontrol eder.'
-      - '  <bold><white>/combatlogx tag \<player></white></bold><gray>: Oyuncuyu zorla
-      savaşa sokar.'
-      - '  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>:
-      Bildirim tipini etkinleştirir ya da devre dışı bırakır.'
-      - '  <bold><white>/combatlogx untag \<player></white></bold><gray>: Hedef oyuncuyu
-      savaş durumundan çıkarır.'
-      - '  <bold><white>/combatlogx version</white></bold><gray>: CombatLogX sürümünüzü
-      kontrol eder.'
-      - <white>
+      - ""
+      - "<bold><gold>CombatLogX Komut Yardım"
+      - "  <bold><white>/combatlogx help </white></bold><gray>: Yardım sayfasını görüntüler"
+      - "  <bold><white>/combatlogx reload </white></bold><gray>: config.yml, language.yml ve bütün eklentilerin konfigürasyon dosyalarını yeniden yükler"
+      - "  <bold><white>/combatlogx about \\<expansion></white></bold><gray>: Eklentiyle ilgili bilgileri kontrol eder"
+      - "  <bold><white>/combatlogx tag \\<player>[seconds]</white></bold><gray>: Oyuncuyu zorla savaşa sokar"
+      - "  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard </white></bold><gray>: Bildirim tipini etkinleştirir ya da devre dışı bırakır"
+      - "  <bold><white>/combatlogx untag \\<player></white></bold><gray>: Hedef oyuncuyu savaş durumundan çıkarır"
+      - "  <bold><white>/combatlogx version </white></bold><gray>: CombatLogX sürümünüzü kontrol eder"
+      - "  <white><bold>/combatlogx forgive request \\<player></bold></white><gray>: Bir düşmana etiketini sizden kaldırması için istek gönderin.</gray>"
+      - "  <white><bold>/combatlogx allow accept\\<player></bold></white><gray>: Bir düşmanın savaştan kaçma isteğine izin ver.</gray>"
+      - "  <white><bold>/combatlogxaffet reddetme \\<player></bold></white><gray>: Bir düşmanın savaştan kaçma isteğini dikkate almayın!</gray>"
+      - "  <white><bold>/combatlogx forgive toggle</bold></white><gray>: Savaşı durdurma isteklerini etkinleştirin veya devre dışı bırakın!</gray>"
+      - ""
+    #Shown as the command output for '/combatlogx reload' when reloading is successful.
     reload-success:
-      - <green>CombatLogX konfigürasyon dosyaları başarıyla yenilendi.
-      - <green>CombatLogX dil dosyaları başarıyla yenilendi.
-      - <green>CombatLogX eklentilerinin konfigürasyon dosyaları başarıyla yenilendi.
-    tag-player: <green>Oyuncu </green><gray>{target}</gray><green> başarıyla savaşa
-      zorlandı.
-    tag-failure: Hedef <gray>{target}</gray><red> savaşta yerleştiremez. (Belki bypass
-      yetkisine sahiptir?)
-    untag-player: <green>Hedef </green><gray>{target} </gray><green> başarıyla savaştan
-      çıkarıldı.
-    toggle-bossbar: '<bold><gray>Boss Bar: {status}'
-    toggle-actionbar: '<bold><gray>Action Bar: {status}'
-    toggle-scoreboard: '<gray>Scoreboard: {status}'
+      - "<green>CombatLogX konfigürasyon dosyaları başarıyla yenilendi"
+      - "<green>CombatLogX dil dosyaları başarıyla yenilendi.<green>"
+      - "<green>CombatLogX eklentilerinin konfigürasyon dosyaları başarıyla yenilendi.<green>"
+    #Shown as the command output for '/combatlogx reload' when reloading fails
+    reload-failure:
+      - "<red> Yapılandırma yeniden yüklenirken bir hata oluştu.</red>"
+      - "<red> Lütfen sunucu günlüğünüzü kontrol edin ve bozulan dosyayı düzeltin.</red>"
+    #Shown as the command output for '/combatlogx tag <player>' when a player is tagged successfully.
+    tag-player: "<green>Oyuncu </green><gray>{target}</gray><green> başarıyla savaşa zorlandı"
+    #Shown as the command output for '/combatlogx tag <player>' when the plugin failed to tag a player.
+    tag-failure: "Hedef <gray>{target}</gray><red> savaşta yerleştiremez. (Belki bypass yetkisine sahiptir)"
+    #Shown as the command output for '/combatlogx untag <player>'.
+    untag-player: "<green>Hedef </green><gray>{target} </gray><green> başarıyla savaştan çıkarıldı"
+    #Shown as the command output for '/combatlogx toggle bossbar'.
+    toggle-bossbar: "<bold><gray>Boss Bar:<bold><gray>{status}"
+    #Shown as the command output for '/combatlogx toggle actionbar'.
+    toggle-actionbar: "<gray><bold>Action Bar: </bold></gray> {status}"
+    #Shown as the command output for '/combatlogx toggle scoreboard'.
+    toggle-scoreboard: "<gray><bold>Scoreboard: </bold></gray> {status}"
+    forgive:
+      toggle-disable: "<green>Artık af talepleri alamazsınız </green>"
+      toggle-enable: "<green>Artık af talepleri alabilirsiniz </green>"
+      request-sent: "<green><gray>{target}</gray>'e bir affetme isteği gönderdiniz! </green>"
+      request-receive:
+        - "<green><gray>{player}</gray> size bir bağışlama isteği gönderdi! </green>"
+        - "<green><click:run_command:/combatlogx forgive accept><gray>allow accept><gray>/clx affet kabul</gray></click> yazın veya.</"
+        - "Reddetmek için <green><click:run_command:/combatlogx forgive reject><gray>/clx affet reddetme</gray></click>.</green>"
   combat-timer:
-    time-left-self: <green>Kalan zamanınız </green><gray>{time_left}.
-    time-left-other: <green>Hedef </green><gray>{target} </gray><green>kalan zamanı
-      </green><gray>{time_left}.
+    #Shown as the command output for '/combat-timer'.
+    time-left-self: "<green><gray>{time_left}</gray> saniyeniz kaldı! </green>"
+    #Shown as the command output for '/combat-timer <player>'.
+    time-left-other: "<green>Hedef </green><gray>{target} </gray><green>kalan zamanı</green><gray>{time_left}"
+#These messages are shown a player is tagged into combat.
+#You can also change the location of these messages.
+#Example:
+#tagged:
+#attacked:
+#player:
+#type: ACTION_BAR
+#content: "<message here>"
 tagged:
-  unknown: <red>Artık savaştasın! Oturumu kapatma.
+  unknown:
+    player: "<red>Bilinmeyen bir nedenle şu anda<white>{enemy}</white> ile savaş halindesiniz! Oturumu kapatmayın!</red>"
+    mob: "<red>Şu anda bir(n)<white>{enemy}</white> ile bilinmeyen bir nedenle savaş halindesiniz. Oturumu kapatmayın! </red>"
+    mythic_mob: "<red>Şu anda bilinmeyen bir nedenle bir(n) <white>{mob_type}</white>ile savaş halindesiniz. Oturumu kapatmayın.</red>"
+    damage: "<red>Artık hasar aldığınız için savaştasın. Oturumu kapatmayın\n</red>"
+    unknown: "<red>Sebepsiz yere çatışmaya girdin Oturumu kapatmayın!</red>"
   attacked:
-    player: <white>{enemy} </white><red> tarafından saldırıya uğradın. Oturumu kapatma!
-    mob: <white>{mob_type}</white><red> tarafından saldırıya uğradın. Oturumu kapatma!
+    player: "<white>{enemy} </white><red>tarafından saldırıya uğradın. Oturumu kapatma"
+    mob: "<white>{mob_type}</white><red>tarafından saldırıya uğradın. Oturumu kapatma"
+    mythic_mob: "<red>Bir(n)<white>{enemy}</white> tarafından saldırıya uğruyorsunuz! Oturumu kapatmayın!</red>"
+    damage: "<red> Artık hasar aldığınız için savaştasın. Oturumu kapatmayın!</red>"
+    unknown: "<red> Bilinmeyen bir güç tarafından saldırıya uğruyorsun. Oturumu kapatmayın!</red>"
   attacker:
-    player: <white>{enemy}</white><red> adlı oyuncuya saldırıyorsun. Oturumu kapatma!
-    mob: <white>{mob_type}</white><red> adlı canlıya saldırıyorsun. Oturumu kapatma!
+    player: "<white>{enemy}</white><red> adlı oyuncuya saldırıyorsun. Oturumu kapatma!</red>"
+    mob: "<white>{mob_type}</white><red>adlı canlıya saldırıyorsun. Oturumu kapatma!<red>"
+    mythic_mob: "<red>Bir(n)<white>{enemy}</white>'a saldırıyorsun. Oturumu kapatmayın!</red>"
+    damage: "<red>Artık hasar aldığınız için savaştasın. Oturumu kapatmayın! </red>"
+    unknown: "<red>Bilinmeyen bir güce saldırıyorsun. Oturumu kapatmayın! </red>"
 expansion:
+  angel-chest:
+    #Shown when opening an AngelChest is prevented during combat.
+    prevent-opening: "<red>Savaş sırasında melek sandıklarını açmanıza izin verilmiyor! </red>"
+    #Shown when breaking an AngelChest is prevented during combat.
+    prevent-breaking: "<red>Savaş sırasında melek sandıklarını kırmanıza izin verilmez!</red>"
+    #Shown when fast looting an AngelChest is prevented during combat.
+    prevent-fast-looting: "<red>Savaş sırasında hızlı bir şekilde melek sandıklarını yağmalamanıza izin verilmez!</red>"
+  action-bar:
+    #Shown above the hotbar while a player is in combat.
+    timer: "<bold><gold>Savaş</gold> <gray>\u00BB</gray></bold> <white>{bars} <red>{combatlogx_time_left}</red>saniye.</white>"
+    #Shown above the hotbar for a brief period when combat ends.
+    ended: "<bold><gold>Savaş</gold> <gray>\u00BB</gray></bold> <white>Artık savaşta değilsiniz!</white>"
+  boss-bar:
+    #Shown on top of the screen while a player is in combat.
+    timer: "<bold><gold>Savaş</gold> <gray>\u00BB</gray></bold> <white><red>{combatlogx_time_left}</red> saniye!</white>"
+    #Shown on top of the screen for a brief period when combat ends.
+    ended: "<bold><gold>Savaş</gold> <gray>\u00BB</gray></bold> <white>Artık savaşta değilsiniz!</white>"
+  scoreboard:
+    #The scoreboard title for the sidebar.
+    #Make sure to follow the scoreboard title limits for your Spigot version.
+    title: "<gold><bold>CombatLogX!</bold></gold>"
+    #The scoreboard lines for the sidebar.
+    #Make sure to follow the scoreboard line and character limits for your Spigot version.
+    lines:
+      - " "
+      - "<white><bold>Savaş İstatistikleri: </bold></white>"
+      - "<dark_gray>\u00BB</dark_gray> <white><bold>Kalan Süre: </bold></white> <gray>{combatlogx_time_left}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <white><bold>Enemies:</bold></white> <gray>{combatlogx_enemy_count}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <white><bold>durum:</bold></white> <gray>{combatlogx_status}</gray>"
+      - " "
+      - "<white><bold>Düşmanlar </bold></white>"
+      - "<dark_gray>\u00BB</dark_gray> <gray>{combatlogx_specific_enemy_1_name}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <gray>{combatlogx_specific_enemy_2_name} </gray>"
+      - "<dark_gray>\u00BB</dark_gray> <gray>{combatlogx_specific_enemy_3_name} </gray>"
+      - " "
   cheat-prevention:
-    command-blocked: <red>Savaş sırasında </red><green>{command} </green><red>komutuna
-      erişemezsiniz.
-    no-riptide: <red>Savaş sırasında girdap büyüsü devre dışı bırakıldı.
-    no-totem: <red>Savaş sırasında ölmeme totemi kullanmanıza izin verilmiyor.
-    no-entity-interaction: <red>Savaş sırasında bu canlıyla etkileşime girmenize izin
-      verilmiyor.
-    no-chat: <red>Savaş sırasında sohbete mesaj göndermenize izin verilmiyor.
+    #Shown when a command execution is prevented during combat.
+    command-blocked: "<red>Savaş sırasında </red>{command} \n<red>komutuna erişemezsiniz"
+    #Shown when the riptide effect is prevented during combat.
+    no-riptide: "<red>Savaş sırasında girdap büyüsü devre dışı bırakıldı"
+    #Shown when a totem of undying is prevented during combat.
+    no-totem: "<red> Savaş sırasında ölmeme totemi kullanmanıza izin verilmiyor"
+    #Shown when an entity interaction is prevented during combat.
+    no-entity-interaction: "<red>Savaş sırasında bu canlıyla etkileşime girmenize izin verilmiyor.</red>"
+    #Shown when a chat message is prevented during combat.
+    no-chat: "<red>Savaş sırasında sohbete mesaj göndermenize izin verilmiyor. </red>"
     game-mode:
-      force-switch: <red>Oyun modunuz </red><white>{game_mode}</white><red> olarak
-        değiştirildi.
-      no-switch: <red>Savaş sırasında oyun modunuzu değiştirmenize izin verilmiyor.
+      #Shown when a player is forced into a specific game mmode during combat.
+      force-switch: "<red>Oyun modunuz </red></gray>{game_mode}</gray><red> olarak değiştirildi"
+      #Shown when a game mode switch is prevented during combat.
+      no-switch: "<red>Savaş sırasında oyun modunuzu değiştirmenize izin verilmiyor"
     flight:
-      force-disabled: <red>Uçma yeteneğiniz kaldırıldı.
-      no-flying: <red>Savaş sırasında uçmanıza izin verilmiyor.
+      #Shown when a player's ability to fly is disabled during combat.
+      force-disabled: "<red>Uçma yeteneğiniz kaldırıldı"
+      #Shown when a player's attempt to fly is prevented during combat.
+      no-flying: "<red>Savaş sırasında uçmanıza izin verilmiyor"
     elytra:
-      force-disabled: <red>Elytranız devre dışı bırakıldı.
-      no-gliding: <red>Savaş sırasında elytra kullanmanıza izin verilmiyor.
+      #Shown when a player's ability to glide is disabled during combat.
+      force-disabled: "<red>Elytranız devre dışı bırakıldı"
+      #Shown when a player's attempt to glide is prevented during combat.
+      no-gliding: "<red>Savaş sırasında elytra kullanmanıza izin verilmiyor"
     teleportation:
-      block-portal: <red>Savaş sırasında portal kullanmanıza izin verilmiyor.
-      block-pearl: <red>Savaş sırasında ender pearl kullanmanıza izin verilmiyor.
-      block-other: <red>Savaş sırasında ışınlanmanıza izin verilmiyor.
+      #Shown when a player tries to enter a portal and is prevented during combat.
+      block-portal: "<red>Savaş sırasında portal kullanmanıza izin verilmiyor"
+      #Shown when an ender pearl is prevented during combat.
+      block-pearl: "<red>Savaş sırasında ender pearl kullanmanıza izin verilmiyor"
+      #Shown when a teleport is prevented during combat.
+      block-other: "<red>Savaş sırasında ışınlanmanıza izin verilmiyor"
     inventory:
-      force-closed: <red>Envanteriniz kapatıldı.
-      no-opening: <red>Savaş sırasında envanterleri açmanıza izin verilmiyor.
+      #Shown when a player's inventory is closed by the plugin during combat.
+      force-closed: "<red>Envanteriniz kapatıldı"
+      #Shown when a player tries to open an inventory and is prevented during combat.
+      no-opening: "<red>Savaş sırasında envanterleri açmanıza izin verilmiyor"
     blocks:
-      prevent-breaking: <red>Savaş sırasında blokları kırmanıza izin verilmiyor.
-      prevent-placing: <red>Savaş sırasında blokları yerleştirmenize izin verilmiyor.
-      prevent-interaction: <red>Savaş sırasında blokları kullanmanıza izin verilmiyor.
-      prevent-portal-creation: <red>Savaş sırasında portal oluşturmanıza izin verilmiyor.
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-breaking: "<red>Savaş sırasında blokları kırmanıza izin verilmiyor"
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-placing: "<red>Savaş sırasında blokları yerleştirmenize izin verilmiyor"
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-interaction: "<red>Savaş sırasında blokları kullanmanıza izin verilmiyor"
+      #Shown when a player is prevented from breaking a block during combat.
+      prevent-portal-creation: "<red>Savaş sırasında portal oluşturmanıza izin verilmiyor"
     items:
-      no-pickup: <red>Savaş sırasında eşyaları almanıza izin verilmiyor.
-      no-dropping: <red>Savaş sırasında eşyaları atmanıza izin verilmiyor.
+      #Shown when a player is prevented from picking up an item during combat.
+      no-pickup: "<red>Savaş sırasında eşyaları almanıza izin verilmiyor"
+      #Shown when a player is prevented from dropping an item during combat.
+      no-dropping: "<red>Savaş sırasında eşyaları atmanıza izin verilmiyor"
     buckets:
-      no-empty: <red>Savaş sırasında kovaları boşaltmanıza izin verilmiyor.
-      no-fill: <red>Savaş sırasında kovaları doldurmanıza izin verilmiyori.
+      #Shown when a player is prevented from emptying a bucket during combat.
+      no-empty: "<red>Savaş sırasında kovaları boşaltmanıza izin verilmiyor"
+      #Shown when a player is prevented from filling a bucket during combat.
+      no-fill: "<red>Savaş sırasında kovaları doldurmanıza izin verilmiyori"
   damage-tagger:
-    unknown-damage: <red>Hasar aldın! Oturumu kapatma!
+    #Shown when a player is tagged for an unknown damage type.
+    unknown-damage: "<red>Hasar aldın! Oturumu kapatma"
+    #These messages are shown when a player is tagged for a known damage type.
+    #You can find a list of damage types here:
+    #https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/EntityDamageEvent.DamageCause.html
     damage-type:
-      contact: <red>Kaktüs tarafından delindin. Oturumu kapatma!
-      suffocation: <red>Duvarda sıkıştın. Oturumu kapatma!
-      fall: <red>Düşme hasarı aldın. Oturumu kapatma!
-      fire: <red>Ateşe yürüdün. Oturumu kapatma!
-      fire-tick: <red>Yanıyorsun. Oturumu kapatma!
-      lava: <red>Lavda eriyorsun. Oturumu kapatma!
-      drowning: <red>Boğuluyorsun. Oturumu kapatma!
-      block-explosion: <red>Patlama tarafından hasar aldın. Oturumu kapatma!
-      lightning: <red>Başına şimşek düştü! Oturumu kapatma!
-      starvation: <red>Çok açsın. Oturumu kapatma!
-      poison: <red>Zehir hasarı aldın. Oturumu kapatma!
-      magic: <red>Birileri sana bir iksir fırlattı. Oturumu kapatma!
-      wither: <red>Soluyorsun. Oturumu kapatma!
-      falling-block: <red>Kafana bir blok düştü. Oturumu kapatma!
-      custom: <red>Bilinmeyen bir hasar aldın. Oturumu kapatma!
-      fly-into-wall: <red>Kinetik enerjiyi tecrübe ettin. Oturumu kapatma!
-      hot-floor: <red>Zemin lavdan! Oturumu kapatmayın!
-      cramming: <red>Eziliyorsun. Oturumu kapatma!
+      contact: "<red>Kaktüs tarafından delindin. Oturumu kapatma"
+      suffocation: "<red>Duvarda sıkıştın. Oturumu kapatma"
+      fall: "<red>Düşme hasarı aldın. Oturumu kapatma"
+      fire: "<red>Ateşe yürüdün. Oturumu kapatma"
+      fire-tick: "<red>Yanıyorsun. Oturumu kapatma"
+      lava: "<red>Lavda eriyorsun. Oturumu kapatma"
+      drowning: "<red>Boğuluyorsun. Oturumu kapatma"
+      block-explosion: "<red>Patlama tarafından hasar aldın. Oturumu kapatma"
+      lightning: "<red>Başına şimşek düştü! Oturumu kapatma"
+      starvation: "<red>Çok açsın. Oturumu kapatma"
+      poison: "<red>Zehir hasarı aldın. Oturumu kapatma"
+      magic: "<red>Birileri sana bir iksir fırlattı. Oturumu kapatma"
+      wither: "<red>Soluyorsun. Oturumu kapatma"
+      falling-block: "<red>Kafana bir blok düştü. Oturumu kapatma"
+      custom: "<red>Bilinmeyen bir hasar aldın. Oturumu kapatma"
+      fly-into-wall: "<red>Kinetik enerjiyi tecrübe ettin. Oturumu kapatma"
+      hot-floor: "<red>Zemin lavdan! Oturumu kapatmayın"
+      cramming: "<red>Eziliyorsun. Oturumu kapatma"
   newbie-helper:
     togglepvp:
-      self: '<gray>PVP: {status}'
-      admin: <gray>Hedef oyuncu </gray><yellow>{target}</yellow><gray> pvp'sini {status}</gray><gray>
-        olarak değiştirdiniz.
-      cooldown: <red>Bu komutu tekrar kullanmadan önce </red><gray>{time_left} saniye
-        </gray><red>beklemelisin.
+      #Shown as the command output for '/togglepvp'.
+      self: "<gray>PVP:</gray>{status}"
+      #Shown as the command output for '/togglepvp admin on/off <player>'.
+      admin: "<gray>Hedef oyuncu </gray><yellow>{target}</yellow><gray> pvp'sini {status}</gray><gray> olarak değiştirdiniz"
+      #Shown when the '/togglepvp' command is on cooldown.
+      cooldown: "<red>Bu komutu tekrar kullanmadan önce </red><gray>{time_left} saniye </gray><red>beklemelisin"
+    #These messages are shown when pvp is disabled for any reason.
     no-pvp:
-      self: <red>PvP'niz kapalıyken oyunculara vurmanıza izin verilmiyor.
-      other: <red>Hedef oyuncunun PvP'si devre dışı.
-      protected: <red>Hedef oyuncu korunuyor, ona şu an dokunamazsın!
+      self: "<red>PvP'niz kapalıyken oyunculara vurmanıza izin verilmiyor"
+      other: "<red>Hedef oyuncunun PvP'si devre dışı"
+      protected: "<red>Hedef oyuncu korunuyor, ona şu an dokunamazsın"
     protection-disabled:
-      attacker: <red>Birilerine saldırdın, yeni oyuncu koruman devre dışı bırakıldı.
-      expired: <red>Yeni oyuncu korumanızın süresi doldu.
+      #Shown when newbie protection is disabled due to the player attacking another player.
+      attacker: "<red>Birilerine saldırdın, yeni oyuncu koruman devre dışı bırakıldı"
+      #Shown when newbie protection expires.
+      expired: "<red>Yeni oyuncu korumanızın süresi doldu"
+    #Shown for the '/togglepvp check <player>' command.
     check-format:
-      - '<bold><white>Bilgilendirme </white></bold><gray>{target}</gray><bold><white>:'
-      - '<bold><white>Koruma: </white></bold><gray>{protected}'
-      - '<bold><white>PvP: </white></bold><gray>{pvp}'
+      - "<bold><white>Bilgilendirme </white></bold><gray>{target}</gray><bold><white>"
+      - "<bold><white>Koruma:</white></bold><gray>{protected}"
+      - "<bold><white>PvP:</white></bold><gray>{pvp}"
   loot-protection:
-    enemy-died: <white>{enemy} </white><green>öldü. Ganimetler </green><white>{time}
-      saniye </white><green>boyunca korunacaktır.
-    protected: <red>Bu eşya şu anda korunuyor, lütfen eşyayı almadan önce </red><white>{time}
-      saniye</white><red> bekleyin.
+    #Shown when an enemy dies and their loot is protected.
+    enemy-died: "<white>{enemy} </white><green>öldü. Ganimetler </green><white>{time} saniye </white><green>boyunca korunacaktır"
+    #Shown when a player tries to pick up an item that is loot protected by the plugin.
+    protected: "<red>Bu eşya şu anda korunuyor, lütfen eşyayı almadan önce </red><white>{time} saniye</white><red> bekleyin"
   citizens-compatibility:
-    prevent-join: <red>NPC'niz ölüyken ya da geri çağırılmışken sunucuya katılmanıza
-      izin verilmiyor.
+    #Shown when a player is prevented from joining the server due to their NPC still existing.
+    prevent-join: "<red>NPC'niz ölüyken ya da geri çağırılmışken sunucuya katılmanıza izin verilmiyor"
   disguise-compatibility:
-    remove-disguise: <red>Kamuflajınız kaldırıldı.
+    #Shown when a disguise is removed from a player during combat.
+    remove-disguise: "<red>Kamuflajınız kaldırıldı"
   essentials-compatibility:
-    prevent-teleport-request-self: <red>Savaş sırasında ışınlanma isteği oluşturamazsınız.
-    prevent-teleport-request-other: <red>Savaş sırasında bir oyuncuya ışınlanma isteği
-      gönderemezsiniz.
+    #Shown when a teleport request is cancelled during combat.
+    prevent-teleport-request-self: "<red>Savaş sırasında ışınlanma isteği oluşturamazsınız"
+    #Shown when a teleport request is cancelled during combat.
+    prevent-teleport-request-other: "<red>Savaş sırasında bir oyuncuya ışınlanma isteği gönderemezsiniz"
+  marriagemaster-compatibility:
+    #Shown when a married player is prevented from teleporting to their partner during combat.
+    prevent-teleport-self: "<red>Savaş sırasında partnerinize ışınlanmanıza izin verilmiyor!</red>"
+    #Shown when a married player is prevented from teleporting to their partner during combat.
+    prevent-teleport-partner: "<red>Ortağınız savaş halindeyken ona ışınlanmanıza izin verilmez. </red>"
+  huskhomes-compatibility:
+    prevent-teleport: "<red>Savaş sırasında ışınlanmanıza izin verilmiyor"
   region-protection:
-    factions-no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor.
-    griefdefender-no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor.
-    griefprevention-no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor.
-    kingdomsx-no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor.
-    lands-no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor.
+    #Shown when a player tries to enter a no-pvp area during combat.
+    default-no-entry: "<red>Savaş sırasında o bölgeye girmenize izin verilmiyor. </red>"
+    factions-no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor
+    griefdefender-no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor
+    griefprevention-no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor
+    kingdomsx-no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor
     konquest-no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor.
     redprotect-no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor.
     residence-no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor.
     towny-no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor.
+    husktowns-no-entry: <red>Savaş sırasında o bölgeye girmenize izin verilmiyor.</red>
     ultimateclaims-no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor.
     protectionstones:
-      prevent-area-creation: <red>Savaş sırasında bu alana girmenize izin verilmiyor.
+      prevent-area-creation: "<red>Savaş sırasında bu alana girmenize izin verilmiyor."
       no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor.
     preciousstones:
-      prevent-field-creation: <red>Savaş sırasında koruma alanı oluşturmanıza izin
-        verilmiyor.
+      prevent-field-creation: "<red>Savaş sırasında koruma alanı oluşturmanıza izin verilmiyor."
       no-entry: <red>Savaş sırasında bu alana girmenize izin verilmiyor.
     worldguard:
-      no-entry-mob-combat: <red>Savaş sırasında non-mob-combat alanına girmenize izin
-        verilmiyor.
-      no-entry-player-combat: <red>Savaş sırasında non-player-combat alanına girmenize
-        izin verilmiyor.
+      no-entry-mob-combat: "<red>Savaş sırasında non-mob-combat alanına girmenize izin verilmiyor."
+      no-entry-player-combat: "<red>Savaş sırasında non-player-combat alanına girmenize izin verilmiyor."
       no-entry-unknown-combat: <red>Savaş sırasında bu alanına girmenize izin verilmiyor.
+    lands:
+      no-entry: <red>Savaş sırasında o bölgeye girmenize izin verilmiyor.</red>
+      war-disable-newbie-protection: "<red>Bir savaş ilanı nedeniyle PvP artık zorla etkinleştirildi.</red>"

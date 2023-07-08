@@ -4,15 +4,10 @@ java {
 }
 
 repositories {
-    maven {
-        name = "codemc-public"
-        url = uri("https://repo.codemc.io/repository/maven-public/")
-    }
+    maven("https://repo.codemc.io/repository/maven-public/")
 }
 
 dependencies {
-    compileOnly("world.bentobox:bentobox:1.22.0-SNAPSHOT")
-
-    // -SNAPSHOT required since 1.15.2 has a bad version error.
-    compileOnly("world.bentobox:bskyblock:1.15.2-SNAPSHOT")
+    compileOnly("world.bentobox:bentobox:1.23.0-SNAPSHOT") // BentoBox
+    compileOnly("world.bentobox:bskyblock:1.15.2-SNAPSHOT") // BSkyBlock
 }

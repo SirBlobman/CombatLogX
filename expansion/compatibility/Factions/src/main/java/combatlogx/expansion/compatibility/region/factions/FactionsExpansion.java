@@ -1,5 +1,7 @@
 package combatlogx.expansion.compatibility.region.factions;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.sirblobman.api.factions.FactionsHandler;
@@ -9,10 +11,10 @@ import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 
 public final class FactionsExpansion extends RegionExpansion {
-    private RegionHandler regionHandler;
+    private RegionHandler<?> regionHandler;
     private FactionsHandler factionsHandler;
 
-    public FactionsExpansion(ICombatLogX plugin) {
+    public FactionsExpansion(@NotNull ICombatLogX plugin) {
         super(plugin);
         this.regionHandler = null;
         this.factionsHandler = null;
@@ -29,15 +31,15 @@ public final class FactionsExpansion extends RegionExpansion {
     }
 
     @Override
-    public RegionHandler getRegionHandler() {
+    public @NotNull RegionHandler<?> getRegionHandler() {
         if (this.regionHandler == null) {
-            this.regionHandler = new FactionsRegionHandler(this);
+            this.regionHandler = new RegionHandlerFactions(this);
         }
 
         return this.regionHandler;
     }
 
-    public FactionsHandler getFactionsHandler() {
+    public @NotNull FactionsHandler getFactionsHandler() {
         return this.factionsHandler;
     }
 }

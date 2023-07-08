@@ -1,26 +1,26 @@
 package combatlogx.expansion.scoreboard.scoreboard;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.Team;
 
-import com.github.sirblobman.api.utility.Validate;
-
 public final class CustomLine {
-    private final ChatColor chatColor;
+    private final ChatColor color;
     private final Team team;
     private final int line;
 
-    public CustomLine(ChatColor chatColor, Team team, int line) {
-        this.chatColor = Validate.notNull(chatColor, "chatColor must not be null!");
-        this.team = Validate.notNull(team, "team must not be null!");
+    public CustomLine(@NotNull ChatColor color, @NotNull Team team, int line) {
+        this.color = color;
+        this.team = team;
         this.line = line;
     }
 
-    public ChatColor getChatColor() {
-        return this.chatColor;
+    public @NotNull ChatColor getColor() {
+        return this.color;
     }
 
-    public Team getTeam() {
+    public @NotNull Team getTeam() {
         return this.team;
     }
 

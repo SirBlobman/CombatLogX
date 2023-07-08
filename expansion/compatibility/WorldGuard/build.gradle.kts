@@ -1,34 +1,33 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
-    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 repositories {
-    maven {
-        name = "codemc-public"
-        url = uri("https://repo.codemc.io/repository/maven-public/")
-    }
+    maven("https://repo.codemc.io/repository/maven-public/")
 }
 
 dependencies {
-    implementation("org.codemc.worldguardwrapper:worldguardwrapper:1.2.0-SNAPSHOT")
+    implementation("org.codemc.worldguardwrapper:worldguardwrapper:1.2.1-SNAPSHOT")
 }
 
 tasks {
-    named<Jar>("jar") {
+    named("jar") {
         enabled = false
     }
 
     named<ShadowJar>("shadowJar") {
+        val expansionName = findProperty("expansion.name") ?: "invalid"
+        val expansionPrefix = findProperty("expansion.prefix") ?: expansionName
+        archiveFileName.set("$expansionPrefix.jar")
         archiveClassifier.set(null as String?)
-        val expansionName = findProperty("expansion.name") ?: project.name
-        archiveFileName.set("$expansionName.jar")
 
-        relocate("org.codemc.worldguardwrapper", "combatlogx.expansion.compatibility.region.world.guard.wrapper")
+        val basePath = "combatlogx.expansion.compatibility.region.world.guard"
+        relocate("org.codemc.worldguardwrapper", "$basePath.wrapper")
     }
 
-    build {
-        dependsOn(shadowJar)
+    named("build") {
+        dependsOn("shadowJar")
     }
 }

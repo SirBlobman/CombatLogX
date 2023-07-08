@@ -6,5 +6,6 @@ enabled: true
 # Otherwise, the main server scoreboard will be restored instead.
 save-previous: true
 
-# How often (in ticks) should the scoreboard update?
-update-period: 5
+## Reminder:
+## The scoreboard title format and list of lines are in your selected language file
+## (Default: en_us.lang.yml)

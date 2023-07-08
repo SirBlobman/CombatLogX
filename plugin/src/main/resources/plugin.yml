@@ -1,12 +1,14 @@
-name: "${bukkit.plugin.name}"
-prefix: "${bukkit.plugin.prefix}"
-description: "${bukkit.plugin.description}"
-website: "${bukkit.plugin.website}"
+name: "${pluginName}"
+prefix: "${pluginPrefix}"
+description: "${pluginDescription}"
+website: "${pluginWebsite}"
 
-main: "${bukkit.plugin.main}"
-version: "${bukkit.plugin.version}"
+main: "${pluginMainClass}"
+version: "${pluginVersion}"
 api-version: "1.13"
 load: "POSTWORLD"
+
+folia-supported: true
 
 authors:
   - "SirBlobman"
@@ -17,16 +19,18 @@ depend:
 softdepend:
   - "AngelChest"
   - "ASkyBlock"
-  - "AnimatedNames"
-  - "BentoBox"
+  - "BentoBox" # BSkyBlock is an addon of BentoBox, not a plugin.
   - "Citizens"
   - "CMI"
   - "CrackShot"
+  - "CrashClaim"
   - "Essentials"
   - "FabledSkyBlock"
   - "FeatherBoard"
+  - "FlagWar" # Part of Towny
   - "GriefDefender"
   - "GriefPrevention"
+  - "HuskHomes"
   - "HuskSync"
   - "HuskTowns"
   - "iDisguise"
@@ -42,7 +46,7 @@ softdepend:
   - "PreciousStones"
   - "PremiumVanish"
   - "ProtectionStones"
-  - "ProtocolLib"
+  - "ProtocolLib" # Force Field
   - "RedProtect"
   - "Residence"
   - "Sentinel"

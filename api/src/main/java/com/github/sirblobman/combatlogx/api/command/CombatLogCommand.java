@@ -3,77 +3,53 @@ package com.github.sirblobman.combatlogx.api.command;
 import java.util.Collections;
 import java.util.List;
 
-import org.bukkit.Location;
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Entity;
 
 import com.github.sirblobman.api.command.Command;
-import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.configuration.MainConfiguration;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
-
-import org.jetbrains.annotations.NotNull;
 
 public abstract class CombatLogCommand extends Command {
     private final ICombatLogX plugin;
 
-    public CombatLogCommand(ICombatLogX plugin, String commandName) {
+    public CombatLogCommand(@NotNull ICombatLogX plugin, @NotNull String commandName) {
         super(plugin.getPlugin(), commandName);
         this.plugin = plugin;
     }
 
-    @NotNull
-    @Override
-    protected final LanguageManager getLanguageManager() {
-        return this.plugin.getLanguageManager();
+    protected final @NotNull ICombatLogX getCombatLogX() {
+        return this.plugin;
     }
 
     @Override
-    protected List<String> onTabComplete(CommandSender sender, String[] args) {
+    protected final @NotNull LanguageManager getLanguageManager() {
+        ICombatLogX plugin = getCombatLogX();
+        return plugin.getLanguageManager();
+    }
+
+    @Override
+    protected @NotNull List<String> onTabComplete(@NotNull CommandSender sender, String @NotNull [] args) {
         return Collections.emptyList();
     }
 
     @Override
-    protected boolean execute(CommandSender sender, String[] args) {
+    protected boolean execute(@NotNull CommandSender sender, String @NotNull [] args) {
         return false;
     }
 
-    protected final ICombatLogX getCombatLogX() {
-        return this.plugin;
-    }
-
-    protected final ExpansionManager getExpansionManager() {
+    protected final @NotNull ExpansionManager getExpansionManager() {
         ICombatLogX plugin = getCombatLogX();
         return plugin.getExpansionManager();
     }
 
-    protected final boolean isWorldDisabled(Entity entity) {
-        Location location = entity.getLocation();
-        return isWorldDisabled(location);
-    }
-
-    protected final boolean isWorldDisabled(Location location) {
-        World world = location.getWorld();
-        if (world == null) {
-            return true;
-        }
-
-        return isWorldDisabled(world);
-    }
-
     protected final boolean isWorldDisabled(World world) {
         ICombatLogX plugin = getCombatLogX();
-        ConfigurationManager configurationManager = plugin.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-
-        List<String> disabledWorldList = configuration.getStringList("disabled-world-list");
-        boolean inverted = configuration.getBoolean("disabled-world-list-inverted");
-
-        String worldName = world.getName();
-        boolean contains = disabledWorldList.contains(worldName);
-        return (inverted != contains);
+        MainConfiguration configuration = plugin.getConfiguration();
+        return configuration.isDisabled(world);
     }
 }

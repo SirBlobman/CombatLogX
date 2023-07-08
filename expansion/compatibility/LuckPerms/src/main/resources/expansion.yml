@@ -1,0 +1,13 @@
+name: "${expansionName}"
+prefix: "${expansionPrefix}"
+description: "${expansionDescription}"
+
+main: "combatlogx.expansion.compatibility.luckperms.LuckPermsExpansion"
+version: "17.1"
+author: "SirBlobman"
+
+plugin-depend:
+  - "LuckPerms"
+
+expansion-soft-depend:
+  - "NewbieHelper"

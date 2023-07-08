@@ -1,8 +1,10 @@
 rootProject.name = "CombatLogX"
 
+// CombatLogX API
 include("api")
+
+// Base Spigot Plugin
 include("plugin")
-include("builder")
 
 // CombatLogX Expansions
 include("expansion")
@@ -11,6 +13,7 @@ include("expansion")
 include("expansion:action-bar")
 include("expansion:boss-bar")
 include("expansion:damage-tagger")
+include("expansion:damage-effects")
 include("expansion:death-effects")
 include("expansion:force-field")
 include("expansion:glowing")
@@ -27,6 +30,11 @@ include("expansion:cheat-prevention:legacy")
 include("expansion:cheat-prevention:paper")
 include("expansion:cheat-prevention")
 
+// End Crystals
+include("expansion:end-crystal:legacy")
+include("expansion:end-crystal:modern")
+include("expansion:end-crystal")
+
 // Compatibility expansions
 include("expansion:compatibility")
 include("expansion:compatibility:AngelChest")
@@ -42,6 +50,7 @@ include("expansion:compatibility:Factions")
 include("expansion:compatibility:FeatherBoard")
 include("expansion:compatibility:GriefDefender")
 include("expansion:compatibility:GriefPrevention")
+include("expansion:compatibility:HuskHomes")
 include("expansion:compatibility:HuskSync")
 include("expansion:compatibility:HuskTowns")
 include("expansion:compatibility:iDisguise")
@@ -50,6 +59,7 @@ include("expansion:compatibility:KingdomsX")
 include("expansion:compatibility:Konquest")
 include("expansion:compatibility:Lands")
 include("expansion:compatibility:LibsDisguises")
+include("expansion:compatibility:LuckPerms")
 include("expansion:compatibility:MarriageMaster")
 include("expansion:compatibility:MythicMobs")
 include("expansion:compatibility:PlaceholderAPI")
@@ -65,3 +75,6 @@ include("expansion:compatibility:UltimateClaims")
 include("expansion:compatibility:uSkyBlock")
 include("expansion:compatibility:VanishNoPacket")
 include("expansion:compatibility:WorldGuard")
+
+// Final ZIP Builder
+include("builder")

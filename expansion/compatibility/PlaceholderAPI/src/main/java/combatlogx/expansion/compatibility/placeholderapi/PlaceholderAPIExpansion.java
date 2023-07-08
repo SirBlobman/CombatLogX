@@ -1,10 +1,12 @@
 package combatlogx.expansion.compatibility.placeholderapi;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 
 public final class PlaceholderAPIExpansion extends Expansion {
-    public PlaceholderAPIExpansion(ICombatLogX plugin) {
+    public PlaceholderAPIExpansion(@NotNull ICombatLogX plugin) {
         super(plugin);
     }
 

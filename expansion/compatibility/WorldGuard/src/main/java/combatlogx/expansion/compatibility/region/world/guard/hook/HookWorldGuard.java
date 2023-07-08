@@ -3,7 +3,8 @@ package combatlogx.expansion.compatibility.region.world.guard.hook;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.github.sirblobman.api.utility.Validate;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import combatlogx.expansion.compatibility.region.world.guard.WorldGuardExpansion;
 import org.codemc.worldguardwrapper.WorldGuardWrapper;
@@ -19,23 +20,26 @@ public final class HookWorldGuard {
     private IWrappedFlag<WrappedState> damageCombatFlag;
     private IWrappedFlag<WrappedState> mobCombatFlag;
     private IWrappedFlag<Boolean> noTaggingFlag;
+    private IWrappedFlag<Boolean> retagFlag;
+    private IWrappedFlag<String> preventLeavingFlag;
 
-    public HookWorldGuard(WorldGuardExpansion expansion) {
-        this.expansion = Validate.notNull(expansion, "expansion must not be null!");
-
+    public HookWorldGuard(@NotNull WorldGuardExpansion expansion) {
+        this.expansion = expansion;
         this.mythicMobCombatFlag = null;
         this.unknownCombatFlag = null;
         this.playerCombatFlag = null;
         this.damageCombatFlag = null;
         this.mobCombatFlag = null;
         this.noTaggingFlag = null;
+        this.retagFlag = null;
+        this.preventLeavingFlag = null;
     }
 
-    private WorldGuardExpansion getExpansion() {
+    private @NotNull WorldGuardExpansion getExpansion() {
         return this.expansion;
     }
 
-    private Logger getLogger() {
+    private @NotNull Logger getLogger() {
         WorldGuardExpansion expansion = getExpansion();
         return expansion.getLogger();
     }
@@ -53,33 +57,43 @@ public final class HookWorldGuard {
             this.damageCombatFlag = wrapper.registerFlag("damage-combat", stateClass, state).orElse(null);
             this.mobCombatFlag = wrapper.registerFlag("mob-combat", stateClass, state).orElse(null);
             this.noTaggingFlag = wrapper.registerFlag("no-tagging", booleanClass, false).orElse(null);
+            this.retagFlag = wrapper.registerFlag("retag-player", booleanClass, false).orElse(null);
+            this.preventLeavingFlag = wrapper.registerFlag("prevent-leaving", String.class, null).orElse(null);
         } catch (Exception ex) {
             Logger logger = getLogger();
             logger.log(Level.WARNING, "An error occurred while registering custom WorldGuard flags:", ex);
         }
     }
 
-    public IWrappedFlag<WrappedState> getMythicMobCombatFlag() {
+    public @Nullable IWrappedFlag<WrappedState> getMythicMobCombatFlag() {
         return this.mythicMobCombatFlag;
     }
 
-    public IWrappedFlag<WrappedState> getUnknownCombatFlag() {
+    public @Nullable IWrappedFlag<WrappedState> getUnknownCombatFlag() {
         return this.unknownCombatFlag;
     }
 
-    public IWrappedFlag<WrappedState> getPlayerCombatFlag() {
+    public @Nullable IWrappedFlag<WrappedState> getPlayerCombatFlag() {
         return this.playerCombatFlag;
     }
 
-    public IWrappedFlag<WrappedState> getDamageCombatFlag() {
+    public @Nullable IWrappedFlag<WrappedState> getDamageCombatFlag() {
         return this.damageCombatFlag;
     }
 
-    public IWrappedFlag<WrappedState> getMobCombatFlag() {
+    public @Nullable IWrappedFlag<WrappedState> getMobCombatFlag() {
         return this.mobCombatFlag;
     }
 
-    public IWrappedFlag<Boolean> getNoTaggingFlag() {
-        return noTaggingFlag;
+    public @Nullable IWrappedFlag<Boolean> getNoTaggingFlag() {
+        return this.noTaggingFlag;
+    }
+
+    public @Nullable IWrappedFlag<Boolean> getRetagFlag() {
+        return this.retagFlag;
+    }
+
+    public @Nullable IWrappedFlag<String> getPreventLeavingFlag() {
+        return this.preventLeavingFlag;
     }
 }

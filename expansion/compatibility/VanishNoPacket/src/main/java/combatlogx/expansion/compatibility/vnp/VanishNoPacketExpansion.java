@@ -1,43 +1,30 @@
 package combatlogx.expansion.compatibility.vnp;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
+import org.jetbrains.annotations.NotNull;
+
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
+import com.github.sirblobman.combatlogx.api.expansion.vanish.VanishExpansion;
+import com.github.sirblobman.combatlogx.api.expansion.vanish.VanishHandler;
 
-import combatlogx.expansion.compatibility.vnp.listener.ListenerVanish;
+public final class VanishNoPacketExpansion extends VanishExpansion {
+    private VanishHandler<?> vanishHandler;
 
-public final class VanishNoPacketExpansion extends Expansion {
     public VanishNoPacketExpansion(ICombatLogX plugin) {
         super(plugin);
+        this.vanishHandler = null;
     }
 
     @Override
-    public void onLoad() {
-        ConfigurationManager configurationManager = getConfigurationManager();
-        configurationManager.saveDefault("config.yml");
+    public boolean checkDependencies() {
+        return checkDependency("VanishNoPacket", true, "3");
     }
 
     @Override
-    public void onEnable() {
-        if (!checkDependency("VanishNoPacket", true, "3")) {
-            ICombatLogX plugin = getPlugin();
-            ExpansionManager expansionManager = plugin.getExpansionManager();
-            expansionManager.disableExpansion(this);
-            return;
+    public @NotNull VanishHandler<?> getVanishHandler() {
+        if (this.vanishHandler == null) {
+            this.vanishHandler = new VanishHandlerNoPacket(this);
         }
 
-        new ListenerVanish(this).register();
-    }
-
-    @Override
-    public void onDisable() {
-        // Do Nothing
-    }
-
-    @Override
-    public void reloadConfig() {
-        ConfigurationManager configurationManager = getConfigurationManager();
-        configurationManager.reload("config.yml");
+        return this.vanishHandler;
     }
 }

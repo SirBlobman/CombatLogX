@@ -1,11 +1,8 @@
 repositories {
-    maven {
-        name = "everything"
-        url = uri("https://repo.citizensnpcs.co/")
-    }
+    maven("https://nexus.sirblobman.xyz/proxy-citizens/")
 }
 
 dependencies {
-    compileOnly("net.citizensnpcs:citizensapi:2.0.30-SNAPSHOT")
-    compileOnly("org.mcmonkey:sentinel:2.7.0-SNAPSHOT")
+    compileOnly("net.citizensnpcs:citizensapi:2.0.32-SNAPSHOT")
+    compileOnly("org.mcmonkey:sentinel:2.7.3-SNAPSHOT")
 }

@@ -1,28 +1,33 @@
 package combatlogx.expansion.compatibility.region.protectionstones;
 
+import org.jetbrains.annotations.NotNull;
+
+import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 
 public final class ProtectionStonesExpansion extends RegionExpansion {
-    private RegionHandler regionHandler;
+    private final ProtectionStonesConfiguration configuration;
+    private RegionHandler<?> regionHandler;
 
-    public ProtectionStonesExpansion(final ICombatLogX plugin) {
+    public ProtectionStonesExpansion(@NotNull ICombatLogX plugin) {
         super(plugin);
+        this.configuration = new ProtectionStonesConfiguration();
         this.regionHandler = null;
     }
 
     @Override
     public boolean checkDependencies() {
-        boolean dependencyPS = checkDependency("ProtectionStones", true);
-        boolean dependencyWG = checkDependency("WorldGuard", true, "7");
-        return (dependencyPS && dependencyWG);
+        boolean checkProtectionStones = checkDependency("ProtectionStones", true);
+        boolean checkWorldGuard = checkDependency("WorldGuard", true, "7");
+        return (checkProtectionStones && checkWorldGuard);
     }
 
     @Override
-    public RegionHandler getRegionHandler() {
+    public @NotNull RegionHandler<?> getRegionHandler() {
         if (this.regionHandler == null) {
-            this.regionHandler = new ProtectionStonesRegionHandler(this);
+            this.regionHandler = new RegionHandlerProtectionStones(this);
         }
 
         return this.regionHandler;
@@ -31,5 +36,16 @@ public final class ProtectionStonesExpansion extends RegionExpansion {
     @Override
     public void afterEnable() {
         new ProtectionStonesListener(this).register();
+    }
+
+    @Override
+    public void reloadConfig() {
+        super.reloadConfig();
+        ConfigurationManager configurationManager = getConfigurationManager();
+        getProtectionStonesConfiguration().load(configurationManager.get("config.yml"));
+    }
+
+    public @NotNull ProtectionStonesConfiguration getProtectionStonesConfiguration() {
+        return this.configuration;
     }
 }

@@ -3,11 +3,10 @@ package com.github.sirblobman.combatlogx.api.object;
 import java.lang.ref.WeakReference;
 import java.util.UUID;
 
-import org.bukkit.entity.Entity;
-
-import com.github.sirblobman.api.utility.Validate;
-
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import org.bukkit.entity.Entity;
 
 public final class CombatTag implements Comparable<CombatTag> {
     private final UUID enemyId;
@@ -16,7 +15,8 @@ public final class CombatTag implements Comparable<CombatTag> {
     private final TagReason tagReason;
     private final long expireMillis;
 
-    public CombatTag(@Nullable Entity enemy, TagType tagType, TagReason tagReason, long expireMillis) {
+    public CombatTag(@Nullable Entity enemy, @NotNull TagType tagType, @NotNull TagReason tagReason,
+                     long expireMillis) {
         if (enemy != null) {
             this.enemyId = enemy.getUniqueId();
             this.enemyReference = new WeakReference<>(enemy);
@@ -25,18 +25,16 @@ public final class CombatTag implements Comparable<CombatTag> {
             this.enemyReference = null;
         }
 
-        this.tagType = Validate.notNull(tagType, "tagType must not be null!");
-        this.tagReason = Validate.notNull(tagReason, "tagReason must not be null!");
+        this.tagType = tagType;
+        this.tagReason = tagReason;
         this.expireMillis = expireMillis;
     }
 
-    @Nullable
-    public UUID getEnemyId() {
+    public @Nullable UUID getEnemyId() {
         return this.enemyId;
     }
 
-    @Nullable
-    public Entity getEnemy() {
+    public @Nullable Entity getEnemy() {
         if (this.enemyReference == null) {
             return null;
         }
@@ -44,16 +42,16 @@ public final class CombatTag implements Comparable<CombatTag> {
         return this.enemyReference.get();
     }
 
-    public boolean doesEnemyMatch(Entity entity) {
+    public boolean doesEnemyMatch(@NotNull Entity entity) {
         Entity enemy = getEnemy();
         return (entity == enemy);
     }
 
-    public TagType getTagType() {
+    public @NotNull TagType getTagType() {
         return this.tagType;
     }
 
-    public TagReason getTagReason() {
+    public @NotNull TagReason getTagReason() {
         return this.tagReason;
     }
 
@@ -68,7 +66,7 @@ public final class CombatTag implements Comparable<CombatTag> {
     }
 
     @Override
-    public int compareTo(CombatTag other) {
+    public int compareTo(@NotNull CombatTag other) {
         long thisExpireMillis = getExpireMillis();
         long otherExpireMillis = other.getExpireMillis();
         return Long.compare(thisExpireMillis, otherExpireMillis);

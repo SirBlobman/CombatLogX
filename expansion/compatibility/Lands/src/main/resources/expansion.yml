@@ -1,9 +1,9 @@
-name: "CompatLands"
-prefix: "Lands Compatibility"
-description: "${project.description}"
+name: "${expansionName}"
+prefix: "${expansionPrefix}"
+description: "${expansionDescription}"
 
 main: "combatlogx.expansion.compatibility.region.lands.LandsExpansion"
-version: "16.5"
+version: "17.3"
 author: "SirBlobman"
 
 plugin-depend:

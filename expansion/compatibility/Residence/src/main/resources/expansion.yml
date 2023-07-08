@@ -1,9 +1,9 @@
-name: "CompatResidence"
-prefix: "Residence Compatibility"
-description: "${project.description}"
+name: "${expansionName}"
+prefix: "${expansionPrefix}"
+description: "${expansionDescription}"
 
 main: "combatlogx.expansion.compatibility.region.residence.ResidenceExpansion"
-version: "16.3"
+version: "17.2"
 author: "SirBlobman"
 
 plugin-depend:

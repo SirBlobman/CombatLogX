@@ -2,17 +2,12 @@ package com.github.sirblobman.combatlogx.api;
 
 import java.util.logging.Logger;
 
-import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 public interface ICombatLogXNeeded {
-    ICombatLogX getCombatLogX();
+    @NotNull ICombatLogX getCombatLogX();
 
-    default JavaPlugin getPlugin() {
-        ICombatLogX combatLogX = getCombatLogX();
-        return combatLogX.getPlugin();
-    }
-
-    default Logger getLogger() {
+    default @NotNull Logger getLogger() {
         ICombatLogX combatLogX = getCombatLogX();
         return combatLogX.getLogger();
     }

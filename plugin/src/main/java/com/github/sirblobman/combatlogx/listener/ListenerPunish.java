@@ -1,17 +1,18 @@
 package com.github.sirblobman.combatlogx.listener;
 
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.combatlogx.CombatPlugin;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.configuration.PunishConfiguration;
 import com.github.sirblobman.combatlogx.api.event.PlayerPunishEvent;
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 
 public final class ListenerPunish extends CombatListener {
-    public ListenerPunish(CombatPlugin plugin) {
+    public ListenerPunish(@NotNull ICombatLogX plugin) {
         super(plugin);
     }
 
@@ -26,19 +27,19 @@ public final class ListenerPunish extends CombatListener {
     }
 
     private boolean shouldPunishForReason(UntagReason reason) {
-        ConfigurationManager configurationManager = getPluginConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("punish.yml");
+        ICombatLogX plugin = getCombatLogX();
+        PunishConfiguration punishConfiguration = plugin.getPunishConfiguration();
 
         if (reason.isExpire()) {
-            return configuration.getBoolean("on-expire");
+            return punishConfiguration.isOnExpire();
         }
 
         if (reason == UntagReason.KICK) {
-            return configuration.getBoolean("on-kick");
+            return punishConfiguration.isOnKick();
         }
 
         if (reason == UntagReason.QUIT) {
-            return configuration.getBoolean("on-disconnect");
+            return punishConfiguration.isOnDisconnect();
         }
 
         return false;

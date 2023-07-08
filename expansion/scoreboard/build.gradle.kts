@@ -1,11 +1,8 @@
 repositories {
-    maven {
-        name = "papermc"
-        url = uri("https://repo.papermc.io/repository/maven-public/")
-    }
+    maven("https://repo.papermc.io/repository/maven-public/")
 }
 
 dependencies {
-    val spigotVersion = property("spigot.version") as String
+    val spigotVersion = property("version.spigot") as String
     compileOnly("com.destroystokyo.paper:paper-api:$spigotVersion")
 }

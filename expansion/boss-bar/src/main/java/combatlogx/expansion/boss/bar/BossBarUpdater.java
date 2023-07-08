@@ -5,25 +5,21 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
-import org.bukkit.Bukkit;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
 
-import com.github.sirblobman.api.adventure.adventure.audience.Audience;
-import com.github.sirblobman.api.adventure.adventure.bossbar.BossBar;
-import com.github.sirblobman.api.adventure.adventure.bossbar.BossBar.Color;
-import com.github.sirblobman.api.adventure.adventure.bossbar.BossBar.Overlay;
-import com.github.sirblobman.api.adventure.adventure.platform.bukkit.BukkitAudiences;
-import com.github.sirblobman.api.adventure.adventure.text.Component;
-import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
+import com.github.sirblobman.api.folia.FoliaHelper;
+import com.github.sirblobman.api.folia.details.EntityTaskDetails;
+import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
 import com.github.sirblobman.api.language.LanguageManager;
-import com.github.sirblobman.api.language.Replacer;
+import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -31,8 +27,14 @@ import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TimerUpdater;
-
-import org.jetbrains.annotations.Contract;
+import com.github.sirblobman.api.shaded.adventure.audience.Audience;
+import com.github.sirblobman.api.shaded.adventure.bossbar.BossBar;
+import com.github.sirblobman.api.shaded.adventure.bossbar.BossBar.Color;
+import com.github.sirblobman.api.shaded.adventure.bossbar.BossBar.Overlay;
+import com.github.sirblobman.api.shaded.adventure.text.Component;
+import com.github.sirblobman.api.shaded.adventure.text.TextComponent;
+import com.github.sirblobman.api.shaded.adventure.text.TextReplacementConfig;
+import com.github.sirblobman.api.shaded.adventure.text.format.TextColor;
 
 public final class BossBarUpdater implements TimerUpdater {
     private final BossBarExpansion expansion;
@@ -44,7 +46,7 @@ public final class BossBarUpdater implements TimerUpdater {
     }
 
     @Override
-    public void update(Player player, long timeLeftMillis) {
+    public void update(@NotNull Player player, long timeLeftMillis) {
         if (isDisabled(player)) {
             actualRemove(player);
             return;
@@ -71,26 +73,30 @@ public final class BossBarUpdater implements TimerUpdater {
     }
 
     @Override
-    public void remove(Player player) {
+    public void remove(@NotNull Player player) {
         update(player, 0L);
 
         ICombatLogX combatLogX = getCombatLogX();
-        JavaPlugin plugin = combatLogX.getPlugin();
+        ConfigurablePlugin plugin = combatLogX.getPlugin();
         if (!plugin.isEnabled()) {
             return;
         }
 
-        BukkitScheduler scheduler = Bukkit.getScheduler();
-        scheduler.scheduleSyncDelayedTask(plugin, () -> actualRemove(player), 10L);
+        FoliaHelper foliaHelper = combatLogX.getFoliaHelper();
+        TaskScheduler scheduler = foliaHelper.getScheduler();
+        scheduler.scheduleEntityTask(new EntityTaskDetails<Player>(plugin, player) {
+            @Override
+            public void run() {
+                Player player = getEntity();
+                if (player != null) {
+                    actualRemove(player);
+                }
+            }
+        });
     }
 
     private BossBarExpansion getExpansion() {
         return this.expansion;
-    }
-
-    private Logger getLogger() {
-        BossBarExpansion expansion = getExpansion();
-        return expansion.getLogger();
     }
 
     private ICombatLogX getCombatLogX() {
@@ -114,10 +120,8 @@ public final class BossBarUpdater implements TimerUpdater {
     }
 
     private boolean isGlobalEnabled() {
-        BossBarExpansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        return configuration.getBoolean("enabled", true);
+        BossBarConfiguration configuration = getConfiguration();
+        return configuration.isEnabled();
     }
 
     private boolean isDisabled(Player player) {
@@ -149,12 +153,7 @@ public final class BossBarUpdater implements TimerUpdater {
 
     private Audience getAudience(Player player) {
         LanguageManager languageManager = getLanguageManager();
-        BukkitAudiences audiences = languageManager.getAudiences();
-        if (audiences == null) {
-            return Audience.empty();
-        }
-
-        return audiences.player(player);
+        return languageManager.getAudience(player);
     }
 
     private void actualRemove(Player player) {
@@ -170,32 +169,14 @@ public final class BossBarUpdater implements TimerUpdater {
         this.bossBarMap.remove(playerId);
     }
 
-    private String getColorString() {
-        ConfigurationManager configurationManager = this.expansion.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        return configuration.getString("bar-color", "PURPLE");
-    }
-
     private Color getBossBarColor() {
         int minorVersion = VersionUtility.getMinorVersion();
         if (minorVersion < 9) {
             return Color.PURPLE;
         }
 
-        String colorString = getColorString();
-        try {
-            return Color.valueOf(colorString);
-        } catch (IllegalArgumentException ex) {
-            Logger logger = getLogger();
-            logger.warning("Unknown boss bar color '" + colorString + "'. Defaulting to purple.");
-            return Color.PURPLE;
-        }
-    }
-
-    private String getOverlayString() {
-        ConfigurationManager configurationManager = this.expansion.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        return configuration.getString("bar-style");
+        BossBarConfiguration configuration = getConfiguration();
+        return configuration.getBossBarColor();
     }
 
     private Overlay getBossBarOverlay() {
@@ -204,14 +185,8 @@ public final class BossBarUpdater implements TimerUpdater {
             return Overlay.PROGRESS;
         }
 
-        String overlayString = getOverlayString();
-        try {
-            return Overlay.valueOf(overlayString);
-        } catch (IllegalArgumentException ex) {
-            Logger logger = getLogger();
-            logger.warning("Unknown boss bar style '" + overlayString + "'. Defaulting to progress.");
-            return Overlay.PROGRESS;
-        }
+        BossBarConfiguration configuration = getConfiguration();
+        return configuration.getBossBarStyle();
     }
 
     private float getProgress(Player player, float timeLeftMillis) {
@@ -231,25 +206,85 @@ public final class BossBarUpdater implements TimerUpdater {
         LanguageManager languageManager = getLanguageManager();
         if (timeLeftMillis <= 0) {
             String path = ("expansion.boss-bar.ended");
-            return languageManager.getMessage(player, path, null);
+            return languageManager.getMessage(player, path);
         }
 
-        String path = ("expansion.boss-bar.timer");
-        Replacer replacer = message -> replacePlaceholders(player, message);
-        return languageManager.getMessage(player, path, replacer);
-    }
-
-    private String replacePlaceholders(Player player, String message) {
         ICombatLogX combatLogX = getCombatLogX();
         ICombatManager combatManager = combatLogX.getCombatManager();
+        IPlaceholderManager placeholderManager = combatLogX.getPlaceholderManager();
+        Component message = languageManager.getMessage(player, "expansion.boss-bar.timer");
+
+        TextReplacementConfig replacementConfig = getBarsReplacement(player, timeLeftMillis);
+        message = message.replaceText(replacementConfig);
 
         TagInformation tagInformation = combatManager.getTagInformation(player);
-        if (tagInformation == null) {
-            return message;
+        if (tagInformation != null) {
+            List<Entity> enemyList = tagInformation.getEnemies();
+            Pattern placeholderPattern = Pattern.compile("\\{(\\S+)}");
+            TextReplacementConfig.Builder builder = TextReplacementConfig.builder();
+            builder.match(placeholderPattern);
+            builder.replacement((matchResult, builderCopy) -> {
+                String placeholder = matchResult.group(1);
+                Component replacement = placeholderManager.getPlaceholderReplacementComponent(player,
+                        enemyList, placeholder);
+                return (replacement == null ? Component.text(placeholder) : replacement);
+            });
+
+            TextReplacementConfig replacement = builder.build();
+            message = message.replaceText(replacement);
         }
 
-        List<Entity> enemyList = tagInformation.getEnemies();
-        IPlaceholderManager placeholderManager = combatLogX.getPlaceholderManager();
-        return placeholderManager.replaceAll(player, enemyList, message);
+        return message;
+    }
+
+    private TextReplacementConfig getBarsReplacement(Player player, long timeLeftMillis) {
+        TextReplacementConfig.Builder builder = TextReplacementConfig.builder();
+        builder.matchLiteral("{bars}");
+        builder.replacement(getBars(player, timeLeftMillis));
+        return builder.build();
+    }
+
+    private BossBarConfiguration getConfiguration() {
+        BossBarExpansion expansion = getExpansion();
+        return expansion.getConfiguration();
+    }
+
+    private Component getBars(Player player, long timeLeftMillis) {
+        BossBarConfiguration configuration = getConfiguration();
+        long scale = configuration.getScale();
+        String leftSymbol = configuration.getLeftSymbol();
+        String rightSymbol = configuration.getRightSymbol();
+        TextColor leftColor = configuration.getLeftColor();
+        TextColor rightColor = configuration.getRightColor();
+
+        ICombatLogX plugin = getCombatLogX();
+        ICombatManager combatManager = plugin.getCombatManager();
+        long timerMaxSeconds = combatManager.getMaxTimerSeconds(player);
+
+        double timerMaxMillis = TimeUnit.SECONDS.toMillis(timerMaxSeconds);
+        double scaleDouble = (double) scale;
+        double timeLeftMillisDouble = (double) timeLeftMillis;
+
+        double percent = clamp(timeLeftMillisDouble / timerMaxMillis);
+        long leftBarsCount = Math.round(scaleDouble * percent);
+        long rightBarsCount = (scale - leftBarsCount);
+
+        TextComponent.Builder builder = Component.text();
+        Component leftSymbolComponent = Component.text(leftSymbol, leftColor);
+        Component rightSymbolComponent = Component.text(rightSymbol, rightColor);
+
+        for (long i = 0; i < leftBarsCount; i++) {
+            builder.append(leftSymbolComponent);
+        }
+
+        for (long i = 0; i < rightBarsCount; i++) {
+            builder.append(rightSymbolComponent);
+        }
+
+        return builder.build();
+    }
+
+    private double clamp(double value) {
+        return Math.max(0.0D, Math.min(value, 1.0D));
     }
 }

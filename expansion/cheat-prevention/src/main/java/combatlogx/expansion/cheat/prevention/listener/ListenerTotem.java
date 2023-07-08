@@ -1,17 +1,18 @@
 package combatlogx.expansion.cheat.prevention.listener;
 
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityResurrectEvent;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
+import combatlogx.expansion.cheat.prevention.configuration.IItemConfiguration;
 
 public final class ListenerTotem extends CheatPreventionListener {
-    public ListenerTotem(Expansion expansion) {
+    public ListenerTotem(@NotNull ICheatPreventionExpansion expansion) {
         super(expansion);
     }
 
@@ -23,22 +24,19 @@ public final class ListenerTotem extends CheatPreventionListener {
         }
 
         Player player = (Player) entity;
-        if (isAllowed() || !isInCombat(player)) {
-            return;
+        if (isInCombat(player) && isPreventTotem()) {
+            e.setCancelled(true);
+            sendMessage(player, "expansion.cheat-prevention.no-totem");
         }
-
-        e.setCancelled(true);
-        sendMessage(player, "expansion.cheat-prevention.no-totem", null);
     }
 
-    private YamlConfiguration getConfiguration() {
-        Expansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        return configurationManager.get("items.yml");
+    private @NotNull IItemConfiguration getItemConfiguration() {
+        ICheatPreventionExpansion expansion = getCheatPrevention();
+        return expansion.getItemConfiguration();
     }
 
-    private boolean isAllowed() {
-        YamlConfiguration configuration = getConfiguration();
-        return !configuration.getBoolean("prevent-totem");
+    private boolean isPreventTotem() {
+        IItemConfiguration itemConfiguration = getItemConfiguration();
+        return itemConfiguration.isPreventTotem();
     }
 }

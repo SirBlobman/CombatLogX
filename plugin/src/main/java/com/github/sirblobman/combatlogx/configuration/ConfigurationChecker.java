@@ -2,20 +2,25 @@ package com.github.sirblobman.combatlogx.configuration;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.jetbrains.annotations.NotNull;
+
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.CombatPlugin;
+import com.github.sirblobman.combatlogx.api.ICombatLogX;
 
 import org.zeroturnaround.zip.ZipUtil;
 
 public final class ConfigurationChecker {
-    private final CombatPlugin plugin;
+    private final ICombatLogX plugin;
 
-    public ConfigurationChecker(CombatPlugin plugin) {
+    public ConfigurationChecker(@NotNull CombatPlugin plugin) {
         this.plugin = Validate.notNull(plugin, "plugin must not be null!");
     }
 
@@ -57,25 +62,25 @@ public final class ConfigurationChecker {
             }
 
             logger.info("Configuration version is recent, no major changes necessary.");
-        } catch (Exception ex) {
+        } catch (IOException | InvalidConfigurationException ex) {
             logger.log(Level.WARNING, "An error occurred while checking the configuration version:", ex);
         }
     }
 
-    private CombatPlugin getPlugin() {
+    private ICombatLogX getPlugin() {
         return this.plugin;
     }
 
     private Logger getLogger() {
-        CombatPlugin plugin = getPlugin();
+        ICombatLogX plugin = getPlugin();
         return plugin.getLogger();
     }
 
-    private void makeBackup() {
+    private void makeBackup() throws IOException {
         Logger logger = getLogger();
         logger.warning("Configuration version is outdated, backing up files...");
 
-        CombatPlugin plugin = getPlugin();
+        ICombatLogX plugin = getPlugin();
         File dataFolder = plugin.getDataFolder();
         File pluginsFolder = dataFolder.getParentFile();
 
@@ -86,8 +91,7 @@ public final class ConfigurationChecker {
         deleteFile(dataFolder);
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    private void deleteFile(File parentFile) {
+    private void deleteFile(File parentFile) throws IOException {
         String parentFileName = parentFile.getName();
         if (parentFile.isDirectory() && parentFileName.equals("expansions")) {
             return;
@@ -98,13 +102,19 @@ public final class ConfigurationChecker {
         }
 
         if (!parentFile.isDirectory()) {
-            parentFile.delete();
+            if (!parentFile.delete()) {
+                throw new IOException("Failed to delete a a file.");
+            }
+
             return;
         }
 
         File[] fileArray = parentFile.listFiles();
         if (fileArray == null || fileArray.length == 0) {
-            parentFile.delete();
+            if (!parentFile.delete()) {
+                throw new IOException("Failed to delete a a file.");
+            }
+
             return;
         }
 
@@ -123,7 +133,9 @@ public final class ConfigurationChecker {
 
         File[] fileArray2 = parentFile.listFiles();
         if (fileArray2 == null || fileArray2.length == 0) {
-            parentFile.delete();
+            if (!parentFile.delete()) {
+                throw new IOException("Failed to delete a a file.");
+            }
         }
     }
 }

@@ -1,12 +1,13 @@
 package combatlogx.expansion.loot.protection.event;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
 import com.github.sirblobman.combatlogx.api.event.CustomPlayerEventCancellable;
 
 import combatlogx.expansion.loot.protection.object.ProtectedItem;
-import org.jetbrains.annotations.NotNull;
 
 public final class QueryPickupEvent extends CustomPlayerEventCancellable {
     private static final HandlerList HANDLER_LIST;
@@ -17,22 +18,21 @@ public final class QueryPickupEvent extends CustomPlayerEventCancellable {
 
     private final ProtectedItem protectedItem;
 
-    public QueryPickupEvent(final Player player, final ProtectedItem protectedItem) {
+    public QueryPickupEvent(@NotNull Player player, @NotNull ProtectedItem protectedItem) {
         super(player);
         this.protectedItem = protectedItem;
     }
 
-    public static HandlerList getHandlerList() {
+    public static @NotNull HandlerList getHandlerList() {
         return HANDLER_LIST;
     }
 
-    @NotNull
     @Override
-    public HandlerList getHandlers() {
-        return HANDLER_LIST;
+    public @NotNull HandlerList getHandlers() {
+        return getHandlerList();
     }
 
-    public ProtectedItem getProtectedItem() {
+    public @NotNull ProtectedItem getProtectedItem() {
         return protectedItem;
     }
 }

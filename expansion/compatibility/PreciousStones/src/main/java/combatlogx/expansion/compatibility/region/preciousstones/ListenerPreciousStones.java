@@ -1,35 +1,46 @@
 package combatlogx.expansion.compatibility.region.preciousstones;
 
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 import net.sacredlabyrinth.Phaed.PreciousStones.api.events.FieldPreCreationEvent;
 
 public final class ListenerPreciousStones extends ExpansionListener {
-    public ListenerPreciousStones(PreciousStonesExpansion expansion) {
+    private final PreciousStonesExpansion expansion;
+
+    public ListenerPreciousStones(@NotNull PreciousStonesExpansion expansion) {
         super(expansion);
+        this.expansion = expansion;
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void beforeFieldCreation(FieldPreCreationEvent e) {
         Player player = e.getPlayer();
-        if (!isInCombat(player)) {
-            return;
+        if (isPreventFieldCreation() && isInCombat(player)) {
+            e.setCancelled(true);
+            String path = "expansion.region-protection.preciousstones.prevent-field-creation";
+            LanguageManager languageManager = getLanguageManager();
+            languageManager.sendMessageWithPrefix(player, path);
         }
+    }
 
-        ConfigurationManager configurationManager = getExpansionConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        if (!configuration.getBoolean("prevent-field-creation")) {
-            return;
-        }
+    private @NotNull PreciousStonesExpansion getPreciousStonesExpansion() {
+        return this.expansion;
+    }
 
-        e.setCancelled(true);
-        String path = ("expansion.region-protection.preciousstones.prevent-field-creation");
-        sendMessageWithPrefix(player, path, null);
+    private @NotNull PreciousStonesConfiguration getConfiguration() {
+        PreciousStonesExpansion expansion = getPreciousStonesExpansion();
+        return expansion.getPreciousStonesConfiguration();
+    }
+
+    private boolean isPreventFieldCreation() {
+        PreciousStonesConfiguration configuration = getConfiguration();
+        return configuration.isPreventFieldCreation();
     }
 }

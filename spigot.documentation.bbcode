@@ -1,0 +1,334 @@
+This page provides a list of the features for CombatLogX and all bundled expansions.
+
+[SIZE=6][B]CombatLogX[/B][/SIZE]
+[LIST]
+[*]Tag players into combat with other players.
+[*]Check for updates.
+[*]Kill players for logging out during combat.
+[*]Run commands when players are tagged, untagged, and punished.
+[*]Link pets, projectiles, tnt, and fishing rods.
+[*]Use a global or permission-based combat timer.
+[/LIST]
+
+[SIZE=5][B]Commands:[/B][/SIZE]
+[B]/combatlogx:[/B]
+[INDENT]
+[B]Aliases:[/B] [ICODE]/clx[/ICODE], [ICODE]/ctx[/ICODE], [ICODE]/combatlog[/ICODE], [ICODE]/combattagx[/ICODE], [ICODE]/combattag[/ICODE]
+[ICODE]/combatlogx help[/ICODE] View the list of sub-commands for CombatLogX.
+[ICODE]/combatlogx about <expansion>[/ICODE] View information about an expansion.
+[ICODE]/combatlogx reload[/ICODE] Reload the configuration files for the plugin and expansions.
+[ICODE]/combatlogx toggle <bossbar/actionbar/scoreboard>[/ICODE] Toggle the action bar, boss bar, and scoreboard for yourself.
+[ICODE]/combatlogx tag <player>[/ICODE] Force a player to be tagged into combat.
+[ICODE]/combatlogx untag <player>[/ICODE] Force a player to be untagged from combat.
+[ICODE]/combatlogx version[/ICODE] View version information and a list of enabled expansions.
+[/INDENT]
+[B]/combat-timer:[/B]
+[INDENT]
+[B]Aliases:[/B] [ICODE]/combattimer[/ICODE], [ICODE]/combattime[/ICODE], [ICODE]/ctime[/ICODE], [ICODE]/clt[/ICODE], [ICODE]/ct[/ICODE]
+[ICODE]/combat-timer[/ICODE] Check how much time you have left in combat.
+[ICODE]/combat-timer <player>[/ICODE] Check how much time a player has left in combat.
+[/INDENT]
+
+[SIZE=5][B]Permissions:[/B][/SIZE]
+[LIST]
+[*][ICODE]combatlogx.bypass[/ICODE] Default bypass permission, can be changed in the config.yml file.
+[*][ICODE]combatlogx.bypass.force.field[/ICODE] Default bypass permission for the force field, can be changed in the configuration file for the force field expansion.
+[*][ICODE]combatlogx.command.combat-timer[/ICODE] Gives access to the /combat-timer command.
+[*][ICODE]combatlogx.command.togglepvp[/ICODE] Gives access to the /togglepvp command from the NewbieHelper expansion.
+[*][ICODE]combatlogx.command.togglepvp.admin[/ICODE] Gives access to the admin features of the /togglepvp command.
+[*][ICODE]combatlogx.command.combatlogx[/ICODE] Gives access to the base /combatlogx command, but not the sub-commands.
+[*][ICODE]combatlogx.command.combatlogx.toggle[/ICODE] Gives access to /combatlogx toggle command to toggle boss bar, action bar, and scoreboard.
+[*][ICODE]combatlogx.command.combatlogx.about[/ICODE] Gives access to information about expansions with /combatlogx about.
+[*][ICODE]combatlogx.command.combatlogx.help[/ICODE] Gives access to information about CombatLogX commands with /combatlogx help.
+[*][ICODE]combatlogx.command.combatlogx.reload[/ICODE] Gives access to reload configurations with /combatlogx reload.
+[*][ICODE]combatlogx.command.combatlogx.version[/ICODE] Gives access to version information with /combatlogx version.
+[*][ICODE]combatlogx.command.combatlogx.tag[/ICODE] Gives access to force tag players with /combatlogx tag.
+[*][ICODE]combatlogx.command.combatlogx.untag[/ICODE] Gives access to force players out of combat with /combatlogx untag.
+[/LIST]
+
+[SIZE=6][B]Expansions[/B][/SIZE]
+[SIZE=5][B]Normal Expansions[/B][/SIZE]
+[SIZE=4][B]Action Bar[/B][/SIZE]
+[LIST]
+[*]Display a message above a player's hot bar during combat that shows the amount of time remaining.
+[*]Customizable bar feature with unicode characters.
+[/LIST]
+
+[SIZE=4][B]Boss Bar[/B][/SIZE]
+[LIST]
+[*]Display a message as a fake boss progress bar on top of the screen.
+[*]Customizable boss bar colors and type (requires Spigot 1.9+)
+[/LIST]
+
+[SIZE=4][B]Cheat Prevention[/B][/SIZE]
+Cheat Prevention can be used to prevent players from escaping during combat.
+This expansion is [U]not[/U] a hacking prevention tool.
+
+[B]Features:[/B]
+[LIST]
+[*]Prevent players from breaking, placing, and interaction for blocks.
+[*]Prevent players from creating nether and end portals. (requires 1.14+)
+[*]Prevent players from emptying and filling buckets.
+[*]Prevent players from typing in chat.
+[*]Prevent players from typing commands.
+[*]Prevent players from interacting with entities.
+[*]Prevent players from flying or keep them tagged while flying.
+[*]Prevent players from using elytra or keep them tagged while gliding.
+[*]Prevent players from switching game modes, or untag players when their game mode changes.
+[*]Force players into a specific game mode when tagged.
+[*]Force close inventories and prevent players from opening new ones.
+[*]Prevent players from dropping and picking up items.
+[*]Prevent players from using the riptide enchantment.
+[*]Prevent players from using totems of undying.
+[*]Prevent players from entering combat with potion effects.
+[*]Prevent players from teleporting away or untag them when they've been teleported.
+[*]Renew a player's combat tag when they use an ender pearl.
+[/LIST]
+
+[SIZE=4][B]Damage Effects[/B][/SIZE]
+[LIST]
+[*]Add blood effect every time a player is attacked.
+[/LIST]
+
+[SIZE=4][B]Damage Tagger[/B][/SIZE]
+Damage Tagger can tag players when they are damaged by the environment.
+[B]Known Damage Types:[/B]
+[LIST]
+[*]BLOCK_EXPLOSION: Explosions created by plugins.
+[*]CONTACT: Touching a cactus or a berry bush.
+[*]CRAMMING: Standing in an enclosed space with too many other mobs.
+[*]CUSTOM: Custom damage created by plugins.
+[*]DROWNING: Staying under water for too long.
+[*]FALL: Falling from a high place.
+[*]FALLING_BLOCK: Damage from a falling block, such as an anvil.
+[*]FIRE: Touching a fire block.
+[*]FIRE_TICK: Being on fire after touching a source of heat.
+[*]FLY_INTO_WALL: Damage caused by lack of elytra training.
+[*]HOT_FLOOR: Standing on magma blocks.
+[*]LAVA: Touching or swimming in lava.
+[*]MAGIC: Damage from the Instant Damage potion
+[*]POISON: Damage from a Poison potion due to witches or plugins.
+[*]STARVATION: Running out of food.
+[*]SUFFOCATION: Buried in sand or teleported into a wall.
+[*]WITHER: Wither effect caused by wither skeletons, roses, and bosses.
+[/LIST]
+
+[SIZE=4][B]Death Effects[/B][/SIZE]
+[LIST]
+[*]Spawn a lightning bolt effect when a player is killed.
+[*]Create a blood effect with redstone particles when a player is killed.
+[/LIST]
+
+[SIZE=4][B]End Crystal Helper[/B][/SIZE]
+End Crystal Helper requires Spigot 1.9 or higher.
+[LIST]
+[*]Links placed 'End Crystal' entities to players during combat.
+[/LIST]
+
+[SIZE=4][B]Force Field[/B][/SIZE]
+Force Field requires the ProtocolLib plugin and at least one of the Region Compatibility expansions listed below.
+[B]Features:[/B]
+[LIST]
+[*]Create a force field of blocks around non-pvp areas.
+[*]Customizable block type and radius.
+[/LIST]
+[B]Disclaimers:[/B]
+[LIST]
+[*]The force field is a nice visual effect that shows players the areas they cannot enter.
+[*]The force field should not be used as entry prevention, as players can just ignore the fake block packets that are sent to them.
+[*]For the actual entry prevention options, please check the configuration for your region expansion.
+[*]If your server has weak hardware, or if you have a lot of players online, we recommend disabling the force field effect.
+[*]You can try to enable unsafe mode and see if performance improves, but the recommended option is to disable the force field.
+[/LIST]
+
+[SIZE=4][B]Glowing[/B][/SIZE]
+Glowing requires Spigot 1.9 or higher.
+[LIST]
+[*]Make a player glow when tagged into combat.
+[*]The glow effect will be removed when the player is removed from combat.
+[/LIST]
+
+[SIZE=4][B]Logger[/B][/SIZE]
+[LIST]
+[*]Save details about different combat events to files.
+[*]Change the name and format of the log files.
+[*]Configurable log message and date format.
+[*]Option to log every CombatLogX event and the EntityDamageByEntityEvent.
+[/LIST]
+
+[SIZE=4][B]Loot Protection[/B][/SIZE]
+[LIST]
+[*]Protect dropped items from players logging out during combat.
+[*]Prevent players from stealing items from players that they did not kill.
+[*]Restore dropped items to the enemy if the player dies in the void.
+[*]Configurable amount of time to protect the loot.
+[/LIST]
+
+[SIZE=4][B]Mob Tagger[/B][/SIZE]
+[LIST]
+[*]Allow mobs to tag players into combat.
+[*]Configurable list of mobs that can tag players.
+[*]Prevent certain types of mobs from tagging players.
+[*]Prevent mobs spawned for certain reasons from tagging players. (e.g. spawners)
+[/LIST]
+
+[SIZE=4][B]Newbie Helper[/B][/SIZE]
+Newbie Helper can be used to protect new players from pvp.
+[LIST]
+[*]Prevent new players from being attacked for a configurable amount of time.
+[*]Remove protection from newbies when they attack someone.
+[*]Toggle your own ability to PVP.
+[*](Admin Only) Force a certain player to have pvp enabled/disabled.
+[*]Adds a command '/togglepvp' to enable and disable PVP.
+[/LIST]
+
+[SIZE=4][B]Rewards[/B][/SIZE]
+Rewards can be used to execute commands whenever a player kills a mob or another player.
+[LIST]
+[*]Customizable rewards.
+[*]Enabled/Disabled worlds per reward.
+[*]Specific entity types per reward.
+[*]Chance based rewards.
+[*]Rewards with custom requirements:
+[LIST]
+[*]Vault Economy balance.
+[*]Experience Points.
+[*]More coming soon...
+[/LIST]
+[/LIST]
+
+[SIZE=4][B]Scoreboard[/B][/SIZE]
+[LIST]
+[*]Display messages about the player's combat tag on the side bar.
+[*]Customizable title and lines with no flickering.
+[/LIST]
+
+[SIZE=5][B]Compatibility Expansions[/B][/SIZE]
+[SIZE=4][B]Region Compatibility Expansions[/B][/SIZE]
+The following expansions link into a region plugin and can be used to prevent entry into non-pvp areas.
+[LIST]
+[*]CrashClaim Compatibility
+[*]Factions Compatibility
+[*]GriefDefender Compatibility
+[*]GriefPrevention Compatibility
+[*]HuskTowns Compatibility
+[*]KingdomsX Compatibility
+[*]Konquest Compatibility
+[*]Lands Compatibility
+[*]PreciousStones Compatibility
+[*]ProtectionStones Compatibility
+[*]RedProtect Compatibility
+[*]Residence Compatibility
+[*]Towny Compatibility
+[*]UltimateClaims Compatibility
+[*]WorldGuard Compatibility
+[/LIST]
+
+[SIZE=4][B]WorldGuard Compatibility[/B][/SIZE]
+The WorldGuard compatibility has the following custom flags
+[LIST]
+[*][ICODE]no-tagging: TRUE[/ICODE]: CombatLogX will not tag players that are within the region.
+[*][ICODE]damage-combat: DENY[/ICODE]: Prevent entry for players that were tagged by generic damage.
+[*][ICODE]mob-combat: DENY[/ICODE]: Prevent entry for players in combat with mobs.
+[*][ICODE]mythic-mob-combat: DENY[/ICODE]: Prevent entry for players in combat with a Mythic mob.
+[*][ICODE]player-combat: DENY[/ICODE]: Prevent entry for players in combat with other players.
+[*][ICODE]unknown-combat: DENY[/ICODE]: Prevent entry for players in combat for an unknown reason.
+[*][ICODE]prevent-leaving: custom_id[/ICODE]: Prevents players from leaving a region during combat. Regions with the same id will allow players to move between them.
+[/LIST]
+
+[SIZE=4][B]SkyBlock Compatibility Expansions[/B][/SIZE]
+The following expansions link into a SkyBlock plugin and prevent teams from tagging each other.
+[LIST]
+[*]ASkyBlock Compatibility
+[*]BSkyBlock Compatibility
+[*]FabledSkyBlock Compatibility
+[*]IridiumSkyblock Compatibility
+[*]SuperiorSkyblock Compatibility
+[*]uSkyBlock Compatibility
+[/LIST]
+
+[SIZE=4][B]Vanish Compatibility Expansions[/B][/SIZE]
+The following expansions link into a vanish plugin and prevent vanished players from tagging other players and getting tagged.
+[LIST]
+[*]CMI Compatibility
+[*]EssentialsX Compatibility
+[*]SuperVanish Compatibility
+[*]VanishNoPacket Compatibility
+[/LIST]
+
+[SIZE=4][B]Disguise Compatibility Expansions[/B][/SIZE]
+The following expansions link into a disguise plugin and remove disguises when player are tagged.
+[LIST]
+[*]iDisguise Compatibility
+[*]LibsDisguises Compatibility
+[/LIST]
+
+[SIZE=4][B]AngelChest Compatibility[/B][/SIZE]
+[LIST]
+[*]Prevent players from opening angel chests during combat.
+[*]Prevent players from breaking angel chests during combat.
+[*]Prevent players from fast looting angel chests during combat.
+[/LIST]
+
+[SIZE=4][B]Citizens Compatibility[/B][/SIZE]
+[LIST]
+[*]Create an NPC instead of running the normal player punishments.
+[*]Store last location, health, and inventory items.
+[*]Support for Sentinel to make NPCs attack players.
+[*]Prevent players from logging in until their NPC is removed.
+[/LIST]
+
+[SIZE=4][B]CrackShot Compatibility[/B][/SIZE]
+[LIST]
+[*]Link CrackShot weapons to their shooter for tagging.
+[/LIST]
+
+[SIZE=4][B]EssentialsX Compatibility[/B][/SIZE]
+[LIST]
+[*]Vanish compatibility support.
+[*]Prevent players from creating teleport requests during combat.
+[/LIST]
+
+[SIZE=4][B]FeatherBoard Compatibility[/B][/SIZE]
+[LIST]
+[*]Sends trigger for FeatherBoard when players are tagged and untagged.
+[/LIST]
+
+[SIZE=4][B]HuskSync Compatibility[/B][/SIZE]
+[LIST]
+[*]Fixes some bugs caused when using CombatLogX and HuskSync together.
+[/LIST]
+
+[SIZE=4][B]HuskHomes Compatibility[/B][/SIZE]
+[LIST]
+[*]Prevents players from teleporting to their home during combat.
+[/LIST]
+
+[SIZE=4][B]LuckPerms Compatibility[/B][/SIZE]
+[LIST]
+[*]Adds custom contexts for LuckPerms permissions.
+[*]You can find context details [URL='https://github.com/SirBlobman/CombatLogX/blob/main/expansion/compatibility/LuckPerms/README.MD']here[/URL]
+[/LIST]
+
+[SIZE=4][B]MarriageMaster Compatibility[/B][/SIZE]
+[LIST]
+[*]Prevent partners from teleporting to each other during combat.
+[/LIST]
+
+[SIZE=4][B]MythicMobs Compatibility[/B][/SIZE]
+[LIST]
+[*]Prevent some mythic mobs from tagging players.
+[*]Force some mythic mobs to always tag players.
+[/LIST]
+
+[SIZE=4][B]PlaceholderAPI Compatibility[/B][/SIZE]
+[LIST]
+[*]Add support for placeholders from CombatLogX.
+[*]You can find a list of placeholders [URL='https://github.com/SirBlobman/CombatLogX/blob/main/expansion/compatibility/PlaceholderAPI/README.MD']here[/URL].
+[/LIST]
+
+[SIZE=4][B]PlayerParticles Compatibility[/B][/SIZE]
+[LIST]
+[*]Disable a player's particle effects when tagged.
+[*]Enable a player's particle effects when combat ends.
+[/LIST]

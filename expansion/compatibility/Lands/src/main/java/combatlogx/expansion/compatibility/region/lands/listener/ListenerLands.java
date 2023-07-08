@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
+import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
@@ -16,8 +17,8 @@ import combatlogx.expansion.compatibility.region.lands.LandsExpansion;
 import combatlogx.expansion.newbie.helper.NewbieHelperExpansion;
 import combatlogx.expansion.newbie.helper.manager.PVPManager;
 import combatlogx.expansion.newbie.helper.manager.ProtectionManager;
-import me.angeschossen.lands.api.MemberHolder;
 import me.angeschossen.lands.api.events.war.WarDeclareEvent;
+import me.angeschossen.lands.api.memberholder.MemberHolder;
 
 public final class ListenerLands extends ExpansionListener {
     public ListenerLands(LandsExpansion expansion) {
@@ -49,7 +50,8 @@ public final class ListenerLands extends ExpansionListener {
             pvpManager.setPVP(player, true);
 
             String path = ("expansion.region-protection.lands.war-disable-newbie-protection");
-            sendMessageWithPrefix(player, path, null);
+            LanguageManager languageManager = getLanguageManager();
+            languageManager.sendMessageWithPrefix(player, path);
         }
     }
 

@@ -1,13 +1,12 @@
 package com.github.sirblobman.combatlogx.api.event;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
-import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
-
-import org.jetbrains.annotations.NotNull;
 
 /**
  * A custom event that is fired when a player is removed from combat with a specific enemy.
@@ -26,36 +25,33 @@ public final class PlayerEnemyRemoveEvent extends CustomPlayerEvent {
     private final UntagReason untagReason;
     private final Entity enemy;
 
-    public PlayerEnemyRemoveEvent(Player player, UntagReason untagReason, Entity enemy) {
+    public PlayerEnemyRemoveEvent(@NotNull Player player, @NotNull UntagReason untagReason, @NotNull Entity enemy) {
         super(player);
-
-        this.untagReason = Validate.notNull(untagReason, "untagReason must not be null!");
-        this.enemy = Validate.notNull(enemy, "enemy must not be null!");
+        this.untagReason = untagReason;
+        this.enemy = enemy;
     }
 
-    public static HandlerList getHandlerList() {
+    public static @NotNull HandlerList getHandlerList() {
         return HANDLER_LIST;
     }
 
     @Override
-    public HandlerList getHandlers() {
-        return HANDLER_LIST;
+    public @NotNull HandlerList getHandlers() {
+        return getHandlerList();
     }
 
     /**
      * @return The reason that the player was removed from combat with the enemy.
      * @see #getPlayer()
      */
-    @NotNull
-    public UntagReason getUntagReason() {
+    public @NotNull UntagReason getUntagReason() {
         return this.untagReason;
     }
 
     /**
      * @return The previous enemy of the player./
      */
-    @NotNull
-    public Entity getEnemy() {
+    public @NotNull Entity getEnemy() {
         return this.enemy;
     }
 }

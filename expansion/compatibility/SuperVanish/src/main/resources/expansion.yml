@@ -1,11 +1,11 @@
-name: "CompatSuperVanish"
-prefix: "SuperVanish/PremiumVanish Compatibility"
-description: "${project.description}"
+name: "${expansionName}"
+prefix: "${expansionPrefix}"
+description: "${expansionDescription}"
 
 main: "combatlogx.expansion.compatibility.supervanish.SuperVanishExpansion"
-version: "16.2"
+version: "17.1"
 author: "SirBlobman"
 
 plugin-soft-depend:
-  - "SuperVanish"
   - "PremiumVanish"
+  - "SuperVanish"

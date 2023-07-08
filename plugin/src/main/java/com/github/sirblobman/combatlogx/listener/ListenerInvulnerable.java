@@ -1,22 +1,22 @@
 package com.github.sirblobman.combatlogx.listener;
 
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.configuration.MainConfiguration;
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
+import com.github.sirblobman.combatlogx.task.PlayerVulnerableTask;
 
 public final class ListenerInvulnerable extends CombatListener {
-    public ListenerInvulnerable(ICombatLogX plugin) {
+    public ListenerInvulnerable(@NotNull ICombatLogX plugin) {
         super(plugin);
     }
 
@@ -40,19 +40,16 @@ public final class ListenerInvulnerable extends CombatListener {
     }
 
     private boolean isDisabled() {
-        ConfigurationManager configurationManager = getPluginConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        return !configuration.getBoolean("remove-no-damage-cooldown");
+        ICombatLogX plugin = getCombatLogX();
+        MainConfiguration configuration = plugin.getConfiguration();
+        return !configuration.isRemoveNoDamageCooldown();
     }
 
     private void setVulnerableLater(Player player) {
-        JavaPlugin plugin = getJavaPlugin();
-        Runnable task = () -> setVulnerable(player);
-        BukkitScheduler scheduler = Bukkit.getScheduler();
-        scheduler.runTaskLater(plugin, task, 2L);
-    }
+        PlayerVulnerableTask task = new PlayerVulnerableTask(getCombatLogX(), player);
+        task.setDelay(2L);
 
-    private void setVulnerable(Player player) {
-        player.setNoDamageTicks(0);
+        TaskScheduler scheduler = getCombatLogX().getFoliaHelper().getScheduler();
+        scheduler.scheduleEntityTask(task);
     }
 }

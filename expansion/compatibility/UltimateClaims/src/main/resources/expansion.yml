@@ -1,9 +1,9 @@
-name: "CompatUltimateClaims"
-prefix: "UltimateClaims Compatibility"
-description: "${project.description}"
+name: "${expansionName}"
+prefix: "${expansionPrefix}"
+description: "${expansionDescription}"
 
 main: "combatlogx.expansion.compatibility.region.ultimateclaims.UltimateClaimsExpansion"
-version: "16.2"
+version: "17.1"
 author: "SirBlobman"
 
 plugin-depend:

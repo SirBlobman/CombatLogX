@@ -5,24 +5,26 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import com.github.sirblobman.api.configuration.PlayerDataManager;
 import com.github.sirblobman.api.language.LanguageManager;
-import com.github.sirblobman.api.language.Replacer;
-import com.github.sirblobman.api.language.SimpleReplacer;
+import com.github.sirblobman.api.language.replacer.Replacer;
+import com.github.sirblobman.api.language.replacer.StringReplacer;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.command.CombatLogPlayerCommand;
 
 public final class SubCommandToggle extends CombatLogPlayerCommand {
-    public SubCommandToggle(ICombatLogX plugin) {
+    public SubCommandToggle(@NotNull ICombatLogX plugin) {
         super(plugin, "toggle");
         setPermissionName("combatlogx.command.combatlogx.toggle");
     }
 
     @Override
-    protected List<String> onTabComplete(Player player, String[] args) {
+    protected @NotNull List<String> onTabComplete(@NotNull Player player, String @NotNull [] args) {
         if (args.length == 1) {
             return getMatching(args[0], "actionbar", "bossbar", "scoreboard");
         }
@@ -31,7 +33,7 @@ public final class SubCommandToggle extends CombatLogPlayerCommand {
     }
 
     @Override
-    protected boolean execute(Player player, String[] args) {
+    protected boolean execute(@NotNull Player player, String @NotNull [] args) {
         if (args.length < 1) {
             return false;
         }
@@ -58,9 +60,9 @@ public final class SubCommandToggle extends CombatLogPlayerCommand {
 
         boolean status = playerData.getBoolean(value, true);
         String statusPath = ("placeholder.toggle." + (status ? "enabled" : "disabled"));
-        String statusString = languageManager.getMessageString(player, statusPath, null);
+        String statusString = languageManager.getMessageString(player, statusPath);
 
-        Replacer replacer = new SimpleReplacer("{status}", statusString);
+        Replacer replacer = new StringReplacer("{status}", statusString);
         String messagePath = ("command.combatlogx.toggle-" + value);
         sendMessageWithPrefix(player, messagePath, replacer);
     }

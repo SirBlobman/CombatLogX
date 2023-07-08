@@ -4,6 +4,9 @@ import com.github.puregero.multilib.MultiLib;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,22 +15,19 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerFishEvent.State;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
-import com.github.sirblobman.api.utility.MessageUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.configuration.MainConfiguration;
 import com.github.sirblobman.combatlogx.api.listener.CombatListener;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
+import com.github.sirblobman.combatlogx.api.manager.ICrystalManager;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 import com.github.sirblobman.combatlogx.api.utility.EntityHelper;
 
-import org.jetbrains.annotations.Contract;
-
 public final class ListenerDamage extends CombatListener {
-    public ListenerDamage(ICombatLogX plugin) {
+    public ListenerDamage(@NotNull ICombatLogX plugin) {
         super(plugin);
     }
 
@@ -51,8 +51,8 @@ public final class ListenerDamage extends CombatListener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onFish(PlayerFishEvent e) {
-        YamlConfiguration configuration = getConfiguration();
-        if (!configuration.getBoolean("link-fishing-rod")) {
+        MainConfiguration configuration = getConfiguration();
+        if (!configuration.isLinkFishingRod()) {
             return;
         }
 
@@ -70,9 +70,9 @@ public final class ListenerDamage extends CombatListener {
         checkTag(player, caughtEntity, TagReason.ATTACKER);
     }
 
-    private YamlConfiguration getConfiguration() {
-        ConfigurationManager configurationManager = getPluginConfigurationManager();
-        return configurationManager.get("config.yml");
+    private MainConfiguration getConfiguration() {
+        ICombatLogX plugin = getCombatLogX();
+        return plugin.getConfiguration();
     }
 
     private Entity getDamager(EntityDamageByEntityEvent e) {
@@ -87,24 +87,34 @@ public final class ListenerDamage extends CombatListener {
         }
 
         ICombatLogX plugin = getCombatLogX();
-        YamlConfiguration configuration = getConfiguration();
+        MainConfiguration configuration = getConfiguration();
 
-        if (configuration.getBoolean("link-projectiles")) {
+        if (configuration.isLinkProjectiles()) {
             entity = EntityHelper.linkProjectile(plugin, entity);
         }
 
-        if (configuration.getBoolean("link-pets")) {
+        if (configuration.isLinkPets()) {
             entity = EntityHelper.linkPet(entity);
         }
 
-        if (configuration.getBoolean("link-tnt")) {
+        if (configuration.isLinkTnt()) {
             entity = EntityHelper.linkTNT(entity);
+        }
+
+        if (configuration.isLinkEndCrystals()) {
+            ICombatLogX combatLogX = getCombatLogX();
+            ICrystalManager crystalManager = combatLogX.getCrystalManager();
+
+            Player player = crystalManager.getPlacer(entity);
+            if (player != null) {
+                entity = player;
+            }
         }
 
         return entity;
     }
 
-    public void checkTag(Entity entity, Entity enemy, TagReason tagReason) {
+    private void checkTag(@NotNull Entity entity, @NotNull Entity enemy, @NotNull TagReason tagReason) {
         ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = getCombatManager();
         plugin.printDebug("Checking if the entity '" + getName(entity) + "' should be tagged " +
@@ -136,15 +146,8 @@ public final class ListenerDamage extends CombatListener {
         plugin.printDebug("CombatTag Status: " + tag);
     }
 
-    private String getName(Entity entity) {
+    private String getName(@NotNull Entity entity) {
         ICombatLogX plugin = getCombatLogX();
-        if (entity == null) {
-            CommandSender console = Bukkit.getConsoleSender();
-            LanguageManager languageManager = plugin.getLanguageManager();
-            String message = languageManager.getMessageString(console, "placeholder.unknown-enemy", null);
-            return MessageUtility.color(message);
-        }
-
         MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
         EntityHandler entityHandler = multiVersionHandler.getEntityHandler();
         return entityHandler.getName(entity);

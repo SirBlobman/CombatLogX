@@ -1,26 +1,53 @@
+val apiVersion = fetchProperty("version.api", "invalid")
+val coreVersion = fetchProperty("version.core", "invalid")
+val mavenUsername = fetchEnv("MAVEN_DEPLOY_USR", "mavenUsernameSirBlobman", "")
+val mavenPassword = fetchEnv("MAVEN_DEPLOY_PSW", "mavenPasswordSirBlobman", "")
+
+rootProject.ext.set("apiVersion", apiVersion)
+rootProject.ext.set("coreVersion", coreVersion)
+rootProject.ext.set("mavenUsername", mavenUsername)
+rootProject.ext.set("mavenPassword", mavenPassword)
+
+val baseVersion = fetchProperty("version.base", "invalid")
+val betaString = fetchProperty("version.beta", "false")
+val jenkinsBuildNumber = fetchEnv("BUILD_NUMBER", null, "Unofficial")
+
+val betaBoolean = betaString.toBoolean()
+val betaVersion = if (betaBoolean) "Beta-" else ""
+val calculatedVersion = "$baseVersion.$betaVersion$jenkinsBuildNumber"
+rootProject.ext.set("calculatedVersion", calculatedVersion)
+
+fun fetchProperty(propertyName: String, defaultValue: String): String {
+    val found = findProperty(propertyName)
+    if (found != null) {
+        return found.toString()
+    }
+
+    return defaultValue
+}
+
+fun fetchEnv(envName: String, propertyName: String?, defaultValue: String): String {
+    val found = System.getenv(envName)
+    if (found != null) {
+        return found
+    }
+
+    if (propertyName != null) {
+        return fetchProperty(propertyName, defaultValue)
+    }
+
+    return defaultValue
+}
+
 plugins {
     id("java")
 }
 
-val jenkinsBuildNumber = System.getenv("BUILD_NUMBER") ?: "Unknown"
-val baseVersion = findProperty("version.base") as String
-val betaVersionString = (findProperty("version.beta") ?: "false") as String
-val betaVersion = betaVersionString.toBoolean()
-val betaVersionPart = if (betaVersion) "Beta-" else ""
+tasks.named("jar") {
+    enabled = false
+}
 
-val calculatedVersion = "$baseVersion.$betaVersionPart$jenkinsBuildNumber"
-rootProject.ext.set("calculatedVersion", calculatedVersion)
-
-val mavenDeployUsername = System.getenv("MAVEN_DEPLOY_USERNAME") ?: findProperty("mavenUsernameSirBlobman") ?: ""
-rootProject.ext.set("mavenUsername", mavenDeployUsername)
-
-val mavenDeployPassword = System.getenv("MAVEN_DEPLOY_PASSWORD") ?: findProperty("mavenPasswordSirBlobman") ?: ""
-rootProject.ext.set("mavenPassword", mavenDeployPassword)
-
-allprojects {
-    group = "com.github.sirblobman.combatlogx"
-    version = "11.0.0.0-SNAPSHOT"
-
+subprojects {
     apply(plugin = "java")
 
     java {
@@ -30,35 +57,25 @@ allprojects {
 
     repositories {
         mavenCentral()
-
-        maven {
-            name = "sirblobman-public"
-            url = uri("https://nexus.sirblobman.xyz/repository/public/")
-        }
-
-        maven {
-            name = "spigot-repo"
-            url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
-        }
-
-        maven {
-            name = "oss-sonatype-snapshots"
-            url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
-        }
+        maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+        maven("https://oss.sonatype.org/content/repositories/snapshots/")
+        maven("https://nexus.sirblobman.xyz/public/")
     }
 
     dependencies {
-        val spigotVersion = property("spigot.version") as String
-        val coreVersion = property("blue.slime.core.version") as String
+        // Java Dependencies
+        compileOnly("org.jetbrains:annotations:24.0.1")
 
-        compileOnly("org.jetbrains:annotations:23.0.0")
+        // Spigot API
+        val spigotVersion = property("version.spigot")
         compileOnly("org.spigotmc:spigot-api:$spigotVersion")
+
+        // BlueSlimeCore
         compileOnly("com.github.sirblobman.api:core:$coreVersion")
     }
 
-    tasks {
-        withType<JavaCompile> {
-            options.encoding = "UTF-8"
-        }
+    tasks.withType<JavaCompile> {
+        options.encoding = "UTF-8"
+        options.compilerArgs.add("-Xlint:deprecation")
     }
 }

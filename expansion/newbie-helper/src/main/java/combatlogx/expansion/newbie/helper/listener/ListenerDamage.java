@@ -1,25 +1,31 @@
 package combatlogx.expansion.newbie.helper.listener;
 
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.jetbrains.annotations.NotNull;
+
+import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.configuration.MainConfiguration;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
+import com.github.sirblobman.combatlogx.api.manager.ICrystalManager;
 import com.github.sirblobman.combatlogx.api.utility.EntityHelper;
 
 import combatlogx.expansion.newbie.helper.NewbieHelperExpansion;
+import combatlogx.expansion.newbie.helper.configuration.NewbieHelperConfiguration;
+import combatlogx.expansion.newbie.helper.configuration.WorldsConfiguration;
 import combatlogx.expansion.newbie.helper.manager.PVPManager;
 import combatlogx.expansion.newbie.helper.manager.ProtectionManager;
 
 public final class ListenerDamage extends ExpansionListener {
     private final NewbieHelperExpansion expansion;
 
-    public ListenerDamage(NewbieHelperExpansion expansion) {
+    public ListenerDamage(@NotNull NewbieHelperExpansion expansion) {
         super(expansion);
         this.expansion = expansion;
     }
@@ -42,7 +48,7 @@ public final class ListenerDamage extends ExpansionListener {
         }
 
         ProtectionManager protectionManager = this.expansion.getProtectionManager();
-        if (protectionManager.isProtected(player) && isMobProtectionEnabled()) {
+        if (protectionManager.isProtected(player) && isMobProtection()) {
             e.setCancelled(true);
         }
     }
@@ -65,11 +71,12 @@ public final class ListenerDamage extends ExpansionListener {
         }
 
         ProtectionManager protectionManager = this.expansion.getProtectionManager();
-        if (protectionManager.isProtected(player) && isMobProtectionEnabled()) {
-            if (shouldRemoveProtectionOnAttack()) {
+        if (protectionManager.isProtected(player) && isMobProtection()) {
+            if (isRemoveProtectionOnAttack()) {
                 protectionManager.setProtected(player, false);
                 String messagePath = ("expansion.newbie-helper.protection-disabled.attacker");
-                sendMessageWithPrefix(player, messagePath, null);
+                LanguageManager languageManager = getLanguageManager();
+                languageManager.sendMessageWithPrefix(player, messagePath);
             }
         }
     }
@@ -96,71 +103,123 @@ public final class ListenerDamage extends ExpansionListener {
             return;
         }
 
+        if (isForcePvpWorld(damager)) {
+            return;
+        }
+
+        if (isNoPvpWorld(damager)) {
+            e.setCancelled(true);
+            return;
+        }
+
         NewbieHelperExpansion expansion = getNewbieHelperExpansion();
         ProtectionManager protectionManager = expansion.getProtectionManager();
         PVPManager pvpManager = expansion.getPVPManager();
+        LanguageManager languageManager = getLanguageManager();
 
         if (pvpManager.isDisabled(attacked)) {
             e.setCancelled(true);
-            sendMessageWithPrefix(attacker, "expansion.newbie-helper.no-pvp.other", null);
+            languageManager.sendMessageWithPrefix(attacker, "expansion.newbie-helper.no-pvp.other");
             return;
         }
 
         if (pvpManager.isDisabled(attacker)) {
             e.setCancelled(true);
-            sendMessageWithPrefix(attacker, "expansion.newbie-helper.no-pvp.self", null);
+            languageManager.sendMessageWithPrefix(attacker, "expansion.newbie-helper.no-pvp.self");
             return;
         }
 
         if (protectionManager.isProtected(attacked)) {
             e.setCancelled(true);
             String messagePath = ("expansion.newbie-helper.no-pvp.protected");
-            sendMessageWithPrefix(attacker, messagePath, null);
+            languageManager.sendMessageWithPrefix(attacker, messagePath);
             return;
         }
 
         if (protectionManager.isProtected(attacker)) {
-            if (shouldRemoveProtectionOnAttack()) {
+            if (isRemoveProtectionOnAttack()) {
                 protectionManager.setProtected(attacker, false);
                 String messagePath = ("expansion.newbie-helper.protection-disabled.attacker");
-                sendMessageWithPrefix(attacker, messagePath, null);
+                languageManager.sendMessageWithPrefix(attacker, messagePath);
             }
         }
     }
 
-    private NewbieHelperExpansion getNewbieHelperExpansion() {
+    private @NotNull NewbieHelperExpansion getNewbieHelperExpansion() {
         return this.expansion;
     }
 
-    private YamlConfiguration getConfiguration() {
-        ConfigurationManager configurationManager = getExpansionConfigurationManager();
-        return configurationManager.get("config.yml");
+    private @NotNull NewbieHelperConfiguration getConfiguration() {
+        NewbieHelperExpansion expansion = getNewbieHelperExpansion();
+        return expansion.getConfiguration();
     }
 
-    private boolean shouldRemoveProtectionOnAttack() {
-        YamlConfiguration configuration = getConfiguration();
-        return configuration.getBoolean("remove-protection-on-attack", true);
+    private @NotNull WorldsConfiguration getWorldsConfiguration() {
+        NewbieHelperExpansion expansion = getNewbieHelperExpansion();
+        return expansion.getWorldsConfiguration();
     }
 
-    private boolean isMobProtectionEnabled() {
-        YamlConfiguration configuration = getConfiguration();
-        return configuration.getBoolean("mob-protection", false);
+    private boolean isForcePvpWorld(@NotNull Entity entity) {
+        World world = entity.getWorld();
+        return isForcePvpWorld(world);
     }
 
-    private Entity getDamager(EntityDamageByEntityEvent e) {
-        ConfigurationManager configurationManager = getPluginConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        Entity damager = e.getDamager();
+    private boolean isForcePvpWorld(@NotNull World world) {
+        WorldsConfiguration configuration = getWorldsConfiguration();
+        return configuration.isForcePvp(world);
+    }
 
-        if (configuration.getBoolean("link-projectiles")) {
-            ICombatLogX plugin = getCombatLogX();
-            damager = EntityHelper.linkProjectile(plugin, damager);
+    private boolean isNoPvpWorld(@NotNull Entity entity) {
+        World world = entity.getWorld();
+        return isNoPvpWorld(world);
+    }
+
+    private boolean isNoPvpWorld(@NotNull World world) {
+        WorldsConfiguration configuration = getWorldsConfiguration();
+        return configuration.isNoPvp(world);
+    }
+
+    private boolean isRemoveProtectionOnAttack() {
+        NewbieHelperConfiguration configuration = getConfiguration();
+        return configuration.isRemoveProtectionOnAttack();
+    }
+
+    private boolean isMobProtection() {
+        NewbieHelperConfiguration configuration = getConfiguration();
+        return configuration.isMobProtection();
+    }
+
+    private @NotNull Entity getDamager(@NotNull EntityDamageByEntityEvent e) {
+        Entity entity = e.getDamager();
+        return getDamager(entity);
+    }
+
+    private @NotNull Entity getDamager(@NotNull Entity entity) {
+        ICombatLogX plugin = getCombatLogX();
+        MainConfiguration configuration = plugin.getConfiguration();
+
+        if (configuration.isLinkProjectiles()) {
+            entity = EntityHelper.linkProjectile(plugin, entity);
         }
 
-        if (configuration.getBoolean("link-pets")) {
-            damager = EntityHelper.linkPet(damager);
+        if (configuration.isLinkPets()) {
+            entity = EntityHelper.linkPet(entity);
         }
 
-        return damager;
+        if (configuration.isLinkTnt()) {
+            entity = EntityHelper.linkTNT(entity);
+        }
+
+        if (configuration.isLinkEndCrystals()) {
+            ICombatLogX combatLogX = getCombatLogX();
+            ICrystalManager crystalManager = combatLogX.getCrystalManager();
+
+            Player player = crystalManager.getPlacer(entity);
+            if (player != null) {
+                entity = player;
+            }
+        }
+
+        return entity;
     }
 }

@@ -1,11 +1,9 @@
 repositories {
-    maven {
-        name = "placeholderapi"
-        url = uri("https://repo.extendedclip.com/content/repositories/placeholderapi/")
-    }
+    maven("https://nexus.sirblobman.xyz/proxy-jitpack/")
+    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
 }
 
 dependencies {
-    compileOnly("net.milkbowl.vault:VaultAPI:1.7")
-    compileOnly("me.clip:placeholderapi:2.11.2")
+    compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
+    compileOnly("me.clip:placeholderapi:2.11.3")
 }

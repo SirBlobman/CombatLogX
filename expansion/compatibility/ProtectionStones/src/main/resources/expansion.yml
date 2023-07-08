@@ -1,9 +1,9 @@
-name: "CompatProtectionStones"
-prefix: "ProtectionStones Compatibility"
-description: "${project.description}"
+name: "${expansionName}"
+prefix: "${expansionPrefix}"
+description: "${expansionDescription}"
 
 main: "combatlogx.expansion.compatibility.region.protectionstones.ProtectionStonesExpansion"
-version: "16.4"
+version: "17.2"
 author: "olivolja3 (Olivo#3313)"
 
 plugin-depend:

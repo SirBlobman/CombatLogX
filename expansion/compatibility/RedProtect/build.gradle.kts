@@ -1,8 +1,5 @@
 repositories {
-    maven {
-        name = "redprotect-repo"
-        url = uri("https://raw.githubusercontent.com/FabioZumbi12/RedProtect/mvn-repo/")
-    }
+    maven("https://raw.githubusercontent.com/FabioZumbi12/RedProtect/mvn-repo/")
 }
 
 dependencies {

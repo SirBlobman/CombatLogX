@@ -13,9 +13,13 @@
 #
 # Set this to an empty list to disable all tag commands.
 # tag-command-list: []
-tag-command-list:
-  - "msg {combatlogx_player} You are now in combat! Do not log out."
-  - "[PLAYER]say I am in combat!"
+#
+# Use the list format to add commands.
+# tag-command-list:
+# - "command1"
+# - "command2 with spaces"
+# - 'tellraw {player} {"text":"command 3 with internal quotes"}'
+tag-command-list: [ ]
 
 # This is a list of commands that will be executed whenever a player is untagged.
 # Valid Placeholders:
@@ -24,9 +28,13 @@ tag-command-list:
 #
 # Set this to an empty list to disable all untag commands.
 # untag-command-list: []
-untag-command-list:
-  - "msg {combatlogx_player} You are no longer in combat!"
-  - "[PLAYER]say I am no longer in combat!"
+#
+# Use the list format to add commands.
+# untag-command-list:
+# - "command1"
+# - "command2 with spaces"
+# - 'tellraw {player} {"text":"command 3 with internal quotes"}'
+untag-command-list: [ ]
 
 # This is a list of commands that will be used to punish players that log out during combat
 # Valid Placeholders:
@@ -34,9 +42,13 @@ untag-command-list:
 #
 # Set this to an empty list to disable all punishment commands.
 # punish-command-list: []
-punish-command-list:
-  - "warn {combatlogx_player} You logged out during combat! -s"
-
+#
+# Use the list format to add commands.
+# punish-command-list:
+# - "command1"
+# - "command2 with spaces"
+# - 'tellraw {player} {"text":"command 3 with internal quotes"}'
+punish-command-list: [ ]
 
 # Set this option to 'true' to enable the 'special-punish-commands' option below.
 # Make sure to also set 'enable-punishment-counter' in the 'punish.yml' file to use these properly.

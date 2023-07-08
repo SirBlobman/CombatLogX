@@ -4,21 +4,21 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import com.github.sirblobman.api.item.ArmorType;
-import com.github.sirblobman.api.item.ItemBuilder;
 import com.github.sirblobman.api.nms.ItemHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
-import com.github.sirblobman.api.utility.Validate;
+import com.github.sirblobman.api.utility.ItemUtility;
 import com.github.sirblobman.api.utility.VersionUtility;
-import com.github.sirblobman.api.xseries.XMaterial;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
-import org.jetbrains.annotations.Nullable;
 
 public final class StoredInventory {
     private final Map<Integer, ItemStack> contentMap;
@@ -29,13 +29,11 @@ public final class StoredInventory {
     private StoredInventory() {
         this.contentMap = new HashMap<>();
         this.armorMap = new EnumMap<>(ArmorType.class);
-        this.mainHand = new ItemBuilder(XMaterial.AIR).withAmount(1).build();
-        this.offHand = new ItemBuilder(XMaterial.AIR).withAmount(1).build();
+        this.mainHand = null;
+        this.offHand = null;
     }
 
-    public static StoredInventory createFrom(PlayerInventory playerInventory) {
-        Validate.notNull(playerInventory, "playerInventory must not be null!");
-
+    public static @NotNull StoredInventory createFrom(@NotNull PlayerInventory playerInventory) {
         StoredInventory storedInventory = new StoredInventory();
         storedInventory.setArmor(ArmorType.HELMET, playerInventory.getHelmet());
         storedInventory.setArmor(ArmorType.CHESTPLATE, playerInventory.getChestplate());
@@ -57,10 +55,9 @@ public final class StoredInventory {
         return storedInventory;
     }
 
-    public static StoredInventory createFrom(CitizensExpansion expansion, ConfigurationSection configuration) {
-        Validate.notNull(configuration, "configuration must not be null!");
+    public static @NotNull StoredInventory createFrom(@NotNull CitizensExpansion expansion,
+                                                      @NotNull ConfigurationSection configuration) {
         StoredInventory storedInventory = new StoredInventory();
-
         ArmorType[] armorTypeArray = ArmorType.values();
         for (ArmorType armorType : armorTypeArray) {
             String armorTypeName = armorType.name();
@@ -85,22 +82,19 @@ public final class StoredInventory {
     }
 
     @SuppressWarnings("deprecation")
-    private static void setHandLegacy(StoredInventory stored, PlayerInventory playerInventory) {
+    private static void setHandLegacy(@NotNull StoredInventory stored, @NotNull PlayerInventory playerInventory) {
         ItemStack item = playerInventory.getItemInHand();
         stored.setMainHand(item);
         stored.setOffHand(null);
     }
 
-    private static void setHandModern(StoredInventory stored, PlayerInventory playerInventory) {
+    private static void setHandModern(@NotNull StoredInventory stored, @NotNull PlayerInventory playerInventory) {
         stored.setMainHand(playerInventory.getItemInMainHand());
         stored.setOffHand(playerInventory.getItemInOffHand());
     }
 
-    @Nullable
-    private static ItemStack loadItemStack(CitizensExpansion expansion, ConfigurationSection section, String path) {
-        Validate.notNull(section, "section must not be null!");
-        Validate.notEmpty(path, "path must not be empty!");
-
+    private static @Nullable ItemStack loadItemStack(@NotNull CitizensExpansion expansion,
+                                                     @NotNull ConfigurationSection section, @NotNull String path) {
         if (!section.isSet(path)) {
             return null;
         }
@@ -120,9 +114,9 @@ public final class StoredInventory {
         return itemHandler.fromBase64String(value);
     }
 
-    private static void saveItemStack(CitizensExpansion expansion, ConfigurationSection section, String path,
-                                      ItemStack item) {
-        if (item == null) {
+    private static void saveItemStack(@NotNull CitizensExpansion expansion, @NotNull ConfigurationSection section,
+                                      @NotNull String path, @Nullable ItemStack item) {
+        if (ItemUtility.isAir(item)) {
             section.set(path, null);
             return;
         }
@@ -135,30 +129,25 @@ public final class StoredInventory {
         section.set(path, base64);
     }
 
-    @Nullable
-    public ItemStack getMainHandItem() {
+    public @Nullable ItemStack getMainHandItem() {
         return (this.mainHand == null ? null : this.mainHand.clone());
     }
 
-    @Nullable
-    public ItemStack getOffHandItem() {
+    public @Nullable ItemStack getOffHandItem() {
         return (this.offHand == null ? null : this.offHand.clone());
     }
 
-    @Nullable
-    public ItemStack getArmor(ArmorType type) {
-        Validate.notNull(type, "type must not be null!");
-        ItemStack item = this.armorMap.getOrDefault(type, null);
+    public @Nullable ItemStack getArmor(@NotNull ArmorType type) {
+        ItemStack item = this.armorMap.get(type);
         return (item == null ? null : item.clone());
     }
 
-    @Nullable
-    public ItemStack getItem(int slot) {
-        ItemStack item = this.contentMap.getOrDefault(slot, null);
+    public @Nullable ItemStack getItem(int slot) {
+        ItemStack item = this.contentMap.get(slot);
         return (item == null ? null : item.clone());
     }
 
-    public void save(CitizensExpansion expansion, ConfigurationSection configuration) {
+    public void save(@NotNull CitizensExpansion expansion, @NotNull ConfigurationSection configuration) {
         ItemStack mainHand = getMainHandItem();
         saveItemStack(expansion, configuration, "main-hand", mainHand);
 
@@ -181,7 +170,7 @@ public final class StoredInventory {
         }
     }
 
-    private void setItemStack(int slot, ItemStack item) {
+    private void setItemStack(int slot, @Nullable ItemStack item) {
         if (item == null) {
             this.contentMap.remove(slot);
         } else {
@@ -189,8 +178,7 @@ public final class StoredInventory {
         }
     }
 
-    private void setArmor(ArmorType type, ItemStack item) {
-        Validate.notNull(type, "type must not be null!");
+    private void setArmor(@NotNull ArmorType type, @Nullable ItemStack item) {
         if (item == null) {
             this.armorMap.remove(type);
         } else {
@@ -198,11 +186,11 @@ public final class StoredInventory {
         }
     }
 
-    private void setMainHand(ItemStack item) {
+    private void setMainHand(@Nullable ItemStack item) {
         this.mainHand = (item == null ? null : item.clone());
     }
 
-    private void setOffHand(ItemStack item) {
+    private void setOffHand(@Nullable ItemStack item) {
         this.offHand = (item == null ? null : item.clone());
     }
 }

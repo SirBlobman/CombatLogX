@@ -20,6 +20,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -27,10 +30,9 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
 
-import com.github.sirblobman.api.utility.Validate;
+import com.github.sirblobman.api.folia.details.TaskDetails;
+import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion.State;
 
@@ -40,14 +42,14 @@ public final class ExpansionManager {
     private final Map<Expansion, ExpansionClassLoader> expansionClassLoaderMap;
     private final Map<String, Class<?>> classNameMap;
 
-    public ExpansionManager(ICombatLogX plugin) {
-        this.plugin = Validate.notNull(plugin, "plugin must not be null!");
+    public ExpansionManager(@NotNull ICombatLogX plugin) {
+        this.plugin = plugin;
         this.expansionMap = new HashMap<>();
         this.expansionClassLoaderMap = new HashMap<>();
         this.classNameMap = new HashMap<>();
     }
 
-    public ICombatLogX getPlugin() {
+    public @NotNull ICombatLogX getPlugin() {
         return this.plugin;
     }
 
@@ -123,24 +125,27 @@ public final class ExpansionManager {
                 + (expansionListSize == 1 ? "" : "s") + ".");
         logger.info(message);
 
-        Runnable task = () -> {
-            for (Expansion expansion : lateLoadExpansionList) {
-                enableExpansion(expansion);
-                logger.info(" ");
+        TaskDetails task = new TaskDetails(plugin.getPlugin()) {
+            @Override
+            public void run() {
+                for (Expansion expansion : lateLoadExpansionList) {
+                    enableExpansion(expansion);
+                    logger.info(" ");
+                }
+
+                List<Expansion> newEnabledExpansionList = getEnabledExpansions();
+                int newExpansionListSize = newEnabledExpansionList.size();
+                int newExpansionCount = (newExpansionListSize - expansionListSize);
+
+                String newMessage = ("Successfully enabled " + newExpansionCount + " late-load expansion"
+                        + (expansionListSize == 1 ? "" : "s") + ".");
+                logger.info(newMessage);
             }
-
-            List<Expansion> newEnabledExpansionList = getEnabledExpansions();
-            int newExpansionListSize = newEnabledExpansionList.size();
-            int newExpansionCount = (newExpansionListSize - expansionListSize);
-
-            String newMessage = ("Successfully enabled " + newExpansionCount + " late-load expansion"
-                    + (expansionListSize == 1 ? "" : "s") + ".");
-            logger.info(newMessage);
         };
+        task.setDelay(1L);
 
-        JavaPlugin javaPlugin = getPlugin().getPlugin();
-        BukkitScheduler scheduler = Bukkit.getScheduler();
-        scheduler.scheduleSyncDelayedTask(javaPlugin, task, 1L);
+        TaskScheduler scheduler = plugin.getFoliaHelper().getScheduler();
+        scheduler.scheduleTask(task);
     }
 
     public void disableExpansions() {
@@ -169,7 +174,7 @@ public final class ExpansionManager {
         expansionList.forEach(Expansion::reloadConfig);
     }
 
-    public Optional<Expansion> getExpansion(String name) {
+    public @NotNull Optional<Expansion> getExpansion(String name) {
         if (name == null) {
             return Optional.empty();
         }
@@ -178,19 +183,19 @@ public final class ExpansionManager {
         return Optional.ofNullable(expansion);
     }
 
-    public List<Expansion> getAllExpansions() {
+    public @NotNull List<Expansion> getAllExpansions() {
         Collection<Expansion> expansionCollection = this.expansionMap.values();
         return new ArrayList<>(expansionCollection);
     }
 
-    public List<Expansion> getLoadedExpansions() {
+    public @NotNull List<Expansion> getLoadedExpansions() {
         List<Expansion> expansionList = getAllExpansions();
         return expansionList.stream()
                 .filter(expansion -> expansion.getState() == State.LOADED)
                 .collect(Collectors.toList());
     }
 
-    public List<Expansion> getEnabledExpansions() {
+    public @NotNull List<Expansion> getEnabledExpansions() {
         List<Expansion> expansionList = getAllExpansions();
         return expansionList.stream()
                 .filter(expansion -> expansion.getState() == State.ENABLED)
@@ -198,11 +203,11 @@ public final class ExpansionManager {
                 .collect(Collectors.toList());
     }
 
-    public ExpansionClassLoader getClassLoader(Expansion expansion) {
+    public @Nullable ExpansionClassLoader getClassLoader(Expansion expansion) {
         return this.expansionClassLoaderMap.getOrDefault(expansion, null);
     }
 
-    public Class<?> getClassByName(String name) {
+    public @Nullable Class<?> getClassByName(String name) {
         try {
             Class<?> defaultValue = this.expansionClassLoaderMap.values()
                     .stream().map(loader -> loader.findClass(name, false))
@@ -213,11 +218,11 @@ public final class ExpansionManager {
         }
     }
 
-    public void setClass(String name, Class<?> clazz) {
+    public void setClass(@NotNull String name, @NotNull Class<?> clazz) {
         this.classNameMap.putIfAbsent(name, clazz);
     }
 
-    private void loadExpansion(File expansionFile) {
+    private void loadExpansion(@NotNull File expansionFile) {
         ICombatLogX plugin = getPlugin();
         Logger logger = plugin.getLogger();
         plugin.printDebug("Attempting to load expansion from file '" + expansionFile + "'...");
@@ -289,13 +294,13 @@ public final class ExpansionManager {
 
             expansion.onLoad();
             expansion.setState(State.LOADED);
-        } catch (Exception ex) {
+        } catch (Throwable ex) {
             logger.log(Level.SEVERE, "An error occurred while loading an expansion:", ex);
             logger.warning("Failed to load expansion from file '" + expansionFile + "'.");
         }
     }
 
-    public void enableExpansion(Expansion expansion) {
+    public void enableExpansion(@NotNull Expansion expansion) {
         State state = expansion.getState();
         if (state == State.ENABLED) {
             return;
@@ -309,16 +314,20 @@ public final class ExpansionManager {
             String fullName = description.getFullName();
             logger.info("Enabling expansion '" + fullName + "'...");
 
-            expansion.setState(State.ENABLED);
+            expansion.setState(State.ENABLING);
             expansion.onEnable();
-        } catch (Exception ex) {
+
+            if (expansion.getState() == State.ENABLING) {
+                expansion.setState(State.ENABLED);
+            }
+        } catch (Throwable ex) {
             logger.log(Level.SEVERE, "An error occurred while enabling an expansion:", ex);
         }
     }
 
-    public void disableExpansion(Expansion expansion) {
+    public void disableExpansion(@NotNull Expansion expansion) {
         State state = expansion.getState();
-        if (state != State.ENABLED) {
+        if (state != State.ENABLED && state != State.ENABLING) {
             return;
         }
 
@@ -336,18 +345,19 @@ public final class ExpansionManager {
 
             expansion.setState(State.DISABLED);
             expansion.onDisable();
-        } catch (Exception ex) {
+        } catch (Throwable ex) {
             logger.log(Level.SEVERE, "An error occurred while disabling an expansion:", ex);
         }
     }
 
-    private List<Expansion> sortExpansions(List<Expansion> original) {
-        original.sort(new ExpansionComparator());
+    private @NotNull List<Expansion> sortExpansions(@NotNull List<Expansion> original) {
+        ExpansionComparator comparator = new ExpansionComparator();
+        original.sort(comparator);
         return original;
     }
 
-    private YamlConfiguration getExpansionDescription(JarFile jarFile) throws IllegalStateException, IOException,
-            InvalidConfigurationException {
+    private @NotNull YamlConfiguration getExpansionDescription(@NotNull JarFile jarFile)
+            throws IllegalStateException, IOException, InvalidConfigurationException {
         JarEntry entry = jarFile.getJarEntry("expansion.yml");
         if (entry == null) {
             String errorMessage = ("Expansion file '" + jarFile.getName() + "' does not contain an " +

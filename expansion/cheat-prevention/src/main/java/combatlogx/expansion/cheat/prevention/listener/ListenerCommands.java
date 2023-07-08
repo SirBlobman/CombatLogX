@@ -1,28 +1,30 @@
 package combatlogx.expansion.cheat.prevention.listener;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionDefault;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.api.language.Replacer;
+import com.github.sirblobman.api.language.replacer.Replacer;
+import com.github.sirblobman.api.language.replacer.StringReplacer;
 import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
+
+import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
+import combatlogx.expansion.cheat.prevention.configuration.ICommandConfiguration;
 
 public final class ListenerCommands extends CheatPreventionListener {
     private final Map<UUID, Long> cooldownMap;
 
-    public ListenerCommands(Expansion expansion) {
+    public ListenerCommands(@NotNull ICheatPreventionExpansion expansion) {
         super(expansion);
         this.cooldownMap = new HashMap<>();
     }
@@ -48,27 +50,25 @@ public final class ListenerCommands extends CheatPreventionListener {
         addCooldown(player);
     }
 
-    private YamlConfiguration getConfiguration() {
-        Expansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        return configurationManager.get("commands.yml");
+    private @NotNull ICommandConfiguration getCommandConfiguration() {
+        ICheatPreventionExpansion expansion = getCheatPrevention();
+        return expansion.getCommandConfiguration();
     }
 
     private boolean hasBypassPermission(Player player) {
-        YamlConfiguration configuration = getConfiguration();
-        String permissionName = configuration.getString("bypass-permission");
-        if (permissionName == null || permissionName.isEmpty()) {
+        ICommandConfiguration commandConfiguration = getCommandConfiguration();
+        Permission bypassPermission = commandConfiguration.getBypassPermission();
+        if (bypassPermission == null) {
             return false;
         }
 
-        Permission permission = new Permission(permissionName, "CombatLogX Bypass Permission: Cheat Prevention Blocked Commands", PermissionDefault.FALSE);
-        return player.hasPermission(permission);
+        return player.hasPermission(bypassPermission);
     }
 
     private long getNewExpireTime() {
-        YamlConfiguration configuration = getConfiguration();
-        long cooldownSeconds = configuration.getLong("delay-after-combat");
-        long cooldownMillis = (cooldownSeconds * 1_000L);
+        ICommandConfiguration commandConfiguration = getCommandConfiguration();
+        long cooldownSeconds = commandConfiguration.getDelayAfterCombat();
+        long cooldownMillis = TimeUnit.SECONDS.toMillis(cooldownSeconds);
 
         long systemMillis = System.currentTimeMillis();
         return (systemMillis + cooldownMillis);
@@ -91,46 +91,27 @@ public final class ListenerCommands extends CheatPreventionListener {
     }
 
     private void addCooldown(Player player) {
-        UUID uuid = player.getUniqueId();
+        UUID playerId = player.getUniqueId();
         long expireMillis = getNewExpireTime();
-        this.cooldownMap.put(uuid, expireMillis);
+        this.cooldownMap.put(playerId, expireMillis);
     }
 
     private String fixCommand(String command) {
-        if (command.startsWith("/")) return command;
+        if (command.startsWith("/")) {
+            return command;
+        }
+
         return ("/" + command);
     }
 
-    private boolean matchesAny(String string, Iterable<String> valueList) {
-        String stringLower = string.toLowerCase();
-        for (String value : valueList) {
-            if (value.equals("*") || value.equals("/*")) {
-                return true;
-            }
-
-            String valueLower = value.toLowerCase();
-            if (stringLower.equals(valueLower)) {
-                return true;
-            }
-
-            if (stringLower.startsWith(valueLower + " ")) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     private boolean isBlocked(String command) {
-        YamlConfiguration configuration = getConfiguration();
-        List<String> blockedCommandList = configuration.getStringList("blocked-command-list");
-        return matchesAny(command, blockedCommandList);
+        ICommandConfiguration commandConfiguration = getCommandConfiguration();
+        return commandConfiguration.isBlocked(command);
     }
 
     private boolean isAllowed(String command) {
-        YamlConfiguration configuration = getConfiguration();
-        List<String> allowedCommandList = configuration.getStringList("allowed-command-list");
-        return matchesAny(command, allowedCommandList);
+        ICommandConfiguration commandConfiguration = getCommandConfiguration();
+        return commandConfiguration.isAllowed(command);
     }
 
     private void checkEvent(PlayerCommandPreprocessEvent e) {
@@ -150,7 +131,7 @@ public final class ListenerCommands extends CheatPreventionListener {
         }
 
         e.setCancelled(true);
-        Replacer replacer = message -> message.replace("{command}", realCommand);
+        Replacer replacer = new StringReplacer("{command}", realCommand);
         sendMessageIgnoreCooldown(player, "expansion.cheat-prevention.command-blocked", replacer);
     }
 }

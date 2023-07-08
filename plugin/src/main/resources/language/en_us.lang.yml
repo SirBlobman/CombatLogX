@@ -20,8 +20,8 @@ language-name: "en_us"
 # The United States uses the number and two decimal places
 decimal-format: "0.00"
 
-# The prefix for CombatLogX.
-# This is shown in front of all messages and should not be changed unless necessary.
+# The prefix for CombatLogX that is shown in front of all messages.
+# Note to translators: Do not change this message.
 prefix: "<white><bold>[<gold>CombatLogX</gold>]</bold></white>"
 
 broadcast:
@@ -75,6 +75,9 @@ error:
   # Shown when the console tries to execute a command made for players.
   player-only: "<red>Only players can execute this command</red>"
 
+  # Shown when a player tries to execute a command made for the server console.
+  console-only: "<red>This command can only be executed in the server console.</red>"
+
   # Shown when a command that requires a player has invalid input.
   invalid-target: "<red><gray>{target}</gray> is not online or does not exist.</red>"
 
@@ -96,6 +99,9 @@ error:
   # Shown when a command that requires an expansion has invalid input.
   unknown-expansion: "<red><gray>{target}</gray> is not an expansion or is not installed.</red>"
 
+  forgive-not-enemy: "<red><gray>{target}</gray> is not one of your enemies.</red>"
+  enemy-not-forgiving: "<red>That enemy is not in the mood to forgive you.</red>"
+
 command:
   combatlogx:
     # Shown as the command output for '/combatlogx help'.
@@ -109,6 +115,10 @@ command:
       - "  <white><bold>/combatlogx toggle bossbar/actionbar/scoreboard</bold></white><gray>: Enable or disable a notification type.</gray>"
       - "  <white><bold>/combatlogx untag \\<player></bold></white><gray>: Force a player out of combat.</gray>"
       - "  <white><bold>/combatlogx version</bold></white><gray>: Check your version of CombatLogX.</gray>"
+      - "  <white><bold>/combatlogx forgive request \\<player></bold></white><gray>: Send a request to an enemy to remove their tag from you.</gray>"
+      - "  <white><bold>/combatlogx forgive accept \\<player></bold></white><gray>: Allow an enemy's request to escape from combat.</gray>"
+      - "  <white><bold>/combatlogx forgive reject \\<player></bold></white><gray>: Ignore an enemy's request to escape from combat.</gray>"
+      - "  <white><bold>/combatlogx forgive toggle</bold></white><gray>: Enable or disable requests for stopping combat.</gray>"
       - ""
 
     # Shown as the command output for '/combatlogx reload' when reloading is successful.
@@ -140,6 +150,28 @@ command:
     # Shown as the command output for '/combatlogx toggle scoreboard'.
     toggle-scoreboard: "<gray><bold>Scoreboard:</bold></gray> {status}"
 
+    # Shown as the command output for '/combatlogx about <expansion>'.
+    expansion-information:
+      - ""
+      - "<white><bold>Expansion Information for</bold> <green>{name}</green><bold>:</bold></white>"
+      - "<white><bold>Display Name:</bold></white> <gray>{prefix}</gray>"
+      - "<white><bold>Version:</bold></white> <gray>{version}</gray>"
+      - "<white><bold>State:</bold></white> <gray>{state}</gray>"
+      - ""
+      - "<white><bold>Description:</bold></white> <gray>{description}</gray>"
+      - "<white><bold>Website:</bold></white> <gray>{website}</gray>"
+      - "<white><bold>Authors:</bold></white> <gray>{authors}</gray>"
+
+    forgive:
+      toggle-disable: "<green>You can no longer receive requests for forgiveness.</green>"
+      toggle-enable: "<green>You can now receive forgiveness requests.</green>"
+      request-sent: "<green>You sent a forgive request to <gray>{target}</gray>.</green>"
+      request-receive:
+        - "<green><gray>{player}</gray> sent a forgive request to you.</green>"
+        - "<green>Type <click:run_command:/combatlogx forgive accept><gray>/clx forgive accept</gray></click> to accept or.</green>"
+        - "<green><click:run_command:/combatlogx forgive reject><gray>/clx forgive reject</gray></click> to deny.</green>"
+
+
   combat-timer:
     # Shown as the command output for '/combat-timer'.
     time-left-self: "<green>You have <gray>{time_left}</gray> seconds remaining.</green>"
@@ -148,6 +180,13 @@ command:
     time-left-other: "<green><gray>{target}</gray> has <gray>{time_left} seconds</gray> remaining.</green>"
 
 # These messages are shown a player is tagged into combat.
+# You can also change the location of these messages.
+# Example:
+# tagged:
+#   attacked:
+#     player:
+#       type: ACTION_BAR
+#       content: "<message here>"
 tagged:
   unknown:
     player: "<red>You are now in combat with <white>{enemy}</white> for an unknown reason. Do not log out!</red>"
@@ -304,24 +343,30 @@ expansion:
     # You can find a list of damage types here:
     # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/EntityDamageEvent.DamageCause.html
     damage-type:
+      block-explosion: "<red>You were damaged by an explosion. Do not log out!</red>"
       contact: "<red>You were pricked by a cactus. Do not log out!</red>"
-      suffocation: "<red>You are suffocating in a wall. Do not log out!</red>"
+      cramming: "<red>You are being squished. Do not log out!</red>"
+      custom: "<red>You took custom damage. Do not log out!</red>"
+      drowning: "<red>You are drowning. Do not log out!</red>"
+      dryout: "<red>You stayed out of water too long. Do not log out!</red>" # May be triggered by custom plugins.
+      entity-explosion: "<red>You were damaged by an End Crystal explosion. Do not log out!</red>" # Only triggered by end crystals.
       fall: "<red>You took fall damage. Do not log out!</red>"
+      falling-block: "<red>A block fell on you. Do not log out!</red>"
       fire: "<red>You walked into fire. Do not log out!</red>"
       fire-tick: "<red>You are burning. Do not log out!</red>"
-      lava: "<red>You are boiling in lava. Do not log out!</red>"
-      drowning: "<red>You are drowning. Do not log out!</red>"
-      block-explosion: "<red>You were damaged by an explosion. Do not log out!</red>"
-      lightning: "<red>Thou hast been smitten! Do not log out!</red>"
-      starvation: "<red>You are too hungry. Do not log out!</red>"
-      poison: "<red>You took poison damage. Do not log out!</red>"
-      magic: "<red>Someone threw a potion at you. Do not log out!</red>"
-      wither: "<red>You are withering away. Do not log out!</red>"
-      falling-block: "<red>A block fell on you. Do not log out!</red>"
-      custom: "<red>You took custom damage. Do not log out!</red>"
       fly-into-wall: "<red>You experienced kinetic energy. Do not log out!</red>"
+      freeze: "<red>You are freezing. Do not log out!</red>"
       hot-floor: "<red>The floor is lava! Do not log out!</red>"
-      cramming: "<red>You are being squished. Do not log out!</red>"
+      lava: "<red>You are boiling in lava. Do not log out!</red>"
+      lightning: "<red>Thou hast been smitten! Do not log out!</red>"
+      magic: "<red>Someone threw a potion at you. Do not log out!</red>"
+      melting: "<red>You are melting! Do not log out.</red>" # May be triggered by custom plugins.
+      poison: "<red>You took poison damage. Do not log out!</red>"
+      starvation: "<red>You are too hungry. Do not log out!</red>"
+      suffocation: "<red>You are suffocating in a wall. Do not log out!</red>"
+      void: "<red>You are falling into the void. Do not log out!</red>"
+      wither: "<red>You are withering away. Do not log out!</red>"
+      world-border: "<red>You are too close to the border. Do not log out!</red>"
 
   newbie-helper:
     togglepvp:
@@ -381,6 +426,9 @@ expansion:
 
     # Shown when a married player is prevented from teleporting to their partner during combat.
     prevent-teleport-partner: "<red>You are not allowed to teleport to your partner while they are in combat.</red>"
+
+  huskhomes-compatibility:
+    prevent-teleport: "<red>You are not allowed to teleport during combat.</red>"
 
   region-protection:
     # Shown when a player tries to enter a no-pvp area during combat.

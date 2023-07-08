@@ -4,6 +4,10 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.logging.Logger;
 
+import org.jetbrains.annotations.NotNull;
+
+import org.bukkit.configuration.file.YamlConfiguration;
+
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -13,11 +17,13 @@ import com.github.sirblobman.combatlogx.api.manager.ITimerManager;
 import combatlogx.expansion.scoreboard.manager.CustomScoreboardManager;
 
 public final class ScoreboardExpansion extends Expansion {
+    private final ScoreboardConfiguration configuration;
     private final CustomScoreboardManager scoreboardManager;
     private Boolean usePaperAPI;
 
-    public ScoreboardExpansion(ICombatLogX plugin) {
+    public ScoreboardExpansion(@NotNull ICombatLogX plugin) {
         super(plugin);
+        this.configuration = new ScoreboardConfiguration();
         this.scoreboardManager = new CustomScoreboardManager(this);
         this.usePaperAPI = null;
     }
@@ -37,6 +43,15 @@ public final class ScoreboardExpansion extends Expansion {
             selfDisable();
             return;
         }
+
+        if (getPlugin().getFoliaHelper().isFolia()) {
+            Logger logger = getLogger();
+            logger.warning("Folia does not currently support scoreboards.");
+            selfDisable();
+            return;
+        }
+
+        reloadConfig();
 
         ICombatLogX plugin = getPlugin();
         ITimerManager timerManager = plugin.getTimerManager();
@@ -58,14 +73,21 @@ public final class ScoreboardExpansion extends Expansion {
     public void reloadConfig() {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.reload("config.yml");
+
+        ScoreboardConfiguration configuration = getConfiguration();
+        YamlConfiguration yamlConfiguration = configurationManager.get("config.yml");
+        configuration.load(yamlConfiguration);
     }
 
-    public CustomScoreboardManager getScoreboardManager() {
+    public @NotNull CustomScoreboardManager getScoreboardManager() {
         return this.scoreboardManager;
     }
 
-    @SuppressWarnings("JavaReflectionMemberAccess")
-    public boolean shouldUsePaperAPI() {
+    public @NotNull ScoreboardConfiguration getConfiguration() {
+        return this.configuration;
+    }
+
+    public boolean isPaperScoreboard() {
         if (this.usePaperAPI != null) {
             return this.usePaperAPI;
         }

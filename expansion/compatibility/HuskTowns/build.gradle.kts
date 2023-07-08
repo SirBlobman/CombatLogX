@@ -4,12 +4,9 @@ java {
 }
 
 repositories {
-    maven {
-        name = "jitpack.io"
-        url = uri("https://jitpack.io/")
-    }
+    maven("https://nexus.sirblobman.xyz/proxy-jitpack/")
 }
 
 dependencies {
-    compileOnly("com.github.WiIIiam278:HuskTowns:1.8.1")
+    compileOnly("com.github.WiIIiam278:HuskTowns:2.2.1")
 }

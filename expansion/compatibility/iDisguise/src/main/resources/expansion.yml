@@ -1,9 +1,9 @@
-name: "CompatiDisguise"
-prefix: "iDisguise Compatibility"
-description: "${project.description}"
+name: "${expansionName}"
+prefix: "${expansionPrefix}"
+description: "${expansionDescription}"
 
-main: "combatlogx.expansion.compatibility.idisguise.DisguiseExpansion"
-version: "16.2"
+main: "combatlogx.expansion.compatibility.idisguise.Expansion_iDisguise"
+version: "17.1"
 author: "SirBlobman"
 
 plugin-depend:

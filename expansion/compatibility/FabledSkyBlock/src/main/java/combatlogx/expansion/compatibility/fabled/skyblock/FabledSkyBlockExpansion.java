@@ -1,37 +1,30 @@
 package combatlogx.expansion.compatibility.fabled.skyblock;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.skyblock.SkyBlockExpansion;
+import com.github.sirblobman.combatlogx.api.expansion.skyblock.SkyBlockHandler;
 
-import combatlogx.expansion.compatibility.fabled.skyblock.listener.ListenerFabledSkyBlock;
+public final class FabledSkyBlockExpansion extends SkyBlockExpansion {
+    private SkyBlockHandler<?> skyBlockHandler;
 
-public final class FabledSkyBlockExpansion extends Expansion {
-    public FabledSkyBlockExpansion(ICombatLogX plugin) {
+    public FabledSkyBlockExpansion(@NotNull ICombatLogX plugin) {
         super(plugin);
+        this.skyBlockHandler = null;
     }
 
     @Override
-    public void onLoad() {
-        // Do Nothing
+    public boolean checkDependencies() {
+        return checkDependency("FabledSkyBlock", true);
     }
 
     @Override
-    public void onEnable() {
-        if (!checkDependency("FabledSkyBlock", true)) {
-            selfDisable();
-            return;
+    public @NotNull SkyBlockHandler<?> getSkyBlockHandler() {
+        if (this.skyBlockHandler == null) {
+            this.skyBlockHandler = new SkyBlockHandlerFabled(this);
         }
 
-        new ListenerFabledSkyBlock(this).register();
-    }
-
-    @Override
-    public void onDisable() {
-        // Do Nothing
-    }
-
-    @Override
-    public void reloadConfig() {
-        // Do Nothing
+        return this.skyBlockHandler;
     }
 }

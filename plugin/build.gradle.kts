@@ -1,7 +1,7 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
-    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
     id("maven-publish")
 }
 
@@ -13,13 +13,20 @@ repositories {
     maven {
         url = uri("https://repo.clojars.org/")
     }
+    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
 }
 
 dependencies {
+    // Local Dependencies
     implementation(project(":api"))
-    implementation("org.zeroturnaround:zt-zip:1.15")
+
     implementation ("com.github.puregero:multilib:1.1.8")
-    compileOnly("me.clip:placeholderapi:2.11.2")
+    
+    // Java Dependencies
+    implementation("org.zeroturnaround:zt-zip:1.15") // ZT Zip
+
+    // Plugin Dependencies
+    compileOnly("me.clip:placeholderapi:2.11.3") // PlaceholderAPI
 }
 
 tasks {
@@ -35,8 +42,8 @@ tasks {
         relocate("org.slf4j", "com.github.sirblobman.combatlogx.zip.slf4j")
     }
 
-    build {
-        dependsOn(shadowJar)
+    named("build") {
+        dependsOn("shadowJar")
     }
 
     processResources {
@@ -48,20 +55,20 @@ tasks {
         val pluginMainClass = (findProperty("bukkit.plugin.main") ?: "") as String
 
         filesMatching("plugin.yml") {
-            filter {
-                it.replace("\${bukkit.plugin.name}", pluginName)
-                    .replace("\${bukkit.plugin.prefix}", pluginPrefix)
-                    .replace("\${bukkit.plugin.description}", pluginDescription)
-                    .replace("\${bukkit.plugin.website}", pluginWebsite)
-                    .replace("\${bukkit.plugin.main}", pluginMainClass)
-                    .replace("\${bukkit.plugin.version}", calculatedVersion)
-            }
+            expand(
+                mapOf(
+                    "pluginName" to pluginName,
+                    "pluginPrefix" to pluginPrefix,
+                    "pluginDescription" to pluginDescription,
+                    "pluginWebsite" to pluginWebsite,
+                    "pluginMainClass" to pluginMainClass,
+                    "pluginVersion" to calculatedVersion
+                )
+            )
         }
 
         filesMatching("config.yml") {
-            filter {
-                it.replace("\${bukkit.plugin.version}", calculatedVersion)
-            }
+            expand(mapOf("pluginVersion" to calculatedVersion))
         }
     }
 }

@@ -9,7 +9,9 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
-import org.bukkit.Bukkit;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -19,18 +21,19 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.scheduler.BukkitScheduler;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
+import com.github.sirblobman.api.folia.details.RunnableTask;
+import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
-import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
+import combatlogx.expansion.compatibility.citizens.configuration.CitizensConfiguration;
+import combatlogx.expansion.compatibility.citizens.configuration.SentinelConfiguration;
 import combatlogx.expansion.compatibility.citizens.object.CombatNPC;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
@@ -45,22 +48,22 @@ public final class CombatNpcManager {
     private final Map<UUID, CombatNPC> playerNpcMap;
     private final Map<UUID, CombatNPC> npcCombatMap;
 
-    public CombatNpcManager(CitizensExpansion expansion) {
-        this.expansion = Validate.notNull(expansion, "expansion must not be null!");
+    public CombatNpcManager(@NotNull CitizensExpansion expansion) {
+        this.expansion = expansion;
         this.playerNpcMap = new ConcurrentHashMap<>();
         this.npcCombatMap = new ConcurrentHashMap<>();
     }
 
-    private CitizensExpansion getExpansion() {
+    private @NotNull CitizensExpansion getExpansion() {
         return this.expansion;
     }
 
-    private ICombatLogX getCombatLogX() {
+    private @NotNull ICombatLogX getCombatLogX() {
         CitizensExpansion expansion = getExpansion();
         return expansion.getPlugin();
     }
 
-    public CombatNPC getCombatNPC(NPC npc) {
+    public @Nullable CombatNPC getCombatNPC(@Nullable NPC npc) {
         if (npc == null) {
             return null;
         }
@@ -69,19 +72,19 @@ public final class CombatNpcManager {
         return this.npcCombatMap.getOrDefault(npcId, null);
     }
 
-    public YamlConfiguration getData(OfflinePlayer player) {
+    public @NotNull YamlConfiguration getData(@NotNull OfflinePlayer player) {
         ICombatLogX plugin = getCombatLogX();
         PlayerDataManager playerDataManager = plugin.getPlayerDataManager();
         return playerDataManager.get(player);
     }
 
-    public void saveData(OfflinePlayer player) {
+    public void saveData(@NotNull OfflinePlayer player) {
         ICombatLogX plugin = getCombatLogX();
         PlayerDataManager playerDataManager = plugin.getPlayerDataManager();
         playerDataManager.save(player);
     }
 
-    public void remove(CombatNPC combatNPC) {
+    public void remove(@NotNull CombatNPC combatNPC) {
         OfflinePlayer owner = combatNPC.getOfflineOwner();
         NPC originalNPC = combatNPC.getOriginalNPC();
 
@@ -95,8 +98,8 @@ public final class CombatNpcManager {
         this.playerNpcMap.remove(owner.getUniqueId());
         this.npcCombatMap.remove(originalNPC.getUniqueId());
 
-        BukkitScheduler scheduler = Bukkit.getScheduler();
-        scheduler.runTask(getCombatLogX().getPlugin(), originalNPC::destroy);
+        TaskScheduler scheduler = getCombatLogX().getFoliaHelper().getScheduler();
+        scheduler.scheduleTask(new RunnableTask(getCombatLogX().getPlugin(), originalNPC::destroy));
     }
 
     public void removeAll() {
@@ -107,9 +110,9 @@ public final class CombatNpcManager {
         npcCollection.forEach(this::remove);
     }
 
-    public void createNPC(Player player) {
-        if (player == null || player.hasMetadata("NPC")) {
-            printDebug("player was null or an NPC, not spawning.");
+    public void createNPC(@NotNull Player player) {
+        if (player.hasMetadata("NPC")) {
+            printDebug("player is an NPC, not spawning.");
             return;
         }
 
@@ -158,18 +161,12 @@ public final class CombatNpcManager {
         }
 
         livingEntity.setHealth(health);
-        YamlConfiguration configuration = getConfiguration();
-        if (configuration.getBoolean("mob-target")) {
+        CitizensConfiguration configuration = getConfiguration();
+        if (configuration.isMobTarget()) {
             npc.data().set(Metadata.TARGETABLE, true);
-            double radius = configuration.getDouble("mob-target-radius");
-            List<Entity> nearbyEntityList = livingEntity.getNearbyEntities(radius, radius, radius);
-            for (Entity nearby : nearbyEntityList) {
-                if (!(nearby instanceof Monster)) {
-                    continue;
-                }
-
-                Monster monster = (Monster) nearby;
-                monster.setTarget(livingEntity);
+            double radius = configuration.getMobTargetRadius();
+            if (radius >= 0.0D) {
+                forceTargetAllNearby(livingEntity, radius);
             }
         }
 
@@ -185,20 +182,7 @@ public final class CombatNpcManager {
                 combatNPC.setEnemy((Player) enemyEntity);
             }
 
-            CitizensExpansion citizensExpansion = getExpansion();
-            if (citizensExpansion.isSentinelEnabled()) {
-                if (enemyEntity != null && configuration.getBoolean("attack-first")) {
-                    SentinelTrait sentinelTrait = npc.getOrAddTrait(SentinelTrait.class);
-                    sentinelTrait.setInvincible(false);
-                    sentinelTrait.respawnTime = -1;
-
-                    UUID enemyId = enemyEntity.getUniqueId();
-                    String enemyIdString = enemyId.toString();
-
-                    SentinelTargetLabel targetLabel = new SentinelTargetLabel("uuid:" + enemyIdString);
-                    targetLabel.addToList(sentinelTrait.allTargets);
-                }
-            }
+            checkSentinel(npc, tagInformation);
         }
 
         saveLocation(player, npc);
@@ -208,12 +192,22 @@ public final class CombatNpcManager {
         combatNPC.start();
     }
 
-    public CombatNPC getNPC(OfflinePlayer player) {
-        UUID uuid = player.getUniqueId();
-        return this.playerNpcMap.getOrDefault(uuid, null);
+    private void forceTargetAllNearby(@NotNull LivingEntity entity, double radius) {
+        List<Entity> nearbyEntityList = entity.getNearbyEntities(radius, radius, radius);
+        for (Entity nearby : nearbyEntityList) {
+            if (nearby instanceof Monster) {
+                Monster monster = (Monster) nearby;
+                monster.setTarget(entity);
+            }
+        }
     }
 
-    private void saveNPC(OfflinePlayer owner, NPC npc) {
+    public @Nullable CombatNPC getNPC(@NotNull OfflinePlayer player) {
+        UUID playerId = player.getUniqueId();
+        return this.playerNpcMap.get(playerId);
+    }
+
+    private void saveNPC(@NotNull OfflinePlayer owner, @NotNull NPC npc) {
         saveHealth(owner, npc);
         saveLocation(owner, npc);
 
@@ -222,23 +216,23 @@ public final class CombatNpcManager {
         saveData(owner);
     }
 
-    private void saveHealth(OfflinePlayer owner, NPC npc) {
+    private void saveHealth(@NotNull OfflinePlayer owner, @NotNull NPC npc) {
         double health = getHealth(npc);
         YamlConfiguration data = getData(owner);
         data.set("citizens-compatibility.health", health);
         saveData(owner);
     }
 
-    private void saveLocation(OfflinePlayer owner, NPC npc) {
+    private void saveLocation(@NotNull OfflinePlayer owner, @NotNull NPC npc) {
         Location location = getLocation(npc);
         YamlConfiguration data = getData(owner);
         data.set("citizens-compatibility.location", location);
         saveData(owner);
     }
 
-    public void saveInventory(Player player) {
-        YamlConfiguration configuration = getConfiguration();
-        if (!configuration.getBoolean("store-inventory")) {
+    public void saveInventory(@NotNull Player player) {
+        CitizensConfiguration configuration = getConfiguration();
+        if (!configuration.isStoreInventory()) {
             return;
         }
 
@@ -251,24 +245,28 @@ public final class CombatNpcManager {
         player.updateInventory();
     }
 
-    public void equipNPC(Player player, NPC npc) {
+    public void equipNPC(@NotNull Player player, @NotNull NPC npc) {
         CitizensExpansion expansion = getExpansion();
         InventoryManager inventoryManager = expansion.getInventoryManager();
         inventoryManager.equipNPC(player, npc);
     }
 
-    public double loadHealth(Player player) {
+    public double loadHealth(@NotNull Player player) {
         YamlConfiguration data = getData(player);
         return data.getDouble("citizens-compatibility.health");
     }
 
-    public Location loadLocation(Player player) {
+    public @Nullable Location loadLocation(@NotNull Player player) {
         YamlConfiguration data = getData(player);
         Object locationObject = data.get("citizens-compatibility.location");
-        return (locationObject instanceof Location ? (Location) locationObject : null);
+        if (locationObject instanceof Location) {
+            return (Location) locationObject;
+        }
+
+        return null;
     }
 
-    private double getHealth(NPC npc) {
+    private double getHealth(@NotNull NPC npc) {
         if (!npc.isSpawned()) {
             return 0.0D;
         }
@@ -282,7 +280,7 @@ public final class CombatNpcManager {
         return livingEntity.getHealth();
     }
 
-    public Location getLocation(NPC npc) {
+    public @NotNull Location getLocation(@NotNull NPC npc) {
         if (!npc.isSpawned()) {
             return npc.getStoredLocation();
         }
@@ -291,44 +289,46 @@ public final class CombatNpcManager {
         return entity.getLocation();
     }
 
-    private YamlConfiguration getConfiguration() {
-        ConfigurationManager configurationManager = this.expansion.getConfigurationManager();
-        return configurationManager.get("citizens.yml");
+    private @NotNull CitizensConfiguration getConfiguration() {
+        CitizensExpansion expansion = getExpansion();
+        return expansion.getCitizensConfiguration();
     }
 
-    private EntityType getEntityType() {
-        YamlConfiguration configuration = getConfiguration();
-        String entityTypeName = configuration.getString("mob-type");
-        try {
-            if (entityTypeName == null) {
-                throw new IllegalStateException();
-            }
-
-            String value = entityTypeName.toUpperCase(Locale.US);
-            EntityType entityType = EntityType.valueOf(value);
-            if (!entityType.isAlive()) {
-                throw new IllegalStateException();
-            }
-
-            return entityType;
-        } catch (Exception ex) {
-            Logger logger = this.expansion.getLogger();
-            logger.warning("Unknown or non-living mob-type '" + entityTypeName + "' for NPCs!");
-            logger.warning("Defaulting to PLAYER");
-            configuration.set("mob-type", "PLAYER");
-            return EntityType.PLAYER;
-        }
+    private @NotNull EntityType getEntityType() {
+        CitizensConfiguration configuration = getConfiguration();
+        return configuration.getMobType();
     }
 
-    private void printDebug(String message) {
+    private void printDebug(@NotNull String message) {
         ICombatLogX combatLogX = getCombatLogX();
-        ConfigurationManager pluginConfigurationManager = combatLogX.getConfigurationManager();
-        YamlConfiguration configuration = pluginConfigurationManager.get("config.yml");
-        if (!configuration.getBoolean("debug-mode")) {
+        if (combatLogX.isDebugModeDisabled()) {
             return;
         }
 
         Logger logger = getExpansion().getLogger();
-        logger.info("[Debug] " + message);
+        logger.info("[Debug] [CombatNpcManager] " + message);
+    }
+
+    private void checkSentinel(@NotNull NPC npc, @NotNull TagInformation tag) {
+        CitizensExpansion expansion = getExpansion();
+        if (!expansion.isSentinelEnabled()) {
+            return;
+        }
+
+        SentinelTrait sentinelTrait = npc.getOrAddTrait(SentinelTrait.class);
+        sentinelTrait.setInvincible(false);
+        sentinelTrait.respawnTime = -1;
+
+        SentinelConfiguration configuration = expansion.getSentinelConfiguration();
+        if (!configuration.isAttackFirst()) {
+            return;
+        }
+
+        List<UUID> enemyIdList = tag.getEnemyIds();
+        for (UUID enemyId : enemyIdList) {
+            String enemyIdString = String.format(Locale.US, "uuid:%s", enemyId);
+            SentinelTargetLabel targetLabel = new SentinelTargetLabel(enemyIdString);
+            targetLabel.addToList(sentinelTrait.allTargets);
+        }
     }
 }

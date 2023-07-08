@@ -1,10 +1,12 @@
 package com.github.sirblobman.combatlogx.api.event;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
-import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
@@ -25,27 +27,28 @@ public final class PlayerPreTagEvent extends CustomPlayerEventCancellable {
     private final TagType tagType;
     private final TagReason tagReason;
 
-    public PlayerPreTagEvent(Player player, Entity enemy, TagType tagType, TagReason tagReason) {
+    public PlayerPreTagEvent(@NotNull Player player, @Nullable Entity enemy, @NotNull TagType tagType,
+                             @NotNull TagReason tagReason) {
         super(player);
         this.enemy = enemy;
-        this.tagType = Validate.notNull(tagType, "tagType must not be null!");
-        this.tagReason = Validate.notNull(tagReason, "tagReason must not be null!");
+        this.tagType = tagType;
+        this.tagReason = tagReason;
     }
 
-    public static HandlerList getHandlerList() {
+    public static @NotNull HandlerList getHandlerList() {
         return HANDLER_LIST;
     }
 
     @Override
     public HandlerList getHandlers() {
-        return HANDLER_LIST;
+        return getHandlerList();
     }
 
     /**
      * @return The enemy that will tag the player or null if an enemy does not exist
      * @see #getPlayer()
      */
-    public Entity getEnemy() {
+    public @Nullable Entity getEnemy() {
         return this.enemy;
     }
 
@@ -53,7 +56,7 @@ public final class PlayerPreTagEvent extends CustomPlayerEventCancellable {
      * @return The type of entity that will cause this player to be tagged
      * @see #getPlayer()
      */
-    public TagType getTagType() {
+    public @NotNull TagType getTagType() {
         return this.tagType;
     }
 
@@ -61,7 +64,7 @@ public final class PlayerPreTagEvent extends CustomPlayerEventCancellable {
      * @return The reason that will cause this player to be tagged.
      * @see #getPlayer()
      */
-    public TagReason getTagReason() {
+    public @NotNull TagReason getTagReason() {
         return this.tagReason;
     }
 }

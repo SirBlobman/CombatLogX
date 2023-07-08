@@ -1,0 +1,11 @@
+# This is a list of worlds that will ignore the pvp toggle and newbie protection
+# and allow PVP at all times.
+forced-pvp-world-list:
+  - "pvp"
+  - "arena"
+
+# This is a list of worlds that will ignore the pvp toggle and newbie protection
+# and deny PVP at all times;
+no-pvp-world-list:
+  - "no_pvp"
+  - "peaceful"

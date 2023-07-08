@@ -1,76 +1,100 @@
 package com.github.sirblobman.combatlogx.api.expansion.region;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.jetbrains.annotations.NotNull;
+
+import org.bukkit.configuration.file.YamlConfiguration;
+
 import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.plugin.ConfigurablePlugin;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionWithDependencies;
+import com.github.sirblobman.combatlogx.api.expansion.region.configuration.RegionExpansionConfiguration;
+import com.github.sirblobman.combatlogx.api.expansion.region.listener.RegionMoveListener;
+import com.github.sirblobman.combatlogx.api.expansion.region.listener.RegionTeleportListener;
+import com.github.sirblobman.combatlogx.api.expansion.region.listener.RegionVulnerableListener;
 
-public abstract class RegionExpansion extends Expansion {
-    private boolean enabledSuccessfully;
+public abstract class RegionExpansion extends ExpansionWithDependencies {
+    private final RegionExpansionConfiguration configuration;
 
-    public RegionExpansion(ICombatLogX plugin) {
+    public RegionExpansion(@NotNull ICombatLogX plugin) {
         super(plugin);
-        this.enabledSuccessfully = false;
-    }
-
-    @Override
-    public final void onEnable() {
-        ICombatLogX plugin = getPlugin();
-        if (!checkDependencies()) {
-            Logger logger = getLogger();
-            logger.info("Some dependencies for this expansion are missing!");
-
-            ExpansionManager expansionManager = plugin.getExpansionManager();
-            expansionManager.disableExpansion(this);
-            return;
-        }
-
-        new RegionMoveListener(this).register();
-        new RegionVulnerableListener(this).register();
-
-        this.enabledSuccessfully = true;
-        afterEnable();
-    }
-
-    @Override
-    public final void onDisable() {
-        if (!this.enabledSuccessfully) {
-            return;
-        }
-
-        afterDisable();
-        this.enabledSuccessfully = false;
+        this.configuration = new RegionExpansionConfiguration();
     }
 
     @Override
     public void onLoad() {
-        ConfigurationManager configurationManager = getConfigurationManager();
-        configurationManager.saveDefault("config.yml");
+        File dataFolder = getDataFolder();
+        File configFile = new File(dataFolder, "config.yml");
+        if (!configFile.exists()) {
+            saveDefaultRegionConfig(configFile);
+        }
+    }
+
+    @Override
+    public final void onCheckedEnable() {
+        reloadConfig();
+        registerListeners();
+        afterEnable();
+    }
+
+    @Override
+    public final void onCheckedDisable() {
+        afterDisable();
+    }
+
+    private void registerListeners() {
+        new RegionMoveListener(this).register();
+        new RegionTeleportListener(this).register();
+        new RegionVulnerableListener(this).register();
     }
 
     @Override
     public void reloadConfig() {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.reload("config.yml");
+        getConfiguration().load(configurationManager.get("config.yml"));
+    }
+
+    public final @NotNull RegionExpansionConfiguration getConfiguration() {
+        return this.configuration;
     }
 
     /**
-     * This method can be overridden if you need to do something when the expansion is enabled.
+     * You can override this method if you need to do something when the expansion is enabled.
      */
     public void afterEnable() {
         // Do Nothing
     }
 
     /**
-     * This method can be overridden if you need to do something when the expansion is disabled.
+     * You can override this method if you need to do something when the expansion is disabled.
      */
     public void afterDisable() {
         // Do Nothing
     }
 
-    public abstract boolean checkDependencies();
+    public abstract @NotNull RegionHandler<?> getRegionHandler();
 
-    public abstract RegionHandler getRegionHandler();
+    private void saveDefaultRegionConfig(File file) {
+        ConfigurablePlugin plugin = getPlugin().getPlugin();
+        ConfigurationManager pluginConfigManager = plugin.getConfigurationManager();
+
+        try {
+            String defaultConfigName = "default-region-expansion-config.yml";
+            YamlConfiguration defaultConfig = pluginConfigManager.getInternal(defaultConfigName);
+            if (defaultConfig == null) {
+                throw new IOException("Missing file 'default-region-expansion-config.yml' in jar.");
+            }
+
+            defaultConfig.save(file);
+        } catch (IOException ex) {
+            Logger logger = getLogger();
+            logger.log(Level.WARNING, "Failed to create the default region configuration:", ex);
+        }
+    }
 }

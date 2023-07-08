@@ -8,10 +8,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.github.sirblobman.api.language.Replacer;
+import com.github.sirblobman.api.language.replacer.Replacer;
+import com.github.sirblobman.api.language.replacer.StringReplacer;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.command.CombatLogCommand;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
@@ -19,13 +22,13 @@ import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
 public final class SubCommandTag extends CombatLogCommand {
-    public SubCommandTag(ICombatLogX plugin) {
+    public SubCommandTag(@NotNull ICombatLogX plugin) {
         super(plugin, "tag");
         setPermissionName("combatlogx.command.combatlogx.tag");
     }
 
     @Override
-    protected List<String> onTabComplete(CommandSender sender, String[] args) {
+    protected @NotNull List<String> onTabComplete(@NotNull CommandSender sender, String @NotNull [] args) {
         if (args.length == 1) {
             Set<String> valueSet = getOnlinePlayerNames();
             return getMatching(args[0], valueSet);
@@ -41,7 +44,7 @@ public final class SubCommandTag extends CombatLogCommand {
     }
 
     @Override
-    protected boolean execute(CommandSender sender, String[] args) {
+    protected boolean execute(@NotNull CommandSender sender, String @NotNull [] args) {
         if (args.length < 1) {
             return false;
         }
@@ -52,7 +55,7 @@ public final class SubCommandTag extends CombatLogCommand {
         }
 
         String targetName = target.getName();
-        Replacer replacer = message -> message.replace("{target}", targetName);
+        Replacer replacer = new StringReplacer("{target}", targetName);
 
         ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = plugin.getCombatManager();

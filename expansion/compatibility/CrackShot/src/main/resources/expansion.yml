@@ -1,9 +1,9 @@
-name: "CompatCrackShot"
-prefix: "CrackShot Compatibility"
-description: "${project.description}"
+name: "${expansionName}"
+prefix: "${expansionPrefix}"
+description: "${expansionDescription}"
 
 main: "combatlogx.expansion.compatibility.crackshot.CrackShotExpansion"
-version: "16.2"
+version: "17.0"
 author: "SirBlobman"
 
 plugin-depend:

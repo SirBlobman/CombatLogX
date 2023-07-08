@@ -1,11 +1,13 @@
 package combatlogx.expansion.compatibility.region.residence;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 
 public final class ResidenceExpansion extends RegionExpansion {
-    private RegionHandler regionHandler;
+    private RegionHandler<?> regionHandler;
 
     public ResidenceExpansion(ICombatLogX plugin) {
         super(plugin);
@@ -14,13 +16,13 @@ public final class ResidenceExpansion extends RegionExpansion {
 
     @Override
     public boolean checkDependencies() {
-        return checkDependency("Residence", false, "5.0");
+        return checkDependency("Residence", false, "5.1");
     }
 
     @Override
-    public RegionHandler getRegionHandler() {
+    public @NotNull RegionHandler<?> getRegionHandler() {
         if (this.regionHandler == null) {
-            this.regionHandler = new ResidenceRegionHandler(this);
+            this.regionHandler = new RegionHandlerResidence(this);
         }
 
         return this.regionHandler;

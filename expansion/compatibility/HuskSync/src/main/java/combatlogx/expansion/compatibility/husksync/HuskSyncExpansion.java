@@ -1,10 +1,12 @@
 package combatlogx.expansion.compatibility.husksync;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 
 public final class HuskSyncExpansion extends Expansion {
-    public HuskSyncExpansion(ICombatLogX plugin) {
+    public HuskSyncExpansion(@NotNull ICombatLogX plugin) {
         super(plugin);
     }
 
@@ -15,7 +17,7 @@ public final class HuskSyncExpansion extends Expansion {
 
     @Override
     public void onEnable() {
-        if (!checkDependency("HuskSync", true, "2.1.1")) {
+        if (!checkDependency("HuskSync", true, "2.2")) {
             selfDisable();
             return;
         }

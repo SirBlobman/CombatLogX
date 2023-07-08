@@ -1,6 +1,6 @@
 hooks:
   # Should placeholders from PlaceholderAPI be replaced in commands?
-  # Recommended Version: 2.11.2
+  # Recommended Version: 2.11.3
   placeholderapi: true
 
 rewards:
@@ -8,6 +8,10 @@ rewards:
   # You can use letters (A-Z and a-z) and numbers (0-9) for the id, but not symbols.
   # Every ID should be different, but you can have as many as you want.
   exampleOne:
+    # If the player does not have this permission, the reward will not be triggered.
+    # Defaults to empty (not required)
+    permission: ""
+
     # Chance is calculated using RNG (Java ThreadLocalRandom)
     # The value checked is a percent that comes from the value of (chance / max-chance)
     # This example will give a (5/1000) or a 0.5% chance of this reward occurring.
@@ -53,7 +57,7 @@ rewards:
       # This example requirement ensures that the enemy killed has $500 in their Vault economy account
       # Requirements may exclude mobs if they require a player, even if mobs are included in the list
       # The only available requirements types at this time are 'economy' and 'experience'.
-      # Economy requires a decimal 'amount'. Experience requires a integer 'amount'.
+      # Economy requires a decimal 'amount'. Experience requires an integer 'amount'.
       economyExampleOne:
         type: economy
         check-enemy: true

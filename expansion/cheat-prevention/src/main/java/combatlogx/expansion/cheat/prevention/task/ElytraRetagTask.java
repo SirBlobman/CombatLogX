@@ -2,68 +2,72 @@ package combatlogx.expansion.cheat.prevention.task;
 
 import java.util.List;
 
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
+import org.bukkit.entity.Player;
+
+import com.github.sirblobman.api.folia.details.TaskDetails;
+import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
 import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
-import combatlogx.expansion.cheat.prevention.CheatPreventionExpansion;
+import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
+import combatlogx.expansion.cheat.prevention.configuration.IItemConfiguration;
 
-public final class ElytraRetagTask extends BukkitRunnable {
-    private final CheatPreventionExpansion expansion;
+public final class ElytraRetagTask extends TaskDetails {
+    private final ICheatPreventionExpansion expansion;
 
-    public ElytraRetagTask(CheatPreventionExpansion expansion) {
+    public ElytraRetagTask(@NotNull ICheatPreventionExpansion expansion) {
+        super(expansion.getExpansion().getPlugin().getPlugin());
         this.expansion = Validate.notNull(expansion, "expansion must not be null!");
     }
 
     @Override
     public void run() {
-        ConfigurationManager configurationManager = getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("items.yml");
-        if (!configuration.getBoolean("elytra-retag", false)) {
-            return;
+        IItemConfiguration itemConfiguration = getItemConfiguration();
+        if (itemConfiguration.isElytraRetag()) {
+            run0();
         }
+    }
 
+    private void run0() {
         ICombatLogX combatLogX = getCombatLogX();
         ICombatManager combatManager = combatLogX.getCombatManager();
         List<Player> playerList = combatManager.getPlayersInCombat();
         for (Player player : playerList) {
-            if (!player.isGliding()) {
-                continue;
+            if (player.isGliding()) {
+                combatManager.tag(player, null, TagType.UNKNOWN, TagReason.UNKNOWN);
             }
-
-            combatManager.tag(player, null, TagType.UNKNOWN, TagReason.UNKNOWN);
         }
     }
 
     public void register() {
-        JavaPlugin plugin = getPlugin();
-        runTaskTimer(plugin, 10L, 10L);
+        TaskScheduler scheduler = getCombatLogX().getFoliaHelper().getScheduler();
+        setDelay(10L);
+        setPeriod(10L);
+        scheduler.scheduleTask(this);
     }
 
-    private CheatPreventionExpansion getExpansion() {
+    private @NotNull ICheatPreventionExpansion getCheatPrevention() {
         return this.expansion;
     }
 
-    private ConfigurationManager getConfigurationManager() {
-        CheatPreventionExpansion expansion = getExpansion();
-        return expansion.getConfigurationManager();
+    private @NotNull IItemConfiguration getItemConfiguration() {
+        ICheatPreventionExpansion expansion = getCheatPrevention();
+        return expansion.getItemConfiguration();
     }
 
-    private ICombatLogX getCombatLogX() {
-        CheatPreventionExpansion expansion = getExpansion();
+    private @NotNull Expansion getExpansion() {
+        ICheatPreventionExpansion cheatPrevention = getCheatPrevention();
+        return cheatPrevention.getExpansion();
+    }
+
+    private @NotNull ICombatLogX getCombatLogX() {
+        Expansion expansion = getExpansion();
         return expansion.getPlugin();
-    }
-
-    private JavaPlugin getPlugin() {
-        ICombatLogX combatLogX = getCombatLogX();
-        return combatLogX.getPlugin();
     }
 }

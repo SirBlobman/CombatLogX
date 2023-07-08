@@ -3,6 +3,8 @@ package combatlogx.expansion.compatibility.askyblock.listener;
 import java.util.List;
 import java.util.UUID;
 
+import org.jetbrains.annotations.Nullable;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,7 +16,6 @@ import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 import com.wasteofplastic.askyblock.ASkyBlockAPI;
 import com.wasteofplastic.askyblock.Island;
-import org.jetbrains.annotations.Nullable;
 
 public final class ListenerASkyBlock extends ExpansionListener {
     public ListenerASkyBlock(Expansion expansion) {

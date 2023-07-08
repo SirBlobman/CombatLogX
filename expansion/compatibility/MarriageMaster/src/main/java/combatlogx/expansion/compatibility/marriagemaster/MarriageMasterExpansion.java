@@ -1,12 +1,14 @@
 package combatlogx.expansion.compatibility.marriagemaster;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 
 import combatlogx.expansion.compatibility.marriagemaster.listener.ListenerMarriageMaster;
 
 public final class MarriageMasterExpansion extends Expansion {
-    public MarriageMasterExpansion(ICombatLogX plugin) {
+    public MarriageMasterExpansion(@NotNull ICombatLogX plugin) {
         super(plugin);
     }
 

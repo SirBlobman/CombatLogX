@@ -5,28 +5,34 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.api.language.Replacer;
-import com.github.sirblobman.api.language.SimpleReplacer;
-import com.github.sirblobman.api.utility.Validate;
+import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
+
+import com.github.sirblobman.api.language.LanguageManager;
+import com.github.sirblobman.api.language.replacer.LongReplacer;
+import com.github.sirblobman.api.language.replacer.Replacer;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 
 import combatlogx.expansion.newbie.helper.NewbieHelperExpansion;
+import combatlogx.expansion.newbie.helper.configuration.NewbieHelperConfiguration;
 
 public final class CooldownManager {
     private final NewbieHelperExpansion expansion;
     private final Map<UUID, Long> cooldownMap;
 
-    public CooldownManager(NewbieHelperExpansion expansion) {
-        this.expansion = Validate.notNull(expansion, "expansion must not be null!");
+    public CooldownManager(@NotNull NewbieHelperExpansion expansion) {
+        this.expansion = expansion;
         this.cooldownMap = new ConcurrentHashMap<>();
     }
 
-    public boolean hasCooldown(Player player) {
-        Validate.notNull(player, "player must not be null!");
+    public boolean hasCooldown(@NotNull Player player) {
+        NewbieHelperConfiguration configuration = getConfiguration();
+        Permission permission = configuration.getPermission();
+        if (permission != null && player.hasPermission(permission)) {
+            return false;
+        }
 
         UUID playerId = player.getUniqueId();
         if (!this.cooldownMap.containsKey(playerId)) {
@@ -43,8 +49,12 @@ public final class CooldownManager {
         return true;
     }
 
-    public void addCooldown(Player player) {
-        Validate.notNull(player, "player must not be null!");
+    public void addCooldown(@NotNull Player player) {
+        NewbieHelperConfiguration configuration = getConfiguration();
+        Permission permission = configuration.getPermission();
+        if (permission != null && player.hasPermission(permission)) {
+            return;
+        }
 
         long cooldownSeconds = getCooldownSeconds();
         if (cooldownSeconds <= 0L) {
@@ -57,28 +67,22 @@ public final class CooldownManager {
         setCooldownExpireMillis(player, cooldownExpireMillis);
     }
 
-    public void setCooldownExpireMillis(Player player, long expireMillis) {
-        Validate.notNull(player, "player must not be null!");
-
+    public void setCooldownExpireMillis(@NotNull Player player, long expireMillis) {
         UUID playerId = player.getUniqueId();
         this.cooldownMap.put(playerId, expireMillis);
     }
 
-    public long getCooldownExpireMillis(Player player) {
-        Validate.notNull(player, "player must not be null!");
-
+    public long getCooldownExpireMillis(@NotNull Player player) {
         UUID playerId = player.getUniqueId();
         return this.cooldownMap.getOrDefault(playerId, 0L);
     }
 
-    public void removeCooldown(Player player) {
-        Validate.notNull(player, "player must not be null!");
-
+    public void removeCooldown(@NotNull Player player) {
         UUID playerId = player.getUniqueId();
         this.cooldownMap.remove(playerId);
     }
 
-    public void sendCooldownMessage(Player player) {
+    public void sendCooldownMessage(@NotNull Player player) {
         if (!hasCooldown(player)) {
             return;
         }
@@ -87,31 +91,34 @@ public final class CooldownManager {
         long systemTimeMillis = System.currentTimeMillis();
         long subtractMillis = (expireMillis - systemTimeMillis);
         long subtractSeconds = TimeUnit.MILLISECONDS.toSeconds(subtractMillis);
+        Replacer replacer = new LongReplacer("{time_left}", subtractSeconds);
 
-        String timeLeftString = Long.toString(subtractSeconds);
-        Replacer replacer = new SimpleReplacer("{time_left}", timeLeftString);
-
-        NewbieHelperExpansion expansion = getExpansion();
-        ICombatLogX combatLogX = expansion.getPlugin();
-        combatLogX.sendMessageWithPrefix(player, "expansion.newbie-helper.togglepvp.cooldown", replacer);
+        LanguageManager languageManager = getLanguageManager();
+        String messageKey = "expansion.newbie-helper.togglepvp.cooldown";
+        languageManager.sendMessageWithPrefix(player, messageKey, replacer);
     }
 
-    private NewbieHelperExpansion getExpansion() {
+    private @NotNull NewbieHelperExpansion getExpansion() {
         return this.expansion;
     }
 
-    private ConfigurationManager getConfigurationManager() {
+    private @NotNull NewbieHelperConfiguration getConfiguration() {
         NewbieHelperExpansion expansion = getExpansion();
-        return expansion.getConfigurationManager();
+        return expansion.getConfiguration();
     }
 
-    private YamlConfiguration getConfiguration() {
-        ConfigurationManager configurationManager = getConfigurationManager();
-        return configurationManager.get("config.yml");
+    private @NotNull ICombatLogX getCombatLogX() {
+        NewbieHelperExpansion expansion = getExpansion();
+        return expansion.getPlugin();
+    }
+
+    private @NotNull LanguageManager getLanguageManager() {
+        ICombatLogX combatLogX = getCombatLogX();
+        return combatLogX.getLanguageManager();
     }
 
     private long getCooldownSeconds() {
-        YamlConfiguration configuration = getConfiguration();
-        return configuration.getLong("pvp-toggle-cooldown", 0L);
+        NewbieHelperConfiguration configuration = getConfiguration();
+        return configuration.getPvpToggleCooldown();
     }
 }

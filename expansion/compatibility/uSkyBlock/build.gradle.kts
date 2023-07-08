@@ -1,10 +1,7 @@
 repositories {
-    maven {
-        name = "uskyblock-repo"
-        url = uri("https://www.uskyblock.ovh/maven/uskyblock/")
-    }
+    maven("https://www.uskyblock.ovh/maven/uskyblock/")
 }
 
 dependencies {
-    compileOnly("com.github.rlf:uSkyBlock-API:2.11.0")
+    compileOnly("com.github.rlf:uSkyBlock-API:3.0.0")
 }

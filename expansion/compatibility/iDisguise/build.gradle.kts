@@ -1,8 +1,5 @@
 repositories {
-    maven {
-        name = "robingrether"
-        url = uri("https://www.robingrether.de/mc/repo/")
-    }
+    maven("https://www.robingrether.de/mc/repo/")
 }
 
 dependencies {

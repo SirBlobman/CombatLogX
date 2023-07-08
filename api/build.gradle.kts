@@ -8,22 +8,16 @@ java {
 }
 
 repositories {
-    maven {
-        name = "placeholderapi"
-        url = uri("https://repo.extendedclip.com/content/repositories/placeholderapi/")
-    }
+    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
 }
 
 dependencies {
-    compileOnly("me.clip:placeholderapi:2.11.2")
+    compileOnly("me.clip:placeholderapi:2.11.3")
 }
 
 publishing {
     repositories {
-        maven {
-            name = "sirblobman-public"
-            url = uri("https://nexus.sirblobman.xyz/repository/public-snapshots/")
-
+        maven("https://nexus.sirblobman.xyz/public/") {
             credentials {
                 username = rootProject.ext.get("mavenUsername") as String
                 password = rootProject.ext.get("mavenPassword") as String
@@ -33,18 +27,15 @@ publishing {
 
     publications {
         create<MavenPublication>("maven") {
-            groupId = "$group"
+            groupId = "com.github.sirblobman.combatlogx"
             artifactId = "api"
+            version = rootProject.ext.get("apiVersion") as String
             from(components["java"])
         }
     }
 }
 
-tasks {
-    javadoc {
-        options {
-            this as StandardJavadocDocletOptions
-            addStringOption("Xdoclint:none", "-quiet")
-        }
-    }
+tasks.withType<Javadoc> {
+    val standardOptions = (options as StandardJavadocDocletOptions)
+    standardOptions.addStringOption("Xdoclint:none", "-quiet")
 }

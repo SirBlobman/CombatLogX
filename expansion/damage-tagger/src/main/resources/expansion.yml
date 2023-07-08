@@ -1,7 +1,7 @@
-name: "DamageTagger"
-prefix: "Damage Tagger"
-description: "${project.description}"
+name: "${expansionName}"
+prefix: "${expansionPrefix}"
+description: "${expansionDescription}"
 
 main: "combatlogx.expansion.damage.tagger.DamageTaggerExpansion"
-version: "16.7"
+version: "17.1"
 author: "SirBlobman"

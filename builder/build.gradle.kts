@@ -2,7 +2,7 @@ plugins {
     id("distribution")
 }
 
-val coreVersion = property("blue.slime.core.version") as String
+val coreVersion = rootProject.ext.get("coreVersion") as String
 val coreJar: Configuration by configurations.creating
 val pluginJar: Configuration by configurations.creating
 val expansion: Configuration by configurations.creating
@@ -19,7 +19,9 @@ dependencies {
     expansion(project(":expansion:boss-bar"))
     expansion(project(path = ":expansion:cheat-prevention", configuration = "shadow"))
     expansion(project(":expansion:damage-tagger"))
+    expansion(project(":expansion:damage-effects"))
     expansion(project(":expansion:death-effects"))
+    expansion(project(path = ":expansion:end-crystal", configuration = "shadow"))
     expansion(project(":expansion:force-field"))
     expansion(project(":expansion:glowing"))
     expansion(project(":expansion:logger"))
@@ -43,6 +45,7 @@ dependencies {
     expansion(project(":expansion:compatibility:FeatherBoard"))
     expansion(project(":expansion:compatibility:GriefDefender"))
     expansion(project(":expansion:compatibility:GriefPrevention"))
+    expansion(project(":expansion:compatibility:HuskHomes"))
     expansion(project(":expansion:compatibility:HuskSync"))
     expansion(project(":expansion:compatibility:HuskTowns"))
     expansion(project(":expansion:compatibility:iDisguise"))
@@ -51,6 +54,7 @@ dependencies {
     expansion(project(":expansion:compatibility:Konquest"))
     expansion(project(":expansion:compatibility:Lands"))
     expansion(project(":expansion:compatibility:LibsDisguises"))
+    expansion(project(":expansion:compatibility:LuckPerms"))
     expansion(project(":expansion:compatibility:MarriageMaster"))
     expansion(project(":expansion:compatibility:MythicMobs"))
     expansion(project(":expansion:compatibility:PlaceholderAPI"))
@@ -72,15 +76,20 @@ distributions {
     main {
         contents {
             into("/") {
-                from("src/main/resources/README.TXT")
-                from(configurations["pluginJar"])
+                // README.TXT
+                from(sourceSets.getByName("main").allSource)
 
-                from(configurations["coreJar"])
+                // CombatLogX.jar
+                from(pluginJar)
+
+                // BlueSlimeCore.jar
+                from(coreJar)
                 rename("core-$coreVersion.jar", "BlueSlimeCore.jar")
             }
 
             into("/CombatLogX/expansions/") {
-                from(configurations["expansion"])
+                // All Expansions
+                from(expansion)
             }
         }
     }
@@ -97,8 +106,7 @@ tasks {
 
     named<Zip>("distZip") {
         isPreserveFileTimestamps = true
-
-        val calculatedVersion = rootProject.ext.get("calculatedVersion")
-        archiveFileName.set("CombatLogX-$calculatedVersion.zip")
+        archiveBaseName.set("CombatLogX")
+        version = rootProject.ext.get("calculatedVersion") as String
     }
 }

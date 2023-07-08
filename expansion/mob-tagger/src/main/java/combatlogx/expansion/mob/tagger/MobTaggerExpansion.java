@@ -1,28 +1,29 @@
 package combatlogx.expansion.mob.tagger;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionDefault;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 
+import combatlogx.expansion.mob.tagger.configuration.MobTaggerConfiguration;
 import combatlogx.expansion.mob.tagger.listener.ListenerDamage;
 import combatlogx.expansion.mob.tagger.manager.ISpawnReasonManager;
 import combatlogx.expansion.mob.tagger.manager.SpawnReasonManager_Legacy;
 import combatlogx.expansion.mob.tagger.manager.SpawnReasonManager_New;
-import org.jetbrains.annotations.Nullable;
 
 public final class MobTaggerExpansion extends Expansion {
+    private final MobTaggerConfiguration configuration;
     private ISpawnReasonManager spawnReasonManager;
-    private Permission mobCombatBypassPermission;
 
     public MobTaggerExpansion(ICombatLogX plugin) {
         super(plugin);
+        this.configuration = new MobTaggerConfiguration();
         this.spawnReasonManager = null;
-        this.mobCombatBypassPermission = null;
     }
 
     @Override
@@ -33,6 +34,8 @@ public final class MobTaggerExpansion extends Expansion {
 
     @Override
     public void onEnable() {
+        reloadConfig();
+
         int minorVersion = VersionUtility.getMinorVersion();
         if (minorVersion < 14) {
             this.spawnReasonManager = new SpawnReasonManager_Legacy(this);
@@ -55,29 +58,17 @@ public final class MobTaggerExpansion extends Expansion {
     public void reloadConfig() {
         ConfigurationManager configurationManager = getConfigurationManager();
         configurationManager.reload("config.yml");
-        setupBypassPermission();
+
+        YamlConfiguration yamlConfiguration = configurationManager.get("config.yml");
+        MobTaggerConfiguration configuration = getConfiguration();
+        configuration.load(yamlConfiguration);
     }
 
-    public ISpawnReasonManager getSpawnReasonManager() {
+    public @Nullable ISpawnReasonManager getSpawnReasonManager() {
         return this.spawnReasonManager;
     }
 
-    @Nullable
-    public Permission getMobCombatBypassPermission() {
-        return this.mobCombatBypassPermission;
-    }
-
-    private void setupBypassPermission() {
-        ConfigurationManager configurationManager = getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-
-        String permissionName = configuration.getString("bypass-permission");
-        if (permissionName == null || permissionName.isEmpty()) {
-            this.mobCombatBypassPermission = null;
-            return;
-        }
-
-        String description = "CombatLogX Bypass Permission for Mob Combat";
-        this.mobCombatBypassPermission = new Permission(permissionName, description, PermissionDefault.FALSE);
+    public @NotNull MobTaggerConfiguration getConfiguration() {
+        return this.configuration;
     }
 }

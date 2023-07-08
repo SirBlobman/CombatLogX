@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -12,11 +15,10 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.configuration.PlayerDataManager;
-import com.github.sirblobman.api.utility.Validate;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 
+import combatlogx.expansion.scoreboard.ScoreboardConfiguration;
 import combatlogx.expansion.scoreboard.ScoreboardExpansion;
 import combatlogx.expansion.scoreboard.scoreboard.CustomScoreboard;
 
@@ -25,34 +27,37 @@ public final class CustomScoreboardManager {
     private final Map<UUID, Scoreboard> oldScoreboardMap;
     private final Map<UUID, CustomScoreboard> combatScoreboardMap;
 
-    public CustomScoreboardManager(ScoreboardExpansion expansion) {
-        this.expansion = Validate.notNull(expansion, "expansion must not be null!");
+    public CustomScoreboardManager(@NotNull ScoreboardExpansion expansion) {
+        this.expansion = expansion;
         this.oldScoreboardMap = new HashMap<>();
         this.combatScoreboardMap = new HashMap<>();
     }
 
-    public ScoreboardExpansion getExpansion() {
+    public @NotNull ScoreboardExpansion getExpansion() {
         return this.expansion;
     }
 
-    private ICombatLogX getCombatLogX() {
+    private @NotNull ICombatLogX getCombatLogX() {
         ScoreboardExpansion expansion = getExpansion();
         return expansion.getPlugin();
     }
 
-    private PlayerDataManager getPlayerDataManager() {
+    private @NotNull PlayerDataManager getPlayerDataManager() {
         ICombatLogX combatLogX = getCombatLogX();
         return combatLogX.getPlayerDataManager();
     }
 
-    private boolean isGlobalEnabled() {
+    private @NotNull ScoreboardConfiguration getConfiguration() {
         ScoreboardExpansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        return configuration.getBoolean("enabled", true);
+        return expansion.getConfiguration();
     }
 
-    private boolean isDisabled(Player player) {
+    private boolean isGlobalEnabled() {
+        ScoreboardConfiguration configuration = getConfiguration();
+        return configuration.isEnabled();
+    }
+
+    private boolean isDisabled(@NotNull Player player) {
         if (isGlobalEnabled()) {
             PlayerDataManager playerDataManager = getPlayerDataManager();
             YamlConfiguration configuration = playerDataManager.get(player);
@@ -63,13 +68,11 @@ public final class CustomScoreboardManager {
     }
 
     private boolean shouldIgnorePrevious() {
-        ScoreboardExpansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        YamlConfiguration configuration = configurationManager.get("config.yml");
-        return !configuration.getBoolean("save-previous");
+        ScoreboardConfiguration configuration = getConfiguration();
+        return !configuration.isSavePrevious();
     }
 
-    public void updateScoreboard(Player player) {
+    public void updateScoreboard(@NotNull Player player) {
         UUID playerId = player.getUniqueId();
         if (isDisabled(player)) {
             removeScoreboard(player);
@@ -85,14 +88,14 @@ public final class CustomScoreboardManager {
         customScoreboard.updateScoreboard();
     }
 
-    private void createScoreboard(Player player) {
+    private void createScoreboard(@NotNull Player player) {
         CustomScoreboard customScoreboard = enableScoreboard(player);
         if (customScoreboard != null) {
             customScoreboard.updateScoreboard();
         }
     }
 
-    public void removeScoreboard(Player player) {
+    public void removeScoreboard(@NotNull Player player) {
         UUID uuid = player.getUniqueId();
         CustomScoreboard customScoreboard = this.combatScoreboardMap.remove(uuid);
         if (customScoreboard == null) {
@@ -114,7 +117,7 @@ public final class CustomScoreboardManager {
         }
     }
 
-    private CustomScoreboard enableScoreboard(Player player) {
+    private @Nullable CustomScoreboard enableScoreboard(@NotNull Player player) {
         if (isDisabled(player)) {
             return null;
         }
@@ -130,7 +133,7 @@ public final class CustomScoreboardManager {
         return customScoreboard;
     }
 
-    private void savePreviousScoreboard(Player player) {
+    private void savePreviousScoreboard(@NotNull Player player) {
         if (shouldIgnorePrevious()) {
             return;
         }

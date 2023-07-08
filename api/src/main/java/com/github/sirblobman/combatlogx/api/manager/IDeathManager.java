@@ -2,12 +2,12 @@ package com.github.sirblobman.combatlogx.api.manager;
 
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogXNeeded;
-
-import org.jetbrains.annotations.NotNull;
 
 public interface IDeathManager extends ICombatLogXNeeded {
     /**
@@ -16,7 +16,7 @@ public interface IDeathManager extends ICombatLogXNeeded {
      *
      * @param player The {@link Player} to kill.
      */
-    void kill(Player player, List<Entity> enemyList);
+    void kill(@NotNull Player player, @NotNull List<Entity> enemyList);
 
     /**
      * Check if a player was killed while tracked.
@@ -25,7 +25,7 @@ public interface IDeathManager extends ICombatLogXNeeded {
      * @return {@code true} if the player died from CombatLogX,
      * {@code false} if they were killed by any other reason.
      */
-    boolean wasPunishKilled(Player player);
+    boolean wasPunishKilled(@NotNull Player player);
 
     /**
      * Stop tracking a player.
@@ -33,7 +33,11 @@ public interface IDeathManager extends ICombatLogXNeeded {
      * @param player The {@link Player} to stop tracking.
      * @return {@code true} if the player was previously being tracked.
      */
-    boolean stopTracking(Player player);
+    boolean stopTracking(@NotNull Player player);
 
-    @NotNull List<Entity> getTrackedEnemies(Player player);
+    /**
+     * @param player The player to check.
+     * @return A list of tracked enemies for the player.
+     */
+    @NotNull List<Entity> getTrackedEnemies(@NotNull Player player);
 }

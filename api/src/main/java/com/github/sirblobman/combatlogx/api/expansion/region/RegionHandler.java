@@ -1,47 +1,74 @@
 package com.github.sirblobman.combatlogx.api.expansion.region;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
-import org.bukkit.Bukkit;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import org.bukkit.Location;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.util.Vector;
 
-import com.github.sirblobman.api.configuration.ConfigurationManager;
-import com.github.sirblobman.api.utility.Validate;
+import com.github.sirblobman.api.folia.FoliaHelper;
+import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
+import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
+import com.github.sirblobman.combatlogx.api.configuration.MainConfiguration;
+import com.github.sirblobman.combatlogx.api.expansion.region.configuration.RegionExpansionConfiguration;
+import com.github.sirblobman.combatlogx.api.expansion.region.task.KnockbackPlayerTask;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.NoEntryMode;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
-public abstract class RegionHandler {
-    private final RegionExpansion expansion;
+public abstract class RegionHandler<RE extends RegionExpansion> {
+    private final RE expansion;
     private final Map<UUID, Long> cooldownMap;
 
-    public RegionHandler(RegionExpansion expansion) {
-        this.expansion = Validate.notNull(expansion, "expansion must not be null!");
+    public RegionHandler(@NotNull RE expansion) {
+        this.expansion = expansion;
         this.cooldownMap = new ConcurrentHashMap<>();
     }
 
-    public final RegionExpansion getExpansion() {
+    protected final @NotNull RE getExpansion() {
         return this.expansion;
     }
 
-    public final void sendEntryDeniedMessage(Player player, TagInformation tagInformation) {
-        if (player == null) {
+    protected final @NotNull Logger getLogger() {
+        RE expansion = getExpansion();
+        return expansion.getLogger();
+    }
+
+    protected final void printDebug(@NotNull String message) {
+        RE expansion = getExpansion();
+        ICombatLogX combatLogX = expansion.getPlugin();
+        MainConfiguration configuration = combatLogX.getConfiguration();
+        if (!configuration.isDebugMode()) {
             return;
         }
 
+        Class<?> thisClass = getClass();
+        String className = thisClass.getSimpleName();
+        String logMessage = String.format(Locale.US, "[Debug] [%s] %s", className, message);
+
+        Logger expansionLogger = getLogger();
+        expansionLogger.info(logMessage);
+    }
+
+    private @NotNull RegionExpansionConfiguration getConfiguration() {
+        RegionExpansion expansion = getExpansion();
+        return expansion.getConfiguration();
+    }
+
+    public final void sendEntryDeniedMessage(@NotNull Player player, @NotNull TagInformation tagInformation) {
         TagType tagType = tagInformation.getCurrentTagType();
         String messagePath = getEntryDeniedMessagePath(tagType);
         if (messagePath == null) {
@@ -58,7 +85,8 @@ public abstract class RegionHandler {
         }
 
         ICombatLogX plugin = this.expansion.getPlugin();
-        plugin.sendMessageWithPrefix(player, messagePath, null);
+        LanguageManager languageManager = plugin.getLanguageManager();
+        languageManager.sendMessageWithPrefix(player, messagePath);
 
         long cooldownSeconds = getEntryDeniedMessageCooldown();
         long cooldownMillis = TimeUnit.SECONDS.toMillis(cooldownSeconds);
@@ -67,16 +95,12 @@ public abstract class RegionHandler {
         this.cooldownMap.put(playerId, expireMillis);
     }
 
-    public final void preventEntry(Cancellable e, Player player, TagInformation tagInformation,
-                                   Location fromLocation, Location toLocation) {
-        if (player == null) {
-            return;
-        }
-
-        ICombatLogX plugin = this.expansion.getPlugin();
-        JavaPlugin javaPlugin = plugin.getPlugin();
-
-        ICombatManager combatManager = plugin.getCombatManager();
+    public final void preventEntry(@NotNull Cancellable e, @NotNull Player player,
+                                   @NotNull TagInformation tagInformation, @NotNull Location fromLocation,
+                                   @NotNull Location toLocation) {
+        RegionExpansion expansion = getExpansion();
+        ICombatLogX combatLogX = expansion.getPlugin();
+        ICombatManager combatManager = combatLogX.getCombatManager();
         if (!combatManager.isInCombat(player)) {
             return;
         }
@@ -87,58 +111,86 @@ public abstract class RegionHandler {
             case KILL_PLAYER:
                 player.setHealth(0.0D);
                 break;
+
             case TELEPORT_TO_ENEMY:
-                if (enemy != null) {
-                    player.teleport(enemy);
-                } else {
-                    e.setCancelled(true);
-                }
+                teleportToEnemy(player, e, enemy);
                 break;
+
             case CANCEL_EVENT:
                 e.setCancelled(true);
                 break;
+
             case KNOCKBACK_PLAYER:
-                if (player.isInsideVehicle()) {
-                    if (!player.leaveVehicle()) {
-                        e.setCancelled(true);
-                        break;
-                    }
-                }
-
-                if (isGliding(player)) {
-                    player.setGliding(false);
-                    Vector zero = new Vector(0.0D, 0.0D, 0.0D);
-                    player.setVelocity(zero);
-                }
-
-                Runnable task = () -> knockbackPlayer(player, fromLocation, toLocation);
-                BukkitScheduler scheduler = Bukkit.getScheduler();
-                scheduler.runTaskLater(javaPlugin, task, 1L);
+                knockbackPlayer(player, e, fromLocation, toLocation);
                 break;
+
             default:
                 break;
         }
 
         sendEntryDeniedMessage(player, tagInformation);
+        customPreventEntry(e, player, tagInformation, fromLocation, toLocation);
+    }
+
+    private void teleportToEnemy(@NotNull Player player, @NotNull Cancellable e, @Nullable Entity enemy) {
+        if (enemy == null) {
+            e.setCancelled(true);
+            return;
+        }
+
+        if (!player.teleport(enemy)) {
+            e.setCancelled(true);
+        }
+    }
+
+    private void knockbackPlayer(@NotNull Player player, @NotNull Cancellable e,
+                                 @NotNull Location fromLocation, @NotNull Location toLocation) {
+        e.setCancelled(true);
+
+        if (player.isInsideVehicle()) {
+            if (!player.leaveVehicle()) {
+                return;
+            }
+        }
+
+        if (isGliding(player)) {
+            player.setGliding(false);
+            Vector zero = new Vector(0.0D, 0.0D, 0.0D);
+            player.setVelocity(zero);
+        }
+
+        RegionExpansion expansion = getExpansion();
+        ICombatLogX combatLogX = expansion.getPlugin();
+        FoliaHelper foliaHelper = combatLogX.getFoliaHelper();
+        TaskScheduler scheduler = foliaHelper.getScheduler();
+
+        double strength = getKnockbackStrength();
+        KnockbackPlayerTask task = new KnockbackPlayerTask(combatLogX, player, fromLocation, toLocation, strength);
+        scheduler.scheduleEntityTask(task);
+    }
+
+    protected void customPreventEntry(@NotNull Cancellable e, @NotNull Player player,
+                                      @NotNull TagInformation tagInformation, @NotNull Location fromLocation,
+                                      @NotNull Location toLocation) {
+        // Override this to add custom stuff
     }
 
     public final long getEntryDeniedMessageCooldown() {
-        YamlConfiguration configuration = getConfiguration();
-        return configuration.getLong("message-cooldown");
+        RegionExpansionConfiguration configuration = getConfiguration();
+        return configuration.getMessageCooldown();
     }
 
-    public final NoEntryMode getNoEntryMode() {
-        YamlConfiguration configuration = getConfiguration();
-        String noEntryModeName = configuration.getString("no-entry-mode");
-        return NoEntryMode.parse(noEntryModeName);
+    public final @NotNull NoEntryMode getNoEntryMode() {
+        RegionExpansionConfiguration configuration = getConfiguration();
+        return configuration.getNoEntryMode();
     }
 
     public final double getKnockbackStrength() {
-        YamlConfiguration configuration = getConfiguration();
-        return configuration.getDouble("knockback-strength");
+        RegionExpansionConfiguration configuration = getConfiguration();
+        return configuration.getKnockbackStrength();
     }
 
-    private boolean isGliding(Player player) {
+    private boolean isGliding(@NotNull Player player) {
         int minorVersion = VersionUtility.getMinorVersion();
         if (minorVersion < 9) {
             return false;
@@ -147,59 +199,7 @@ public abstract class RegionHandler {
         return player.isGliding();
     }
 
-    private void knockbackPlayer(Player player, Location fromLocation, Location toLocation) {
-        if (player == null || fromLocation == null || toLocation == null) {
-            return;
-        }
+    public abstract String getEntryDeniedMessagePath(@NotNull TagType tagType);
 
-        Vector velocity = getKnockback(fromLocation, toLocation);
-        player.setVelocity(velocity);
-    }
-
-    private Vector getKnockback(Location fromLocation, Location toLocation) {
-        Vector fromVector = fromLocation.toVector();
-        Vector toVector = toLocation.toVector();
-
-        Vector subtract = fromVector.subtract(toVector);
-        Vector normal = subtract.normalize();
-
-        double strength = getKnockbackStrength();
-        Vector multiply = normal.multiply(strength);
-
-        Vector finite = makeFinite(multiply);
-        return finite.setY(0.0D);
-    }
-
-    private Vector makeFinite(Vector original) {
-        double originalX = original.getX();
-        double originalY = original.getY();
-        double originalZ = original.getZ();
-
-        double newX = makeFinite(originalX);
-        double newY = makeFinite(originalY);
-        double newZ = makeFinite(originalZ);
-        return new Vector(newX, newY, newZ);
-    }
-
-    private double makeFinite(double original) {
-        if (Double.isNaN(original)) {
-            return 0.0D;
-        }
-
-        if (Double.isInfinite(original)) {
-            return (original < 0 ? -1.0D : 1.0D);
-        }
-
-        return original;
-    }
-
-    private YamlConfiguration getConfiguration() {
-        RegionExpansion expansion = getExpansion();
-        ConfigurationManager configurationManager = expansion.getConfigurationManager();
-        return configurationManager.get("config.yml");
-    }
-
-    public abstract String getEntryDeniedMessagePath(TagType tagType);
-
-    public abstract boolean isSafeZone(Player player, Location location, TagInformation tagInformation);
+    public abstract boolean isSafeZone(@NotNull Player player, @NotNull Location location, @NotNull TagInformation tag);
 }

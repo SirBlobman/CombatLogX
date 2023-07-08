@@ -1,7 +1,7 @@
-name: "BossBar"
-prefix: "Boss Bar"
-description: "${project.description}"
+name: "${expansionName}"
+prefix: "${expansionPrefix}"
+description: "${expansionDescription}"
 
 main: "combatlogx.expansion.boss.bar.BossBarExpansion"
-version: "16.9"
+version: "17.1"
 author: "SirBlobman"

@@ -1,4 +1,8 @@
+repositories {
+    maven("https://nexus.sirblobman.xyz/proxy-jitpack/")
+}
+
 dependencies {
     compileOnly(project(":expansion:newbie-helper"))
-    compileOnly("com.github.angeschossen:LandsAPI:6.22.0")
+    compileOnly("com.github.Angeschossen:LandsAPI:6.28.11")
 }

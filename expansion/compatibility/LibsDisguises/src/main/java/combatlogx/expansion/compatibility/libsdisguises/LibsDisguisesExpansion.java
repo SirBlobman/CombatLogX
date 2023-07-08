@@ -1,35 +1,30 @@
 package combatlogx.expansion.compatibility.libsdisguises;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.disguise.DisguiseExpansion;
+import com.github.sirblobman.combatlogx.api.expansion.disguise.DisguiseHandler;
 
-public final class LibsDisguisesExpansion extends Expansion {
-    public LibsDisguisesExpansion(ICombatLogX plugin) {
+public final class LibsDisguisesExpansion extends DisguiseExpansion {
+    private DisguiseHandler<?> disguiseHandler;
+
+    public LibsDisguisesExpansion(@NotNull ICombatLogX plugin) {
         super(plugin);
+        this.disguiseHandler = null;
     }
 
     @Override
-    public void onLoad() {
-        // Do Nothing
+    public boolean checkDependencies() {
+        return checkDependency("LibsDisguises", true, "10");
     }
 
     @Override
-    public void onEnable() {
-        if (!checkDependency("LibsDisguises", true, "10")) {
-            selfDisable();
-            return;
+    public @NotNull DisguiseHandler<?> getDisguiseHandler() {
+        if (this.disguiseHandler == null) {
+            this.disguiseHandler = new DisguiseHandlerLibsDisguises(this);
         }
 
-        new ListenerDisguise(this).register();
-    }
-
-    @Override
-    public void onDisable() {
-        // Do Nothing
-    }
-
-    @Override
-    public void reloadConfig() {
-        // Do Nothing
+        return this.disguiseHandler;
     }
 }
