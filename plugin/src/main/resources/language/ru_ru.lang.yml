@@ -269,7 +269,7 @@ expansion:
       cramming: "<red>Вас расплющивает. Не выходите из игры!</red>"
       custom: "<red>Вы получили нестандартный урон. Не выходите из игры!</red>"
       drowning: "<red>Вы тоните. Не выходите из игры!</red>"
-      dryout: "<red>Вы высыхаете. Не выходите из игры!</red>" #May be triggered by custom plugins.
+      dryout: "<red>Вы находились вне воды слишком долго. Не выходите из игры!</red>" #May be triggered by custom plugins.
       entity-explosion: "<red>Вас задел взрыв кристалла Энда. Не выходите из игры!</red>" #Only triggered by end crystals.
       fall: "<red>Вы получили урон от падения. Не выходите из игры!</red>"
       falling-block: "<red>На вас упал блок. Не выходите из игры!</red>"
