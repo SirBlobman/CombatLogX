@@ -8,6 +8,6 @@ repositories {
 }
 
 dependencies {
-    compileOnly("world.bentobox:bentobox:1.24.1-SNAPSHOT") // BentoBox
+    compileOnly("world.bentobox:bentobox:1.24.1") // BentoBox
     compileOnly("world.bentobox:bskyblock:1.17.0-SNAPSHOT") // BSkyBlock
 }
