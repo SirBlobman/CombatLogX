@@ -30,6 +30,7 @@ import com.github.sirblobman.combatlogx.api.object.KillTime;
 
 import net.william278.husksync.api.HuskSyncAPI;
 import net.william278.husksync.data.BukkitInventoryMap;
+import net.william278.husksync.data.ItemData;
 import net.william278.husksync.data.StatusData;
 import net.william278.husksync.data.UserData;
 import net.william278.husksync.player.User;
@@ -149,9 +150,6 @@ public final class ListenerHuskSync extends ExpansionListener {
         }
 
         HuskSyncAPI api = getHuskSyncAPI();
-        api.setUserData(user, userData).whenCompleteAsync(this::printSyncResult).join();
-        printDebug("Set HuskSync user data for player '" + user.uuid + "'.");
-
         if (!playerData.isKeepInventory()) {
             printDebug("Death event had keepInventory = false, fetching items...");
             List<ItemStack> drops = new ArrayList<>();
@@ -163,9 +161,14 @@ public final class ListenerHuskSync extends ExpansionListener {
             plugin.getFoliaHelper().getScheduler().scheduleLocationTask(task);
             printDebug("Scheduled task to drop items.");
 
-            api.setInventoryData(user, new ItemStack[0]).join();
+            Optional<ItemData> optionalItemData = userData.getInventory();
+            ItemData itemData = optionalItemData.orElse(ItemData.empty());
+            itemData.serializedItems = "";
             printDebug("Set HuskSync inventory to empty for player '" + user.uuid + "'.");
         }
+
+        api.setUserData(user, userData).whenCompleteAsync(this::printSyncResult).join();
+        printDebug("Finished HuskSync user data sync for player '" + user.uuid + "'.");
     }
 
     private void printSyncResult(@Nullable Void success, @Nullable Throwable failure) {
