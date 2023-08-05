@@ -1,7 +1,7 @@
 repositories {
-    maven("https://nexus.sirblobman.xyz/proxy-jitpack/")
+    maven("https://repo.william278.net/releases/")
 }
 
 dependencies {
-    compileOnly("net.william278:HuskSync:2.2.4")
+    compileOnly("net.william278:husksync:2.2.8")
 }
