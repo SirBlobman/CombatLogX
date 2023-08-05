@@ -3,6 +3,7 @@ package combatlogx.expansion.compatibility.citizens.configuration;
 import java.util.logging.Logger;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
@@ -10,6 +11,7 @@ import org.bukkit.entity.EntityType;
 import com.github.sirblobman.api.configuration.IConfigurable;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
+import org.apache.commons.lang.Validate;
 
 public final class CitizensConfiguration implements IConfigurable {
     private final CitizensExpansion expansion;
@@ -27,6 +29,7 @@ public final class CitizensConfiguration implements IConfigurable {
     private boolean preventResurrect;
     private boolean tagPlayer;
     private boolean alwaysSpawnNpcOnQuit;
+    private String customNpcNameFormat;
 
     public CitizensConfiguration(@NotNull CitizensExpansion expansion) {
         this.expansion = expansion;
@@ -43,6 +46,7 @@ public final class CitizensConfiguration implements IConfigurable {
         this.preventResurrect = true;
         this.tagPlayer = true;
         this.alwaysSpawnNpcOnQuit = false;
+        this.customNpcNameFormat = "{player_name}";
     }
 
     private @NotNull CitizensExpansion getExpansion() {
@@ -69,6 +73,7 @@ public final class CitizensConfiguration implements IConfigurable {
         setPreventResurrect(config.getBoolean("prevent-resurrect", true));
         setTagPlayer(config.getBoolean("tag-player", true));
         setAlwaysSpawnNpcOnQuit(config.getBoolean("always-spawn-npc-on-quit", false));
+        setCustomNpcNameFormat(config.getString("custom-npc-name", "{player_name}"));
     }
 
     public boolean isPreventPunishments() {
@@ -87,7 +92,7 @@ public final class CitizensConfiguration implements IConfigurable {
         this.preventLogin = preventLogin;
     }
 
-    public EntityType getMobType() {
+    public @NotNull EntityType getMobType() {
         return mobType;
     }
 
@@ -95,7 +100,11 @@ public final class CitizensConfiguration implements IConfigurable {
         this.mobType = mobType;
     }
 
-    private void setMobType(@NotNull String mobTypeName) {
+    private void setMobType(@Nullable String mobTypeName) {
+        if (mobTypeName == null) {
+            mobTypeName = "PLAYER";
+        }
+
         try {
             EntityType mobType = EntityType.valueOf(mobTypeName);
             if (!mobType.isAlive()) {
@@ -192,5 +201,14 @@ public final class CitizensConfiguration implements IConfigurable {
 
     public void setAlwaysSpawnNpcOnQuit(boolean alwaysSpawnNpcOnQuit) {
         this.alwaysSpawnNpcOnQuit = alwaysSpawnNpcOnQuit;
+    }
+
+    public @NotNull String getCustomNpcNameFormat() {
+        return customNpcNameFormat;
+    }
+
+    public void setCustomNpcNameFormat(@Nullable String customNpcNameFormat) {
+        Validate.notEmpty(customNpcNameFormat, "customNpcNameFormat must not be null or empty!");
+        this.customNpcNameFormat = customNpcNameFormat;
     }
 }

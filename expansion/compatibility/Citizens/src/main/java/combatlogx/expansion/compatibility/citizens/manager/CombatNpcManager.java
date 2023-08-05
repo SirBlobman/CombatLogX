@@ -128,6 +128,12 @@ public final class CombatNpcManager {
         npc.data().set(Metadata.SHOULD_SAVE, false);
         printDebug("Created NPC with entity type " + entityType + ".");
 
+        String npcNameFormat = getConfiguration().getCustomNpcNameFormat();
+        printDebug("NPC Name Format: " + npcNameFormat);
+        String npcName = npcNameFormat.replace("{player_name}", playerName);
+        npc.setName(npcName);
+        printDebug("Set NPC custom name to '" + npcName + "'.");
+
         Location location = player.getLocation();
         boolean spawn = npc.spawn(location);
         if (!spawn) {
@@ -145,10 +151,12 @@ public final class CombatNpcManager {
         LivingEntity livingEntity = (LivingEntity) entity;
         livingEntity.setNoDamageTicks(0);
         livingEntity.setMaximumNoDamageTicks(0);
+        printDebug("Forced NPC to be damageable (no damage ticks = 0)");
 
         if (npc.hasTrait(Owner.class)) {
             npc.removeTrait(Owner.class);
         }
+        printDebug("Forced NPC to be damageable (removed owner trait)");
 
         ICombatLogX plugin = this.expansion.getPlugin();
         MultiVersionHandler multiVersionHandler = plugin.getMultiVersionHandler();
@@ -158,6 +166,7 @@ public final class CombatNpcManager {
         double maxHealth = entityHandler.getMaxHealth(livingEntity);
         if (maxHealth < health) {
             entityHandler.setMaxHealth(livingEntity, health);
+            printDebug("Fixed NPC max health.");
         }
 
         livingEntity.setHealth(health);
@@ -167,6 +176,7 @@ public final class CombatNpcManager {
             double radius = configuration.getMobTargetRadius();
             if (radius >= 0.0D) {
                 forceTargetAllNearby(livingEntity, radius);
+                printDebug("Forced NPC to target nearby enemies.");
             }
         }
 
@@ -188,8 +198,10 @@ public final class CombatNpcManager {
         saveLocation(player, npc);
         saveInventory(player);
         equipNPC(player, npc);
+        printDebug("Finished setting combat NPC data.");
 
         combatNPC.start();
+        printDebug("Finished spawning combat NPC.");
     }
 
     private void forceTargetAllNearby(@NotNull LivingEntity entity, double radius) {

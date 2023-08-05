@@ -58,3 +58,9 @@ tag-player: true
 
 # Should CombatLogX always spawn an NPC, even if the player is not tagged?
 always-spawn-npc-on-quit: false
+
+# Custom NPC name
+# May be character limited to 16 on some versions.
+# Available Placeholders: {player_name}
+# DO NOT set this to null or empty.
+custom-npc-name: "{player_name}"
