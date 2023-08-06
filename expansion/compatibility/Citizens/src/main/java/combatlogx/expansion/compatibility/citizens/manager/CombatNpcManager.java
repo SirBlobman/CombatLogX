@@ -181,23 +181,37 @@ public final class CombatNpcManager {
         }
 
         CombatNPC combatNPC = new CombatNPC(this.expansion, npc, player);
+        printDebug("Created CombatNPC data.");
+
         this.playerNpcMap.put(uuid, combatNPC);
         this.npcCombatMap.put(npc.getUniqueId(), combatNPC);
 
         ICombatManager combatManager = plugin.getCombatManager();
         TagInformation tagInformation = combatManager.getTagInformation(player);
         if (tagInformation != null) {
+            printDebug("Tag information is not null, setting enemy data.");
+
             Entity enemyEntity = tagInformation.getCurrentEnemy();
             if (enemyEntity instanceof Player) {
                 combatNPC.setEnemy((Player) enemyEntity);
+                printDebug("Enemy was player, setting enemy in combat npc.");
             }
 
+            printDebug("Checking sentinel data...");
             checkSentinel(npc, tagInformation);
+        } else {
+            printDebug("Tag information was null for player.");
         }
 
         saveLocation(player, npc);
+        printDebug("Saving last location if configured.");
+
         saveInventory(player);
+        printDebug("Saving inventory if configured.");
+
         equipNPC(player, npc);
+        printDebug("Setting NPC equipment to match original player inventory.");
+
         printDebug("Finished setting combat NPC data.");
 
         combatNPC.start();
