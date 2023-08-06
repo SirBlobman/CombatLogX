@@ -1,23 +1,16 @@
 package combatlogx.expansion.compatibility.husksync;
 
-import java.util.Optional;
-
 import org.jetbrains.annotations.NotNull;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-
-import net.william278.husksync.data.BukkitInventoryMap;
-import net.william278.husksync.data.UserData;
-import net.william278.husksync.player.User;
+import org.bukkit.inventory.ItemStack;
 
 public final class PlayerData {
     private final Player player;
     private final Location location;
 
-    private User user;
-    private UserData userData;
-    private BukkitInventoryMap inventory;
+    private ItemStack[] oldInventory;
     private boolean keepInventory;
     private boolean keepLevel;
     private int totalExperience;
@@ -27,10 +20,7 @@ public final class PlayerData {
     public PlayerData(@NotNull Player player, @NotNull Location location) {
         this.player = player;
         this.location = location;
-
-        this.user = null;
-        this.userData = null;
-        this.inventory = null;
+        this.oldInventory = new ItemStack[0];
 
         this.keepInventory = false;
         this.keepLevel = false;
@@ -45,30 +35,6 @@ public final class PlayerData {
 
     public @NotNull Location getLocation() {
         return this.location;
-    }
-
-    public @NotNull Optional<User> getUser() {
-        return Optional.ofNullable(this.user);
-    }
-
-    public void setUser(@NotNull User user) {
-        this.user = user;
-    }
-
-    public @NotNull Optional<UserData> getUserData() {
-        return Optional.ofNullable(this.userData);
-    }
-
-    public void setUserData(@NotNull UserData userData) {
-        this.userData = userData;
-    }
-
-    public @NotNull Optional<BukkitInventoryMap> getInventory() {
-        return Optional.ofNullable(this.inventory);
-    }
-
-    public void setInventory(@NotNull BukkitInventoryMap inventory) {
-        this.inventory = inventory;
     }
 
     public boolean isKeepInventory() {
@@ -109,5 +75,13 @@ public final class PlayerData {
 
     public void setNewExperience(float newExperience) {
         this.newExperience = newExperience;
+    }
+
+    public void setOldInventory(ItemStack @NotNull [] clone) {
+        this.oldInventory = clone;
+    }
+
+    public ItemStack @NotNull [] getOldInventory() {
+        return this.oldInventory;
     }
 }

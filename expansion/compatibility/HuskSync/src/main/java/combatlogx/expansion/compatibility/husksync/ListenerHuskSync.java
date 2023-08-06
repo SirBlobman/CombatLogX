@@ -1,18 +1,15 @@
 package combatlogx.expansion.compatibility.husksync;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -22,27 +19,28 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.github.sirblobman.api.plugin.ConfigurablePlugin;
+import com.github.sirblobman.api.utility.ItemUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.configuration.PunishConfiguration;
 import com.github.sirblobman.combatlogx.api.event.PlayerPunishEvent;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 import com.github.sirblobman.combatlogx.api.object.KillTime;
 
-import net.william278.husksync.api.HuskSyncAPI;
-import net.william278.husksync.data.BukkitInventoryMap;
+import net.william278.husksync.data.DataSaveCause;
 import net.william278.husksync.data.ItemData;
 import net.william278.husksync.data.StatusData;
 import net.william278.husksync.data.UserData;
+import net.william278.husksync.event.BukkitDataSaveEvent;
 import net.william278.husksync.player.User;
 
 public final class ListenerHuskSync extends ExpansionListener {
-    private final HuskSyncAPI huskSyncApi;
     private final Set<UUID> punishedPlayers;
+    private final Map<UUID, PlayerData> dataMap;
 
     public ListenerHuskSync(@NotNull HuskSyncExpansion expansion) {
         super(expansion);
-        this.huskSyncApi = HuskSyncAPI.getInstance();
         this.punishedPlayers = new HashSet<>();
+        this.dataMap = new HashMap<>();
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -79,61 +77,39 @@ public final class ListenerHuskSync extends ExpansionListener {
         playerData.setTotalExperience(e.getNewTotalExp());
         playerData.setNewLevel(e.getNewLevel());
         playerData.setNewExperience(e.getNewExp());
+        playerData.setOldInventory(player.getInventory().getContents().clone());
 
-        HuskSyncAPI api = getHuskSyncAPI();
-        printDebug("Fetching user with id '" + playerId + "'...");
+        this.dataMap.put(playerId, playerData);
+        printDebug("Stored player data for later syncing.");
+    }
 
-        CompletableFuture.supplyAsync(() -> {
-            Optional<User> optionalUser = api.getUser(playerId).join();
-            if (optionalUser.isPresent()) {
-                User user = optionalUser.get();
-                playerData.setUser(user);
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+    public void onBukkitDataSave(@NotNull BukkitDataSaveEvent e) {
+        printDebug("Detected BukkitDataSaveEvent...");
 
-                Optional<UserData> optionalUserData = api.getUserData(user).join();
-                optionalUserData.ifPresent(playerData::setUserData);
-
-                Optional<BukkitInventoryMap> optionalInventory = api.getPlayerInventory(user).join();
-                optionalInventory.ifPresent(playerData::setInventory);
-            }
-
-            return playerData;
-        }).thenAcceptAsync(this::checkData);
-
-        if (!e.getKeepInventory()) {
-            player.getInventory().clear();
-            printDebug("Cleared local player inventory.");
+        DataSaveCause saveCause = e.getSaveCause();
+        if (saveCause != DataSaveCause.DISCONNECT) {
+            printDebug("DataSaveCause is not 'DISCONNECT', ignoring event.");
+            return;
         }
+
+        User user = e.getUser();
+        PlayerData playerData = this.dataMap.remove(user.uuid);
+        if (playerData == null) {
+            printDebug("User does not have death punishment data from CombatLogX, ignoring event.");
+            return;
+        }
+
+        printDebug("User Name: " + user.username);
+        UserData userData = e.getUserData();
+        checkData(playerData, userData);
+        e.setUserData(userData);
+        printDebug("Set modified data in BukkitDataSaveEvent.");
     }
 
-    private @NotNull HuskSyncAPI getHuskSyncAPI() {
-        return this.huskSyncApi;
-    }
-
-    private void checkData(@NotNull PlayerData playerData) {
+    private void checkData(@NotNull PlayerData playerData, @NotNull UserData userData) {
         Player player = playerData.getPlayer();
         printDebug("Checking player data for player '" + player.getUniqueId() + "'.");
-
-        Optional<User> optionalUser = playerData.getUser();
-        if (!optionalUser.isPresent()) {
-            printDebug("Missing user from HuskSync.");
-            return;
-        }
-
-        Optional<UserData> optionalUserData = playerData.getUserData();
-        if (!optionalUserData.isPresent()) {
-            printDebug("Missing user data from HuskSync.");
-            return;
-        }
-
-        Optional<BukkitInventoryMap> optionalInventory = playerData.getInventory();
-        if (!optionalInventory.isPresent()) {
-            printDebug("Missing inventory from HuskSync.");
-            return;
-        }
-
-        User user = optionalUser.get();
-        UserData userData = optionalUserData.get();
-        BukkitInventoryMap inventoryMap = optionalInventory.get();
 
         Optional<StatusData> optionalStatus = userData.getStatus();
         if (optionalStatus.isPresent()) {
@@ -149,11 +125,16 @@ public final class ListenerHuskSync extends ExpansionListener {
             printDebug("Set player health to 0.0 in HuskSync.");
         }
 
-        HuskSyncAPI api = getHuskSyncAPI();
         if (!playerData.isKeepInventory()) {
             printDebug("Death event had keepInventory = false, fetching items...");
+
+            ItemStack[] oldInventory = playerData.getOldInventory();
             List<ItemStack> drops = new ArrayList<>();
-            Collections.addAll(drops, inventoryMap.getContents());
+            for (ItemStack stack : oldInventory) {
+                if (!ItemUtility.isAir(stack)) {
+                    drops.add(stack);
+                }
+            }
 
             Location location = playerData.getLocation();
             ConfigurablePlugin plugin = getJavaPlugin();
@@ -164,19 +145,9 @@ public final class ListenerHuskSync extends ExpansionListener {
             Optional<ItemData> optionalItemData = userData.getInventory();
             ItemData itemData = optionalItemData.orElse(ItemData.empty());
             itemData.serializedItems = "";
-            printDebug("Set HuskSync inventory to empty for player '" + user.uuid + "'.");
+            printDebug("Set HuskSync inventory to empty.");
         }
 
-        api.setUserData(user, userData).whenCompleteAsync(this::printSyncResult).join();
-        printDebug("Finished HuskSync user data sync for player '" + user.uuid + "'.");
-    }
-
-    private void printSyncResult(@Nullable Void success, @Nullable Throwable failure) {
-        if (failure != null) {
-            Logger logger = getExpansionLogger();
-            logger.log(Level.WARNING, "Failed to submit user data to HuskSync:", failure);
-        } else {
-            printDebug("Successfully synced data.");
-        }
+        printDebug("Finished modifying HuskSync save data.");
     }
 }
