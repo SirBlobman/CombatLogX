@@ -322,25 +322,39 @@ public final class CombatNpcManager {
     }
 
     private void checkSentinel(@NotNull NPC npc, @NotNull TagInformation tag) {
+        printDebug("Checking sentinel data...");
         CitizensExpansion expansion = getExpansion();
         if (!expansion.isSentinelEnabled()) {
+            printDebug("Sentinel is not enabled. Check the configuration and Sentinel plugin.");
             return;
         }
 
         SentinelTrait sentinelTrait = npc.getOrAddTrait(SentinelTrait.class);
+        printDebug("Added sentinel trait to NPC.");
+
         sentinelTrait.setInvincible(false);
+        printDebug("Set sentinel as not invincible.");
+
         sentinelTrait.respawnTime = -1;
+        printDebug("Disabled respawn time.");
+
+        sentinelTrait.fightback = true;
+        printDebug("Enabled sentinel fightback.");
 
         SentinelConfiguration configuration = expansion.getSentinelConfiguration();
         if (!configuration.isAttackFirst()) {
+            printDebug("Attack first is disabled.");
             return;
         }
 
+        printDebug("Adding attack first targets to Sentinel.");
         List<UUID> enemyIdList = tag.getEnemyIds();
         for (UUID enemyId : enemyIdList) {
             String enemyIdString = String.format(Locale.US, "uuid:%s", enemyId);
             SentinelTargetLabel targetLabel = new SentinelTargetLabel(enemyIdString);
             targetLabel.addToList(sentinelTrait.allTargets);
         }
+
+        printDebug("Finished setting sentinel data.");
     }
 }
