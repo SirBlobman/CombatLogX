@@ -28,8 +28,6 @@ import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
-import com.github.sirblobman.combatlogx.api.object.TagInformation;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
 import combatlogx.expansion.compatibility.citizens.configuration.CitizensConfiguration;
@@ -110,7 +108,7 @@ public final class CombatNpcManager {
         npcCollection.forEach(this::remove);
     }
 
-    public void createNPC(@NotNull Player player) {
+    public void createNPC(@NotNull Player player, @NotNull List<Entity> enemyList) {
         if (player.hasMetadata("NPC")) {
             printDebug("player is an NPC, not spawning.");
             return;
@@ -186,21 +184,17 @@ public final class CombatNpcManager {
         this.playerNpcMap.put(uuid, combatNPC);
         this.npcCombatMap.put(npc.getUniqueId(), combatNPC);
 
-        ICombatManager combatManager = plugin.getCombatManager();
-        TagInformation tagInformation = combatManager.getTagInformation(player);
-        if (tagInformation != null) {
-            printDebug("Tag information is not null, setting enemy data.");
-
-            Entity enemyEntity = tagInformation.getCurrentEnemy();
-            if (enemyEntity instanceof Player) {
-                combatNPC.setEnemy((Player) enemyEntity);
-                printDebug("Enemy was player, setting enemy in combat npc.");
+        if (!enemyList.isEmpty()) {
+            Entity mainEnemy = enemyList.get(0);
+            if (mainEnemy instanceof Player) {
+                combatNPC.setEnemy((Player) mainEnemy);
+                printDebug("Main enemy was player, setting enemy in combat npc.");
             }
 
             printDebug("Checking sentinel data...");
-            checkSentinel(npc, tagInformation);
+            checkSentinel(npc, enemyList);
         } else {
-            printDebug("Tag information was null for player.");
+            printDebug("Enemy list was empty for player.");
         }
 
         saveLocation(player, npc);
@@ -335,7 +329,7 @@ public final class CombatNpcManager {
         logger.info("[Debug] [CombatNpcManager] " + message);
     }
 
-    private void checkSentinel(@NotNull NPC npc, @NotNull TagInformation tag) {
+    private void checkSentinel(@NotNull NPC npc, @NotNull List<Entity> enemyList) {
         printDebug("Checking sentinel data...");
         CitizensExpansion expansion = getExpansion();
         if (!expansion.isSentinelEnabled()) {
@@ -362,8 +356,8 @@ public final class CombatNpcManager {
         }
 
         printDebug("Adding attack first targets to Sentinel.");
-        List<UUID> enemyIdList = tag.getEnemyIds();
-        for (UUID enemyId : enemyIdList) {
+        for (Entity enemy : enemyList) {
+            UUID enemyId = enemy.getUniqueId();
             String enemyIdString = String.format(Locale.US, "uuid:%s", enemyId);
             SentinelTargetLabel targetLabel = new SentinelTargetLabel(enemyIdString);
             targetLabel.addToList(sentinelTrait.allTargets);

@@ -1,5 +1,7 @@
 package combatlogx.expansion.compatibility.citizens.listener;
 
+import java.util.Collections;
+
 import org.jetbrains.annotations.NotNull;
 
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -27,10 +29,10 @@ public final class ListenerQuit extends CitizensExpansionListener {
         CombatNpcManager combatNpcManager = getCombatNpcManager();
         YamlConfiguration playerData = combatNpcManager.getData(player);
 
-        printDebug("Spawning NPC for player " + player.getName());
+        printDebug("Spawning always-quit NPC for player " + player.getName());
         playerData.set("citizens-compatibility.punish", true);
         combatNpcManager.saveData(player);
-        combatNpcManager.createNPC(player);
+        combatNpcManager.createNPC(player, Collections.emptyList());
     }
 
     private boolean isAlwaysSpawnOnQuit() {

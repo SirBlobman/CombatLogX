@@ -1,8 +1,11 @@
 package combatlogx.expansion.compatibility.citizens.listener;
 
+import java.util.List;
+
 import org.jetbrains.annotations.NotNull;
 
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -35,6 +38,6 @@ public final class ListenerPunish extends CitizensExpansionListener {
         printDebug("Spawning NPC for player " + player.getName());
         playerData.set("citizens-compatibility.punish", true);
         combatNpcManager.saveData(player);
-        combatNpcManager.createNPC(player);
+        combatNpcManager.createNPC(player, e.getEnemies());
     }
 }
