@@ -56,6 +56,7 @@ dependencies {
     expansion(project(":expansion:compatibility:LibsDisguises"))
     expansion(project(":expansion:compatibility:LuckPerms"))
     expansion(project(":expansion:compatibility:MarriageMaster"))
+    expansion(project(":expansion:compatibility:MCPets"))
     expansion(project(":expansion:compatibility:MythicMobs"))
     expansion(project(":expansion:compatibility:PlaceholderAPI"))
     expansion(project(":expansion:compatibility:PlayerParticles"))
