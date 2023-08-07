@@ -16,7 +16,7 @@ public final class KonquestExpansion extends RegionExpansion {
 
     @Override
     public boolean checkDependencies() {
-        return checkDependency("Konquest", true, "0.11");
+        return checkDependency("Konquest", true, "0.12");
     }
 
     @Override
