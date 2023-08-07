@@ -37,18 +37,22 @@ public final class RegionHandlerLands extends RegionHandler<LandsExpansion> {
 
     @Override
     public boolean isSafeZone(@NotNull Player player, @NotNull Location location, @NotNull TagInformation tag) {
+        Area area = getArea(location);
+        if (area == null) {
+            return false;
+        }
+
+        LandsConfiguration landsConfiguration = getExpansion().getLandsConfiguration();
+        if (landsConfiguration.isPreventAllLandEntries()) {
+            return true;
+        }
+
         Entity enemy = tag.getCurrentEnemy();
         TagType tagType = tag.getCurrentTagType();
         RoleFlag roleFlag = getRoleFlag(tagType, enemy);
         if (roleFlag == null) {
             return false;
         }
-
-        Area area = getArea(location);
-        if (area == null) {
-            return false;
-        }
-
 
         UUID playerId = player.getUniqueId();
         if (tagType == TagType.DAMAGE) {

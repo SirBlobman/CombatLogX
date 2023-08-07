@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
@@ -13,16 +14,25 @@ import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 import combatlogx.expansion.compatibility.region.lands.listener.ListenerLands;
 
 public final class LandsExpansion extends RegionExpansion {
+    private final LandsConfiguration configuration;
     private RegionHandler<?> regionHandler;
 
     public LandsExpansion(@NotNull ICombatLogX plugin) {
         super(plugin);
+        this.configuration = new LandsConfiguration();
         this.regionHandler = null;
     }
 
     @Override
     public boolean checkDependencies() {
         return checkDependency("Lands", true, "6");
+    }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        ConfigurationManager configurationManager = getConfigurationManager();
+        configurationManager.saveDefault("lands.yml");
     }
 
     @Override
@@ -42,5 +52,18 @@ public final class LandsExpansion extends RegionExpansion {
         }
 
         return this.regionHandler;
+    }
+
+    @Override
+    public void reloadConfig() {
+        super.reloadConfig();
+
+        ConfigurationManager configurationManager = getConfigurationManager();
+        configurationManager.reload("lands.yml");
+        getLandsConfiguration().load(configurationManager.get("lands.yml"));
+    }
+
+    public @NotNull LandsConfiguration getLandsConfiguration() {
+        return this.configuration;
     }
 }

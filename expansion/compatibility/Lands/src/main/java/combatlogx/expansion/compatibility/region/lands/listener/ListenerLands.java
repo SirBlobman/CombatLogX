@@ -3,6 +3,8 @@ package combatlogx.expansion.compatibility.region.lands.listener;
 import java.util.Collection;
 import java.util.Optional;
 
+import org.jetbrains.annotations.NotNull;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -55,7 +57,7 @@ public final class ListenerLands extends ExpansionListener {
         }
     }
 
-    private NewbieHelperExpansion getNewbieHelperExpansion() {
+    private @NotNull NewbieHelperExpansion getNewbieHelperExpansion() {
         ICombatLogX combatLogX = getCombatLogX();
         ExpansionManager expansionManager = combatLogX.getExpansionManager();
         Optional<Expansion> optionalExpansion = expansionManager.getExpansion("NewbieHelper");
