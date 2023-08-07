@@ -27,7 +27,7 @@ softdepend:
   - "Essentials"
   - "FabledSkyBlock"
   - "FeatherBoard"
-  - "FlagWar" # Part of Towny
+  - "FlagWar" # Optional for the Towny Compatibility expansion.
   - "GriefDefender"
   - "GriefPrevention"
   - "HuskHomes"
@@ -40,16 +40,17 @@ softdepend:
   - "Lands"
   - "LibsDisguises"
   - "MarriageMaster"
+  - "MCPets"
   - "MythicMobs"
   - "PlaceholderAPI"
   - "PlayerParticles"
   - "PreciousStones"
   - "PremiumVanish"
   - "ProtectionStones"
-  - "ProtocolLib" # Force Field
+  - "ProtocolLib" # Required for the Force Field expansion.
   - "RedProtect"
   - "Residence"
-  - "Sentinel"
+  - "Sentinel" # Optional for the Citizens Compatibility expansion.
   - "SuperiorSkyblock2"
   - "SuperVanish"
   - "Towny"
