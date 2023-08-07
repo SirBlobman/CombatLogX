@@ -1,5 +1,5 @@
 repositories {
-    maven("https://mvn.lumine.io/repository/maven-public/")
+    maven("https://nexus.sirblobman.xyz/proxy-lumine/")
 }
 
 dependencies {
