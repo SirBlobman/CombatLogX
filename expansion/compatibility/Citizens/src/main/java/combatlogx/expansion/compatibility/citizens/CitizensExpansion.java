@@ -1,5 +1,9 @@
 package combatlogx.expansion.compatibility.citizens;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Logger;
+
 import org.jetbrains.annotations.NotNull;
 
 import org.bukkit.Bukkit;
@@ -25,6 +29,12 @@ import combatlogx.expansion.compatibility.citizens.manager.CombatNpcManager;
 import combatlogx.expansion.compatibility.citizens.manager.InventoryManager;
 
 public final class CitizensExpansion extends Expansion {
+    private static final List<String> SUPPORTED_VERSION_LIST;
+
+    static {
+        SUPPORTED_VERSION_LIST = Arrays.asList("2.0.30", "2.0.31", "2.0.32");
+    }
+
     private final Configuration configuration;
     private final CitizensConfiguration citizensConfiguration;
     private final SentinelConfiguration sentinelConfiguration;
@@ -56,17 +66,18 @@ public final class CitizensExpansion extends Expansion {
             return;
         }
 
+        Logger logger = getLogger();
         PluginManager pluginManager = Bukkit.getPluginManager();
         Plugin citizens = pluginManager.getPlugin("Citizens");
         if (citizens == null) {
-            getLogger().info("Dependency 'Citizens' is not installed properly.");
+            logger.info("Dependency 'Citizens' not enabled.");
             selfDisable();
             return;
         }
 
         String citizensVersion = citizens.getDescription().getVersion();
-        if (!citizensVersion.startsWith("2.0.30") && !citizensVersion.startsWith("2.0.31") && !citizensVersion.startsWith("2.0.32")) {
-            getLogger().info("Dependency 'Citizens' is not the correct version!");
+        if (!isCitizensSupported(citizensVersion)) {
+            logger.info("Dependency 'Citizens' is not the correct version.");
             selfDisable();
             return;
         }
@@ -124,6 +135,16 @@ public final class CitizensExpansion extends Expansion {
         if (minorVersion >= 13) {
             new ListenerConvert(this).register();
         }
+    }
+
+    private boolean isCitizensSupported(@NotNull String version) {
+        for(String start : SUPPORTED_VERSION_LIST) {
+            if(version.startsWith(start)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public @NotNull Configuration getConfiguration() {
