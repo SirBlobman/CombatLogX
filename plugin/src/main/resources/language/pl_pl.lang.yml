@@ -11,7 +11,7 @@
 ## More information about MiniMessage can be found here:
 ## https://docs.adventure.kyori.net/minimessage/format.html
 #The language code for this file.
-language-name: "pl"
+language-name: "pl_PL"
 #The format for decimal numbers.
 #The United States uses the number and two decimal places
 decimal-format: "0.00"
@@ -264,24 +264,30 @@ expansion:
     #You can find a list of damage types here:
     #https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/EntityDamageEvent.DamageCause.html
     damage-type:
+      block-explosion: "<red>Otrzymałeś obrażenia od wybuchu. Nie wylogowuj się!"
       contact: "<red>Zostałeś ukłuty przez kaktusa. Nie wylogowuj się!"
-      suffocation: "<red>Uderzasz się w ścianie. Nie wylogowuj się!"
+      cramming: "<red>Zostałeś zgnieciony. Nie wylogowuj się!"
+      custom: "<red>Otrzymałeś niestandardowe obrażenia. Nie wylogowuj się!"
+      drowning: "<red>Toniesz. Nie wylogowuj się!"
+      dryout: "<red>Zbyt długo pozostawałeś pod wodą. Nie wylogowuj się!</red>" #May be triggered by custom plugins.
+      entity-explosion: "<red>Otrzymałeś obrażenia od wybuchu Kryształu Endu. Nie wylogowuj się!</red>" #Only triggered by end crystals.
       fall: "<red>Otrzymałeś obrażenia od upadku. Nie wylogowuj się!"
+      falling-block: "<red>Spadł na ciebie blok. Nie wylogowuj się!"
       fire: "<red>Wskoczyłeś w ogień. Nie wylogowuj się!"
       fire-tick: "<red>Palisz się. Nie wylogowuj się!"
-      lava: "<red>Gotujesz się w lawie. Nie wylogowuj się!"
-      drowning: "<red>Toniesz. Nie wylogowuj się!"
-      block-explosion: "<red>Otrzymałeś obrażenia od wybuchu. Nie wylogowuj się!"
-      lightning: "<red>Uderzył Cię piorun! Nie wylogowuj się!"
-      starvation: "<red>Głodujesz. Nie wylogowuj się!"
-      poison: "<red>Otrzymałeś obrażenia od trucizny. Nie wylogowuj się!"
-      magic: "<red>Ktoś rzucił w ciebie miksturę. Nie wylogowuj się!"
-      wither: "<red>Usychasz. Nie wylogowuj się!"
-      falling-block: "<red>Spadł na ciebie blok. Nie wylogowuj się!"
-      custom: "<red>Otrzymałeś niestandardowe obrażenia. Nie wylogowuj się!"
       fly-into-wall: "<red>Doświadczyłeś energii kinetycznej. Nie wylogowuj się!"
+      freeze: "<red>Zamarzasz. Nie wylogowuj się!</red>"
       hot-floor: "<red>Podłoga to lawa! Nie wyloguj się!"
-      cramming: "<red>Zostałeś zgnieciony. Nie wylogowuj się!"
+      lava: "<red>Gotujesz się w lawie. Nie wylogowuj się!"
+      lightning: "<red>Uderzył Cię piorun! Nie wylogowuj się!"
+      magic: "<red>Ktoś rzucił w ciebie miksturę. Nie wylogowuj się!"
+      melting: "<red>Palisz się! Nie wylogowuj się.</red>" #May be triggered by custom plugins.
+      poison: "<red>Otrzymałeś obrażenia od trucizny. Nie wylogowuj się!"
+      starvation: "<red>Głodujesz. Nie wylogowuj się!"
+      suffocation: "<red>Uderzasz się w ścianie. Nie wylogowuj się!"
+      void: "<red>Wpadasz w otchłań. Nie wylogowuj się!</red>"
+      wither: "<red>Usychasz. Nie wylogowuj się!"
+      world-border: "<red>Jesteś zbyt blisko granicy świata. Nie wylogowuj się!</red>"
   newbie-helper:
     togglepvp:
       #Shown as the command output for '/togglepvp'.
