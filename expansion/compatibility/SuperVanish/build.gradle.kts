@@ -3,7 +3,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.github.LeonMangler:SuperVanish:6.2.12") {
+    compileOnly("com.github.LeonMangler:SuperVanish:6.2.17") {
         exclude("*", "*")
     }
 }
