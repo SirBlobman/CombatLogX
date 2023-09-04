@@ -3,5 +3,5 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.comphenix.protocol:ProtocolLib:5.0.0-SNAPSHOT")
+    compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0")
 }
