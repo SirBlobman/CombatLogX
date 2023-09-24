@@ -6,7 +6,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -76,7 +77,7 @@ public final class ListenerLogger extends ExpansionListener {
         String tagTypeName = tagType.name();
         String cancelledString = Boolean.toString(e.isCancelled());
 
-        String message = format.replace("{player}", playerName).replace("{enemy}", enemyName)
+        String message = format.replace("{player_name}", playerName).replace("{enemy_name}", enemyName)
                 .replace("{tag_reason}", tagReasonName).replace("{tag_type}", tagTypeName)
                 .replace("{was_cancelled}", cancelledString);
         appendLog(message);
@@ -99,7 +100,7 @@ public final class ListenerLogger extends ExpansionListener {
         String tagReasonName = tagReason.name();
         String tagTypeName = tagType.name();
 
-        String message = format.replace("{player}", playerName).replace("{enemy}", enemyName)
+        String message = format.replace("{player_name}", playerName).replace("{enemy_name}", enemyName)
                 .replace("{tag_reason}", tagReasonName).replace("{tag_type}", tagTypeName);
         appendLog(message);
     }
@@ -122,7 +123,7 @@ public final class ListenerLogger extends ExpansionListener {
         String tagTypeName = tagType.name();
         String cancelledString = Boolean.toString(e.isCancelled());
 
-        String message = format.replace("{player}", playerName).replace("{enemy}", enemyName)
+        String message = format.replace("{player_name}", playerName).replace("{enemy_name}", enemyName)
                 .replace("{tag_reason}", tagReasonName).replace("{tag_type}", tagTypeName)
                 .replace("{was_cancelled}", cancelledString);
         appendLog(message);
@@ -143,7 +144,7 @@ public final class ListenerLogger extends ExpansionListener {
         String untagReasonName = untagReason.name();
         String expireString = Boolean.toString(isExpire);
 
-        String message = format.replace("{player}", playerName).replace("{untag_reason}", untagReasonName)
+        String message = format.replace("{player_name}", playerName).replace("{untag_reason}", untagReasonName)
                 .replace("{was_expire}", expireString);
         appendLog(message);
     }
@@ -164,7 +165,7 @@ public final class ListenerLogger extends ExpansionListener {
         String untagReasonName = untagReason.name();
         String cancelledString = Boolean.toString(e.isCancelled());
 
-        String message = format.replace("{player}", playerName).replace("{enemy}", enemyNames)
+        String message = format.replace("{player_name}", playerName).replace("{enemy_name}", enemyNames)
                 .replace("{punish_reason}", untagReasonName).replace("{was_cancelled}", cancelledString);
         appendLog(message);
     }
@@ -209,7 +210,7 @@ public final class ListenerLogger extends ExpansionListener {
         LoggerExpansion expansion = getLoggerExpansion();
         LoggerConfiguration configuration = expansion.getConfiguration();
         LogOptions logOptions = configuration.getLogOptions();
-        return logType.isEnabled(logOptions);
+        return !logType.isEnabled(logOptions);
     }
 
     private @NotNull String getFormat(@NotNull LogType logType) {
@@ -233,23 +234,28 @@ public final class ListenerLogger extends ExpansionListener {
 
     private void appendLog(String @NotNull ... messageArray) {
         try {
-            LoggerExpansion expansion = getLoggerExpansion();
-            File dataFolder = expansion.getDataFolder();
-            if (!dataFolder.exists() && !dataFolder.mkdirs()) {
-                throw new IOException("Failed to create expansion folder.");
-            }
-
-            File logFile = getLogFile();
-            if (!logFile.exists() && !logFile.createNewFile()) {
-                throw new IOException("Failed to create custom log file.");
-            }
-
-            Path logPath = logFile.toPath();
-            List<String> messageList = Arrays.asList(messageArray);
+            Path logPath = getLogPath();
+            List<String> messageList = new ArrayList<>();
+            Collections.addAll(messageList, messageArray);
             Files.write(logPath, messageList, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
         } catch (IOException ex) {
             Logger logger = getExpansionLogger();
             logger.log(Level.WARNING, "Failed to write to a custom log file:", ex);
         }
+    }
+
+    private @NotNull Path getLogPath() throws IOException {
+        LoggerExpansion expansion = getLoggerExpansion();
+        File dataFolder = expansion.getDataFolder();
+        if (!dataFolder.exists() && !dataFolder.mkdirs()) {
+            throw new IOException("Failed to create expansion folder.");
+        }
+
+        File logFile = getLogFile();
+        if (!logFile.exists() && !logFile.createNewFile()) {
+            throw new IOException("Failed to create custom log file.");
+        }
+
+        return logFile.toPath();
     }
 }

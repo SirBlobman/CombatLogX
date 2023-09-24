@@ -36,6 +36,13 @@ public final class LogEntryOptions implements IConfigurable {
 
     @Override
     public void load(@NotNull ConfigurationSection section) {
+        setPrefixFormat(section.getString("prefix-format", ""));
+        setEntityDamageEventFormat(section.getString("entity-damage-event-format", ""));
+        setPretagFormat(section.getString("pretag-format", ""));
+        setTagFormat(section.getString("tag-format", ""));
+        setRetagFormat(section.getString("retag-format", ""));
+        setUntagFormat(section.getString("untag-format", ""));
+        setPunishFormat(section.getString("punish-format", ""));
     }
 
     public @NotNull String getPrefixFormat() {
