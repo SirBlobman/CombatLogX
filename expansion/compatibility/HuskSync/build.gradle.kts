@@ -3,5 +3,5 @@ repositories {
 }
 
 dependencies {
-    compileOnly("net.william278:husksync:2.2.8")
+    compileOnly("net.william278:husksync:3.0.2")
 }
