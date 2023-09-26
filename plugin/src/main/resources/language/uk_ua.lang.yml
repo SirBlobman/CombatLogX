@@ -15,8 +15,8 @@ language-name: "uk_ua"
 #The format for decimal numbers.
 #The United States uses the number and two decimal places
 decimal-format: "0.00"
-#The prefix for CombatLogX.
-#This is shown in front of all messages and should not be changed unless necessary.
+#The prefix for CombatLogX that is shown in front of all messages.
+#Note to translators: Do not change this message.
 prefix: "<bold><white>[</white></bold><gold>CombatLogX</gold><bold><white>]"
 broadcast:
   #Shown when the plugin is finished loading.
@@ -56,6 +56,8 @@ combat-timer:
 error:
   #Shown when the console tries to execute a command made for players.
   player-only: "<red>Цю команду можуть виконувати лише гравці."
+  #Shown when a player tries to execute a command made for the server console.
+  console-only: "<red>Цю команду можна виконати тільки в консолі сервера.</red>"
   #Shown when a command that requires a player has invalid input.
   invalid-target: "<gray>{target}</gray><red> не в мережі або не існує."
   #Shown when a command that requires a number has invalid input.
@@ -70,6 +72,8 @@ error:
   self-not-in-combat: "<red>Ви не в бою."
   #Shown when a command that requires an expansion has invalid input.
   unknown-expansion: "<gray>{target}</gray><red> не є розширенням або не встановлено."
+  forgive-not-enemy: "<red><gray>{target}</gray> не є одним з ваших ворогів.</red>"
+  enemy-not-forgiving: "<red>Цей ворог не налаштований прощати вас.</red>"
 command:
   combatlogx:
     #Shown as the command output for '/combatlogx help'.
@@ -83,6 +87,10 @@ command:
       - "  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>: Увімкнути або вимкнути тип сповіщення."
       - "  <bold><white>/combatlogx untag \\<player></white></bold><gray>: Вимусити гравця вийти з бою."
       - "  <bold><white>/combatlogx version</white></bold><gray>: Перевірте свою версію CombatLogX."
+      - "  <white><bold>/combatlogx forgive request \\<player></bold></white><gray>: Надішліть ворогу запит, щоб він зняв з вас свою мітку.</gray>"
+      - "  <white><bold>/combatlogx forgive accept \\<player></bold></white><gray>: Задовольнити прохання ворога про втечу з бою.</gray>"
+      - "  <white><bold>/combatlogx forgive reject \\<player></bold></white><gray>: Ігноруйте прохання ворога вийти з бою.</gray>"
+      - "  <white><bold>/combatlogx forgive toggle</bold></white><gray>: Увімкнути або вимкнути запити на припинення бою.</gray>"
       - ""
     #Shown as the command output for '/combatlogx reload' when reloading is successful.
     reload-success:
@@ -105,12 +113,38 @@ command:
     toggle-actionbar: "<bold><gray>Панель дій: {status}"
     #Shown as the command output for '/combatlogx toggle scoreboard'.
     toggle-scoreboard: "<gray>Табло: {status}"
+    #Shown as the command output for '/combatlogx about <expansion>'.
+    expansion-information:
+      - ""
+      - "<white><bold>Інформація про розширення для</bold> <green>{name}</green><bold>:</bold></white>"
+      - "<white><bold>Показувана назва:</bold></white> <gray>{prefix}</gray>"
+      - "<white><bold>Версія:</bold></white> <gray>{version}</gray>"
+      - "<white><bold>Держава:</bold></white> <gray>{state}</gray>"
+      - ""
+      - "<white><bold>Опис:</bold></white> <gray>{description}</gray>"
+      - "<white><bold>Вебсайт:</bold></white> <gray>{website}</gray>"
+      - "<white><bold>Автори:</bold></white> <gray>{authors}</gray>"
+    forgive:
+      toggle-disable: "<green>Ви більше не можете отримувати прохання про прощення.</green>"
+      toggle-enable: "<green>Тепер ви можете отримувати прохання про прощення.</green>"
+      request-sent: "<green>Ви надіслали прохання про прощення <gray>{target}</gray>.</green>"
+      request-receive:
+        - "<green><gray>{player}</gray> надіслав вам прохання про вибачення.</green>"
+        - "<green>Тип <click:run_command:/combatlogx forgive accept><gray>/clx пробачити прийняти</gray></click> прийняти або.</green>"
+        - "<green><click:run_command:/combatlogx forgive reject><gray>/clx forgive reject</gray></click> щоб заперечувати.</green>"
   combat-timer:
     #Shown as the command output for '/combat-timer'.
-    time-left-self: "<green>У вас залишається </green><gray>{time_left} секунд."
+    time-left-self: "<green>У вас залишилося <gray>{time_left}</gray> секунд.</green>"
     #Shown as the command output for '/combat-timer <player>'.
     time-left-other: "<green>У </green><gray>{target}</gray><green> залишилося </green><gray>{time_left} секунд."
 #These messages are shown a player is tagged into combat.
+#You can also change the location of these messages.
+#Example:
+#tagged:
+#attacked:
+#player:
+#type: ACTION_BAR
+#content: "<message here>"
 tagged:
   unknown:
     player: "<red>Ви зараз в битві з <white>{enemy}</white> з невідомою причиною. Не виходьте!</red>"
@@ -230,24 +264,30 @@ expansion:
     #You can find a list of damage types here:
     #https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/EntityDamageEvent.DamageCause.html
     damage-type:
+      block-explosion: "<red>Ви були пошкоджені вибухом. Не виходьте!"
       contact: "<red>Вас уколов кактус. Не виходьте!"
-      suffocation: "<red>Ви задихаєтесь у стіні. Не виходьте!"
+      cramming: "<red>Вас розчавлюють. Не виходьте!"
+      custom: "<red>Ви взяли нестандартну шкоду. Не виходьте!"
+      drowning: "<red>Ви тонете. Не виходьте!"
+      dryout: "<red>Ви занадто довго не були у воді. Не виходьте з системи!</red>" #May be triggered by custom plugins.
+      entity-explosion: "<red>Вас було пошкоджено вибухом Кінцевого Кристала. Не виходьте з системи!</red>" #Only triggered by end crystals.
       fall: "<red>Ви отримали пошкодження при падінні. Не виходьте!"
+      falling-block: "<red>На вас упав блок. Не виходьте!"
       fire: "<red>Ви увійшли в вогонь. Не виходьте!"
       fire-tick: "<red>Ви горите. Не виходьте!"
-      lava: "<red>Ви кипите в лаве. Не виходьте!"
-      drowning: "<red>Ви тонете. Не виходьте!"
-      block-explosion: "<red>Ви були пошкоджені вибухом. Не виходьте!"
-      lightning: "<red>Вас вразило! Не виходьте!"
-      starvation: "<red>Ви надто голодні. Не виходьте!"
-      poison: "<red>Ви отримали пошкодження від отрути. Не виходьте!"
-      magic: "<red>Хтось кинув у вас зілля. Не виходьте!"
-      wither: "<red>Ви відмираєте. Не виходьте!"
-      falling-block: "<red>На вас упав блок. Не виходьте!"
-      custom: "<red>Ви взяли нестандартну шкоду. Не виходьте!"
       fly-into-wall: "<red>Ви відчули кінетичну енергію. Не виходьте!"
+      freeze: "<red>Ти замерзаєш. Не виходь з системи!</red>"
       hot-floor: "<red>Підлога - це лава! Не виходьте!"
-      cramming: "<red>Вас розчавлюють. Не виходьте!"
+      lava: "<red>Ви кипите в лаве. Не виходьте!"
+      lightning: "<red>Вас вразило! Не виходьте!"
+      magic: "<red>Хтось кинув у вас зілля. Не виходьте!"
+      melting: "<red>Ти танеш! Не виходьте з системи.</red>" #May be triggered by custom plugins.
+      poison: "<red>Ви отримали пошкодження від отрути. Не виходьте!"
+      starvation: "<red>Ви надто голодні. Не виходьте!"
+      suffocation: "<red>Ви задихаєтесь у стіні. Не виходьте!"
+      void: "<red>You are falling into the void. Do not log out!</red>"
+      wither: "<red>Ви відмираєте. Не виходьте!"
+      world-border: "<red>Ви знаходитесь занадто близько до кордону. Не виходьте з системи!</red>"
   newbie-helper:
     togglepvp:
       #Shown as the command output for '/togglepvp'.
@@ -292,6 +332,8 @@ expansion:
     prevent-teleport-self: "<red>Вам не дозволено телепортуватися до вашого партнера під час бою.</red>"
     #Shown when a married player is prevented from teleporting to their partner during combat.
     prevent-teleport-partner: "<red>Вам не дозволяється переміщуватися до вашого партнера, поки вони знаходяться в бою.</red>"
+  huskhomes-compatibility:
+    prevent-teleport: "<red>Вам заборонено телепортуватися під час бою."
   region-protection:
     #Shown when a player tries to enter a no-pvp area during combat.
     default-no-entry: "<red>Вам не дозволено вводити цю область під час бою.</red>"
