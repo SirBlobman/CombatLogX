@@ -48,22 +48,22 @@ placeholder:
     disabled: "<red>ВЫКЛ.</red>"
 combat-timer:
   #Sent to a player when they escape from combat due to the timer running out.
-  expire: "<green>Вы вышли из боя.</green>"
+  expire: "<green>You are no longer in combat.</green>"
   #Sent to a player when they escape from combat due to their enemy being killed.
-  enemy-death: "<green>Вы вышли из боя, потому что ваш противник погиб.</green>"
+  enemy-death: "<green>Вы вышли из боя, потому что умерли.</green>"
   #Sent when a player is killed during combat.
-  self-death: "<green>Вы вышли из боя, потому что умерли.</green>"
+  self-death: "<green>You are no longer in combat.</green>"
 error:
   #Shown when the console tries to execute a command made for players.
-  player-only: "<red>Только игроки могут выполнить эту команду.</red>"
+  player-only: "<red>Только игроки могут выполнить эту команду</red>"
   #Shown when a player tries to execute a command made for the server console.
-  console-only: "<red>Эта команда может быть выполнена только консолью.</red>"
+  console-only: "<red>Эта команда может быть выполнена только в консоли сервера.</red>"
   #Shown when a command that requires a player has invalid input.
-  invalid-target: "<red><gray>{target}</gray> не в сети или не существует.</red>"
+  invalid-target: "<red><gray>{target}</gray> не ваш противник.</red>"
   #Shown when a command that requires a number has invalid input.
-  invalid-integer: "<red><gray>{value}</gray> не является целым числом.</red>"
+  invalid-integer: "<red><gray>{value}</gray> не является допустимым числом.</red>"
   #Shown when a player does not have access to something that requires a permission.
-  no-permission: "<red>Отсутствует право: <gray>{permission}</gray></red>"
+  no-permission: "<red>Отсутствие разрешения: <gray>{permission}</gray></red>"
   #Shown when a player executes a command in a world that is disabled in the configuration.
   disabled-world: "<red>Данная команда недоступна в этом измерении.</red>"
   #Shown when a command requires a player in combat but the target player is not in combat.
