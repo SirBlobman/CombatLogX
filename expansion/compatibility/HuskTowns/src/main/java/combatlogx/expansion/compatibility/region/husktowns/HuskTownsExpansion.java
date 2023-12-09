@@ -16,7 +16,7 @@ public final class HuskTownsExpansion extends RegionExpansion {
 
     @Override
     public boolean checkDependencies() {
-        return checkDependency("HuskTowns", true, "2.2");
+        return checkDependency("HuskTowns", true, "2.6");
     }
 
     @Override
