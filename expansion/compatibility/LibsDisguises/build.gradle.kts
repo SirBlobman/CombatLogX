@@ -3,7 +3,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("LibsDisguises:LibsDisguises:10.0.37") {
+    compileOnly("LibsDisguises:LibsDisguises:10.0.40") {
         exclude("*", "*")
     }
 }
