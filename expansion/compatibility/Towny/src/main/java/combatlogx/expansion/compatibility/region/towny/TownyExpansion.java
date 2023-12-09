@@ -11,7 +11,7 @@ public final class TownyExpansion extends RegionExpansion {
     private final TownyConfiguration configuration;
     private RegionHandler<?> regionHandler;
 
-    public TownyExpansion(ICombatLogX plugin) {
+    public TownyExpansion(@NotNull ICombatLogX plugin) {
         super(plugin);
         this.configuration = new TownyConfiguration();
         this.regionHandler = null;
@@ -26,7 +26,7 @@ public final class TownyExpansion extends RegionExpansion {
 
     @Override
     public boolean checkDependencies() {
-        return checkDependency("Towny", true, "0.99");
+        return checkDependency("Towny", true, "0.100");
     }
 
     @Override
