@@ -56,6 +56,8 @@ combat-timer:
 error:
   #Shown when the console tries to execute a command made for players.
   player-only: "<red>Apenas jogadores podem executar este comando."
+  #Shown when a player tries to execute a command made for the server console.
+  console-only: "<red>Este comando só pode ser executado no console do servidor.</red>"
   #Shown when a command that requires a player has invalid input.
   invalid-target: "<gray>{target}</gray><red> não está online ou não existe."
   #Shown when a command that requires a number has invalid input.
@@ -111,6 +113,17 @@ command:
     toggle-actionbar: "<bold><gray>Barra de ação: {status}"
     #Shown as the command output for '/combatlogx toggle scoreboard'.
     toggle-scoreboard: "<gray>Placar: {status}"
+    #Shown as the command output for '/combatlogx about <expansion>'.
+    expansion-information:
+      - ""
+      - "<white><bold>Informação de expansão para</bold> <green>{name}</green><bold>:</bold></white>"
+      - "<white><bold>Nome de Exibição:</bold></white> <gray>{prefix}</gray>"
+      - "<white><bold>Versão:</bold></white> <gray>{version}</gray>"
+      - "<white><bold>Estado:</bold></white> <gray>{state}</gray>"
+      - ""
+      - "<white><bold>Descrição:</bold></white> <gray>{description}</gray>"
+      - "<white><bold>Site:</bold></white> <gray>{website}</gray>"
+      - "<white><bold>Autores:</bold></white> <gray>{authors}</gray>"
     forgive:
       toggle-disable: "<green>Não pode mais receber pedidos de perdão.</green>"
       toggle-enable: "<green>Pode agora receber pedidos de perdão.</green>"
@@ -251,24 +264,30 @@ expansion:
     #You can find a list of damage types here:
     #https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/EntityDamageEvent.DamageCause.html
     damage-type:
+      block-explosion: "<red>Você foi danificado por uma explosão. Não saia!"
       contact: "<red>Você foi picado por um cacto. Não saia!"
-      suffocation: "<red>Você está sufocando em uma parede. Não saia!"
+      cramming: "<red>Você está sendo esmagado. Não saia!"
+      custom: "<red>Você sofreu danos personalizados. Não saia!"
+      drowning: "<red>Você está se afogando. Não saia!"
+      dryout: "Você ficou sem água por muito tempo. Não desconecte" #May be triggered by custom plugins.
+      entity-explosion: "<red>Você recebeu dano da explosão do Cristal do Fim. Não se desconecte!</red>" #Only triggered by end crystals.
       fall: "<red>Você sofreu danos de queda. Não saia!"
+      falling-block: "<red>Um bloco caiu sobre você. Não saia!"
       fire: "<red>Você entrou no fogo. Não saia!"
       fire-tick: "<red>Você está queimando. Não saia!"
-      lava: "<red>Você está fervendo na lava. Não saia!"
-      drowning: "<red>Você está se afogando. Não saia!"
-      block-explosion: "<red>Você foi danificado por uma explosão. Não saia!"
-      lightning: "<red>Você foi ferido! Não saia!"
-      starvation: "<red>Você está com muita fome. Não saia!"
-      poison: "<red>Você sofreu dano de veneno. Não saia!"
-      magic: "<red>Alguém jogou uma poção em você. Não saia!"
-      wither: "<red>Você está murchando. Não saia!"
-      falling-block: "<red>Um bloco caiu sobre você. Não saia!"
-      custom: "<red>Você sofreu danos personalizados. Não saia!"
       fly-into-wall: "<red>Você experimentou energia cinética. Não saia!"
+      freeze: "<red>Você está congelando. Não desconecte!</red>"
       hot-floor: "<red>O chão é lava! Não saia!"
-      cramming: "<red>Você está sendo esmagado. Não saia!"
+      lava: "<red>Você está fervendo na lava. Não saia!"
+      lightning: "<red>Você foi ferido! Não saia!"
+      magic: "<red>Alguém jogou uma poção em você. Não saia!"
+      melting: "<red>Você está derretendo! Não desconecte.</red>" #May be triggered by custom plugins.
+      poison: "<red>Você sofreu dano de veneno. Não saia!"
+      starvation: "<red>Você está com muita fome. Não saia!"
+      suffocation: "<red>Você está sufocando em uma parede. Não saia!"
+      void: "<red>Você está caindo no vazio. Não desconecte!</red>"
+      wither: "<red>Você está murchando. Não saia!"
+      world-border: "<red>Você está muito perto da borda. Não desconecte!</red>"
   newbie-helper:
     togglepvp:
       #Shown as the command output for '/togglepvp'.
