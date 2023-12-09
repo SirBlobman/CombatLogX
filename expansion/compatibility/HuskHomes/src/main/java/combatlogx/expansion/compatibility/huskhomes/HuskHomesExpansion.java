@@ -21,7 +21,7 @@ public final class HuskHomesExpansion extends Expansion {
 
     @Override
     public void onEnable() {
-        if (!checkDependency("HuskHomes", true, "4.2")) {
+        if (!checkDependency("HuskHomes", true, "4.5")) {
             selfDisable();
             return;
         }
