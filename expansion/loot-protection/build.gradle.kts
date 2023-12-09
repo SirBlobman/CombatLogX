@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-    implementation("net.jodah:expiringmap:0.5.10")
+    implementation("net.jodah:expiringmap:0.5.11")
 }
 
 tasks {
