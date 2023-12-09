@@ -3,7 +3,7 @@ prefix: "${expansionPrefix}"
 description: "${expansionDescription}"
 
 main: "combatlogx.expansion.compatibility.mythicmobs.MythicMobsExpansion"
-version: "17.3"
+version: "17.4"
 author: "SirBlobman"
 
 plugin-depend:
