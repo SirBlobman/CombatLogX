@@ -68,7 +68,7 @@ dependencies {
     expansion(project(":expansion:compatibility:SuperVanish"))
     expansion(project(":expansion:compatibility:Towny"))
     expansion(project(":expansion:compatibility:UltimateClaims"))
-    expansion(project(":expansion:compatibility:uSkyBlock"))
+    // expansion(project(":expansion:compatibility:uSkyBlock"))
     expansion(project(":expansion:compatibility:VanishNoPacket"))
     expansion(project(path = ":expansion:compatibility:WorldGuard", configuration = "shadow"))
 }
