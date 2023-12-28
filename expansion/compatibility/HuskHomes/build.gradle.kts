@@ -3,5 +3,5 @@ repositories {
 }
 
 dependencies {
-    compileOnly("net.william278:HuskHomes2:4.5.2")
+    compileOnly("net.william278:HuskHomes2:4.5.4")
 }
