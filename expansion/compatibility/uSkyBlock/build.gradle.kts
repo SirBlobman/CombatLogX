@@ -1,5 +1,5 @@
 repositories {
-    maven("https://www.uskyblock.ovh/maven/uskyblock/")
+    maven("https://nexus.sirblobman.xyz/proxy-uskyblock/")
 }
 
 dependencies {
