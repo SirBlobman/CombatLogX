@@ -1,17 +1,5 @@
 package com.github.sirblobman.combatlogx.listener;
 
-import java.util.List;
-import java.util.Locale;
-
-import org.jetbrains.annotations.NotNull;
-
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.PlayerKickEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.configuration.CommandConfiguration;
@@ -22,6 +10,16 @@ import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.IPlaceholderManager;
 import com.github.sirblobman.combatlogx.api.manager.IPunishManager;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.Locale;
 
 public final class ListenerUntag extends CombatListener {
     public ListenerUntag(@NotNull ICombatLogX plugin) {
@@ -86,7 +84,7 @@ public final class ListenerUntag extends CombatListener {
         ICombatLogX plugin = getCombatLogX();
         LanguageManager languageManager = plugin.getLanguageManager();
         String languagePath = ("combat-timer." + untagReasonReplaced);
-        languageManager.sendMessageWithPrefix(player, languagePath);
+        languageManager.sendModifiableMessageWithPrefix(player, languagePath);
     }
 
     private void runUntagCommands(Player player, List<Entity> enemyList) {
