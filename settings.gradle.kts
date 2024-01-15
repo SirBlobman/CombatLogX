@@ -73,7 +73,7 @@ include("expansion:compatibility:SuperiorSkyblock")
 include("expansion:compatibility:SuperVanish")
 include("expansion:compatibility:Towny")
 include("expansion:compatibility:UltimateClaims")
-// include("expansion:compatibility:uSkyBlock")
+include("expansion:compatibility:uSkyBlock")
 include("expansion:compatibility:VanishNoPacket")
 include("expansion:compatibility:WorldGuard")
 
