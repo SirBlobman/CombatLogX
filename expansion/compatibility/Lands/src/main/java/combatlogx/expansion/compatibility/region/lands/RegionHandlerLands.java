@@ -2,6 +2,7 @@ package combatlogx.expansion.compatibility.region.lands;
 
 import java.util.UUID;
 
+import me.angeschossen.lands.api.player.LandPlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
