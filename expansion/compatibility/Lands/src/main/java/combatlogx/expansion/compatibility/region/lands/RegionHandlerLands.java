@@ -48,6 +48,10 @@ public final class RegionHandlerLands extends RegionHandler<LandsExpansion> {
         }
 
         Entity enemy = tag.getCurrentEnemy();
+        if (enemy instanceof Player) { // if target is player, check for attack flag and wars. this makes sure that BOTH players are allowed to fight, not just the attacker, since attackers can only attack players that are allowed to fight back
+            return !area.canPvP(landsIntegration.getLandPlayer(player.getUniqueId(), enemy.getUniqueId(), false)); // if one of them can't fight, consider as safe zone, since it results in both of them not being able to fight in area
+        }
+
         TagType tagType = tag.getCurrentTagType();
         RoleFlag roleFlag = getRoleFlag(tagType, enemy);
         if (roleFlag == null) {
