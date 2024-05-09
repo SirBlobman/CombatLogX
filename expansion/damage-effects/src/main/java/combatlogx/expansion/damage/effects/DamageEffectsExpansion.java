@@ -1,10 +1,14 @@
 package combatlogx.expansion.damage.effects;
 
+import com.github.sirblobman.api.utility.VersionUtility;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 import org.jetbrains.annotations.NotNull;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+
+import java.util.logging.Logger;
 
 public final class DamageEffectsExpansion extends Expansion {
     private final DamageEffectsConfiguration configuration;
@@ -22,6 +26,14 @@ public final class DamageEffectsExpansion extends Expansion {
 
     @Override
     public void onEnable() {
+        int minorVersion = VersionUtility.getMinorVersion();
+        if (minorVersion < 13) {
+            Logger logger = getLogger();
+            logger.warning("This expansion is made for 1.13+");
+            selfDisable();
+            return;
+        }
+
         reloadConfig();
         new ListenerDamageEffects(this).register();
     }

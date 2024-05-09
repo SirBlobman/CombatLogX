@@ -5,6 +5,7 @@ import java.awt.Color;
 import org.jetbrains.annotations.NotNull;
 
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
@@ -70,7 +71,9 @@ public final class Blood implements DamageEffect, IConfigurable {
         double offsetZ = offset.getZ();
         Location location = player.getLocation().add(offsetX, offsetY, offsetZ);
 
-        ParticleDisplay display = ParticleDisplay.colored(location, color, size);
+        ParticleDisplay display = ParticleDisplay.of(Particle.REDSTONE);
+        display.withColor(color, size);
+        display.withLocation(location);
         XParticle.ring(rate, radius, tubeRadius, display);
     }
 
