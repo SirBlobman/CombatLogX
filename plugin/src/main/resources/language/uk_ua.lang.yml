@@ -35,27 +35,33 @@ placeholder:
   status:
     #Shown when the player is in combat.
     fighting: "<red>Боротьба"
-    in-combat: "<green>Так"
+    in-combat: "<green>Так</green>"
     #Shown when the player is not in combat
     idle: "<green>Бездіяльний"
     not-in-combat: "<red>Ні"
   #These placeholders are shown when a player changes a value such as whether or not their bossbar is enabled.
   toggle:
-    enabled: "<green>УВІМК"
-    disabled: "<red>ВИМК"
+    enabled: "<green>УВІМКНЕНО</green>"
+    disabled: "<red>ВИМКНЕНО</red>"
   pvp-status:
-    enabled: "<green>УВІМК"
-    disabled: "<red>ВИМК"
+    enabled: "<green>УВІМКНЕНО</green>"
+    disabled: "<red>ВИМКНЕНО</red>"
+#You can also change the location of these messages.
+#Example:
+#combat-timer:
+#expire:
+#type: ACTION_BAR
+#content: "<message here>"
 combat-timer:
   #Sent to a player when they escape from combat due to the timer running out.
-  expire: "<green>Ви більше не в бою."
+  expire: "<green>Ви більше не в бою.</green>"
   #Sent to a player when they escape from combat due to their enemy being killed.
-  enemy-death: "<green>Ви більше не в бою, тому що ваш ворог загинув."
+  enemy-death: "<green>Ви більше не в бою, тому що ваш ворог загинув.</green>"
   #Sent when a player is killed during combat.
   self-death: "<green>Ви більше не в битві, оскільки ви померли.</green>"
 error:
   #Shown when the console tries to execute a command made for players.
-  player-only: "<red>Цю команду можуть виконувати лише гравці."
+  player-only: "<red>Цю команду можуть виконувати лише гравці.</red>"
   #Shown when a player tries to execute a command made for the server console.
   console-only: "<red>Цю команду можна виконати тільки в консолі сервера.</red>"
   #Shown when a command that requires a player has invalid input.
@@ -69,17 +75,17 @@ error:
   #Shown when a command requires a player in combat but the target player is not in combat.
   target-not-in-combat: "<gray>{target}</gray><red> не в бою."
   #Shown when a player executes a command that requires them to be in combat.
-  self-not-in-combat: "<red>Ви не в бою."
+  self-not-in-combat: "<red>Ви не в бою.</red>"
   #Shown when a command that requires an expansion has invalid input.
-  unknown-expansion: "<gray>{target}</gray><red> не є розширенням або не встановлено."
+  unknown-expansion: "<red><gray>{target}</gray> не є розширенням або не встановлено.</red>"
   forgive-not-enemy: "<red><gray>{target}</gray> не є одним з ваших ворогів.</red>"
-  enemy-not-forgiving: "<red>Цей ворог не налаштований прощати вас.</red>"
+  enemy-not-forgiving: "<red>Цей ворог не налаштований пробачати вас.</red>"
 command:
   combatlogx:
     #Shown as the command output for '/combatlogx help'.
     help-message-list:
       - ""
-      - "<bold><gold>CombatLogX Довідка команди:"
+      - "<gold><bold>CombatLogX Команди:</bold></gold>"
       - "  <bold><white>/combatlogx help</white></bold><gray>: Переглянути цю сторінку довідки."
       - "  <bold><white>/combatlogx reload</white></bold><gray>: Перезавантажте config.yml, language.yml та всі файли конфігурації розширення."
       - "  <bold><white>/combatlogx about \\<expansion></white></bold><gray>: Перевірте інформацію про розширення."
