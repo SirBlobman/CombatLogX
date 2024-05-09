@@ -1,7 +1,6 @@
 package combatlogx.expansion.damage.effects;
 
 import com.github.sirblobman.api.utility.VersionUtility;
-import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 import org.jetbrains.annotations.NotNull;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
