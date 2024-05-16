@@ -127,7 +127,7 @@ public final class ListenerRewards extends ExpansionListener {
         }
 
         Random random = new Random();
-        int randomValue = random.nextInt(1, maxChance + 1);
+        int randomValue = 1 + random.nextInt(maxChance);
         return (randomValue <= chance);
     }
 

@@ -3,5 +3,5 @@ prefix: "${expansionPrefix}"
 description: "${expansionDescription}"
 
 main: "combatlogx.expansion.rewards.RewardExpansion"
-version: "17.4"
+version: "17.5"
 author: "SirBlobman"
