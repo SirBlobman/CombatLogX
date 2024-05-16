@@ -8,6 +8,8 @@ pipeline {
     environment {
         DISCORD_URL = credentials('PUBLIC_DISCORD_WEBHOOK')
         MAVEN_DEPLOY = credentials('MAVEN_DEPLOY')
+        JDK8 = '/home/container/jdk/zulu8.78.0.19-ca-jdk8.0.412-linux_x64'
+        JDK17 = '/home/container/jdk/zulu17.50.19-ca-jdk17.0.11-linux_x64'
     }
 
     triggers {
