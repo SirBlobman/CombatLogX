@@ -2,6 +2,7 @@ package combatlogx.expansion.damage.effects.effect;
 
 import java.awt.Color;
 
+import com.github.sirblobman.api.shaded.xseries.particles.Particles;
 import org.jetbrains.annotations.NotNull;
 
 import org.bukkit.Location;
@@ -71,10 +72,11 @@ public final class Blood implements DamageEffect, IConfigurable {
         double offsetZ = offset.getZ();
         Location location = player.getLocation().add(offsetX, offsetY, offsetZ);
 
-        ParticleDisplay display = ParticleDisplay.of(Particle.REDSTONE);
+
+        ParticleDisplay display = ParticleDisplay.of(XParticle.DUST);
         display.withColor(color, size);
         display.withLocation(location);
-        XParticle.ring(rate, radius, tubeRadius, display);
+        Particles.ring(rate, radius, tubeRadius, display);
     }
 
     public @NotNull Offset getOffset() {
