@@ -1,17 +1,15 @@
 package combatlogx.expansion.compatibility.region.lands;
 
-import java.util.Optional;
-
-import org.jetbrains.annotations.NotNull;
-
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
-
 import combatlogx.expansion.compatibility.region.lands.listener.ListenerLands;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
 
 public final class LandsExpansion extends RegionExpansion {
     private final LandsConfiguration configuration;
@@ -25,7 +23,7 @@ public final class LandsExpansion extends RegionExpansion {
 
     @Override
     public boolean checkDependencies() {
-        return checkDependency("Lands", true, "6");
+        return checkDependency("Lands", true, "7");
     }
 
     @Override
