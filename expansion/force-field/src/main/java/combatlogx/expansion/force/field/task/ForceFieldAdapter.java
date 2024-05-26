@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import com.github.sirblobman.api.folia.details.LocationTaskDetails;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -85,9 +86,14 @@ public final class ForceFieldAdapter extends PacketAdapter {
             return;
         }
 
-        if (isForceFieldBlock(task, player, location, tag)) {
-            sendForceField(task, player, location, packet);
-        }
+        getCombatLogX().getFoliaHelper().getScheduler().scheduleLocationTask(new LocationTaskDetails(plugin, location) {
+          @Override
+          public void run() {
+            if (isForceFieldBlock(task, player, location, tag)) {
+              sendForceField(task, player, location, packet);
+            }
+          }
+        });
     }
 
     @Override

@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.github.sirblobman.api.folia.details.LocationTaskDetails;
 import org.jetbrains.annotations.NotNull;
 
 import org.bukkit.Bukkit;
@@ -189,17 +190,22 @@ public final class ForceFieldTask extends ExpansionListener implements Runnable 
     }
 
     private void checkForceField(@NotNull Player player) {
-        if (hasBypass(player)) {
+      Location location = player.getLocation();
+      getCombatLogX().getFoliaHelper().getScheduler().scheduleLocationTask(new LocationTaskDetails(expansion.getPlugin().getPlugin(), location) {
+        @Override
+        public void run() {
+          if (hasBypass(player)) {
             removeForceField(player);
             return;
-        }
+          }
 
-        Location location = player.getLocation();
-        if (isSafe(player, location)) {
+          if (isSafe(player, location)) {
             return;
-        }
+          }
 
-        updateForceField(player);
+          updateForceField(player);
+        }
+      });
     }
 
     private boolean hasBypass(@NotNull Player player) {
@@ -385,7 +391,12 @@ public final class ForceFieldTask extends ExpansionListener implements Runnable 
         for (BlockLocation blockLocation : oldArea) {
             Location location = blockLocation.asLocation();
             if (location != null) {
-                resetBlock(player, location);
+              getCombatLogX().getFoliaHelper().getScheduler().scheduleLocationTask(new LocationTaskDetails(expansion.getPlugin().getPlugin(), location) {
+                @Override
+                public void run() {
+                  resetBlock(player, location);
+                }
+              });
             }
         }
     }
