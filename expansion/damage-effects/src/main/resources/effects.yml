@@ -3,7 +3,6 @@
 # Default: false
 all-damage: false
 
-
 blood:
   # Set this to 'true' to show the blood particles.
   # Default: true
