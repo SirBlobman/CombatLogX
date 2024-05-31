@@ -3,7 +3,7 @@ prefix: "${expansionPrefix}"
 description: "${expansionDescription}"
 
 main: "combatlogx.expansion.compatibility.region.towny.TownyExpansion"
-version: "17.3"
+version: "17.4"
 author: "SirBlobman"
 
 plugin-depend:
