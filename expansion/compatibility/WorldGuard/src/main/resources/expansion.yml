@@ -3,7 +3,7 @@ prefix: "${expansionPrefix}"
 description: "${expansionDescription}"
 
 main: "combatlogx.expansion.compatibility.region.world.guard.WorldGuardExpansion"
-version: "17.2"
+version: "17.3"
 author: "SirBlobman"
 
 plugin-depend:

@@ -1,0 +1,3 @@
+# CombatLogX adds its own flag to prevent entry (player-combat: DENY)
+# Set this option to true if 'pvp: DENY` flag should also prevent entry.
+use-pvp-flag: true

@@ -45,10 +45,24 @@ public final class WorldGuardRegionHandler extends RegionHandler<WorldGuardExpan
             return false;
         }
 
+        // First check for custom CombatLogX flag.
         Optional<WrappedState> optionalWrappedState = wrappedWorldGuard.queryFlag(player, location, wrappedFlag);
         if (optionalWrappedState.isPresent()) {
             WrappedState wrappedState = optionalWrappedState.get();
             return (wrappedState == WrappedState.DENY);
+        }
+
+        // Second check for regular PVP tag (optional)
+        if (getExpansion().getWorldGuardConfiguration().isUsePvpFlag()) {
+            Optional<IWrappedFlag<WrappedState>> optionalPvpFlag = wrappedWorldGuard.getFlag("pvp", WrappedState.class);
+            if (optionalPvpFlag.isPresent()) {
+                IWrappedFlag<WrappedState> pvpFlag = optionalPvpFlag.get();
+                Optional<WrappedState> optionalPvpState = wrappedWorldGuard.queryFlag(player, location, pvpFlag);
+                if (optionalPvpState.isPresent()) {
+                    WrappedState pvpState = optionalPvpState.get();
+                    return (pvpState == WrappedState.DENY);
+                }
+            }
         }
 
         return false;
