@@ -16,4 +16,6 @@ public interface IItemConfiguration extends IConfigurable {
     boolean isPreventTotem();
 
     boolean isPreventRiptide();
+
+    boolean isRiptideRetag();
 }

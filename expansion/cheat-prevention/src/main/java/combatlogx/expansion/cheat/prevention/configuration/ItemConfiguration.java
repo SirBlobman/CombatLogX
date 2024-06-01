@@ -10,6 +10,7 @@ public final class ItemConfiguration implements IItemConfiguration {
     private boolean elytraRetag;
     private boolean preventTotem;
     private boolean preventRiptide;
+    private boolean riptideRetag;
 
     public ItemConfiguration() {
         this.preventDrop = true;
@@ -19,6 +20,7 @@ public final class ItemConfiguration implements IItemConfiguration {
         this.elytraRetag = false;
         this.preventTotem = false;
         this.preventRiptide = false;
+        this.riptideRetag = false;
     }
 
     @Override
@@ -30,6 +32,7 @@ public final class ItemConfiguration implements IItemConfiguration {
         setElytraRetag(config.getBoolean("elytra-retag", false));
         setPreventTotem(config.getBoolean("prevent-totem", false));
         setPreventRiptide(config.getBoolean("prevent-riptide", false));
+        setRiptideRetag(config.getBoolean("riptide-retag", false));
     }
 
     @Override
@@ -93,5 +96,14 @@ public final class ItemConfiguration implements IItemConfiguration {
 
     public void setPreventRiptide(boolean preventRiptide) {
         this.preventRiptide = preventRiptide;
+    }
+
+    @Override
+    public boolean isRiptideRetag() {
+        return this.riptideRetag;
+    }
+
+    public void setRiptideRetag(boolean riptideRetag) {
+        this.riptideRetag = riptideRetag;
     }
 }

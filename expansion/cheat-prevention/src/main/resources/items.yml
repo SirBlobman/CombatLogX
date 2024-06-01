@@ -25,3 +25,8 @@ prevent-totem: false
 # Should players be prevented from using tridents with the riptide enchantment during combat?
 # Default: false
 prevent-riptide: false
+
+# Should players that use tridents and the riptide effect increase the combat timer?
+# May conflict if both 'prevent-riptide' and 'riptide-retag' are enabled.
+# Default: false
+riptide-retag: false
