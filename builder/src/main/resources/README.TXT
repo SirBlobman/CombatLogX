@@ -4,7 +4,7 @@ Installation Guide:
 
 2. Extract the contents of the CombatLogX.zip to your PC.
 
-3. Click the stop button on the panel. If your server doesn't use a panel, type stop into the console.
+3. Click the stop button on the panel. If your server doesn't use a panel, type "stop" into the console.
 
 4. Upload CombatLogX.jar and BlueSlimeCore.jar to your server /plugins/ folder.
 
