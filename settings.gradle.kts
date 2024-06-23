@@ -76,6 +76,7 @@ include("expansion:compatibility:UltimateClaims")
 include("expansion:compatibility:uSkyBlock")
 include("expansion:compatibility:VanishNoPacket")
 include("expansion:compatibility:WorldGuard")
+// include("expansion:compatibility:ZNPCsPlus")
 
 // Final ZIP Builder
 include("builder")

@@ -1,0 +1,10 @@
+name: "${expansionName}"
+prefix: "${expansionPrefix}"
+description: "${expansionDescription}"
+
+main: "combatlogx.expansion.compatibility.znpc.ZNPCExpansion"
+version: "17.0.alpha.test"
+author: "SirBlobman"
+
+plugin-depend:
+  - "ZNPCsPlus"

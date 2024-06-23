@@ -71,6 +71,7 @@ dependencies {
     expansion(project(":expansion:compatibility:uSkyBlock"))
     expansion(project(":expansion:compatibility:VanishNoPacket"))
     expansion(project(path = ":expansion:compatibility:WorldGuard", configuration = "shadow"))
+    // expansion(project(":expansion:compatibility:ZNPCsPlus"))
 }
 
 distributions {

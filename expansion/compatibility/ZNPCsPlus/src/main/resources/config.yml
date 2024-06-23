@@ -1,0 +1,3 @@
+# Should players be tagged by NPCs?
+# Default: false
+npc-tagging: false
