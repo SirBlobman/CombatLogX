@@ -1,3 +1,3 @@
 dependencies {
-    compileOnly("com.github.rumsfield:Konquest:0.12.1")
+    compileOnly("com.github.rumsfield:Konquest:1.4.3")
 }
