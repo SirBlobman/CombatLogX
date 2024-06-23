@@ -3,5 +3,5 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.github.TechFortress:GriefPrevention:17.0.0")
+    compileOnly("com.github.GriefPrevention:GriefPrevention:17.0.0")
 }
