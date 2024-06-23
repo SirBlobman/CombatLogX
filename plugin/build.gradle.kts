@@ -17,7 +17,7 @@ dependencies {
     implementation("org.zeroturnaround:zt-zip:1.17") // ZT Zip
 
     // Plugin Dependencies
-    compileOnly("me.clip:placeholderapi:2.11.5") // PlaceholderAPI
+    compileOnly("me.clip:placeholderapi:2.11.6") // PlaceholderAPI
 }
 
 tasks {
