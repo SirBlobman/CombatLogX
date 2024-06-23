@@ -4,9 +4,9 @@ java {
 }
 
 repositories {
-    maven("https://nexus.sirblobman.xyz/proxy-jitpack/")
+    maven("https://repo.william278.net/releases/")
 }
 
 dependencies {
-    compileOnly("com.github.WiIIiam278:HuskTowns:2.6.1")
+    compileOnly("net.william278:husktowns:2.6.1")
 }

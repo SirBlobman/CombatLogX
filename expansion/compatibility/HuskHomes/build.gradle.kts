@@ -1,7 +1,7 @@
 repositories {
-    maven("https://nexus.sirblobman.xyz/proxy-jitpack/")
+    maven("https://repo.william278.net/releases/")
 }
 
 dependencies {
-    compileOnly("net.william278:HuskHomes2:4.5.5")
+    compileOnly("net.william278:huskhomes:4.5.5")
 }
