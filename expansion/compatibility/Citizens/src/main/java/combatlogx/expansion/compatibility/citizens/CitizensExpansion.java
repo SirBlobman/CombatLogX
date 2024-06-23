@@ -1,29 +1,38 @@
 package combatlogx.expansion.compatibility.citizens;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Logger;
+
+import org.jetbrains.annotations.NotNull;
+
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
+
 import com.github.sirblobman.api.configuration.ConfigurationManager;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+
 import combatlogx.expansion.compatibility.citizens.configuration.CitizensConfiguration;
 import combatlogx.expansion.compatibility.citizens.configuration.Configuration;
 import combatlogx.expansion.compatibility.citizens.configuration.SentinelConfiguration;
-import combatlogx.expansion.compatibility.citizens.listener.*;
+import combatlogx.expansion.compatibility.citizens.listener.ListenerCombat;
+import combatlogx.expansion.compatibility.citizens.listener.ListenerConvert;
+import combatlogx.expansion.compatibility.citizens.listener.ListenerDeath;
+import combatlogx.expansion.compatibility.citizens.listener.ListenerJoin;
+import combatlogx.expansion.compatibility.citizens.listener.ListenerPunish;
+import combatlogx.expansion.compatibility.citizens.listener.ListenerQuit;
+import combatlogx.expansion.compatibility.citizens.listener.ListenerResurrect;
 import combatlogx.expansion.compatibility.citizens.manager.CombatNpcManager;
 import combatlogx.expansion.compatibility.citizens.manager.InventoryManager;
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.logging.Logger;
 
 public final class CitizensExpansion extends Expansion {
     private static final List<String> SUPPORTED_VERSION_LIST;
 
     static {
-        SUPPORTED_VERSION_LIST = Arrays.asList("2.0.30", "2.0.31", "2.0.32", "2.0.33");
+        SUPPORTED_VERSION_LIST = Arrays.asList("2.0.33", "2.0.34", "2.0.35");
     }
 
     private final Configuration configuration;
