@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
 public final class EndCrystalExpansion extends Expansion {
     public EndCrystalExpansion(@NotNull ICombatLogX plugin) {
@@ -29,11 +30,7 @@ public final class EndCrystalExpansion extends Expansion {
         }
 
         reloadConfig();
-        if (minorVersion < 13) {
-            new ListenerCrystals_Legacy(this).register();
-        } else {
-            new ListenerCrystals_Modern(this).register();
-        }
+        getPreferredListener().register();
     }
 
     @Override
@@ -44,5 +41,19 @@ public final class EndCrystalExpansion extends Expansion {
     @Override
     public void reloadConfig() {
         // Empty Method
+    }
+
+    private @NotNull ExpansionListener getPreferredListener() {
+        int minorVersion = VersionUtility.getMinorVersion();
+        if (minorVersion < 13) {
+            return new ListenerCrystals_Legacy(this);
+        }
+
+        String minecraftVersion = VersionUtility.getMinecraftVersion();
+        if (minorVersion > 20 || minecraftVersion.equals("1.20.5") || minecraftVersion.equals("1.20.6")) {
+            return new ListenerCrystals_Moderner(this);
+        }
+
+        return new ListenerCrystals_Modern(this);
     }
 }

@@ -33,6 +33,7 @@ include("expansion:cheat-prevention")
 // End Crystals
 include("expansion:end-crystal:legacy")
 include("expansion:end-crystal:modern")
+include("expansion:end-crystal:moderner")
 include("expansion:end-crystal")
 
 // Compatibility expansions

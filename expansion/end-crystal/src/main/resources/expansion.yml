@@ -3,5 +3,5 @@ prefix: "${expansionPrefix}"
 description: "${expansionDescription}"
 
 main: "combatlogx.expansion.endcrystals.EndCrystalExpansion"
-version: "17.1"
+version: "17.2"
 author: "SirBlobman"

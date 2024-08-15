@@ -7,6 +7,7 @@ plugins {
 dependencies {
     implementation(project(":expansion:end-crystal:legacy"))
     implementation(project(":expansion:end-crystal:modern"))
+    implementation(project(":expansion:end-crystal:moderner"))
 }
 
 tasks {
