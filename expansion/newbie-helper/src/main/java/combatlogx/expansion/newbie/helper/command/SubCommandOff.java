@@ -15,7 +15,7 @@ public final class SubCommandOff extends CombatLogPlayerCommand {
     private final NewbieHelperExpansion expansion;
 
     public SubCommandOff(@NotNull NewbieHelperExpansion expansion) {
-        super(expansion.getPlugin(), "on");
+        super(expansion.getPlugin(), "off");
         setPermissionName("combatlogx.command.togglepvp");
         this.expansion = expansion;
     }
