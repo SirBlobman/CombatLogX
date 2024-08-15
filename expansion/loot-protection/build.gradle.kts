@@ -14,14 +14,14 @@ tasks {
     }
 
     named<ShadowJar>("shadowJar") {
-        archiveClassifier.set(null as String?)
         val expansionName = findProperty("expansion.name") ?: project.name
         archiveFileName.set("$expansionName.jar")
+        archiveClassifier.set(null as String?)
 
         relocate("net.jodah.expiringmap", "combatlogx.expansion.loot.protection.expiringmap")
     }
 
-    build {
-        dependsOn(shadowJar)
+    named("build") {
+        dependsOn("shadowJar")
     }
 }

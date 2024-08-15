@@ -75,27 +75,36 @@ public class ListenerLootProtection extends ExpansionListener {
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onEntityItemPickup(EntityPickupItemEvent e) {
+        printDebug("Detected EntityPickupItemEvent...");
+
         Item itemEntity = e.getItem();
         if (!contains(itemEntity)) {
+            printDebug("Item was not protected, ignoring.");
             return;
         }
 
         Entity entity = e.getEntity();
         if (!(entity instanceof Player)) {
+            printDebug("Entity was not player, preventing pickup.");
             e.setCancelled(true);
             return;
         }
 
         Player player = (Player) entity;
         UUID itemEntityId = itemEntity.getUniqueId();
+        printDebug("Item Entity ID: " + itemEntityId);
         ProtectedItem protectedItem = this.protectedItemMap.get(itemEntityId);
 
         UUID playerId = player.getUniqueId();
+        printDebug("Player ID: " + playerId);
+
         QueryPickupEvent queryPickupEvent = new QueryPickupEvent(player, protectedItem);
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.callEvent(queryPickupEvent);
+        printDebug("Sent out custom QueryPickupEvent...");
 
         if (!protectedItem.getOwnerUUID().equals(playerId) && !queryPickupEvent.isCancelled()) {
+            printDebug("Owner does not match and custom event is not cancelled, preventing pickup...");
             e.setCancelled(true);
             if (!this.messageCooldownSet.contains(playerId)) {
                 long expireMillisLeft = this.protectedItemMap.getExpectedExpiration(itemEntityId);
@@ -105,14 +114,19 @@ public class ListenerLootProtection extends ExpansionListener {
                 LanguageManager languageManager = getLanguageManager();
                 languageManager.sendMessageWithPrefix(player, "expansion.loot-protection.protected", replacer);
                 this.messageCooldownSet.add(playerId);
+                printDebug("Sent pickup prevention message to player.");
             }
+        } else {
+            printDebug("Item matches owner or pickup event was cancelled. Allowing pickup.");
         }
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onHopperItemPickup(InventoryPickupItemEvent e) {
+        printDebug("Detected InventoryPickupItemEvent...");
         Item itemEntity = e.getItem();
         if (contains(itemEntity)) {
+            printDebug("Item is protected, cancelled event.");
             e.setCancelled(true);
         }
     }
@@ -176,6 +190,8 @@ public class ListenerLootProtection extends ExpansionListener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onDeath(EntityDeathEvent e) {
+        printDebug("Detected EntityDeathEvent...");
+
         LivingEntity entity = e.getEntity();
         ICombatLogX combatLogX = getCombatLogX();
         IDeathManager deathManager = combatLogX.getDeathManager();
@@ -183,6 +199,7 @@ public class ListenerLootProtection extends ExpansionListener {
         if (entity instanceof Player) {
             Player player = (Player) entity;
             if (isOnlyProtectAfterLog() && !deathManager.wasPunishKilled(player)) {
+                printDebug("option 'only-protect-after-log' is 'true' and the player did not combat log. Ignoring.");
                 return;
             }
         }
@@ -190,6 +207,7 @@ public class ListenerLootProtection extends ExpansionListener {
         UUID entityId = entity.getUniqueId();
         UUID enemyId = this.enemyMap.get(entityId);
         if (!checkVoidKill(e) && entity instanceof Player) {
+            printDebug("Cause of death was not void and entity is player.");
             Player player = (Player) entity;
             PlayerDataManager playerDataManager = getPlayerDataManager();
             YamlConfiguration playerData = playerDataManager.get(player);
@@ -199,15 +217,18 @@ public class ListenerLootProtection extends ExpansionListener {
                 playerData.set("loot-protection-enemy", null);
                 playerDataManager.save(player);
                 enemyId = UUID.fromString(enemyIdString);
+                printDebug("Removed previously saved loot-protection-enemy for player '" + player.getName() + "'.");
             }
         }
 
         if (enemyId == null) {
+            printDebug("Previous enemy is null, ignoring event.");
             return;
         }
 
         Entity enemy = Bukkit.getEntity(enemyId);
         if (enemy == null) {
+            printDebug("Enemy entity with id '" + enemyId + "' does not exist, ignoring event.");
             return;
         }
 
@@ -221,8 +242,10 @@ public class ListenerLootProtection extends ExpansionListener {
             protectedItem.setOwnerUUID(enemyId);
             protectedItemQueue.add(protectedItem);
         }
+        printDebug("Added all event drops to protection queue.");
 
         this.pendingProtectionMap.put(entityLocation, protectedItemQueue);
+        printDebug("Saved pending protection queue to protection map.");
         String entityName = (entity.getCustomName() == null ? entity.getName() : entity.getCustomName());
 
         long timeLeftMillis = this.protectedItemMap.getExpiration();
@@ -233,16 +256,20 @@ public class ListenerLootProtection extends ExpansionListener {
         LanguageManager languageManager = getLanguageManager();
         languageManager.sendMessageWithPrefix(enemy, "expansion.loot-protection.enemy-died",
                 timeReplacer, enemyReplacer);
+        printDebug("Sent 'enemy-died' message to living enemy.");
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onItemSpawn(ItemSpawnEvent e) {
+        printDebug("Detected ItemSpawnEvent...");
         if (this.pendingProtectionMap.isEmpty()) {
+            printDebug("Pending protection map is empty, ignoring.");
             return;
         }
 
         BlockLocation location = BlockLocation.from(e.getLocation());
         if (!this.pendingProtectionMap.containsKey(location)) {
+            printDebug("Pending protection map doesn't contain current location, ignoring.");
             return;
         }
 
@@ -254,11 +281,13 @@ public class ListenerLootProtection extends ExpansionListener {
             ItemStack protectedItemStack = protectedItem.getItemStack();
             ItemStack itemEntityStack = itemEntity.getItemStack();
             if (protectedItemStack.equals(itemEntityStack)) {
+                printDebug("Detected protecting item spawn, saving entity ID ' " + itemEntityId + "'.");
                 protectedItem.setItemUUID(itemEntityId);
                 this.protectedItemMap.put(itemEntityId, protectedItem);
                 protectedItemQueue.remove(protectedItem);
 
                 if (protectedItemQueue.isEmpty()) {
+                    printDebug("Protected item queue is now empty, removing fro pending protection map.");
                     this.pendingProtectionMap.remove(location);
                 }
 
@@ -292,14 +321,18 @@ public class ListenerLootProtection extends ExpansionListener {
     }
 
     private boolean checkVoidKill(EntityDeathEvent e) {
+        printDebug("Checking void kill...");
+
         LivingEntity entity = e.getEntity();
         EntityDamageEvent lastDamageEvent = entity.getLastDamageCause();
         if (lastDamageEvent == null) {
+            printDebug("Player was killed by a mob, not VOID.");
             return false;
         }
 
         DamageCause lastDamageCause = lastDamageEvent.getCause();
         if (lastDamageCause != DamageCause.VOID) {
+            printDebug("Last cause of damage was not VOID.");
             return false;
         }
 
@@ -307,11 +340,13 @@ public class ListenerLootProtection extends ExpansionListener {
             UUID entityId = entity.getUniqueId();
             UUID enemyId = this.enemyMap.get(entityId);
             if (enemyId == null) {
+                printDebug("Enemy ID is null, VOID = true but can't return items.");
                 return true;
             }
 
             Entity enemy = Bukkit.getEntity(enemyId);
             if (!(enemy instanceof Player)) {
+                printDebug("Enemy is not player, VOID = true but can't return items.");
                 return true;
             }
 
@@ -330,10 +365,13 @@ public class ListenerLootProtection extends ExpansionListener {
                 this.protectedItemMap.put(protectedItem.getItemUUID(), protectedItem);
             }));
 
+            printDebug("Added all void items to protection queue and dropped them at the enemy's location.");
             dropList.clear();
+            printDebug("Removed all items from death event.");
             return true;
         }
 
+        printDebug("Void option is not enabled in configuration.");
         return false;
     }
 }
