@@ -14,7 +14,7 @@ things and change how the plugin works.
 ## Requirements
 
 - Java 17
-- [Spigot](https://spigotmc.org/), [Paper](https://papermc.io/download/paper), or [Folia](https://papermc.io/software/folia) 1.19.4 or 1.20.1
+- [Spigot](https://spigotmc.org/), [Paper](https://papermc.io/download/paper), or [Folia](https://papermc.io/software/folia) 1.19.4-1.21.1
 - [BlueSlimeCore](https://hangar.papermc.io/SirBlobman/BlueSlimeCore) 2.9.3 or higher.
 
 ## Main Features
