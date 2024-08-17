@@ -8,6 +8,7 @@ dependencies {
     implementation(project(":expansion:cheat-prevention:abstract"))
     implementation(project(":expansion:cheat-prevention:legacy"))
     implementation(project(":expansion:cheat-prevention:paper"))
+    implementation(project(path = ":expansion:cheat-prevention:modern", configuration = "default"))
 }
 
 tasks {

@@ -3,5 +3,5 @@ prefix: "${expansionPrefix}"
 description: "${expansionDescription}"
 
 main: "combatlogx.expansion.cheat.prevention.CheatPreventionExpansion"
-version: "17.7"
+version: "17.8"
 author: "SirBlobman"

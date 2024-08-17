@@ -49,6 +49,7 @@ import combatlogx.expansion.cheat.prevention.listener.legacy.ListenerChat;
 import combatlogx.expansion.cheat.prevention.listener.legacy.ListenerLegacyItemPickup;
 import combatlogx.expansion.cheat.prevention.listener.legacy.ListenerLegacyPortalCreate;
 import combatlogx.expansion.cheat.prevention.listener.legacy.ListenerLegacyPotions;
+import combatlogx.expansion.cheat.prevention.listener.modern.ListenerInventoriesModern;
 import combatlogx.expansion.cheat.prevention.listener.modern.ListenerModernItemPickup;
 import combatlogx.expansion.cheat.prevention.listener.modern.ListenerModernPortalCreate;
 import combatlogx.expansion.cheat.prevention.listener.modern.ListenerModernPotions;
@@ -225,7 +226,6 @@ public final class CheatPreventionExpansion extends Expansion implements ICheatP
         new ListenerEntities(this).register();
         new ListenerFlight(this).register();
         new ListenerGameMode(this).register();
-        new ListenerInventories(this).register();
         new ListenerTeleport(this).register();
     }
 
@@ -265,6 +265,23 @@ public final class CheatPreventionExpansion extends Expansion implements ICheatP
         } else {
             new ListenerModernPortalCreate(this).register();
         }
+
+        // InventoryView can be an interface or abstract class depending on version
+        if (isAbstractInventoryView()) {
+            new ListenerInventoriesModern(this).register();
+        } else {
+            new ListenerInventories(this).register();
+        }
+    }
+
+    private boolean isAbstractInventoryView() {
+        int minorVersion = VersionUtility.getMinorVersion();
+        if (minorVersion > 20) {
+            return true;
+        }
+
+        String minecraftVersion = VersionUtility.getMinecraftVersion();
+        return (minecraftVersion.equals("1.20.5") || minecraftVersion.equals("1.20.6"));
     }
 
     private void registerTasks() {

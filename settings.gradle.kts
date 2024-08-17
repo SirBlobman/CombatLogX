@@ -27,6 +27,7 @@ include("expansion:scoreboard")
 // Cheat Prevention
 include("expansion:cheat-prevention:abstract")
 include("expansion:cheat-prevention:legacy")
+include("expansion:cheat-prevention:modern")
 include("expansion:cheat-prevention:paper")
 include("expansion:cheat-prevention")
 
