@@ -8,7 +8,7 @@ java {
 }
 
 repositories {
-    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+    maven("https://repo.helpch.at/releases/")
 }
 
 dependencies {
