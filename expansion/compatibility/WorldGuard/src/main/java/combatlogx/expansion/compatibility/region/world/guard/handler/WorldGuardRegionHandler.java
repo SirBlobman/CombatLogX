@@ -4,6 +4,7 @@ import java.util.Locale;
 import java.util.Optional;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -17,6 +18,7 @@ import com.github.sirblobman.combatlogx.api.object.TagInformation;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
 
+import combatlogx.expansion.compatibility.region.world.guard.WorldGuardConfiguration;
 import combatlogx.expansion.compatibility.region.world.guard.WorldGuardExpansion;
 import combatlogx.expansion.compatibility.region.world.guard.hook.HookWorldGuard;
 import org.codemc.worldguardwrapper.WorldGuardWrapper;
@@ -52,20 +54,35 @@ public final class WorldGuardRegionHandler extends RegionHandler<WorldGuardExpan
             return (wrappedState == WrappedState.DENY);
         }
 
-        // Second check for regular PVP tag (optional)
-        if (getExpansion().getWorldGuardConfiguration().isUsePvpFlag()) {
-            Optional<IWrappedFlag<WrappedState>> optionalPvpFlag = wrappedWorldGuard.getFlag("pvp", WrappedState.class);
-            if (optionalPvpFlag.isPresent()) {
-                IWrappedFlag<WrappedState> pvpFlag = optionalPvpFlag.get();
-                Optional<WrappedState> optionalPvpState = wrappedWorldGuard.queryFlag(player, location, pvpFlag);
-                if (optionalPvpState.isPresent()) {
-                    WrappedState pvpState = optionalPvpState.get();
-                    return (pvpState == WrappedState.DENY);
-                }
-            }
+        WorldGuardExpansion expansion = getExpansion();
+        WorldGuardConfiguration configuration = expansion.getWorldGuardConfiguration();
+        if (!configuration.isUsePvpFlag()) {
+            // 'use-pvp-flag' option is disabled in configuration.
+            return false;
         }
 
-        return false;
+        WrappedState pvpState = getPvpState(player, location);
+        return (pvpState == WrappedState.DENY);
+    }
+
+    /**
+     * @param player The player being checked (might bypass or ignore certain flags)
+     * @param location The coordinates to check.
+     * @return {@code null} if the 'pvp' flag doesn't exist. {@code null} if the location doesn't have the flag.
+     * Otherwise, a {@link WrappedState} depending on the region flags of the location.
+     */
+    private @Nullable WrappedState getPvpState(@NotNull Player player, @NotNull Location location) {
+        WorldGuardWrapper wrappedWorldGuard = WorldGuardWrapper.getInstance();
+        Optional<IWrappedFlag<WrappedState>> optionalPvpFlag = wrappedWorldGuard.getFlag("pvp", WrappedState.class);
+        if (!optionalPvpFlag.isPresent()) {
+            // 'pvp' flag does not exist in the WorldGuard plugin (nearly impossible).
+            return null;
+        }
+
+        IWrappedFlag<WrappedState> pvpFlag = optionalPvpFlag.get();
+        Optional<WrappedState> optionalPvpState = wrappedWorldGuard.queryFlag(player, location, pvpFlag);
+        return optionalPvpState.orElse(null); // Missing 'pvp' flag state from location will be ignored.
+
     }
 
     private IWrappedFlag<WrappedState> getFlag(TagType tagType) {
