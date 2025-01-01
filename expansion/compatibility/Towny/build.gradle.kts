@@ -1,8 +1,9 @@
 repositories {
+    maven("https://repo.glaremasters.me/repository/towny/")
     maven("https://nexus.sirblobman.xyz/proxy-jitpack/")
 }
 
 dependencies {
-    compileOnly("com.github.TownyAdvanced:Towny:0.100.3.2")
-    compileOnly("com.github.TownyAdvanced:FlagWar:0.6.2")
+    compileOnly("com.palmergames.bukkit.towny:towny:0.101.0.4")
+    compileOnly("com.github.TownyAdvanced:FlagWar:0.6.4")
 }
