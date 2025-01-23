@@ -20,6 +20,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,12 +28,14 @@ import java.util.*;
 
 public final class ListenerHuskSync extends ExpansionListener {
     private final Set<UUID> punishedPlayers;
+    private final Set<UUID> alreadyDied;
     private final Map<UUID, PlayerData> dataMap;
     private final HuskSyncAPI huskSyncAPI;
 
     public ListenerHuskSync(@NotNull HuskSyncExpansion expansion) {
         super(expansion);
         this.punishedPlayers = new HashSet<>();
+        this.alreadyDied = new HashSet<>();
         this.dataMap = new HashMap<>();
         this.huskSyncAPI = BukkitHuskSyncAPI.getInstance();
     }
@@ -56,6 +59,10 @@ public final class ListenerHuskSync extends ExpansionListener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onDeath(PlayerDeathEvent e) {
+        if(alreadyDied.remove(e.getEntity().getUniqueId())) {
+            e.setDeathMessage(null);
+            return;
+        }
         printDebug("Detected PlayerDeathEvent...");
 
         Player player = e.getEntity();
@@ -75,6 +82,16 @@ public final class ListenerHuskSync extends ExpansionListener {
 
         this.dataMap.put(playerId, playerData);
         printDebug("Stored player data for later syncing.");
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e) {
+        if(alreadyDied.contains(e.getPlayer().getUniqueId())) {
+            // this may or may not cause a race condition, but it's less annoying than showing the death message twice
+            getJavaPlugin().getServer().getScheduler().runTaskLater(getJavaPlugin(), () -> {
+                alreadyDied.remove(e.getPlayer().getUniqueId());
+            }, 20L*5);
+        }
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -132,6 +149,7 @@ public final class ListenerHuskSync extends ExpansionListener {
             Data.Health health = optionalHealth.get();
             health.setHealth(0.0D);
             unpacked.setHealth(health);
+            alreadyDied.add(playerData.getPlayer().getUniqueId());
             printDebug("Set player health to 0.0 in HuskSync.");
         }
 
