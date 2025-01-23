@@ -1,9 +1,13 @@
 package combatlogx.expansion.compatibility.husksync;
 
+import com.github.sirblobman.api.configuration.ConfigurationManager;
 import org.jetbrains.annotations.NotNull;
 
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public final class HuskSyncExpansion extends Expansion {
     public HuskSyncExpansion(@NotNull ICombatLogX plugin) {
@@ -17,9 +21,14 @@ public final class HuskSyncExpansion extends Expansion {
 
     @Override
     public void onEnable() {
-        if (!checkDependency("HuskSync", true, "3.1")) {
-            selfDisable();
-            return;
+        Set<String> testedVersions = new HashSet<>();
+        testedVersions.add("3.1");
+        testedVersions.add("3.7");
+        for (String testedVersion : testedVersions) {
+            if (!checkDependency("HuskSync", true, testedVersion)) {
+                selfDisable();
+                return;
+            }
         }
 
         new ListenerHuskSync(this).register();
@@ -29,6 +38,7 @@ public final class HuskSyncExpansion extends Expansion {
     public void onDisable() {
         // Do Nothing
     }
+
 
     @Override
     public void reloadConfig() {
