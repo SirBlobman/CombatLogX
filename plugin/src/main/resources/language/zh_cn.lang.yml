@@ -15,8 +15,8 @@ language-name: "zh_cn"
 #The format for decimal numbers.
 #The United States uses the number and two decimal places
 decimal-format: "0.00"
-#The prefix for CombatLogX.
-#This is shown in front of all messages and should not be changed unless necessary.
+#The prefix for CombatLogX that is shown in front of all messages.
+#Note to translators: Do not change this message.
 prefix: "<bold><white>[</white></bold><gold>CombatLogX</gold><bold><white>]"
 broadcast:
   #Shown when the plugin is finished loading.
@@ -46,6 +46,12 @@ placeholder:
   pvp-status:
     enabled: "<green>开启"
     disabled: "<red>关闭"
+#You can also change the location of these messages.
+#Example:
+#combat-timer:
+#expire:
+#type: ACTION_BAR
+#content: "<message here>"
 combat-timer:
   #Sent to a player when they escape from combat due to the timer running out.
   expire: "<green>您不再处于战斗状态。"
@@ -56,6 +62,8 @@ combat-timer:
 error:
   #Shown when the console tries to execute a command made for players.
   player-only: "<red>此命令仅玩家可用。"
+  #Shown when a player tries to execute a command made for the server console.
+  console-only: "<red>这个指令只能由控制台执行！</red>"
   #Shown when a command that requires a player has invalid input.
   invalid-target: "<gray>{target}</gray><red> 不在线或不存在。"
   #Shown when a command that requires a number has invalid input.
@@ -70,6 +78,8 @@ error:
   self-not-in-combat: "<green>您未处于战斗状态。"
   #Shown when a command that requires an expansion has invalid input.
   unknown-expansion: "<gray>{target}</gray><red> 不是扩展或未安装。"
+  forgive-not-enemy: "<red><gray>{target}</gray> 不是你的敌人</red>"
+  enemy-not-forgiving: "<red>那个敌人不想原谅你。</red>"
 command:
   combatlogx:
     #Shown as the command output for '/combatlogx help'.
@@ -83,6 +93,10 @@ command:
       - "  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>: 启用或禁用通知类型。"
       - "  <bold><white>/combatlogx untag \\<player></white></bold><gray>: 强制使玩家退出战斗状态。"
       - "  <bold><white>/combatlogx version</white></bold><gray>: 检查您的 CombatLogX 版本。"
+      - "  <white><bold>/combatlogx forgive request \\<player></bold></white><gray>: 向敌人发送请求，要求他们从你身上移除标签</gray>"
+      - "  <white><bold>/combatlogx forgive accept \\<player></bold></white><gray>: 允许敌人要求逃离战斗.</gray>"
+      - "  <white><bold>/combatlogx forgive reject \\<player></bold></white><gray>: 忽略敌人逃离战斗的请求.</gray>"
+      - "  <white><bold>/combatlogx forgive toggle</bold></white><gray>: 启用或禁用停止战斗的请求.</gray>"
       - ""
     #Shown as the command output for '/combatlogx reload' when reloading is successful.
     reload-success:
@@ -105,12 +119,38 @@ command:
     toggle-actionbar: "<bold><gray>快捷标题栏: {status}"
     #Shown as the command output for '/combatlogx toggle scoreboard'.
     toggle-scoreboard: "<gray>记分板: {status}"
+    #Shown as the command output for '/combatlogx about <expansion>'.
+    expansion-information:
+      - ""
+      - "<white><bold>关于</bold> <green>{name}</green><bold>的扩展信息:</bold></white>"
+      - "<white><bold>显示名称:</bold></white> <gray>{prefix}</gray>"
+      - "<white><bold>版本:</bold></white> <gray>{version}</gray>"
+      - "<white><bold>状态:</bold></white> <gray>{state}</gray>"
+      - ""
+      - "<white><bold>描述:</bold></white> <gray>{description}</gray>"
+      - "<white><bold>网站:</bold></white> <gray>{website}</gray>"
+      - "<white><bold>作者:</bold></white> <gray>{authors}</gray>"
+    forgive:
+      toggle-disable: "<green>你不能再收到宽恕请求.</green>"
+      toggle-enable: "<green>您现在可以收到宽恕请求.</green>"
+      request-sent: "<green>您向 <gray>{target}</gray> 发送了原谅请求.</green>"
+      request-receive:
+        - "<green><gray>{player}</gray> 向您发送了宽恕请求.</green>"
+        - "<green>输入 <click:run_command:/combatlogx forgive accept><gray>/clx forgive accept</gray></click> 以接受.</green>"
+        - "<green><click:run_command:/combatlogx forgive reject><gray>/clx forgive reject</gray></click> 以拒绝.</green>"
   combat-timer:
     #Shown as the command output for '/combat-timer'.
     time-left-self: "<green>你还剩下<gray>{time_left} </gray>秒。</green>"
     #Shown as the command output for '/combat-timer <player>'.
     time-left-other: "<gray>{target}</gray><green> 还剩下</green><gray>{time_left} 秒。</gray><green>"
 #These messages are shown a player is tagged into combat.
+#You can also change the location of these messages.
+#Example:
+#tagged:
+#attacked:
+#player:
+#type: ACTION_BAR
+#content: "<message here>"
 tagged:
   unknown:
     player: "<red>您现在与 <white>{enemy}</white> 作战，原因不详。请不要登出！</red>"
@@ -230,24 +270,30 @@ expansion:
     #You can find a list of damage types here:
     #https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/EntityDamageEvent.DamageCause.html
     damage-type:
+      block-explosion: "<red>您受到了爆炸伤害。不要登出！"
       contact: "<red>您被仙人掌扎伤了。不要登出！"
-      suffocation: "<red>您正在墙内窒息。不要登出！"
+      cramming: "<red>您正在被压扁。不要注销！"
+      custom: "<red>您受到了自定义伤害。不要登出！"
+      drowning: "<red>您正在溺水。 不要登出！"
+      dryout: "<red>你停留在水中太长。不要登出！</red>" #May be triggered by custom plugins.
+      entity-explosion: "<red>您受到了末地水晶的爆炸伤害。不要登出！</red>" #Only triggered by end crystals.
       fall: "<red>您受到了坠落伤害！不要登出！"
+      falling-block: "<red>方块砸到了你身上。不要登出！"
       fire: "<red>您走到了火里。不要登出！"
       fire-tick: "<red>您正在燃烧。 不要登出！"
-      lava: "<red>您正在岩浆里游泳。不要登出！"
-      drowning: "<red>您正在溺水。 不要登出！"
-      block-explosion: "<red>您受到了爆炸伤害。不要登出！"
-      lightning: "<red>您被闪电劈了！不要登出！"
-      starvation: "<red>您太饿了。 不要登出！"
-      poison: "<red>您受到了药水伤害。不要登出！"
-      magic: "<red>有人向您扔药水。不要登出！"
-      wither: "<red>您正在凋零。不要登出！"
-      falling-block: "<red>方块砸到了你身上。不要登出！"
-      custom: "<red>您受到了自定义伤害。不要登出！"
       fly-into-wall: "<red>你感受到了动能。不要登出！"
+      freeze: "<red>您正在被冻结。 不要登出！</red>"
       hot-floor: "<red>地板是岩浆做的！不要登出！"
-      cramming: "<red>您正在被压扁。不要注销！"
+      lava: "<red>您正在岩浆里游泳。不要登出！"
+      lightning: "<red>您被闪电劈了！不要登出！"
+      magic: "<red>有人向您扔药水。不要登出！"
+      melting: "<red>您正在熔化。 不要登出！</red>" #May be triggered by custom plugins.
+      poison: "<red>您受到了药水伤害。不要登出！"
+      starvation: "<red>您太饿了。 不要登出！"
+      suffocation: "<red>您正在墙内窒息。不要登出！"
+      void: "<red>您已掉出这个世界。不要登出！</red>"
+      wither: "<red>您正在凋零。不要登出！"
+      world-border: "<red>你太靠近边框了。不要登出！</red>"
   newbie-helper:
     togglepvp:
       #Shown as the command output for '/togglepvp'.
@@ -292,6 +338,8 @@ expansion:
     prevent-teleport-self: "<red>在战斗中你不允许传送到你的伙伴。</red>"
     #Shown when a married player is prevented from teleporting to their partner during combat.
     prevent-teleport-partner: "<red>你不允许在战斗中传送给你的伙伴。</red>"
+  huskhomes-compatibility:
+    prevent-teleport: "<red>您不能在战斗中进行传送。"
   region-protection:
     #Shown when a player tries to enter a no-pvp area during combat.
     default-no-entry: "<red>你不允许在战斗中进入该区域。</red>"

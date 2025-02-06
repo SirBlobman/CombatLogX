@@ -46,6 +46,12 @@ placeholder:
   pvp-status:
     enabled: "<green>ON"
     disabled: "<red>OFF"
+#You can also change the location of these messages.
+#Example:
+#combat-timer:
+#expire:
+#type: ACTION_BAR
+#content: "<message here>"
 combat-timer:
   #Sent to a player when they escape from combat due to the timer running out.
   expire: "<green>Non sei più in combattimento."
