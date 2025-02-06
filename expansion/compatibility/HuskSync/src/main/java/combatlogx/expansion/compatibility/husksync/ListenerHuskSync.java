@@ -82,7 +82,7 @@ public final class ListenerHuskSync extends ExpansionListener {
         printDebug("Detected BukkitDataSaveEvent...");
 
         DataSnapshot.SaveCause saveCause = e.getSaveCause();
-        if (saveCause != DataSnapshot.SaveCause.DISCONNECT) {
+        if (!saveCause.getDisplayName().equalsIgnoreCase("DISCONNECT")) {
             printDebug("DataSaveCause is not 'DISCONNECT', ignoring event.");
             return;
         }
