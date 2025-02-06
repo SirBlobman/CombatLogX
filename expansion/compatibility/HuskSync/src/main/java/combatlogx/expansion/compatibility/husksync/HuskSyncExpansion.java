@@ -21,14 +21,9 @@ public final class HuskSyncExpansion extends Expansion {
 
     @Override
     public void onEnable() {
-        Set<String> testedVersions = new HashSet<>();
-        testedVersions.add("3.1");
-        testedVersions.add("3.7");
-        for (String testedVersion : testedVersions) {
-            if (!checkDependency("HuskSync", true, testedVersion)) {
-                selfDisable();
-                return;
-            }
+        if (!checkDependency("HuskSync", true, "3.7")) {
+            selfDisable();
+            return;
         }
 
         new ListenerHuskSync(this).register();
