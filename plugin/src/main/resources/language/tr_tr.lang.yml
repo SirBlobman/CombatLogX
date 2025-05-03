@@ -11,7 +11,7 @@
 ## More information about MiniMessage can be found here:
 ## https://docs.adventure.kyori.net/minimessage/format.html
 #The language code for this file.
-language-name: "tr_T"
+language-name: "tr_TR"
 #The format for decimal numbers.
 #The United States uses the number and two decimal places
 decimal-format: "0. 0"
@@ -46,6 +46,12 @@ placeholder:
   pvp-status:
     enabled: "<green>AÇIK<green>"
     disabled: "<red>KAPALI<red>"
+#You can also change the location of these messages.
+#Example:
+#combat-timer:
+#expire:
+#type: ACTION_BAR
+#content: "<message here>"
 combat-timer:
   #Sent to a player when they escape from combat due to the timer running out.
   expire: "<green>Artık savaşta değilsin.<green>"
@@ -56,6 +62,8 @@ combat-timer:
 error:
   #Shown when the console tries to execute a command made for players.
   player-only: "<red>Bu komutu sadece oyuncular kullanabilir.<red>"
+  #Shown when a player tries to execute a command made for the server console.
+  console-only: "<red>Bu komut sadece konsolda çalıştırılabilir.</red>"
   #Shown when a command that requires a player has invalid input.
   invalid-target: "<gray>{target}</gray><red> çevrimiçi değil ya da mevcut değil.</red>"
   #Shown when a command that requires a number has invalid input.
@@ -111,6 +119,17 @@ command:
     toggle-actionbar: "<gray><bold>Action Bar: </bold></gray> {status}"
     #Shown as the command output for '/combatlogx toggle scoreboard'.
     toggle-scoreboard: "<gray><bold>Scoreboard: </bold></gray> {status}"
+    #Shown as the command output for '/combatlogx about <expansion>'.
+    expansion-information:
+      - ""
+      - "<green>{name}</green> <white><bold>için eklenti bilgileri:</bold></white>"
+      - "<white><bold>Görünen İsim:</bold></white> <gray>{prefix}</gray>"
+      - "<white><bold>Versiyon:</bold></white> <gray>{version}</gray>"
+      - "<white><bold>Durum:</bold></white> <gray>{state}</gray>"
+      - ""
+      - "<white><bold>Açıklama:</bold></white> <gray>{description}</gray>"
+      - "<white><bold>Web sayfası:</bold></white> <gray>{website}</gray>"
+      - "<white><bold>Yapımcılar:</bold></white> <gray>{authors}</gray>"
     forgive:
       toggle-disable: "<green>Artık af talepleri alamazsınız </green>"
       toggle-enable: "<green>Artık af talepleri alabilirsiniz </green>"
@@ -251,24 +270,30 @@ expansion:
     #You can find a list of damage types here:
     #https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/EntityDamageEvent.DamageCause.html
     damage-type:
+      block-explosion: "<red>Patlama tarafından hasar aldın. Oturumu kapatma"
       contact: "<red>Kaktüs tarafından delindin. Oturumu kapatma"
-      suffocation: "<red>Duvarda sıkıştın. Oturumu kapatma"
+      cramming: "<red>Eziliyorsun. Oturumu kapatma"
+      custom: "<red>Bilinmeyen bir hasar aldın. Oturumu kapatma"
+      drowning: "<red>Boğuluyorsun. Oturumu kapatma"
+      dryout: "<red>Suyun dışında çok fazla durdun. Sunucudan çıkma!</red>" #May be triggered by custom plugins.
+      entity-explosion: "<red>Bir End Crystal patlaması sonucu hasar gördünüz. Çıkış yapmayın!</red>" #Only triggered by end crystals.
       fall: "<red>Düşme hasarı aldın. Oturumu kapatma"
+      falling-block: "<red>Kafana bir blok düştü. Oturumu kapatma"
       fire: "<red>Ateşe yürüdün. Oturumu kapatma"
       fire-tick: "<red>Yanıyorsun. Oturumu kapatma"
-      lava: "<red>Lavda eriyorsun. Oturumu kapatma"
-      drowning: "<red>Boğuluyorsun. Oturumu kapatma"
-      block-explosion: "<red>Patlama tarafından hasar aldın. Oturumu kapatma"
-      lightning: "<red>Başına şimşek düştü! Oturumu kapatma"
-      starvation: "<red>Çok açsın. Oturumu kapatma"
-      poison: "<red>Zehir hasarı aldın. Oturumu kapatma"
-      magic: "<red>Birileri sana bir iksir fırlattı. Oturumu kapatma"
-      wither: "<red>Soluyorsun. Oturumu kapatma"
-      falling-block: "<red>Kafana bir blok düştü. Oturumu kapatma"
-      custom: "<red>Bilinmeyen bir hasar aldın. Oturumu kapatma"
       fly-into-wall: "<red>Kinetik enerjiyi tecrübe ettin. Oturumu kapatma"
+      freeze: "<red>Donuyorsun. Sunucudan çıkma!</red>"
       hot-floor: "<red>Zemin lavdan! Oturumu kapatmayın"
-      cramming: "<red>Eziliyorsun. Oturumu kapatma"
+      lava: "<red>Lavda eriyorsun. Oturumu kapatma"
+      lightning: "<red>Başına şimşek düştü! Oturumu kapatma"
+      magic: "<red>Birileri sana bir iksir fırlattı. Oturumu kapatma"
+      melting: "<red>Eriyorsun! Sunucudan çıkma.</red>" #May be triggered by custom plugins.
+      poison: "<red>Zehir hasarı aldın. Oturumu kapatma"
+      starvation: "<red>Çok açsın. Oturumu kapatma"
+      suffocation: "<red>Duvarda sıkıştın. Oturumu kapatma"
+      void: "<red>Boşluğa düşüyorsun. Sunucudan çıkma!</red>"
+      wither: "<red>Soluyorsun. Oturumu kapatma"
+      world-border: "<red>Sınıra çok yakınsın. Sunucudan çıkma!</red>"
   newbie-helper:
     togglepvp:
       #Shown as the command output for '/togglepvp'.
