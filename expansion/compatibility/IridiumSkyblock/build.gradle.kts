@@ -1,3 +1,3 @@
 dependencies {
-    compileOnly("net.iridiumdevelopment:IridiumSkyblock:4.0.0")
+    compileOnly("net.iridiumdevelopment:IridiumSkyblock:4.1.0")
 }

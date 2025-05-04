@@ -3,7 +3,7 @@ prefix: "${expansionPrefix}"
 description: "${expansionDescription}"
 
 main: "combatlogx.expansion.compatibility.iridium.skyblock.IridiumSkyblockExpansion"
-version: "17.1"
+version: "17.2"
 author: "SirBlobman"
 
 plugin-depend:
