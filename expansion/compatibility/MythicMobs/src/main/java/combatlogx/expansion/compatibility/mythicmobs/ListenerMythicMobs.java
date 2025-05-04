@@ -34,20 +34,18 @@ public final class ListenerMythicMobs extends ExpansionListener {
         Entity damager = e.getDamager();
 
         ICombatManager combatManager = getCombatManager();
-        if (damaged instanceof Player && isMythicMob(damager)) {
+        if (damaged instanceof Player playerDamaged && isMythicMob(damager)) {
             damager = linkMainMythicMob(damager);
             String mobName = getMythicMobName(damager);
             if (mobName != null && isForceTag(mobName)) {
-                Player playerDamaged = (Player) damaged;
                 combatManager.tag(playerDamaged, damager, TagType.MYTHIC_MOB, TagReason.ATTACKED);
             }
         }
 
-        if (damager instanceof Player && isMythicMob(damaged)) {
+        if (damager instanceof Player playerDamager && isMythicMob(damaged)) {
             damaged = linkMainMythicMob(damaged);
             String mobName = getMythicMobName(damaged);
             if (mobName != null && isForceTag(mobName)) {
-                Player playerDamager = (Player) damager;
                 combatManager.tag(playerDamager, damaged, TagType.MYTHIC_MOB, TagReason.ATTACKER);
             }
         }
