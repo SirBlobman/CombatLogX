@@ -4,6 +4,6 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.palmergames.bukkit.towny:towny:0.101.0.4")
-    compileOnly("com.github.TownyAdvanced:FlagWar:0.6.4")
+    compileOnly("com.palmergames.bukkit.towny:towny:0.101.1.0")
+    compileOnly("com.github.TownyAdvanced:FlagWar:0.7.0")
 }
