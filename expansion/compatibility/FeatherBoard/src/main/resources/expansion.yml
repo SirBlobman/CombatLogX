@@ -3,7 +3,7 @@ prefix: "${expansionPrefix}"
 description: "${expansionDescription}"
 
 main: "combatlogx.expansion.compatibility.featherboard.FeatherBoardExpansion"
-version: "17.2"
+version: "17.3"
 author: "SirBlobman"
 
 plugin-depend:

@@ -24,7 +24,7 @@ public final class FeatherBoardExpansion extends Expansion {
 
     @Override
     public void onEnable() {
-        if (!checkDependency("FeatherBoard", true, "5")) {
+        if (!checkDependency("FeatherBoard", true, "6")) {
             selfDisable();
             return;
         }
