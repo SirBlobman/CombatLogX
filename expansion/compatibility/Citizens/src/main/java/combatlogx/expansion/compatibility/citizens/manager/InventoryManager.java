@@ -137,17 +137,27 @@ public final class InventoryManager {
 
         for (int slot = 0; slot < 36; slot++) {
             ItemStack item = storedInventory.getItem(slot);
+            if (item == null) {
+                continue;
+            }
+
             dropItem(item, player, location, CitizensSlotType.INVENTORY);
         }
 
         ArmorType[] armorTypeArray = ArmorType.values();
         for (ArmorType armorType : armorTypeArray) {
             ItemStack item = storedInventory.getArmor(armorType);
+            if (item == null) {
+                continue;
+            }
+
             dropItem(item, player, location, CitizensSlotType.ARMOR);
         }
 
         ItemStack item = storedInventory.getOffHandItem();
-        dropItem(item, player, location, CitizensSlotType.OFFHAND);
+        if (item != null) {
+            dropItem(item, player, location, CitizensSlotType.OFFHAND);
+        }
 
         removeStoredInventory(player);
     }
@@ -155,7 +165,7 @@ public final class InventoryManager {
     private void dropItem(@NotNull ItemStack item, @NotNull OfflinePlayer player, @NotNull Location location,
                           @NotNull CitizensSlotType type) {
         World world = location.getWorld();
-        if (ItemUtility.isAir(item)) {
+        if (ItemUtility.isAir(item) || world == null) {
             return;
         }
 
@@ -232,19 +242,13 @@ public final class InventoryManager {
             }
         }
 
-        switch (slot) {
-            case HEAD:
-                return Equipment.EquipmentSlot.HELMET;
-            case CHEST:
-                return Equipment.EquipmentSlot.CHESTPLATE;
-            case LEGS:
-                return Equipment.EquipmentSlot.LEGGINGS;
-            case FEET:
-                return Equipment.EquipmentSlot.BOOTS;
-            case HAND:
-                return Equipment.EquipmentSlot.HAND;
-            default:
-                return null;
-        }
+        return switch (slot) {
+            case HEAD -> Equipment.EquipmentSlot.HELMET;
+            case CHEST -> Equipment.EquipmentSlot.CHESTPLATE;
+            case LEGS -> Equipment.EquipmentSlot.LEGGINGS;
+            case FEET -> Equipment.EquipmentSlot.BOOTS;
+            case HAND -> Equipment.EquipmentSlot.HAND;
+            default -> null;
+        };
     }
 }

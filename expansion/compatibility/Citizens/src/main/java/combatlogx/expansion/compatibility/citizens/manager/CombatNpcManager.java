@@ -140,13 +140,12 @@ public final class CombatNpcManager {
         }
 
         Entity entity = npc.getEntity();
-        if (!(entity instanceof LivingEntity)) {
+        if (!(entity instanceof LivingEntity livingEntity)) {
             printDebug("NPC for player '" + playerName + "' is not a LivingEntity, removing...");
             npc.destroy();
             return;
         }
 
-        LivingEntity livingEntity = (LivingEntity) entity;
         livingEntity.setNoDamageTicks(0);
         livingEntity.setMaximumNoDamageTicks(0);
         printDebug("Forced NPC to be damageable (no damage ticks = 0)");
@@ -170,7 +169,7 @@ public final class CombatNpcManager {
         livingEntity.setHealth(health);
         CitizensConfiguration configuration = getConfiguration();
         if (configuration.isMobTarget()) {
-            npc.data().set(Metadata.TARGETABLE, true);
+            // npc.data().set(Metadata.TARGETABLE, true);
             double radius = configuration.getMobTargetRadius();
             if (radius >= 0.0D) {
                 forceTargetAllNearby(livingEntity, radius);
@@ -185,7 +184,7 @@ public final class CombatNpcManager {
         this.npcCombatMap.put(npc.getUniqueId(), combatNPC);
 
         if (!enemyList.isEmpty()) {
-            Entity mainEnemy = enemyList.get(0);
+            Entity mainEnemy = enemyList.getFirst();
             if (mainEnemy instanceof Player) {
                 combatNPC.setEnemy((Player) mainEnemy);
                 printDebug("Main enemy was player, setting enemy in combat npc.");
@@ -215,8 +214,7 @@ public final class CombatNpcManager {
     private void forceTargetAllNearby(@NotNull LivingEntity entity, double radius) {
         List<Entity> nearbyEntityList = entity.getNearbyEntities(radius, radius, radius);
         for (Entity nearby : nearbyEntityList) {
-            if (nearby instanceof Monster) {
-                Monster monster = (Monster) nearby;
+            if (nearby instanceof Monster monster) {
                 monster.setTarget(entity);
             }
         }
@@ -292,11 +290,10 @@ public final class CombatNpcManager {
         }
 
         Entity entity = npc.getEntity();
-        if (!(entity instanceof LivingEntity)) {
+        if (!(entity instanceof LivingEntity livingEntity)) {
             return 0.0D;
         }
 
-        LivingEntity livingEntity = (LivingEntity) entity;
         return livingEntity.getHealth();
     }
 

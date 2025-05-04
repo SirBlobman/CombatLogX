@@ -111,13 +111,11 @@ public final class ListenerDeath extends CitizensExpansionListener {
     private void checkForDeathMessages(@NotNull NPCDeathEvent e, @NotNull CombatNPC npc) {
         OfflinePlayer offlineOwner = npc.getOfflineOwner();
         EntityDeathEvent entityDeathEvent = e.getEvent();
-        if (!(entityDeathEvent instanceof PlayerDeathEvent)) {
+        if (!(entityDeathEvent instanceof PlayerDeathEvent playerDeathEvent)) {
             return;
         }
 
-        PlayerDeathEvent playerDeathEvent = (PlayerDeathEvent) entityDeathEvent;
         String message = playerDeathEvent.getDeathMessage();
-
         CombatNpcManager combatNpcManager = getCombatNpcManager();
         YamlConfiguration data = combatNpcManager.getData(offlineOwner);
         data.set("citizens-compatibility.last-death-message", message);
