@@ -13,8 +13,8 @@ things and change how the plugin works.
 
 ## Requirements
 
-- Java 8 (Java 17 and 21 for some expansions)
-- [Spigot](https://spigotmc.org/), [Paper](https://papermc.io/download/paper), or [Folia](https://papermc.io/software/folia) 1.19.4-1.21.3
+- Java 21
+- [Spigot](https://spigotmc.org/), [Paper](https://papermc.io/download/paper), or [Folia](https://papermc.io/software/folia) 1.19.4-1.21.5
 - [BlueSlimeCore](https://hangar.papermc.io/SirBlobman/BlueSlimeCore) 2.9.6 or higher.
 
 ## Main Features

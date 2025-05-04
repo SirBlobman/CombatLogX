@@ -87,7 +87,7 @@ public final class ListenerDeathEffects extends ExpansionListener {
     }
 
     private void playBloodEffect(Player player) {
-        Material bukkitMaterial = XMaterial.REDSTONE_BLOCK.parseMaterial();
+        Material bukkitMaterial = XMaterial.REDSTONE_BLOCK.get();
         if (bukkitMaterial != null) {
             World world = player.getWorld();
             Location location = player.getLocation();
@@ -97,12 +97,9 @@ public final class ListenerDeathEffects extends ExpansionListener {
         Location location = player.getLocation();
         List<Entity> nearbyEntityList = player.getNearbyEntities(200D, 20.0D, 20.0D);
         for (Entity entity : nearbyEntityList) {
-            if (!(entity instanceof Player)) {
-                continue;
+            if (entity instanceof Player other) {
+                sendFakeRedstoneDust(other, location);
             }
-
-            Player other = (Player) entity;
-            sendFakeRedstoneDust(other, location);
         }
     }
 

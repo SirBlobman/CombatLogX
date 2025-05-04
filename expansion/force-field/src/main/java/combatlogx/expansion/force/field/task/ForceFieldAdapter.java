@@ -177,7 +177,7 @@ public final class ForceFieldAdapter extends PacketAdapter {
     private @NotNull WrappedBlockData getWrappedBlockData() {
         ForceFieldConfiguration configuration = getConfiguration();
         XMaterial material = configuration.getMaterial();
-        Material bukkitMaterial = material.parseMaterial();
+        Material bukkitMaterial = material.get();
         if (bukkitMaterial == null) {
             throw new IllegalStateException("Invalid material configuration!");
         }

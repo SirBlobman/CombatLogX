@@ -372,7 +372,7 @@ public final class ForceFieldTask extends ExpansionListener implements Runnable 
     }
 
     private void sendFakeBlockModern(@NotNull Player player, @NotNull Location location, @NotNull XMaterial material) {
-        Material bukkitMaterial = material.parseMaterial();
+        Material bukkitMaterial = material.get();
         if (bukkitMaterial == null || !bukkitMaterial.isBlock()) {
             return;
         }
