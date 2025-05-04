@@ -16,7 +16,7 @@ public final class UltimateClaimsExpansion extends RegionExpansion {
 
     @Override
     public boolean checkDependencies() {
-        return checkDependency("UltimateClaims", true, "1");
+        return checkDependency("UltimateClaims", true, "3");
     }
 
     @Override

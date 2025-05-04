@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
@@ -43,7 +44,7 @@ public final class RegionHandlerUltimateClaims extends RegionHandler<UltimateCla
     }
 
     private @NotNull UltimateClaims getUltimateClaims() {
-        return UltimateClaims.getInstance();
+        return JavaPlugin.getPlugin(UltimateClaims.class);
     }
 
     private @NotNull ClaimManager getClaimManager() {
