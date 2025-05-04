@@ -9,6 +9,7 @@ repositories {
 }
 
 dependencies {
+    // https://github.com/CodeMC/WorldGuardWrapper
     implementation("org.codemc.worldguardwrapper:worldguardwrapper:1.2.1-SNAPSHOT")
 }
 
