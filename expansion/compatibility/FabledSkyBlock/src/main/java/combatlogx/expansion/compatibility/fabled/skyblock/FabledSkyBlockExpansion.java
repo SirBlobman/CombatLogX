@@ -16,7 +16,7 @@ public final class FabledSkyBlockExpansion extends SkyBlockExpansion {
 
     @Override
     public boolean checkDependencies() {
-        return checkDependency("FabledSkyBlock", true);
+        return checkDependency("FabledSkyBlock", true, "4");
     }
 
     @Override
