@@ -61,7 +61,7 @@ public final class ListenerLands extends ExpansionListener {
         ICombatLogX combatLogX = getCombatLogX();
         ExpansionManager expansionManager = combatLogX.getExpansionManager();
         Optional<Expansion> optionalExpansion = expansionManager.getExpansion("NewbieHelper");
-        if (!optionalExpansion.isPresent()) {
+        if (optionalExpansion.isEmpty()) {
             throw new IllegalArgumentException("NewbieHelper expansion is missing.");
         }
 

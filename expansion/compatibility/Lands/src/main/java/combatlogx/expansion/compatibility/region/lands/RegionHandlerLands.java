@@ -86,18 +86,11 @@ public final class RegionHandlerLands extends RegionHandler<LandsExpansion> {
     }
 
     private @Nullable RoleFlag getRoleFlag(@NotNull TagType tagType, @Nullable Entity enemy) {
-        switch (tagType) {
-            case MOB:
-            case PLAYER:
-            case MYTHIC_MOB:
-                return getRoleFlag(enemy);
-            case DAMAGE:
-                return Flags.NO_DAMAGE;
-            default:
-                break;
-        }
-
-        return null;
+        return switch (tagType) {
+            case MOB, PLAYER, MYTHIC_MOB -> getRoleFlag(enemy);
+            case DAMAGE -> Flags.NO_DAMAGE;
+            default -> null;
+        };
     }
 
     private @Nullable RoleFlag getRoleFlag(@Nullable Entity enemy) {
