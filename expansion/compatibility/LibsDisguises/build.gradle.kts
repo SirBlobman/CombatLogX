@@ -1,9 +1,7 @@
 repositories {
-    maven("https://repo.md-5.net/repository/public/")
+    maven("https://repo.md-5.net/content/groups/public/")
 }
 
 dependencies {
-    compileOnly("LibsDisguises:LibsDisguises:10.0.44") {
-        exclude("*", "*")
-    }
+    compileOnly("me.libraryaddict.disguises:libsdisguises:11.0.5")
 }

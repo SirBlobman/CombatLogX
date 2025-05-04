@@ -16,7 +16,7 @@ public final class LibsDisguisesExpansion extends DisguiseExpansion {
 
     @Override
     public boolean checkDependencies() {
-        return checkDependency("LibsDisguises", true, "10");
+        return checkDependency("LibsDisguises", true, "11");
     }
 
     @Override
