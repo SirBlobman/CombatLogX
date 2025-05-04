@@ -1,7 +1,3 @@
-repositories {
-    maven("https://repo.pcgamingfreaks.at/repository/maven-everything/")
-}
-
 dependencies {
-    compileOnly("at.pcgamingfreaks:MarriageMaster-API:2.7.6")
+    compileOnly("at.pcgamingfreaks:MarriageMaster:2.7.9")
 }
