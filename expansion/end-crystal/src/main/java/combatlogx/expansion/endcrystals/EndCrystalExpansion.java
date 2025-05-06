@@ -50,7 +50,7 @@ public final class EndCrystalExpansion extends Expansion {
         }
 
         String minecraftVersion = VersionUtility.getMinecraftVersion();
-        if (minorVersion > 20 || minecraftVersion.equals("1.20.5") || minecraftVersion.equals("1.20.6")) {
+        if (minorVersion > 20 || minecraftVersion.equals("1.20.4") ||  minecraftVersion.equals("1.20.5") || minecraftVersion.equals("1.20.6")) {
             return new ListenerCrystals_Moderner(this);
         }
 
