@@ -1,3 +1,3 @@
 dependencies {
-    compileOnly("dev.bukkit.shampaggon:CrackShot:0.98.11")
+    compileOnly("com.github.Shampaggon:CrackShot:0.98.13")
 }
