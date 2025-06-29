@@ -111,8 +111,7 @@ public final class ListenerHuskSync extends ExpansionListener {
             return;
         }
 
-
-        printDebug("User Name: " + user.getUsername());
+        printDebug("User Name: " + user.getName());
         DataSnapshot.Packed userData = e.getData();
         checkData(playerData, userData);
         printDebug("Set modified data in BukkitDataSaveEvent.");
