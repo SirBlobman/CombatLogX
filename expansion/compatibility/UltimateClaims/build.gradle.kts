@@ -1,3 +1,3 @@
 dependencies {
-    compileOnly("com.songoda:UltimateClaims:3.1.0")
+    compileOnly("com.songoda:UltimateClaims:3.3.0")
 }
