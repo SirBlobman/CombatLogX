@@ -24,6 +24,10 @@ public final class ListenerPrison extends ExpansionListener {
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPrison(ResidentPreJailEvent e) {
+        if (!isPreventJailDuringCombat()) {
+            return;
+        }
+
         JailReason reason = e.getReason();
         if (reason != JailReason.MAYOR) {
             return;
@@ -35,7 +39,7 @@ public final class ListenerPrison extends ExpansionListener {
             return;
         }
 
-        if (isInCombat(player) && isPreventJailDuringCombat()) {
+        if (isInCombat(player)) {
             e.setCancelled(true);
         }
     }
