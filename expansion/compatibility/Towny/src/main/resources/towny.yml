@@ -1,3 +1,7 @@
 # This option will prevent entry to ANY town location owned by the player, regardless of PVP status
 # Default: false
 prevent-all-town-entries: false
+
+# This option will prevent mayors from jailing players during combat to save them.
+# Default: true
+prevent-jail-during-combat: true

@@ -7,6 +7,8 @@ import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
 
+import combatlogx.expansion.compatibility.region.towny.listener.ListenerPrison;
+
 public final class TownyExpansion extends RegionExpansion {
     private final TownyConfiguration configuration;
     private RegionHandler<?> regionHandler;
@@ -32,6 +34,7 @@ public final class TownyExpansion extends RegionExpansion {
     @Override
     public void afterEnable() {
         checkDependency("FlagWar", true);
+        new ListenerPrison(this).register();
     }
 
     @Override
