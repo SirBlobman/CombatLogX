@@ -132,7 +132,7 @@ public final class NewbieHelperConfiguration implements IConfigurable {
         return this.newPlayerCauseDamage;
     }
 
-    private void setNewPlayerCauseDamage(final boolean newPlayerCauseDamage) {
+    public void setNewPlayerCauseDamage(final boolean newPlayerCauseDamage) {
         this.newPlayerCauseDamage = newPlayerCauseDamage;
     }
 }
