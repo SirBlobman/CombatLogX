@@ -2,6 +2,10 @@
 # Default: true
 new-player-protection: true
 
+# Should new players cause damage to other players?
+# Default: true
+new-player-cause-damage: true
+
 # Should new player protection be removed from a player if they attack someone?
 # Default: true
 remove-protection-on-attack: true

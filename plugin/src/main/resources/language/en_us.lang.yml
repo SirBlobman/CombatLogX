@@ -390,6 +390,7 @@ expansion:
       self: "<red>You are not allowed to hit that player while your PvP is disabled.</red>"
       other: "<red>That player has PvP disabled.</red>"
       protected: "<red>That player is protected, you are not allowed to attack them yet!</red>"
+      cancel: "<red>You are protected, you are not allowed to attack other players yet!</red>"
 
     protection-disabled:
       # Shown when newbie protection is disabled due to the player attacking another player.

@@ -18,6 +18,7 @@ public final class NewbieHelperConfiguration implements IConfigurable {
     private int pvpToggleCooldown;
     private String permissionName;
     private boolean preventPvpToggleInDisabledWorlds;
+    private boolean newPlayerCauseDamage;
 
     private transient Permission permission;
 
@@ -30,12 +31,13 @@ public final class NewbieHelperConfiguration implements IConfigurable {
         this.pvpToggleCooldown = 0;
         this.permissionName = null;
         this.preventPvpToggleInDisabledWorlds = true;
+        this.newPlayerCauseDamage = true;
 
         this.permission = null;
     }
 
     @Override
-    public void load(@NotNull ConfigurationSection config) {
+    public void load(@NotNull final ConfigurationSection config) {
         setNewPlayerProtection(config.getBoolean("new-player-protection", true));
         setRemoveProtectionOnAttack(config.getBoolean("remove-protection-on-attack", true));
         setProtectionTime(config.getLong("protection-time", 30_000L));
@@ -44,13 +46,14 @@ public final class NewbieHelperConfiguration implements IConfigurable {
         setPvpToggleCooldown(config.getInt("pvp-toggle-cooldown", 0));
         setPermissionName(config.getString("pvp-toggle-cooldown-bypass-permission"));
         setPreventPvpToggleInDisabledWorlds(config.getBoolean("prevent-pvp-toggle-in-disabled-worlds", true));
+        setNewPlayerCauseDamage(config.getBoolean("new-player-cause-damage", true));
     }
 
     public boolean isNewPlayerProtection() {
         return this.newPlayerProtection;
     }
 
-    public void setNewPlayerProtection(boolean newPlayerProtection) {
+    public void setNewPlayerProtection(final boolean newPlayerProtection) {
         this.newPlayerProtection = newPlayerProtection;
     }
 
@@ -58,7 +61,7 @@ public final class NewbieHelperConfiguration implements IConfigurable {
         return this.removeProtectionOnAttack;
     }
 
-    public void setRemoveProtectionOnAttack(boolean removeProtectionOnAttack) {
+    public void setRemoveProtectionOnAttack(final boolean removeProtectionOnAttack) {
         this.removeProtectionOnAttack = removeProtectionOnAttack;
     }
 
@@ -66,7 +69,7 @@ public final class NewbieHelperConfiguration implements IConfigurable {
         return this.protectionTime;
     }
 
-    public void setProtectionTime(long protectionTime) {
+    public void setProtectionTime(final long protectionTime) {
         this.protectionTime = protectionTime;
     }
 
@@ -74,7 +77,7 @@ public final class NewbieHelperConfiguration implements IConfigurable {
         return this.mobProtection;
     }
 
-    public void setMobProtection(boolean mobProtection) {
+    public void setMobProtection(final boolean mobProtection) {
         this.mobProtection = mobProtection;
     }
 
@@ -82,7 +85,7 @@ public final class NewbieHelperConfiguration implements IConfigurable {
         return this.pvpToggleDefaultStatus;
     }
 
-    public void setPvpToggleDefaultStatus(boolean pvpToggleDefaultStatus) {
+    public void setPvpToggleDefaultStatus(final boolean pvpToggleDefaultStatus) {
         this.pvpToggleDefaultStatus = pvpToggleDefaultStatus;
     }
 
@@ -90,7 +93,7 @@ public final class NewbieHelperConfiguration implements IConfigurable {
         return this.pvpToggleCooldown;
     }
 
-    public void setPvpToggleCooldown(int pvpToggleCooldown) {
+    public void setPvpToggleCooldown(final int pvpToggleCooldown) {
         this.pvpToggleCooldown = pvpToggleCooldown;
     }
 
@@ -98,7 +101,7 @@ public final class NewbieHelperConfiguration implements IConfigurable {
         return this.permissionName;
     }
 
-    public void setPermissionName(@Nullable String permissionName) {
+    public void setPermissionName(@Nullable final String permissionName) {
         this.permissionName = permissionName;
     }
 
@@ -107,12 +110,12 @@ public final class NewbieHelperConfiguration implements IConfigurable {
             return this.permission;
         }
 
-        String permissionName = getPermissionName();
+        final String permissionName = getPermissionName();
         if (permissionName == null || permissionName.isEmpty()) {
             return null;
         }
 
-        String description = "CombatLogX Newbie Helper permission to bypass the cooldown for '/toggle-pvp'.";
+        final String description = "CombatLogX Newbie Helper permission to bypass the cooldown for '/toggle-pvp'.";
         this.permission = new Permission(permissionName, description, PermissionDefault.OP);
         return this.permission;
     }
@@ -121,7 +124,15 @@ public final class NewbieHelperConfiguration implements IConfigurable {
         return this.preventPvpToggleInDisabledWorlds;
     }
 
-    public void setPreventPvpToggleInDisabledWorlds(boolean preventPvpToggleInDisabledWorlds) {
+    public void setPreventPvpToggleInDisabledWorlds(final boolean preventPvpToggleInDisabledWorlds) {
         this.preventPvpToggleInDisabledWorlds = preventPvpToggleInDisabledWorlds;
+    }
+
+    public boolean isNewPlayerCauseDamage() {
+        return this.newPlayerCauseDamage;
+    }
+
+    private void setNewPlayerCauseDamage(final boolean newPlayerCauseDamage) {
+        this.newPlayerCauseDamage = newPlayerCauseDamage;
     }
 }
