@@ -16,6 +16,7 @@ public final class ItemRemoveTask extends EntityTaskDetails<Item> {
     public void run() {
         Item entity = getEntity();
         if (entity != null) {
+            entity.removeMetadata("fake-item", getPlugin());
             entity.remove();
         }
     }

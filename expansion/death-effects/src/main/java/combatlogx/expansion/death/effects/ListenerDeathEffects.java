@@ -13,8 +13,13 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.InventoryPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.MetadataValue;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
 import com.github.sirblobman.api.item.ItemBuilder;
@@ -58,6 +63,22 @@ public final class ListenerDeathEffects extends ExpansionListener {
 
         if (configuration.hasEffect("BLOOD_ITEMS")) {
             playBloodItemsEffect(player);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+    public void onPickup(InventoryPickupItemEvent e) {
+        Item itemEntity = e.getItem();
+        if (itemEntity.hasMetadata("fake-item")) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+    public void onPickup(EntityPickupItemEvent e) {
+        Item itemEntity = e.getItem();
+        if (itemEntity.hasMetadata("fake-item")) {
+            e.setCancelled(true);
         }
     }
 
@@ -141,6 +162,10 @@ public final class ListenerDeathEffects extends ExpansionListener {
         Item itemEntity = entityHandler.spawnEntity(location, Item.class, preItem -> {
             preItem.setItemStack(item);
             preItem.setPickupDelay(Integer.MAX_VALUE);
+
+            JavaPlugin plugin = getJavaPlugin();
+            MetadataValue value = new FixedMetadataValue(plugin, true);
+            preItem.setMetadata("fake-item", value);
         });
 
         long delay = configuration.getBloodItemsStayTicks();
