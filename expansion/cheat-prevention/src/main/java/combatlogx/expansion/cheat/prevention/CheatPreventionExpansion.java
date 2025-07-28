@@ -2,6 +2,7 @@ package combatlogx.expansion.cheat.prevention;
 
 import java.util.logging.Logger;
 
+import combatlogx.expansion.cheat.prevention.listener.*;
 import org.jetbrains.annotations.NotNull;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
@@ -33,18 +34,6 @@ import combatlogx.expansion.cheat.prevention.configuration.InventoryConfiguratio
 import combatlogx.expansion.cheat.prevention.configuration.ItemConfiguration;
 import combatlogx.expansion.cheat.prevention.configuration.PotionConfiguration;
 import combatlogx.expansion.cheat.prevention.configuration.TeleportConfiguration;
-import combatlogx.expansion.cheat.prevention.listener.ListenerBlocks;
-import combatlogx.expansion.cheat.prevention.listener.ListenerBuckets;
-import combatlogx.expansion.cheat.prevention.listener.ListenerCommands;
-import combatlogx.expansion.cheat.prevention.listener.ListenerDrop;
-import combatlogx.expansion.cheat.prevention.listener.ListenerElytra;
-import combatlogx.expansion.cheat.prevention.listener.ListenerEntities;
-import combatlogx.expansion.cheat.prevention.listener.ListenerFlight;
-import combatlogx.expansion.cheat.prevention.listener.ListenerGameMode;
-import combatlogx.expansion.cheat.prevention.listener.ListenerInventories;
-import combatlogx.expansion.cheat.prevention.listener.ListenerRiptide;
-import combatlogx.expansion.cheat.prevention.listener.ListenerTeleport;
-import combatlogx.expansion.cheat.prevention.listener.ListenerTotem;
 import combatlogx.expansion.cheat.prevention.listener.legacy.ListenerChat;
 import combatlogx.expansion.cheat.prevention.listener.legacy.ListenerLegacyItemPickup;
 import combatlogx.expansion.cheat.prevention.listener.legacy.ListenerLegacyPortalCreate;
@@ -227,6 +216,7 @@ public final class CheatPreventionExpansion extends Expansion implements ICheatP
         new ListenerFlight(this).register();
         new ListenerGameMode(this).register();
         new ListenerTeleport(this).register();
+        new ListenerEnderPearl(this).register();
     }
 
     private void registerVersionListeners(int minorVersion) {

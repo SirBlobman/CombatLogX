@@ -18,6 +18,12 @@ allowed-teleport-cause-list:
 # Default: false
 ender-pearl-retag: false
 
+# This option is required for Folia servers.
+# This enables a separate listener for ender pearls, separate from PlayerTeleportEvent.
+# Disabled by default since ender pearls are allowed by most servers.
+# Default: false
+force-disable-ender-pearl: false
+
 # If a player teleports away, should their tag be removed?
 # Default: false
 untag: false

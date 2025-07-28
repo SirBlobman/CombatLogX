@@ -19,6 +19,7 @@ public final class TeleportConfiguration implements ITeleportConfiguration {
     private boolean preventTeleportation;
     private boolean enderPearlRetag;
     private boolean untag;
+    private boolean forceDisableEnderPearl;
 
     public TeleportConfiguration() {
         this.preventPortals = true;
@@ -26,6 +27,7 @@ public final class TeleportConfiguration implements ITeleportConfiguration {
         this.enderPearlRetag = false;
         this.untag = false;
         this.allowedTeleportCauseSet = EnumSet.noneOf(TeleportCause.class);
+        this.forceDisableEnderPearl = false;
     }
 
     @Override
@@ -34,6 +36,7 @@ public final class TeleportConfiguration implements ITeleportConfiguration {
         setPreventTeleportation(config.getBoolean("prevent-teleportation", true));
         setEnderPearlRetag(config.getBoolean("ender-pearl-retag", false));
         setUntag(config.getBoolean("untag", false));
+        setForceDisableEnderPearl(config.getBoolean("force-disable-ender-pearl", false));
 
         List<String> allowedTeleportCauseNameList = config.getStringList("allowed-teleport-cause-list");
         setAllowedTeleportCauses(parseEnums(allowedTeleportCauseNameList, TeleportCause.class));
@@ -88,5 +91,14 @@ public final class TeleportConfiguration implements ITeleportConfiguration {
     public boolean isAllowed(@NotNull TeleportCause cause) {
         Set<TeleportCause> causeSet = getAllowedTeleportCauses();
         return causeSet.contains(cause);
+    }
+
+    @Override
+    public boolean isForceDisableEnderPearl() {
+        return this.forceDisableEnderPearl;
+    }
+
+    public void setForceDisableEnderPearl(boolean forceDisableEnderPearl) {
+        this.forceDisableEnderPearl = forceDisableEnderPearl;
     }
 }

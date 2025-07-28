@@ -16,4 +16,6 @@ public interface ITeleportConfiguration extends IConfigurable {
     boolean isUntag();
 
     boolean isAllowed(@NotNull TeleportCause cause);
+
+    boolean isForceDisableEnderPearl();
 }
