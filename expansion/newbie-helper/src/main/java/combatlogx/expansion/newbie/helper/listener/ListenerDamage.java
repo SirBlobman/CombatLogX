@@ -22,18 +22,18 @@ import combatlogx.expansion.newbie.helper.configuration.WorldsConfiguration;
 import combatlogx.expansion.newbie.helper.manager.PVPManager;
 import combatlogx.expansion.newbie.helper.manager.ProtectionManager;
 
-public final class ListenerDamage extends ExpansionListener {
-    private final NewbieHelperExpansion expansion;
+public class ListenerDamage extends ExpansionListener {
+    private NewbieHelperExpansion expansion;
 
-    public ListenerDamage(@NotNull final NewbieHelperExpansion expansion) {
+    public ListenerDamage(@NotNull NewbieHelperExpansion expansion) {
         super(expansion);
         this.expansion = expansion;
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-    public void onDamageByMob(final EntityDamageByEntityEvent e) {
-        final Entity damaged = e.getEntity();
-        if (!(damaged instanceof final Player player)) {
+    public void onDamageByMob(EntityDamageByEntityEvent e) {
+        Entity damaged = e.getEntity();
+        if (!(damaged instanceof Player player)) {
             return;
         }
 
@@ -41,26 +41,26 @@ public final class ListenerDamage extends ExpansionListener {
             return;
         }
 
-        final Entity damager = getDamager(e);
+        Entity damager = getDamager(e);
         if (damager instanceof Player) {
             return;
         }
 
-        final ProtectionManager protectionManager = this.expansion.getProtectionManager();
+        ProtectionManager protectionManager = this.expansion.getProtectionManager();
         if (protectionManager.isProtected(player) && isMobProtection()) {
             e.setCancelled(true);
         }
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-    public void onDamageMob(final EntityDamageByEntityEvent e) {
-        final Entity damaged = e.getEntity();
+    public void onDamageMob(EntityDamageByEntityEvent e) {
+        Entity damaged = e.getEntity();
         if (damaged instanceof Player) {
             return;
         }
 
-        final Entity damager = getDamager(e);
-        if (!(damager instanceof final Player player)) {
+        Entity damager = getDamager(e);
+        if (!(damager instanceof Player player)) {
             return;
         }
 
@@ -68,21 +68,21 @@ public final class ListenerDamage extends ExpansionListener {
             return;
         }
 
-        final ProtectionManager protectionManager = this.expansion.getProtectionManager();
+        ProtectionManager protectionManager = this.expansion.getProtectionManager();
         if (protectionManager.isProtected(player) && isMobProtection()) {
             if (isRemoveProtectionOnAttack()) {
                 protectionManager.setProtected(player, false);
-                final String messagePath = ("expansion.newbie-helper.protection-disabled.attacker");
-                final LanguageManager languageManager = getLanguageManager();
+                String messagePath = ("expansion.newbie-helper.protection-disabled.attacker");
+                LanguageManager languageManager = getLanguageManager();
                 languageManager.sendMessageWithPrefix(player, messagePath);
             }
         }
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-    public void onDamageByPlayer(final EntityDamageByEntityEvent e) {
-        final Entity damaged = e.getEntity();
-        if (!(damaged instanceof final Player attacked)) {
+    public void onDamageByPlayer(EntityDamageByEntityEvent e) {
+        Entity damaged = e.getEntity();
+        if (!(damaged instanceof Player attacked)) {
             return;
         }
 
@@ -90,8 +90,8 @@ public final class ListenerDamage extends ExpansionListener {
             return;
         }
 
-        final Entity damager = getDamager(e);
-        if (!(damager instanceof final Player attacker)) {
+        Entity damager = getDamager(e);
+        if (!(damager instanceof Player attacker)) {
             return;
         }
 
@@ -108,10 +108,10 @@ public final class ListenerDamage extends ExpansionListener {
             return;
         }
 
-        final NewbieHelperExpansion expansion = getNewbieHelperExpansion();
-        final ProtectionManager protectionManager = expansion.getProtectionManager();
-        final PVPManager pvpManager = expansion.getPVPManager();
-        final LanguageManager languageManager = getLanguageManager();
+        NewbieHelperExpansion expansion = getNewbieHelperExpansion();
+        ProtectionManager protectionManager = expansion.getProtectionManager();
+        PVPManager pvpManager = expansion.getPVPManager();
+        LanguageManager languageManager = getLanguageManager();
 
         if (pvpManager.isDisabled(attacked)) {
             e.setCancelled(true);
@@ -127,7 +127,7 @@ public final class ListenerDamage extends ExpansionListener {
 
         if (protectionManager.isProtected(attacked)) {
             e.setCancelled(true);
-            final String messagePath = ("expansion.newbie-helper.no-pvp.protected");
+            String messagePath = ("expansion.newbie-helper.no-pvp.protected");
             languageManager.sendMessageWithPrefix(attacker, messagePath);
             return;
         }
@@ -135,13 +135,13 @@ public final class ListenerDamage extends ExpansionListener {
         if (protectionManager.isProtected(attacker)) {
             if (isRemoveProtectionOnAttack()) {
                 protectionManager.setProtected(attacker, false);
-                final String messagePath = ("expansion.newbie-helper.protection-disabled.attacker");
+                String messagePath = ("expansion.newbie-helper.protection-disabled.attacker");
                 languageManager.sendMessageWithPrefix(attacker, messagePath);
                 return;
             }
             if (!isNewPlayerCauseDamage()) {
                 e.setCancelled(true);
-                final String messagePath = ("expansion.newbie-helper.no-pvp.cancel");
+                String messagePath = ("expansion.newbie-helper.no-pvp.cancel");
                 languageManager.sendMessageWithPrefix(attacker, messagePath);
             }
         }
@@ -152,58 +152,58 @@ public final class ListenerDamage extends ExpansionListener {
     }
 
     private @NotNull NewbieHelperConfiguration getConfiguration() {
-        final NewbieHelperExpansion expansion = getNewbieHelperExpansion();
+        NewbieHelperExpansion expansion = getNewbieHelperExpansion();
         return expansion.getConfiguration();
     }
 
     private @NotNull WorldsConfiguration getWorldsConfiguration() {
-        final NewbieHelperExpansion expansion = getNewbieHelperExpansion();
+        NewbieHelperExpansion expansion = getNewbieHelperExpansion();
         return expansion.getWorldsConfiguration();
     }
 
-    private boolean isForcePvpWorld(@NotNull final Entity entity) {
-        final World world = entity.getWorld();
+    private boolean isForcePvpWorld(@NotNull Entity entity) {
+        World world = entity.getWorld();
         return isForcePvpWorld(world);
     }
 
-    private boolean isForcePvpWorld(@NotNull final World world) {
-        final WorldsConfiguration configuration = getWorldsConfiguration();
+    private boolean isForcePvpWorld(@NotNull World world) {
+        WorldsConfiguration configuration = getWorldsConfiguration();
         return configuration.isForcePvp(world);
     }
 
-    private boolean isNoPvpWorld(@NotNull final Entity entity) {
-        final World world = entity.getWorld();
+    private boolean isNoPvpWorld(@NotNull Entity entity) {
+        World world = entity.getWorld();
         return isNoPvpWorld(world);
     }
 
-    private boolean isNoPvpWorld(@NotNull final World world) {
-        final WorldsConfiguration configuration = getWorldsConfiguration();
+    private boolean isNoPvpWorld(@NotNull World world) {
+        WorldsConfiguration configuration = getWorldsConfiguration();
         return configuration.isNoPvp(world);
     }
 
     private boolean isRemoveProtectionOnAttack() {
-        final NewbieHelperConfiguration configuration = getConfiguration();
+        NewbieHelperConfiguration configuration = getConfiguration();
         return configuration.isRemoveProtectionOnAttack();
     }
 
     private boolean isNewPlayerCauseDamage() {
-        final NewbieHelperConfiguration configuration = getConfiguration();
+        NewbieHelperConfiguration configuration = getConfiguration();
         return configuration.isNewPlayerCauseDamage();
     }
 
     private boolean isMobProtection() {
-        final NewbieHelperConfiguration configuration = getConfiguration();
+        NewbieHelperConfiguration configuration = getConfiguration();
         return configuration.isMobProtection();
     }
 
-    private @NotNull Entity getDamager(@NotNull final EntityDamageByEntityEvent e) {
-        final Entity entity = e.getDamager();
+    private @NotNull Entity getDamager(@NotNull EntityDamageByEntityEvent e) {
+        Entity entity = e.getDamager();
         return getDamager(entity);
     }
 
     private @NotNull Entity getDamager(@NotNull Entity entity) {
-        final ICombatLogX plugin = getCombatLogX();
-        final MainConfiguration configuration = plugin.getConfiguration();
+        ICombatLogX plugin = getCombatLogX();
+        MainConfiguration configuration = plugin.getConfiguration();
 
         if (configuration.isLinkProjectiles()) {
             entity = EntityHelper.linkProjectile(plugin, entity);
@@ -218,10 +218,10 @@ public final class ListenerDamage extends ExpansionListener {
         }
 
         if (configuration.isLinkEndCrystals()) {
-            final ICombatLogX combatLogX = getCombatLogX();
-            final ICrystalManager crystalManager = combatLogX.getCrystalManager();
+            ICombatLogX combatLogX = getCombatLogX();
+            ICrystalManager crystalManager = combatLogX.getCrystalManager();
 
-            final Player player = crystalManager.getPlacer(entity);
+            Player player = crystalManager.getPlacer(entity);
             if (player != null) {
                 entity = player;
             }

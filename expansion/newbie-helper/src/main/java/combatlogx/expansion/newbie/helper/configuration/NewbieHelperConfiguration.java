@@ -9,7 +9,7 @@ import org.bukkit.permissions.PermissionDefault;
 
 import com.github.sirblobman.api.configuration.IConfigurable;
 
-public final class NewbieHelperConfiguration implements IConfigurable {
+public class NewbieHelperConfiguration implements IConfigurable {
     private boolean newPlayerProtection;
     private boolean removeProtectionOnAttack;
     private long protectionTime;
@@ -37,7 +37,7 @@ public final class NewbieHelperConfiguration implements IConfigurable {
     }
 
     @Override
-    public void load(@NotNull final ConfigurationSection config) {
+    public void load(@NotNull ConfigurationSection config) {
         setNewPlayerProtection(config.getBoolean("new-player-protection", true));
         setRemoveProtectionOnAttack(config.getBoolean("remove-protection-on-attack", true));
         setProtectionTime(config.getLong("protection-time", 30_000L));
@@ -53,7 +53,7 @@ public final class NewbieHelperConfiguration implements IConfigurable {
         return this.newPlayerProtection;
     }
 
-    public void setNewPlayerProtection(final boolean newPlayerProtection) {
+    public void setNewPlayerProtection(boolean newPlayerProtection) {
         this.newPlayerProtection = newPlayerProtection;
     }
 
@@ -61,7 +61,7 @@ public final class NewbieHelperConfiguration implements IConfigurable {
         return this.removeProtectionOnAttack;
     }
 
-    public void setRemoveProtectionOnAttack(final boolean removeProtectionOnAttack) {
+    public void setRemoveProtectionOnAttack(boolean removeProtectionOnAttack) {
         this.removeProtectionOnAttack = removeProtectionOnAttack;
     }
 
@@ -69,7 +69,7 @@ public final class NewbieHelperConfiguration implements IConfigurable {
         return this.protectionTime;
     }
 
-    public void setProtectionTime(final long protectionTime) {
+    public void setProtectionTime(long protectionTime) {
         this.protectionTime = protectionTime;
     }
 
@@ -77,7 +77,7 @@ public final class NewbieHelperConfiguration implements IConfigurable {
         return this.mobProtection;
     }
 
-    public void setMobProtection(final boolean mobProtection) {
+    public void setMobProtection(boolean mobProtection) {
         this.mobProtection = mobProtection;
     }
 
@@ -85,7 +85,7 @@ public final class NewbieHelperConfiguration implements IConfigurable {
         return this.pvpToggleDefaultStatus;
     }
 
-    public void setPvpToggleDefaultStatus(final boolean pvpToggleDefaultStatus) {
+    public void setPvpToggleDefaultStatus(boolean pvpToggleDefaultStatus) {
         this.pvpToggleDefaultStatus = pvpToggleDefaultStatus;
     }
 
@@ -93,7 +93,7 @@ public final class NewbieHelperConfiguration implements IConfigurable {
         return this.pvpToggleCooldown;
     }
 
-    public void setPvpToggleCooldown(final int pvpToggleCooldown) {
+    public void setPvpToggleCooldown(int pvpToggleCooldown) {
         this.pvpToggleCooldown = pvpToggleCooldown;
     }
 
@@ -101,7 +101,7 @@ public final class NewbieHelperConfiguration implements IConfigurable {
         return this.permissionName;
     }
 
-    public void setPermissionName(@Nullable final String permissionName) {
+    public void setPermissionName(@Nullable String permissionName) {
         this.permissionName = permissionName;
     }
 
@@ -110,12 +110,12 @@ public final class NewbieHelperConfiguration implements IConfigurable {
             return this.permission;
         }
 
-        final String permissionName = getPermissionName();
+        String permissionName = getPermissionName();
         if (permissionName == null || permissionName.isEmpty()) {
             return null;
         }
 
-        final String description = "CombatLogX Newbie Helper permission to bypass the cooldown for '/toggle-pvp'.";
+        String description = "CombatLogX Newbie Helper permission to bypass the cooldown for '/toggle-pvp'.";
         this.permission = new Permission(permissionName, description, PermissionDefault.OP);
         return this.permission;
     }
@@ -124,7 +124,7 @@ public final class NewbieHelperConfiguration implements IConfigurable {
         return this.preventPvpToggleInDisabledWorlds;
     }
 
-    public void setPreventPvpToggleInDisabledWorlds(final boolean preventPvpToggleInDisabledWorlds) {
+    public void setPreventPvpToggleInDisabledWorlds(boolean preventPvpToggleInDisabledWorlds) {
         this.preventPvpToggleInDisabledWorlds = preventPvpToggleInDisabledWorlds;
     }
 
@@ -132,7 +132,7 @@ public final class NewbieHelperConfiguration implements IConfigurable {
         return this.newPlayerCauseDamage;
     }
 
-    public void setNewPlayerCauseDamage(final boolean newPlayerCauseDamage) {
+    public void setNewPlayerCauseDamage(boolean newPlayerCauseDamage) {
         this.newPlayerCauseDamage = newPlayerCauseDamage;
     }
 }
