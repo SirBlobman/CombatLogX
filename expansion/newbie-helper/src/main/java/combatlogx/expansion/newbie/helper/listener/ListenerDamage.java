@@ -22,8 +22,8 @@ import combatlogx.expansion.newbie.helper.configuration.WorldsConfiguration;
 import combatlogx.expansion.newbie.helper.manager.PVPManager;
 import combatlogx.expansion.newbie.helper.manager.ProtectionManager;
 
-public class ListenerDamage extends ExpansionListener {
-    private NewbieHelperExpansion expansion;
+public final class ListenerDamage extends ExpansionListener {
+    private final NewbieHelperExpansion expansion;
 
     public ListenerDamage(@NotNull NewbieHelperExpansion expansion) {
         super(expansion);

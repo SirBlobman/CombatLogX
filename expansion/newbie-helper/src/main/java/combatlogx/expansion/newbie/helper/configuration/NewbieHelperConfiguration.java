@@ -9,7 +9,7 @@ import org.bukkit.permissions.PermissionDefault;
 
 import com.github.sirblobman.api.configuration.IConfigurable;
 
-public class NewbieHelperConfiguration implements IConfigurable {
+public final class NewbieHelperConfiguration implements IConfigurable {
     private boolean newPlayerProtection;
     private boolean removeProtectionOnAttack;
     private long protectionTime;
