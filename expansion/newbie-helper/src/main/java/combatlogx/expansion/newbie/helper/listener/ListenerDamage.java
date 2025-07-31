@@ -33,11 +33,10 @@ public final class ListenerDamage extends ExpansionListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onDamageByMob(EntityDamageByEntityEvent e) {
         Entity damaged = e.getEntity();
-        if (!(damaged instanceof Player)) {
+        if (!(damaged instanceof Player player)) {
             return;
         }
 
-        Player player = (Player) damaged;
         if (isWorldDisabled(player)) {
             return;
         }
@@ -61,11 +60,10 @@ public final class ListenerDamage extends ExpansionListener {
         }
 
         Entity damager = getDamager(e);
-        if (!(damager instanceof Player)) {
+        if (!(damager instanceof Player player)) {
             return;
         }
 
-        Player player = (Player) damager;
         if (isWorldDisabled(player)) {
             return;
         }
@@ -84,21 +82,19 @@ public final class ListenerDamage extends ExpansionListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onDamageByPlayer(EntityDamageByEntityEvent e) {
         Entity damaged = e.getEntity();
-        if (!(damaged instanceof Player)) {
+        if (!(damaged instanceof Player attacked)) {
             return;
         }
 
-        Player attacked = (Player) damaged;
         if (isWorldDisabled(attacked)) {
             return;
         }
 
         Entity damager = getDamager(e);
-        if (!(damager instanceof Player)) {
+        if (!(damager instanceof Player attacker)) {
             return;
         }
 
-        Player attacker = (Player) damager;
         if (isWorldDisabled(attacker)) {
             return;
         }
@@ -141,6 +137,12 @@ public final class ListenerDamage extends ExpansionListener {
                 protectionManager.setProtected(attacker, false);
                 String messagePath = ("expansion.newbie-helper.protection-disabled.attacker");
                 languageManager.sendMessageWithPrefix(attacker, messagePath);
+                return;
+            }
+            if (!isNewPlayerCauseDamage()) {
+                e.setCancelled(true);
+                String messagePath = ("expansion.newbie-helper.no-pvp.cancel");
+                languageManager.sendMessageWithPrefix(attacker, messagePath);
             }
         }
     }
@@ -182,6 +184,11 @@ public final class ListenerDamage extends ExpansionListener {
     private boolean isRemoveProtectionOnAttack() {
         NewbieHelperConfiguration configuration = getConfiguration();
         return configuration.isRemoveProtectionOnAttack();
+    }
+
+    private boolean isNewPlayerCauseDamage() {
+        NewbieHelperConfiguration configuration = getConfiguration();
+        return configuration.isNewPlayerCauseDamage();
     }
 
     private boolean isMobProtection() {

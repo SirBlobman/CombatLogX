@@ -18,6 +18,7 @@ public final class NewbieHelperConfiguration implements IConfigurable {
     private int pvpToggleCooldown;
     private String permissionName;
     private boolean preventPvpToggleInDisabledWorlds;
+    private boolean newPlayerCauseDamage;
 
     private transient Permission permission;
 
@@ -30,6 +31,7 @@ public final class NewbieHelperConfiguration implements IConfigurable {
         this.pvpToggleCooldown = 0;
         this.permissionName = null;
         this.preventPvpToggleInDisabledWorlds = true;
+        this.newPlayerCauseDamage = true;
 
         this.permission = null;
     }
@@ -44,6 +46,7 @@ public final class NewbieHelperConfiguration implements IConfigurable {
         setPvpToggleCooldown(config.getInt("pvp-toggle-cooldown", 0));
         setPermissionName(config.getString("pvp-toggle-cooldown-bypass-permission"));
         setPreventPvpToggleInDisabledWorlds(config.getBoolean("prevent-pvp-toggle-in-disabled-worlds", true));
+        setNewPlayerCauseDamage(config.getBoolean("new-player-cause-damage", true));
     }
 
     public boolean isNewPlayerProtection() {
@@ -123,5 +126,13 @@ public final class NewbieHelperConfiguration implements IConfigurable {
 
     public void setPreventPvpToggleInDisabledWorlds(boolean preventPvpToggleInDisabledWorlds) {
         this.preventPvpToggleInDisabledWorlds = preventPvpToggleInDisabledWorlds;
+    }
+
+    public boolean isNewPlayerCauseDamage() {
+        return this.newPlayerCauseDamage;
+    }
+
+    public void setNewPlayerCauseDamage(boolean newPlayerCauseDamage) {
+        this.newPlayerCauseDamage = newPlayerCauseDamage;
     }
 }
