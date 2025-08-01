@@ -17,7 +17,7 @@ language-name: "rus_RU"
 decimal-format: "0,00"
 #The prefix for CombatLogX that is shown in front of all messages.
 #Note to translators: Do not change this message.
-prefix: "<gold><bold>CombatLogX</bold></gold>"
+prefix: "<white><bold>[<gold>CombatLogX</gold>]</bold></white>"
 broadcast:
   #Shown when the plugin is finished loading.
   on-load: "<green><bold>CombatLogX был успешно загружен.</bold></green>"
@@ -307,6 +307,7 @@ expansion:
       self: "<red>Вы не можете ударить этого игрока - ваша возможность ПвП отключена.</red>"
       other: "<red>У этого игрока отключена возможность ПвП.</red>"
       protected: "<red>Этот игрок защищен - вы пока не можете атаковать его!</red>"
+      cancel: "<red>Вы защищены - вы пока не можете других игроков!</red>"
     protection-disabled:
       #Shown when newbie protection is disabled due to the player attacking another player.
       attacker: "<red>Вы кого-то атаковали, ваша защита новичка отключилась.</red>"
