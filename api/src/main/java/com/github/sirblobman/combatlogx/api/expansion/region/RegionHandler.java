@@ -18,6 +18,7 @@ import org.bukkit.util.Vector;
 
 import com.github.sirblobman.api.folia.FoliaHelper;
 import com.github.sirblobman.api.folia.scheduler.TaskScheduler;
+import com.github.sirblobman.api.folia.teleport.TeleportHandler;
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -147,7 +148,10 @@ public abstract class RegionHandler<RE extends RegionExpansion> {
             return;
         }
 
-        if (!player.teleport(enemy)) {
+        FoliaHelper foliaHelper = getExpansion().getPlugin().getFoliaHelper();
+        TeleportHandler teleporter = foliaHelper.getTeleporter();
+        boolean teleport = teleporter.teleport(player, enemy).join();
+        if (teleport) {
             e.setCancelled(true);
         }
     }

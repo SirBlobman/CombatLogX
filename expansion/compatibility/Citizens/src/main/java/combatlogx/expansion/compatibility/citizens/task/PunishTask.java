@@ -5,10 +5,11 @@ import org.jetbrains.annotations.NotNull;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.PlayerInventory;
 
+import com.github.sirblobman.api.folia.FoliaHelper;
 import com.github.sirblobman.api.folia.details.EntityTaskDetails;
+import com.github.sirblobman.api.folia.teleport.TeleportHandler;
 import com.github.sirblobman.api.nms.EntityHandler;
 import com.github.sirblobman.api.nms.MultiVersionHandler;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
@@ -89,7 +90,9 @@ public final class PunishTask extends EntityTaskDetails<Player> {
         if (configuration.isStoreLocation()) {
             Location location = combatNpcManager.loadLocation(player);
             if (location != null) {
-                player.teleport(location, TeleportCause.PLUGIN);
+                FoliaHelper foliaHelper = getExpansion().getPlugin().getFoliaHelper();
+                TeleportHandler teleporter = foliaHelper.getTeleporter();
+                teleporter.teleport(player, location).join();
             }
 
             playerData.set("citizens-compatibility.location", null);

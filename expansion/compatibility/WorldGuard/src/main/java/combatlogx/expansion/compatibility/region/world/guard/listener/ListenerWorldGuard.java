@@ -14,6 +14,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
+import com.github.sirblobman.api.folia.FoliaHelper;
+import com.github.sirblobman.api.folia.teleport.TeleportHandler;
 import com.github.sirblobman.combatlogx.api.event.PlayerPreTagEvent;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 
@@ -50,7 +52,9 @@ public final class ListenerWorldGuard extends ExpansionListener {
         if (!this.preventTeleportLoop.remove(playerId) && e.isCancelled() && isInCombat(player)) {
             this.preventTeleportLoop.add(playerId);
             Location location = player.getLocation();
-            player.teleport(location);
+            FoliaHelper foliaHelper = getExpansion().getPlugin().getFoliaHelper();
+            TeleportHandler teleporter = foliaHelper.getTeleporter();
+            teleporter.teleport(player, location).join();
         }
     }
 

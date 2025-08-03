@@ -1,19 +1,22 @@
 package combatlogx.expansion.compatibility.huskhomes.listener;
 
+import java.util.UUID;
+
+import org.jetbrains.annotations.NotNull;
+
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+
 import com.github.sirblobman.api.language.LanguageManager;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
+
 import combatlogx.expansion.compatibility.huskhomes.HuskHomesExpansion;
 import net.william278.huskhomes.event.TeleportWarmupEvent;
 import net.william278.huskhomes.teleport.Teleport;
 import net.william278.huskhomes.teleport.Teleportable;
 import net.william278.huskhomes.user.BukkitUser;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.UUID;
 
 public final class ListenerHuskHomes extends ExpansionListener {
     public ListenerHuskHomes(@NotNull HuskHomesExpansion expansion) {
@@ -26,11 +29,10 @@ public final class ListenerHuskHomes extends ExpansionListener {
 
         Teleport timedTeleport = e.getTimedTeleport();
         Teleportable teleporter = timedTeleport.getTeleporter();
-        if (!(teleporter instanceof BukkitUser)) {
+        if (!(teleporter instanceof BukkitUser bukkitTeleporter)) {
             return;
         }
 
-        BukkitUser bukkitTeleporter = (BukkitUser) teleporter;
         UUID teleporterId = bukkitTeleporter.getUuid();
         printDebug("Teleporter ID: " + teleporterId);
 
