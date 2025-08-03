@@ -15,6 +15,7 @@ allowed-teleport-cause-list:
   - ENDER_PEARL # Most servers think that ender pearls are fair game during combat.
 
 # Should ender pearls cause a player's timer to reset during combat?
+# The combat type and combat reason will be marked as UNKNOWN.
 # Default: false
 ender-pearl-retag: false
 
