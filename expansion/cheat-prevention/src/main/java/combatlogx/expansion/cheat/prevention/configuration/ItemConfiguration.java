@@ -7,6 +7,7 @@ public final class ItemConfiguration implements IItemConfiguration {
     private boolean preventPickup;
     private boolean preventElytra;
     private boolean forcePreventElytra;
+    private boolean preventFireworks;
     private boolean elytraRetag;
     private boolean preventTotem;
     private boolean preventRiptide;
@@ -17,6 +18,7 @@ public final class ItemConfiguration implements IItemConfiguration {
         this.preventPickup = true;
         this.preventElytra = true;
         this.forcePreventElytra = false;
+        this.preventFireworks = false;
         this.elytraRetag = false;
         this.preventTotem = false;
         this.preventRiptide = false;
@@ -29,6 +31,7 @@ public final class ItemConfiguration implements IItemConfiguration {
         setPreventPickup(config.getBoolean("prevent-pickup", true));
         setPreventElytra(config.getBoolean("prevent-elytra", true));
         setForcePreventElytra(config.getBoolean("force-prevent-elytra", true));
+        setPreventFireworks(config.getBoolean("prevent-fireworks", false));
         setElytraRetag(config.getBoolean("elytra-retag", false));
         setPreventTotem(config.getBoolean("prevent-totem", false));
         setPreventRiptide(config.getBoolean("prevent-riptide", false));
@@ -105,5 +108,14 @@ public final class ItemConfiguration implements IItemConfiguration {
 
     public void setRiptideRetag(boolean riptideRetag) {
         this.riptideRetag = riptideRetag;
+    }
+
+    @Override
+    public boolean isPreventFireworks() {
+        return this.preventFireworks;
+    }
+
+    public void setPreventFireworks(boolean preventFireworks) {
+        this.preventFireworks = preventFireworks;
     }
 }

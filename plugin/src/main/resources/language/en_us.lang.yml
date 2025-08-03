@@ -297,6 +297,9 @@ expansion:
       # Shown when a player's attempt to glide is prevented during combat.
       no-gliding: "<red>You are not allowed to use elytra during combat.</red>"
 
+      # Shown when a player tries to use fireworks.
+      no-fireworks: "<red>You are not allowed to launch fireworks during combat.</red>"
+
     teleportation:
       # Shown when a player tries to enter a portal and is prevented during combat.
       block-portal: "<red>You are not allowed to use a portal during combat.</red>"

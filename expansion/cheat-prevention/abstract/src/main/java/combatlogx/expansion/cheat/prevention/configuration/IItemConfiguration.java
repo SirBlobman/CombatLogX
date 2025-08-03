@@ -11,6 +11,8 @@ public interface IItemConfiguration extends IConfigurable {
 
     boolean isForcePreventElytra();
 
+    boolean isPreventFireworks();
+
     boolean isElytraRetag();
 
     boolean isPreventTotem();
