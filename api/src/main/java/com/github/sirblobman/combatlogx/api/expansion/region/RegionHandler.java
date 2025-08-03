@@ -107,6 +107,15 @@ public abstract class RegionHandler<RE extends RegionExpansion> {
 
         Entity enemy = tagInformation.getCurrentEnemy();
         NoEntryMode noEntryMode = getNoEntryMode();
+
+        if (noEntryMode != NoEntryMode.DISABLED) {
+            if (player.isInsideVehicle()) {
+                if (!player.leaveVehicle()) {
+                    printDebug("Failed to make a player leave their vehicle, there may be region entry prevention bugs.");
+                }
+            }
+        }
+
         switch (noEntryMode) {
             case KILL_PLAYER:
                 player.setHealth(0.0D);
@@ -146,12 +155,6 @@ public abstract class RegionHandler<RE extends RegionExpansion> {
     private void knockbackPlayer(@NotNull Player player, @NotNull Cancellable e,
                                  @NotNull Location fromLocation, @NotNull Location toLocation) {
         e.setCancelled(true);
-
-        if (player.isInsideVehicle()) {
-            if (!player.leaveVehicle()) {
-                return;
-            }
-        }
 
         if (isGliding(player)) {
             player.setGliding(false);
