@@ -50,6 +50,10 @@ public final class ListenerElytra extends CheatPreventionListener {
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onLaunch(ProjectileLaunchEvent e) {
+        if (!isPreventFireworks()) {
+            return;
+        }
+
         Projectile projectile = e.getEntity();
         if (projectile instanceof Firework firework) {
             ProjectileSource shooter = firework.getShooter();
