@@ -210,7 +210,7 @@ expansion:
     #Shown when a command execution is prevented during combat.
     command-blocked: "<red>您不能在战斗中使用 </red><green>{command}</green><red>"
     #Shown when the riptide effect is prevented during combat.
-    no-riptide: "<red>战斗期间禁用 riptie 附魔。"
+    no-riptide: "<red>战斗期间禁用激流附魔。</red>"
     #Shown when a totem of undying is prevented during combat.
     no-totem: "<red>您不能在战斗中使用不死图腾。"
     #Shown when an entity interaction is prevented during combat.
@@ -232,6 +232,8 @@ expansion:
       force-disabled: "<red>您的鞘翅已被禁用。"
       #Shown when a player's attempt to glide is prevented during combat.
       no-gliding: "<red>您不能在战斗中使用鞘翅。"
+      #Shown when a player tries to use fireworks.
+      no-fireworks: "<red>您不能在战斗中发射烟花火箭。</red>"
     teleportation:
       #Shown when a player tries to enter a portal and is prevented during combat.
       block-portal: "<red>您不能在战斗中使用传送门。"
@@ -307,6 +309,7 @@ expansion:
       self: "<red>您不能在PvP禁用时攻击该玩家。"
       other: "<red>该玩家已禁用PvP。"
       protected: "<red>那个玩家受到保护，你无法攻击他们！"
+      cancel: "<red>由于你受到保护，暂时无法攻击其他玩家！</red>"
     protection-disabled:
       #Shown when newbie protection is disabled due to the player attacking another player.
       attacker: "<red>您攻击了他人，您的新手保护已被禁用。"
