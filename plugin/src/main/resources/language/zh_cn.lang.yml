@@ -69,16 +69,16 @@ error:
   #Shown when a command that requires a number has invalid input.
   invalid-integer: "<red><gray>{value}</gray> 不是一个有效的整数</red>"
   #Shown when a player does not have access to something that requires a permission.
-  no-permission: "<red>缺少权限： </red><gray>{permission}"
+  no-permission: "<red>缺少权限: <gray>{permission}</gray></red>"
   #Shown when a player executes a command in a world that is disabled in the configuration.
-  disabled-world: "<red>该命令在此维度中不可用</red>"
+  disabled-world: "<red>该命令在此维度中不可用。</red>"
   #Shown when a command requires a player in combat but the target player is not in combat.
-  target-not-in-combat: "<gray>{target}</gray><red> 未在战斗中。"
+  target-not-in-combat: "<red><gray>{target}</gray> 未在战斗中。</red>"
   #Shown when a player executes a command that requires them to be in combat.
   self-not-in-combat: "<green>您未处于战斗状态。"
   #Shown when a command that requires an expansion has invalid input.
   unknown-expansion: "<gray>{target}</gray><red> 不是扩展或未安装。"
-  forgive-not-enemy: "<red><gray>{target}</gray> 不是你的敌人</red>"
+  forgive-not-enemy: "<red><gray>{target}</gray> 不是你的敌人。</red>"
   enemy-not-forgiving: "<red>那个敌人不想原谅你。</red>"
 command:
   combatlogx:
@@ -105,7 +105,7 @@ command:
       - "<green>成功重载 CombatLogX 中的所有扩展配置文件。"
     #Shown as the command output for '/combatlogx reload' when reloading fails
     reload-failure:
-      - "<red>重载配置时出错</red>"
+      - "<red>重载配置时出错。</red>"
       - "<red>请检查服务器日志并修复损坏的文件</red>"
     #Shown as the command output for '/combatlogx tag <player>' when a player is tagged successfully.
     tag-player: "<green>成功强制玩家 </green><gray>{target}</gray><green> 进入战斗。"
@@ -240,31 +240,31 @@ expansion:
       #Shown when an ender pearl is prevented during combat.
       block-pearl: "<red>您不能在战斗中使用末影珍珠。"
       #Shown when a teleport is prevented during combat.
-      block-other: "<red>您不能在战斗中进行传送。"
+      block-other: "<red>您不能在战斗中进行传送。</red>"
     inventory:
       #Shown when a player's inventory is closed by the plugin during combat.
-      force-closed: "<red>您的物品栏已被关闭。"
+      force-closed: "<red>您的物品栏已被关闭。</red>"
       #Shown when a player tries to open an inventory and is prevented during combat.
-      no-opening: "<red>您不能在战斗中打开物品栏。"
+      no-opening: "<red>您不能在战斗中打开物品栏。</red>"
     blocks:
       #Shown when a player is prevented from breaking a block during combat.
-      prevent-breaking: "<red>您不能在战斗中破坏方块。"
+      prevent-breaking: "<red>您不能在战斗中破坏方块。</red>"
       #Shown when a player is prevented from breaking a block during combat.
-      prevent-placing: "<red>您不能在战斗中放置方块。"
+      prevent-placing: "<red>您不能在战斗中放置方块。</red>"
       #Shown when a player is prevented from breaking a block during combat.
-      prevent-interaction: "<red>您不能在战斗中使用方块。"
+      prevent-interaction: "<red>您不能在战斗中使用方块。</red>"
       #Shown when a player is prevented from breaking a block during combat.
-      prevent-portal-creation: "<red>您不能在战斗中创建传送门。"
+      prevent-portal-creation: "<red>您不能在战斗中创建传送门。</red>"
     items:
       #Shown when a player is prevented from picking up an item during combat.
-      no-pickup: "<red>您不能在战斗中捡起物品。"
+      no-pickup: "<red>您不能在战斗中捡起物品。</red>"
       #Shown when a player is prevented from dropping an item during combat.
-      no-dropping: "<red>您不能在战斗中丢弃物品。"
+      no-dropping: "<red>您不能在战斗中丢弃物品。</red>"
     buckets:
       #Shown when a player is prevented from emptying a bucket during combat.
-      no-empty: "<red>您不能在战斗中将桶倒空。"
+      no-empty: "<red>您不能在战斗中将桶倒空。</red>"
       #Shown when a player is prevented from filling a bucket during combat.
-      no-fill: "<red>您不能在战斗中将桶装满。"
+      no-fill: "<red>您不能在战斗中将桶装满。</red>"
   damage-tagger:
     #Shown when a player is tagged for an unknown damage type.
     unknown-damage: "<red>您受到伤害了！不要登出！"
@@ -276,7 +276,7 @@ expansion:
       contact: "<red>您被仙人掌扎伤了。不要登出！"
       cramming: "<red>您正在被压扁。不要注销！"
       custom: "<red>您受到了自定义伤害。不要登出！"
-      drowning: "<red>您正在溺水。 不要登出！"
+      drowning: "<red>您正在溺水。不要登出！</red>"
       dryout: "<red>你停留在水中太长。不要登出！</red>" #May be triggered by custom plugins.
       entity-explosion: "<red>您受到了末地水晶的爆炸伤害。不要登出！</red>" #Only triggered by end crystals.
       fall: "<red>您受到了坠落伤害！不要登出！"
@@ -295,13 +295,13 @@ expansion:
       suffocation: "<red>您正在墙内窒息。不要登出！"
       void: "<red>您已掉出这个世界。不要登出！</red>"
       wither: "<red>您正在凋零。不要登出！"
-      world-border: "<red>你太靠近边框了。不要登出！</red>"
+      world-border: "<red>你太靠近世界边界了。不要登出！</red>"
   newbie-helper:
     togglepvp:
       #Shown as the command output for '/togglepvp'.
-      self: "<gray>PVP: {status}"
+      self: "<gray>PVP:</gray> {status}"
       #Shown as the command output for '/togglepvp admin on/off <player>'.
-      admin: "<gray>您将 </gray><yellow>{target}</yellow><gray> 的 PVP 状态更改为 {status}</gray><gray>。"
+      admin: "<green>您将 <gray>{target}</gray> 的PVP状态更改为 <gray>{status}</gray>。</green>"
       #Shown when the '/togglepvp' command is on cooldown.
       cooldown: "<red>您必须等待 </red><gray>{time_left} 秒再使用此命令。"
     #These messages are shown when pvp is disabled for any reason.
@@ -342,7 +342,7 @@ expansion:
     #Shown when a married player is prevented from teleporting to their partner during combat.
     prevent-teleport-partner: "<red>你不允许在战斗中传送给你的伙伴。</red>"
   huskhomes-compatibility:
-    prevent-teleport: "<red>您不能在战斗中进行传送。"
+    prevent-teleport: "<red>您不能在战斗中进行传送。</red>"
   region-protection:
     #Shown when a player tries to enter a no-pvp area during combat.
     default-no-entry: "<red>你不允许在战斗中进入该区域。</red>"
