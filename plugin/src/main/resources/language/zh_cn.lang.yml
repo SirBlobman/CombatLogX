@@ -22,16 +22,16 @@ broadcast:
   #Shown when the plugin is finished loading.
   on-load: "<green><bold>CombatLogX 已成功加载。</bold></green>"
   #Shown when the plugin is finished enabling.
-  on-enable: "<bold><green>CombatLogX 已成功启用。"
+  on-enable: "<green><bold>CombatLogX 已成功启用。</bold></green>"
   #Shown when the plugin is disabled for any reason.
-  on-disable: "<bold><red>CombatLogX 已成功禁用。"
+  on-disable: "<red><bold>CombatLogX 已成功禁用。</bold></red>"
 placeholder:
   #This text is used for the {combatlogx_time_left}
   #This allows server configurations to change the display value of the zero to something like "Not in combat"
   time-left-zero: "0"
   #This text is used when a player does not have an enemy.
   #This can happen when players are tagged by a custom expansion or the tag command.
-  unknown-enemy: "未知敌人"
+  unknown-enemy: "未知"
   status:
     #Shown when the player is in combat.
     fighting: "<red>战斗中</red>"
@@ -54,18 +54,18 @@ placeholder:
 #content: "<message here>"
 combat-timer:
   #Sent to a player when they escape from combat due to the timer running out.
-  expire: "<green>您不再处于战斗状态。</green>"
+  expire: "<green>你不再处于战斗状态。</green>"
   #Sent to a player when they escape from combat due to their enemy being killed.
-  enemy-death: "<green>您不再处于战斗状态，因为您的敌人已死亡。</green>"
+  enemy-death: "<green>你不再处于战斗状态，因为你的敌人已死亡。</green>"
   #Sent when a player is killed during combat.
-  self-death: "<green>您不再处于战斗中，因为您已死亡。</green>"
+  self-death: "<green>你不再处于战斗中，因为你已死亡。</green>"
 error:
   #Shown when the console tries to execute a command made for players.
   player-only: "<red>仅玩家可以使用此命令。</red>"
   #Shown when a player tries to execute a command made for the server console.
   console-only: "<red>仅控制台可以执行此命令！</red>"
   #Shown when a command that requires a player has invalid input.
-  invalid-target: "<red><gray>{target}</gray> 不在线或不存在。</red>"
+  invalid-target: "<red><gray>{target}</gray>不在线或不存在。</red>"
   #Shown when a command that requires a number has invalid input.
   invalid-integer: "<red><gray>{value}</gray> 不是一个有效的整数。</red>"
   #Shown when a player does not have access to something that requires a permission.
@@ -73,12 +73,12 @@ error:
   #Shown when a player executes a command in a world that is disabled in the configuration.
   disabled-world: "<red>该命令在此维度中不可用。</red>"
   #Shown when a command requires a player in combat but the target player is not in combat.
-  target-not-in-combat: "<red><gray>{target}</gray> 未在战斗中。</red>"
+  target-not-in-combat: "<red><gray>{target}</gray>未处于战斗状态。</red>"
   #Shown when a player executes a command that requires them to be in combat.
-  self-not-in-combat: "<green>您未处于战斗状态。"
+  self-not-in-combat: "<red>你未处于战斗状态。</red>"
   #Shown when a command that requires an expansion has invalid input.
-  unknown-expansion: "<gray>{target}</gray><red> 不是扩展或未安装。"
-  forgive-not-enemy: "<red><gray>{target}</gray> 不是你的敌人。</red>"
+  unknown-expansion: "<red><gray>{target}</gray> 不是一个扩展或未被安装。</red>"
+  forgive-not-enemy: "<red><gray>{target}</gray>不是你的敌人。</red>"
   enemy-not-forgiving: "<red>那个敌人不想原谅你。</red>"
 command:
   combatlogx:
@@ -92,7 +92,7 @@ command:
       - "  <bold><white>/combatlogx tag \\<player></white></bold><gray>: 强制使玩家进入战斗状态。"
       - "  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>: 启用或禁用通知类型。"
       - "  <bold><white>/combatlogx untag \\<player></white></bold><gray>: 强制使玩家退出战斗状态。"
-      - "  <bold><white>/combatlogx version</white></bold><gray>: 检查您的 CombatLogX 版本。"
+      - "  <bold><white>/combatlogx version</white></bold><gray>: 检查你的 CombatLogX 版本。"
       - "  <white><bold>/combatlogx forgive request \\<player></bold></white><gray>: 向敌人发送请求，要求他们从你身上移除标签</gray>"
       - "  <white><bold>/combatlogx forgive accept \\<player></bold></white><gray>: 允许敌人要求逃离战斗.</gray>"
       - "  <white><bold>/combatlogx forgive reject \\<player></bold></white><gray>: 忽略敌人逃离战斗的请求.</gray>"
@@ -110,7 +110,7 @@ command:
     #Shown as the command output for '/combatlogx tag <player>' when a player is tagged successfully.
     tag-player: "<green>成功强制玩家 </green><gray>{target}</gray><green> 进入战斗。"
     #Shown as the command output for '/combatlogx tag <player>' when the plugin failed to tag a player.
-    tag-failure: "<gray>{target}</gray><red> 无法进入战斗。(或许他们被绕过了？)"
+    tag-failure: "<red><gray>{target}</gray>无法进入战斗状态。(或许他们绕过了反作弊?)</red>"
     #Shown as the command output for '/combatlogx untag <player>'.
     untag-player: "<green>成功强制玩家 </green><gray>{target}</gray><green> 退出战斗。"
     #Shown as the command output for '/combatlogx toggle bossbar'.
@@ -132,10 +132,10 @@ command:
       - "<white><bold>作者:</bold></white> <gray>{authors}</gray>"
     forgive:
       toggle-disable: "<green>你不能再收到宽恕请求.</green>"
-      toggle-enable: "<green>您现在可以收到宽恕请求.</green>"
-      request-sent: "<green>您向 <gray>{target}</gray> 发送了原谅请求.</green>"
+      toggle-enable: "<green>你现在可以收到宽恕请求.</green>"
+      request-sent: "<green>你向 <gray>{target}</gray> 发送了原谅请求.</green>"
       request-receive:
-        - "<green><gray>{player}</gray> 向您发送了宽恕请求.</green>"
+        - "<green><gray>{player}</gray> 向你发送了宽恕请求.</green>"
         - "<green>输入 <click:run_command:/combatlogx forgive accept><gray>/clx forgive accept</gray></click> 以接受.</green>"
         - "<green><click:run_command:/combatlogx forgive reject><gray>/clx forgive reject</gray></click> 以拒绝.</green>"
   combat-timer:
@@ -153,41 +153,41 @@ command:
 #content: "<message here>"
 tagged:
   unknown:
-    player: "<red>您现在与 <white>{enemy}</white> 作战，原因不详。请不要登出！</red>"
-    mob: "<red>您现在正在与a(n)作战， <white>{enemy}</white> 原因不明。请不要登出！</red>"
-    mythic_mob: "<red>您现在正在与a(n)作战， <white>{mob_type}</white> 原因不明。请不要登出！</red>"
+    player: "<red>你现在与 <white>{enemy}</white> 作战，原因不详。请不要登出！</red>"
+    mob: "<red>你现在正在与a(n)作战， <white>{enemy}</white> 原因不明。请不要登出！</red>"
+    mythic_mob: "<red>你现在正在与a(n)作战， <white>{mob_type}</white> 原因不明。请不要登出！</red>"
     damage: "<red>你现在正处于战斗中因为受到伤害。请不要登出！</red>"
-    unknown: "<red>你没有理由被置于战斗中。请不要注销</red>"
+    unknown: "<red>你被无理由置于战斗状态中。请不要登出。</red>"
   attacked:
-    player: "<red>您正在被</red><white>{enemy}</white><red>攻击。不要登出！"
-    mob: "<red>您正在被</red><white>{mob_type}</white><red>攻击。不要登出！"
-    mythic_mob: "<red>你正在遭到a(n) <white>{enemy}</white>的攻击。不要登出！</red>"
-    damage: "<red>你现在正处于战斗中因为受到伤害。请不要登出！</red>"
+    player: "<red>你正在被<white>{enemy}</white>攻击。不要登出！</red>"
+    mob: "<red>你正在被<white>{mob_type}</white>攻击。不要登出！</red>"
+    mythic_mob: "<red>你正在被<white>{enemy}</white>攻击。不要登出！</red>"
+    damage: "<red>你因受到伤害而处于战斗状态中。请不要登出！</red>"
     unknown: "<red>你正在受到未知力量的攻击。请不要登出！</red>"
   attacker:
-    player: "<red>你正在攻击</red><white>{enemy}</white><red>. 不要登出！"
-    mob: "<red>你正在攻击一只</red><white>{mob_type}</white><red>. 不要登出！"
-    mythic_mob: "<red>您正在攻击(n) <white>{enemy}</white>。请不要登出！</red>"
-    damage: "<red>你现在正处于战斗中因为受到伤害。请不要登出！</red>"
+    player: "<red>你正在攻击<white>{enemy}</white>。不要登出！</red>"
+    mob: "<red>你正在攻击<white>{mob_type}</white>。不要登出！</red>"
+    mythic_mob: "<red>你正在攻击<white>{enemy}</white>。不要登出！</red>"
+    damage: "<red>你因受到伤害而处于战斗状态中。请不要登出！</red>"
     unknown: "<red>你正在攻击一个未知的力量。请不要登出！</red>"
 expansion:
   angel-chest:
     #Shown when opening an AngelChest is prevented during combat.
-    prevent-opening: "<red>你不允许在战斗中打开天使宝箱。</red>"
+    prevent-opening: "<red>你不能在战斗中打开天使箱。</red>"
     #Shown when breaking an AngelChest is prevented during combat.
-    prevent-breaking: "<red>在战斗中不允许破坏天使宝箱。</red>"
+    prevent-breaking: "<red>你不能战斗中破坏天使箱。</red>"
     #Shown when fast looting an AngelChest is prevented during combat.
     prevent-fast-looting: "<red>在战斗中你不允许快速战利品天使宝箱。</red>"
   action-bar:
     #Shown above the hotbar while a player is in combat.
-    timer: "<bold><gold>战斗</gold> <gray>\u00BB</gray></bold> <white>{bars} <red>{combatlogx_time_left}</red> 秒。</white>"
+    timer: "<bold><gold>战斗中</gold> <gray>\u00BB</gray></bold> <white>{bars} <red>{combatlogx_time_left}</red> 秒</white>"
     #Shown above the hotbar for a brief period when combat ends.
-    ended: "<bold><gold>战斗</gold> <gray>\u00BB</gray></bold> <white>你不再在战斗中。</white>"
+    ended: "<bold><gold>战斗中</gold> <gray>\u00BB</gray></bold> <white>你不再处于战斗中</white>"
   boss-bar:
     #Shown on top of the screen while a player is in combat.
-    timer: "<bold><gold>战斗</gold> <gray>\u00BB</gray></bold> <white><red>{combatlogx_time_left}</red> 秒。</white>"
+    timer: "<bold><gold>战斗中</gold> <gray>\u00BB</gray></bold> <white><red>{combatlogx_time_left}</red> 秒</white>"
     #Shown on top of the screen for a brief period when combat ends.
-    ended: "<bold><gold>战斗</gold> <gray>\u00BB</gray></bold> <white>你不再在战斗中。</white>"
+    ended: "<bold><gold>战斗中</gold> <gray>\u00BB</gray></bold> <white>你不再处于战斗中</white>"
   scoreboard:
     #The scoreboard title for the sidebar.
     #Make sure to follow the scoreboard title limits for your Spigot version.
@@ -208,164 +208,164 @@ expansion:
       - " "
   cheat-prevention:
     #Shown when a command execution is prevented during combat.
-    command-blocked: "<red>您不能在战斗中使用 </red><green>{command}</green><red>"
+    command-blocked: "<red>你不能在战斗中使用<gray>{command}</gray>。<red>"
     #Shown when the riptide effect is prevented during combat.
     no-riptide: "<red>战斗期间禁用激流附魔。</red>"
     #Shown when a totem of undying is prevented during combat.
-    no-totem: "<red>您不能在战斗中使用不死图腾。"
+    no-totem: "<red>你不能在战斗中使用不死图腾。"
     #Shown when an entity interaction is prevented during combat.
-    no-entity-interaction: "<red>您不能在战斗中与那只怪物交互。"
+    no-entity-interaction: "<red>你不能在战斗中与那只怪物交互。"
     #Shown when a chat message is prevented during combat.
-    no-chat: "<red>您不能在战斗中发送聊天消息。"
+    no-chat: "<red>你不能在战斗中发送聊天消息。</red>"
     game-mode:
       #Shown when a player is forced into a specific game mmode during combat.
-      force-switch: "<red>您的游戏模式已被设置为 </red><white>{game_mode}</white><red>。"
+      force-switch: "<red>你的游戏模式已被设置为<gray>{game_mode}</gray>。</red>"
       #Shown when a game mode switch is prevented during combat.
-      no-switch: "<red>您不能在战斗中更改游戏模式。"
+      no-switch: "<red>你不能在战斗中更改游戏模式。</red>"
     flight:
       #Shown when a player's ability to fly is disabled during combat.
-      force-disabled: "<red>您的飞行能力已被移除。"
+      force-disabled: "<red>你的飞行能力已被移除。</red>"
       #Shown when a player's attempt to fly is prevented during combat.
-      no-flying: "<red>您不能在战斗中飞行。"
+      no-flying: "<red>你不能在战斗中飞行。</red>"
     elytra:
       #Shown when a player's ability to glide is disabled during combat.
-      force-disabled: "<red>您的鞘翅已被禁用。"
+      force-disabled: "<red>你的鞘翅已被禁用。</red>"
       #Shown when a player's attempt to glide is prevented during combat.
-      no-gliding: "<red>您不能在战斗中使用鞘翅。"
+      no-gliding: "<red>你不能在战斗中使用鞘翅。</red>"
       #Shown when a player tries to use fireworks.
-      no-fireworks: "<red>您不能在战斗中发射烟花火箭。</red>"
+      no-fireworks: "<red>你不能在战斗中发射烟花火箭。</red>"
     teleportation:
       #Shown when a player tries to enter a portal and is prevented during combat.
-      block-portal: "<red>您不能在战斗中使用传送门。"
+      block-portal: "<red>你不能在战斗中使用传送门。</red>"
       #Shown when an ender pearl is prevented during combat.
-      block-pearl: "<red>您不能在战斗中使用末影珍珠。"
+      block-pearl: "<red>你不能在战斗中使用末影珍珠。</red>"
       #Shown when a teleport is prevented during combat.
-      block-other: "<red>您不能在战斗中进行传送。</red>"
+      block-other: "<red>你不能在战斗中进行传送。</red>"
     inventory:
       #Shown when a player's inventory is closed by the plugin during combat.
-      force-closed: "<red>您的物品栏已被关闭。</red>"
+      force-closed: "<red>你的物品栏已被关闭。</red>"
       #Shown when a player tries to open an inventory and is prevented during combat.
-      no-opening: "<red>您不能在战斗中打开物品栏。</red>"
+      no-opening: "<red>你不能在战斗中打开物品栏。</red>"
     blocks:
       #Shown when a player is prevented from breaking a block during combat.
-      prevent-breaking: "<red>您不能在战斗中破坏方块。</red>"
+      prevent-breaking: "<red>你不能在战斗中破坏方块。</red>"
       #Shown when a player is prevented from breaking a block during combat.
-      prevent-placing: "<red>您不能在战斗中放置方块。</red>"
+      prevent-placing: "<red>你不能在战斗中放置方块。</red>"
       #Shown when a player is prevented from breaking a block during combat.
-      prevent-interaction: "<red>您不能在战斗中使用方块。</red>"
+      prevent-interaction: "<red>你不能在战斗中使用方块。</red>"
       #Shown when a player is prevented from breaking a block during combat.
-      prevent-portal-creation: "<red>您不能在战斗中创建传送门。</red>"
+      prevent-portal-creation: "<red>你不能在战斗中创建传送门。</red>"
     items:
       #Shown when a player is prevented from picking up an item during combat.
-      no-pickup: "<red>您不能在战斗中捡起物品。</red>"
+      no-pickup: "<red>你不能在战斗中捡起物品。</red>"
       #Shown when a player is prevented from dropping an item during combat.
-      no-dropping: "<red>您不能在战斗中丢弃物品。</red>"
+      no-dropping: "<red>你不能在战斗中丢弃物品。</red>"
     buckets:
       #Shown when a player is prevented from emptying a bucket during combat.
-      no-empty: "<red>您不能在战斗中将桶倒空。</red>"
+      no-empty: "<red>你不能在战斗中将桶倒空。</red>"
       #Shown when a player is prevented from filling a bucket during combat.
-      no-fill: "<red>您不能在战斗中将桶装满。</red>"
+      no-fill: "<red>你不能在战斗中将桶装满。</red>"
   damage-tagger:
     #Shown when a player is tagged for an unknown damage type.
-    unknown-damage: "<red>您受到伤害了！不要登出！"
+    unknown-damage: "<red>你受到了伤害！不要登出！</red>"
     #These messages are shown when a player is tagged for a known damage type.
     #You can find a list of damage types here:
     #https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/EntityDamageEvent.DamageCause.html
     damage-type:
-      block-explosion: "<red>您受到了爆炸伤害。不要登出！"
-      contact: "<red>您被仙人掌扎伤了。不要登出！"
-      cramming: "<red>您正在被压扁。不要注销！"
-      custom: "<red>您受到了自定义伤害。不要登出！"
-      drowning: "<red>您正在溺水。不要登出！</red>"
-      dryout: "<red>你停留在水中太长。不要登出！</red>" #May be triggered by custom plugins.
-      entity-explosion: "<red>您受到了末地水晶的爆炸伤害。不要登出！</red>" #Only triggered by end crystals.
-      fall: "<red>您受到了坠落伤害！不要登出！"
-      falling-block: "<red>方块砸到了你身上。不要登出！"
-      fire: "<red>您走到了火里。不要登出！"
-      fire-tick: "<red>您正在燃烧。 不要登出！"
-      fly-into-wall: "<red>你感受到了动能。不要登出！"
-      freeze: "<red>您正在被冻结。 不要登出！</red>"
-      hot-floor: "<red>地板是岩浆做的！不要登出！"
-      lava: "<red>您正在岩浆里游泳。不要登出！"
-      lightning: "<red>您被闪电劈了！不要登出！"
-      magic: "<red>有人向您扔药水。不要登出！"
-      melting: "<red>您正在熔化。 不要登出！</red>" #May be triggered by custom plugins.
-      poison: "<red>您受到了药水伤害。不要登出！"
-      starvation: "<red>您太饿了。 不要登出！"
-      suffocation: "<red>您正在墙内窒息。不要登出！"
-      void: "<red>您已掉出这个世界。不要登出！</red>"
-      wither: "<red>您正在凋零。不要登出！"
+      block-explosion: "<red>你受到了爆炸伤害。不要登出！</red>"
+      contact: "<red>你被仙人掌扎伤了。不要登出！</red>"
+      cramming: "<red>你正在被压扁。不要登出！</red>"
+      custom: "<red>你受到了自定义伤害。不要登出！</red>"
+      drowning: "<red>你正在溺水。不要登出！</red>"
+      dryout: "<red>你停留在水外太长。不要登出！</red>" #May be triggered by custom plugins.
+      entity-explosion: "<red>你受到了末地水晶的爆炸伤害。不要登出！</red>" #Only triggered by end crystals.
+      fall: "<red>你受到了坠落伤害！不要登出！</red>"
+      falling-block: "<red>一个方块砸到你身上了。不要登出！</red>"
+      fire: "<red>你走到了火里。不要登出！</red>"
+      fire-tick: "<red>你正在燃烧。不要登出！</red>"
+      fly-into-wall: "<red>你感受到了动能。不要登出！</red>"
+      freeze: "<red>你正在被冻结。 不要登出！</red>"
+      hot-floor: "<red>地板是岩浆做的！不要登出！</red>"
+      lava: "<red>你正在岩浆里游泳。不要登出！</red>"
+      lightning: "<red>你被闪电劈了！不要登出！</red>"
+      magic: "<red>有人向你扔药水。不要登出！</red>"
+      melting: "<red>你正在熔化！不要登出。</red>" #May be triggered by custom plugins.
+      poison: "<red>你受到了药水伤害。不要登出！</red>"
+      starvation: "<red>你太饿了。不要登出！</red>"
+      suffocation: "<red>你正在墙里窒息。不要登出！</red>"
+      void: "<red>你掉出了这个世界。不要登出！</red>"
+      wither: "<red>你正在凋零。不要登出！</red>"
       world-border: "<red>你太靠近世界边界了。不要登出！</red>"
   newbie-helper:
     togglepvp:
       #Shown as the command output for '/togglepvp'.
       self: "<gray>PVP:</gray> {status}"
       #Shown as the command output for '/togglepvp admin on/off <player>'.
-      admin: "<green>您将 <gray>{target}</gray> 的PVP状态更改为 <gray>{status}</gray>。</green>"
+      admin: "<green>你将 <gray>{target}</gray> 的PVP状态更改为 <gray>{status}</gray>。</green>"
       #Shown when the '/togglepvp' command is on cooldown.
-      cooldown: "<red>您必须等待 </red><gray>{time_left} 秒再使用此命令。"
+      cooldown: "<red>你必须等待<gray>{time_left}</gray>秒才能再次使用此命令。</red>"
     #These messages are shown when pvp is disabled for any reason.
     no-pvp:
-      self: "<red>您不能在PvP禁用时攻击该玩家。"
+      self: "<red>你不能在PvP禁用时攻击该玩家。"
       other: "<red>该玩家已禁用PvP。"
-      protected: "<red>那个玩家受到保护，你无法攻击他们！"
+      protected: "<red>那个玩家受到保护，你无法攻击！</red>"
       cancel: "<red>由于你受到保护，暂时无法攻击其他玩家！</red>"
     protection-disabled:
       #Shown when newbie protection is disabled due to the player attacking another player.
-      attacker: "<red>您攻击了他人，您的新手保护已被禁用。"
+      attacker: "<red>你攻击了他人，你的新手保护已被禁用。</red>"
       #Shown when newbie protection expires.
-      expired: "<red>您的新手保护已过期。"
+      expired: "<red>你的新手保护已过期。</red>"
     #Shown for the '/togglepvp check <player>' command.
     check-format:
-      - "<gray>{target}</gray><white>& 的信息l:"
-      - "<white>&保护: </white><gray>{protected}"
-      - "<bold><white>PvP: </white></bold><gray>{pvp}"
+      - "<gray>{target}</gray><white><bold>的信息:</bold></white>"
+      - "<white><bold>保护:</bold></white> <gray>{protected}</gray>"
+      - "<white><bold>PvP:</bold></white> <gray>{pvp}</gray>"
   loot-protection:
     #Shown when an enemy dies and their loot is protected.
-    enemy-died: "<white>{enemy} </white><green>已经死亡。战利品将在 </green><white>{time} 秒内受到保护。"
+    enemy-died: "<green><gray>{enemy}</gray>已经死亡。战利品将在<gray>{time}</gray>秒内受到保护。</green>"
     #Shown when a player tries to pick up an item that is loot protected by the plugin.
-    protected: "<red>该物品目前受到保护，请等待 </red><white>{time} 秒</white><red>再来获取它。"
+    protected: "<red>该物品目前受到保护，请等待<gray>{time}</gray>秒再来捡起它。</red>"
   citizens-compatibility:
     #Shown when a player is prevented from joining the server due to their NPC still existing.
-    prevent-join: "<red>您不能加入服务器，直到您的NPC 被杀死或被清除为止。"
+    prevent-join: "<red>你不能加入服务器，直到你的NPC被杀死或被清除为止。</red>"
   disguise-compatibility:
     #Shown when a disguise is removed from a player during combat.
-    remove-disguise: "<red>您的伪装已移除。"
+    remove-disguise: "<red>你的伪装已被移除。</red>"
   essentials-compatibility:
     #Shown when a teleport request is cancelled during combat.
-    prevent-teleport-request-self: "<red>您不能在战斗中创建传送请求。"
+    prevent-teleport-request-self: "<red>你不能在战斗中创建传送请求。</red>"
     #Shown when a teleport request is cancelled during combat.
-    prevent-teleport-request-other: "<red>您不能向战斗中的玩家发送传送请求。"
+    prevent-teleport-request-other: "<red>你不能向战斗中的玩家发送传送请求。</red>"
   marriagemaster-compatibility:
     #Shown when a married player is prevented from teleporting to their partner during combat.
     prevent-teleport-self: "<red>在战斗中你不允许传送到你的伙伴。</red>"
     #Shown when a married player is prevented from teleporting to their partner during combat.
-    prevent-teleport-partner: "<red>你不允许在战斗中传送给你的伙伴。</red>"
+    prevent-teleport-partner: "<red>你不能传送至正在战斗中的伙伴。</red>"
   huskhomes-compatibility:
-    prevent-teleport: "<red>您不能在战斗中进行传送。</red>"
+    prevent-teleport: "<red>你不能在战斗中进行传送。</red>"
   region-protection:
     #Shown when a player tries to enter a no-pvp area during combat.
-    default-no-entry: "<red>你不允许在战斗中进入该区域。</red>"
-    factions-no-entry: <red>您不能在战斗中进入那片区域。
-    griefdefender-no-entry: <red>您不能在战斗中进入那片区域。
-    griefprevention-no-entry: <red>您不能在战斗中进入那片区域。
-    kingdomsx-no-entry: <red>您不能在战斗中进入那片区域。
-    konquest-no-entry: <red>您不能在战斗中进入那片区域。
-    redprotect-no-entry: <red>您不能在战斗中进入那片区域。
-    residence-no-entry: <red>您不能在战斗中进入那片区域。
-    towny-no-entry: <red>您不能在战斗中进入那片区域。
-    husktowns-no-entry: <red>你不允许在战斗中进入该区域。</red>
-    ultimateclaims-no-entry: <red>您不能在战斗中进入那片区域。
+    default-no-entry: "<red>你不能在战斗中进入那片区域。</red>"
+    factions-no-entry: <red>你不能在战斗中进入那片区域。</red>
+    griefdefender-no-entry: <red>你不能在战斗中进入那片区域。</red>
+    griefprevention-no-entry: <red>你不能在战斗中进入那片区域。</red>
+    kingdomsx-no-entry: <red>你不能在战斗中进入那片区域。</red>
+    konquest-no-entry: <red>你不能在战斗中进入那片区域。</red>
+    redprotect-no-entry: <red>你不能在战斗中进入那片区域。</red>
+    residence-no-entry: <red>你不能在战斗中进入那片区域。</red>
+    towny-no-entry: <red>你不能在战斗中进入那片区域。</red>
+    husktowns-no-entry: <red>你不能在战斗中进入那片区域。</red>
+    ultimateclaims-no-entry: <red>你不能在战斗中进入那片区域。</red>
     protectionstones:
-      prevent-area-creation: "<red>您不能在战斗中创建保护区域。"
-      no-entry: <red>您不能在战斗中进入那片区域。
+      prevent-area-creation: "<red>你不能在战斗中创建保护区域。</red>"
+      no-entry: <red>你不能在战斗中进入那片区域。</red>
     preciousstones:
-      prevent-field-creation: "<red>您不能在战斗中创建保护区域。"
-      no-entry: <red>您不能在战斗中进入那片区域。
+      prevent-field-creation: "<red>你不能在战斗中创建保护区域。</red>"
+      no-entry: <red>你不能在战斗中进入那片区域。</red>
     worldguard:
-      no-entry-mob-combat: "<red>您不能在战斗中进入非怪物战斗区域。"
-      no-entry-player-combat: "<red>您不能在战斗中进入非玩家战斗区域。"
-      no-entry-unknown-combat: <red>您不能在战斗中进入那片区域。
+      no-entry-mob-combat: "<red>你不能在战斗中进入非怪物战斗区域。</red>"
+      no-entry-player-combat: "<red>你不能在战斗中进入非玩家战斗区域。</red>"
+      no-entry-unknown-combat: <red>你不能在战斗中进入那片区域。</red>
     lands:
-      no-entry: <red>你不允许在战斗中进入该区域。</red>
+      no-entry: <red>你不能在战斗中进入那片区域。</red>
       war-disable-newbie-protection: "<red>由于战争声明已启用PvP。</red>"
