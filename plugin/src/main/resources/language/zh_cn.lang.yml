@@ -17,10 +17,10 @@ language-name: "zh_cn"
 decimal-format: "0.00"
 #The prefix for CombatLogX that is shown in front of all messages.
 #Note to translators: Do not change this message.
-prefix: "<bold><white>[</white></bold><gold>CombatLogX</gold><bold><white>]"
+prefix: "<white><bold>[<gold>CombatLogX</gold>]</bold></white>"
 broadcast:
   #Shown when the plugin is finished loading.
-  on-load: "<bold><green>CombatLogX 已成功加载。"
+  on-load: "<green><bold>CombatLogX 已成功加载。</bold></green>"
   #Shown when the plugin is finished enabling.
   on-enable: "<bold><green>CombatLogX 已成功启用。"
   #Shown when the plugin is disabled for any reason.
@@ -34,18 +34,18 @@ placeholder:
   unknown-enemy: "未知敌人"
   status:
     #Shown when the player is in combat.
-    fighting: "<red>战斗中"
-    in-combat: "<green>是"
+    fighting: "<red>战斗中</red>"
+    in-combat: "<green>是</green>"
     #Shown when the player is not in combat
     idle: "<green>空闲中"
-    not-in-combat: "<red>否"
+    not-in-combat: "<red>否</red>"
   #These placeholders are shown when a player changes a value such as whether or not their bossbar is enabled.
   toggle:
-    enabled: "<green>开启"
-    disabled: "<red>关闭"
+    enabled: "<green>开启</green>"
+    disabled: "<red>关闭</red>"
   pvp-status:
-    enabled: "<green>开启"
-    disabled: "<red>关闭"
+    enabled: "<green>开启</green>"
+    disabled: "<red>关闭</red>"
 #You can also change the location of these messages.
 #Example:
 #combat-timer:
@@ -54,20 +54,20 @@ placeholder:
 #content: "<message here>"
 combat-timer:
   #Sent to a player when they escape from combat due to the timer running out.
-  expire: "<green>您不再处于战斗状态。"
+  expire: "<green>您不再处于战斗状态。</green>"
   #Sent to a player when they escape from combat due to their enemy being killed.
-  enemy-death: "<green>您不再处于战斗状态，因为您的敌人已死亡。"
+  enemy-death: "<green>您不再处于战斗状态，因为您的敌人已死亡。</green>"
   #Sent when a player is killed during combat.
-  self-death: "<green>您不再处于战斗中，因为您已经死了</green>"
+  self-death: "<green>您不再处于战斗中，因为您已死亡。</green>"
 error:
   #Shown when the console tries to execute a command made for players.
-  player-only: "<red>此命令仅玩家可用。"
+  player-only: "<red>仅玩家可以使用此命令。</red>"
   #Shown when a player tries to execute a command made for the server console.
-  console-only: "<red>这个指令只能由控制台执行！</red>"
+  console-only: "<red>仅控制台可以执行此命令！</red>"
   #Shown when a command that requires a player has invalid input.
-  invalid-target: "<gray>{target}</gray><red> 不在线或不存在。"
+  invalid-target: "<red><gray>{target}</gray> 不在线或不存在。</red>"
   #Shown when a command that requires a number has invalid input.
-  invalid-integer: "<red><gray>{value}</gray> 不是一个有效的整数</red>"
+  invalid-integer: "<red><gray>{value}</gray> 不是一个有效的整数。</red>"
   #Shown when a player does not have access to something that requires a permission.
   no-permission: "<red>缺少权限: <gray>{permission}</gray></red>"
   #Shown when a player executes a command in a world that is disabled in the configuration.
