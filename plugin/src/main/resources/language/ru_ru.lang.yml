@@ -232,6 +232,8 @@ expansion:
       force-disabled: "<red>Ваши элитры были отключены.</red>"
       #Shown when a player's attempt to glide is prevented during combat.
       no-gliding: "<red>Вы не можете использовать элитры во время боя.</red>"
+      #Shown when a player tries to use fireworks.
+      no-fireworks: "<red>Вы не можете запускать фейерверки во время боя.</red>"
     teleportation:
       #Shown when a player tries to enter a portal and is prevented during combat.
       block-portal: "<red>Вы не можете использовать портал во время боя.</red>"
