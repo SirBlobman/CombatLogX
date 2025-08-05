@@ -110,7 +110,7 @@ command:
     #Shown as the command output for '/combatlogx tag <player>' when a player is tagged successfully.
     tag-player: "<green>成功强迫玩家<gray>{target}</gray>进入战斗状态。</green>"
     #Shown as the command output for '/combatlogx tag <player>' when the plugin failed to tag a player.
-    tag-failure: "<red><gray>{target}</gray>无法进入战斗状态。(或许他们绕过了反作弊?)</red>"
+    tag-failure: "<red><gray>{target}</gray>无法进入战斗状态。(或许他们拥有某种绕过权限?)</red>"
     #Shown as the command output for '/combatlogx untag <player>'.
     untag-player: "<green>成功强迫玩家<gray>{target}</gray>退出战斗状态。</green>"
     #Shown as the command output for '/combatlogx toggle bossbar'.
