@@ -37,7 +37,7 @@ placeholder:
     fighting: "<red>战斗中</red>"
     in-combat: "<green>是</green>"
     #Shown when the player is not in combat
-    idle: "<green>空闲中"
+    idle: "<green>空闲中</green>"
     not-in-combat: "<red>否</red>"
   #These placeholders are shown when a player changes a value such as whether or not their bossbar is enabled.
   toggle:
@@ -85,40 +85,40 @@ command:
     #Shown as the command output for '/combatlogx help'.
     help-message-list:
       - ""
-      - "<bold><gold>CombatLogX 命令帮助："
-      - "  <bold><white>/CombatLogX help</white></bold><gray>：查看该帮助页面。"
-      - "  <bold><white>/CombatLogX reload</white></bold><gray>: 重新装入config.yml, language.yml和所有扩展配置文件。"
-      - "  <bold><white>/combatlogx about \\<expansion></white></bold><gray>: 检查扩展的信息。"
-      - "  <bold><white>/combatlogx tag \\<player></white></bold><gray>: 强制使玩家进入战斗状态。"
-      - "  <bold><white>/combatlogx toggle bossbar/actionbar/scoreboard</white></bold><gray>: 启用或禁用通知类型。"
-      - "  <bold><white>/combatlogx untag \\<player></white></bold><gray>: 强制使玩家退出战斗状态。"
-      - "  <bold><white>/combatlogx version</white></bold><gray>: 检查你的 CombatLogX 版本。"
-      - "  <white><bold>/combatlogx forgive request \\<player></bold></white><gray>: 向敌人发送请求，要求他们从你身上移除标签</gray>"
-      - "  <white><bold>/combatlogx forgive accept \\<player></bold></white><gray>: 允许敌人要求逃离战斗.</gray>"
-      - "  <white><bold>/combatlogx forgive reject \\<player></bold></white><gray>: 忽略敌人逃离战斗的请求.</gray>"
-      - "  <white><bold>/combatlogx forgive toggle</bold></white><gray>: 启用或禁用停止战斗的请求.</gray>"
+      - "<gold><bold>CombatLogX 命令帮助:</bold></gold>"
+      - "  <white><bold>/combatlogx help</bold></white><gray>: 查看帮助页面。</gray>"
+      - "  <white><bold>/combatlogx reload</bold></white><gray>: 重新载入config.yml、language.yml以及扩展配置文件。</gray>"
+      - "  <white><bold>/combatlogx about \\<expansion></bold></white><gray>: 检查扩展信息。</gray>"
+      - "  <white><bold>/combatlogx tag \\<player> [seconds]</bold></white><gray>: 强迫玩家进入战斗状态。</gray>"
+      - "  <white><bold>/combatlogx toggle bossbar/actionbar/scoreboard</bold></white><gray>: 启用或禁用一种通知类型。</gray>"
+      - "  <white><bold>/combatlogx tag \\<player> [seconds]</bold></white><gray>: 强迫玩家进入战斗状态。</gray>"
+      - "  <white><bold>/combatlogx version</bold></white><gray>: 检查 CombatLogX 版本。</gray>"
+      - "  <white><bold>/combatlogx forgive request \\<player></bold></white><gray>: 向敌人发送请求，要求移除你所导致的战斗状态。</gray>"
+      - "  <white><bold>/combatlogx forgive accept \\<player></bold></white><gray>: 允许敌人要求避免战斗。</gray>"
+      - "  <white><bold>/combatlogx forgive reject \\<player></bold></white><gray>: 忽略敌人避免战斗的请求。</gray>"
+      - "  <white><bold>/combatlogx forgive toggle</bold></white><gray>: 启用或禁用停止战斗的请求。</gray>"
       - ""
     #Shown as the command output for '/combatlogx reload' when reloading is successful.
     reload-success:
-      - "<green>成功重载 CombatLogX 中的所有配置文件。"
-      - "<green>成功重载 CombatLogX 中的所有语言文件。"
-      - "<green>成功重载 CombatLogX 中的所有扩展配置文件。"
+      - "<green>成功重载 CombatLogX 中所有的配置文件。</green>"
+      - "<green>成功重载 CombatLogX 中所有的语言文件。</green>"
+      - "<green>成功重载 CombatLogX 中所有的扩展配置文件。</green>"
     #Shown as the command output for '/combatlogx reload' when reloading fails
     reload-failure:
       - "<red>重载配置时出错。</red>"
-      - "<red>请检查服务器日志并修复损坏的文件</red>"
+      - "<red>请检查服务器日志并修复损坏的文件。</red>"
     #Shown as the command output for '/combatlogx tag <player>' when a player is tagged successfully.
-    tag-player: "<green>成功强制玩家 </green><gray>{target}</gray><green> 进入战斗。"
+    tag-player: "<green>成功强迫玩家<gray>{target}</gray>进入战斗状态。</green>"
     #Shown as the command output for '/combatlogx tag <player>' when the plugin failed to tag a player.
     tag-failure: "<red><gray>{target}</gray>无法进入战斗状态。(或许他们绕过了反作弊?)</red>"
     #Shown as the command output for '/combatlogx untag <player>'.
-    untag-player: "<green>成功强制玩家 </green><gray>{target}</gray><green> 退出战斗。"
+    untag-player: "<green>成功强迫玩家<gray>{target}</gray>退出战斗状态。</green>"
     #Shown as the command output for '/combatlogx toggle bossbar'.
-    toggle-bossbar: "<bold><gray>Boss 条: {status}"
+    toggle-bossbar: "<gray><bold>Boss条:</bold></gray> {status}"
     #Shown as the command output for '/combatlogx toggle actionbar'.
-    toggle-actionbar: "<bold><gray>快捷标题栏: {status}"
+    toggle-actionbar: "<gray><bold>底部信息栏:</bold></gray> {status}"
     #Shown as the command output for '/combatlogx toggle scoreboard'.
-    toggle-scoreboard: "<gray>记分板: {status}"
+    toggle-scoreboard: "<gray><bold>计分板:</bold></gray> {status}"
     #Shown as the command output for '/combatlogx about <expansion>'.
     expansion-information:
       - ""
@@ -131,18 +131,18 @@ command:
       - "<white><bold>网站:</bold></white> <gray>{website}</gray>"
       - "<white><bold>作者:</bold></white> <gray>{authors}</gray>"
     forgive:
-      toggle-disable: "<green>你不能再收到宽恕请求.</green>"
-      toggle-enable: "<green>你现在可以收到宽恕请求.</green>"
-      request-sent: "<green>你向 <gray>{target}</gray> 发送了原谅请求.</green>"
+      toggle-disable: "<green>你不再接收宽恕请求。</green>"
+      toggle-enable: "<green>你现在可以接收宽恕请求。</green>"
+      request-sent: "<green>你向<gray>{target}</gray>发送了宽恕请求。</green>"
       request-receive:
-        - "<green><gray>{player}</gray> 向你发送了宽恕请求.</green>"
-        - "<green>输入 <click:run_command:/combatlogx forgive accept><gray>/clx forgive accept</gray></click> 以接受.</green>"
-        - "<green><click:run_command:/combatlogx forgive reject><gray>/clx forgive reject</gray></click> 以拒绝.</green>"
+        - "<green><gray>{player}</gray>向你发送了宽恕请求。</green>"
+        - "<green>输入 <click:run_command:/combatlogx forgive accept><gray>/clx forgive accept</gray></click> 以接受。</green>"
+        - "<green><click:run_command:/combatlogx forgive reject><gray>/clx forgive reject</gray></click> 以拒绝。</green>"
   combat-timer:
     #Shown as the command output for '/combat-timer'.
-    time-left-self: "<green>你还剩下<gray>{time_left} </gray>秒。</green>"
+    time-left-self: "<green>你还剩下<gray>{time_left}</gray>秒。</green>"
     #Shown as the command output for '/combat-timer <player>'.
-    time-left-other: "<gray>{target}</gray><green> 还剩下</green><gray>{time_left} 秒。</gray><green>"
+    time-left-other: "<green><gray>{target}</gray>还剩下<gray>{time_left}秒</gray>。</green>"
 #These messages are shown a player is tagged into combat.
 #You can also change the location of these messages.
 #Example:
@@ -153,10 +153,10 @@ command:
 #content: "<message here>"
 tagged:
   unknown:
-    player: "<red>你现在与 <white>{enemy}</white> 作战，原因不详。请不要登出！</red>"
-    mob: "<red>你现在正在与a(n)作战， <white>{enemy}</white> 原因不明。请不要登出！</red>"
-    mythic_mob: "<red>你现在正在与a(n)作战， <white>{mob_type}</white> 原因不明。请不要登出！</red>"
-    damage: "<red>你现在正处于战斗中因为受到伤害。请不要登出！</red>"
+    player: "<red>你正在与<white>{enemy}</white>作战，原因不详。请不要登出！</red>"
+    mob: "<red>你正在与<white>{enemy}</white>作战，原因不详。请不要登出！</red>"
+    mythic_mob: "<red>你正在与<white>{mob_type}</white>作战，原因不详。请不要登出！</red>"
+    damage: "<red>你因受到伤害而处于战斗状态中。请不要登出！</red>"
     unknown: "<red>你被无理由置于战斗状态中。请不要登出。</red>"
   attacked:
     player: "<red>你正在被<white>{enemy}</white>攻击。不要登出！</red>"
@@ -177,7 +177,7 @@ expansion:
     #Shown when breaking an AngelChest is prevented during combat.
     prevent-breaking: "<red>你不能战斗中破坏天使箱。</red>"
     #Shown when fast looting an AngelChest is prevented during combat.
-    prevent-fast-looting: "<red>在战斗中你不允许快速战利品天使宝箱。</red>"
+    prevent-fast-looting: "&c你不能在战斗中快速掠夺天使箱。</red>"
   action-bar:
     #Shown above the hotbar while a player is in combat.
     timer: "<bold><gold>战斗中</gold> <gray>\u00BB</gray></bold> <white>{bars} <red>{combatlogx_time_left}</red> 秒</white>"
@@ -198,23 +198,23 @@ expansion:
       - " "
       - "<white><bold>战斗状态：</bold></white>"
       - "<dark_gray>\u00BB</dark_gray> <white><bold>剩余时间：</bold></white> <gray>{combatlogx_time_left}</gray>"
-      - "<dark_gray>\u00BB</dark_gray> <white><bold>Enemies:</bold></white> <gray>{combatlogx_enemy_count}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <white><bold>敌人：</bold></white> <gray>{combatlogx_enemy_count}</gray>"
       - "<dark_gray>\u00BB</dark_gray> <white><bold>状态：</bold></white> <gray>{combatlogx_status}</gray>"
       - " "
-      - "<white><bold>Enemies</bold></white>"
+      - "<white><bold>敌人</bold></white>"
       - "<dark_gray>\u00BB</dark_gray> <gray>{combatlogx_specific_enemy_1_name}</gray>"
       - "<dark_gray>\u00BB</dark_gray> <gray>{combatlogx_specific_enemy_2_name}</gray>"
       - "<dark_gray>\u00BB</dark_gray> <gray>{combatlogx_specific_enemy_3_name}</gray>"
       - " "
   cheat-prevention:
     #Shown when a command execution is prevented during combat.
-    command-blocked: "<red>你不能在战斗中使用<gray>{command}</gray>。<red>"
+    command-blocked: "<red>你不能在战斗中使用 <gray>{command}</gray> 。<red>"
     #Shown when the riptide effect is prevented during combat.
     no-riptide: "<red>战斗期间禁用激流附魔。</red>"
     #Shown when a totem of undying is prevented during combat.
-    no-totem: "<red>你不能在战斗中使用不死图腾。"
+    no-totem: "<red>你不能在战斗中使用不死图腾。</red>"
     #Shown when an entity interaction is prevented during combat.
-    no-entity-interaction: "<red>你不能在战斗中与那只怪物交互。"
+    no-entity-interaction: "<red>你不能在战斗中与那个实体交互。</red>"
     #Shown when a chat message is prevented during combat.
     no-chat: "<red>你不能在战斗中发送聊天消息。</red>"
     game-mode:
@@ -284,7 +284,7 @@ expansion:
       fire: "<red>你走到了火里。不要登出！</red>"
       fire-tick: "<red>你正在燃烧。不要登出！</red>"
       fly-into-wall: "<red>你感受到了动能。不要登出！</red>"
-      freeze: "<red>你正在被冻结。 不要登出！</red>"
+      freeze: "<red>你正在被冻结。不要登出！</red>"
       hot-floor: "<red>地板是岩浆做的！不要登出！</red>"
       lava: "<red>你正在岩浆里游泳。不要登出！</red>"
       lightning: "<red>你被闪电劈了！不要登出！</red>"
@@ -306,8 +306,8 @@ expansion:
       cooldown: "<red>你必须等待<gray>{time_left}</gray>秒才能再次使用此命令。</red>"
     #These messages are shown when pvp is disabled for any reason.
     no-pvp:
-      self: "<red>你不能在PvP禁用时攻击该玩家。"
-      other: "<red>该玩家已禁用PvP。"
+      self: "<red>你不能在自身PvP被禁用时攻击该玩家。</red>"
+      other: "<red>该玩家已禁用PvP。</red>"
       protected: "<red>那个玩家受到保护，你无法攻击！</red>"
       cancel: "<red>由于你受到保护，暂时无法攻击其他玩家！</red>"
     protection-disabled:
@@ -338,7 +338,7 @@ expansion:
     prevent-teleport-request-other: "<red>你不能向战斗中的玩家发送传送请求。</red>"
   marriagemaster-compatibility:
     #Shown when a married player is prevented from teleporting to their partner during combat.
-    prevent-teleport-self: "<red>在战斗中你不允许传送到你的伙伴。</red>"
+    prevent-teleport-self: "<red>你不能在战斗中传送到你的伙伴。</red>"
     #Shown when a married player is prevented from teleporting to their partner during combat.
     prevent-teleport-partner: "<red>你不能传送至正在战斗中的伙伴。</red>"
   huskhomes-compatibility:
@@ -368,4 +368,4 @@ expansion:
       no-entry-unknown-combat: <red>你不能在战斗中进入那片区域。</red>
     lands:
       no-entry: <red>你不能在战斗中进入那片区域。</red>
-      war-disable-newbie-protection: "<red>由于战争声明已启用PvP。</red>"
+      war-disable-newbie-protection: "<red>由于宣战PvP已被启用。</red>"
