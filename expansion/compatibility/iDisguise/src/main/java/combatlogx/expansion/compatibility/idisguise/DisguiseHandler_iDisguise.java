@@ -6,8 +6,7 @@ import org.bukkit.entity.Player;
 
 import com.github.sirblobman.combatlogx.api.expansion.disguise.DisguiseHandler;
 
-import de.robingrether.idisguise.api.DisguiseAPI;
-import de.robingrether.idisguise.iDisguise;
+import de.luisagrether.idisguise.iDisguise;
 
 public final class DisguiseHandler_iDisguise extends DisguiseHandler<Expansion_iDisguise> {
     public DisguiseHandler_iDisguise(@NotNull Expansion_iDisguise expansion) {
@@ -16,18 +15,13 @@ public final class DisguiseHandler_iDisguise extends DisguiseHandler<Expansion_i
 
     @Override
     public boolean hasDisguise(@NotNull Player player) {
-        DisguiseAPI api = getAPI();
-        return api.isDisguised(player);
+        iDisguise plugin = iDisguise.getInstance();
+        return plugin.isDisguised(player);
     }
 
     @Override
     public void removeDisguise(@NotNull Player player) {
-        DisguiseAPI api = getAPI();
-        api.undisguise(player);
-    }
-
-    private @NotNull DisguiseAPI getAPI() {
         iDisguise plugin = iDisguise.getInstance();
-        return plugin.getAPI();
+        plugin.undisguise(player);
     }
 }

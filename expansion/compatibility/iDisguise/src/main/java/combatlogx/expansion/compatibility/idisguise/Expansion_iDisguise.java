@@ -16,7 +16,7 @@ public final class Expansion_iDisguise extends DisguiseExpansion {
 
     @Override
     public boolean checkDependencies() {
-        return checkDependency("iDisguise", true, "5.8");
+        return checkDependency("iDisguise", true, "6");
     }
 
     @Override

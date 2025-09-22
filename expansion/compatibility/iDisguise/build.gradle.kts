@@ -1,7 +1,7 @@
 repositories {
-    maven("https://www.robingrether.de/mc/repo/")
+    maven("https://www.luisagrether.de/mc/repo/")
 }
 
 dependencies {
-    compileOnly("de.robingrether.idisguise:idisguise-core:5.8.2")
+    compileOnly("de.luisagrether.idisguise:idisguise:6.0.1-SNAPSHOT")
 }

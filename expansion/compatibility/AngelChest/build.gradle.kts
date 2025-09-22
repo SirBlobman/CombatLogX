@@ -1,7 +1,7 @@
 repositories {
-    maven("https://repo.jeff-media.com/public/")
+    maven("https://nexus.sirblobman.xyz/proxy-jeff")
 }
 
 dependencies {
-    compileOnly("de.jeff_media:AngelChestAPI:13.6.1")
+    compileOnly("de.jeff_media:AngelChest:13.9.4")
 }
