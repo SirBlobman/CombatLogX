@@ -75,6 +75,49 @@ tagged:
     player: <red>თქვენ უტევთ </red><white>{enemy} </white><red>-(ს). არ გახვიდეთ!
     mob: <red>თქვენ შეუტიეთ </red><white>{mob_type} </white><red>-(ს). არ გახვიდეთ!
 expansion:
+  angel-chest:
+    # Shown when opening an AngelChest is prevented during combat.
+    prevent-opening: "<red>არ შეგიძლია ანგელოზის სკივრის გახსნა ბრძოლის დროს.</red>"
+
+    # Shown when breaking an AngelChest is prevented during combat.
+    prevent-breaking: "<red>არ შეგიძლია ანგელოზის სკივრის მოტეხვა ბრძოლის დროს.</red>"
+
+    # Shown when fast looting an AngelChest is prevented during combat.
+    prevent-fast-looting: "<red>არ შეგიძლია ანგელოზის სკივრის სწრაფად აღება ბრძოლის დროს.</red>"
+
+  action-bar:
+    # Shown above the hotbar while a player is in combat.
+    timer: "<bold><gold>ბრძოლა</gold> <gray>\u00BB</gray></bold> <white>{bars} <red>{combatlogx_time_left}</red> წამი.</white>"
+
+    # Shown above the hotbar for a brief period when combat ends.
+    ended: "<bold><gold>ბრძოლა</gold> <gray>\u00BB</gray></bold> <white>აღარ ხარ ბრძოლაში.</white>"
+
+  boss-bar:
+    # Shown on top of the screen while a player is in combat.
+    timer: "<bold><gold>ბრძოლა</gold> <gray>\u00BB</gray></bold> <white><red>{combatlogx_time_left}</red> წამი.</white>"
+
+    # Shown on top of the screen for a brief period when combat ends.
+    ended: "<bold><gold>ბრძოლა</gold> <gray>\u00BB</gray></bold> <white>აღარ ხარ ბრძოლაში.</white>"
+
+  scoreboard:
+    # The scoreboard title for the sidebar.
+    # Make sure to follow the scoreboard title limits for your Spigot version.
+    title: "<gold><bold>CombatLogX</bold></gold>"
+
+    # The scoreboard lines for the sidebar.
+    # Make sure to follow the scoreboard line and character limits for your Spigot version.
+    lines:
+      - " "
+      - "<white><bold>ბრძოლის სტატისტიკა:</bold></white>"
+      - "<dark_gray>\u00BB</dark_gray> <white><bold>დარჩენილი დრო:</bold></white> <gray>{combatlogx_time_left}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <white><bold>მტრები:</bold></white> <gray>{combatlogx_enemy_count}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <white><bold>მდგომარეობა:</bold></white> <gray>{combatlogx_status}</gray>"
+      - " "
+      - "<white><bold>მტრები</bold></white>"
+      - "<dark_gray>\u00BB</dark_gray> <gray>{combatlogx_specific_enemy_1_name}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <gray>{combatlogx_specific_enemy_2_name}</gray>"
+      - "<dark_gray>\u00BB</dark_gray> <gray>{combatlogx_specific_enemy_3_name}</gray>"
+      - " "
   cheat-prevention:
     command-blocked: <red>თქვენ არ შეგიძლიათ </red><green>{command} </green><red>ბრძანების
       გამოყნება ბრძოლის დროს.
