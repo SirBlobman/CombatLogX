@@ -232,6 +232,8 @@ expansion:
       force-disabled: "<red>Ваші крила були вимкнені."
       #Shown when a player's attempt to glide is prevented during combat.
       no-gliding: "<red>Під час бою заборонено використовувати крила."
+      #Shown when a player tries to use fireworks.
+      no-fireworks: "<red>Під час бою заборонено запускати феєрверки.</red>"
     teleportation:
       #Shown when a player tries to enter a portal and is prevented during combat.
       block-portal: "<red>Вам було заборонено користуватися порталом під час бою."
@@ -307,6 +309,7 @@ expansion:
       self: "<red>Ви не можете вдарити цього гравця, коли ваш PvP вимкнено."
       other: "<red>У цього гравця відключено PvP."
       protected: "<red>Цей гравець захищений, вам поки заборонено атакувати його!"
+      cancel: "<red>Ви захищені, вам не можна атакувати інших гравців!</red>"
     protection-disabled:
       #Shown when newbie protection is disabled due to the player attacking another player.
       attacker: "<red>Ви напали на когось, ваш захист новачка відключено."
