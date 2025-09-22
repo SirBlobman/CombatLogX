@@ -119,13 +119,13 @@ tagged:
     damage: "<red>Du bist jetzt im Kampf, weil du Schaden nimmst. Lade dich nicht aus!</red>"
     unknown: "<red>Du befindest dich jetzt im Kampf. Melde dich sich nicht ab!"
   attacked:
-    player: "<red>Du wirst angegriffen von </red><white>{name}</white><red>. Melde dich nicht ab!"
+    player: "<red>Du wirst angegriffen von </red><white>{enemy}</white><red>. Melde dich nicht ab!"
     mob: "<red>Du wirst angegriffen von a(n) </red><white>{mob_type}</white><red>. Melde dich nicht ab!"
     mythic_mob: "<red>Sie werden von ein(n) <white>{enemy}</white>angegriffen. Nicht ausloggen!</red>"
     damage: "<red>Du bist jetzt im Kampf, weil du Schaden nimmst. Lade dich nicht aus!</red>"
     unknown: "<red>Du wirst von einer unbekannten Kraft angegriffen. Melde dich nicht ab!</red>"
   attacker:
-    player: "<red>Du wirst angegriffen von </red><white>{name}</white><red>. Melde dich nicht ab!"
+    player: "<red>Du wirst angegriffen von </red><white>{enemy}</white><red>. Melde dich nicht ab!"
     mob: "<red>Wir wirst attakiert von </red><white>{mob_type}</white><red>. Melde dich nicht ab!"
     mythic_mob: "<red>Du greifst ein(n) <white>{enemy}</white>an. Nicht ausloggen!</red>"
     damage: "<red>Du bist jetzt im Kampf, weil du Schaden nimmst. Lade dich nicht aus!</red>"
