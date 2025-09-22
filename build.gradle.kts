@@ -75,7 +75,9 @@ subprojects {
 
         // Spigot API
         val spigotVersion = property("version.spigot")
-        compileOnly("org.spigotmc:spigot-api:$spigotVersion")
+        compileOnly("org.spigotmc:spigot-api:$spigotVersion") {
+            exclude("net.md-5", "bungeecord-chat")
+        }
 
         // BlueSlimeCore
         compileOnly("com.github.sirblobman.api:core:$coreVersion")
