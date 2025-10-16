@@ -32,7 +32,7 @@ public final class CitizensExpansion extends Expansion {
     private static final List<String> SUPPORTED_VERSION_LIST;
 
     static {
-        SUPPORTED_VERSION_LIST = Arrays.asList("2.0.35", "2.0.36", "2.0.37", "2.0.38", "2.0.39");
+        SUPPORTED_VERSION_LIST = Arrays.asList("2.0.35", "2.0.36", "2.0.37", "2.0.38", "2.0.39", "2.0.40");
     }
 
     private final Configuration configuration;
