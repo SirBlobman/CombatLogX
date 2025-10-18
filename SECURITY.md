@@ -4,7 +4,8 @@
 
 | Version           | Supported          |
 |-------------------|--------------------|
-| 11.5-SNAPSHOT     | :white_check_mark: |
+| 11.6-SNAPSHOT     | :white_check_mark: |
+| 11.5-SNAPSHOT     | :x:                |
 | 11.4-SNAPSHOT     | :x:                |
 | 11.3-SNAPSHOT     | :x:                |
 | 11.2-SNAPSHOT     | :x:                |
