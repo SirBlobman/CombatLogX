@@ -16,7 +16,12 @@ protection-time: 30000
 
 # Should new players also be protected from mob attacks?
 # Default: true
-mob-protection: false
+mob-protection: true
+
+# Should new players also be protected from blocks placed by players?
+# This will prevent damage from lava buckets and fire, but not if it wasn't placed by a player.
+# Default: true
+block-protection: true
 
 # (This is for the `/togglepvp` command, protection options are above.)
 # What is the default PVP status for players?

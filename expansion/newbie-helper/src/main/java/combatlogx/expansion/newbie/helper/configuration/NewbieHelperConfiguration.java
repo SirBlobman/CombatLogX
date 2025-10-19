@@ -14,6 +14,7 @@ public final class NewbieHelperConfiguration implements IConfigurable {
     private boolean removeProtectionOnAttack;
     private long protectionTime;
     private boolean mobProtection;
+    private boolean blockProtection;
     private boolean pvpToggleDefaultStatus;
     private int pvpToggleCooldown;
     private String permissionName;
@@ -26,7 +27,8 @@ public final class NewbieHelperConfiguration implements IConfigurable {
         this.newPlayerProtection = true;
         this.removeProtectionOnAttack = true;
         this.protectionTime = 30_000L;
-        this.mobProtection = false;
+        this.mobProtection = true;
+        this.blockProtection = true;
         this.pvpToggleDefaultStatus = true;
         this.pvpToggleCooldown = 0;
         this.permissionName = null;
@@ -42,6 +44,7 @@ public final class NewbieHelperConfiguration implements IConfigurable {
         setRemoveProtectionOnAttack(config.getBoolean("remove-protection-on-attack", true));
         setProtectionTime(config.getLong("protection-time", 30_000L));
         setMobProtection(config.getBoolean("mob-protection", true));
+        setBlockProtection(config.getBoolean("block-protection", true));
         setPvpToggleDefaultStatus(config.getBoolean("pvp-toggle-default-status", true));
         setPvpToggleCooldown(config.getInt("pvp-toggle-cooldown", 0));
         setPermissionName(config.getString("pvp-toggle-cooldown-bypass-permission"));
@@ -134,5 +137,13 @@ public final class NewbieHelperConfiguration implements IConfigurable {
 
     public void setNewPlayerCauseDamage(boolean newPlayerCauseDamage) {
         this.newPlayerCauseDamage = newPlayerCauseDamage;
+    }
+
+    public boolean isBlockProtection() {
+        return blockProtection;
+    }
+
+    public void setBlockProtection(boolean blockProtection) {
+        this.blockProtection = blockProtection;
     }
 }

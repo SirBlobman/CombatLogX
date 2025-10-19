@@ -12,6 +12,7 @@ import combatlogx.expansion.newbie.helper.configuration.NewbieHelperConfiguratio
 import combatlogx.expansion.newbie.helper.configuration.WorldsConfiguration;
 import combatlogx.expansion.newbie.helper.listener.ListenerDamage;
 import combatlogx.expansion.newbie.helper.listener.ListenerJoin;
+import combatlogx.expansion.newbie.helper.listener.ListenerLavaFire;
 import combatlogx.expansion.newbie.helper.manager.CooldownManager;
 import combatlogx.expansion.newbie.helper.manager.PVPManager;
 import combatlogx.expansion.newbie.helper.manager.ProtectionManager;
@@ -45,10 +46,18 @@ public final class NewbieHelperExpansion extends Expansion {
 
     @Override
     public void onEnable() {
+        // Reload Configuration
         reloadConfig();
+
+        // Register Listeners
         new ListenerJoin(this).register();
         new ListenerDamage(this).register();
+        new ListenerLavaFire(this).register();
+
+        // Register command
         new CommandTogglePVP(this).register();
+
+        // Register Placeholder Expansion
         registerPlaceholderExpansion();
     }
 
