@@ -36,6 +36,7 @@ import com.github.sirblobman.api.language.replacer.LongReplacer;
 import com.github.sirblobman.api.language.replacer.Replacer;
 import com.github.sirblobman.api.language.replacer.StringReplacer;
 import com.github.sirblobman.api.location.BlockLocation;
+import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.configuration.PunishConfiguration;
 import com.github.sirblobman.combatlogx.api.event.PlayerPunishEvent;
@@ -84,13 +85,12 @@ public class ListenerLootProtection extends ExpansionListener {
         }
 
         Entity entity = e.getEntity();
-        if (!(entity instanceof Player)) {
+        if (!(entity instanceof Player player)) {
             printDebug("Entity was not player, preventing pickup.");
             e.setCancelled(true);
             return;
         }
 
-        Player player = (Player) entity;
         UUID itemEntityId = itemEntity.getUniqueId();
         printDebug("Item Entity ID: " + itemEntityId);
         ProtectedItem protectedItem = this.protectedItemMap.get(itemEntityId);
@@ -138,7 +138,7 @@ public class ListenerLootProtection extends ExpansionListener {
             return;
         }
 
-        Entity previousEnemy = enemyList.get(0);
+        Entity previousEnemy = enemyList.getFirst();
         if (previousEnemy == null) {
             return;
         }
@@ -169,7 +169,7 @@ public class ListenerLootProtection extends ExpansionListener {
             return;
         }
 
-        Entity previousEnemy = enemyList.get(0);
+        Entity previousEnemy = enemyList.getFirst();
         if (previousEnemy == null) {
             return;
         }
@@ -196,8 +196,7 @@ public class ListenerLootProtection extends ExpansionListener {
         ICombatLogX combatLogX = getCombatLogX();
         IDeathManager deathManager = combatLogX.getDeathManager();
 
-        if (entity instanceof Player) {
-            Player player = (Player) entity;
+        if (entity instanceof Player player) {
             if (isOnlyProtectAfterLog() && !deathManager.wasPunishKilled(player)) {
                 printDebug("option 'only-protect-after-log' is 'true' and the player did not combat log. Ignoring.");
                 return;
@@ -206,9 +205,8 @@ public class ListenerLootProtection extends ExpansionListener {
 
         UUID entityId = entity.getUniqueId();
         UUID enemyId = this.enemyMap.get(entityId);
-        if (!checkVoidKill(e) && entity instanceof Player) {
+        if (!checkVoidKill(e) && entity instanceof Player player) {
             printDebug("Cause of death was not void and entity is player.");
-            Player player = (Player) entity;
             PlayerDataManager playerDataManager = getPlayerDataManager();
             YamlConfiguration playerData = playerDataManager.get(player);
             String enemyIdString = playerData.getString("loot-protection-enemy");
@@ -267,15 +265,26 @@ public class ListenerLootProtection extends ExpansionListener {
             return;
         }
 
-        BlockLocation location = BlockLocation.from(e.getLocation());
-        if (!this.pendingProtectionMap.containsKey(location)) {
+        Location location = e.getLocation();
+        BlockLocation blockLocation = BlockLocation.from(location);
+        int minorVersion = VersionUtility.getMinorVersion();
+        if (minorVersion >= 21) {
+            // Subtract 1 from block y location.
+            // See CombatLogX GitHub Issue # 929
+            printDebug("version is 1.21 or higher, subtracting 1 from spawn block Y location.");
+            blockLocation = new BlockLocation(blockLocation.getWorldId(), blockLocation.getX(), blockLocation.getY() - 1, blockLocation.getZ());
+        }
+
+        if (!this.pendingProtectionMap.containsKey(blockLocation)) {
+            printDebug("Current Location: " + blockLocation);
+            printDebug("Pending Protection Map Keys: " + this.pendingProtectionMap.keySet());
             printDebug("Pending protection map doesn't contain current location, ignoring.");
             return;
         }
 
         Item itemEntity = e.getEntity();
         UUID itemEntityId = itemEntity.getUniqueId();
-        ConcurrentLinkedQueue<ProtectedItem> protectedItemQueue = this.pendingProtectionMap.get(location);
+        ConcurrentLinkedQueue<ProtectedItem> protectedItemQueue = this.pendingProtectionMap.get(blockLocation);
 
         for (ProtectedItem protectedItem : protectedItemQueue) {
             ItemStack protectedItemStack = protectedItem.getItemStack();
@@ -288,7 +297,7 @@ public class ListenerLootProtection extends ExpansionListener {
 
                 if (protectedItemQueue.isEmpty()) {
                     printDebug("Protected item queue is now empty, removing fro pending protection map.");
-                    this.pendingProtectionMap.remove(location);
+                    this.pendingProtectionMap.remove(blockLocation);
                 }
 
                 return;
@@ -345,12 +354,11 @@ public class ListenerLootProtection extends ExpansionListener {
             }
 
             Entity enemy = Bukkit.getEntity(enemyId);
-            if (!(enemy instanceof Player)) {
+            if (!(enemy instanceof Player enemyPlayer)) {
                 printDebug("Enemy is not player, VOID = true but can't return items.");
                 return true;
             }
 
-            Player enemyPlayer = (Player) enemy;
             World enemyWorld = enemy.getWorld();
             Location enemyLocation = enemy.getLocation();
             List<ItemStack> dropList = e.getDrops();
