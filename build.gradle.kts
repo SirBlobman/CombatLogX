@@ -71,7 +71,7 @@ subprojects {
 
     dependencies {
         // Java Dependencies
-        compileOnly("org.jetbrains:annotations:26.0.2")
+        compileOnly("org.jetbrains:annotations:26.0.2-1")
 
         // Spigot API
         val spigotVersion = property("version.spigot")
