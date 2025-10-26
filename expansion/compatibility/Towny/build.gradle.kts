@@ -1,6 +1,6 @@
 repositories {
     maven("https://repo.glaremasters.me/repository/towny/")
-    maven("https://nexus.sirblobman.xyz/proxy-jitpack/")
+    maven("https://nexus.sirblobman.xyz/proxy-public")
 }
 
 dependencies {

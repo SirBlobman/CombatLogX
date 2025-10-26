@@ -1,5 +1,5 @@
 repositories {
-    maven("https://nexus.sirblobman.xyz/proxy-jitpack/")
+    maven("https://nexus.sirblobman.xyz/proxy-public")
     maven("https://repo.helpch.at/releases/")
 }
 

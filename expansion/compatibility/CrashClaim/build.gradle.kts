@@ -1,7 +1,7 @@
 repositories {
-    maven("https://nexus.sirblobman.xyz/proxy-jitpack/")
+    maven("https://nexus.sirblobman.xyz/proxy-public")
 }
 
 dependencies {
-    compileOnly("com.github.WhipDevelopment:CrashClaim:344ef20be5")
+    compileOnly("com.github.WhipDevelopment:CrashClaim:c697d3e9ef")
 }

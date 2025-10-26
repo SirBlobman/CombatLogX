@@ -1,7 +1,7 @@
 repositories {
-    maven("https://nexus.sirblobman.xyz/proxy-dmulloy2/")
+    maven("https://nexus.sirblobman.xyz/proxy-public")
 }
 
 dependencies {
-    compileOnly("com.comphenix.protocol:ProtocolLib:5.3.0-SNAPSHOT")
+    compileOnly("com.comphenix.protocol:ProtocolLib:5.4.0-SNAPSHOT")
 }
