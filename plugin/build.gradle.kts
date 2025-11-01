@@ -168,7 +168,7 @@ bukkit {
 
 fun quickRegister(definition: NamedDomainObjectContainer<PaperPluginDescription.DependencyDefinition>, name: String, required: Boolean) {
     definition.register(name) {
-        this.load = PaperPluginDescription.RelativeLoadOrder.AFTER
+        this.load = PaperPluginDescription.RelativeLoadOrder.BEFORE
         this.required = required
         this.joinClasspath = true
     }
