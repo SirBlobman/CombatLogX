@@ -45,6 +45,7 @@ val pluginSoftDepend = listOf(
     "UltimateClaims",
     "uSkyBlock",
     "VanishNoPacket",
+    "Vault",
     "WorldGuard"
 )
 
