@@ -1,3 +1,14 @@
+fun getEnvOrProp(variableName: String, propertyName: String): String {
+    val environmentProvider = providers.environmentVariable(variableName)
+    val propertyProvider = providers.gradleProperty(propertyName)
+    return environmentProvider.orElse(propertyProvider).orElse("").get()
+}
+
+fun getProp(propertyName: String): String {
+    val propertyProvider = providers.gradleProperty(propertyName)
+    return propertyProvider.get()
+}
+
 plugins {
     id("maven-publish")
 }
@@ -17,10 +28,10 @@ dependencies {
 
 publishing {
     repositories {
-        maven("https://nexus.sirblobman.xyz/public/") {
+        maven("https://nexus.sirblobman.xyz/public") {
             credentials {
-                username = rootProject.ext.get("mavenUsername") as String
-                password = rootProject.ext.get("mavenPassword") as String
+                username = getEnvOrProp("MAVEN_DEPLOY_USR", "maven.username.sirblobman")
+                password = getEnvOrProp("MAVEN_DEPLOY_PSW", "maven.password.sirblobman")
             }
         }
     }
@@ -29,7 +40,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = "com.github.sirblobman.combatlogx"
             artifactId = "api"
-            version = rootProject.ext.get("apiVersion") as String
+            version = getProp("version.api")
             from(components["java"])
         }
     }

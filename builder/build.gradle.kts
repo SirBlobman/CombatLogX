@@ -2,14 +2,13 @@ plugins {
     id("distribution")
 }
 
-val coreVersion = rootProject.ext.get("coreVersion") as String
 val coreJar: Configuration by configurations.creating
 val pluginJar: Configuration by configurations.creating
 val expansion: Configuration by configurations.creating
 
 dependencies {
     // BlueSlimeCore
-    coreJar("com.github.sirblobman.api:core:$coreVersion")
+    coreJar("com.github.sirblobman.api:core:2.9-SNAPSHOT")
 
     // CombatLogX
     pluginJar(project(path = ":plugin", configuration = "shadow"))
@@ -86,7 +85,7 @@ distributions {
 
                 // BlueSlimeCore.jar
                 from(coreJar)
-                rename("core-$coreVersion.jar", "BlueSlimeCore.jar")
+                rename("core-2.9-SNAPSHOT.jar", "BlueSlimeCore.jar")
             }
 
             into("/CombatLogX/expansions/") {
@@ -108,7 +107,6 @@ tasks {
 
     named<Zip>("distZip") {
         isPreserveFileTimestamps = true
-        archiveBaseName.set("CombatLogX")
-        version = rootProject.ext.get("calculatedVersion") as String
+        archiveBaseName.set("CombatLogX-${rootProject.version}")
     }
 }
