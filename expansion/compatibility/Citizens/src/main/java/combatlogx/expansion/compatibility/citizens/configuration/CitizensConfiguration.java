@@ -9,9 +9,9 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 
 import com.github.sirblobman.api.configuration.IConfigurable;
+import com.github.sirblobman.api.utility.Validate;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
-import org.apache.commons.lang.Validate;
 
 public final class CitizensConfiguration implements IConfigurable {
     private final CitizensExpansion expansion;

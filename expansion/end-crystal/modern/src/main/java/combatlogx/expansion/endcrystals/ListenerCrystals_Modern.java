@@ -13,13 +13,13 @@ import com.github.sirblobman.combatlogx.api.configuration.MainConfiguration;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
 import com.github.sirblobman.combatlogx.api.manager.ICrystalManager;
+import com.github.sirblobman.api.shaded.xseries.XEntityType;
 
 public final class ListenerCrystals_Modern extends ExpansionListener {
     public ListenerCrystals_Modern(@NotNull Expansion expansion) {
         super(expansion);
     }
 
-    @SuppressWarnings("deprecation") // Draft API
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlace(org.bukkit.event.entity.EntityPlaceEvent e) {
         ICombatLogX plugin = getCombatLogX();
@@ -28,8 +28,9 @@ public final class ListenerCrystals_Modern extends ExpansionListener {
             return;
         }
 
-        EntityType entityType = e.getEntityType();
-        if (entityType != EntityType.ENDER_CRYSTAL) {
+        EntityType bukkitEntityType = e.getEntityType();
+        XEntityType entityType = XEntityType.of(bukkitEntityType);
+        if (entityType != XEntityType.END_CRYSTAL) {
             return;
         }
 
