@@ -65,6 +65,11 @@ link-fishing-rod: true
 # Default: true
 link-tnt: true
 
+# CombatLogX can detect when players place end crystals.
+# This will only link the end crystal as an attacker when it explodes, not as a defender.
+# Default: true
+link-end-crystal: true
+
 timer:
   # CombatLogX has two different types of timers that you can select.
   #
