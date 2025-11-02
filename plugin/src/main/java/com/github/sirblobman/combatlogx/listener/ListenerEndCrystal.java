@@ -18,6 +18,7 @@ import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.manager.ICrystalManager;
 import com.github.sirblobman.combatlogx.api.object.TagReason;
 import com.github.sirblobman.combatlogx.api.object.TagType;
+import com.github.sirblobman.api.shaded.xseries.XEntityType;
 
 public final class ListenerEndCrystal extends CombatListener {
     public ListenerEndCrystal(@NotNull ICombatLogX plugin) {
@@ -33,19 +34,18 @@ public final class ListenerEndCrystal extends CombatListener {
         }
 
         Entity damaged = e.getEntity();
-        if (!(damaged instanceof Player)) {
+        if (!(damaged instanceof Player player)) {
             return;
         }
 
         Entity damager = e.getDamager();
-        EntityType damagerType = damager.getType();
-        if (damagerType != EntityType.ENDER_CRYSTAL) {
+        XEntityType damagerType = XEntityType.of(damager);
+        if (damagerType != XEntityType.END_CRYSTAL) {
             return;
         }
 
         ICrystalManager crystalManager = plugin.getCrystalManager();
         Player placer = crystalManager.getPlacer(damager);
-        Player player = (Player) damaged;
 
         if (placer != null) {
             checkTag(placer, player, TagReason.ATTACKER);

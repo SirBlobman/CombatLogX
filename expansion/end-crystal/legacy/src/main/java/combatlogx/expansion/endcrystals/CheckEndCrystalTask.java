@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import com.github.sirblobman.api.folia.details.LocationTaskDetails;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.manager.ICrystalManager;
+import com.github.sirblobman.api.shaded.xseries.XEntityType;
 
 public final class CheckEndCrystalTask extends LocationTaskDetails {
     private final ICombatLogX plugin;
@@ -34,8 +35,8 @@ public final class CheckEndCrystalTask extends LocationTaskDetails {
 
         Collection<Entity> nearbyEntityCollection = world.getNearbyEntities(location, 4.0D, 4.0D, 4.0D);
         for (Entity entity : nearbyEntityCollection) {
-            EntityType entityType = entity.getType();
-            if (entityType != EntityType.ENDER_CRYSTAL) {
+            XEntityType entityType = XEntityType.of(entity);
+            if (entityType != XEntityType.END_CRYSTAL) {
                 continue;
             }
 
