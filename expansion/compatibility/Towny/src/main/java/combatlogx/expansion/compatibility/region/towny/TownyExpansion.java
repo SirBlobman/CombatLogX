@@ -1,8 +1,18 @@
 package combatlogx.expansion.compatibility.region.towny;
 
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.jetbrains.annotations.NotNull;
 
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.PluginManager;
+
 import com.github.sirblobman.api.configuration.ConfigurationManager;
+import com.github.sirblobman.api.utility.VersionUtility;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionExpansion;
 import com.github.sirblobman.combatlogx.api.expansion.region.RegionHandler;
@@ -28,7 +38,47 @@ public final class TownyExpansion extends RegionExpansion {
 
     @Override
     public boolean checkDependencies() {
-        return checkDependency("Towny", true, "0.101");
+        if (!checkDependency("Towny", true)) {
+            return false;
+        }
+
+        Logger logger = getLogger();
+        PluginManager pluginManager = Bukkit.getPluginManager();
+        Plugin plugin = pluginManager.getPlugin("Towny");
+        if (plugin == null) {
+            return false;
+        }
+
+        PluginDescriptionFile description = plugin.getDescription();
+        String version = description.getVersion();
+        int minorVersion = parseTownyMinorVersion(version);
+        if (minorVersion >= 100) {
+            return true;
+        }
+
+        logger.info("Dependency 'Towny' is not the correct version!");
+        logger.info("Expected version > 100 but found '" + minorVersion + "'.");
+        return false;
+    }
+
+    private int parseTownyMinorVersion(@NotNull String version) {
+        Pattern pattern = Pattern.compile("^\\D*(\\d+)\\.(\\d+)");
+        Matcher matcher = pattern.matcher(version);
+        Logger logger = getLogger();
+
+        if (!matcher.find()) {
+            logger.info("Failed to find expected Towny version pattern.");
+            logger.info("Expected a version with at least two numeric segments such as '0.100' but got '" + version + "'.");
+            return 0;
+        }
+
+        String minorString = matcher.group(2);
+        try {
+            return Integer.parseInt(minorString);
+        } catch (NumberFormatException ex) {
+            getLogger().info("Failed to parse towny version: Expected number but got '" + minorString + "'");
+            return 0;
+        }
     }
 
     @Override
