@@ -1,4 +1,4 @@
-package combatlogx.expansion.compatibility.supervanish;
+package combatlogx.expansion.compatibility.vanishgeneric;
 
 import org.jetbrains.annotations.NotNull;
 

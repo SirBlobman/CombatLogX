@@ -2,6 +2,6 @@ name: "${expansionName}"
 prefix: "${expansionPrefix}"
 description: "${expansionDescription}"
 
-main: "combatlogx.expansion.compatibility.supervanish.GenericVanishExpansion"
+main: "combatlogx.expansion.compatibility.vanishgeneric.GenericVanishExpansion"
 version: "17.0"
 author: "MCMDEV"
