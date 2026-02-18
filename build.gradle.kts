@@ -25,7 +25,7 @@ subprojects {
     }
 
     dependencies {
-        compileOnly("org.jetbrains:annotations:26.0.2-1") // JetBrains Annotations
+        compileOnly("org.jetbrains:annotations:26.1.0") // JetBrains Annotations
         compileOnly("org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT") // Base Spigot API
         compileOnly("com.github.sirblobman.api:core:2.9-SNAPSHOT") // BlueSlimeCore
     }
