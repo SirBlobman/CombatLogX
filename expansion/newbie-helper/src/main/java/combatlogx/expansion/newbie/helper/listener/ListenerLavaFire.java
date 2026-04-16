@@ -49,7 +49,7 @@ public final class ListenerLavaFire extends ExpansionListener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBucketEmpty(PlayerBucketEmptyEvent e) {
         XMaterial bucketType = XMaterial.matchXMaterial(e.getBucket());
-        if(bucketType != XMaterial.LAVA_BUCKET) {
+        if (bucketType != XMaterial.LAVA_BUCKET) {
             return;
         }
 
@@ -134,7 +134,7 @@ public final class ListenerLavaFire extends ExpansionListener {
             return;
         }
 
-        if (isBlockProtection()) {
+        if (isBlockProtection() && e.getDamager() != null) {
             NewbieHelperExpansion expansion = getNewbieHelperExpansion();
             BlockLocation blockLocation = BlockLocation.from(e.getDamager());
             ProtectionManager protectionManager = expansion.getProtectionManager();
