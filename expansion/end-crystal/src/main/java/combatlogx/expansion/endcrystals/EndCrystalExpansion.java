@@ -21,8 +21,9 @@ public final class EndCrystalExpansion extends Expansion {
 
     @Override
     public void onEnable() {
+        int majorVersion = VersionUtility.getMajorVersion();
         int minorVersion = VersionUtility.getMinorVersion();
-        if (minorVersion < 9) {
+        if (majorVersion == 1 && minorVersion < 9) {
             Logger logger = getLogger();
             logger.warning("This expansion requires Spigot 1.9.4 or higher.");
             selfDisable();

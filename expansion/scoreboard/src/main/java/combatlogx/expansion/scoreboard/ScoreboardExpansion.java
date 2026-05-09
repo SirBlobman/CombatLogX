@@ -36,8 +36,9 @@ public final class ScoreboardExpansion extends Expansion {
 
     @Override
     public void onEnable() {
+        int majorVersion = VersionUtility.getMajorVersion();
         int minorVersion = VersionUtility.getMinorVersion();
-        if (minorVersion < 8) {
+        if (majorVersion == 1 && minorVersion < 8) {
             Logger logger = getLogger();
             logger.warning("This expansion requires Spigot 1.8.8 or higher.");
             selfDisable();

@@ -18,7 +18,7 @@ public final class LuckPermsExpansion extends Expansion {
 
     @Override
     public void onEnable() {
-        if (!checkDependency("LuckPerms", true, "5.4")) {
+        if (!checkDependency("LuckPerms", true, "5.5")) {
             selfDisable();
             return;
         }

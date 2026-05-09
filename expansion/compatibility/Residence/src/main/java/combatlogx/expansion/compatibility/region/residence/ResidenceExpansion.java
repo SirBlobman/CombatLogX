@@ -16,7 +16,7 @@ public final class ResidenceExpansion extends RegionExpansion {
 
     @Override
     public boolean checkDependencies() {
-        return checkDependency("Residence", false, "5.1");
+        return checkDependency("Residence", false, "6.0");
     }
 
     @Override

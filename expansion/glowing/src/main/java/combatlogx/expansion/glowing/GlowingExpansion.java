@@ -25,14 +25,12 @@ public class GlowingExpansion extends Expansion {
 
     @Override
     public void onEnable() {
-        Logger logger = getLogger();
-        ICombatLogX plugin = getPlugin();
-        ExpansionManager expansionManager = plugin.getExpansionManager();
-
+        int majorVersion = VersionUtility.getMajorVersion();
         int minorVersion = VersionUtility.getMinorVersion();
-        if (minorVersion < 9) {
-            logger.warning("This expansion is made for 1.9+");
-            expansionManager.disableExpansion(this);
+        if (majorVersion == 1 && minorVersion < 9) {
+            Logger logger = getLogger();
+            logger.warning("This expansion requires Spigot 1.9 or higher.");
+            selfDisable();
             return;
         }
 

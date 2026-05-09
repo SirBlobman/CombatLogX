@@ -1,3 +1,3 @@
 dependencies {
-    compileOnly("net.zrips:Residence:5.1.7.5")
+    compileOnly("net.zrips:Residence:6.0.1.8")
 }

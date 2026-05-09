@@ -25,10 +25,11 @@ public final class DamageEffectsExpansion extends Expansion {
 
     @Override
     public void onEnable() {
+        int majorVersion = VersionUtility.getMajorVersion();
         int minorVersion = VersionUtility.getMinorVersion();
-        if (minorVersion < 13) {
+        if (majorVersion == 1 && minorVersion < 13) {
             Logger logger = getLogger();
-            logger.warning("This expansion is made for 1.13+");
+            logger.warning("This expansion requires Spigot 1.13 or higher.");
             selfDisable();
             return;
         }
