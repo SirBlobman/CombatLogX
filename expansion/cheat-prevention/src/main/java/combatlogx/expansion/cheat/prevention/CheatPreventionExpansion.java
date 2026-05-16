@@ -100,9 +100,10 @@ public final class CheatPreventionExpansion extends Expansion implements ICheatP
         registerListeners();
         registerTasks();
 
+        int majorVersion = VersionUtility.getMajorVersion();
         int minorVersion = VersionUtility.getMinorVersion();
-        registerVersionListeners(minorVersion);
-        registerVersionTasks(minorVersion);
+        registerVersionListeners(majorVersion, minorVersion);
+        registerVersionTasks(majorVersion, minorVersion);
 
         registerPaperListeners();
     }
@@ -219,41 +220,41 @@ public final class CheatPreventionExpansion extends Expansion implements ICheatP
         new ListenerEnderPearl(this).register();
     }
 
-    private void registerVersionListeners(int minorVersion) {
+    private void registerVersionListeners(int majorVersion, int minorVersion) {
         // Elytra were added in 1.9.
-        if (minorVersion >= 9) {
+        if (majorVersion > 1 || (majorVersion == 1 && minorVersion >= 9)) {
             new ListenerElytra(this).register();
         }
 
         // Totem of Undying was added in 1.11.
-        if (minorVersion >= 11) {
+        if (majorVersion > 1 || (majorVersion == 1 && minorVersion >= 11)) {
             new ListenerTotem(this).register();
         }
 
         // PlayerPickupItemEvent was deprecated in favor of EntityPickupItemEvent in 1.12.
-        if (minorVersion < 12) {
+        if (majorVersion > 1 || (majorVersion == 1 && minorVersion >= 12)) {
             new ListenerLegacyItemPickup(this).register();
         } else {
             new ListenerModernItemPickup(this).register();
         }
 
         // The Riptide enchantment was added in 1.13.
-        if (minorVersion >= 13) {
+        if (majorVersion > 1 || (majorVersion == 1 && minorVersion >= 13)) {
             new ListenerRiptide(this).register();
         }
 
         // EntityPotionEffect was added in 1.13.
-        if (minorVersion >= 13) {
+        if (majorVersion > 1 || (majorVersion == 1 && minorVersion >= 13)) {
             new ListenerModernPotions(this).register();
         } else {
             new ListenerLegacyPotions(this).register();
         }
 
         // EntityCreatePortalEvent was replaced with PortalCreateEvent#getEntity in 1.14.
-        if (minorVersion < 14) {
-            new ListenerLegacyPortalCreate(this).register();
-        } else {
+        if (majorVersion > 1 || (majorVersion == 1 && minorVersion >= 14)) {
             new ListenerModernPortalCreate(this).register();
+        } else {
+            new ListenerLegacyPortalCreate(this).register();
         }
 
         // InventoryView can be an interface or abstract class depending on version
@@ -265,8 +266,9 @@ public final class CheatPreventionExpansion extends Expansion implements ICheatP
     }
 
     private boolean isAbstractInventoryView() {
+        int majorVersion = VersionUtility.getMajorVersion();
         int minorVersion = VersionUtility.getMinorVersion();
-        if (minorVersion > 20) {
+        if (majorVersion > 1 || (majorVersion == 1 && minorVersion > 20)) {
             return true;
         }
 
@@ -278,9 +280,9 @@ public final class CheatPreventionExpansion extends Expansion implements ICheatP
         new FlightRetagTask(this).register();
     }
 
-    private void registerVersionTasks(int minorVersion) {
+    private void registerVersionTasks(int majorVersion, int minorVersion) {
         // Elytra were added in 1.9.
-        if (minorVersion >= 9) {
+        if (majorVersion > 1 || (majorVersion == 1 && minorVersion >= 9)) {
             new ElytraRetagTask(this).register();
         }
     }
