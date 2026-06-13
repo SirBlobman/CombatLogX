@@ -3,6 +3,6 @@ repositories {
 }
 
 dependencies {
-    compileOnly("net.citizensnpcs:citizensapi:2.0.40-SNAPSHOT")
+    compileOnly("net.citizensnpcs:citizensapi:2.0.42-SNAPSHOT")
     compileOnly("org.mcmonkey:sentinel:2.9.0-SNAPSHOT")
 }
