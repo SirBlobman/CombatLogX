@@ -85,14 +85,16 @@ public final class ZNPCExpansion extends Expansion {
         new ListenerPunish(this).register();
         new ListenerQuit(this).register();
 
-        // Totem of Undying was added in 1.11.
+        int majorVersion = VersionUtility.getMajorVersion();
         int minorVersion = VersionUtility.getMinorVersion();
-        if (minorVersion >= 11) {
+
+        // Totem of Undying was added in 1.11.
+        if (majorVersion > 1 || (majorVersion == 1 && minorVersion >= 11)) {
             new ListenerResurrect(this).register();
         }
 
         // EntityTransformEvent was added in 1.13
-        if (minorVersion >= 13) {
+        if (majorVersion > 1 || (majorVersion == 1 && minorVersion >= 13)) {
             new ListenerConvert(this).register();
         }
     }

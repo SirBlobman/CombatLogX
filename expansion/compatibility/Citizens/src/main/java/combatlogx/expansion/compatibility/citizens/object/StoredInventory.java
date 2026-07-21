@@ -45,8 +45,9 @@ public final class StoredInventory {
             storedInventory.setItemStack(slot, item);
         }
 
+        int majorVersion = VersionUtility.getMajorVersion();
         int minorVersion = VersionUtility.getMinorVersion();
-        if (minorVersion < 9) {
+        if (majorVersion == 1 && minorVersion < 9) {
             setHandLegacy(storedInventory, playerInventory);
         } else {
             setHandModern(storedInventory, playerInventory);

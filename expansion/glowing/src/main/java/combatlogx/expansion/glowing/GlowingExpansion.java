@@ -27,7 +27,7 @@ public class GlowingExpansion extends Expansion {
     public void onEnable() {
         int majorVersion = VersionUtility.getMajorVersion();
         int minorVersion = VersionUtility.getMinorVersion();
-        if (majorVersion <= 1 && minorVersion < 9) {
+        if (majorVersion == 1 && minorVersion < 9) {
             Logger logger = getLogger();
             logger.warning("This expansion requires Spigot 1.9 or higher.");
             selfDisable();
@@ -39,8 +39,9 @@ public class GlowingExpansion extends Expansion {
 
     @Override
     public void onDisable() {
+        int majorVersion = VersionUtility.getMajorVersion();
         int minorVersion = VersionUtility.getMinorVersion();
-        if (minorVersion < 9) {
+        if (majorVersion == 1 && minorVersion < 9) {
             return;
         }
 

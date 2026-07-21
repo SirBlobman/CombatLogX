@@ -182,8 +182,9 @@ public final class ForceFieldAdapter extends PacketAdapter {
             throw new IllegalStateException("Invalid material configuration!");
         }
 
+        int majorVersion = VersionUtility.getMajorVersion();
         int minorVersion = VersionUtility.getMinorVersion();
-        if (minorVersion < 13) {
+        if (majorVersion == 1 && minorVersion < 13) {
             byte data = material.getData();
             return WrappedBlockData.createData(bukkitMaterial, data);
         }

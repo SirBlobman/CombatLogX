@@ -267,8 +267,10 @@ public class ListenerLootProtection extends ExpansionListener {
 
         Location location = e.getLocation();
         BlockLocation blockLocation = BlockLocation.from(location);
+
+        int majorVersion = VersionUtility.getMajorVersion();
         int minorVersion = VersionUtility.getMinorVersion();
-        if (minorVersion >= 21) {
+        if (majorVersion > 1 || (majorVersion == 1 && minorVersion >= 21)) {
             // Subtract 1 from block y location.
             // See CombatLogX GitHub Issue # 929
             printDebug("version is 1.21 or higher, subtracting 1 from spawn block Y location.");

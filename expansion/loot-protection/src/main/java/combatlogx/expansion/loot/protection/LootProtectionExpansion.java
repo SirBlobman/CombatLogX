@@ -30,7 +30,7 @@ public final class LootProtectionExpansion extends Expansion {
     public void onEnable() {
         int majorVersion = VersionUtility.getMajorVersion();
         int minorVersion = VersionUtility.getMinorVersion();
-        if (majorVersion <= 1 && minorVersion < 16) {
+        if (majorVersion == 1 && minorVersion < 16) {
             Logger logger = getLogger();
             logger.info("The loot protection expansion requires Spigot 1.16.5 or higher.");
             selfDisable();

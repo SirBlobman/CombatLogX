@@ -149,9 +149,10 @@ public final class ForceFieldTask extends ExpansionListener implements Runnable 
     void sendForceField(Player player, Location location) {
         ForceFieldConfiguration configuration = getConfiguration();
         XMaterial material = configuration.getMaterial();
-        int minorVersion = VersionUtility.getMinorVersion();
 
-        if (minorVersion < 13) {
+        int majorVersion = VersionUtility.getMajorVersion();
+        int minorVersion = VersionUtility.getMinorVersion();
+        if (majorVersion == 1 && minorVersion < 13) {
             sendFakeBlockLegacy(player, location, material);
         } else {
             sendFakeBlockModern(player, location, material);
@@ -338,8 +339,9 @@ public final class ForceFieldTask extends ExpansionListener implements Runnable 
 
     private void resetBlock(Player player, Location location) {
         Block block = location.getBlock();
+        int majorVersion = VersionUtility.getMajorVersion();
         int minorVersion = VersionUtility.getMinorVersion();
-        if (minorVersion < 13) {
+        if (majorVersion == 1 && minorVersion < 13) {
             resetBlockLegacy(player, block);
         } else {
             resetBlockModern(player, block);

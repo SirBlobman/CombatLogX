@@ -217,6 +217,11 @@ public final class CustomScoreboard {
     }
 
     private int getLineLengthLimit() {
+        int majorVersion = VersionUtility.getMajorVersion();
+        if (majorVersion > 1) {
+            return 64;
+        }
+
         int minorVersion = VersionUtility.getMinorVersion();
         return (minorVersion > 12 ? 64 : 16);
     }

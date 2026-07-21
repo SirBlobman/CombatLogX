@@ -115,8 +115,9 @@ public final class InventoryManager {
         playerInventory.setLeggings(storedInventory.getArmor(ArmorType.LEGGINGS));
         playerInventory.setBoots(storedInventory.getArmor(ArmorType.BOOTS));
 
+        int majorVersion = VersionUtility.getMajorVersion();
         int minorVersion = VersionUtility.getMinorVersion();
-        if (minorVersion < 9) {
+        if (majorVersion <= 1 && minorVersion < 9) {
             restoreHandsLegacy(storedInventory, playerInventory);
         } else {
             restoreHandsModern(storedInventory, playerInventory);
@@ -190,7 +191,9 @@ public final class InventoryManager {
             equipmentTrait.set(Equipment.EquipmentSlot.HAND, mainHandItem);
         }
 
-        if (VersionUtility.getMinorVersion() > 8) {
+        int majorVersion = VersionUtility.getMajorVersion();
+        int minorVersion = VersionUtility.getMinorVersion();
+        if (majorVersion > 1 || (majorVersion == 1 && minorVersion > 8)) {
             ItemStack offHandItem = storedInventory.getOffHandItem();
             if (offHandItem != null) {
                 equipmentTrait.set(Equipment.EquipmentSlot.OFF_HAND, offHandItem);
@@ -236,7 +239,9 @@ public final class InventoryManager {
     }
 
     private Equipment.EquipmentSlot getNpcSlotFromBukkitSlot(@NotNull EquipmentSlot slot) {
-        if (VersionUtility.getMinorVersion() > 8) {
+        int majorVersion = VersionUtility.getMajorVersion();
+        int minorVersion = VersionUtility.getMinorVersion();
+        if (majorVersion > 1 || (majorVersion == 1 && minorVersion > 8)) {
             if (slot == EquipmentSlot.OFF_HAND) {
                 return Equipment.EquipmentSlot.OFF_HAND;
             }

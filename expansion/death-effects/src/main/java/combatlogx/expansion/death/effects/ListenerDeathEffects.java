@@ -131,8 +131,9 @@ public final class ListenerDeathEffects extends ExpansionListener {
             return;
         }
 
+        int majorVersion = VersionUtility.getMajorVersion();
         int minorVersion = VersionUtility.getMinorVersion();
-        if (minorVersion < 13) {
+        if (majorVersion == 1 && minorVersion < 13) {
             player.sendBlockChange(location, bukkitMaterial, (byte) 0);
             return;
         }

@@ -61,8 +61,9 @@ public final class ScoreboardExpansion extends Expansion {
 
     @Override
     public void onDisable() {
+        int majorVersion = VersionUtility.getMajorVersion();
         int minorVersion = VersionUtility.getMinorVersion();
-        if (minorVersion < 8) {
+        if (majorVersion == 1 && minorVersion < 8) {
             return;
         }
 

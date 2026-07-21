@@ -82,8 +82,13 @@ public final class RegionVulnerableListener extends RegionExpansionListener {
     }
 
     private @NotNull List<Entity> getPassengers(@NotNull Entity entity) {
+        int majorVersion = VersionUtility.getMajorVersion();
         int minorVersion = VersionUtility.getMinorVersion();
-        return (minorVersion < 11 ? getPassengersLegacy(entity) : getPassengersModern(entity));
+        if (majorVersion > 1 || (majorVersion == 1 && minorVersion >= 11)) {
+            return getPassengersModern(entity);
+        }
+
+        return getPassengersLegacy(entity);
     }
 
     private @NotNull List<Entity> getPassengersModern(@NotNull Entity entity) {

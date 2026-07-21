@@ -170,8 +170,9 @@ public final class BossBarUpdater implements TimerUpdater {
     }
 
     private Color getBossBarColor() {
+        int majorVersion = VersionUtility.getMajorVersion();
         int minorVersion = VersionUtility.getMinorVersion();
-        if (minorVersion < 9) {
+        if (majorVersion == 1 && minorVersion < 9) {
             return Color.PURPLE;
         }
 

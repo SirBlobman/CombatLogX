@@ -45,8 +45,9 @@ public final class EndCrystalExpansion extends Expansion {
     }
 
     private @NotNull ExpansionListener getPreferredListener() {
+        int majorVersion = VersionUtility.getMajorVersion();
         int minorVersion = VersionUtility.getMinorVersion();
-        if (minorVersion < 13) {
+        if (majorVersion == 1 && minorVersion < 13) {
             return new ListenerCrystals_Legacy(this);
         }
 

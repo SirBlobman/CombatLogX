@@ -32,7 +32,7 @@ public final class CitizensExpansion extends Expansion {
     private static final List<String> SUPPORTED_VERSION_LIST;
 
     static {
-        SUPPORTED_VERSION_LIST = Arrays.asList("2.0.35", "2.0.36", "2.0.37", "2.0.38", "2.0.39", "2.0.40");
+        SUPPORTED_VERSION_LIST = Arrays.asList("2.0.35", "2.0.36", "2.0.37", "2.0.38", "2.0.39", "2.0.40", "2.0.41", "2.0.42", "2.0.43");
     }
 
     private final Configuration configuration;
@@ -125,14 +125,16 @@ public final class CitizensExpansion extends Expansion {
         new ListenerPunish(this).register();
         new ListenerQuit(this).register();
 
-        // Totem of Undying was added in 1.11.
+        int majorVersion = VersionUtility.getMajorVersion();
         int minorVersion = VersionUtility.getMinorVersion();
-        if (minorVersion >= 11) {
+
+        // Totem of Undying was added in 1.11.
+        if (majorVersion > 1 || (majorVersion == 1 && minorVersion >= 11)) {
             new ListenerResurrect(this).register();
         }
 
         // EntityTransformEvent was added in 1.13
-        if (minorVersion >= 13) {
+        if (majorVersion > 1 || (majorVersion == 1 && minorVersion >= 13)) {
             new ListenerConvert(this).register();
         }
     }

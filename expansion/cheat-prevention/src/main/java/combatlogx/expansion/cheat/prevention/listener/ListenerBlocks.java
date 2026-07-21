@@ -100,15 +100,16 @@ public final class ListenerBlocks extends CheatPreventionListener {
 
     @SuppressWarnings("deprecation")
     private @NotNull XMaterial fetchMaterial(@NotNull Block block) {
+        int majorVersion = VersionUtility.getMajorVersion();
         int minorVersion = VersionUtility.getMinorVersion();
-        Material bukkitType = block.getType();
 
-        if (minorVersion < 13) {
-            int data = block.getData();
-            String materialName = String.format(Locale.US, "%s:%s", bukkitType.name(), data);
-            return XMaterial.matchXMaterial(materialName).orElse(XMaterial.AIR);
-        } else {
+        Material bukkitType = block.getType();
+        if (majorVersion > 1 || (majorVersion == 1 && minorVersion >= 13)) {
             return XMaterial.matchXMaterial(bukkitType);
         }
+
+        int data = block.getData();
+        String materialName = String.format(Locale.US, "%s:%s", bukkitType.name(), data);
+        return XMaterial.matchXMaterial(materialName).orElse(XMaterial.AIR);
     }
 }

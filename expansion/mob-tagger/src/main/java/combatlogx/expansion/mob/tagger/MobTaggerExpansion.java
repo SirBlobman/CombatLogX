@@ -36,8 +36,9 @@ public final class MobTaggerExpansion extends Expansion {
     public void onEnable() {
         reloadConfig();
 
+        int majorVersion = VersionUtility.getMajorVersion();
         int minorVersion = VersionUtility.getMinorVersion();
-        if (minorVersion < 14) {
+        if (majorVersion == 1 && minorVersion < 14) {
             this.spawnReasonManager = new SpawnReasonManager_Legacy(this);
         } else {
             this.spawnReasonManager = new SpawnReasonManager_New(this);

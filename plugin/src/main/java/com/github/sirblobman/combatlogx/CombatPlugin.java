@@ -262,8 +262,9 @@ public final class CombatPlugin extends ConfigurablePlugin implements ICombatLog
         new ListenerDeath(this).register();
         new ListenerInvulnerable(this).register();
 
+        int majorVersion = VersionUtility.getMajorVersion();
         int minorVersion = VersionUtility.getMinorVersion();
-        if (minorVersion > 13) {
+        if (majorVersion > 1 || (majorVersion == 1 && minorVersion > 13)) {
             new ListenerEndCrystal(this).register();
         }
     }

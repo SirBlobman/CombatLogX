@@ -198,12 +198,13 @@ public abstract class RegionHandler<RE extends RegionExpansion> {
     }
 
     private boolean isGliding(@NotNull Player player) {
+        int majorVersion = VersionUtility.getMajorVersion();
         int minorVersion = VersionUtility.getMinorVersion();
-        if (minorVersion < 9) {
-            return false;
+        if (majorVersion > 1 || (majorVersion == 1 && minorVersion >= 9)) {
+            return player.isGliding();
         }
 
-        return player.isGliding();
+        return false;
     }
 
     public abstract String getEntryDeniedMessagePath(@NotNull TagType tagType);
