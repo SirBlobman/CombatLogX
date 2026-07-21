@@ -31,6 +31,7 @@ It contains all the implementations, commands, and listeners that will be used o
 - **combatlogx.bypass.force.field:** Default bypass permission for the force field, can be changed in the configuration
   file for the force field expansion.
 - **combatlogx.command.combat-timer:** Gives access to the `/combat-timer` command.
+- **combatlogx.command.combat-timer.other** Gives access to checking players other than yourself for the `/combat-timer` command.
 - **combatlogx.command.togglepvp:** Gives access to the `/togglepvp` command from the NewbieHelper expansion.
 - **combatlogx.command.togglepvp.admin:** Gives access to the admin features of the `/togglepvp` command.
 - **combatlogx.command.combatlogx:** Gives access to the base `/combatlogx` command, but not the sub-commands.

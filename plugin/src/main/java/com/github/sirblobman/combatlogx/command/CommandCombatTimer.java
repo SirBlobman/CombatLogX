@@ -75,6 +75,10 @@ public final class CommandCombatTimer extends CombatLogPlayerCommand {
     }
 
     private void checkOther(@NotNull Player player, @NotNull Player target) {
+        if (!checkPermission(player, "combatlogx.command.combat-timer.other", true)) {
+            return;
+        }
+
         ICombatLogX plugin = getCombatLogX();
         ICombatManager combatManager = plugin.getCombatManager();
         LanguageManager languageManager = getLanguageManager();
