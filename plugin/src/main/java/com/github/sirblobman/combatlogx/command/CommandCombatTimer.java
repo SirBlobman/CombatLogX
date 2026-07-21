@@ -15,6 +15,11 @@ import com.github.sirblobman.api.language.replacer.Replacer;
 import com.github.sirblobman.api.language.replacer.StringReplacer;
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.command.CombatLogPlayerCommand;
+import com.github.sirblobman.combatlogx.api.expansion.Expansion;
+import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
+import com.github.sirblobman.combatlogx.api.expansion.vanish.VanishExpansion;
+import com.github.sirblobman.combatlogx.api.expansion.vanish.VanishExpansionConfiguration;
+import com.github.sirblobman.combatlogx.api.expansion.vanish.VanishHandler;
 import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 import com.github.sirblobman.combatlogx.api.object.TagInformation;
 
@@ -75,6 +80,12 @@ public final class CommandCombatTimer extends CombatLogPlayerCommand {
         LanguageManager languageManager = getLanguageManager();
         String targetName = target.getName();
 
+        if (isHiddenByVanish(player, target)) {
+            Replacer replacer = new StringReplacer("{target}", targetName);
+            sendMessageWithPrefix(player, "error.invalid-target", replacer);
+            return;
+        }
+
         TagInformation tagInformation = combatManager.getTagInformation(target);
         if (tagInformation == null || tagInformation.isExpired()) {
             Replacer replacer = new StringReplacer("{target}", targetName);
@@ -90,5 +101,31 @@ public final class CommandCombatTimer extends CombatLogPlayerCommand {
         Replacer targetNameReplacer = new StringReplacer("{target}", targetName);
         sendMessageWithPrefix(player, "command.combat-timer.time-left-other", timeLeftReplacer,
                 targetNameReplacer);
+    }
+
+    private boolean isHiddenByVanish(@NotNull Player viewer, @NotNull Player target) {
+        ExpansionManager expansionManager = getExpansionManager();
+        if (viewer.canSee(target)) {
+            return false;
+        }
+
+        for (Expansion expansion : expansionManager.getEnabledExpansions()) {
+            if (!(expansion instanceof VanishExpansion)) {
+                continue;
+            }
+
+            VanishExpansion vanishExpansion = (VanishExpansion) expansion;
+            VanishExpansionConfiguration configuration = vanishExpansion.getConfiguration();
+            if (!configuration.isPreventVanishTaggingOther()) {
+                continue;
+            }
+
+            VanishHandler<?> vanishHandler = vanishExpansion.getVanishHandler();
+            if (vanishHandler.isVanished(target)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
