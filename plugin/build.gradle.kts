@@ -52,7 +52,7 @@ val pluginSoftDepend = listOf(
 plugins {
     id("maven-publish")
     id("com.gradleup.shadow") version "9.3.2"
-    id("de.eldoria.plugin-yml.bukkit") version "0.8.0"
+    id("de.eldoria.plugin-yml.bukkit") version "0.9.0"
     id("de.eldoria.plugin-yml.paper") version "0.8.0"
 }
 
