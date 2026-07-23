@@ -9,17 +9,28 @@ import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
 
 import combatlogx.expansion.compatibility.luckperms.LuckPermsExpansion;
 import net.luckperms.api.context.ContextConsumer;
+import net.luckperms.api.context.ContextSet;
+import net.luckperms.api.context.ImmutableContextSet;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 public final class ContextInCombat extends AbstractContext<Player> {
-    public ContextInCombat(LuckPermsExpansion expansion) {
+    public ContextInCombat(@NotNull LuckPermsExpansion expansion) {
         super(expansion);
     }
 
     @Override
-    public void calculate(@NotNull Player target, ContextConsumer consumer) {
+    public void calculate(@NotNull Player target, @NotNull ContextConsumer consumer) {
         ICombatLogX combatLogX = getCombatLogX();
         ICombatManager combatManager = combatLogX.getCombatManager();
         boolean combat = combatManager.isInCombat(target);
         consumer.accept("combatlogx-in-combat", Boolean.toString(combat));
+    }
+
+    @Override
+    public @NotNull ContextSet estimatePotentialContexts() {
+        ImmutableContextSet.Builder builder = ImmutableContextSet.builder();
+        builder.add("combatlogx-in-combat", "false");
+        builder.add("combatlogx-in-combat", "true");
+        return builder.build();
     }
 }

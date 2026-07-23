@@ -1,6 +1,7 @@
 package combatlogx.expansion.compatibility.luckperms.context;
 
-import com.github.sirblobman.api.utility.Validate;
+import org.jetbrains.annotations.NotNull;
+
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 
 import combatlogx.expansion.compatibility.luckperms.LuckPermsExpansion;
@@ -12,15 +13,15 @@ import net.luckperms.api.context.ContextManager;
 public abstract class AbstractContext<T> implements ContextCalculator<T> {
     private final LuckPermsExpansion expansion;
 
-    public AbstractContext(LuckPermsExpansion expansion) {
-        this.expansion = Validate.notNull(expansion, "expansion must not be null!");
+    public AbstractContext(@NotNull LuckPermsExpansion expansion) {
+        this.expansion = expansion;
     }
 
-    protected final LuckPermsExpansion getExpansion() {
+    protected final @NotNull LuckPermsExpansion getExpansion() {
         return this.expansion;
     }
 
-    protected final ICombatLogX getCombatLogX() {
+    protected final @NotNull ICombatLogX getCombatLogX() {
         LuckPermsExpansion expansion = getExpansion();
         return expansion.getPlugin();
     }

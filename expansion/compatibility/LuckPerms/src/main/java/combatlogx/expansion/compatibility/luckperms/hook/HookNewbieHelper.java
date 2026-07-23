@@ -2,6 +2,8 @@ package combatlogx.expansion.compatibility.luckperms.hook;
 
 import java.util.Optional;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.github.sirblobman.combatlogx.api.ICombatLogX;
 import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionManager;
@@ -12,20 +14,19 @@ import combatlogx.expansion.compatibility.luckperms.context.ContextNewbieHelperP
 import combatlogx.expansion.newbie.helper.NewbieHelperExpansion;
 
 public final class HookNewbieHelper {
-    public static void registerContexts(LuckPermsExpansion instance) {
+    public static void registerContexts(@NotNull LuckPermsExpansion instance) {
         ICombatLogX plugin = instance.getPlugin();
         ExpansionManager expansionManager = plugin.getExpansionManager();
         Optional<Expansion> optionalExpansion = expansionManager.getExpansion("NewbieHelper");
-        if (!optionalExpansion.isPresent()) {
+        if (optionalExpansion.isEmpty()) {
             return;
         }
 
         Expansion expansion = optionalExpansion.get();
-        if (!(expansion instanceof NewbieHelperExpansion)) {
+        if (!(expansion instanceof NewbieHelperExpansion newbieHelper)) {
             return;
         }
 
-        NewbieHelperExpansion newbieHelper = (NewbieHelperExpansion) expansion;
         new ContextNewbieHelperProtected(instance, newbieHelper).register();
         new ContextNewbieHelperPvpStatus(instance, newbieHelper).register();
     }
