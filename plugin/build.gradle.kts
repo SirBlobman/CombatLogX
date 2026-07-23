@@ -270,7 +270,7 @@ dependencies {
     implementation(project(":api"))
 
     // Java Dependencies
-    implementation("org.zeroturnaround:zt-zip:1.17") // ZT Zip
+    implementation("org.zeroturnaround:zt-zip:1.18.2") // ZT Zip
 
     // Plugin Dependencies
     compileOnly("me.clip:placeholderapi:2.11.6") // PlaceholderAPI
