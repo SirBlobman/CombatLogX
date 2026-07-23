@@ -27,6 +27,7 @@ val pluginSoftDepend = listOf(
     "Konquest",
     "Lands",
     "LibsDisguises",
+    "LuckPerms",
     "MarriageMaster",
     "MCPets",
     "MythicMobs",

@@ -11,7 +11,6 @@ import combatlogx.expansion.compatibility.luckperms.LuckPermsExpansion;
 import net.luckperms.api.context.ContextConsumer;
 import net.luckperms.api.context.ContextSet;
 import net.luckperms.api.context.ImmutableContextSet;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 public final class ContextInCombat extends AbstractContext<Player> {
     public ContextInCombat(@NotNull LuckPermsExpansion expansion) {
