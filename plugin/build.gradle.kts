@@ -186,12 +186,12 @@ paper {
     apiVersion = "1.19"
     load = BukkitPluginDescription.PluginLoadOrder.POSTWORLD
 
+    hasOpenClassloader = true
     foliaSupported = true
     authors = listOf("SirBlobman")
 
     dependencies {
         pluginDepend.forEach { it -> quickRegister(serverDependencies, it, true) }
-        pluginSoftDepend.forEach { it -> quickRegister(serverDependencies, it, false) }
     }
 
     permissions {
