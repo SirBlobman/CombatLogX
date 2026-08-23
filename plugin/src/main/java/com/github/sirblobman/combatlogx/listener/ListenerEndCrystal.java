@@ -5,7 +5,6 @@ import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -34,10 +33,11 @@ public final class ListenerEndCrystal extends CombatListener {
         }
 
         Entity damaged = e.getEntity();
-        if (!(damaged instanceof Player player)) {
+        if (!(damaged instanceof Player)) {
             return;
         }
 
+        Player player = (Player) damaged;
         Entity damager = e.getDamager();
         XEntityType damagerType = XEntityType.of(damager);
         if (damagerType != XEntityType.END_CRYSTAL) {

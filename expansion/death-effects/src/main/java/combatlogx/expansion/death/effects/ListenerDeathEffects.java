@@ -118,7 +118,8 @@ public final class ListenerDeathEffects extends ExpansionListener {
         Location location = player.getLocation();
         List<Entity> nearbyEntityList = player.getNearbyEntities(200D, 20.0D, 20.0D);
         for (Entity entity : nearbyEntityList) {
-            if (entity instanceof Player other) {
+            if (entity instanceof Player) {
+                Player other = (Player) entity;
                 sendFakeRedstoneDust(other, location);
             }
         }

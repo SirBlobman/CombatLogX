@@ -33,10 +33,11 @@ public final class ListenerDamage extends ExpansionListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onDamageByMob(EntityDamageByEntityEvent e) {
         Entity damaged = e.getEntity();
-        if (!(damaged instanceof Player player)) {
+        if (!(damaged instanceof Player)) {
             return;
         }
 
+        Player player = (Player) damaged;
         if (isWorldDisabled(player)) {
             return;
         }
@@ -60,10 +61,11 @@ public final class ListenerDamage extends ExpansionListener {
         }
 
         Entity damager = getDamager(e);
-        if (!(damager instanceof Player player)) {
+        if (!(damager instanceof Player)) {
             return;
         }
 
+        Player player = (Player) damager;
         if (isWorldDisabled(player)) {
             return;
         }
@@ -82,19 +84,21 @@ public final class ListenerDamage extends ExpansionListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onDamageByPlayer(EntityDamageByEntityEvent e) {
         Entity damaged = e.getEntity();
-        if (!(damaged instanceof Player attacked)) {
+        if (!(damaged instanceof Player)) {
             return;
         }
 
+        Player attacked = (Player) damaged;
         if (isWorldDisabled(attacked)) {
             return;
         }
 
         Entity damager = getDamager(e);
-        if (!(damager instanceof Player attacker)) {
+        if (!(damager instanceof Player)) {
             return;
         }
 
+        Player attacker = (Player) damager;
         if (isWorldDisabled(attacker)) {
             return;
         }

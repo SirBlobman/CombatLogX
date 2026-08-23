@@ -1,23 +1,17 @@
 package combatlogx.expansion.newbie.helper.listener;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
 import org.jetbrains.annotations.NotNull;
 
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockFadeEvent;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -27,9 +21,7 @@ import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
 
 import com.github.sirblobman.api.location.BlockLocation;
-import com.github.sirblobman.combatlogx.api.expansion.Expansion;
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
-
 import com.github.sirblobman.api.shaded.xseries.XMaterial;
 
 import combatlogx.expansion.newbie.helper.NewbieHelperExpansion;
@@ -130,10 +122,11 @@ public final class ListenerLavaFire extends ExpansionListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onDamage(EntityDamageByBlockEvent e) {
         Entity damaged = e.getEntity();
-        if (!(damaged instanceof Player player)) {
+        if (!(damaged instanceof Player)) {
             return;
         }
 
+        Player player = (Player) damaged;
         if (isBlockProtection() && e.getDamager() != null) {
             NewbieHelperExpansion expansion = getNewbieHelperExpansion();
             BlockLocation blockLocation = BlockLocation.from(e.getDamager());

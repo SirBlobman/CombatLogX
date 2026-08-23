@@ -1,8 +1,9 @@
 package combatlogx.expansion.cheat.prevention;
 
+import java.lang.reflect.Constructor;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import combatlogx.expansion.cheat.prevention.listener.*;
 import org.jetbrains.annotations.NotNull;
 
 import com.github.sirblobman.api.configuration.ConfigurationManager;
@@ -34,11 +35,23 @@ import combatlogx.expansion.cheat.prevention.configuration.InventoryConfiguratio
 import combatlogx.expansion.cheat.prevention.configuration.ItemConfiguration;
 import combatlogx.expansion.cheat.prevention.configuration.PotionConfiguration;
 import combatlogx.expansion.cheat.prevention.configuration.TeleportConfiguration;
+import combatlogx.expansion.cheat.prevention.listener.CheatPreventionListener;
+import combatlogx.expansion.cheat.prevention.listener.ListenerBlocks;
+import combatlogx.expansion.cheat.prevention.listener.ListenerBuckets;
+import combatlogx.expansion.cheat.prevention.listener.ListenerCommands;
+import combatlogx.expansion.cheat.prevention.listener.ListenerDrop;
+import combatlogx.expansion.cheat.prevention.listener.ListenerElytra;
+import combatlogx.expansion.cheat.prevention.listener.ListenerEnderPearl;
+import combatlogx.expansion.cheat.prevention.listener.ListenerEntities;
+import combatlogx.expansion.cheat.prevention.listener.ListenerFlight;
+import combatlogx.expansion.cheat.prevention.listener.ListenerGameMode;
+import combatlogx.expansion.cheat.prevention.listener.ListenerRiptide;
+import combatlogx.expansion.cheat.prevention.listener.ListenerTeleport;
+import combatlogx.expansion.cheat.prevention.listener.ListenerTotem;
 import combatlogx.expansion.cheat.prevention.listener.legacy.ListenerChat;
 import combatlogx.expansion.cheat.prevention.listener.legacy.ListenerLegacyItemPickup;
 import combatlogx.expansion.cheat.prevention.listener.legacy.ListenerLegacyPortalCreate;
 import combatlogx.expansion.cheat.prevention.listener.legacy.ListenerLegacyPotions;
-import combatlogx.expansion.cheat.prevention.listener.modern.ListenerInventoriesModern;
 import combatlogx.expansion.cheat.prevention.listener.modern.ListenerModernItemPickup;
 import combatlogx.expansion.cheat.prevention.listener.modern.ListenerModernPortalCreate;
 import combatlogx.expansion.cheat.prevention.listener.modern.ListenerModernPotions;
@@ -257,11 +270,19 @@ public final class CheatPreventionExpansion extends Expansion implements ICheatP
             new ListenerLegacyPortalCreate(this).register();
         }
 
-        // InventoryView can be an interface or abstract class depending on version
-        if (isAbstractInventoryView()) {
-            new ListenerInventoriesModern(this).register();
-        } else {
-            new ListenerInventories(this).register();
+        try {
+            // InventoryView can be an interface or abstract class depending on version
+            String modernInventoryClass = "combatlogx.expansion.cheat.prevention.listener.modern.ListenerInventoriesModern";
+            String legacyInventoryClass = "combatlogx.expansion.cheat.prevention.listener.ListenerInventories";
+            String selectedClassName = isAbstractInventoryView() ? modernInventoryClass : legacyInventoryClass;
+
+            Class<?> selectedClass = Class.forName(selectedClassName);
+            Constructor<?> selectedClassConstructor = selectedClass.getConstructor(ICheatPreventionExpansion.class);
+            CheatPreventionListener listener = (CheatPreventionListener) selectedClassConstructor.newInstance(this);
+            listener.register();
+        } catch (ReflectiveOperationException ex) {
+            Logger logger = getLogger();
+            logger.log(Level.WARNING, "Failed to register inventory listener:", ex);
         }
     }
 

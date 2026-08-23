@@ -34,7 +34,8 @@ public final class ListenerMythicMobs extends ExpansionListener {
         Entity damager = e.getDamager();
 
         ICombatManager combatManager = getCombatManager();
-        if (damaged instanceof Player playerDamaged && isMythicMob(damager)) {
+        if (damaged instanceof Player && isMythicMob(damager)) {
+            Player playerDamaged = (Player) damaged;
             damager = linkMainMythicMob(damager);
             String mobName = getMythicMobName(damager);
             if (mobName != null && isForceTag(mobName)) {
@@ -42,7 +43,8 @@ public final class ListenerMythicMobs extends ExpansionListener {
             }
         }
 
-        if (damager instanceof Player playerDamager && isMythicMob(damaged)) {
+        if (damager instanceof Player && isMythicMob(damaged)) {
+            Player playerDamager = (Player) damager;
             damaged = linkMainMythicMob(damaged);
             String mobName = getMythicMobName(damaged);
             if (mobName != null && isForceTag(mobName)) {

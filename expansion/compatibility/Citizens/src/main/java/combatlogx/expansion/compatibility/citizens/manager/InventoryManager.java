@@ -247,13 +247,13 @@ public final class InventoryManager {
             }
         }
 
-        return switch (slot) {
-            case HEAD -> Equipment.EquipmentSlot.HELMET;
-            case CHEST -> Equipment.EquipmentSlot.CHESTPLATE;
-            case LEGS -> Equipment.EquipmentSlot.LEGGINGS;
-            case FEET -> Equipment.EquipmentSlot.BOOTS;
-            case HAND -> Equipment.EquipmentSlot.HAND;
-            default -> null;
-        };
+        switch (slot) {
+            case HEAD: return Equipment.EquipmentSlot.HELMET;
+            case CHEST: return Equipment.EquipmentSlot.CHESTPLATE;
+            case LEGS: return Equipment.EquipmentSlot.LEGGINGS;
+            case FEET: return Equipment.EquipmentSlot.BOOTS;
+            case HAND: return Equipment.EquipmentSlot.HAND;
+            default: return null;
+        }
     }
 }

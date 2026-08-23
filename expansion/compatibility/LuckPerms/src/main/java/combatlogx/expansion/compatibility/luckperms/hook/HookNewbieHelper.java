@@ -18,15 +18,16 @@ public final class HookNewbieHelper {
         ICombatLogX plugin = instance.getPlugin();
         ExpansionManager expansionManager = plugin.getExpansionManager();
         Optional<Expansion> optionalExpansion = expansionManager.getExpansion("NewbieHelper");
-        if (optionalExpansion.isEmpty()) {
+        if (!optionalExpansion.isPresent()) {
             return;
         }
 
         Expansion expansion = optionalExpansion.get();
-        if (!(expansion instanceof NewbieHelperExpansion newbieHelper)) {
+        if (!(expansion instanceof NewbieHelperExpansion)) {
             return;
         }
 
+        NewbieHelperExpansion newbieHelper = (NewbieHelperExpansion) expansion;
         new ContextNewbieHelperProtected(instance, newbieHelper).register();
         new ContextNewbieHelperPvpStatus(instance, newbieHelper).register();
     }

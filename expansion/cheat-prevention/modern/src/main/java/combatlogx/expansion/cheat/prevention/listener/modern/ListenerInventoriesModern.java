@@ -17,7 +17,7 @@ import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
 import combatlogx.expansion.cheat.prevention.configuration.IInventoryConfiguration;
 import combatlogx.expansion.cheat.prevention.listener.CheatPreventionListener;
 
-// 1.20.6 use a InventoryView interface instead of an abstract class
+// 1.20.6 uses an InventoryView interface instead of an abstract class
 // No code difference, only compilation difference.
 public final class ListenerInventoriesModern extends CheatPreventionListener {
     public ListenerInventoriesModern(@NotNull ICheatPreventionExpansion expansion) {

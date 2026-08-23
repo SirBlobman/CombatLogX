@@ -85,12 +85,13 @@ public class ListenerLootProtection extends ExpansionListener {
         }
 
         Entity entity = e.getEntity();
-        if (!(entity instanceof Player player)) {
+        if (!(entity instanceof Player)) {
             printDebug("Entity was not player, preventing pickup.");
             e.setCancelled(true);
             return;
         }
 
+        Player player = (Player) entity;
         UUID itemEntityId = itemEntity.getUniqueId();
         printDebug("Item Entity ID: " + itemEntityId);
         ProtectedItem protectedItem = this.protectedItemMap.get(itemEntityId);
@@ -138,7 +139,7 @@ public class ListenerLootProtection extends ExpansionListener {
             return;
         }
 
-        Entity previousEnemy = enemyList.getFirst();
+        Entity previousEnemy = enemyList.get(0);
         if (previousEnemy == null) {
             return;
         }
@@ -169,7 +170,7 @@ public class ListenerLootProtection extends ExpansionListener {
             return;
         }
 
-        Entity previousEnemy = enemyList.getFirst();
+        Entity previousEnemy = enemyList.get(0);
         if (previousEnemy == null) {
             return;
         }
@@ -196,7 +197,8 @@ public class ListenerLootProtection extends ExpansionListener {
         ICombatLogX combatLogX = getCombatLogX();
         IDeathManager deathManager = combatLogX.getDeathManager();
 
-        if (entity instanceof Player player) {
+        if (entity instanceof Player) {
+            Player player = (Player) entity;
             if (isOnlyProtectAfterLog() && !deathManager.wasPunishKilled(player)) {
                 printDebug("option 'only-protect-after-log' is 'true' and the player did not combat log. Ignoring.");
                 return;
@@ -205,7 +207,8 @@ public class ListenerLootProtection extends ExpansionListener {
 
         UUID entityId = entity.getUniqueId();
         UUID enemyId = this.enemyMap.get(entityId);
-        if (!checkVoidKill(e) && entity instanceof Player player) {
+        if (!checkVoidKill(e) && entity instanceof Player) {
+            Player player = (Player) entity;
             printDebug("Cause of death was not void and entity is player.");
             PlayerDataManager playerDataManager = getPlayerDataManager();
             YamlConfiguration playerData = playerDataManager.get(player);
@@ -356,11 +359,12 @@ public class ListenerLootProtection extends ExpansionListener {
             }
 
             Entity enemy = Bukkit.getEntity(enemyId);
-            if (!(enemy instanceof Player enemyPlayer)) {
+            if (!(enemy instanceof Player)) {
                 printDebug("Enemy is not player, VOID = true but can't return items.");
                 return true;
             }
 
+            Player enemyPlayer = (Player) enemy;
             World enemyWorld = enemy.getWorld();
             Location enemyLocation = enemy.getLocation();
             List<ItemStack> dropList = e.getDrops();

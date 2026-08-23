@@ -29,11 +29,12 @@ public final class ListenerBSkyBlock extends ExpansionListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void beforeTag(PlayerPreTagEvent e) {
         Entity enemy = e.getEnemy();
-        if (!(enemy instanceof Player playerEnemy)) {
+        if (!(enemy instanceof Player)) {
             return;
         }
 
         Player player = e.getPlayer();
+        Player playerEnemy = (Player) enemy;
         if (doesTeamMatch(player, playerEnemy)) {
             e.setCancelled(true);
         }

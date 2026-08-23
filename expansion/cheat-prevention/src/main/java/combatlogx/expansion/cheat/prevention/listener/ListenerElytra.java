@@ -38,10 +38,11 @@ public final class ListenerElytra extends CheatPreventionListener {
         }
 
         Entity entity = e.getEntity();
-        if (!(entity instanceof Player player)) {
+        if (!(entity instanceof Player)) {
             return;
         }
 
+        Player player = (Player) entity;
         if (isInCombat(player) && isPreventElytra()) {
             e.setCancelled(true);
             sendMessage(player, "expansion.cheat-prevention.elytra.no-gliding");
@@ -55,11 +56,15 @@ public final class ListenerElytra extends CheatPreventionListener {
         }
 
         Projectile projectile = e.getEntity();
-        if (projectile instanceof Firework firework) {
+        if (projectile instanceof Firework) {
+            Firework firework = (Firework) projectile;
             ProjectileSource shooter = firework.getShooter();
-            if (shooter instanceof Player player && isInCombat(player)) {
-                e.setCancelled(true);
-                sendMessage(player, "expansion.cheat-prevention.elytra.no-fireworks");
+            if (shooter instanceof Player) {
+                Player player = (Player) shooter;
+                if (isInCombat(player)) {
+                    e.setCancelled(true);
+                    sendMessage(player, "expansion.cheat-prevention.elytra.no-fireworks");
+                }
             }
         }
     }

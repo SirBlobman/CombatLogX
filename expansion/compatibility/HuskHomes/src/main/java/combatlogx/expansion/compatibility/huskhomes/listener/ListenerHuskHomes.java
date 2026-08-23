@@ -29,10 +29,11 @@ public final class ListenerHuskHomes extends ExpansionListener {
 
         Teleport timedTeleport = e.getTimedTeleport();
         Teleportable teleporter = timedTeleport.getTeleporter();
-        if (!(teleporter instanceof BukkitUser bukkitTeleporter)) {
+        if (!(teleporter instanceof BukkitUser)) {
             return;
         }
 
+        BukkitUser bukkitTeleporter = (BukkitUser) teleporter;
         UUID teleporterId = bukkitTeleporter.getUuid();
         printDebug("Teleporter ID: " + teleporterId);
 

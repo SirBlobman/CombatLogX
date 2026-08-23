@@ -23,10 +23,11 @@ public final class ListenerCrackShot extends ExpansionListener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onAttack(WeaponDamageEntityEvent e) {
         Entity entity = e.getVictim();
-        if (!(entity instanceof Player damaged)) {
+        if (!(entity instanceof Player)) {
             return;
         }
 
+        Player damaged = (Player) entity;
         Player damager = e.getPlayer();
         ICombatManager combatManager = getCombatManager();
         combatManager.tag(damager, damaged, TagType.PLAYER, TagReason.ATTACKER);

@@ -34,6 +34,10 @@ public final class ListenerPreventLeaving extends RegionExpansionListener {
 
         Location from = e.getFrom();
         Location to = e.getTo();
+        if (to == null) {
+            return;
+        }
+
         if (isPreventLeaving(player, from, to)) {
             e.setCancelled(true);
         }
@@ -57,7 +61,7 @@ public final class ListenerPreventLeaving extends RegionExpansionListener {
 
     private boolean isPreventLeaving(@NotNull Player player, @NotNull Location from, @NotNull Location to) {
         Optional<String> fromId = getPreventLeavingId(player, from);
-        if (fromId.isEmpty()) {
+        if (!fromId.isPresent()) {
             return false;
         }
 
