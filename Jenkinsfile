@@ -1,10 +1,10 @@
 pipeline {
     agent {
-        label "multi-java"
+        label 'multi-java'
     }
 
     options {
-        githubProjectProperty(projectUrlStr: "https://github.com/SirBlobman/CombatLogX")
+        githubProjectProperty(projectUrlStr: 'https://github.com/SirBlobman/CombatLogX')
     }
 
     environment {
@@ -23,15 +23,24 @@ pipeline {
     }
 
     stages {
-        stage("Gradle: Build") {
+        stage('Gradle: Build') {
             steps {
                 withGradle {
                     script {
-                        sh("./gradlew --refresh-dependencies --no-daemon clean build")
-                        if (env.BRANCH_NAME == "main") {
-                            sh("./gradlew publish --no-daemon")
-                        }
+                        sh('./gradlew --refresh-dependencies --no-daemon clean build')
                     }
+                }
+            }
+        }
+
+        stage('Gradle: Publish') {
+            when {
+                branch 'main'
+            }
+
+            steps {
+                withGradle {
+                    sh('./gradlew --no-daemon publish')
                 }
             }
         }
@@ -44,13 +53,21 @@ pipeline {
 
         always {
             script {
-                discordSend webhookURL: DISCORD_URL, title: "CombatLogX", link: "${env.BUILD_URL}",
+                def description = """
+                    **Branch:** ${env.GIT_BRANCH}
+                    **Build:** ${env.BUILD_NUMBER}
+                    **Status:** ${currentBuild.currentResult}
+                """
+
+                discordSend(
+                    webhookURL: DISCORD_URL,
+                    title: 'CombatLogX',
+                    link: env.BUILD_URL,
                     result: currentBuild.currentResult,
-                    description: """\
-                        **Branch:** ${env.GIT_BRANCH}
-                        **Build:** ${env.BUILD_NUMBER}
-                        **Status:** ${currentBuild.currentResult}""".stripIndent(),
-                    enableArtifactsList: false, showChangeset: true
+                    description: description.stripIndent(),
+                    enableArtifactsList: false,
+                    showChangeset: true
+                )
             }
         }
     }
