@@ -14,5 +14,5 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.mvdw-software:FeatherBoard:6.0.7")
+    compileOnly("com.mvdw-software:FeatherBoard:6.0.8")
 }

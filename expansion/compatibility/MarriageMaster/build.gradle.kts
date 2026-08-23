@@ -1,3 +1,3 @@
 dependencies {
-    compileOnly("at.pcgamingfreaks:MarriageMaster:2.7.9")
+    compileOnly("at.pcgamingfreaks:MarriageMaster:2.9.3")
 }

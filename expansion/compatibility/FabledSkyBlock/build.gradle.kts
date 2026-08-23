@@ -14,5 +14,5 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.songoda:FabledSkyBlock:4.2.0")
+    compileOnly("com.songoda:FabledSkyBlock:4.10.0")
 }

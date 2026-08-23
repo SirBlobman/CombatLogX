@@ -1,7 +1,7 @@
 repositories {
-    maven("https://nexus.sirblobman.xyz/proxy-public")
+    maven("https://mvn.lib.co.nz/public")
 }
 
 dependencies {
-    compileOnly("me.libraryaddict.disguises:libsdisguises:11.0.13-SNAPSHOT")
+    compileOnly("me.libraryaddict.disguises:libsdisguises:26.8.13")
 }

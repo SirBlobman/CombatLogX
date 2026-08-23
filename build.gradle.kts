@@ -18,10 +18,9 @@ subprojects {
     }
 
     repositories {
-        mavenCentral()
-        maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
-        maven("https://oss.sonatype.org/content/repositories/snapshots/")
-        maven("https://nexus.sirblobman.xyz/public/")
+        maven("https://nexus.sirblobman.xyz/central-mirror/") // Central Mirror
+        maven("https://repo.aikar.co/nexus/content/groups/aikar/") // Aikar Repository
+        maven("https://nexus.sirblobman.xyz/public/") // SirBlobman Public Repository
     }
 
     dependencies {
