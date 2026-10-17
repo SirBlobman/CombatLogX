@@ -21,12 +21,12 @@ public final class ListenerResurrect extends CitizensExpansionListener {
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onResurrect(EntityResurrectEvent e) {
-        CitizensConfiguration configuration = getCitizensConfiguration();
+        LivingEntity entity = e.getEntity();
+        CitizensConfiguration configuration = getCitizensConfiguration(entity.getWorld());
         if (!configuration.isPreventResurrect()) {
             return;
         }
 
-        LivingEntity entity = e.getEntity();
         NPCRegistry npcRegistry = CitizensAPI.getNPCRegistry();
         NPC npc = npcRegistry.getNPC(entity);
         if (npc == null) {

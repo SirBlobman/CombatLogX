@@ -25,13 +25,13 @@ public final class ListenerPunish extends CitizensExpansionListener {
     public void beforePunish(PlayerPunishEvent e) {
         printDebug("Detected PlayerPunishEvent.");
 
-        CitizensConfiguration configuration = getCitizensConfiguration();
+        Player player = e.getPlayer();
+        CitizensConfiguration configuration = getCitizensConfiguration(player.getWorld());
         if (configuration.isPreventPunishments()) {
             printDebug("Cancelling all other CombatLogX punishments.");
             e.setCancelled(true);
         }
 
-        Player player = e.getPlayer();
         CombatNpcManager combatNpcManager = getCombatNpcManager();
         YamlConfiguration playerData = combatNpcManager.getData(player);
 

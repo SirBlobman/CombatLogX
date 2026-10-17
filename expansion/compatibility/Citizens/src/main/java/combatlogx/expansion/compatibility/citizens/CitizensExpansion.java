@@ -1,12 +1,20 @@
 package combatlogx.expansion.compatibility.citizens;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
@@ -24,19 +32,21 @@ import combatlogx.expansion.compatibility.citizens.listener.ListenerDeath;
 import combatlogx.expansion.compatibility.citizens.listener.ListenerJoin;
 import combatlogx.expansion.compatibility.citizens.listener.ListenerPunish;
 import combatlogx.expansion.compatibility.citizens.listener.ListenerQuit;
+import combatlogx.expansion.compatibility.citizens.listener.ListenerRespawn;
 import combatlogx.expansion.compatibility.citizens.listener.ListenerResurrect;
 import combatlogx.expansion.compatibility.citizens.manager.CombatNpcManager;
 import combatlogx.expansion.compatibility.citizens.manager.InventoryManager;
 
 public final class CitizensExpansion extends Expansion {
-    private static final List<String> SUPPORTED_VERSION_LIST;
-
-    static {
-        SUPPORTED_VERSION_LIST = Arrays.asList("2.0.35", "2.0.36", "2.0.37", "2.0.38", "2.0.39", "2.0.40", "2.0.41", "2.0.42", "2.0.43");
-    }
+    /**
+     * The oldest Citizens release this expansion was written against. Newer releases are accepted,
+     * so a hardcoded list does not have to be updated every time Citizens publishes a build.
+     */
+    private static final int[] MINIMUM_CITIZENS_VERSION = {2, 0, 35};
 
     private final Configuration configuration;
     private final CitizensConfiguration citizensConfiguration;
+    private final Map<String, CitizensConfiguration> worldConfigurationMap;
     private final SentinelConfiguration sentinelConfiguration;
     private final CombatNpcManager combatNpcManager;
     private final InventoryManager inventoryManager;
@@ -45,6 +55,7 @@ public final class CitizensExpansion extends Expansion {
         super(plugin);
         this.configuration = new Configuration();
         this.citizensConfiguration = new CitizensConfiguration(this);
+        this.worldConfigurationMap = new HashMap<>();
         this.sentinelConfiguration = new SentinelConfiguration(this);
 
         this.combatNpcManager = new CombatNpcManager(this);
@@ -78,6 +89,7 @@ public final class CitizensExpansion extends Expansion {
         String citizensVersion = citizens.getDescription().getVersion();
         if (!isCitizensSupported(citizensVersion)) {
             logger.info("Dependency 'Citizens' is not the correct version.");
+            logger.info("Expected 2.0.35 or newer but found '" + citizensVersion + "'.");
             selfDisable();
             return;
         }
@@ -100,8 +112,37 @@ public final class CitizensExpansion extends Expansion {
         configurationManager.reload("sentinel.yml");
 
         getConfiguration().load(configurationManager.get("config.yml"));
-        getCitizensConfiguration().load(configurationManager.get("citizens.yml"));
+        loadCitizensConfiguration(configurationManager.get("citizens.yml"));
         getSentinelConfiguration().load(configurationManager.get("sentinel.yml"));
+    }
+
+    private void loadCitizensConfiguration(@NotNull YamlConfiguration config) {
+        CitizensConfiguration globalConfiguration = getCitizensConfiguration();
+        globalConfiguration.resetToDefaults();
+        globalConfiguration.load(config);
+
+        Map<String, CitizensConfiguration> worldMap = this.worldConfigurationMap;
+        worldMap.clear();
+
+        ConfigurationSection worldsSection = config.getConfigurationSection("worlds");
+        if (worldsSection == null) {
+            return;
+        }
+
+        Logger logger = getLogger();
+        Set<String> worldNameSet = worldsSection.getKeys(false);
+        for (String worldName : worldNameSet) {
+            ConfigurationSection worldSection = worldsSection.getConfigurationSection(worldName);
+            if (worldSection == null) {
+                logger.warning("Ignoring 'worlds." + worldName + "' in citizens.yml: it must be a section.");
+                continue;
+            }
+
+            CitizensConfiguration worldConfiguration = globalConfiguration.copy();
+            worldConfiguration.load(worldSection);
+            worldMap.put(worldName, worldConfiguration);
+            logger.info("Loaded per-world Citizens settings for world '" + worldName + "'.");
+        }
     }
 
     public @NotNull CombatNpcManager getCombatNpcManager() {
@@ -124,6 +165,7 @@ public final class CitizensExpansion extends Expansion {
         new ListenerJoin(this).register();
         new ListenerPunish(this).register();
         new ListenerQuit(this).register();
+        new ListenerRespawn(this).register();
 
         int majorVersion = VersionUtility.getMajorVersion();
         int minorVersion = VersionUtility.getMinorVersion();
@@ -139,22 +181,63 @@ public final class CitizensExpansion extends Expansion {
         }
     }
 
+    /**
+     * @param version The Citizens plugin version, e.g. "2.0.44-SNAPSHOT (build 3870)".
+     * @return {@code true} if the version is at least {@link #MINIMUM_CITIZENS_VERSION}.
+     */
     private boolean isCitizensSupported(@NotNull String version) {
-        for(String start : SUPPORTED_VERSION_LIST) {
-            if(version.startsWith(start)) {
-                return true;
+        Matcher matcher = Pattern.compile("^\\D*(\\d+)\\.(\\d+)\\.(\\d+)").matcher(version);
+        if (!matcher.find()) {
+            Logger logger = getLogger();
+            logger.warning("Could not parse Citizens version '" + version + "', assuming it is supported.");
+            return true;
+        }
+
+        for (int i = 0; i < MINIMUM_CITIZENS_VERSION.length; i++) {
+            int actual = Integer.parseInt(matcher.group(i + 1));
+            int minimum = MINIMUM_CITIZENS_VERSION[i];
+            if (actual != minimum) {
+                return (actual > minimum);
             }
         }
 
-        return false;
+        return true;
     }
 
     public @NotNull Configuration getConfiguration() {
         return this.configuration;
     }
 
+    /**
+     * @return The global settings from 'citizens.yml', without any per-world overrides applied.
+     */
     public @NotNull CitizensConfiguration getCitizensConfiguration() {
         return this.citizensConfiguration;
+    }
+
+    /**
+     * @param world The world to get settings for. {@code null} returns the global settings.
+     * @return The settings for that world: the global settings with the matching 'worlds.<name>'
+     * section from 'citizens.yml' applied on top, or the global settings if the world has no section.
+     */
+    public @NotNull CitizensConfiguration getCitizensConfiguration(@Nullable World world) {
+        if (world == null) {
+            return getCitizensConfiguration();
+        }
+
+        String worldName = world.getName();
+        CitizensConfiguration worldConfiguration = this.worldConfigurationMap.get(worldName);
+        return (worldConfiguration == null ? getCitizensConfiguration() : worldConfiguration);
+    }
+
+    /**
+     * @param location The location to get settings for. {@code null} or a location without a world
+     *                 returns the global settings.
+     * @return The settings for the world of that location.
+     */
+    public @NotNull CitizensConfiguration getCitizensConfiguration(@Nullable Location location) {
+        World world = (location == null ? null : location.getWorld());
+        return getCitizensConfiguration(world);
     }
 
     public @NotNull SentinelConfiguration getSentinelConfiguration() {

@@ -3,6 +3,7 @@ package combatlogx.expansion.compatibility.citizens.task;
 import org.jetbrains.annotations.NotNull;
 
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
@@ -23,6 +24,11 @@ import combatlogx.expansion.compatibility.citizens.manager.CombatNpcManager;
 import combatlogx.expansion.compatibility.citizens.manager.InventoryManager;
 
 public final class PunishTask extends EntityTaskDetails<Player> {
+    /**
+     * Player data flag: the stored inventory must be restored after the player's next respawn.
+     */
+    public static final String RESTORE_AFTER_RESPAWN_PATH = "citizens-compatibility.restore-after-respawn";
+
     private final CitizensExpansion expansion;
 
     public PunishTask(@NotNull CitizensExpansion expansion, @NotNull Player entity) {
@@ -47,9 +53,9 @@ public final class PunishTask extends EntityTaskDetails<Player> {
         return this.expansion;
     }
 
-    private @NotNull CitizensConfiguration getCitizensConfiguration() {
+    private @NotNull CitizensConfiguration getCitizensConfiguration(@NotNull World world) {
         CitizensExpansion expansion = getExpansion();
-        return expansion.getCitizensConfiguration();
+        return expansion.getCitizensConfiguration(world);
     }
 
     private @NotNull CombatNpcManager getCombatNpcManager() {
@@ -86,9 +92,12 @@ public final class PunishTask extends EntityTaskDetails<Player> {
         playerData.set("citizens-compatibility.punish", false);
         combatNpcManager.saveData(player);
 
-        CitizensConfiguration configuration = getCitizensConfiguration();
+        // Use the settings of the world the NPC was in, not the world the player happens to spawn in.
+        Location location = combatNpcManager.loadLocation(player);
+        World world = (location == null || location.getWorld() == null ? player.getWorld() : location.getWorld());
+        CitizensConfiguration configuration = getCitizensConfiguration(world);
+
         if (configuration.isStoreLocation()) {
-            Location location = combatNpcManager.loadLocation(player);
             if (location != null) {
                 FoliaHelper foliaHelper = getExpansion().getPlugin().getFoliaHelper();
                 TeleportHandler teleporter = foliaHelper.getTeleporter();
@@ -113,7 +122,14 @@ public final class PunishTask extends EntityTaskDetails<Player> {
 
         if (configuration.isStoreInventory()) {
             InventoryManager inventoryManager = getInventoryManager();
-            inventoryManager.restoreInventory(player);
+            if (health > 0.0D) {
+                inventoryManager.restoreInventory(player);
+            } else if (inventoryManager.getStoredInventory(player) != null) {
+                // The player was just killed. Items given to a dead player are wiped on respawn,
+                // so restore the kept inventory (death-inventory: KEEP) after the respawn instead.
+                playerData.set(RESTORE_AFTER_RESPAWN_PATH, true);
+                combatNpcManager.saveData(player);
+            }
         }
 
         if (configuration.isTagPlayer() && health > 0.0D) {

@@ -21,6 +21,14 @@ mob-type: PLAYER
 # Default: true
 store-inventory: true
 
+# What should happen with the stored inventory when the NPC is killed?
+# This option only has an effect when 'store-inventory' is true.
+# DROP: Drop all items at the location where the NPC died, so the killer can loot them.
+# KEEP: Nothing is dropped. The player gets their items back when they log in again.
+# DESTROY: Nothing is dropped and the items are deleted permanently.
+# Default: DROP
+death-inventory: DROP
+
 # Should we store the NPC's last location?
 # The player will be teleported to that location once they log bck in.
 # Default: true
@@ -64,3 +72,18 @@ always-spawn-npc-on-quit: false
 # Available Placeholders: {player_name}
 # DO NOT set this to null or empty.
 custom-npc-name: "{player_name}"
+
+# Per-world overrides.
+# Every option from this file (except this 'worlds' section itself) can be changed per world.
+# A world that is not listed here uses the global values above.
+# A world that is listed only needs the options you want to change; everything else falls back to the global values.
+# World names are case-sensitive and must match the folder name of the world.
+#
+# Example: NPCs drop loot in 'world', but not in 'world_pvp_safe':
+# worlds:
+#   world:
+#     death-inventory: DROP
+#   world_pvp_safe:
+#     death-inventory: KEEP
+#     survival-time: 15
+worlds: { }

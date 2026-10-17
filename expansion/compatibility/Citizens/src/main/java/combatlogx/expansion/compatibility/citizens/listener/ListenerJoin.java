@@ -72,12 +72,6 @@ public final class ListenerJoin extends CitizensExpansionListener {
     }
 
     private boolean shouldAllowLogin(@NotNull UUID uuid) {
-        CitizensConfiguration configuration = getCitizensConfiguration();
-        if (!configuration.isPreventLogin()) {
-            printDebug("Prevent login option disabled, login allowed.");
-            return true;
-        }
-
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
         CombatNpcManager combatNpcManager = getCombatNpcManager();
         CombatNPC combatNPC = combatNpcManager.getNPC(offlinePlayer);
@@ -87,6 +81,12 @@ public final class ListenerJoin extends CitizensExpansionListener {
         }
 
         NPC originalNPC = combatNPC.getOriginalNPC();
+        CitizensConfiguration configuration = getCitizensConfiguration(originalNPC);
+        if (!configuration.isPreventLogin()) {
+            printDebug("Prevent login option disabled, login allowed.");
+            return true;
+        }
+
         if (!originalNPC.isSpawned()) {
             printDebug("Combat NPC was removed, login allowed.");
             return true;

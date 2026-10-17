@@ -1,6 +1,7 @@
 package combatlogx.expansion.compatibility.citizens.listener;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -18,6 +19,7 @@ import combatlogx.expansion.compatibility.citizens.configuration.CitizensConfigu
 import combatlogx.expansion.compatibility.citizens.manager.CombatNpcManager;
 import combatlogx.expansion.compatibility.citizens.manager.InventoryManager;
 import combatlogx.expansion.compatibility.citizens.object.CombatNPC;
+import combatlogx.expansion.compatibility.citizens.object.DeathInventoryMode;
 import net.citizensnpcs.api.event.DespawnReason;
 import net.citizensnpcs.api.event.NPCDamageByEntityEvent;
 import net.citizensnpcs.api.event.NPCDeathEvent;
@@ -50,16 +52,16 @@ public final class ListenerDeath extends CitizensExpansionListener {
     public void onDamageNPC(NPCDamageByEntityEvent e) {
         printDebug("Detected NPCDamageByEntityEvent...");
 
-        CitizensConfiguration configuration = getCitizensConfiguration();
-        if (!configuration.isStayUntilNoDamage()) {
-            printDebug("Stay until no damage setting is not enabled, ignoring event.");
-            return;
-        }
-
         NPC npc = e.getNPC();
         CombatNPC combatNPC = getCombatNPC(npc);
         if (combatNPC == null) {
             printDebug("NPC was not a CombatNPC, ignoring event.");
+            return;
+        }
+
+        CitizensConfiguration configuration = getCitizensConfiguration(npc);
+        if (!configuration.isStayUntilNoDamage()) {
+            printDebug("Stay until no damage setting is not enabled, ignoring event.");
             return;
         }
 
@@ -88,9 +90,7 @@ public final class ListenerDeath extends CitizensExpansionListener {
         OfflinePlayer offlinePlayer = combatNPC.getOfflineOwner();
         if (despawnReason == DespawnReason.DEATH) {
             Location location = combatNpcManager.getLocation(npc);
-            printDebug("Despawn reason was death, drop NPC inventory.");
-            InventoryManager inventoryManager = getInventoryManager();
-            inventoryManager.dropInventory(offlinePlayer, location);
+            handleDeathInventory(offlinePlayer, location);
         }
 
         if (despawnReason != DespawnReason.REMOVAL) {
@@ -106,6 +106,36 @@ public final class ListenerDeath extends CitizensExpansionListener {
         YamlConfiguration data = combatNpcManager.getData(offlinePlayer);
         data.set("citizens-compatibility.punish-next-join", true);
         combatNpcManager.saveData(offlinePlayer);
+    }
+
+    /**
+     * Apply the 'death-inventory' setting of the world the NPC died in to the stored inventory of the owner.
+     */
+    private void handleDeathInventory(@NotNull OfflinePlayer offlinePlayer, @Nullable Location location) {
+        InventoryManager inventoryManager = getInventoryManager();
+        CitizensConfiguration configuration = getCitizensConfiguration(location);
+        DeathInventoryMode mode = configuration.getDeathInventoryMode();
+        printDebug("Despawn reason was death, death-inventory mode is " + mode + ".");
+
+        switch (mode) {
+            case KEEP:
+                printDebug("Keeping stored inventory, it will be restored when the player logs in.");
+                break;
+            case DESTROY:
+                printDebug("Destroying stored inventory.");
+                inventoryManager.removeStoredInventory(offlinePlayer);
+                break;
+            case DROP:
+            default:
+                if (location == null || location.getWorld() == null) {
+                    printDebug("NPC has no valid location, cannot drop inventory. Keeping it instead.");
+                    break;
+                }
+
+                printDebug("Dropping stored inventory at NPC location.");
+                inventoryManager.dropInventory(offlinePlayer, location);
+                break;
+        }
     }
 
     private void checkForDeathMessages(@NotNull NPCDeathEvent e, @NotNull CombatNPC npc) {

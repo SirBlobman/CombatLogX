@@ -42,7 +42,7 @@ public final class CombatNPC extends TaskDetails {
         }
 
         CitizensExpansion expansion = getExpansion();
-        CitizensConfiguration configuration = expansion.getCitizensConfiguration();
+        CitizensConfiguration configuration = getConfiguration();
 
         if (configuration.isStayUntilEnemyEscapes() && this.enemyId != null) {
             Player player = Bukkit.getPlayer(this.enemyId);
@@ -84,10 +84,18 @@ public final class CombatNPC extends TaskDetails {
     }
 
     public void resetSurvivalTime() {
-        CitizensExpansion expansion = getExpansion();
-        CitizensConfiguration configuration = expansion.getCitizensConfiguration();
+        CitizensConfiguration configuration = getConfiguration();
         long survivalSeconds = configuration.getSurvivalTime();
         this.survivalTicks = (survivalSeconds * 20L);
+    }
+
+    /**
+     * @return The Citizens settings for the world this NPC is in.
+     */
+    public @NotNull CitizensConfiguration getConfiguration() {
+        CitizensExpansion expansion = getExpansion();
+        CombatNpcManager combatNpcManager = expansion.getCombatNpcManager();
+        return combatNpcManager.getConfiguration(getOriginalNPC());
     }
 
     public void setEnemy(@NotNull Player enemy) {

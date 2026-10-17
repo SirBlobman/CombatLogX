@@ -21,11 +21,11 @@ public final class ListenerQuit extends CitizensExpansionListener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onQuit(PlayerQuitEvent e) {
-        if (!isAlwaysSpawnOnQuit()) {
+        Player player = e.getPlayer();
+        if (!isAlwaysSpawnOnQuit(player)) {
             return;
         }
 
-        Player player = e.getPlayer();
         CombatNpcManager combatNpcManager = getCombatNpcManager();
         YamlConfiguration playerData = combatNpcManager.getData(player);
 
@@ -35,8 +35,8 @@ public final class ListenerQuit extends CitizensExpansionListener {
         combatNpcManager.createNPC(player, Collections.emptyList());
     }
 
-    private boolean isAlwaysSpawnOnQuit() {
-        CitizensConfiguration configuration = getCitizensConfiguration();
+    private boolean isAlwaysSpawnOnQuit(@NotNull Player player) {
+        CitizensConfiguration configuration = getCitizensConfiguration(player.getWorld());
         return configuration.isAlwaysSpawnNpcOnQuit();
     }
 }

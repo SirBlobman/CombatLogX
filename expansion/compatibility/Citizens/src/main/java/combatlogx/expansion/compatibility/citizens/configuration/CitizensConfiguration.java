@@ -12,7 +12,15 @@ import com.github.sirblobman.api.configuration.IConfigurable;
 import com.github.sirblobman.api.utility.Validate;
 
 import combatlogx.expansion.compatibility.citizens.CitizensExpansion;
+import combatlogx.expansion.compatibility.citizens.object.DeathInventoryMode;
 
+/**
+ * Settings from 'citizens.yml'.
+ * <p>
+ * {@link #load(ConfigurationSection)} only overwrites the values whose keys are present in the section.
+ * This makes it possible to load the global settings first and then apply a partial per-world
+ * override section on top of a {@link #copy()} of it.
+ */
 public final class CitizensConfiguration implements IConfigurable {
     private final CitizensExpansion expansion;
 
@@ -20,6 +28,7 @@ public final class CitizensConfiguration implements IConfigurable {
     private boolean preventLogin;
     private EntityType mobType;
     private boolean storeInventory;
+    private DeathInventoryMode deathInventoryMode;
     private boolean storeLocation;
     private boolean mobTarget;
     private double mobTargetRadius;
@@ -33,10 +42,27 @@ public final class CitizensConfiguration implements IConfigurable {
 
     public CitizensConfiguration(@NotNull CitizensExpansion expansion) {
         this.expansion = expansion;
+        resetToDefaults();
+    }
+
+    private @NotNull CitizensExpansion getExpansion() {
+        return this.expansion;
+    }
+
+    private @NotNull Logger getLogger() {
+        CitizensExpansion expansion = getExpansion();
+        return expansion.getLogger();
+    }
+
+    /**
+     * Restore every option to the built-in default value.
+     */
+    public void resetToDefaults() {
         this.preventPunishments = true;
         this.preventLogin = false;
         this.mobType = EntityType.PLAYER;
         this.storeInventory = true;
+        this.deathInventoryMode = DeathInventoryMode.DROP;
         this.storeLocation = true;
         this.mobTarget = true;
         this.mobTargetRadius = 10.0D;
@@ -49,31 +75,59 @@ public final class CitizensConfiguration implements IConfigurable {
         this.customNpcNameFormat = "{player_name}";
     }
 
-    private @NotNull CitizensExpansion getExpansion() {
-        return this.expansion;
+    /**
+     * @return A new configuration with exactly the same values as this one.
+     */
+    public @NotNull CitizensConfiguration copy() {
+        CitizensConfiguration copy = new CitizensConfiguration(getExpansion());
+        copy.preventPunishments = this.preventPunishments;
+        copy.preventLogin = this.preventLogin;
+        copy.mobType = this.mobType;
+        copy.storeInventory = this.storeInventory;
+        copy.deathInventoryMode = this.deathInventoryMode;
+        copy.storeLocation = this.storeLocation;
+        copy.mobTarget = this.mobTarget;
+        copy.mobTargetRadius = this.mobTargetRadius;
+        copy.survivalTime = this.survivalTime;
+        copy.stayUntilEnemyEscapes = this.stayUntilEnemyEscapes;
+        copy.stayUntilNoDamage = this.stayUntilNoDamage;
+        copy.preventResurrect = this.preventResurrect;
+        copy.tagPlayer = this.tagPlayer;
+        copy.alwaysSpawnNpcOnQuit = this.alwaysSpawnNpcOnQuit;
+        copy.customNpcNameFormat = this.customNpcNameFormat;
+        return copy;
     }
 
-    private @NotNull Logger getLogger() {
-        CitizensExpansion expansion = getExpansion();
-        return expansion.getLogger();
-    }
-
+    /**
+     * Load values from a section. Keys that are missing keep their current value.
+     *
+     * @param config The section to read from.
+     */
     @Override
     public void load(ConfigurationSection config) {
-        setPreventPunishments(config.getBoolean("prevent-punishments", true));
-        setPreventLogin(config.getBoolean("prevent-login", false));
-        setMobType(config.getString("mob-type", "PLAYER"));
-        setStoreInventory(config.getBoolean("store-inventory", true));
-        setStoreLocation(config.getBoolean("store-location", true));
-        setMobTarget(config.getBoolean("mob-target", true));
-        setMobTargetRadius(config.getDouble("mob-target-radius", 10.0D));
-        setSurvivalTime(config.getInt("survival-time", 30));
-        setStayUntilEnemyEscapes(config.getBoolean("stay-until-enemy-escapes", false));
-        setStayUntilNoDamage(config.getBoolean("stay-until-no-damage", false));
-        setPreventResurrect(config.getBoolean("prevent-resurrect", true));
-        setTagPlayer(config.getBoolean("tag-player", true));
-        setAlwaysSpawnNpcOnQuit(config.getBoolean("always-spawn-npc-on-quit", false));
-        setCustomNpcNameFormat(config.getString("custom-npc-name", "{player_name}"));
+        setPreventPunishments(config.getBoolean("prevent-punishments", isPreventPunishments()));
+        setPreventLogin(config.getBoolean("prevent-login", isPreventLogin()));
+        if (config.contains("mob-type")) {
+            setMobType(config.getString("mob-type"));
+        }
+
+        setStoreInventory(config.getBoolean("store-inventory", isStoreInventory()));
+        if (config.contains("death-inventory")) {
+            setDeathInventoryMode(config.getString("death-inventory"));
+        }
+
+        setStoreLocation(config.getBoolean("store-location", isStoreLocation()));
+        setMobTarget(config.getBoolean("mob-target", isMobTarget()));
+        setMobTargetRadius(config.getDouble("mob-target-radius", getMobTargetRadius()));
+        setSurvivalTime(config.getInt("survival-time", getSurvivalTime()));
+        setStayUntilEnemyEscapes(config.getBoolean("stay-until-enemy-escapes", isStayUntilEnemyEscapes()));
+        setStayUntilNoDamage(config.getBoolean("stay-until-no-damage", isStayUntilNoDamage()));
+        setPreventResurrect(config.getBoolean("prevent-resurrect", isPreventResurrect()));
+        setTagPlayer(config.getBoolean("tag-player", isTagPlayer()));
+        setAlwaysSpawnNpcOnQuit(config.getBoolean("always-spawn-npc-on-quit", isAlwaysSpawnNpcOnQuit()));
+        if (config.contains("custom-npc-name")) {
+            setCustomNpcNameFormat(config.getString("custom-npc-name"));
+        }
     }
 
     public boolean isPreventPunishments() {
@@ -129,6 +183,26 @@ public final class CitizensConfiguration implements IConfigurable {
 
     public void setStoreInventory(boolean storeInventory) {
         this.storeInventory = storeInventory;
+    }
+
+    public @NotNull DeathInventoryMode getDeathInventoryMode() {
+        return deathInventoryMode;
+    }
+
+    public void setDeathInventoryMode(@NotNull DeathInventoryMode deathInventoryMode) {
+        this.deathInventoryMode = deathInventoryMode;
+    }
+
+    private void setDeathInventoryMode(@Nullable String modeName) {
+        DeathInventoryMode mode = DeathInventoryMode.parse(modeName);
+        if (mode == null) {
+            Logger logger = getLogger();
+            logger.warning("'" + modeName + "' is not a valid death-inventory mode (DROP, KEEP, DESTROY).");
+            logger.warning("Defaulting to DROP.");
+            mode = DeathInventoryMode.DROP;
+        }
+
+        setDeathInventoryMode(mode);
     }
 
     public boolean isStoreLocation() {

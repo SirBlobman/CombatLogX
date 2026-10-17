@@ -14,6 +14,7 @@ import org.jetbrains.annotations.Nullable;
 
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -118,7 +119,9 @@ public final class CombatNpcManager {
         String playerName = player.getName();
         printDebug("Spawning NPC for player '" + playerName + "'.");
 
-        EntityType entityType = getEntityType();
+        World world = player.getWorld();
+        CitizensConfiguration configuration = getConfiguration(world);
+        EntityType entityType = configuration.getMobType();
         NPCRegistry npcRegistry = CitizensAPI.getNPCRegistry();
 
         NPC npc = npcRegistry.createNPC(entityType, playerName);
@@ -126,7 +129,7 @@ public final class CombatNpcManager {
         npc.data().set(Metadata.SHOULD_SAVE, false);
         printDebug("Created NPC with entity type " + entityType + ".");
 
-        String npcNameFormat = getConfiguration().getCustomNpcNameFormat();
+        String npcNameFormat = configuration.getCustomNpcNameFormat();
         printDebug("NPC Name Format: " + npcNameFormat);
         String npcName = npcNameFormat.replace("{player_name}", playerName);
         npc.setName(npcName);
@@ -168,7 +171,6 @@ public final class CombatNpcManager {
         }
 
         livingEntity.setHealth(health);
-        CitizensConfiguration configuration = getConfiguration();
         if (configuration.isMobTarget()) {
             // npc.data().set(Metadata.TARGETABLE, true);
             double radius = configuration.getMobTargetRadius();
@@ -251,7 +253,7 @@ public final class CombatNpcManager {
     }
 
     public void saveInventory(@NotNull Player player) {
-        CitizensConfiguration configuration = getConfiguration();
+        CitizensConfiguration configuration = getConfiguration(player.getWorld());
         if (!configuration.isStoreInventory()) {
             return;
         }
@@ -300,23 +302,32 @@ public final class CombatNpcManager {
         return livingEntity.getHealth();
     }
 
-    public @NotNull Location getLocation(@NotNull NPC npc) {
+    public @Nullable Location getLocation(@NotNull NPC npc) {
         if (!npc.isSpawned()) {
             return npc.getStoredLocation();
         }
 
         Entity entity = npc.getEntity();
-        return entity.getLocation();
+        return (entity == null ? npc.getStoredLocation() : entity.getLocation());
     }
 
-    private @NotNull CitizensConfiguration getConfiguration() {
+    /**
+     * @param world The world to get settings for, or {@code null} for the global settings.
+     * @return The Citizens settings that apply in that world.
+     */
+    public @NotNull CitizensConfiguration getConfiguration(@Nullable World world) {
         CitizensExpansion expansion = getExpansion();
-        return expansion.getCitizensConfiguration();
+        return expansion.getCitizensConfiguration(world);
     }
 
-    private @NotNull EntityType getEntityType() {
-        CitizensConfiguration configuration = getConfiguration();
-        return configuration.getMobType();
+    /**
+     * @param npc The NPC to get settings for.
+     * @return The Citizens settings that apply in the world the NPC is (or was last) in.
+     */
+    public @NotNull CitizensConfiguration getConfiguration(@NotNull NPC npc) {
+        Location location = getLocation(npc);
+        World world = (location == null ? null : location.getWorld());
+        return getConfiguration(world);
     }
 
     private void printDebug(@NotNull String message) {

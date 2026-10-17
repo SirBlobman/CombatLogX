@@ -3,6 +3,8 @@ package combatlogx.expansion.compatibility.citizens.listener;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Entity;
 
 import com.github.sirblobman.combatlogx.api.expansion.ExpansionListener;
@@ -35,9 +37,27 @@ public abstract class CitizensExpansionListener extends ExpansionListener {
         return expansion.getConfiguration();
     }
 
+    /**
+     * @return The global Citizens settings. Prefer {@link #getCitizensConfiguration(World)} when a world is known.
+     */
     protected final @NotNull CitizensConfiguration getCitizensConfiguration() {
         CitizensExpansion expansion = getCitizensExpansion();
         return expansion.getCitizensConfiguration();
+    }
+
+    protected final @NotNull CitizensConfiguration getCitizensConfiguration(@Nullable World world) {
+        CitizensExpansion expansion = getCitizensExpansion();
+        return expansion.getCitizensConfiguration(world);
+    }
+
+    protected final @NotNull CitizensConfiguration getCitizensConfiguration(@Nullable Location location) {
+        CitizensExpansion expansion = getCitizensExpansion();
+        return expansion.getCitizensConfiguration(location);
+    }
+
+    protected final @NotNull CitizensConfiguration getCitizensConfiguration(@NotNull NPC npc) {
+        CombatNpcManager combatNpcManager = getCombatNpcManager();
+        return combatNpcManager.getConfiguration(npc);
     }
 
     protected final @NotNull SentinelConfiguration getSentinelConfiguration() {
