@@ -2,9 +2,9 @@ plugins {
     id("distribution")
 }
 
-val coreJar: Configuration by configurations.creating
-val pluginJar: Configuration by configurations.creating
-val expansion: Configuration by configurations.creating
+val coreJar = configurations.create("coreJar")
+val pluginJar = configurations.create("pluginJar")
+val expansion = configurations.create("expansion")
 
 dependencies {
     // BlueSlimeCore
@@ -70,7 +70,6 @@ dependencies {
     expansion(project(":expansion:compatibility:uSkyBlock"))
     expansion(project(":expansion:compatibility:VanishNoPacket"))
     expansion(project(path = ":expansion:compatibility:WorldGuard", configuration = "shadow"))
-    // expansion(project(":expansion:compatibility:ZNPCsPlus"))
 }
 
 distributions {
