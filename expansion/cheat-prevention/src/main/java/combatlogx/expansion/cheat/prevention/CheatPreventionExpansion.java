@@ -272,9 +272,13 @@ public final class CheatPreventionExpansion extends Expansion implements ICheatP
 
         try {
             // InventoryView can be an interface or abstract class depending on version
-            String modernInventoryClass = "combatlogx.expansion.cheat.prevention.listener.modern.ListenerInventoriesModern";
-            String legacyInventoryClass = "combatlogx.expansion.cheat.prevention.listener.ListenerInventories";
-            String selectedClassName = isAbstractInventoryView() ? modernInventoryClass : legacyInventoryClass;
+            String interfaceInventoryClass = "combatlogx.expansion.cheat.prevention.listener.modern.ListenerInventoriesModern";
+            String abstractInventoryClass = "combatlogx.expansion.cheat.prevention.listener.ListenerInventories";
+            String selectedClassName = isInterfaceInventoryView() ? interfaceInventoryClass : abstractInventoryClass;
+
+            if (!getPlugin().isDebugModeDisabled()) {
+                getLogger().info("Selected class: " + selectedClassName);
+            }
 
             Class<?> selectedClass = Class.forName(selectedClassName);
             Constructor<?> selectedClassConstructor = selectedClass.getConstructor(ICheatPreventionExpansion.class);
@@ -286,15 +290,15 @@ public final class CheatPreventionExpansion extends Expansion implements ICheatP
         }
     }
 
-    private boolean isAbstractInventoryView() {
-        int majorVersion = VersionUtility.getMajorVersion();
-        int minorVersion = VersionUtility.getMinorVersion();
-        if (majorVersion > 1 || (majorVersion == 1 && minorVersion > 20)) {
-            return true;
+    private boolean isInterfaceInventoryView() {
+        try {
+            Class<?> class_InventoryView = Class.forName("org.bukkit.inventory.InventoryView");
+            return class_InventoryView.isInterface();
+        } catch (ReflectiveOperationException ex) {
+            Logger logger = getLogger();
+            logger.log(Level.WARNING, "Failed to locate class 'org.bukkit.inventory.InventoryView':", ex);
+            return false;
         }
-
-        String minecraftVersion = VersionUtility.getMinecraftVersion();
-        return (minecraftVersion.equals("1.20.5") || minecraftVersion.equals("1.20.6"));
     }
 
     private void registerTasks() {

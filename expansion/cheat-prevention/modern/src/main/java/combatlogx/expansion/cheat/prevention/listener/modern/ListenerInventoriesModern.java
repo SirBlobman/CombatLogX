@@ -17,7 +17,7 @@ import combatlogx.expansion.cheat.prevention.ICheatPreventionExpansion;
 import combatlogx.expansion.cheat.prevention.configuration.IInventoryConfiguration;
 import combatlogx.expansion.cheat.prevention.listener.CheatPreventionListener;
 
-// 1.20.6 uses an InventoryView interface instead of an abstract class
+// 1.21+ uses an InventoryView interface instead of an abstract class
 // No code difference, only compilation difference.
 public final class ListenerInventoriesModern extends CheatPreventionListener {
     public ListenerInventoriesModern(@NotNull ICheatPreventionExpansion expansion) {
@@ -55,11 +55,10 @@ public final class ListenerInventoriesModern extends CheatPreventionListener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onOpen(InventoryOpenEvent e) {
         HumanEntity human = e.getPlayer();
-        if (!(human instanceof Player)) {
+        if (!(human instanceof Player player)) {
             return;
         }
 
-        Player player = (Player) human;
         if (isPreventOpening() && isInCombat(player)) {
             e.setCancelled(true);
             sendMessage(player, "expansion.cheat-prevention.inventory.no-opening");

@@ -5,12 +5,12 @@ java {
 }
 
 repositories {
-    maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://hub.spigotmc.org/nexus/content/groups/public/")
 }
 
 dependencies {
     compileOnly(project(":expansion:cheat-prevention:abstract"))
-    compileOnly("io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.21.11-R0.1-SNAPSHOT")
 }
 
 configurations {

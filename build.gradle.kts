@@ -9,7 +9,9 @@ plugins {
 }
 
 subprojects {
-    apply(plugin = "java")
+    apply {
+        plugin("java")
+    }
 
     java {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -25,12 +27,26 @@ subprojects {
 
     dependencies {
         compileOnly("org.jetbrains:annotations:26.1.0") // JetBrains Annotations
-        compileOnly("org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT") // Base Spigot API
         compileOnly("com.github.sirblobman.api:core:2.9-SNAPSHOT") // BlueSlimeCore
+        compileOnly("org.spigotmc:spigot-api") // Spigot API
+
+        // Spigot API
+        constraints {
+            compileOnly("org.spigotmc:spigot-api") {
+                version {
+                    prefer("1.19.4-R0.1-SNAPSHOT")
+                }
+            }
+        }
     }
 
     tasks.withType<JavaCompile> {
         options.encoding = "UTF-8"
         options.compilerArgs.add("-Xlint:deprecation")
+    }
+
+    tasks.withType<AbstractArchiveTask>().configureEach {
+        isReproducibleFileOrder = true
+        isPreserveFileTimestamps = false
     }
 }
